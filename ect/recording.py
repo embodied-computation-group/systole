@@ -2,7 +2,7 @@
 
 import numpy as np
 import time
-from cardioception.detection import oxi_peaks
+from ect.detection import oxi_peaks
 
 
 class Oximeter():
