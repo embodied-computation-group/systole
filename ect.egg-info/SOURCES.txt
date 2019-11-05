@@ -1,0 +1,15 @@
+README.md
+setup.py
+ect/__init__.py
+ect/circular.py
+ect/detection.py
+ect/epochs.py
+ect/interactive.py
+ect/plotting.py
+ect/recording.py
+ect/utils.py
+ect.egg-info/PKG-INFO
+ect.egg-info/SOURCES.txt
+ect.egg-info/dependency_links.txt
+ect.egg-info/requires.txt
+ect.egg-info/top_level.txt
