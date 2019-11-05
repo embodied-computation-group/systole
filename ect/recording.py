@@ -6,29 +6,49 @@ from cardioception.detection import oxi_peaks
 
 
 class Oximeter():
-    """Recording with Nonin pulse oximeter.
+    """Recording PPG signal with Nonin pulse oximeter.
 
     Parameters
     ----------
     serial : pySerial object
-        Where to read the oximeter recording.
+        The `serial` instance interfacing with the USB port.
     sfreq : int
-        The sampling frequency of the recording.
+        The sampling frequency of the recording. Defautl is 75 Hz.
 
     Examples
     --------
-    Record 10s.
-    >>> import serial
-    >>> from ect.recording import Oximeter
+    First, you will need to define a `serial` instance, indexing the USB port
+    where the Nonin Pulse Oximeter is plugged.
 
+    >>> import serial
     >>> ser = serial.Serial('COM4',
     >>>                     baudrate=9600,
     >>>                     timeout=1/75,
     >>>                     stopbits=1,
     >>>                     parity=serial.PARITY_NONE)
 
+    This instance is then used to create an `Oximeter` instance that will be
+    used for the recording.
+
+    >>> from ect.recording import Oximeter
     >>> oximeter = Oximeter(serial=ser, sfreq=75)
+
+    Use the `setup()` method to initialize the recording. This will find the
+    start byte to ensure that all the forthcoming data is in Synch. You should
+    not wait more than ~10s between the setup and the recording, otherwise the
+    buffer will start to overwrite the data.
+
     >>> oximeter.setup()
+
+    2 methods are availlable to record PPG signal:
+
+        * The `read` method will continuously record for certain amount of time
+        (specified by the `duration` parameter, in seconds). This is the
+        easiest and most robust method, but it is not possible to run
+        instructions in the meantime.
+
+        * The `readInWaiting()` method will read all the availlable bytes.
+
     >>> oximeter.read(duration=10)
     """
     def __init__(self, serial=None, sfreq=75):
@@ -47,8 +67,7 @@ class Oximeter():
             self.serial = serial
 
     def add_paquet(self, paquet, window=1):
-        """Read a portion of data and return a trigger when the main peak is
-        found in the oxi data.
+        """Read a portion of data.
 
         Parameters
         ----------
@@ -97,7 +116,7 @@ class Oximeter():
                 # Was the previous differential positive?
                 if self.diff[-2] > 0:
 
-                    # Is it far enough from previous peak (0.2 s)?
+                    # Is it far enough from the previous peak (0.2 s)?
                     if self.lag > self.dist:
                         self.triggers.append(1)
                         self.lag = -1
@@ -122,7 +141,7 @@ class Oximeter():
         Parameters
         ----------
         paquet : list
-            The paquet to verify.
+            The paquet to inspect.
         """
         check = False
         if len(paquet) >= 5:
@@ -202,11 +221,6 @@ class Oximeter():
     def setup(self):
         """Find start byte.
 
-        Parameters
-        ----------
-        serial : PySerial object
-            The USB port to read
-
         Notes
         -----
         .. warning:: Will remove previously recorded data.
@@ -220,7 +234,7 @@ class Oximeter():
         return self
 
     def waitBeat(self):
-        """Read Oximeter until a beat is detected.
+        """Read Oximeter until a heartbeat is detected.
         """
         while True:
             if self.serial.inWaiting() >= 5:
