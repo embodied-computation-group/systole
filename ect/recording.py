@@ -15,14 +15,11 @@ class Oximeter():
     sfreq : int
         The sampling frequency of the recording.
 
-    Attributes
-    ----------
-
     Examples
     --------
     Record 10s.
     >>> import serial
-    >>> from cardioception.recording import Oximeter
+    >>> from ect.recording import Oximeter
 
     >>> ser = serial.Serial('COM4',
     >>>                     baudrate=9600,
