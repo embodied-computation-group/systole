@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from pyExG.filters import welch
 
 
 def plot_events(events, sfreq=None, palette=None):
@@ -40,6 +39,41 @@ def plot_events(events, sfreq=None, palette=None):
                                  y1=i,
                                  y2=i+1, alpha=alpha, color=current_palette[i])
     return ax
+
+def plot_oximeter(oximeter):
+    """Plot recorded PPG signal.
+
+    Parameters
+    ----------
+    oximeter : Oximeter instance
+        The Oximeter instance used to record the signal.
+
+    Return
+    ------
+    fig, ax : Matplotlib instances.
+        The figure and axe instances.
+    """
+    fig, ax = plt.subplots(figsize=(12, 6))
+    plt.plot(oximeter.times, oximeter.threshold, linestyle='--', color='gray')
+    plt.fill_between(x=oximeter.times,
+                     y1=oximeter.threshold,
+                     y2=np.asarray(oximeter.recording).min(),
+                     alpha=0.2,
+                     color='gray')
+    plt.plot(oximeter.times, oximeter.recording)
+    plt.fill_between(x=oximeter.times,
+                     y1=oximeter.recording,
+                     y2=np.asarray(oximeter.recording).min(),
+                     color='w')
+    plt.plot(np.asarray(oximeter.times)[np.where(oximeter.peaks)[0]],
+             np.asarray(oximeter.recording)[np.where(oximeter.peaks)[0]],
+             'ro', label='Online estimation')
+    plt.ylabel('PPG level', size=20)
+    plt.xlabel('Time (s)', size=20)
+    plt.title('PPG recording', size=25)
+    plt.legend()
+
+    return fig, ax
 
 
 def plot_peaks(peaks, samples=75, kind='lines', frequency='rr'):
@@ -120,35 +154,35 @@ def plot_peaks(peaks, samples=75, kind='lines', frequency='rr'):
     return ax
 
 
-def plot_psd(x):
-    """Plot power spectal density.
-
-    Parameters
-    ----------
-    freq : array
-        The frequencies array.
-    psd : array
-        Power spectral density.
-    Returns
-    -------
-    ax, fig : Matplotlib instances
-        The power spectral density plot.
-    """
-    freqs, psd = welch(x, sfreq=5000, low=0.01)
-
-    freq_range = [0.02, 0.1]
-    f_range = (freqs > freq_range[0]) & (freqs < freq_range[1])
-
-    freq_bands = [0.033, 0.066]
-    f_band = (freqs < freq_bands[1]) & (freqs > freq_bands[0])
-
-    plt.figure(figsize=(7, 4))
-    plt.plot(freqs[f_range], psd[f_range], lw=2, color='k')
-    plt.fill_between(freqs[f_band], psd[f_band],
-                     color='skyblue')
-    plt.xlabel('Frequency (Hz)')
-    plt.ylabel('Power spectral density (uV^2 / Hz)')
-    # plt.xlim(freq_range)
-    # plt.ylim(psd[freqs[f_band]])
-    plt.title("Welch's periodogram")
-    sns.despine()
+# def plot_psd(x):
+#     """Plot power spectal density.
+#
+#     Parameters
+#     ----------
+#     freq : array
+#         The frequencies array.
+#     psd : array
+#         Power spectral density.
+#     Returns
+#     -------
+#     ax, fig : Matplotlib instances
+#         The power spectral density plot.
+#     """
+#     freqs, psd = welch(x, sfreq=5000, low=0.01)
+#
+#     freq_range = [0.02, 0.1]
+#     f_range = (freqs > freq_range[0]) & (freqs < freq_range[1])
+#
+#     freq_bands = [0.033, 0.066]
+#     f_band = (freqs < freq_bands[1]) & (freqs > freq_bands[0])
+#
+#     plt.figure(figsize=(7, 4))
+#     plt.plot(freqs[f_range], psd[f_range], lw=2, color='k')
+#     plt.fill_between(freqs[f_band], psd[f_band],
+#                      color='skyblue')
+#     plt.xlabel('Frequency (Hz)')
+#     plt.ylabel('Power spectral density (uV^2 / Hz)')
+#     # plt.xlim(freq_range)
+#     # plt.ylim(psd[freqs[f_band]])
+#     plt.title("Welch's periodogram")
+#     sns.despine()

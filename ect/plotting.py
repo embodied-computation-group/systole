@@ -40,6 +40,41 @@ def plot_events(events, sfreq=None, palette=None):
                                  y2=i+1, alpha=alpha, color=current_palette[i])
     return ax
 
+def plot_oximeter(oximeter):
+    """Plot recorded PPG signal.
+
+    Parameters
+    ----------
+    oximeter : Oximeter instance
+        The Oximeter instance used to record the signal.
+
+    Return
+    ------
+    fig, ax : Matplotlib instances.
+        The figure and axe instances.
+    """
+    fig, ax = plt.subplots(figsize=(12, 6))
+    plt.plot(oximeter.times, oximeter.threshold, linestyle='--', color='gray')
+    plt.fill_between(x=oximeter.times,
+                     y1=oximeter.threshold,
+                     y2=np.asarray(oximeter.recording).min(),
+                     alpha=0.2,
+                     color='gray')
+    plt.plot(oximeter.times, oximeter.recording)
+    plt.fill_between(x=oximeter.times,
+                     y1=oximeter.recording,
+                     y2=np.asarray(oximeter.recording).min(),
+                     color='w')
+    plt.plot(np.asarray(oximeter.times)[np.where(oximeter.peaks)[0]],
+             np.asarray(oximeter.recording)[np.where(oximeter.peaks)[0]],
+             'ro', label='Online estimation')
+    plt.ylabel('PPG level', size=20)
+    plt.xlabel('Time (s)', size=20)
+    plt.title('PPG recording', size=25)
+    plt.legend()
+
+    return fig, ax
+
 
 def plot_peaks(peaks, samples=75, kind='lines', frequency='rr'):
     """Peaks vector to continuous time serie.
