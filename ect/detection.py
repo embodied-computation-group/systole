@@ -1,4 +1,5 @@
-# QRS detection
+# Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
+
 import numpy as np
 from scipy.signal import find_peaks
 

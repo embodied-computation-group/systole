@@ -1,6 +1,6 @@
 # ect-python
 Embodied Computation Toolbox
-(still under development)
+(under development)
 
 # Installation
 
@@ -56,3 +56,5 @@ while time.time() - tstart < 10:
     oximeter.readInWaiting()
     # Insert code here {...}
 ```
+
+### Heartbeat related stimuli

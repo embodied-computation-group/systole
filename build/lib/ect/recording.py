@@ -23,8 +23,8 @@ class Oximeter():
     ----------
     instant_rr : list
         Time serie of instantaneous heartrate.
-    lag : int
-
+    n_channels : int | None
+        Number of additional channels.
     recording : list
         Time serie of PPG signal.
     sfreq : int
@@ -55,11 +55,7 @@ class Oximeter():
     where the Nonin Pulse Oximeter is plugged.
 
     >>> import serial
-    >>> ser = serial.Serial('COM4',
-    >>>                     baudrate=9600,
-    >>>                     timeout=1/75,
-    >>>                     stopbits=1,
-    >>>                     parity=serial.PARITY_NONE)
+    >>> ser = serial.Serial('COM4')
 
     This instance is then used to create an `Oximeter` instance that will be
     used for the recording.
@@ -108,12 +104,12 @@ class Oximeter():
         self.instant_rr = []
         self.recording = []
         self.times = []
+        self.n_channels = add_channels
         self.threshold = []
         self.diff = []
         self.peaks = []
         if add_channels is not None:
             self.channels = {}
-            add_channels = 5
             for i in range(add_channels):
                 self.channels['Channel_' + str(i)] = []
         else:
@@ -125,7 +121,7 @@ class Oximeter():
         Parameters
         ----------
         paquet : int
-            The data to be read.
+            The data to record. Should be an integer between 0 and 240.
         window : int or float
             Length of the window used to compute threshold (seconds). Default
             is `1`.
@@ -147,7 +143,7 @@ class Oximeter():
         # Add 0 to the additional channels
         if self.channels is not None:
             for ch in self.channels:
-                ch.append(0)
+                self.channels[ch].append(0)
 
         # Update times vector
         if not self.times:
@@ -287,7 +283,8 @@ class Oximeter():
         -----
         .. warning:: Will remove previously recorded data.
         """
-        self.__init__(serial=self.serial)  # Restart recording
+        # Reset recording instance
+        self.__init__(serial=self.serial, add_channels=self.n_channels)
         while True:
             self.serial.reset_input_buffer()
             paquet = list(self.serial.read(5))

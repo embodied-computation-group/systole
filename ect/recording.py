@@ -23,8 +23,8 @@ class Oximeter():
     ----------
     instant_rr : list
         Time serie of instantaneous heartrate.
-    lag : int
-
+    n_channels : int | None
+        Number of additional channels.
     recording : list
         Time serie of PPG signal.
     sfreq : int
@@ -104,12 +104,12 @@ class Oximeter():
         self.instant_rr = []
         self.recording = []
         self.times = []
+        self.n_channels = add_channels
         self.threshold = []
         self.diff = []
         self.peaks = []
         if add_channels is not None:
             self.channels = {}
-            add_channels = 5
             for i in range(add_channels):
                 self.channels['Channel_' + str(i)] = []
         else:
@@ -143,7 +143,7 @@ class Oximeter():
         # Add 0 to the additional channels
         if self.channels is not None:
             for ch in self.channels:
-                ch.append(0)
+                self.channels[ch].append(0)
 
         # Update times vector
         if not self.times:
@@ -283,7 +283,8 @@ class Oximeter():
         -----
         .. warning:: Will remove previously recorded data.
         """
-        self.__init__(serial=self.serial)  # Restart recording
+        # Reset recording instance
+        self.__init__(serial=self.serial, add_channels=self.n_channels)
         while True:
             self.serial.reset_input_buffer()
             paquet = list(self.serial.read(5))
