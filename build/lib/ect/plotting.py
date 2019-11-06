@@ -54,13 +54,14 @@ def plot_oximeter(oximeter):
         The figure and axe instances.
     """
     fig, ax = plt.subplots(figsize=(12, 6))
-    plt.plot(oximeter.times, oximeter.threshold, linestyle='--', color='gray')
+    plt.plot(oximeter.times, oximeter.threshold, linestyle='--', color='gray',
+             label='Threshold')
     plt.fill_between(x=oximeter.times,
                      y1=oximeter.threshold,
                      y2=np.asarray(oximeter.recording).min(),
                      alpha=0.2,
                      color='gray')
-    plt.plot(oximeter.times, oximeter.recording)
+    plt.plot(oximeter.times, oximeter.recording, label='Recording')
     plt.fill_between(x=oximeter.times,
                      y1=oximeter.recording,
                      y2=np.asarray(oximeter.recording).min(),

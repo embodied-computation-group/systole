@@ -136,7 +136,8 @@ class Oximeter():
 
         Notes
         -----
-        If no differential, will use available recording to create one.
+        Will automatically calculate the differential, threshold and increment
+        additional channles with 0 if provided.
         """
 
         # Store new data

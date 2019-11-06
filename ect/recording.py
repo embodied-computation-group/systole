@@ -55,11 +55,7 @@ class Oximeter():
     where the Nonin Pulse Oximeter is plugged.
 
     >>> import serial
-    >>> ser = serial.Serial('COM4',
-    >>>                     baudrate=9600,
-    >>>                     timeout=1/75,
-    >>>                     stopbits=1,
-    >>>                     parity=serial.PARITY_NONE)
+    >>> ser = serial.Serial('COM4')
 
     This instance is then used to create an `Oximeter` instance that will be
     used for the recording.
@@ -125,7 +121,7 @@ class Oximeter():
         Parameters
         ----------
         paquet : int
-            The data to be read.
+            The data to record. Should be an integer between 0 and 240.
         window : int or float
             Length of the window used to compute threshold (seconds). Default
             is `1`.
@@ -136,7 +132,8 @@ class Oximeter():
 
         Notes
         -----
-        If no differential, will use available recording to create one.
+        Will automatically calculate the differential, threshold and increment
+        additional channles with 0 if provided.
         """
 
         # Store new data
