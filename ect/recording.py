@@ -141,6 +141,7 @@ class Oximeter():
 
         # Store new data
         self.recording.append(paquet)
+        self.peaks.append(0)
 
         # Add 0 to the additional channels
         if self.channels is not None:
@@ -160,30 +161,19 @@ class Oximeter():
 
         # Store new differential if not exist
         if not self.diff:
-            self.diff = np.diff(self.recording).tolist()
-            self.peaks = [0] * len(self.recording)
+            self.diff = [0]
         else:
             self.diff.append(self.recording[-1] - self.recording[-2])
 
-        # Is it a threshold crossing value?
-        if paquet > self.threshold[-1]:
+            # Is it a threshold crossing value?
+            if paquet > self.threshold[-1]:
 
-            # Is the new differential zero or crossing zero?
-            if ((self.diff[-1] == 0) |
-               ((self.diff[-1] > 0) != (self.diff[-2] > 0))):
-
-                # Was the previous differential positive?
-                if self.diff[-2] > 0:
+                # Is the new differential zero or crossing zero?
+                if (self.diff[-1] <= 0) & (self.diff[-2] > 0):
 
                     # Is it far enough from the previous peak (0.2 s)?
-                    if self.lag > self.dist:
-                        self.peaks.append(1)
-                        self.lag = -1
-
-        # If event was detected
-        if self.lag >= 0:
-            self.peaks.append(0)
-        self.lag += 1
+                    if not any(self.peaks[-15:]):
+                        self.peaks[-1] = 1
 
         # Update instantaneous heart rate
         if sum(self.peaks) > 2:
