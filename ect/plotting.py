@@ -3,42 +3,50 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-def plot_events(events, sfreq=None, palette=None):
+def plot_hr(oximeter):
     """Given a peaks vector, returns frequency plots.
 
     Parameters
     ----------
-    events : array like
-        The events. Should be in the form: [0] times * sample, values different
-        from 0 encoding events.
+    oximeter : instance of Oximeter
+        The recording instance, where additional channels track different
+        events using boolean recording.
 
     Returns
     -------
     ax : Matplotlib instance
         Figure.
     """
-    if isinstance(events, list):
-        events = np.asarray(events)
+    fig, ax = plt.subplots(figsize=(12, 6))
 
-    fig, ax = plt.subplots()
-    if palette is None:
-        current_palette = sns.color_palette()
-    else:
-        current_palette = palette
-
-    for i in np.unique(events):
-        if i != 0:
-            trig = np.where(events == i)
-            trig = np.append(trig, len(events))
-            for ii in range(0, len(trig)-1):
-                if ii % 2 == 0:
-                    alpha = 0.5
-                else:
-                    alpha = 1
-                plt.fill_between(x=np.arange(trig[ii], trig[ii+1]),
-                                 y1=i,
-                                 y2=i+1, alpha=alpha, color=current_palette[i])
     return ax
+
+
+def plot_events(oximeter):
+    """Plot events distribution.
+
+    Parameters
+    ----------
+    oximeter : instance of Oximeter
+        The recording instance, where additional channels track different
+        events using boolean recording.
+
+    Returns
+    -------
+    ax : Matplotlib instance
+        The axe instance of the Matplotlib figure.
+    """
+    fig, ax = plt.subplots(figsize=(12, 6))
+    events = oximeter.channels
+    for i, ev in enumerate(events):
+        events[ev] = np.asarray(events[ev]) == 1
+        plt.fill_between(x=oximeter.times, y1=i, y2=i+1, where=events[ev])
+
+    # Add y ticks with channels names
+    plt.yticks(np.arange(len(events)) + 0.5, [key for key in events])
+
+    return ax
+
 
 def plot_oximeter(oximeter):
     """Plot recorded PPG signal.

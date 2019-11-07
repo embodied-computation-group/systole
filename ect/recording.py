@@ -1,9 +1,9 @@
-# Function for online analysis of ECG and Oximetric data
+# Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import numpy as np
 import time
 from ect.detection import oxi_peaks
-from ect.plotting import plot_oximeter
+from ect.plotting import plot_oximeter, plot_events, plot_hr
 
 
 class Oximeter():
@@ -29,17 +29,14 @@ class Oximeter():
         Time serie of PPG signal.
     sfreq : int
         Sampling frequnecy. Default value is 75 Hz.
-    dist :
-
     threshold : list
         The threshold used to detect beat peaks. Will use the average +
         standars deviation.
-    triggers : list
-
     times : list
         Time vector (in seconds).
     diff : list
-
+        Records the differential of the PPG signal. Used to detect heartbeat
+        peaks.
     peaks : list
         List of 0 and 1. 1 index detected peaks.
     channels : list | dict
@@ -219,7 +216,31 @@ class Oximeter():
 
         return self
 
-    def plot(self):
+    def plot_events(self):
+        """Visualize the distribution of events stored in additional channels.
+
+        Return
+        ------
+        fig, ax : Matplotlib instances.
+            The figure and axe instances.
+        """
+        fig, ax = plot_events(self)
+
+        return fig, ax
+
+    def plot_hr(self):
+        """Plot heartrate extracted from PPG recording.
+
+        Return
+        ------
+        fig, ax : Matplotlib instances.
+            The figure and axe instances.
+        """
+        fig, ax = plot_hr(self)
+
+        return fig, ax
+
+    def plot_recording(self):
         """Plot recorded signal.
 
         Return
