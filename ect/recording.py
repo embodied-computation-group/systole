@@ -170,7 +170,7 @@ class Oximeter():
                         self.peaks[-1] = 1
 
         # Update instantaneous heart rate
-        if sum(self.peaks) > 2:
+        if sum(self.peaks) >= 2:
             self.instant_rr.append(
                 (np.diff(np.where(self.peaks)[0])[-1]/self.sfreq)*1000)
         else:
