@@ -1,9 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 
-def plot_hr(oximeter):
+def plot_hr(oximeter, ax=None):
     """Given a peaks vector, returns frequency plots.
 
     Parameters
@@ -17,15 +16,16 @@ def plot_hr(oximeter):
     ax : Matplotlib instance
         Figure.
     """
-    fig, ax = plt.subplots(figsize=(12, 6))
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(12, 6))
     ax.plot(oximeter.times, oximeter.instant_rr)
-    ax.xlabel('Time (s)')
-    ax.ylabel('R-R (ms)')
+    ax.set_xlabel('Time (s)', size=20)
+    ax.set_ylabel('R-R (ms)', size=20)
 
     return ax
 
 
-def plot_events(oximeter):
+def plot_events(oximeter, ax=None):
     """Plot events distribution.
 
     Parameters
@@ -39,19 +39,22 @@ def plot_events(oximeter):
     ax : Matplotlib instance
         The axe instance of the Matplotlib figure.
     """
-    fig, ax = plt.subplots(figsize=(12, 6))
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(12, 6))
     events = oximeter.channels
     for i, ev in enumerate(events):
         events[ev] = np.asarray(events[ev]) == 1
-        plt.fill_between(x=oximeter.times, y1=i, y2=i+1, where=events[ev])
+        ax.fill_between(x=oximeter.times, y1=i, y2=i+1, where=events[ev])
 
     # Add y ticks with channels names
-    plt.yticks(np.arange(len(events)) + 0.5, [key for key in events])
+    ax.set_yticks(np.arange(len(events)) + 0.5)
+    ax.set_yticklabels([key for key in events])
+    ax.set_xlabel('Time (s)', size=20)
 
     return ax
 
 
-def plot_oximeter(oximeter):
+def plot_oximeter(oximeter, ax=None):
     """Plot recorded PPG signal.
 
     Parameters
@@ -64,7 +67,8 @@ def plot_oximeter(oximeter):
     fig, ax : Matplotlib instances.
         The figure and axe instances.
     """
-    fig, ax = plt.subplots(figsize=(12, 6))
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(12, 6))
     ax.plot(oximeter.times, oximeter.threshold, linestyle='--', color='gray',
             label='Threshold')
     ax.fill_between(x=oximeter.times,
@@ -73,17 +77,16 @@ def plot_oximeter(oximeter):
                     alpha=0.2,
                     color='gray')
     ax.plot(oximeter.times, oximeter.recording, label='Recording')
-    plt.fill_between(x=oximeter.times,
-                     y1=oximeter.recording,
-                     y2=np.asarray(oximeter.recording).min(),
-                     color='w')
+    ax.fill_between(x=oximeter.times,
+                    y1=oximeter.recording,
+                    y2=np.asarray(oximeter.recording).min(),
+                    color='w')
     ax.plot(np.asarray(oximeter.times)[np.where(oximeter.peaks)[0]],
             np.asarray(oximeter.recording)[np.where(oximeter.peaks)[0]],
             'ro', label='Online estimation')
-    plt.ylabel('PPG level', size=20)
-    plt.xlabel('Time (s)', size=20)
-    plt.title('PPG recording', size=25)
-    plt.legend()
+    ax.set_ylabel('PPG level', size=20)
+    ax.set_xlabel('Time (s)', size=20)
+    ax.legend()
 
     return ax
 

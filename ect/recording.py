@@ -216,7 +216,7 @@ class Oximeter():
 
         return self
 
-    def plot_events(self):
+    def plot_events(self, ax=None):
         """Visualize the distribution of events stored in additional channels.
 
         Return
@@ -224,11 +224,11 @@ class Oximeter():
         fig, ax : Matplotlib instances.
             The figure and axe instances.
         """
-        ax = plot_events(self)
+        ax = plot_events(self, ax=ax)
 
         return ax
 
-    def plot_hr(self):
+    def plot_hr(self, ax=None):
         """Plot heartrate extracted from PPG recording.
 
         Return
@@ -236,11 +236,11 @@ class Oximeter():
         fig, ax : Matplotlib instances.
             The figure and axe instances.
         """
-        ax = plot_hr(self)
+        ax = plot_hr(self, ax=ax)
 
         return ax
 
-    def plot_recording(self):
+    def plot_recording(self, ax=None):
         """Plot recorded signal.
 
         Return
@@ -248,7 +248,7 @@ class Oximeter():
         fig, ax : Matplotlib instances.
             The figure and axe instances.
         """
-        ax = plot_oximeter(self)
+        ax = plot_oximeter(self, ax=ax)
 
         return ax
 
