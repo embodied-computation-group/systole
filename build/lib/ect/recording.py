@@ -224,9 +224,9 @@ class Oximeter():
         fig, ax : Matplotlib instances.
             The figure and axe instances.
         """
-        fig, ax = plot_events(self)
+        ax = plot_events(self)
 
-        return fig, ax
+        return ax
 
     def plot_hr(self):
         """Plot heartrate extracted from PPG recording.
@@ -236,9 +236,9 @@ class Oximeter():
         fig, ax : Matplotlib instances.
             The figure and axe instances.
         """
-        fig, ax = plot_hr(self)
+        ax = plot_hr(self)
 
-        return fig, ax
+        return ax
 
     def plot_recording(self):
         """Plot recorded signal.
@@ -248,9 +248,9 @@ class Oximeter():
         fig, ax : Matplotlib instances.
             The figure and axe instances.
         """
-        fig, ax = plot_oximeter(self)
+        ax = plot_oximeter(self)
 
-        return fig, ax
+        return ax
 
     def read(self, duration):
         """Find start byte.

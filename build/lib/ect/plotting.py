@@ -18,10 +18,12 @@ def plot_hr(oximeter):
         Figure.
     """
     fig, ax = plt.subplots(figsize=(12, 6))
-
-
+    ax.plot(oximeter.times, oximeter.instant_rr)
+    ax.xlabel('Time (s)')
+    ax.ylabel('R-R (ms)')
 
     return ax
+
 
 def plot_events(oximeter):
     """Plot events distribution.
@@ -63,27 +65,27 @@ def plot_oximeter(oximeter):
         The figure and axe instances.
     """
     fig, ax = plt.subplots(figsize=(12, 6))
-    plt.plot(oximeter.times, oximeter.threshold, linestyle='--', color='gray',
-             label='Threshold')
-    plt.fill_between(x=oximeter.times,
-                     y1=oximeter.threshold,
-                     y2=np.asarray(oximeter.recording).min(),
-                     alpha=0.2,
-                     color='gray')
-    plt.plot(oximeter.times, oximeter.recording, label='Recording')
+    ax.plot(oximeter.times, oximeter.threshold, linestyle='--', color='gray',
+            label='Threshold')
+    ax.fill_between(x=oximeter.times,
+                    y1=oximeter.threshold,
+                    y2=np.asarray(oximeter.recording).min(),
+                    alpha=0.2,
+                    color='gray')
+    ax.plot(oximeter.times, oximeter.recording, label='Recording')
     plt.fill_between(x=oximeter.times,
                      y1=oximeter.recording,
                      y2=np.asarray(oximeter.recording).min(),
                      color='w')
-    plt.plot(np.asarray(oximeter.times)[np.where(oximeter.peaks)[0]],
-             np.asarray(oximeter.recording)[np.where(oximeter.peaks)[0]],
-             'ro', label='Online estimation')
+    ax.plot(np.asarray(oximeter.times)[np.where(oximeter.peaks)[0]],
+            np.asarray(oximeter.recording)[np.where(oximeter.peaks)[0]],
+            'ro', label='Online estimation')
     plt.ylabel('PPG level', size=20)
     plt.xlabel('Time (s)', size=20)
     plt.title('PPG recording', size=25)
     plt.legend()
 
-    return fig, ax
+    return ax
 
 
 def plot_peaks(peaks, samples=75, kind='lines', frequency='rr'):
