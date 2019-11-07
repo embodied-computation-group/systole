@@ -6,7 +6,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 
-def circular(data, bins=32, density='area', offset=0, mean=False,
+def circular(data, bins=32, density='area', offset=0, mean=False, norm=True,
              units='radians', color=None, axis=None):
     """Plot polar histogram.
 
@@ -24,6 +24,9 @@ def circular(data, bins=32, density='area', offset=0, mean=False,
         (right).
     mean : boolean
         If True, show the mean and 95% CI. Default set to `False`
+    norm : boolean
+        Normalize the distribution. When comparing conditions, this will ensure
+        that maximum equivalence between the distributions.
     units : str
         Unit of the angular representation. Can be `degree` or `radian`.
         Default set to `radians`.
@@ -76,7 +79,7 @@ def circular(data, bins=32, density='area', offset=0, mean=False,
         radius = (area / np.pi)**.5
         alpha = (count * 0) + 1
     elif density == 'height':  # Using height (can be misleading)
-        radius = count
+        radius = count / data.size
         alpha = (count * 0) + 1
     elif density == 'alpha':
         radius = (count * 0) + 1
@@ -85,6 +88,9 @@ def circular(data, bins=32, density='area', offset=0, mean=False,
         alpha = alpha / alpha.max()
     else:
         print('Method for density not recognized')
+
+    if norm is True:
+        radius = radius / radius.max()
 
     # Plot data on ax
     for b, r, a in zip(bin[:-1], radius, alpha):
@@ -117,12 +123,10 @@ def plot_circular(data, y=None, hue=None, **kwargs):
     ----------
     data : DataFrame
         Angular data (rad.)
-
-    y : If data is a pandas instance, column containing the angular values.
-
+    y : str | list
+        If data is a pandas instance, column containing the angular values.
     hue : str or list of strings
         Columns in data encoding the different conditions.
-
     **kwargs : Additional `_circular()` arguments.
 
     Returns
