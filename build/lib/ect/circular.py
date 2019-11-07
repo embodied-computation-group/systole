@@ -172,7 +172,6 @@ def to_angles(x, events):
     ----------
     x : list or numpy array
         The reference time serie. Time points can be unevenly spaced.
-
     events : list or numpy array
         The events time serie.
 
@@ -180,13 +179,16 @@ def to_angles(x, events):
     -------
     ang : numpy array
         The angular value of events in the reference (in radians).
-
-    Examples
-    --------
     """
-
     if isinstance(x, list):
         x = np.asarray(x)
+    if isinstance(events, list):
+        events = np.asarray(events)
+
+    # If data is provided as bollean format
+    if not any(x):
+        x = np.where(x == 1)[0]
+        events = np.where(events == 1)[0]
 
     ang = []  # Where to store angular data
     for i in events:

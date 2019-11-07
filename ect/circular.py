@@ -66,7 +66,7 @@ def circular(data, bins=32, density='area', offset=0, mean=False,
     count, bin = np.histogram(data, bins=bins, range=(0, np.pi*2))
 
     # Compute width of each bin
-    widths = np.diff(bin)
+    widths = np.diff(bin)[0]
 
     # By default plot area as density
     if density == 'area':
@@ -74,14 +74,22 @@ def circular(data, bins=32, density='area', offset=0, mean=False,
         area = count / data.size
         # Calculate corresponding bin radius
         radius = (area / np.pi)**.5
+        alpha = (count * 0) + 1
     elif density == 'height':  # Using height (can be misleading)
         radius = count
+        alpha = (count * 0) + 1
+    elif density == 'alpha':
+        radius = (count * 0) + 1
+        # Alpha level to each bin
+        alpha = count / data.size
+        alpha = alpha / alpha.max()
     else:
         print('Method for density not recognized')
 
     # Plot data on ax
-    ax.bar(bin[:-1], radius, zorder=1, align='edge', width=widths,
-           edgecolor='k', linewidth=1, color=color)
+    for b, r, a in zip(bin[:-1], radius, alpha):
+        plt.bar(b, r, align='edge', width=widths,
+                edgecolor='k', linewidth=1, color=color, alpha=a)
 
     # Plot mean and CI
     if mean:
@@ -172,7 +180,6 @@ def to_angles(x, events):
     ----------
     x : list or numpy array
         The reference time serie. Time points can be unevenly spaced.
-
     events : list or numpy array
         The events time serie.
 
@@ -180,13 +187,16 @@ def to_angles(x, events):
     -------
     ang : numpy array
         The angular value of events in the reference (in radians).
-
-    Examples
-    --------
     """
-
     if isinstance(x, list):
         x = np.asarray(x)
+    if isinstance(events, list):
+        events = np.asarray(events)
+
+    # If data is provided as bollean format
+    if not any(x > 1):
+        x = np.where(x == 1)[0]
+        events = np.where(events == 1)[0]
 
     ang = []  # Where to store angular data
     for i in events:
@@ -197,7 +207,7 @@ def to_angles(x, events):
             ln = np.min(x[x >= i]) - np.max(x[x < i])
 
             # Event timing after previous R peak
-            i -= np.max(x[x < i])
+            i -= np.max(x[x <= i])
 
             # Convert into radian [0 to pi*2]
             ang.append((i*np.pi*2)/ln)
