@@ -297,8 +297,13 @@ class Oximeter():
                         if self.check(paquet=paquet):
                             break
 
-    def setup(self):
-        """Find start byte.
+    def setup(self, read_duration=1):
+        """Find start byte and read a portion of signal.
+
+        Parameters
+        ----------
+        read_duration : int
+            Length of signal to record after setup. Default is set to 1 second.
 
         Notes
         -----
@@ -311,6 +316,7 @@ class Oximeter():
             paquet = list(self.serial.read(5))
             if self.check(paquet=paquet):
                 break
+        self.read(duration=read_duration)
         return self
 
     def waitBeat(self):

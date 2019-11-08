@@ -26,6 +26,8 @@ INSTALL_REQUIRES = [
 
 PACKAGES = [
     'ect',
+    'ect.Tasks.cwt',
+    'ect.Tasks.hbd',
 ]
 
 try:

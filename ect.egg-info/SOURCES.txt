@@ -13,3 +13,13 @@ ect.egg-info/SOURCES.txt
 ect.egg-info/dependency_links.txt
 ect.egg-info/requires.txt
 ect.egg-info/top_level.txt
+ect/Tasks/__init__.py
+ect/Tasks/cwt/__init__.py
+ect/Tasks/cwt/parameters.py
+ect/Tasks/cwt/run.py
+ect/Tasks/cwt/task.py
+ect/Tasks/hbd/__init__.py
+ect/Tasks/hbd/parameters.py
+ect/Tasks/hbd/run.py
+ect/Tasks/hbd/task.py
+ect/Tasks/hbd/test.py
