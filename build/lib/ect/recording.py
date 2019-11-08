@@ -174,7 +174,7 @@ class Oximeter():
             self.instant_rr.append(
                 (np.diff(np.where(self.peaks)[0])[-1]/self.sfreq)*1000)
         else:
-            self.instant_rr.append(0)
+            self.instant_rr.append(float('nan'))
 
         return self
 

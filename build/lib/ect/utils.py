@@ -96,6 +96,7 @@ def r_shift(raw, events):
 
     """
 
+
 def heart_rate(peaks, sfreq, unit='rr', method=None):
     """Transform peaks data into heart rate time series.
 
