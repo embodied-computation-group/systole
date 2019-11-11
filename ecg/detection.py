@@ -48,11 +48,14 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=200, resample=True):
         x = np.asarray(x)
 
     # Interpolate
-    f = interpolate.interp1d(np.arange(0, len(x)/sfreq, 1/sfreq),
-                             x,
-                             fill_value="extrapolate")
-    time = np.arange(0, len(x)/sfreq, 1/new_sfreq)
-    x = f(time)
+    if resample is True:
+        f = interpolate.interp1d(np.arange(0, len(x)/sfreq, 1/sfreq),
+                                 x,
+                                 fill_value="extrapolate")
+        time = np.arange(0, len(x)/sfreq, 1/new_sfreq)
+        x = f(time)
+    else:
+        new_sfreq = sfreq
 
     # Moving average (high frequency noise + clipping)
     x = moving_function(x, win=0.2, sfreq=new_sfreq, function=np.mean)
