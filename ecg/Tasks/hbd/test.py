@@ -2,8 +2,8 @@
 
 import serial
 import time
-from ect.recording import Oximeter
-from ect.circular import to_angles, circular, plot_circular
+from ecgrecording import Oximeter
+from ecgcircular import to_angles, circular, plot_circular
 from psychopy.sound import Sound
 import matplotlib.pyplot as plt
 import numpy as np

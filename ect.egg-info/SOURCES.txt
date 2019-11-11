@@ -8,11 +8,11 @@ ect/interactive.py
 ect/plotting.py
 ect/recording.py
 ect/utils.py
-ect.egg-info/PKG-INFO
-ect.egg-info/SOURCES.txt
-ect.egg-info/dependency_links.txt
-ect.egg-info/requires.txt
-ect.egg-info/top_level.txt
+ecgegg-info/PKG-INFO
+ecgegg-info/SOURCES.txt
+ecgegg-info/dependency_links.txt
+ecgegg-info/requires.txt
+ecgegg-info/top_level.txt
 ect/Tasks/__init__.py
 ect/Tasks/cwt/__init__.py
 ect/Tasks/cwt/parameters.py

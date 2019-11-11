@@ -4,7 +4,7 @@ from psychopy import visual, gui, event
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from ect.recording import Oximeter
+from ecgrecording import Oximeter
 
 
 """Heart beat counting task.

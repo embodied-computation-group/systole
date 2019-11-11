@@ -12,8 +12,8 @@ import time
 import numpy as np
 from psychopy.sound import Sound
 import matplotlib.pyplot as plt
-from ect.recording import Oximeter
-from ect.circular import to_angles, circular, plot_circular
+from ecgrecording import Oximeter
+from ecgcircular import to_angles, circular, plot_circular
 
 # Open serial port
 ser = serial.Serial('COM4')  # Change this value according to your setup

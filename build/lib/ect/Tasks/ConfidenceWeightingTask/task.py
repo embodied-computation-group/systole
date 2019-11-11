@@ -4,8 +4,8 @@ from psychopy import visual, event, core
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from ect.recording import Oximeter
-from ect.Task.ConfidenceWeightingTask import getParameters
+from ecgrecording import Oximeter
+from ecgTask.ConfidenceWeightingTask import getParameters
 
 
 def run(parameters, stairCase=None, win=None, confidenceRating=True,

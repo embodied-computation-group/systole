@@ -2,8 +2,8 @@
 
 import numpy as np
 import time
-from ect.detection import oxi_peaks
-from ect.plotting import plot_oximeter, plot_events, plot_hr
+from ecgdetection import oxi_peaks
+from ecgplotting import plot_oximeter, plot_events, plot_hr
 
 
 class Oximeter():
@@ -57,7 +57,7 @@ class Oximeter():
     This instance is then used to create an `Oximeter` instance that will be
     used for the recording.
 
-    >>> from ect.recording import Oximeter
+    >>> from ecgrecording import Oximeter
     >>> oximeter = Oximeter(serial=ser, sfreq=75)
 
     Use the `setup()` method to initialize the recording. This will find the
@@ -179,12 +179,12 @@ class Oximeter():
         return self
 
     def check(self, paquet):
-        """Check if the provided paquet is correct.
+        """Check if the provided paquet is correcg
 
         Parameters
         ----------
         paquet : list
-            The paquet to inspect.
+            The paquet to inspecg
         """
         check = False
         if len(paquet) >= 5:

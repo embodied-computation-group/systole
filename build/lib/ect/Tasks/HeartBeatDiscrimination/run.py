@@ -3,7 +3,7 @@
 import serial
 from cardioception.HeartBeatDiscrimination.task import trial, run
 from cardioception.HeartBeatDiscrimination.parameters import getParameters
-from ect.recording import Oximeter
+from ecgrecording import Oximeter
 
 
 parameters = getParameters()

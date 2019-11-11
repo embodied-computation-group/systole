@@ -19,7 +19,7 @@ Record and plot data with less than 6 lines of code.
 
 ```python
 import serial
-from ect.recording import Oximeter
+from ecgrecording import Oximeter
 ser = serial.Serial('COM4')  # Add your USB port here
 
 # Open serial port, initialize and plot recording for Oximeter

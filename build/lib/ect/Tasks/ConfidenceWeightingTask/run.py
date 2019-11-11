@@ -1,7 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from ect.Tasks.ConfidenceWeightingTask.parameters import getParameters
-from ect.Tasks.ConfidenceWeightingTask.task import run
+from ecgTasks.ConfidenceWeightingTask.parameters import getParameters
+from ecgTasks.ConfidenceWeightingTask.task import run
 from psychopy import gui
 
 # Create a GUI and store subject ID

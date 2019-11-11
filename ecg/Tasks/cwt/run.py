@@ -1,7 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 from psychopy import gui
-from ect.Tasks.cwt import task, parameters
+from ecgTasks.cwt import task, parameters
 
 # Create a GUI and store subject ID
 g = gui.Dlg()

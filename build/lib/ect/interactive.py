@@ -1,7 +1,7 @@
 # import plotly.graph_objects as go
 # from plotly.subplots import make_subplots
 # import numpy as np
-# from ect.utils import heart_rate
+# from ecgutils import heart_rate
 # from scipy import signal
 #
 #

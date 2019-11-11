@@ -6,14 +6,14 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
-DESCRIPTION = "Embodied Computation Toolbox"
-LONG_DESCRIPTION = """Physiological signal analyses with Python.
+DESCRIPTION = "ECG"
+LONG_DESCRIPTION = """Psychophysiolog with Python.
 """
 
-DISTNAME = 'ect'
+DISTNAME = 'ecg'
 MAINTAINER = 'Nicolas Legrand'
 MAINTAINER_EMAIL = 'nicolas.legrand@cfin.au.dk'
-VERSION = '0.0.1'
+VERSION = '0.0.1a'
 
 INSTALL_REQUIRES = [
     'numpy>=1.15',
@@ -25,9 +25,9 @@ INSTALL_REQUIRES = [
 ]
 
 PACKAGES = [
-    'ect',
-    'ect.Tasks.cwt',
-    'ect.Tasks.hbd',
+    'ecg',
+    'ecg.Tasks.cwt',
+    'ecg.Tasks.hbd',
 ]
 
 try:
