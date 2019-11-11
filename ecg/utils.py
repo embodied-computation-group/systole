@@ -21,7 +21,7 @@ def norm_triggers(x, threshold, n, direction='higher'):
 
     Returns
     -------
-    y : NumPy array
+    y : array
         The filterd triggers
     """
     if not isinstance(x, np.ndarray):
@@ -115,12 +115,6 @@ def heart_rate(peaks, sfreq, unit='rr', method=None):
         The heart rate frequency
     time : array
         Time array.
-
-    Notes
-    -----
-    When the heart rate is recorded online, a delay is observed between the
-    recorded frequency and the R-R interval. Because the length of the current
-    interval is not known, the previous r-r interval is used.
     """
     time = peaks / 75
 

@@ -4,6 +4,6 @@ from .epochs import *
 from .utils import *
 from .plotting import *
 from .interactive import *
-from .Tasks import *
+from .tasks import *
 
-__version__ = "0.0.1a"
+# __version__ = "0.0.1a"

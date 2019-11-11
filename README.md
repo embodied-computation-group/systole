@@ -1,5 +1,4 @@
-# ecg-python
-Embodied Computation Toolbox
+# ECG: The Embodied Computation Toolbox
 (under development)
 
 # Installation

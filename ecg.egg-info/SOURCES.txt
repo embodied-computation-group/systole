@@ -22,3 +22,12 @@ ecg/Tasks/hbd/parameters.py
 ecg/Tasks/hbd/run.py
 ecg/Tasks/hbd/task.py
 ecg/Tasks/hbd/test.py
+ecg/tasks/cwt/__init__.py
+ecg/tasks/cwt/parameters.py
+ecg/tasks/cwt/run.py
+ecg/tasks/cwt/task.py
+ecg/tasks/hbd/__init__.py
+ecg/tasks/hbd/parameters.py
+ecg/tasks/hbd/run.py
+ecg/tasks/hbd/task.py
+ecg/tasks/hbd/test.py

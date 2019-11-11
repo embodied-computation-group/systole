@@ -21,7 +21,7 @@ def norm_triggers(x, threshold, n, direction='higher'):
 
     Returns
     -------
-    y : NumPy array
+    y : array
         The filterd triggers
     """
     if not isinstance(x, np.ndarray):
@@ -115,12 +115,6 @@ def heart_rate(peaks, sfreq, unit='rr', method=None):
         The heart rate frequency
     time : array
         Time array.
-
-    Notes
-    -----
-    When the heart rate is recorded online, a delay is observed between the
-    recorded frequency and the R-R interval. Because the length of the current
-    interval is not known, the previous r-r interval is used.
     """
     time = peaks / 75
 
@@ -152,3 +146,35 @@ def heart_rate(peaks, sfreq, unit='rr', method=None):
             raise ValueError('Invalid method')
 
     return heartrate, time
+
+
+def moving_function(x, win=0.2, sfreq=75, function=np.mean):
+    """Return the moving average of the signal.
+
+    Parameters
+    ----------
+    x : array
+        The time-serie.
+    win : float
+        The size of the windows (in seconds)
+    sfreq : int
+        The sampling frequency.
+    function : funct
+        The operation to perform. Default is mean (moving average).
+
+    Return
+    ------
+    y : array
+        The averaged signal.
+    """
+    # Compute moving average
+    win = int(win * sfreq)
+    y = []
+    for i in range(len(x)):
+        if i < win/2:
+            y.append(function(x[:win]))
+        elif (i >= win/2) & (i < len(x - win)):
+            y.append(function(x[i-int(win/2):i+int(win/2)]))
+        else:
+            y.append(function(x[-win:]))
+    return np.asarray(y)

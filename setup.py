@@ -1,19 +1,18 @@
 # Copyright (C) 2019 Nicolas Legrand
 import os
 
-
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
 DESCRIPTION = "ecg"
-LONG_DESCRIPTION = """Psychophysiolog with Python.
+LONG_DESCRIPTION = """Psychophysiology with Python.
 """
 
 DISTNAME = 'ecg'
 MAINTAINER = 'Nicolas Legrand'
 MAINTAINER_EMAIL = 'nicolas.legrand@cfin.au.dk'
-VERSION = '0.0.1a'
+VERSION = '0.0.1'
 
 INSTALL_REQUIRES = [
     'numpy>=1.15',
@@ -26,8 +25,8 @@ INSTALL_REQUIRES = [
 
 PACKAGES = [
     'ecg',
-    'ecg.Tasks.cwt',
-    'ecg.Tasks.hbd',
+    'ecg.tasks.cwt',
+    'ecg.tasks.hbd',
 ]
 
 try:
