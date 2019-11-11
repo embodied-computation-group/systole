@@ -6,7 +6,7 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
-DESCRIPTION = "ECG"
+DESCRIPTION = "ecg"
 LONG_DESCRIPTION = """Psychophysiolog with Python.
 """
 

@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from pyExG.plotting import plot_oxi, plot_peaks
-from pyExG.raw import Raw
-from pyExG.detection import oxi_peaks
+from ecg.plotting import plot_oxi, plot_peaks
+from ecg.raw import Raw
+from ecg.detection import oxi_peaks
 
 data_path = 'C:/Users/au646069/Google Drive/ECG_root/Code/PythonToolboxes/pyExG/pyExG/Data/'
 

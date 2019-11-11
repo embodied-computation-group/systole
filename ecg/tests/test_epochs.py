@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from pyExG.raw import Raw
-from pyExG.epochs import Epochs
+from ecg.raw import Raw
+from ecg.epochs import Epochs
 
 data_path = 'C:/Users/au646069/Google Drive/ECG_root/Code/PythonToolboxes/pyExG/pyExG/Data/'
 

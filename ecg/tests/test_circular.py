@@ -1,4 +1,4 @@
-from pyExG. circular import *
+from ecg. circular import *
 
 #################
 # Circular module

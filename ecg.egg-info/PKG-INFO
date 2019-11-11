@@ -1,7 +1,7 @@
 Metadata-Version: 1.2
 Name: ecg
-Version: 0.0.1
-Summary: Embodied Computation Toolbox
+Version: 0.0.1a0
+Summary: ecg
 Home-page: UNKNOWN
 Author: Nicolas Legrand
 Author-email: nicolas.legrand@cfin.au.dk
@@ -682,6 +682,6 @@ the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <http://www.gnu.org/philosophy/why-not-lgpl.html>.
 
-Description: Physiological signal analyses with Python.
-
+Description: Psychophysiolog with Python.
+        
 Platform: UNKNOWN

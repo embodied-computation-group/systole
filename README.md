@@ -1,4 +1,4 @@
-# ect-python
+# ecg-python
 Embodied Computation Toolbox
 (under development)
 
