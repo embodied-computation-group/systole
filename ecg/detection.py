@@ -29,8 +29,10 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=200, resample=True):
 
     Notes
     -----
-    Signal squaring and detection of peaks using threshold set by the moving
-    averagte + stadard deviation.
+    This algorithm use a simple rolling average to detect peaks. The signal is
+    first resampled and a rolling average is applyed to correct high frequency
+    noise and clipping. The signal is then squared and detection of peaks is
+    performed using threshold set by the moving averagte + stadard deviation.
 
     References
     ----------
