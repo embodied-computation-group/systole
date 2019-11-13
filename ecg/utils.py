@@ -14,7 +14,7 @@ def norm_triggers(x, threshold, n, direction='higher'):
     threshold : float
         Threshold for triggering values.
     n : int
-        Number of values to force to 0 after each triggers.
+        Number of values to force to 0 following each triggers.
     direction : str
         Indicates if triggers are higher or lower than threshold. Can be
         `higher` or `lower`. Default is `higher`.
@@ -73,30 +73,6 @@ def time_shift(x, events, order='after'):
     return lag
 
 
-def r_shift(raw, events):
-    """Plot the absolute time deviation between events and r waves.
-
-    Parameters
-    ----------
-    raw : NumPy array
-        Raw ECG data.
-
-    events : NumPy array
-        Event timing.
-
-    direction : str
-        Events should occur before or after the r peak. Default is 'after'.
-
-    Returns
-    -------
-    ax : Matplotlib axes
-
-    lag : Numpy array
-        If `show=False`, return the lag instead.
-
-    """
-
-
 def heart_rate(x, sfreq, unit='rr', method=None):
     """Transform peaks data into heart rate time series.
 
@@ -134,7 +110,7 @@ def heart_rate(x, sfreq, unit='rr', method=None):
 
     # Create time vector
     if method is None:
-        time = peaks / 75
+        time = peaks / sfreq
     else:
         time = np.arange(0, len(x)) / sfreq
 
