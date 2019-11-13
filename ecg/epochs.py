@@ -31,6 +31,10 @@ def to_epochs(x, events, sfreq, tmin=-1, tmax=10, event_idx=1, smooth=True,
     epochs : ndarray
         Event * Time array.
     """
+    if len(x) != len(events):
+        raise ValueError("""The length of the event and signal vector
+                                shoul match exactly""")
+
     # From boolean to event indexes
     events = np.where(events == event_idx)[0]
 
