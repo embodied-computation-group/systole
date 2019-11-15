@@ -148,35 +148,3 @@ def heart_rate(x, sfreq, unit='rr', method=None):
         raise ValueError('Inconsistent time vector')
 
     return heartrate, time
-
-
-def moving_function(x, win=0.2, sfreq=75, function=np.mean):
-    """Return the moving average of the signal.
-
-    Parameters
-    ----------
-    x : array
-        The time-serie.
-    win : float
-        The size of the windows (in seconds)
-    sfreq : int
-        The sampling frequency.
-    function : funct
-        The operation to perform. Default is mean (moving average).
-
-    Return
-    ------
-    y : array
-        The averaged signal.
-    """
-    # Compute moving average
-    win = int(win * sfreq)
-    y = []
-    for i in range(len(x)):
-        if i < win/2:
-            y.append(function(x[:win]))
-        elif (i >= win/2) & (i < len(x - win)):
-            y.append(function(x[i-int(win/2):i+int(win/2)]))
-        else:
-            y.append(function(x[-win:]))
-    return np.asarray(y)
