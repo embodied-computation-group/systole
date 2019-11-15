@@ -1,9 +1,9 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import numpy as np
+import pandas as pd
 from scipy.signal import find_peaks
 from scipy import interpolate
-from ecg.utils import moving_function
 
 
 def oxi_peaks(x, sfreq=75, win=1, new_sfreq=200, resample=False):
@@ -58,16 +58,16 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=200, resample=False):
         new_sfreq = sfreq
 
     # Moving average (high frequency noise + clipping)
-    x = moving_function(x, win=0.2, sfreq=new_sfreq, function=np.mean)
+    x = pd.DataFrame({'signal': x}).rolling(int(sfreq/10)).mean().signal.values
 
     # Square signal
     x = x ** 2
 
     # Compute moving average + standard deviation
-    mean_signal = moving_function(x, win=0.75, sfreq=new_sfreq,
-                                  function=np.mean)
-    std_signal = moving_function(x, win=0.75, sfreq=new_sfreq,
-                                 function=np.std)
+    signal = pd.DataFrame({'signal': x})
+
+    mean_signal = signal.rolling(int(sfreq*0.75)).mean().signal.values
+    std_signal = signal.rolling(int(sfreq*0.75)).std().signal.values
 
     # Substract moving mean + standard deviation
     x -= (mean_signal + std_signal)
