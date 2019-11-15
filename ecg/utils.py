@@ -110,7 +110,7 @@ def heart_rate(x, sfreq, unit='rr', method=None):
 
     # Create time vector
     if method is None:
-        time = peaks / sfreq
+        time = peaks[1:] / sfreq
     else:
         time = np.arange(0, len(x)) / sfreq
 
@@ -138,8 +138,6 @@ def heart_rate(x, sfreq, unit='rr', method=None):
         if unit == 'bpm':
             # Beats per minutes
             heartrate = 60000/heartrate
-    else:
-        raise ValueError('Invalid method')
 
     # Security checks
     if method is not None:
