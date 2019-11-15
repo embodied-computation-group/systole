@@ -4,6 +4,8 @@ from .epochs import *
 from .utils import *
 from .plotting import *
 from .interactive import *
-from .tasks import *
+from .hrv_time import *
+from .hrv_frequency import *
+# from .tasks import *
 
 # __version__ = "0.0.1a"

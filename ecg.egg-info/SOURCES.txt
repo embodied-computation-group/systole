@@ -4,6 +4,8 @@ ecg/__init__.py
 ecg/circular.py
 ecg/detection.py
 ecg/epochs.py
+ecg/hrv_frequency.py
+ecg/hrv_time.py
 ecg/interactive.py
 ecg/plotting.py
 ecg/recording.py

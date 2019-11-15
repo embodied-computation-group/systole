@@ -1,4 +1,4 @@
-from ecg. circular import *
+from ecg.circular import *
 
 #################
 # Circular module
