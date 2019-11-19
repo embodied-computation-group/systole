@@ -6,7 +6,7 @@ from scipy.signal import find_peaks
 from scipy import interpolate
 
 
-def oxi_peaks(x, sfreq=75, win=1, new_sfreq=200, resample=False):
+def oxi_peaks(x, sfreq=75, win=1, new_sfreq=750, resample=True):
     """Detecting peaks on PPG signal.
 
     Parameters
@@ -20,11 +20,12 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=200, resample=False):
     new_sfreq : int
         If `resample=True`, the new sampling frequency.
     resample : boolean
-        If `True`, will resample the signal at `new_sfreq`.
+        If `True` (defaults), will resample the signal at `new_sfreq`. Default
+        value is 750 Hz.
 
     Retruns
     -------
-    peaks : array
+    peaks : boolean array
         Numpy array containing R peak timing, in sfreq.
 
     Notes
@@ -58,7 +59,9 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=200, resample=False):
         new_sfreq = sfreq
 
     # Moving average (high frequency noise + clipping)
-    x = pd.DataFrame({'signal': x}).rolling(int(sfreq/10)).mean().signal.values
+    rollingNoise = int(sfreq)  # Windoz with sizw 0.1 second
+    x = pd.DataFrame({'signal': x}).rolling(rollingNoise,
+                                            center=True).mean().signal.values
 
     # Square signal
     x = x ** 2
@@ -66,8 +69,10 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=200, resample=False):
     # Compute moving average + standard deviation
     signal = pd.DataFrame({'signal': x})
 
-    mean_signal = signal.rolling(int(sfreq*0.75)).mean().signal.values
-    std_signal = signal.rolling(int(sfreq*0.75)).std().signal.values
+    mean_signal = signal.rolling(int(new_sfreq*0.75),
+                                 center=True).mean().signal.values
+    std_signal = signal.rolling(int(new_sfreq*0.75),
+                                center=True).std().signal.values
 
     # Substract moving mean + standard deviation
     x -= (mean_signal + std_signal)
