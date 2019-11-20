@@ -290,7 +290,6 @@ class Oximeter():
                     raise ValueError('Synch error')
                 else:
                     print('Synch error')
-                    self.triggers[-1] = -1
                     while True:
                         self.serial.reset_input_buffer()
                         paquet = list(self.serial.read(5))
@@ -328,8 +327,7 @@ class Oximeter():
                 paquet = list(self.serial.read(5))
                 if self.check(paquet):
                     self.add_paquet(paquet[2])
-                    if any(self.triggers[-2:]):  # Peak found
-                        self.stim[-1] = 1
+                    if any(self.peaks[-2:]):  # Peak found
                         break
                 else:
                     print('Synch error')

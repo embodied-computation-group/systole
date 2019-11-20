@@ -5,27 +5,10 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 from ecg.utils import heart_rate
-from ecg.hrv_frequency import hrv_frequency
 from utils import parse_data
 from plotting import plot_raw, plot_hist, plot_pointcarre, plot_frequency
-import numpy as np
-from ecg.detection import oxi_peaks
-import pandas as pd
 
 # filename = 'C:/Users/au646069/Desktop/dash/Subject_1111398.npy'
-
-# Parameters
-sfreq = 75
-
-layout = dict(
-    # autosize=True,
-    # automargin=True,
-    margin=dict(l=30, r=30, b=20, t=40),
-    hovermode="closest",
-    plot_bgcolor="#F9F9F9",
-    paper_bgcolor="#F9F9F9",
-    legend=dict(font=dict(size=10), orientation="h"),
-)
 
 app = dash.Dash(__name__)
 
@@ -84,22 +67,44 @@ app.layout = html.Div([
     ###############
     html.Div(
         [
+
             ###########
             # Histogram
             ###########
             html.Div(
-                [dcc.Graph(id="histogram")],
+                [
+
+                    html.P("Heart rate metric:",
+                           className="control_label"),
+                    dcc.RadioItems(
+                        id="hr_metric",
+                        options=[
+                            {"label": "R-R ", "value": "rr"},
+                            {"label": "BPM", "value": "bpm"},
+                        ],
+                        value="active",
+                        labelStyle={"display": "inline-block"},
+                        className="dcc_control",
+                    ),
+
+                    dcc.Graph(id="histogram")
+
+                ],
                 id="histogramContainer",
-                className="pretty_container three columns",
+                className="pretty_container four columns",
             ),
 
             ######################
             # Main raw data viewer
             ######################
             html.Div(
-                [dcc.Graph(id="Raw")],
+                [
+
+                    dcc.Graph(id="Raw"),
+
+                ],
                 id="RawContainer",
-                className="pretty_container nine columns",
+                className="pretty_container eigth columns",
             ),
 
         ],
@@ -187,21 +192,19 @@ def update_data(filenames):
      Output('frequencyDomain', 'figure'),
      Output('pointcarrePlot', 'figure')],
     [dash.dependencies.Input('upload-data', 'filename'),
-     dash.dependencies.Input('dropdown-files', 'value')])
-def update_output(filenames, selected):
-    print(filenames, selected)
+     dash.dependencies.Input('dropdown-files', 'value'),
+     dash.dependencies.Input('hr_metric', 'value')])
+def update_output(filenames, selected, hr_metric):
+
     df = None
     # Read data
     if filenames:
         if selected:
-            df = parse_data(selected[0])
+            df = parse_data(selected[0], hr_metric=hr_metric)
         else:
-            df = parse_data(filenames[0])
+            df = parse_data(filenames[0], hr_metric=hr_metric)
 
     if df is not None:
-
-        # Extract R-R intervals
-        rr, time = heart_rate(df.peaks, sfreq=75, unit='rr')
 
         # Update main plot
         raw = plot_raw(df)
@@ -217,11 +220,11 @@ def update_output(filenames, selected):
 
     else:
         # Create empty plots
-        raw = dict(data=[], layout=layout)
-        hist = dict(data=[], layout=layout)
-        frequencyPlot = dict(data=[], layout=layout)
-        frequencyPlot = dict(data=[], layout=layout)
-        pointcarrePlot = dict(data=[], layout=layout)
+        raw = dict(data=[], layout=dict())
+        hist = dict(data=[], layout=dict())
+        frequencyPlot = dict(data=[], layout=dict())
+        frequencyPlot = dict(data=[], layout=dict())
+        pointcarrePlot = dict(data=[], layout=dict())
 
     return raw, hist, frequencyPlot, pointcarrePlot
 

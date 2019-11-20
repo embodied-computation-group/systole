@@ -4,7 +4,7 @@ from ecg.detection import oxi_peaks
 from ecg.utils import heart_rate
 
 
-def parse_data(filename, sfreq=75):
+def parse_data(filename, sfreq=75, hr_metric="rr"):
     """Read the provided file(s) and return dictionnary of dataframes with raw
     data, peaks and heartrate.
 
@@ -63,7 +63,7 @@ def parse_data(filename, sfreq=75):
 
     # Creat heartrate vector
     hr, time = heart_rate(peaks, sfreq=new_sfreq,
-                          method='staircase', unit='rr')
+                          method='staircase', unit=hr_metric)
 
     df['hr'] = hr
 

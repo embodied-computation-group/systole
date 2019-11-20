@@ -37,7 +37,7 @@ def plot_raw(df):
 
     raw['layout']['plot_bgcolor'] = "#F9F9F9"
     raw['layout']['paper_bgcolor'] = "#F9F9F9"
-    raw['layout']['margin'] = dict(l=10, r=10, b=10, t=10)
+    raw['layout']['margin'] = dict(l=5, r=5, b=5, t=5)
     raw['layout']['legend'] = dict(font=dict(size=15), orientation="h")
     raw['layout']['xaxis']['rangeselector'] = dict(visible=True)
 
@@ -55,8 +55,6 @@ def plot_hist(df):
     his['layout']['plot_bgcolor'] = "#F9F9F9"
     his['layout']['paper_bgcolor'] = "#F9F9F9"
     his['layout']['margin'] = dict(l=10, r=10, b=10, t=10)
-    his['autosize'] = True
-    his['automargin'] = True
 
     return his
 
@@ -70,12 +68,12 @@ def plot_pointcarre(df):
         x=rr[:-1],
         y=rr[1:],
         mode='markers'))
-    # pointcarrePlot['layout']['plot_bgcolor'] = "#F9F9F9"
-    # pointcarrePlot['layout']['paper_bgcolor'] = "#F9F9F9"
-    # pointcarrePlot['layout']['autosize'] = True
-    # pointcarrePlot['layout']['margin'] = dict(l=10, r=10, b=10, t=10)
-    # pointcarrePlot['layout']['legend'] = dict(font=dict(size=15),
-    #                                           orientation="h")
+    pointcarrePlot['layout']['plot_bgcolor'] = "#F9F9F9"
+    pointcarrePlot['layout']['paper_bgcolor'] = "#F9F9F9"
+    pointcarrePlot['layout']['autosize'] = True
+    pointcarrePlot['layout']['margin'] = dict(l=10, r=10, b=10, t=10)
+    pointcarrePlot['layout']['legend'] = dict(font=dict(size=15),
+                                              orientation="h")
     # pointcarrePlot['layout']['shapes'] = [{'type': 'line',
     #                                        'x0': rr.min(), 'x1': rr.max(),
     #                                        'y0': rr.min(), 'y1': rr.max()}]
@@ -100,7 +98,11 @@ def plot_frequency(df):
             y=psd[mask],
             fill='tozeroy',
             mode='lines',
-            line_color=fbands[f][2]))
+            line_color=fbands[f][2],
+            line=dict(shape="spline",
+                      smoothing=1,
+                      width=1,
+                      color="#fac1b7")))
     frequencyPlot['layout']['plot_bgcolor'] = "#F9F9F9"
     frequencyPlot['layout']['paper_bgcolor'] = "#F9F9F9"
     frequencyPlot['layout']['autosize'] = True
