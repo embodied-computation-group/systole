@@ -27,6 +27,8 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=750, resample=True):
     -------
     peaks : boolean array
         Numpy array containing R peak timing, in sfreq.
+    resampled_signal : array
+        Signal resampled to the `new_sfreq` frequency.
 
     Notes
     -----
@@ -35,9 +37,11 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=750, resample=True):
     noise and clipping. The signal is then squared and detection of peaks is
     performed using threshold set by the moving averagte + stadard deviation.
 
+    .. warning :: Will oversample the signal to 750 Hz by default.
+
     References
     ----------
-    Some of the processing steps are adapted from the HeartPy toolbox:
+    Some of the processing steps were adapted from the HeartPy toolbox [1]:
     https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/index.html
 
     [1] : van Gent, P., Farah, H., van Nes, N. and van Arem, B., 2019.
@@ -58,17 +62,19 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=750, resample=True):
     else:
         new_sfreq = sfreq
 
+    # Copy resampled signal for output
+    resampled_signal = np.copy(x)
+
     # Moving average (high frequency noise + clipping)
-    rollingNoise = int(sfreq)  # Windoz with sizw 0.1 second
+    rollingNoise = int(new_sfreq/10)  # 0.1 second window
     x = pd.DataFrame({'signal': x}).rolling(rollingNoise,
                                             center=True).mean().signal.values
 
-    # Square signal
+    # Square signal (peak enhancement)
     x = x ** 2
 
-    # Compute moving average + standard deviation
+    # Compute moving average and standard deviation
     signal = pd.DataFrame({'signal': x})
-
     mean_signal = signal.rolling(int(new_sfreq*0.75),
                                  center=True).mean().signal.values
     std_signal = signal.rolling(int(new_sfreq*0.75),
@@ -80,11 +86,11 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=750, resample=True):
     # Find positive peaks
     peaks_idx = find_peaks(x, height=0)[0]
 
-    # Create boolean vector as Output
+    # Create boolean vector
     peaks = np.zeros(len(x))
     peaks[peaks_idx] = 1
 
     if len(peaks) != len(x):
         raise ValueError('Inconsistent output lenght')
 
-    return peaks
+    return resampled_signal, peaks
