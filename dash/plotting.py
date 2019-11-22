@@ -7,39 +7,38 @@ from ecg.hrv_frequency import hrv_frequency
 def plot_raw(df):
     """Plot raw data.
     """
-    ppg_trace = go.Scatter(
+    ppg_trace = go.Scattergl(
         x=df.time,
         y=df.signal,
         mode='lines',
         name='PPG',
-        line=dict(shape="spline", smoothing=1, width=1,
+        line=dict(width=1,
                   color="#fac1b7")
     )
-    peaks_trace = go.Scatter(
+    peaks_trace = go.Scattergl(
         x=df[df.peaks == 1].time,
         y=df[df.peaks == 1].signal,
         mode='markers',
         name='Peaks',
-        line=dict(shape="spline", smoothing=1, width=1, color="#92d8d8"),
+        line=dict(width=1, color="#92d8d8"),
         marker=dict(symbol="diamond-open")
     )
-    rr_trace = go.Scatter(
-        x=df.time,
+    rr_trace = go.Scattergl(
+        x=df.time[df.peaks == 1].values[:-1],
         y=df.hr[df.peaks == 1].values[:-1],
         mode='lines+markers',
         name='R-R intervals',
         marker=dict(symbol="diamond-open"),
-        line=dict(shape="spline", width=1,
+        line=dict(width=1,
                   color="#5698d9")
     )
 
-    raw = make_subplots(rows=2, cols=1)
+    raw = make_subplots(rows=2, cols=1, shared_xaxes=True)
 
     raw['layout']['plot_bgcolor'] = "#F9F9F9"
     raw['layout']['paper_bgcolor'] = "#F9F9F9"
     raw['layout']['margin'] = dict(l=5, r=5, b=5, t=5)
     raw['layout']['legend'] = dict(font=dict(size=15), orientation="h")
-    raw['layout']['xaxis']['rangeselector'] = dict(visible=True)
 
     raw.append_trace(ppg_trace, 1, 1)
     raw.append_trace(peaks_trace, 1, 1)
@@ -51,7 +50,8 @@ def plot_raw(df):
 def plot_hist(df):
     """Plot histogram of heart rate data.
     """
-    his = px.histogram(df[df.peaks == 1].iloc[:-1], x='hr')
+    his = px.histogram(df[df.peaks == 1].iloc[:-1], x='hr',
+                       opacity=0.6)
     his['layout']['plot_bgcolor'] = "#F9F9F9"
     his['layout']['paper_bgcolor'] = "#F9F9F9"
     his['layout']['margin'] = dict(l=10, r=10, b=10, t=10)
@@ -64,7 +64,7 @@ def plot_pointcarre(df):
     """
     rr = df.hr[df.peaks == 1].values[:-1]
     pointcarrePlot = go.Figure()
-    pointcarrePlot.add_trace(go.Scatter(
+    pointcarrePlot.add_trace(go.Scattergl(
         x=rr[:-1],
         y=rr[1:],
         mode='markers'))
