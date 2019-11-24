@@ -1,18 +1,20 @@
 
-.. figure::  logo.png
+.. figure::  https://github.com/LegrandNico/systole/tree/master/Images/logo.png
    :align:   center
 
-
-# Systole: Recording and analyzing physiological data in Python.
+# Systole: Simple physiological recording and analysis in Python.
 
 **Systole** is an open-source package written in Python for physiological recording and analysis.
+This module is developed inside the ECG group <https://the-ecg.org/>. All the scripts are provided with no warranty of any kind.
 
 Installation
 ============
 
 Download the zip file, extract the folder and run from the terminal:
 
-`python setup.py install`
+.. code-block:: shell
+
+  python setup.py install
 
 Recording
 =========
