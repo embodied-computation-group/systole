@@ -2,10 +2,8 @@
 .. figure::  https://github.com/LegrandNico/systole/blob/master/Images/logo.png
    :align:   center
 
-# Systole: Simple physiological recording and analysis in Python.
-
-**Systole** is an open-source package written in Python for physiological recording and analysis.
-This module is developed inside the ECG group <https://the-ecg.org/>. All the scripts are provided with no warranty of any kind.
+The **Systole** Python package provide simple tools to record and analyze signal for psychophysiology.
+This module is developed inside the ECG group (https://the-ecg.org/). All the scripts are provided with no warranty of any kind.
 
 Installation
 ============
@@ -22,25 +20,26 @@ Recording
 Oximeter
 --------
 
-Recording signal with the [Nonin 3012LP Xpod USB pulse oximeter](https://www.nonin.com/products/xpod/) together with [Nonin 8000SM 'soft-clip' fingertip sensors](https://www.nonin.com/products/8000s/).
+Recording signal with the **Nonin 3012LP Xpod USB pulse oximeter** (https://www.nonin.com/products/xpod/) together with [Nonin 8000SM 'soft-clip' fingertip sensors](https://www.nonin.com/products/8000s/).
 
 Quick start
 ###########
 
 Record and plot data with less than 6 lines of code.
 
-```python
-import serial
-from ecgrecording import Oximeter
-ser = serial.Serial('COM4')  # Add your USB port here
+.. code-block:: python
+  import serial
+  from ecgrecording import Oximeter
+  ser = serial.Serial('COM4')  # Add your USB port here
 
-# Open serial port, initialize and plot recording for Oximeter
-oxi = Oximeter(serial=ser, sfreq=75).setup().read(duration=10)
+  # Open serial port, initialize and plot recording for Oximeter
+  oxi = Oximeter(serial=ser, sfreq=75).setup().read(duration=10)
 
-# Plot data
-oxi.plot()
-```
-![](Images/recording.png)
+  # Plot data
+  oxi.plot()
+
+.. figure::  https://github.com/LegrandNico/systole/blob/master/Images/recording.png
+   :align:   center
 
 Recording
 #########
@@ -52,51 +51,51 @@ time (specified by the `duration` parameter, in seconds). This is the
 easiest and most robust method, but it is not possible to run
 instructions in the meantime (serial mode).
 
-```python
-# Code 1 {}
-oximeter.read(duration=10)
-# Code 2 {}
-```
+.. code-block:: python
+  # Code 1 {}
+  oximeter.read(duration=10)
+  # Code 2 {}
 
 * The `readInWaiting()` method will read all the availlable bytes (up
 to 10 seconds of recording). When inserted into a while loop, it allows
 to record PPG signal in parallel with other commands.
 
-```python
-import time
-tstart = time.time()
-while time.time() - tstart < 10:
-    oximeter.readInWaiting()
-    # Insert code here {...}
-```
+.. code-block:: python
+  import time
+  tstart = time.time()
+  while time.time() - tstart < 10:
+      oximeter.readInWaiting()
+      # Insert code here {...}
 
 Online detection
 ################
 
 Set an online peak detection algorithm in less than 10 lines of code.
 
-``` python
-import serial
-import time
-from systole.recording import Oximeter
+.. code-block:: python
+  import serial
+  import time
+  from systole.recording import Oximeter
 
-# Open serial port
-ser = serial.Serial('COM4')  # Change this value according to your setup
+  # Open serial port
+  ser = serial.Serial('COM4')  # Change this value according to your setup
 
-# Create an Oxymeter instance and initialize recording
-oxi = Oximeter(serial=ser, sfreq=75, add_channels=4).setup()
+  # Create an Oxymeter instance and initialize recording
+  oxi = Oximeter(serial=ser, sfreq=75, add_channels=4).setup()
 
-# Online peak detection for 10 seconds
-tstart = time.time()
-while time.time() - tstart < 10:
-    while oxi.serial.inWaiting() >= 5:
-        paquet = list(oxi.serial.read(5))
-        oxi.add_paquet(paquet[2])  # Add new data point
-        if oxi.peaks[-1] == 1:
-          print('Heartbeat detected')
-```
+  # Online peak detection for 10 seconds
+  tstart = time.time()
+  while time.time() - tstart < 10:
+      while oxi.serial.inWaiting() >= 5:
+          paquet = list(oxi.serial.read(5))
+          oxi.add_paquet(paquet[2])  # Add new data point
+          if oxi.peaks[-1] == 1:
+            print('Heartbeat detected')
 
 See also a complete tutorial here: <https://github.com/LegrandNico/systole/tree/master/notebooks/HeartBeatEvokedTone.rst>
+
+Peaks detection
+###############
 
 Heart rate variability
 ######################
