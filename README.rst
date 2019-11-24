@@ -28,6 +28,7 @@ Quick start
 Record and plot data with less than 6 lines of code.
 
 .. code-block:: python
+
   import serial
   from ecgrecording import Oximeter
   ser = serial.Serial('COM4')  # Add your USB port here
@@ -52,6 +53,7 @@ easiest and most robust method, but it is not possible to run
 instructions in the meantime (serial mode).
 
 .. code-block:: python
+
   # Code 1 {}
   oximeter.read(duration=10)
   # Code 2 {}
@@ -61,6 +63,7 @@ to 10 seconds of recording). When inserted into a while loop, it allows
 to record PPG signal in parallel with other commands.
 
 .. code-block:: python
+
   import time
   tstart = time.time()
   while time.time() - tstart < 10:
@@ -73,6 +76,7 @@ Online detection
 Set an online peak detection algorithm in less than 10 lines of code.
 
 .. code-block:: python
+
   import serial
   import time
   from systole.recording import Oximeter
