@@ -1,5 +1,5 @@
 
-.. figure::  https://github.com/LegrandNico/systole/tree/master/Images/logo.png
+.. figure::  https://github.com/LegrandNico/systole/blob/master/Images/logo.png
    :align:   center
 
 # Systole: Simple physiological recording and analysis in Python.
