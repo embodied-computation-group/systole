@@ -1,4 +1,4 @@
-# Heartbeat evoked arpeggios
+# Heartbeat evoked tones
 
 This tutorial illustrates how to use the `Oximeter` class to triggers stimuli at different cardiac cycles using [Psychopy](https://www.psychopy.org/).
 

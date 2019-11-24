@@ -5,11 +5,11 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
-DESCRIPTION = "ecg"
+DESCRIPTION = "systole"
 LONG_DESCRIPTION = """Psychophysiology with Python.
 """
 
-DISTNAME = 'ecg'
+DISTNAME = 'systole'
 MAINTAINER = 'Nicolas Legrand'
 MAINTAINER_EMAIL = 'nicolas.legrand@cfin.au.dk'
 VERSION = '0.0.1'
@@ -24,9 +24,9 @@ INSTALL_REQUIRES = [
 ]
 
 PACKAGES = [
-    'ecg',
-    'ecg.tasks.cwt',
-    'ecg.tasks.hbd',
+    'systole',
+    'systole.tasks.cwt',
+    'systole.tasks.hbd',
 ]
 
 try:
