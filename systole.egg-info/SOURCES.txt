@@ -5,6 +5,7 @@ systole/circular.py
 systole/detection.py
 systole/epochs.py
 systole/hrv_frequency.py
+systole/hrv_nonlinear.py
 systole/hrv_time.py
 systole/plotting.py
 systole/recording.py

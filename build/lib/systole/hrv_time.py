@@ -1,5 +1,4 @@
-# Set of functions used to extract the time domain features of ECG recordings.
-# Indexes covered: RMSSD, nnX, pnnX.
+# Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import numpy as np
 import pandas as pd
