@@ -2,6 +2,7 @@
 # recordings. Method available: Welch.
 
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import interpolate
 from scipy.signal import welch
@@ -9,7 +10,7 @@ from scipy.signal import welch
 
 def hrv_frequency(x, sfreq=1000, method='welch', fbands=None, low=0.003,
                   high=0.4, show=True):
-    """Extract the frequency domain features of ECG signals.
+    """Plot PSD of heart rate variability.
 
     Parameters
     ----------
@@ -43,7 +44,7 @@ def hrv_frequency(x, sfreq=1000, method='welch', fbands=None, low=0.003,
     if method == 'welch':
 
         # Define window length
-        nperseg = (2 / low) * sfreq
+        nperseg = 256 * sfreq
 
         # Compute Power Spectral Density
         freq, psd = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=None)
@@ -71,9 +72,59 @@ def hrv_frequency(x, sfreq=1000, method='welch', fbands=None, low=0.003,
                        color='gray')
         ax.set_xlim(0.003, 0.4)
         ax.set_xlabel('Frequency [Hz]', size=15)
-        ax.set_ylabel('PSD [V**2/Hz]', size=15)
+        ax.set_ylabel('PSD [$s^2$/Hz]', size=15)
         ax.set_title('Power Spectral Density', size=20)
 
         return ax
     else:
         return freq, psd
+
+
+def frequency_domain(x, sfreq=1000, method='welch', fbands=None, low=0.003,
+                     high=0.4):
+    """Extract the frequency domain features of heart rate variability.
+
+    Parameters
+    ----------
+    x : list or numpy array
+        Length of R-R intervals (default is in miliseconds).
+    sfreq : int
+        The sampling frequency.
+    method : str
+        The method used to extract freauency power. Default set to `'welch'`.
+    fbands : None | dict, optional
+        Dictionary containing the names of the frequency bands of interest
+        (str), their range (tuples) and their color in the PSD plot. Default is
+        {'vlf': ['Very low frequency', (0.003, 0.04), 'b'],
+        'lf': ['Low frequency', (0.04, 0.15), 'g'],
+        'hf': ['High frequency', (0.15, 0.4), 'r']}
+
+    Returns
+    -------
+    ax | freq, psd : Matplotlib instance | numpy array
+        If `show=True`, return the PSD plot. If `show=False`, will return the
+        frequencies and PSD level as arrays.
+    """
+    # Interpolate R-R interval
+    time = np.cumsum(x)
+    f = interpolate.interp1d(time, x)
+    new_time = np.arange(time[0], time[-1], 1)
+    x = f(new_time)
+
+    if method == 'welch':
+
+        # Define window length
+        nperseg = 256 * sfreq
+
+        # Compute Power Spectral Density
+        freq, psd = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=None)
+
+        psd = psd/1000000
+
+    #
+    values = []
+    metrics = []
+
+    stats = pd.DataFrame({'Value': values, 'Metric': metrics})
+
+    return stats

@@ -146,16 +146,16 @@ def time_domain(x):
     max_bpm = round(np.max(60000/x), 2)
 
     # Standard deviation of R-R intervals
-    sdnn = x.std(ddof=1)
+    sdnn = round(x.std(ddof=1), 2)
 
     # Root Mean Square of Successive Differences (RMSSD)
-    rms = rmssd(x)
+    rms = round(rmssd(x), 2)
 
     # NN50: number of successive differences larger than 50ms
-    nn = nnX(x, t=50)
+    nn = round(nnX(x, t=50), 2)
 
     # pNN50: Proportion of successive differences larger than 50ms
-    pnn = pnnX(x, t=50)
+    pnn = round(pnnX(x, t=50), 2)
 
     # Create summary dataframe
     values = [mean_rr, mean_bpm, median_rr, median_bpm, min_rr, min_bpm,

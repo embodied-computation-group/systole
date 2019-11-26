@@ -104,5 +104,7 @@ Peaks detection
 Heart rate variability
 ######################
 
+All the results have been tested against Kubios HVR 2.2 (<https://www.kubios.com>).
+
 Interactive visualization
 #########################
