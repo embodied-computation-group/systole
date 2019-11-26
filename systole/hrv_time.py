@@ -121,6 +121,33 @@ def time_domain(x):
     if len(x.shape) > 1:
         raise ValueError('X must be a 1darray')
 
+    # Mean R-R intervals
+    mean_rr = round(np.mean(x))
+
+    # Mean BPM
+    mean_bpm = round(np.mean(60000/x), 2)
+
+    # Median BPM
+    median_rr = round(np.median(x), 2)
+
+    # Median BPM
+    median_bpm = round(np.median(60000/x), 2)
+
+    # Minimum RR
+    min_rr = round(np.min(x), 2)
+
+    # Minimum BPM
+    min_bpm = round(np.min(60000/x), 2)
+
+    # Maximum RR
+    max_rr = round(np.max(x), 2)
+
+    # Maximum BPM
+    max_bpm = round(np.max(60000/x), 2)
+
+    # Standard deviation of R-R intervals
+    sdnn = x.std(ddof=1)
+
     # Root Mean Square of Successive Differences (RMSSD)
     rms = rmssd(x)
 
@@ -130,13 +157,12 @@ def time_domain(x):
     # pNN50: Proportion of successive differences larger than 50ms
     pnn = pnnX(x, t=50)
 
-    stats = pd.DataFrame({'Mean R-R': np.mean(x),
-                          'Mean BPM': np.mean(60000/x),
-                          'Median HR': np.median(60000/x),
-                          'Min HR': np.min(60000/x),
-                          'Max HR': np.max(60000/x),
-                          'RMSSD': rms,
-                          'Std R-R': x.std(ddof=1),
-                          'NN50': nn,
-                          'pNN50': pnn}, index=[0])
+    # Create summary dataframe
+    values = [mean_rr, mean_bpm, median_rr, median_bpm, min_rr, min_bpm,
+              max_rr, max_bpm, sdnn, rms, nn, pnn]
+    metrics = ['MeanRR', 'MeanBPM', 'MedianRR', 'MedianBPM', 'MinRR', 'MinBPM',
+               'MaxRR', 'MaxBPM', 'SDNN', 'RMSSD', 'nn50', 'pnn50']
+
+    stats = pd.DataFrame({'Value': values, 'Metric': metrics})
+
     return stats

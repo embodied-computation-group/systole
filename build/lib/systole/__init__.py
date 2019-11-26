@@ -3,7 +3,6 @@ from .detection import *
 from .epochs import *
 from .utils import *
 from .plotting import *
-from .interactive import *
 from .hrv_time import *
 from .hrv_frequency import *
 # from .tasks import *
