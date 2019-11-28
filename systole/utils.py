@@ -1,5 +1,4 @@
 import numpy as np
-from scipy import interpolate
 
 
 def norm_triggers(x, threshold, n, direction='higher'):

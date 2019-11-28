@@ -73,7 +73,7 @@ def time_shift(x, events, order='after'):
     return lag
 
 
-def heart_rate(x, sfreq, unit='rr', method=None):
+def heart_rate(x, sfreq=1000, unit='rr', method=None):
     """Transform peaks data into heart rate time series.
 
     Parameters

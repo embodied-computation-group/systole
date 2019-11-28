@@ -4,9 +4,11 @@ import numpy as np
 import pandas as pd
 from scipy.signal import find_peaks
 from scipy import interpolate
+from adtk.detector import QuantileAD, GeneralizedESDTestAD
+from adtk.data import validate_series
 
 
-def oxi_peaks(x, sfreq=75, win=1, new_sfreq=750, resample=True):
+def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, resample=True):
     """A simple peak finder for PPG signal.
 
     Parameters
@@ -94,3 +96,109 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=750, resample=True):
         raise ValueError('Inconsistent output lenght')
 
     return resampled_signal, peaks
+
+
+def artifact_removal(peaks):
+    """Artfact and outliers detection and removal.
+
+    Parameters
+    ----------
+    peak : boolean array
+        The peaks indexes to inspect. The sampling frequency must be 1000 Hz.
+
+    Return
+    ------
+    clean_peaks : boolean array
+        The cleaned peak indexes.
+
+    Notes
+    -----
+    This function use the QuantileAD and the GeneralizedESDTestAD to detect
+    outliers.
+    """
+    # Store into a Panda DataFrame
+    rr = np.diff(np.where(peaks))[0]
+    time = pd.to_datetime(np.cumsum(rr), unit='ms')
+    df = pd.DataFrame({'rr': rr}, index=time)
+    df = validate_series(df.rr)
+
+    ##############################
+    # Find high frequency outliers
+    ##############################
+    quantile_ad = QuantileAD(low=0.01)
+    anomalies = quantile_ad.fit_detect(df)
+
+    # Remove peaks
+    rm_peaks = np.where(peaks)[0][1:][anomalies.values]
+    peaks[rm_peaks] = 0
+    new_rr = np.diff(np.where(peaks))[0]
+
+    # Create a new DataFrame
+    time = pd.to_datetime(np.cumsum(new_rr), unit='ms')
+    df = pd.DataFrame({'rr': new_rr}, index=time)
+    df = validate_series(df.rr)
+
+    #############################
+    # Find low frequency outliers
+    #############################
+    quantile_ad = GeneralizedESDTestAD()
+    anomalies = quantile_ad.fit_detect(df)
+
+    # Add R peaks using peak_replacement
+    clean, per = [], []  # Store each outlier removal separately
+    for outlier in np.where(anomalies.values)[0]:
+        new_peaks, npeaks = peak_replacement(peaks, outlier)
+        clean.append(new_peaks)
+        per.append(npeaks)
+
+    # Merge all vectors together
+    clean_peaks = peaks.copy()
+    for c in clean:
+        clean_peaks = np.logical_or(clean_peaks, c)
+
+    return clean_peaks, sum(per)/sum(peaks)
+
+
+def peak_replacement(peaks, outlier):
+    """Given the index of a detected peak, will add the requiered number of R
+    peaks to minimize signal standard deviation.
+
+    Parameters
+    ----------
+    rr: boolean array
+        Indexes of R peaks.
+    outlier: int
+        Index of detected outlier
+
+    Return
+    ------
+    new_rr: boolean array
+        New indexes vector with added spikes.
+    npeaks: int
+        Number of peaks added [1-5]
+    """
+    actual = np.where(peaks)[0][1:][outlier]
+    previous = np.where(peaks)[0][1:][outlier-1]
+
+    # Replace n peaks by minimising signal standard deviation
+    min_std = np.inf
+    for i in range(1, 5):
+
+        this_peaks = peaks.copy()
+
+        new_rr = int((actual - previous)/(i+1))
+
+        for ii in range(i):
+
+            # Add peak in vector
+            new_pos = previous+(new_rr*(ii+1))
+            this_peaks[new_pos] = 1
+
+        # Compute signal std to measure effect of peak replacement
+        this_std = np.std(np.diff(np.where(this_peaks)[0]))
+        if min_std > this_std:
+            min_std = this_std
+            final_peaks = this_peaks.copy()
+            npeaks = i
+
+    return final_peaks, npeaks
