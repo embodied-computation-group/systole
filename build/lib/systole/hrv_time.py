@@ -162,6 +162,6 @@ def time_domain(x):
     metrics = ['MeanRR', 'MeanBPM', 'MedianRR', 'MedianBPM', 'MinRR', 'MinBPM',
                'MaxRR', 'MaxBPM', 'SDNN', 'RMSSD', 'nn50', 'pnn50']
 
-    stats = pd.DataFrame({'Value': values, 'Metric': metrics})
+    stats = pd.DataFrame({'Values': values, 'Metric': metrics})
 
     return stats
