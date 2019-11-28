@@ -6,7 +6,7 @@ from scipy.signal import find_peaks
 from scipy import interpolate
 
 
-def oxi_peaks(x, sfreq=75, win=1, new_sfreq=750, resample=True):
+def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, resample=True):
     """A simple peak finder for PPG signal.
 
     Parameters
