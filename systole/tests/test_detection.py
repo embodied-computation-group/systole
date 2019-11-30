@@ -33,5 +33,6 @@ class TestDetection(TestCase):
         assert isinstance(npeaks, int)
         assert npeaks <= 5
 
+
 if __name__ == '__main__':
     unittest.main()
