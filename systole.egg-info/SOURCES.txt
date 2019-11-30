@@ -19,6 +19,6 @@ systole.egg-info/dependency_links.txt
 systole.egg-info/requires.txt
 systole.egg-info/top_level.txt
 systole/datasets/__init__.py
-systole/datasets/ppgSignal1.npy
+systole/datasets/ppg1.npy
 systole/datasets/ppgSignal2.npy
 systole/datasets/rr.txt

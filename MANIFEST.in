@@ -4,6 +4,6 @@ include LICENSE
 include requirements.txt
 
 # Add datasets files
-include systole/datasets/ppgSignal1.npy
+include systole/datasets/ppg1.npy
 include systole/datasets/ppgSignal2.npy
 include systole/datasets/rr.txt

@@ -20,7 +20,7 @@ def import_ppg(id='1'):
     signal : array
         1d array containing the PPG signal.
     """
-    signal = np.load(op.join(ddir, 'ppgSignal' + id + '.npy'))
+    signal = np.load(op.join(ddir, 'ppg' + id + '.npy'))
 
     return signal
 
