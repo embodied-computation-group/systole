@@ -7,8 +7,8 @@ from scipy import interpolate
 from scipy.signal import welch
 
 
-def hrv_frequency(x, sfreq=5, method='welch', fbands=None, low=0.003,
-                  high=0.4, show=True):
+def hrv_psd(x, sfreq=5, method='welch', fbands=None, low=0.003,
+            high=0.4, show=True):
     """Plot PSD of heart rate variability.
 
     Parameters
