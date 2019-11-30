@@ -2,7 +2,8 @@
 
 import numpy as np
 import pandas as pd
-import pytest
+import unittest
+import matplotlib
 from unittest import TestCase
 from systole.circular import to_angles, circular, plot_circular
 from systole import import_rr
@@ -16,20 +17,31 @@ z = np.concatenate([np.random.normal(np.pi/2, 0.5, 50),
 
 class TestCircular(TestCase):
 
-    def test_to_angle():
+    def test_to_angle(self):
         """Test to_angles function"""
         rr = import_rr().rr.values
         # Create event vector
         events = rr + np.random.normal(500, 100, len(rr))
-        to_angles(np.cumsum(rr), np.cumsum(events))
+        ang = to_angles(np.cumsum(rr), np.cumsum(events))
+        assert ~np.any(np.asarray(ang) < 0)
+        assert ~np.any(np.asarray(ang) > np.pi * 2)
 
-    def test_circular():
+    def test_circular(self):
         """Tests _circular function"""
-        circular(x)
-        circular(x, density='alpha', offset=np.pi)
-        circular(x, density='height', mean=True, units='degree', color='r')
+        ax = circular(x)
+        assert isinstance(ax, matplotlib.axes.Axes)
+        ax = circular(x, density='alpha', offset=np.pi)
+        assert isinstance(ax, matplotlib.axes.Axes)
+        ax = circular(x, density='height', mean=True,
+                      units='degree', color='r')
+        assert isinstance(ax, matplotlib.axes.Axes)
 
-    def test_plot_circular():
+    def test_plot_circular(self):
         """Test plot_circular function"""
         data = pd.DataFrame(data={'x': x, 'y': y, 'z': z}).melt()
-        plot_circular(data=data, y='value', hue='variable')
+        ax = plot_circular(data=data, y='value', hue='variable')
+        assert isinstance(ax, matplotlib.axes.Axes)
+
+
+if __name__ == '__main__':
+    unittest.main()
