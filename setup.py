@@ -1,6 +1,7 @@
 # Copyright (C) 2019 Nicolas Legrand
 import os
 
+
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
@@ -25,8 +26,7 @@ INSTALL_REQUIRES = [
 
 PACKAGES = [
     'systole',
-    'systole.tasks.cwt',
-    'systole.tasks.hbd',
+    'systole.datasets'
 ]
 
 try:

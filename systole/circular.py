@@ -12,7 +12,7 @@ def circular(data, bins=32, density='area', offset=0, mean=False, norm=True,
 
     Parameters
     ----------
-    data : Numpy array or list
+    data : array | list
         Angular values, in radians.
     bins : int
         Use even value to have a bin edge at zero.
@@ -25,8 +25,7 @@ def circular(data, bins=32, density='area', offset=0, mean=False, norm=True,
     mean : boolean
         If True, show the mean and 95% CI. Default set to `False`
     norm : boolean
-        Normalize the distribution. When comparing conditions, this will ensure
-        that maximum equivalence between the distributions.
+        Normalize the distribution between 0 and 1.
     units : str
         Unit of the angular representation. Can be `degree` or `radian`.
         Default set to `radians`.
@@ -37,13 +36,15 @@ def circular(data, bins=32, density='area', offset=0, mean=False, norm=True,
 
     Returns
     -------
-    ax : Matplotlib axes
+    ax : Matplotlib Axes instance
+        Axes object with the plot.
 
     Notes
     -----
-    The number of observation inside each bins affects the area of the bars,
-    instead of the height.
-    Adapted from: https://jwalton.info/Matplotlib-rose-plots/
+    The density function can be represented using the area of the bars, the
+    height or the transparency (alpha). The default behaviour will use the
+    area. Using the heigth can visually biase the importance of the largest
+    values. Adapted from: https://jwalton.info/Matplotlib-rose-plots/
 
     Examples
     --------
@@ -51,6 +52,7 @@ def circular(data, bins=32, density='area', offset=0, mean=False, norm=True,
 
     .. plot::
        import numpy as np
+       from systole.circular import circular
        x = np.random.normal(np.pi, 0.5, 100)
        circular(x)
     """
@@ -65,14 +67,13 @@ def circular(data, bins=32, density='area', offset=0, mean=False, norm=True,
     else:
         ax = axis
 
-    # Bin data and record counts
+    # Bin data and count
     count, bin = np.histogram(data, bins=bins, range=(0, np.pi*2))
 
-    # Compute width of each bin
+    # Compute width
     widths = np.diff(bin)[0]
 
-    # By default plot area as density
-    if density == 'area':
+    if density == 'area':  # Default
         # Area to assign each bin
         area = count / data.size
         # Calculate corresponding bin radius
@@ -81,13 +82,13 @@ def circular(data, bins=32, density='area', offset=0, mean=False, norm=True,
     elif density == 'height':  # Using height (can be misleading)
         radius = count / data.size
         alpha = (count * 0) + 1
-    elif density == 'alpha':
+    elif density == 'alpha':  # Using transparency
         radius = (count * 0) + 1
         # Alpha level to each bin
         alpha = count / data.size
         alpha = alpha / alpha.max()
     else:
-        print('Method for density not recognized')
+        raise ValueError('Invalid method')
 
     if norm is True:
         radius = radius / radius.max()
@@ -140,7 +141,7 @@ def plot_circular(data, y=None, hue=None, **kwargs):
 
        import numpy as np
        import pandas as pd
-       from PCP.circular import plot_circular
+       from systole.circular import plot_circular
        x = np.random.normal(np.pi, 0.5, 100)
        y = np.random.uniform(0, np.pi*2, 100)
        data = pd.DataFrame(data={'x': x, 'y': y}).melt()
@@ -165,8 +166,7 @@ def plot_circular(data, y=None, hue=None, **kwargs):
     else:
         n_plot = data[hue].nunique()
 
-        fig, ax = plt.subplots(1, n_plot, subplot_kw=dict(projection='polar'),
-                               figsize=(12, 4))
+        fig, ax = plt.subplots(1, n_plot, subplot_kw=dict(projection='polar'))
 
         for i, cond in enumerate(data[hue].unique()):
 

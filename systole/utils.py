@@ -1,3 +1,5 @@
+# Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
+
 import numpy as np
 
 
