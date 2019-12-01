@@ -2,8 +2,8 @@
 .. figure::  https://github.com/LegrandNico/systole/blob/master/Images/logo.png
    :align:   center
 
-The **Systole** Python package provide simple tools to record and analyze signal for psychophysiology.
-This module is developed inside the ECG group (https://the-ecg.org/). All the scripts are provided with no warranty of any kind.
+**Systole** is an open-source Python package providing simple tools to record and analyze signal for psychophysiology.
+This module is developed by the ECG group (https://the-ecg.org/). All the scripts are provided with no warranty of any kind.
 
 Installation
 ============
@@ -101,10 +101,39 @@ See also a complete tutorial here: <https://github.com/LegrandNico/systole/tree/
 Peaks detection
 ###############
 
+Artifact removal
+################
+
+Signal quality
+==============
+
+Outliers in R-R time series
+===========================
+
 Heart rate variability
 ######################
+
+Time-domain
+===========
+.. code-block:: python
+
+  from systole.hrv import time_domain
+  from systole import import_rr
+  rr = import_rr().rr.values
+
+  stats = time_domain(rr)
+  stats
+
+Frequency-domain
+================
+
+Non-linear
+==========
+
 
 All the results have been tested against Kubios HVR 2.2 (<https://www.kubios.com>).
 
 Interactive visualization
 #########################
+
+**Work in progress**
