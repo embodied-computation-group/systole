@@ -100,9 +100,11 @@ See also a complete tutorial here: <https://github.com/LegrandNico/systole/tree/
 
 Peaks detection
 ===============
+**Work in progress**
 
 Artifact removal
 ================
+**Work in progress**
 
 Signal quality
 --------------
@@ -112,14 +114,20 @@ Outliers in R-R time series
 
 Heart rate variability
 ======================
+Import RR time-serie.
+.. code-block:: python
+
+  from systole import import_rr
+  rr = import_rr().rr.values
 
 Time-domain
 -----------
+
+Extract summary of time-domain indexes.
+
 .. code-block:: python
 
   from systole.hrv import time_domain
-  from systole import import_rr
-  rr = import_rr().rr.values
 
   stats = time_domain(rr)
   stats
@@ -159,12 +167,72 @@ Time-domain
 
 Frequency-domain
 ----------------
+.. code-block:: python
+  from systole.hrv import hrv_psd
+
+  hrv_psd(rr)
+
+.. figure::  https://github.com/LegrandNico/systole/blob/master/Images/psd.png
+   :align:   center
+
+Extract summary of frequency-domain indexes.
+
+.. code-block:: python
+  from systole.hrv import frequency_domain
+
+  frequency_domain(rr)
+
+.. table:: Output
+   :widths: auto
+
+   +-----------+---------------+
+   | *Metric*  | *Value*       |
+   +-----------+---------------+
+   | 0.031200  | vlf_peak 	   |
+   +-----------+---------------+
+   | 4323.90588| vlf_power 	   |
+   +-----------+---------------+
+   | 0.066400  | lf_peak 	     |
+   +-----------+---------------+
+   | 2332.26838| lf_power 	   |
+   +-----------+---------------+
+   | 0.312500  | hf_peak 	     |
+   +-----------+---------------+
+   | 555.182609| hf_power 	   |
+   +-----------+---------------+
+   | 59.959671 | pover_vlf_per |
+   +-----------+---------------+
+   | 32.341603 | pover_lf_per  |
+   +-----------+---------------+
+   | 7.698726  | pover_hf_per  |
+   +-----------+---------------+
+   | 0.192274  | pover_lf_nu 	 |
+   +-----------+---------------+
+   | 0.807726  | pover_hf_nu 	 |
+   +-----------+---------------+
 
 Non-linear
 ----------
 
+.. code-block:: python
+  from systole.hrv import nonlinear
+
+  nonlinear(rr)
+
+.. table:: Output
+   :widths: auto
+
+   +-----------+---------------+
+   | *Metric*  | *Value*       |
+   +-----------+---------------+
+   | SD1       | 32.271578 	   |
+   +-----------+---------------+
+   | SD2       | 115.340893	   |
+   +-----------+---------------+
+
 
 All the results have been tested against Kubios HVR 2.2 (<https://www.kubios.com>).
+Some variability can be observed with frequency-domain outputs.
 
 Interactive visualization
 =========================
