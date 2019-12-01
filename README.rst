@@ -98,4 +98,78 @@ Set an online peak detection algorithm in less than 10 lines of code.
 
 See also a complete tutorial here: <https://github.com/LegrandNico/systole/tree/master/notebooks/HeartBeatEvokedTone.rst>
 
+Peaks detection
+###############
+
+Artifact removal
+################
+
+Signal quality
+==============
+
+Outliers in R-R time series
+===========================
+
+Heart rate variability
+######################
+
+Time-domain
+===========
+
+.. code-block:: python
+
+  from systole.hrv import time_domain
+  from systole import import_rr
+  rr = import_rr().rr.values
+
+  stats = time_domain(rr)
+  stats
+
+.. table:: Output
+   :widths: auto
+
+   +-------+-----------+
+   | Value | Metric    |
+   +-------+-----------+
+   | 26.23 | pnn50     |
+   +-------+-----------+
+   | 883.00| MeanRR    |
+   +-------+-----------+
+   | 68.58 | MeanBPM   |
+   +-------+-----------+
+   | 886.67| MedianRR  |
+   +-------+-----------+
+   | 67.67 | MedianBPM |
+   +-------+-----------+
+   | 676.00| MinRR     |
+   +-------+-----------+
+   | 53.70 | MinBPM    |
+   +-------+-----------+
+   |1117.33| MaxRR     |
+   +-------+-----------+
+   | 88.76 | MaxBPM    |
+   +-------+-----------+
+   | 84.69 | SDNN      |
+   +-------+-----------+
+   | 45.55 | RMSSD     |
+   +-------+-----------+
+   | 64.00 | nn50      |
+   +-------+-----------+
+   | 26.23 | pnn50     |
+   +-------+-----------+
+
+Frequency-domain
+================
+
+Non-linear
+==========
+
+
+All the results have been tested against Kubios HVR 2.2 (<https://www.kubios.com>).
+
+Interactive visualization
+#########################
+
+**Work in progress**
+
 
