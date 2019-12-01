@@ -105,23 +105,23 @@ Artifact removal
 ################
 
 Signal quality
-==============
+--------------
 
 Outliers in R-R time series
-===========================
+---------------------------
 
 Heart rate variability
 ######################
 
 Time-domain
-===========
+-----------
 
 .. code-block:: python
 
   from systole.hrv import time_domain
   from systole import import_rr
   rr = import_rr().rr.values
-
+ 
   stats = time_domain(rr)
   stats
 
