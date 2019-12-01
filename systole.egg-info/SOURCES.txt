@@ -7,9 +7,7 @@ systole/__init__.py
 systole/circular.py
 systole/detection.py
 systole/epochs.py
-systole/hrv_frequency.py
-systole/hrv_nonlinear.py
-systole/hrv_time.py
+systole/hrv.py
 systole/plotting.py
 systole/recording.py
 systole/utils.py
@@ -20,5 +18,4 @@ systole.egg-info/requires.txt
 systole.egg-info/top_level.txt
 systole/datasets/__init__.py
 systole/datasets/ppg1.npy
-systole/datasets/ppgSignal2.npy
 systole/datasets/rr.txt
