@@ -98,42 +98,4 @@ Set an online peak detection algorithm in less than 10 lines of code.
 
 See also a complete tutorial here: <https://github.com/LegrandNico/systole/tree/master/notebooks/HeartBeatEvokedTone.rst>
 
-Peaks detection
-###############
 
-Artifact removal
-################
-
-Signal quality
-==============
-
-Outliers in R-R time series
-===========================
-
-Heart rate variability
-######################
-
-Time-domain
-===========
-.. code-block:: python
-
-  from systole.hrv import time_domain
-  from systole import import_rr
-  rr = import_rr().rr.values
-
-  stats = time_domain(rr)
-  stats
-
-Frequency-domain
-================
-
-Non-linear
-==========
-
-
-All the results have been tested against Kubios HVR 2.2 (<https://www.kubios.com>).
-
-Interactive visualization
-#########################
-
-**Work in progress**
