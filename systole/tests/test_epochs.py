@@ -17,4 +17,4 @@ class TestEpochs(TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(argv=['first-arg-is-ignored'], exit=False)

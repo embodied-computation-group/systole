@@ -167,37 +167,3 @@ def plot_peaks(peaks, samples=75, kind='lines', frequency='rr'):
     plt.xlabel('Times (s)', size=15)
 
     return ax
-
-
-# def plot_psd(x):
-#     """Plot power spectal density.
-#
-#     Parameters
-#     ----------
-#     freq : array
-#         The frequencies array.
-#     psd : array
-#         Power spectral density.
-#     Returns
-#     -------
-#     ax, fig : Matplotlib instances
-#         The power spectral density plot.
-#     """
-#     freqs, psd = welch(x, sfreq=5000, low=0.01)
-#
-#     freq_range = [0.02, 0.1]
-#     f_range = (freqs > freq_range[0]) & (freqs < freq_range[1])
-#
-#     freq_bands = [0.033, 0.066]
-#     f_band = (freqs < freq_bands[1]) & (freqs > freq_bands[0])
-#
-#     plt.figure(figsize=(7, 4))
-#     plt.plot(freqs[f_range], psd[f_range], lw=2, color='k')
-#     plt.fill_between(freqs[f_band], psd[f_band],
-#                      color='skyblue')
-#     plt.xlabel('Frequency (Hz)')
-#     plt.ylabel('Power spectral density (uV^2 / Hz)')
-#     # plt.xlim(freq_range)
-#     # plt.ylim(psd[freqs[f_band]])
-#     plt.title("Welch's periodogram")
-#     sns.despine()

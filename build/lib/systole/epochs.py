@@ -4,8 +4,8 @@ import numpy as np
 from scipy.ndimage import gaussian_filter1d
 
 
-def to_epochs(x, events, sfreq, tmin=-1, tmax=10, event_idx=1, smooth=True,
-              sigma=10, apply_baseline=0):
+def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_idx=1,
+              smooth=True, sigma=10, apply_baseline=0):
     """Epoch signal based on events indexes.
 
     Parameters
@@ -15,7 +15,7 @@ def to_epochs(x, events, sfreq, tmin=-1, tmax=10, event_idx=1, smooth=True,
     events : boolean array
         The events, shape (times*sfreq, 1)
     sfreq : int
-        The sampling frequency.
+        The sampling frequency (default is 1000 Hz).
     tmin : float, default to -1
         Start time before event, in seconds.
     tmax : float, defautl to 10

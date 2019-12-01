@@ -8,7 +8,7 @@ from adtk.detector import QuantileAD, GeneralizedESDTestAD
 from adtk.data import validate_series
 
 
-def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, resample=True):
+def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000):
     """A simple peak finder for PPG signal.
 
     Parameters
@@ -39,7 +39,7 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, resample=True):
     noise and clipping. The signal is then squared and detection of peaks is
     performed using threshold set by the moving averagte + stadard deviation.
 
-    .. warning :: Will oversample the signal to 750 Hz by default.
+    .. warning :: This function will resample the signal to 1000 Hz.
 
     References
     ----------
@@ -55,14 +55,11 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, resample=True):
         x = np.asarray(x)
 
     # Interpolate
-    if resample is True:
-        f = interpolate.interp1d(np.arange(0, len(x)/sfreq, 1/sfreq),
-                                 x,
-                                 fill_value="extrapolate")
-        time = np.arange(0, len(x)/sfreq, 1/new_sfreq)
-        x = f(time)
-    else:
-        new_sfreq = sfreq
+    f = interpolate.interp1d(np.arange(0, len(x)/sfreq, 1/sfreq),
+                             x,
+                             fill_value="extrapolate")
+    time = np.arange(0, len(x)/sfreq, 1/new_sfreq)
+    x = f(time)
 
     # Copy resampled signal for output
     resampled_signal = np.copy(x)
@@ -156,7 +153,7 @@ def artifact_removal(peaks):
     for c in clean:
         clean_peaks = np.logical_or(clean_peaks, c)
 
-    return clean_peaks, sum(per)/sum(peaks)
+    return clean_peaks.astype(int), sum(per)/sum(peaks)
 
 
 def peak_replacement(peaks, outlier):
