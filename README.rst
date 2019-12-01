@@ -128,7 +128,7 @@ Time-domain
      :widths: auto
 
     =======  =========
-    Value 	 Metric
+      Value 	  Metric
     =======  =========
    	883.00 	 MeanRR
     =======  =========
