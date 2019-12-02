@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from scipy.signal import find_peaks
 from scipy import interpolate
-from adtk.detector import QuantileAD, GeneralizedESDTestAD
+from adtk.detector import ThresholdAD, QuantileAD, GeneralizedESDTestAD
 from adtk.data import validate_series
 
 
@@ -117,6 +117,22 @@ def artifact_removal(peaks):
     rr = np.diff(np.where(peaks))[0]
     time = pd.to_datetime(np.cumsum(rr), unit='ms')
     df = pd.DataFrame({'rr': rr}, index=time)
+    df = validate_series(df.rr)
+
+    ##########################
+    # Remove impossible values
+    ##########################
+    threshold_ad = ThresholdAD(low=300)
+    anomalies = threshold_ad.fit_detect(df)
+
+    # Remove peaks
+    rm_peaks = np.where(peaks)[0][1:][anomalies.values]
+    peaks[rm_peaks] = 0
+    new_rr = np.diff(np.where(peaks))[0]
+
+    # Create a new DataFrame
+    time = pd.to_datetime(np.cumsum(new_rr), unit='ms')
+    df = pd.DataFrame({'rr': new_rr}, index=time)
     df = validate_series(df.rr)
 
     ##############################

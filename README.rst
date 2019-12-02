@@ -115,6 +115,7 @@ Outliers in R-R time series
 Heart rate variability
 ======================
 Import RR time-serie.
+
 .. code-block:: python
 
   from systole import import_rr
