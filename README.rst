@@ -251,14 +251,11 @@ Acknowledgement
 ===============
 Systole was largely inspired by preexisting toolboxes for heart rate variability and signal analysis.
 
-HeartPy_.
-.. _HeartPy: https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/
+HeartPy: https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/
 
-hrv_.
-.. _hrv: https://github.com/rhenanbartels/hrv
+hrv: https://github.com/rhenanbartels/hrv
 
-ECG-detector_.
-.. _ECG-detector: https://github.com/berndporr/py-ecg-detectors
+ECG-detector: https://github.com/berndporr/py-ecg-detectors
 
 References
 ==========
