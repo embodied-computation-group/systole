@@ -324,7 +324,7 @@ def frequency_domain(x, sfreq=5, method='welch', fbands=None):
                'pover_lf_nu', 'pover_hf_nu']
 
     stats = stats.append(pd.DataFrame({'Values': values, 'Metric': metrics}),
-                         ignore_index=True, sort=False)
+                         ignore_index=True)
 
     return stats
 

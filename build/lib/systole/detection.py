@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from scipy.signal import find_peaks
 from scipy import interpolate
-from adtk.detector import QuantileAD, GeneralizedESDTestAD
+from adtk.detector import ThresholdAD, QuantileAD, GeneralizedESDTestAD
 from adtk.data import validate_series
 
 
@@ -95,68 +95,92 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000):
     return resampled_signal, peaks
 
 
-def artifact_removal(peaks):
+def artifact_removal(peaks, low_thr=300, high_thr=2500):
     """Artfact and outliers detection and removal.
 
     Parameters
     ----------
     peak : boolean array
-        The peaks indexes to inspect. The sampling frequency must be 1000 Hz.
+        The peaks array to inspect. The sampling frequency must be 1000 Hz.
+    low_thr : int
+        Low threshold. Minimum possible RR interval (ms). Intervals under this
+        value will automatically be corrected by removing the first detected
+        beat.
+    high_thr : int
+        High threshold. Maximum possible RR interval (ms). Intervals higher
+        than this value will automatically be corrected using the
+        `missed_beat` function.
 
     Return
     ------
     clean_peaks : boolean array
-        The cleaned peak indexes.
-
+        The cleaned peak boolean array.
+    per : float
+        Proportion (%) of beats that were corrected durig the procedure.
     Notes
     -----
     This function use the QuantileAD and the GeneralizedESDTestAD to detect
     outliers.
     """
-    # Store into a Panda DataFrame
-    rr = np.diff(np.where(peaks))[0]
-    time = pd.to_datetime(np.cumsum(rr), unit='ms')
-    df = pd.DataFrame({'rr': rr}, index=time)
-    df = validate_series(df.rr)
+    per = []
 
-    ##############################
-    # Find high frequency outliers
-    ##############################
-    quantile_ad = QuantileAD(low=0.01)
-    anomalies = quantile_ad.fit_detect(df)
+    # Remove impossible small values (RR < 300ms)
+    while np.any(np.diff(np.where(peaks)[0]) < low_thr):
+        # Find outliers using threshold
+        idx = np.where(np.diff(np.where(peaks)[0]) < low_thr)[0]
+        peaks[np.where(peaks)[0][idx[0]+1]] = 0
 
-    # Remove peaks
-    rm_peaks = np.where(peaks)[0][1:][anomalies.values]
-    peaks[rm_peaks] = 0
-    new_rr = np.diff(np.where(peaks))[0]
-
-    # Create a new DataFrame
-    time = pd.to_datetime(np.cumsum(new_rr), unit='ms')
-    df = pd.DataFrame({'rr': new_rr}, index=time)
-    df = validate_series(df.rr)
-
-    #############################
-    # Find low frequency outliers
-    #############################
-    quantile_ad = GeneralizedESDTestAD()
-    anomalies = quantile_ad.fit_detect(df)
-
-    # Add R peaks using peak_replacement
-    clean, per = [], []  # Store each outlier removal separately
-    for outlier in np.where(anomalies.values)[0]:
-        new_peaks, npeaks = peak_replacement(peaks, outlier)
-        clean.append(new_peaks)
+    # Remove impossible large values (RR > 2500 ms)
+    while np.any(np.diff(np.where(peaks)[0]) > high_thr):
+        # Find outliers using threshold
+        idx = np.where(np.diff(np.where(peaks)[0]) > high_thr)[0]
+        peaks, npeaks = missed_beat(peaks, idx)
         per.append(npeaks)
 
-    # Merge all vectors together
-    clean_peaks = peaks.copy()
-    for c in clean:
-        clean_peaks = np.logical_or(clean_peaks, c)
+    ###############
+    # Find outliers
+    ###############
+    while True:
 
-    return clean_peaks.astype(int), sum(per)/sum(peaks)
+        # To Panda DataFrame
+        rr = np.diff(np.where(peaks))[0]
+        time = pd.to_datetime(np.cumsum(rr), unit='ms')
+        df = pd.DataFrame({'rr': rr}, index=time)
+        df = validate_series(df.rr)
+
+        quantile_ad = GeneralizedESDTestAD()
+        anomalies = quantile_ad.fit_detect(df)
+        if np.any(anomalies.values):
+
+            # Select firt outlier
+            outlier = np.where(anomalies.values)[0][0]
+            # Missed beat
+            if df.values[anomalies.values][0] > np.median(df.values):
+
+                # Add R peaks using missed_beat()
+                peaks, npeaks = missed_beat(peaks, outlier)
+                per.append(npeaks)
+
+            # Extra beat
+            elif df.values[anomalies.values][0] < np.median(df.values):
+                peaks[np.where(peaks)[0][outlier]] = 0
+
+        else:
+            break
+
+    # Remove impossible small values (RR < 300ms)
+    while np.any(np.diff(np.where(peaks)[0]) < low_thr):
+        # Find outliers using threshold
+        idx = np.where(np.diff(np.where(peaks)[0]) < low_thr)[0]
+        peaks[np.where(peaks)[0][idx[0]+1]] = 0
+
+    # Compute percent corrected
+    per = sum(per)/sum(peaks)
+    clean_peaks = peaks.astype(int)
+    return clean_peaks, per
 
 
-def peak_replacement(peaks, outlier):
+def missed_beat(peaks, outlier):
     """Given the index of a detected peak, will add the requiered number of R
     peaks to minimize signal standard deviation.
 
