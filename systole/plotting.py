@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from detection import hrv_subspaces
 
 
 def plot_hr(oximeter, ax=None):
@@ -167,3 +168,86 @@ def plot_peaks(peaks, samples=75, kind='lines', frequency='rr'):
     plt.xlabel('Times (s)', size=15)
 
     return ax
+
+
+def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
+                   xlim=10, ylim=5):
+    """Plot hrv subspace as described by Lipponen & Tarvainen (2019).
+
+    Parameters
+    ----------
+    x : array
+        Array of RR intervals or subspace1. If subspace1 is provided, subspace2
+        and 3 must also be provided.
+    subspace2, subspace3 : array | None
+        Default is `None` (expect x to be RR time serie).
+    c1 : float
+        Fixed variable controling the slope of the threshold lines. Default set
+        to 0.13.
+    c2 : float
+        Fixed variable controling the slope of the threshold lines. Default set
+        to 0.17.
+
+    Return
+    ------
+    ax : Matplotlib.Axes
+        The figure.
+
+    References
+    ----------
+    [1] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
+    heart rate variability time
+        series artefact correction using novel beat classification. Journal of
+        Medical Engineering & Technology, 43(3), 173–181.
+        https://doi.org/10.1080/03091902.2019.1640306
+    """
+    if (subspace3 is not None) & (subspace3 is not None):
+        subspace1 = x
+    else:
+        assert isinstance(x, (np.ndarray, np.generic))
+        subspace1, subspace2, subspace3 = hrv_subspaces(x)
+
+    # Rescale to show outlier in scatterplot
+    if xlim is not None:
+        subspace1[subspace1 < -xlim] = -xlim
+        subspace1[subspace1 > xlim] = xlim
+    if ylim is not None:
+        subspace2[subspace2 < -ylim] = -ylim
+        subspace2[subspace2 > ylim] = ylim
+
+        subspace3[subspace3 < -ylim] = -ylim
+        subspace3[subspace3 > ylim] = ylim
+
+    plt.figure(figsize=(12, 6))
+    plt.title('Subspace of successive RR interval differences')
+    plt.subplot(121)
+    plt.plot(subspace1, subspace2, 'bo')
+
+    # Upper area
+    plt.plot([-1, -10], [1, -c1*-10 - c2], 'k')
+    plt.plot([-1, -1], [1, 10], 'k')
+
+    # Lower area
+    plt.plot([1, 10], [-1, -c1*10 + c2], 'k')
+    plt.plot([1, 1], [-1, -10], 'k')
+
+    plt.xlabel('Subspace $S_11$')
+    plt.ylabel('Subspace $S_12$')
+    plt.ylim(-5, 5)
+    plt.xlim(-10, 10)
+
+    plt.subplot(122)
+    plt.plot(subspace1, subspace3, 'bo')
+
+    # Upper area
+    plt.plot([-1, -10], [1, 1], 'k')
+    plt.plot([-1, -1], [1, 10], 'k')
+
+    # Lower area
+    plt.plot([1, 10], [-1, -1], 'k')
+    plt.plot([1, 1], [-1, -10], 'k')
+
+    plt.xlabel('Subspace $S_11$')
+    plt.ylabel('Subspace $S_12$')
+    plt.ylim(-5, 5)
+    plt.ylim(-10, 10)
