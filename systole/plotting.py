@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from detection import hrv_subspaces
+from systole.detection import hrv_subspaces
 
 
 def plot_hr(oximeter, ax=None):

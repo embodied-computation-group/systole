@@ -1,11 +1,24 @@
-import numpy as np
-from ecg.utils import heart_rate
+# Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
+import unittest
+from systole.utils import heart_rate
+from systole.detection import oxi_peaks
+from unittest import TestCase
+from systole import import_ppg
 
-# Test interpolate
-peaks = np.array([15, 77, 132, 200, 285, 350])
-heart_rate(peaks, sfreq=75)
-heart_rate(peaks, sfreq=75, unit='bpm')
-heart_rate(peaks, sfreq=75, method='interpolate')
-heart_rate(peaks, sfreq=75, method='interpolate', unit='bpm')
-heart_rate(peaks, sfreq=75, method='staircase')
-heart_rate(peaks, sfreq=75, method='staircase', unit='bpm')
+ppg = import_ppg('1')[0, :]  # Import PPG recording
+signal, peaks = oxi_peaks(ppg)
+
+
+class TestUtils(TestCase):
+
+    def test_heart_rate(self):
+        """Test heart_rate function"""
+        heartrate, time = heart_rate(peaks)
+        assert len(heartrate) == len(time)
+        heartrate, time = heart_rate(
+            peaks, unit='bpm', kind='cubic', sfreq=500)
+        assert len(heartrate) == len(time)
+
+
+if __name__ == '__main__':
+    unittest.main(argv=['first-arg-is-ignored'], exit=False)

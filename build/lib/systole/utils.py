@@ -1,6 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import numpy as np
+from scipy.interpolate import interp1d
 
 
 def norm_triggers(x, threshold, n, direction='higher'):
@@ -74,7 +75,7 @@ def time_shift(x, events, order='after'):
     return lag
 
 
-def heart_rate(x, sfreq=1000, unit='rr', method=None):
+def heart_rate(x, sfreq=1000, unit='rr', kind='cubic'):
     """Transform peaks data into heart rate time series.
 
     Parameters
@@ -86,8 +87,8 @@ def heart_rate(x, sfreq=1000, unit='rr', method=None):
     unit : str
         The heartrate unit in use. Can be 'rr' (R-R intervals, in ms)
         or 'bpm' (beats per minutes). Default is 'rr'.
-    method : str
-        The method to use. Can be None or 'staircase'.
+    kind : str
+        The method to use (parameter of `scipy.interpolate.interp1d`).
 
     Retruns
     -------
@@ -107,45 +108,24 @@ def heart_rate(x, sfreq=1000, unit='rr', method=None):
         raise ValueError('Input vector should only contain 0 and 1')
 
     # Find peak indexes
-    peaks = np.where(x)[0]
+    peaks_idx = np.where(x)[0]
+    rr = np.diff(peaks_idx)
 
     # Create time vector
-    if method is None:
-        time = peaks[1:] / sfreq
-    else:
-        time = np.arange(0, len(x)) / sfreq
+    time = np.cumsum(rr) / sfreq * 1000 + peaks_idx[0]
 
     # R-R heartratevals (in miliseconds)
-    heartrate = (np.diff(peaks) / sfreq) * 1000
+    heartrate = (rr / sfreq) * 1000
     if unit == 'bpm':
         # Beats per minutes
-        heartrate = (60 / heartrate) * 1000
+        heartrate = (60000 / heartrate)
 
-    if method == 'staircase':
+    # Interpolate
+    f = interp1d(time, heartrate, kind=kind, bounds_error=False,
+                 fill_value=(heartrate[0], heartrate[-1]))
 
-        # From 0 to first peak
-        heartrate = np.repeat((heartrate[0]/sfreq) * 1000, peaks[0])
+    # Use the peaks vector as time input
+    new_time = np.arange(0, len(x), 1)
+    heartrate = f(new_time)
 
-        for i in range(len(peaks)-1):
-            rr = peaks[i+1] - peaks[i]
-            a = np.repeat((rr/sfreq) * 1000, rr)
-            heartrate = np.append(heartrate, a)
-
-        # From last peak to end
-        heartrate = np.append(heartrate,
-                              np.repeat(heartrate[-1],
-                                        len(x) - len(heartrate)))
-
-        if unit == 'bpm':
-            # Beats per minutes
-            heartrate = 60000/heartrate
-
-    # Security checks
-    if method is not None:
-        if len(heartrate) != len(x):
-            raise ValueError('Inconsistent output length')
-
-    if len(heartrate) != len(time):
-        raise ValueError('Inconsistent time vector')
-
-    return heartrate, time
+    return heartrate, new_time

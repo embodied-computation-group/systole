@@ -2,6 +2,7 @@
 
 import numpy as np
 import pandas as pd
+from scipy.stats import iqr
 from scipy.signal import find_peaks
 from scipy import interpolate
 from adtk.detector import ThresholdAD, QuantileAD, GeneralizedESDTestAD
@@ -79,7 +80,7 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000):
     std_signal = signal.rolling(int(new_sfreq*0.75),
                                 center=True).std().signal.values
 
-    # Substract moving mean + standard deviation
+    # Substract moving average + standard deviation
     x -= (mean_signal + std_signal)
 
     # Find positive peaks
@@ -223,3 +224,69 @@ def missed_beat(peaks, outlier):
             npeaks = i
 
     return final_peaks, npeaks
+
+
+def hrv_subspaces(x, alpha=5.2, window=45):
+    """Plot hrv subspace as described by Lipponen & Tarvainen (2019).
+
+    Parameters
+    ----------
+    x : array
+        Array of RR intervals.
+    alpha : float
+        Scaling factor used to normalize the RR intervals first deviation.
+    window : int
+        Size of the window used to compute the interquartil range and normalize
+        the dRR serie.
+    Return
+    ------
+    subspace1 : array
+        The first dimension. First derivative of R-R interval time serie.
+    subspace2 : array
+        The second dimension (1st plot).
+    subspace3 : array
+        The third dimension (2nd plot).
+
+    References
+    ----------
+    [1] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
+        heart rate variability time series artefact correction using novel
+        beat classification. Journal of Medical Engineering & Technology,
+        43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306
+    """
+    # Subspace 1 - dRRs time serie
+    s11 = np.append(0, np.diff(x))
+
+    th = []
+    for i in range(len(s11)):
+        mi, ma = i-45, i+45
+        if mi < 0:
+            mi = 0
+        if ma > len(s11):
+            ma = len(s11)
+        th.append(alpha*iqr(np.abs(s11[mi:ma]))/2)
+    s11 = s11/th
+
+    # Subspace 2
+    diff = np.array([np.append(s11[1], s11[:-1]), np.append(s11[1:], s11[-1])])
+    ma = np.max(diff, 0)
+    mi = np.min(diff, 0)
+    s12 = []
+    for i in range(len(s11)):
+        if s11[i] <= 0:
+            s12.append(mi[i])
+        elif s11[i] > 0:
+            s12.append(ma[i])
+
+    # Subspace 3
+    diff = np.array([s11[1:-1], s11[2:]])
+    ma = np.max(diff, 0)
+    mi = np.min(diff, 0)
+    s22 = []
+    for i in range(len(s11)-2):
+        if s11[i] < 0:
+            s22.append(ma[i])
+        elif s11[i] >= 0:
+            s22.append(mi[i])
+
+    return np.asarray(s11), np.asarray(s12), np.append(np.asarray(s22), [0, 0])

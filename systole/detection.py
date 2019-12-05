@@ -80,7 +80,7 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000):
     std_signal = signal.rolling(int(new_sfreq*0.75),
                                 center=True).std().signal.values
 
-    # Substract moving mean + standard deviation
+    # Substract moving average + standard deviation
     x -= (mean_signal + std_signal)
 
     # Find positive peaks

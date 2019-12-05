@@ -18,4 +18,6 @@ systole.egg-info/requires.txt
 systole.egg-info/top_level.txt
 systole/datasets/__init__.py
 systole/datasets/ppg1.npy
+systole/datasets/ppg2.npy
+systole/datasets/ppg3.npy
 systole/datasets/rr.txt
