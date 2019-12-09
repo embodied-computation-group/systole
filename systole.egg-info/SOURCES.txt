@@ -20,4 +20,5 @@ systole/datasets/__init__.py
 systole/datasets/ppg1.npy
 systole/datasets/ppg2.npy
 systole/datasets/ppg3.npy
+systole/datasets/ppgNoisy1.npy
 systole/datasets/rr.txt

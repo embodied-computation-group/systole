@@ -5,8 +5,10 @@ import pandas as pd
 from scipy.stats import iqr
 from scipy.signal import find_peaks
 from scipy import interpolate
-from adtk.detector import ThresholdAD, QuantileAD, GeneralizedESDTestAD
+from adtk.detector import ThresholdAD, GeneralizedESDTestAD
 from adtk.data import validate_series
+from adtk.pipe import Pipeline
+from adtk.transformer import RollingAggregate
 
 
 def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000):
@@ -290,3 +292,53 @@ def hrv_subspaces(x, alpha=5.2, window=45):
             s22.append(mi[i])
 
     return np.asarray(s11), np.asarray(s12), np.append(np.asarray(s22), [0, 0])
+
+
+def signal_quality(x):
+    """Verify signal quality and remove bad components.
+
+    Parameters
+    ----------
+    x : array
+        PPG signal.
+
+    Return
+    ------
+    y : array
+        LargestcClean segment of PPG signal.
+    """
+    assert isinstance(x, (np.ndarray, np.generic))
+    assert x.ndim == 1
+
+    ###############
+    # Quality check
+    ###############
+
+    # To Panda DataFrame
+    time = pd.to_datetime(np.arange(0, len(x))/75, unit='ms')
+    df = pd.DataFrame({'oxi': x}, index=time)
+    df = validate_series(df.x)
+
+    steps = [
+        ("standard_deviation", RollingAggregate(agg="std", window=200,
+                                                center=True)),
+        ("median", RollingAggregate(agg="median", window=600, center=False)),
+        ("threshold", ThresholdAD(low=20))
+    ]
+    pipeline = Pipeline(steps)
+
+    anomalies = pipeline.fit_detect(df)
+
+    # Find longest segment
+    filt = anomalies.values
+    filt[np.isnan(filt)] = 0
+    filt = filt == 0
+    bounded = np.hstack(([0], filt, [0]))
+    difs = np.diff(bounded)
+    run_starts, = np.where(difs > 0)
+    run_ends, = np.where(difs < 0)
+    idx = np.argmax(run_ends - run_starts)
+    out = np.zeros(len(x))
+    out[run_starts[idx]:run_ends[idx]] = 1
+
+    return x[out.astype(bool)]

@@ -7,4 +7,5 @@ include requirements.txt
 include systole/datasets/ppg1.npy
 include systole/datasets/ppg2.npy
 include systole/datasets/ppg3.npy
+include systole/datasets/ppgNoisy1.npy
 include systole/datasets/rr.txt
