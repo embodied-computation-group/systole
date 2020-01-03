@@ -3,6 +3,7 @@
 import numpy as np
 import pandas as pd
 from scipy.stats import iqr
+from scipy.interpolate import interp1d
 from scipy.signal import find_peaks
 from scipy import interpolate
 from adtk.detector import ThresholdAD, GeneralizedESDTestAD
@@ -26,7 +27,7 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000):
         If `resample=True`, the new sampling frequency.
     resample : boolean
         If `True` (defaults), will resample the signal at `new_sfreq`. Default
-        value is 750 Hz.
+        value is 1000 Hz.
 
     Retruns
     -------
@@ -98,8 +99,8 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000):
     return resampled_signal, peaks
 
 
-def artifact_removal(peaks, low_thr=300, high_thr=2500):
-    """Artfact and outliers detection and removal.
+def artefact_correction(peaks, low_thr=None, high_thr=None):
+    """Artfact and outliers detection and correction.
 
     Parameters
     ----------
@@ -108,11 +109,11 @@ def artifact_removal(peaks, low_thr=300, high_thr=2500):
     low_thr : int
         Low threshold. Minimum possible RR interval (ms). Intervals under this
         value will automatically be corrected by removing the first detected
-        beat.
+        beat. Default is None (use ESDT to find threshold).
     high_thr : int
         High threshold. Maximum possible RR interval (ms). Intervals higher
         than this value will automatically be corrected using the
-        `missed_beat` function.
+        `missed_beat` function. Default is None (use ESDT to find threshold).
 
     Return
     ------
@@ -120,66 +121,51 @@ def artifact_removal(peaks, low_thr=300, high_thr=2500):
         The cleaned peak boolean array.
     per : float
         Proportion (%) of beats that were corrected durig the procedure.
+
     Notes
     -----
     This function use the QuantileAD and the GeneralizedESDTestAD to detect
     outliers.
     """
     per = []
-
-    # Remove impossible small values (RR < 300ms)
-    while np.any(np.diff(np.where(peaks)[0]) < low_thr):
-        # Find outliers using threshold
-        idx = np.where(np.diff(np.where(peaks)[0]) < low_thr)[0]
-        peaks[np.where(peaks)[0][idx[0]+1]] = 0
-
-    # Remove impossible large values (RR > 2500 ms)
-    while np.any(np.diff(np.where(peaks)[0]) > high_thr):
-        # Find outliers using threshold
-        idx = np.where(np.diff(np.where(peaks)[0]) > high_thr)[0]
-        peaks, npeaks = missed_beat(peaks, idx)
-        per.append(npeaks)
-
-    ###############
-    # Find outliers
-    ###############
-    while True:
-
-        # To Panda DataFrame
+    # Set high and low thresholds using ESDT estimator
+    if None in[low_thr, high_thr]:
         rr = np.diff(np.where(peaks))[0]
         time = pd.to_datetime(np.cumsum(rr), unit='ms')
         df = pd.DataFrame({'rr': rr}, index=time)
         df = validate_series(df.rr)
-
         quantile_ad = GeneralizedESDTestAD()
         anomalies = quantile_ad.fit_detect(df)
-        if np.any(anomalies.values):
-
-            # Select firt outlier
-            outlier = np.where(anomalies.values)[0][0]
-            # Missed beat
-            if df.values[anomalies.values][0] > np.median(df.values):
-
-                # Add R peaks using missed_beat()
-                peaks, npeaks = missed_beat(peaks, outlier)
-                per.append(npeaks)
-
-            # Extra beat
-            elif df.values[anomalies.values][0] < np.median(df.values):
-                peaks[np.where(peaks)[0][outlier]] = 0
-
+        outliers = rr[anomalies.values]
+        if np.any(outliers[outliers > np.median(df.values)]):
+            high_thr = outliers[outliers > np.median(df.values)].min()
         else:
-            break
+            high_thr = None
+        if np.any(outliers[outliers < np.median(df.values)]):
+            low_thr = outliers[outliers < np.median(df.values)].max()
+        else:
+            low_thr = None
 
-    # Remove impossible small values (RR < 300ms)
-    while np.any(np.diff(np.where(peaks)[0]) < low_thr):
-        # Find outliers using threshold
-        idx = np.where(np.diff(np.where(peaks)[0]) < low_thr)[0]
-        peaks[np.where(peaks)[0][idx[0]+1]] = 0
+    for i in range(3):
+        # Remove impossible small values
+        if low_thr is not None:
+            while np.any(np.diff(np.where(peaks)[0]) <= low_thr):
+                # Find outliers using threshold
+                idx = np.where(np.diff(np.where(peaks)[0]) <= low_thr)[0]
+                peaks[np.where(peaks)[0][idx[0]+1]] = 0
+
+        # Remove impossible large values
+        if high_thr is not None:
+            while np.any(np.diff(np.where(peaks)[0]) >= high_thr):
+                # Find outliers using threshold
+                idx = np.where(np.diff(np.where(peaks)[0]) >= high_thr)[0][0]
+                peaks, npeaks = missed_beat(peaks, idx)
+                per.append(npeaks)
 
     # Compute percent corrected
     per = sum(per)/sum(peaks)
     clean_peaks = peaks.astype(int)
+
     return clean_peaks, per
 
 
@@ -206,7 +192,7 @@ def missed_beat(peaks, outlier):
 
     # Replace n peaks by minimising signal standard deviation
     min_std = np.inf
-    for i in range(1, 5):
+    for i in range(1, 2):
 
         this_peaks = peaks.copy()
 
@@ -216,6 +202,8 @@ def missed_beat(peaks, outlier):
 
             # Add peak in vector
             new_pos = previous+(new_rr*(ii+1))
+            if this_peaks[new_pos] == 1:
+                print('Peak already exists')
             this_peaks[new_pos] = 1
 
         # Compute signal std to measure effect of peak replacement
@@ -317,13 +305,13 @@ def signal_quality(x):
     # To Panda DataFrame
     time = pd.to_datetime(np.arange(0, len(x))/75, unit='ms')
     df = pd.DataFrame({'oxi': x}, index=time)
-    df = validate_series(df.x)
+    df = validate_series(df.oxi)
 
     steps = [
         ("standard_deviation", RollingAggregate(agg="std", window=200,
                                                 center=True)),
         ("median", RollingAggregate(agg="median", window=600, center=False)),
-        ("threshold", ThresholdAD(low=20))
+        ("threshold", ThresholdAD(low=40))
     ]
     pipeline = Pipeline(steps)
 
@@ -340,5 +328,41 @@ def signal_quality(x):
     idx = np.argmax(run_ends - run_starts)
     out = np.zeros(len(x))
     out[run_starts[idx]:run_ends[idx]] = 1
+    per = sum(out)/len(x)
 
-    return x[out.astype(bool)]
+    return x[out.astype(bool)], per
+
+
+def clipping(signal, threshold=255):
+    """Interoplate clipping segment.
+
+    Parameters
+    ----------
+    signal : array
+        Noisy signal.
+    threshold : int
+        Threshold of clipping artefact.
+
+    Return
+    ------
+    clean_signal : array
+        Interpolated signal.
+
+    References
+    ----------
+    [1] https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/
+    """
+    if isinstance(signal, list):
+        signal = np.array(signal)
+
+    time = np.arange(0, len(signal))
+
+    # Interpolate
+    f = interp1d(time[np.where(np.array(signal) != 255)[0]],
+                 signal[np.where(np.array(signal) != 255)[0]],
+                 kind='cubic')
+
+    # Use the peaks vector as time input
+    clean_signal = f(time)
+
+    return clean_signal
