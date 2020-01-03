@@ -174,7 +174,7 @@ def time_domain(x):
 
 
 def hrv_psd(x, sfreq=5, method='welch', fbands=None, low=0.003,
-            high=0.4, show=True):
+            high=0.4, show=True, ax=None):
     """Plot PSD of heart rate variability.
 
     Parameters
@@ -193,6 +193,8 @@ def hrv_psd(x, sfreq=5, method='welch', fbands=None, low=0.003,
         'hf': ['High frequency', (0.15, 0.4), 'r']}
     show : boolean
         Plot the power spectrum density. Default is `True`.
+    ax : Matplotlib axe.
+        Where to draw the figure.
 
     Returns
     -------
@@ -210,9 +212,11 @@ def hrv_psd(x, sfreq=5, method='welch', fbands=None, low=0.003,
 
         # Define window length
         nperseg = 256 * sfreq
+        if nperseg < len(x):
+            nperseg = None
 
         # Compute Power Spectral Density
-        freq, psd = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=nperseg)
+        freq, psd = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=1000)
 
         psd = psd/1000000
 
@@ -223,19 +227,20 @@ def hrv_psd(x, sfreq=5, method='welch', fbands=None, low=0.003,
 
     if show is True:
         # Plot the PSD
-        fig, ax = plt.subplots(figsize=(8, 4))
+        if ax is None:
+            fig, ax = plt.subplots(figsize=(8, 4))
         ax.plot(freq, psd, 'k')
         for f in ['vlf', 'lf', 'hf']:
-            mask = (freq > fbands[f][1][0]) & (freq <= fbands[f][1][1])
+            mask = (freq >= fbands[f][1][0]) & (freq <= fbands[f][1][1])
             ax.fill_between(freq, psd, where=mask, alpha=0.5,
                             color=fbands[f][2])
             ax.axvline(x=fbands[f][1][0],
                        linestyle='--',
                        color='gray')
         ax.set_xlim(0.003, 0.4)
-        ax.set_xlabel('Frequency [Hz]', size=15)
-        ax.set_ylabel('PSD [$s^2$/Hz]', size=15)
-        ax.set_title('Power Spectral Density', size=20)
+        ax.set_xlabel('Frequency [Hz]')
+        ax.set_ylabel('PSD [$s^2$/Hz]')
+        ax.set_title('Power Spectral Density', fontweight='bold')
 
         return ax
     else:
@@ -275,6 +280,8 @@ def frequency_domain(x, sfreq=5, method='welch', fbands=None):
 
         # Define window length
         nperseg = 256 * sfreq
+        if nperseg < len(x):
+            nperseg = None
 
         # Compute Power Spectral Density
         freq, psd = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=nperseg)
@@ -324,7 +331,7 @@ def frequency_domain(x, sfreq=5, method='welch', fbands=None):
                'pover_lf_nu', 'pover_hf_nu']
 
     stats = stats.append(pd.DataFrame({'Values': values, 'Metric': metrics}),
-                         ignore_index=True)
+                         ignore_index=True, sort=False)
 
     return stats
 
