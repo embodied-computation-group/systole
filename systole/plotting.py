@@ -171,7 +171,7 @@ def plot_peaks(peaks, samples=75, kind='lines', frequency='rr'):
 
 
 def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
-                   xlim=10, ylim=5):
+                   xlim=10, ylim=5, ax=None):
     """Plot hrv subspace as described by Lipponen & Tarvainen (2019).
 
     Parameters
@@ -187,6 +187,8 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     c2 : float
         Fixed variable controling the slope of the threshold lines. Default set
         to 0.17.
+    ax : Matplotlib axe
+        Where to plot the figure.
 
     Return
     ------
@@ -218,36 +220,38 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
         subspace3[subspace3 < -ylim] = -ylim
         subspace3[subspace3 > ylim] = ylim
 
-    plt.figure(figsize=(12, 6))
-    plt.title('Subspace of successive RR interval differences')
-    plt.subplot(121)
-    plt.plot(subspace1, subspace2, 'bo')
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(8, 4))
+
+    ax[0].set_title('Subspace of successive RR interval differences')
+    ax[0].plot(subspace1, subspace2, 'bo')
 
     # Upper area
-    plt.plot([-1, -10], [1, -c1*-10 - c2], 'k')
-    plt.plot([-1, -1], [1, 10], 'k')
+    ax[0].plot([-1, -10], [1, -c1*-10 - c2], 'k')
+    ax[0].plot([-1, -1], [1, 10], 'k')
 
     # Lower area
-    plt.plot([1, 10], [-1, -c1*10 + c2], 'k')
-    plt.plot([1, 1], [-1, -10], 'k')
+    ax[0].plot([1, 10], [-1, -c1*10 + c2], 'k')
+    ax[0].plot([1, 1], [-1, -10], 'k')
 
-    plt.xlabel('Subspace $S_11$')
-    plt.ylabel('Subspace $S_12$')
-    plt.ylim(-5, 5)
-    plt.xlim(-10, 10)
+    ax[0].set_xlabel('Subspace $S_11$')
+    ax[0].set_ylabel('Subspace $S_12$')
+    ax[0].set_ylim(-5, 5)
+    ax[0].set_xlim(-10, 10)
 
-    plt.subplot(122)
-    plt.plot(subspace1, subspace3, 'bo')
+    ax[1].plot(subspace1, subspace3, 'bo')
 
     # Upper area
-    plt.plot([-1, -10], [1, 1], 'k')
-    plt.plot([-1, -1], [1, 10], 'k')
+    ax[1].plot([-1, -10], [1, 1], 'k')
+    ax[1].plot([-1, -1], [1, 10], 'k')
 
     # Lower area
-    plt.plot([1, 10], [-1, -1], 'k')
-    plt.plot([1, 1], [-1, -10], 'k')
+    ax[1].plot([1, 10], [-1, -1], 'k')
+    ax[1].plot([1, 1], [-1, -10], 'k')
 
-    plt.xlabel('Subspace $S_11$')
-    plt.ylabel('Subspace $S_12$')
-    plt.ylim(-5, 5)
-    plt.ylim(-10, 10)
+    ax[1].set_xlabel('Subspace $S_11$')
+    ax[1].set_ylabel('Subspace $S_12$')
+    ax[1].set_ylim(-5, 5)
+    ax[1].set_ylim(-10, 10)
+
+    return ax
