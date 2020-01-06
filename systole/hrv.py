@@ -8,7 +8,7 @@ from scipy.signal import welch
 
 
 def nnX(x, t=50):
-    """Number of difference in successive R-R interval > t ms
+    """Number of difference in successive R-R interval > t ms.
 
     Parameters
     ----------
@@ -33,7 +33,7 @@ def nnX(x, t=50):
 
 
 def pnnX(x, t=50):
-    """Number of successive differences larger than a value (def = 50ms)
+    """Number of successive differences larger than a value (def = 50ms).
 
     Parameters
     ----------
@@ -212,11 +212,11 @@ def hrv_psd(x, sfreq=5, method='welch', fbands=None, low=0.003,
 
         # Define window length
         nperseg = 256 * sfreq
-        if nperseg < len(x):
-            nperseg = None
+        if nperseg > len(x):
+            nperseg = len(x)
 
         # Compute Power Spectral Density
-        freq, psd = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=1000)
+        freq, psd = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=nperseg)
 
         psd = psd/1000000
 
@@ -280,8 +280,8 @@ def frequency_domain(x, sfreq=5, method='welch', fbands=None):
 
         # Define window length
         nperseg = 256 * sfreq
-        if nperseg < len(x):
-            nperseg = None
+        if nperseg > len(x):
+            nperseg = len(x)
 
         # Compute Power Spectral Density
         freq, psd = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=nperseg)
