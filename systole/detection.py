@@ -12,7 +12,8 @@ from adtk.pipe import Pipeline
 from adtk.transformer import RollingAggregate
 
 
-def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000):
+def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
+              noise_removal=True, peak_enhancement=True):
     """A simple peak finder for PPG signal.
 
     Parameters
@@ -68,13 +69,19 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000):
     # Copy resampled signal for output
     resampled_signal = np.copy(x)
 
-    # Moving average (high frequency noise + clipping)
-    rollingNoise = int(new_sfreq/10)  # 0.1 second window
-    x = pd.DataFrame({'signal': x}).rolling(rollingNoise,
-                                            center=True).mean().signal.values
+    # Remove clipping artefacts with cubic interpolation
+    if clipping is True:
+        x = interpolate_clipping(x)
 
-    # Square signal (peak enhancement)
-    x = x ** 2
+    if noise_removal is True:
+        # Moving average (high frequency noise + clipping)
+        rollingNoise = int(new_sfreq*.1)  # 0.1 second window
+        x = pd.DataFrame(
+            {'signal': x}).rolling(rollingNoise,
+                                   center=True).mean().signal.values
+    if peak_enhancement is True:
+        # Square signal (peak enhancement)
+        x = x ** 2
 
     # Compute moving average and standard deviation
     signal = pd.DataFrame({'signal': x})
@@ -99,7 +106,7 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000):
     return resampled_signal, peaks
 
 
-def artefact_correction(peaks, low_thr=None, high_thr=None):
+def artefact_correction(peaks, low_thr=300, high_thr=2000, esdt=True):
     """Artfact and outliers detection and correction.
 
     Parameters
@@ -109,11 +116,13 @@ def artefact_correction(peaks, low_thr=None, high_thr=None):
     low_thr : int
         Low threshold. Minimum possible RR interval (ms). Intervals under this
         value will automatically be corrected by removing the first detected
-        beat. Default is None (use ESDT to find threshold).
+        beat. Default is 300.
     high_thr : int
         High threshold. Maximum possible RR interval (ms). Intervals higher
         than this value will automatically be corrected using the
-        `missed_beat` function. Default is None (use ESDT to find threshold).
+        `missed_beat` function. Default is 2000.
+    esdt : boolean
+        If `True`, will use the ESDT estimator to find outliers.
 
     Return
     ------
@@ -124,12 +133,43 @@ def artefact_correction(peaks, low_thr=None, high_thr=None):
 
     Notes
     -----
-    This function use the QuantileAD and the GeneralizedESDTestAD to detect
-    outliers.
+    This function use the GeneralizedESDTestAD to detect outliers.
     """
-    per = []
+    per = 0
+    while True:
+
+        low, high = False, False
+        # Remove impossible small values
+        if low_thr is not None:
+            while np.any(np.diff(np.where(peaks)[0]) <= low_thr):
+                per += 1
+                # Find outliers using threshold
+                idx = np.where(np.diff(np.where(peaks)[0]) <= low_thr)[0]
+                peaks[np.where(peaks)[0][idx[0]+1]] = 0
+
+        # Remove impossible large values
+        if high_thr is not None:
+            while np.any(np.diff(np.where(peaks)[0]) >= high_thr):
+                per += 1
+                # Find outliers using threshold
+                idx = np.where(np.diff(np.where(peaks)[0]) >= high_thr)[0][0]
+                peaks, npeaks = missed_beat(peaks, idx)
+
+        if high_thr is not None:
+            if not np.any(np.diff(np.where(peaks)[0]) >= high_thr):
+                high = True
+
+        if low_thr is not None:
+            if not np.any(np.diff(np.where(peaks)[0]) <= low_thr):
+                low = True
+
+        if (low is True) & (high is True):
+            break
+
     # Set high and low thresholds using ESDT estimator
-    if None in[low_thr, high_thr]:
+    if esdt is True:
+
+        # Detection
         rr = np.diff(np.where(peaks))[0]
         time = pd.to_datetime(np.cumsum(rr), unit='ms')
         df = pd.DataFrame({'rr': rr}, index=time)
@@ -137,6 +177,9 @@ def artefact_correction(peaks, low_thr=None, high_thr=None):
         quantile_ad = GeneralizedESDTestAD()
         anomalies = quantile_ad.fit_detect(df)
         outliers = rr[anomalies.values]
+        per += len(outliers)
+
+        # Correction
         if np.any(outliers[outliers > np.median(df.values)]):
             high_thr = outliers[outliers > np.median(df.values)].min()
         else:
@@ -146,24 +189,22 @@ def artefact_correction(peaks, low_thr=None, high_thr=None):
         else:
             low_thr = None
 
-    for i in range(3):
-        # Remove impossible small values
         if low_thr is not None:
             while np.any(np.diff(np.where(peaks)[0]) <= low_thr):
+                per += 1
                 # Find outliers using threshold
                 idx = np.where(np.diff(np.where(peaks)[0]) <= low_thr)[0]
                 peaks[np.where(peaks)[0][idx[0]+1]] = 0
 
-        # Remove impossible large values
         if high_thr is not None:
             while np.any(np.diff(np.where(peaks)[0]) >= high_thr):
+                per += 1
                 # Find outliers using threshold
                 idx = np.where(np.diff(np.where(peaks)[0]) >= high_thr)[0][0]
                 peaks, npeaks = missed_beat(peaks, idx)
-                per.append(npeaks)
 
     # Compute percent corrected
-    per = sum(per)/sum(peaks)
+    per = per/sum(peaks)
     clean_peaks = peaks.astype(int)
 
     return clean_peaks, per
@@ -333,7 +374,7 @@ def signal_quality(x):
     return x[out.astype(bool)], per
 
 
-def clipping(signal, threshold=255):
+def interpolate_clipping(signal, threshold=255):
     """Interoplate clipping segment.
 
     Parameters
@@ -358,8 +399,8 @@ def clipping(signal, threshold=255):
     time = np.arange(0, len(signal))
 
     # Interpolate
-    f = interp1d(time[np.where(np.array(signal) != 255)[0]],
-                 signal[np.where(np.array(signal) != 255)[0]],
+    f = interp1d(time[np.where(signal != 255)[0]],
+                 signal[np.where(signal != 255)[0]],
                  kind='cubic')
 
     # Use the peaks vector as time input
