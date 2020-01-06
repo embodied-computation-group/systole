@@ -1,3 +1,5 @@
+# Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
+
 import numpy as np
 import pandas as pd
 import itertools
@@ -166,13 +168,13 @@ def plot_circular(data, y=None, hue=None, **kwargs):
     else:
         n_plot = data[hue].nunique()
 
-        fig, ax = plt.subplots(1, n_plot, subplot_kw=dict(projection='polar'))
+        fig, axs = plt.subplots(1, n_plot, subplot_kw=dict(projection='polar'))
 
         for i, cond in enumerate(data[hue].unique()):
 
             x = data[y][data[hue] == cond]
 
-            circular(x, color=next(palette), axis=ax[i], **kwargs)
+            ax = circular(x, color=next(palette), axis=axs[i], **kwargs)
 
     return ax
 
