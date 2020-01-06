@@ -4,8 +4,8 @@ import numpy as np
 from scipy.ndimage import gaussian_filter1d
 
 
-def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_idx=1,
-              smooth=True, sigma=10, apply_baseline=0):
+def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
+              smooth=True, sigma=10, apply_baseline=0, verbose=False):
     """Epoch signal based on events indexes.
 
     Parameters
@@ -25,6 +25,8 @@ def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_idx=1,
     apply_baseline : int, tuple, None
         If int or tuple, use the point or interval to apply a baseline (method:
         mean). If None, no baseline is applied.
+    verbose : boolean
+        If True, will return warnings.
 
     Returns
     -------
@@ -36,7 +38,7 @@ def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_idx=1,
                                 shoul match exactly""")
 
     # From boolean to event indexes
-    events = np.where(events == event_idx)[0]
+    events = np.where(events == event_val)[0]
 
     if smooth:
         x = gaussian_filter1d(x, sigma=sigma)
@@ -45,7 +47,13 @@ def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_idx=1,
     epochs = np.zeros(
                 shape=(len(events), ((np.abs(tmin) + np.abs(tmax)) * sfreq)))
     for i, ev in enumerate(events):
-        if (ev+round(tmax*sfreq)) < len(x):
+
+        # Security check (epochs is not outside signal limits)
+        if (ev+round(tmin*sfreq) < 0) | (ev+round(tmax*sfreq) > len(x)):
+            if verbose is True:
+                print('Drop 1 epoch due to signal limits.')
+                rejected += 1
+        else:
             trial = x[ev+round(tmin*sfreq):ev+round(tmax*sfreq)]
             if apply_baseline is None:
                 epochs[i, :] = trial
@@ -57,10 +65,9 @@ def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_idx=1,
                     high = ev+round(apply_baseline[1]*sfreq)
                     baseline = x[low:high].mean()
                 epochs[i, :] = trial - baseline
-        else:
-            rejected += 1
 
-    if rejected > 0:
+    # Print % of rejected items
+    if (rejected > 0) & (verbose is True):
         print(str(rejected) + ' trial(s) droped due to inconsistent recording')
 
     return epochs
