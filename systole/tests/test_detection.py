@@ -3,7 +3,7 @@
 import numpy as np
 import unittest
 from unittest import TestCase
-from systole.detection import oxi_peaks, artifact_removal, peak_replacement
+from systole.detection import oxi_peaks, artefact_correction, missed_beat
 from systole import import_ppg
 
 
@@ -20,7 +20,7 @@ class TestDetection(TestCase):
         """Test artifact_removal function"""
         ppg = import_ppg('1')[0, :]  # Import PPG recording
         signal, peaks = oxi_peaks(ppg)
-        peaks, per = artifact_removal(peaks)
+        peaks, per = artefact_correction(peaks)
         assert isinstance(per, float)
         assert np.all(np.unique(peaks) == [0, 1])
 
@@ -28,7 +28,7 @@ class TestDetection(TestCase):
         """Test peak_replacement function"""
         ppg = import_ppg('1')[0, :]  # Import PPG recording
         signal, peaks = oxi_peaks(ppg)
-        peaks, npeaks = peak_replacement(peaks, 20)
+        peaks, npeaks = missed_beat(peaks, 20)
         assert np.all(np.unique(peaks) == [0, 1])
         assert isinstance(npeaks, int)
         assert npeaks <= 5

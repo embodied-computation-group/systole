@@ -12,7 +12,7 @@ class TestEpochs(TestCase):
         """Test oxi_peaks function"""
         ppg = import_ppg('1')[0, :]  # Import PPG recording
         events = import_ppg('1')[1, :]  # Import events
-        epochs = to_epochs(ppg, events)
+        epochs = to_epochs(ppg, events, sfreq=75)
         assert epochs.ndim == 2
 
 
