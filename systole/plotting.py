@@ -136,8 +136,8 @@ def plot_peaks(peaks, sfreq=1000, kind='lines', unit='rr', ax=None):
     if ax is None:
         fig, ax = plt.subplots()
 
+    # Plot continuous HR
     ax.plot(time, hr, color='gray', linestyle='--')
-    ax.plot(time, hr, 'o', color='gray', markersize=5)
     ax.set_ylabel(ylab)
     ax.set_xlabel('Times (s)')
 
@@ -194,7 +194,7 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
         subspace3[subspace3 > ylim] = ylim
 
     if ax is None:
-        fig, ax = plt.subplots(figsize=(8, 5))
+        fig, ax = plt.subplots(2, 1, figsize=(8, 5))
 
     ax[0].set_title('Subspace of successive RR interval differences')
     ax[0].plot(subspace1, subspace2, 'bo')
