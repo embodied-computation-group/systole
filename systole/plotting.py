@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from systole.detection import hrv_subspaces
+from systole.utils import heart_rate
 
 
 def plot_hr(oximeter, ax=None):
@@ -11,6 +12,8 @@ def plot_hr(oximeter, ax=None):
     oximeter : instance of Oximeter
         The recording instance, where additional channels track different
         events using boolean recording.
+    ax : Matplotlib.Axes instance | None
+        Where to draw the plot. Default is ´None´ (create a new figure).
 
     Returns
     -------
@@ -34,6 +37,8 @@ def plot_events(oximeter, ax=None):
     oximeter : instance of Oximeter
         The recording instance, where additional channels track different
         events using boolean recording.
+    ax : Matplotlib.Axes instance | None
+        Where to draw the plot. Default is ´None´ (create a new figure).
 
     Returns
     -------
@@ -62,6 +67,8 @@ def plot_oximeter(oximeter, ax=None):
     ----------
     oximeter : Oximeter instance
         The Oximeter instance used to record the signal.
+    ax : Matplotlib.Axes instance | None
+        Where to draw the plot. Default is ´None´ (create a new figure).
 
     Return
     ------
@@ -92,15 +99,22 @@ def plot_oximeter(oximeter, ax=None):
     return ax
 
 
-def plot_peaks(peaks, samples=75, kind='lines', frequency='rr'):
+def plot_peaks(peaks, sfreq=1000, kind='lines', unit='rr', ax=None):
     """Peaks vector to continuous time serie.
 
     Parameters
     ----------
     peaks : array like
         Boolean vector of peaks in Oxi data.
-    samples : int
-        Sampling frequency of the recording.
+    sfreq : int
+        Sampling frequency. Default is 100 Hz.
+    kind : str
+        The method to use (parameter of `scipy.interpolate.interp1d`).
+    unit : str
+        The heartrate unit in use. Can be 'rr' (R-R intervals, in ms)
+        or 'bpm' (beats per minutes). Default is 'rr'.
+    ax : Matplotlib.Axes instance | None
+        Where to draw the plot. Default is ´None´ (create a new figure).
 
     Returns
     -------
@@ -110,61 +124,21 @@ def plot_peaks(peaks, samples=75, kind='lines', frequency='rr'):
     if isinstance(peaks, list):
         peaks = np.asarray(peaks)
 
-    # Check if peaks is in the form of triggers or time indexes
-    if np.isin(np.unique(peaks), [0, 1]).all():
-        changes = np.where(peaks)[0]
-    else:
-        changes = peaks
+    hr, time = heart_rate(peaks, sfreq=sfreq)
 
-    if frequency == 'bpm':
+    if unit == 'bpm':
         ylab = 'BPM'
-    else:
+    elif unit == 'rr':
         ylab = 'R-R (ms)'
-
-    fig, ax = plt.subplots()
-    if kind == 'lines':
-        if frequency == 'rr':
-            rr = np.diff(changes)/samples
-            ax.plot(np.cumsum(rr) + (np.where(peaks)[0][0]/75),
-                    rr * 1000, color='grey', linestyle='--')
-            ax.plot(np.cumsum(rr) + (np.where(peaks)[0][0]/75),
-                    rr * 1000, 'o', color='grey', markersize=5)
-            plt.ylabel(ylab)
-        elif frequency == 'bpm':
-            rr = np.diff(changes)/samples
-            ax.plot(np.cumsum(rr) + (np.where(peaks)[0][0]/75),
-                    60 / rr, color='grey', linestyle='--')
-            ax.plot(np.cumsum(rr) + (np.where(peaks)[0][0]/75),
-                    60 / rr, 'o', color='grey', markersize=5)
-            plt.ylabel(ylab)
-        else:
-            raise ValueError('Invalid kind, must be `bpm` or `rr`')
     else:
+        raise ValueError('Invalid unit. Should be ´rr´ or ´bpm´')
 
-        staircase = np.array([])
-        for i in range(len(peaks)-1):
-            rr = peaks[i+1] - peaks[i]
-            a = np.repeat((rr/samples) * 1000, rr)
-            staircase = np.append(staircase, a)
+    if ax is None:
+        fig, ax = plt.subplots()
 
-        if kind == 'heatmap':
-            heatmap = np.tile(staircase, (2, 1))
-            if frequency == 'bpm':
-                heatmap = 60000 / heatmap
-            im = ax.imshow(heatmap, aspect='auto', cmap='Blues',
-                           extent=[0, len(heatmap)/samples, 0, 1])
-            plt.colorbar(im, ax=ax, label=ylab)
-            ax.set_xlabel('Times (s)')
-            ax.get_yaxis().set_visible(False)
-
-        elif kind == 'staircase':
-            if frequency == 'bpm':
-                staircase = 60000 / staircase
-            ax.plot(np.arange(0, len(staircase))/samples,
-                    staircase, color='grey')
-            ax.set_ylabel(ylab)
-            ax.set_xlabel('Times (s)')
-
+    ax.plot(time, hr, color='gray', linestyle='--')
+    ax.plot(time, hr, 'o', color='gray', markersize=5)
+    ax.set_ylabel(ylab)
     ax.set_xlabel('Times (s)')
 
     return ax
@@ -187,8 +161,8 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     c2 : float
         Fixed variable controling the slope of the threshold lines. Default set
         to 0.17.
-    ax : Matplotlib axe
-        Where to plot the figure.
+    ax : Matplotlib.Axes instance | None
+        Where to draw the plot. Default is ´None´ (create a new figure).
 
     Return
     ------
