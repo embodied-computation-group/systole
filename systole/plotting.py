@@ -14,14 +14,14 @@ def plot_hr(oximeter, ax=None):
 
     Returns
     -------
-    ax : Matplotlib instance
-        Figure.
+    ax : Matplotlib.Axes instance.
+        The figure.
     """
     if ax is None:
-        fig, ax = plt.subplots(figsize=(12, 6))
+        fig, ax = plt.subplots(figsize=(13, 5))
     ax.plot(oximeter.times, oximeter.instant_rr)
-    ax.set_xlabel('Time (s)', size=20)
-    ax.set_ylabel('R-R (ms)', size=20)
+    ax.set_xlabel('Time (s)')
+    ax.set_ylabel('R-R (ms)')
 
     return ax
 
@@ -37,11 +37,11 @@ def plot_events(oximeter, ax=None):
 
     Returns
     -------
-    ax : Matplotlib instance
-        The axe instance of the Matplotlib figure.
+    ax : Matplotlib.Axes instance.
+        The figure.
     """
     if ax is None:
-        fig, ax = plt.subplots(figsize=(12, 6))
+        fig, ax = plt.subplots(figsize=(13, 5))
     events = oximeter.channels
     for i, ev in enumerate(events):
         events[ev] = np.asarray(events[ev]) == 1
@@ -50,7 +50,7 @@ def plot_events(oximeter, ax=None):
     # Add y ticks with channels names
     ax.set_yticks(np.arange(len(events)) + 0.5)
     ax.set_yticklabels([key for key in events])
-    ax.set_xlabel('Time (s)', size=20)
+    ax.set_xlabel('Time (s)')
 
     return ax
 
@@ -65,11 +65,11 @@ def plot_oximeter(oximeter, ax=None):
 
     Return
     ------
-    fig, ax : Matplotlib instances.
-        The figure and axe instances.
+    ax : Matplotlib.Axes instance.
+        The figure.
     """
     if ax is None:
-        fig, ax = plt.subplots(figsize=(12, 6))
+        fig, ax = plt.subplots(figsize=(13, 5))
     ax.plot(oximeter.times, oximeter.threshold, linestyle='--', color='gray',
             label='Threshold')
     ax.fill_between(x=oximeter.times,
@@ -85,8 +85,8 @@ def plot_oximeter(oximeter, ax=None):
     ax.plot(np.asarray(oximeter.times)[np.where(oximeter.peaks)[0]],
             np.asarray(oximeter.recording)[np.where(oximeter.peaks)[0]],
             'ro', label='Online estimation')
-    ax.set_ylabel('PPG level', size=20)
-    ax.set_xlabel('Time (s)', size=20)
+    ax.set_ylabel('PPG level')
+    ax.set_xlabel('Time (s)')
     ax.legend()
 
     return ax
@@ -104,8 +104,8 @@ def plot_peaks(peaks, samples=75, kind='lines', frequency='rr'):
 
     Returns
     -------
-    ax : Matplotlib instance
-        Figure.
+    ax : Matplotlib.Axes instance.
+        The figure.
     """
     if isinstance(peaks, list):
         peaks = np.asarray(peaks)
@@ -129,14 +129,14 @@ def plot_peaks(peaks, samples=75, kind='lines', frequency='rr'):
                     rr * 1000, color='grey', linestyle='--')
             ax.plot(np.cumsum(rr) + (np.where(peaks)[0][0]/75),
                     rr * 1000, 'o', color='grey', markersize=5)
-            plt.ylabel(ylab, size=15)
+            plt.ylabel(ylab)
         elif frequency == 'bpm':
             rr = np.diff(changes)/samples
             ax.plot(np.cumsum(rr) + (np.where(peaks)[0][0]/75),
                     60 / rr, color='grey', linestyle='--')
             ax.plot(np.cumsum(rr) + (np.where(peaks)[0][0]/75),
                     60 / rr, 'o', color='grey', markersize=5)
-            plt.ylabel(ylab, size=15)
+            plt.ylabel(ylab)
         else:
             raise ValueError('Invalid kind, must be `bpm` or `rr`')
     else:
@@ -154,7 +154,7 @@ def plot_peaks(peaks, samples=75, kind='lines', frequency='rr'):
             im = ax.imshow(heatmap, aspect='auto', cmap='Blues',
                            extent=[0, len(heatmap)/samples, 0, 1])
             plt.colorbar(im, ax=ax, label=ylab)
-            ax.set_xlabel('Times (s)', size=15)
+            ax.set_xlabel('Times (s)')
             ax.get_yaxis().set_visible(False)
 
         elif kind == 'staircase':
@@ -162,10 +162,10 @@ def plot_peaks(peaks, samples=75, kind='lines', frequency='rr'):
                 staircase = 60000 / staircase
             ax.plot(np.arange(0, len(staircase))/samples,
                     staircase, color='grey')
-            ax.set_ylabel(ylab, size=15)
-            ax.set_xlabel('Times (s)', size=15)
+            ax.set_ylabel(ylab)
+            ax.set_xlabel('Times (s)')
 
-    plt.xlabel('Times (s)', size=15)
+    ax.set_xlabel('Times (s)')
 
     return ax
 
@@ -192,16 +192,15 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
 
     Return
     ------
-    ax : Matplotlib.Axes
+    ax : Matplotlib.Axes instance.
         The figure.
 
     References
     ----------
     [1] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
-    heart rate variability time
-        series artefact correction using novel beat classification. Journal of
-        Medical Engineering & Technology, 43(3), 173–181.
-        https://doi.org/10.1080/03091902.2019.1640306
+        heart rate variability time series artefact correction using novel beat
+        classification. Journal of Medical Engineering & Technology, 43(3),
+        173–181. https://doi.org/10.1080/03091902.2019.1640306
     """
     if (subspace3 is not None) & (subspace3 is not None):
         subspace1 = x
@@ -221,7 +220,7 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
         subspace3[subspace3 > ylim] = ylim
 
     if ax is None:
-        fig, ax = plt.subplots(figsize=(8, 4))
+        fig, ax = plt.subplots(figsize=(8, 5))
 
     ax[0].set_title('Subspace of successive RR interval differences')
     ax[0].plot(subspace1, subspace2, 'bo')
