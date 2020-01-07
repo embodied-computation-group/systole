@@ -122,12 +122,13 @@ def heart_rate(x, sfreq=1000, unit='rr', kind='cubic'):
         # Beats per minutes
         heartrate = (60000 / heartrate)
 
-    # Interpolate
-    f = interp1d(time, heartrate, kind=kind, bounds_error=False,
-                 fill_value=(heartrate[0], heartrate[-1]))
-
     # Use the peaks vector as time input
     new_time = np.arange(0, len(x)/sfreq, 1/sfreq)
-    heartrate = f(new_time)
+
+    if kind is not None:
+        # Interpolate
+        f = interp1d(time, heartrate, kind=kind, bounds_error=False,
+                     fill_value=(heartrate[0], heartrate[-1]))
+        heartrate = f(new_time)
 
     return heartrate, new_time
