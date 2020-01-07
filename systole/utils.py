@@ -93,7 +93,7 @@ def heart_rate(x, sfreq=1000, unit='rr', kind='cubic'):
     Retruns
     -------
     heartrate : array
-        The heart rate frequency
+        The heart rate frequency.
     time : array
         Time array.
 
@@ -111,8 +111,10 @@ def heart_rate(x, sfreq=1000, unit='rr', kind='cubic'):
     peaks_idx = np.where(x)[0]
     rr = np.diff(peaks_idx)
 
-    # Create time vector
-    time = np.cumsum(rr) / sfreq * 1000 + peaks_idx[0]
+    # Create time vector (seconds):
+    # Cummulate the peak to peak intervals and
+    # add the length between start and 1rts peak
+    time = (np.cumsum(rr) / sfreq) + (peaks_idx[0]/sfreq)
 
     # R-R heartratevals (in miliseconds)
     heartrate = (rr / sfreq) * 1000
@@ -125,7 +127,7 @@ def heart_rate(x, sfreq=1000, unit='rr', kind='cubic'):
                  fill_value=(heartrate[0], heartrate[-1]))
 
     # Use the peaks vector as time input
-    new_time = np.arange(0, len(x), 1)
+    new_time = np.arange(0, len(x)/sfreq, 1/sfreq)
     heartrate = f(new_time)
 
     return heartrate, new_time
