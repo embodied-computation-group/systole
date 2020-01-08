@@ -17,7 +17,7 @@ def plot_hr(oximeter, ax=None):
 
     Returns
     -------
-    ax : Matplotlib.Axes instance.
+    ax : `Matplotlib.Axes`
         The figure.
     """
     if ax is None:
@@ -37,20 +37,20 @@ def plot_events(oximeter, ax=None):
     oximeter : instance of Oximeter
         The recording instance, where additional channels track different
         events using boolean recording.
-    ax : Matplotlib.Axes instance | None
-        Where to draw the plot. Default is ´None´ (create a new figure).
+    ax : `Matplotlib.Axes` or None
+        Where to draw the plot. Default is *None* (create a new figure).
 
     Returns
     -------
-    ax : Matplotlib.Axes instance.
+    ax : `Matplotlib.Axes`
         The figure.
     """
     if ax is None:
         fig, ax = plt.subplots(figsize=(13, 5))
-    events = oximeter.channels
-    for i, ev in enumerate(events):
-        events[ev] = np.asarray(events[ev]) == 1
-        ax.fill_between(x=oximeter.times, y1=i, y2=i+1, where=events[ev])
+    events = oximeter.channels.copy()
+    for i, ch in enumerate(events):
+        for id in np.where(events[ch])[0]:
+            ax.plot(oximeter.times[id], i+0.5, 'bo')
 
     # Add y ticks with channels names
     ax.set_yticks(np.arange(len(events)) + 0.5)
@@ -72,11 +72,12 @@ def plot_oximeter(oximeter, ax=None):
 
     Return
     ------
-    ax : Matplotlib.Axes instance.
+    ax : `Matplotlib.Axes`
         The figure.
     """
     if ax is None:
         fig, ax = plt.subplots(figsize=(13, 5))
+    ax.set_title('Oximeter recording', fontweight='bold')
     ax.plot(oximeter.times, oximeter.threshold, linestyle='--', color='gray',
             label='Threshold')
     ax.fill_between(x=oximeter.times,
@@ -118,7 +119,7 @@ def plot_peaks(peaks, sfreq=1000, kind='lines', unit='rr', ax=None):
 
     Returns
     -------
-    ax : Matplotlib.Axes instance.
+    ax : `Matplotlib.Axes`
         The figure.
     """
     if isinstance(peaks, list):
@@ -166,7 +167,7 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
 
     Return
     ------
-    ax : Matplotlib.Axes instance.
+    ax : `Matplotlib.Axes`
         The figure.
 
     References
