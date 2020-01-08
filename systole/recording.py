@@ -45,6 +45,9 @@ class Oximeter():
         defalut value.
     serial : PySerial instance
         PySerial object indexing the USB port to read.
+    rr : list or None
+        RR intervals time course. The time course will be generated if
+        self.find_peaks() is used.
 
     Examples
     --------
@@ -197,19 +200,24 @@ class Oximeter():
 
         return check
 
-    def find_peaks(self):
+    def find_peaks(self, **kwargs):
         """Find peaks in recorded signal.
 
         Returns
         -------
         Oximeter instance. The peaks occurences are stored in the `peaks`
         attribute.
-        """
 
-        self.peaks = oxi_peaks(self.recording)
+        Other Parameters
+        ----------------
+        **kwargs : `~systole.detection.oxi_peaks` properties.
+        """
+        # Peak detection
+        resampled_signal, peaks = oxi_peaks(self.recording,
+                                            new_sfreq=75, **kwargs)
 
         # R-R intervals (in miliseconds)
-        self.rr = (np.diff(self.peaks)/self.sfreq) * 1000
+        self.rr = (np.diff(np.where(peaks)[0])/self.sfreq) * 1000
 
         # Beats per minutes
         self.bpm = 60000/self.rr
@@ -276,8 +284,8 @@ class Oximeter():
 
         Parameters
         ----------
-        stop : boolean, defalut to `False`
-            Whether the recording should continue if an error is detected.
+        stop : bool
+            Stop the recording when an error is detected. Default is *False*.
         """
         # Read oxi
         while self.serial.inWaiting() >= 5:
