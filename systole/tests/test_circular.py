@@ -30,8 +30,9 @@ class TestCircular(TestCase):
         """Tests _circular function"""
         ax = circular(x)
         assert isinstance(ax, matplotlib.axes.Axes)
-        ax = circular(x, density='alpha', offset=np.pi)
-        assert isinstance(ax, matplotlib.axes.Axes)
+        for dens in ['area', 'heigth', 'alpha']:
+            ax = circular(x, density='alpha', offset=np.pi)
+            assert isinstance(ax, matplotlib.axes.Axes)
         ax = circular(x, density='height', mean=True,
                       units='degree', color='r')
         assert isinstance(ax, matplotlib.axes.Axes)
