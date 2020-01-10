@@ -17,15 +17,6 @@ z = np.concatenate([np.random.normal(np.pi/2, 0.5, 50),
 
 class TestCircular(TestCase):
 
-    def test_to_angle(self):
-        """Test to_angles function"""
-        rr = import_rr().rr.values
-        # Create event vector
-        events = rr + np.random.normal(500, 100, len(rr))
-        ang = to_angles(np.cumsum(rr), np.cumsum(events))
-        assert ~np.any(np.asarray(ang) < 0)
-        assert ~np.any(np.asarray(ang) > np.pi * 2)
-
     def test_circular(self):
         """Tests _circular function"""
         ax = circular(x)

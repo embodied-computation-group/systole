@@ -131,3 +131,45 @@ def heart_rate(x, sfreq=1000, unit='rr', kind='cubic'):
         heartrate = f(new_time)
 
     return heartrate, new_time
+
+
+def to_angles(x, events):
+    """Angular values of events according to x cycle peaks.
+
+    Parameters
+    ----------
+    x : list or numpy array
+        The reference time serie. Time points can be unevenly spaced.
+    events : list or numpy array
+        The events time serie.
+
+    Returns
+    -------
+    ang : numpy array
+        The angular value of events in the reference (in radians).
+    """
+    if isinstance(x, list):
+        x = np.asarray(x)
+    if isinstance(events, list):
+        events = np.asarray(events)
+
+    # If data is provided as bollean format
+    if not any(x > 1):
+        x = np.where(x == 1)[0]
+        events = np.where(events == 1)[0]
+
+    ang = []  # Where to store angular data
+    for i in events:
+
+        if (i >= x.min()) & (i <= x.max()):
+
+            # Length of current R-R interval
+            ln = np.min(x[x >= i]) - np.max(x[x < i])
+
+            # Event timing after previous R peak
+            i -= np.max(x[x <= i])
+
+            # Convert into radian [0 to pi*2]
+            ang.append((i*np.pi*2)/ln)
+
+    return ang
