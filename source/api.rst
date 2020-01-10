@@ -23,16 +23,6 @@ Detection
   signal_quality
   interpolate_clipping
 
-Epochs
-------
-
-.. _epochs:
-
-.. autosummary::
- :toctree: generated/
-
-  to_epochs
-
 HRV
 ---
 
@@ -87,3 +77,4 @@ Utils
   time_shift
   heart_rate
   to_angles
+  to_epochs

@@ -2,7 +2,7 @@
 
 import unittest
 import numpy as np
-from systole.utils import heart_rate, to_angles
+from systole.utils import heart_rate, to_angles, to_epochs
 from systole.detection import oxi_peaks
 from unittest import TestCase
 from systole import import_ppg, import_rr
@@ -30,6 +30,12 @@ class TestUtils(TestCase):
         assert ~np.any(np.asarray(ang) < 0)
         assert ~np.any(np.asarray(ang) > np.pi * 2)
 
+    def test_to_epochs(self):
+        """Test oxi_peaks function"""
+        ppg = import_ppg('1')[0, :]  # Import PPG recording
+        events = import_ppg('1')[1, :]  # Import events
+        epochs = to_epochs(ppg, events, sfreq=75)
+        assert epochs.ndim == 2
 
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=False)
