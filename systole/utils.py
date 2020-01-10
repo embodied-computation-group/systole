@@ -80,7 +80,7 @@ def heart_rate(x, sfreq=1000, unit='rr', kind='cubic'):
 
     Parameters
     ----------
-    x : array
+    x : 1d array-like
         Boolean vector of heartbeat detection.
     sfreq : int
         Sampling frequency
@@ -90,15 +90,15 @@ def heart_rate(x, sfreq=1000, unit='rr', kind='cubic'):
     kind : str
         The method to use (parameter of `scipy.interpolate.interp1d`).
 
-    Retruns
+    Returns
     -------
-    heartrate : array
+    heartrate : 1d array-like
         The heart rate frequency.
-    time : array
+    time : 1d array-like
         Time array.
 
-    Notes:
-    ------
+    Notes
+    -----
     The input should be in the form of a boolean vector encoding the peaks
     position. The time and heartrate output will have the same length. Values
     before the first peak anf after the last peak will be filled with the
@@ -109,12 +109,11 @@ def heart_rate(x, sfreq=1000, unit='rr', kind='cubic'):
 
     # Find peak indexes
     peaks_idx = np.where(x)[0]
-    rr = np.diff(peaks_idx)
 
     # Create time vector (seconds):
-    # Cummulate the peak to peak intervals and
-    # add the length between start and 1rts peak
-    time = (np.cumsum(rr) / sfreq) + (peaks_idx[0]/sfreq)
+    time = (peaks_idx/sfreq)[1:]
+
+    rr = np.diff(peaks_idx)
 
     # R-R heartratevals (in miliseconds)
     heartrate = (rr / sfreq) * 1000
