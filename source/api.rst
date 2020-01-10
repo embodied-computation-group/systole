@@ -8,18 +8,6 @@ Functions
 .. contents:: Table of Contents
    :depth: 3
 
-Circular
---------
-
-.. _circular:
-
-.. autosummary::
- :toctree: generated/
-
-  circular
-  plot_circular
-  to_angles
-
 Detection
 ---------
 
@@ -74,6 +62,8 @@ Plotting
   plot_oximeter
   plot_peaks
   plot_subspaces
+  circular
+  plot_circular
 
 Recording
 ---------
@@ -96,3 +86,4 @@ Utils
   norm_triggers
   time_shift
   heart_rate
+  to_angles
