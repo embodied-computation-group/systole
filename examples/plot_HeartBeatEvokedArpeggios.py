@@ -42,8 +42,13 @@ ser = serialSim()
 #   import serial
 #   ser = serial.Serial('COM4')  # Change this value according to your setup
 
+#%%
 # Create an Oxymeter instance, initialize recording and record for 10 seconds
+
 oxi = Oximeter(serial=ser, sfreq=75, add_channels=4).setup()
+
+#%%
+# Create an Oxymeter instance, initialize recording and record for 10 seconds
 
 systole = Sound('C', secs=0.1)
 diastole1 = Sound('E', secs=0.1)

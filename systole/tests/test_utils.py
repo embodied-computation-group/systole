@@ -1,4 +1,5 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
+
 import unittest
 from systole.utils import heart_rate
 from systole.detection import oxi_peaks
