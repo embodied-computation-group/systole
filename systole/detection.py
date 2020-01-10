@@ -30,7 +30,7 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
         If `True` (defaults), will resample the signal at `new_sfreq`. Default
         value is 1000 Hz.
 
-    Retruns
+    Returns
     -------
     peaks : boolean array
         Numpy array containing R peak timing, in sfreq.
@@ -124,8 +124,8 @@ def artefact_correction(peaks, low_thr=300, high_thr=2000, esdt=True):
     esdt : boolean
         If `True`, will use the ESDT estimator to find outliers.
 
-    Return
-    ------
+    Returns
+    -------
     clean_peaks : boolean array
         The cleaned peak boolean array.
     per : float
@@ -221,8 +221,8 @@ def missed_beat(peaks, outlier):
     outlier: int
         Index of detected outlier
 
-    Return
-    ------
+    Returns
+    -------
     new_rr: boolean array
         New indexes vector with added spikes.
     npeaks: int
@@ -269,8 +269,9 @@ def hrv_subspaces(x, alpha=5.2, window=45):
     window : int
         Size of the window used to compute the interquartil range and normalize
         the dRR serie.
-    Return
-    ------
+
+    Returns
+    -------
     subspace1 : array
         The first dimension. First derivative of R-R interval time serie.
     subspace2 : array
@@ -331,8 +332,8 @@ def signal_quality(x):
     x : array
         PPG signal.
 
-    Return
-    ------
+    Returns
+    -------
     y : array
         LargestcClean segment of PPG signal.
     """
@@ -384,8 +385,8 @@ def interpolate_clipping(signal, threshold=255):
     threshold : int
         Threshold of clipping artefact.
 
-    Return
-    ------
+    Returns
+    -------
     clean_signal : array
         Interpolated signal.
 

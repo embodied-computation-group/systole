@@ -72,22 +72,25 @@ class Oximeter():
 
     2 methods are availlable to record PPG signal:
 
-        * The `read()` method will continuously record for certain amount of
-        time (specified by the `duration` parameter, in seconds). This is the
-        easiest and most robust method, but it is not possible to run
-        instructions in the meantime.
+    * The `read()` method.
 
-        >>> oximeter.read(duration=10)
+    Will continuously record for certain amount of time (specified by the
+    `duration` parameter, in seconds). This is the easiest and most robust
+    method, but it is not possible to run instructions in the meantime.
 
-        * The `readInWaiting()` method will read all the availlable bytes (up
-        to 10 seconds of recording). When inserted into a while loop, it allows
-        to record PPG signal together with other scripts.
+    >>> oximeter.read(duration=10)
 
-        >>> import time
-        >>> tstart = time.time()
-        >>> while time.time() - tstart < 10:
-        >>>     oximeter.readInWaiting()
-        >>>     # Insert code here
+    * The `readInWaiting()` method.
+
+    Will read all the availlable bytes (up to 10 seconds of recording). When
+    inserted into a while loop, it allows to record PPG signal together with
+    other scripts.
+
+    >>> import time
+    >>> tstart = time.time()
+    >>> while time.time() - tstart < 10:
+    >>>     oximeter.readInWaiting()
+    >>>     # Insert code here
 
     The recorded signal can latter be inspected using the `plot()` method.
 
@@ -227,8 +230,8 @@ class Oximeter():
     def plot_events(self, ax=None):
         """Visualize the distribution of events stored in additional channels.
 
-        Return
-        ------
+        Returns
+        -------
         fig, ax : Matplotlib instances.
             The figure and axe instances.
         """
@@ -239,8 +242,8 @@ class Oximeter():
     def plot_hr(self, ax=None):
         """Plot heartrate extracted from PPG recording.
 
-        Return
-        ------
+        Returns
+        -------
         fig, ax : Matplotlib instances.
             The figure and axe instances.
         """
@@ -251,8 +254,8 @@ class Oximeter():
     def plot_recording(self, ax=None):
         """Plot recorded signal.
 
-        Return
-        ------
+        Returns
+        -------
         fig, ax : Matplotlib instances.
             The figure and axe instances.
         """

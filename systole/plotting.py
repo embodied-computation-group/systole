@@ -12,8 +12,8 @@ def plot_hr(oximeter, ax=None):
     oximeter : instance of Oximeter
         The recording instance, where additional channels track different
         events using boolean recording.
-    ax : Matplotlib.Axes instance | None
-        Where to draw the plot. Default is ´None´ (create a new figure).
+    ax : `Matplotlib.Axes` or None
+        Where to draw the plot. Default is *None* (create a new figure).
 
     Returns
     -------
@@ -67,11 +67,11 @@ def plot_oximeter(oximeter, ax=None):
     ----------
     oximeter : Oximeter instance
         The Oximeter instance used to record the signal.
-    ax : Matplotlib.Axes instance | None
-        Where to draw the plot. Default is ´None´ (create a new figure).
+    ax : `Matplotlib.Axes` or None
+        Where to draw the plot. Default is *None* (create a new figure).
 
-    Return
-    ------
+    Returns
+    -------
     ax : `Matplotlib.Axes`
         The figure.
     """
@@ -162,11 +162,11 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     c2 : float
         Fixed variable controling the slope of the threshold lines. Default set
         to 0.17.
-    ax : Matplotlib.Axes instance | None
-        Where to draw the plot. Default is ´None´ (create a new figure).
+    ax : `Matplotlib.Axes` or None
+        Where to draw the plot. Default is *None* (create a new figure).
 
-    Return
-    ------
+    Returns
+    -------
     ax : `Matplotlib.Axes`
         The figure.
 

@@ -9,32 +9,32 @@ import matplotlib.pyplot as plt
 
 
 def circular(data, bins=32, density='area', offset=0, mean=False, norm=True,
-             units='radians', color=None, axis=None):
+             units='radians', color=None, ax=None):
     """Plot polar histogram.
 
     Parameters
     ----------
-    data : array | list
+    data : array-like or list
         Angular values, in radians.
     bins : int
         Use even value to have a bin edge at zero.
     density : str
         Is the density represented via the height or the area of the bars.
-        Default set to `area` (avoid misleading representation).
+        Default set to 'area' (avoid misleading representation).
     offset : float
         Where 0 will be placed on the circle, in radians. Default set to 0
         (right).
-    mean : boolean
+    mean : bool
         If True, show the mean and 95% CI. Default set to `False`
     norm : boolean
         Normalize the distribution between 0 and 1.
     units : str
-        Unit of the angular representation. Can be `degree` or `radian`.
-        Default set to `radians`.
-    color : Matplotlib color.
+        Unit of the angular representation. Can be 'degree' or 'radian'.
+        Default set to 'radians'.
+    color : Matplotlib color
         The color of the bars.
-    axis : Matplotlib axis.
-        Specify the axis where to plot. Default is `None`.
+    ax : Matplotlib.Axes instance | None
+        Where to draw the plot. Default is ´None´ (create a new figure).
 
     Returns
     -------
@@ -53,6 +53,7 @@ def circular(data, bins=32, density='area', offset=0, mean=False, norm=True,
     Plot polar data.
 
     .. plot::
+
        import numpy as np
        from systole.circular import circular
        x = np.random.normal(np.pi, 0.5, 100)
@@ -64,10 +65,8 @@ def circular(data, bins=32, density='area', offset=0, mean=False, norm=True,
     if color is None:
         color = '#539dcc'
 
-    if axis is None:
+    if ax is None:
         ax = plt.subplot(111, polar=True)
-    else:
-        ax = axis
 
     # Bin data and count
     count, bin = np.histogram(data, bins=bins, range=(0, np.pi*2))
@@ -174,7 +173,7 @@ def plot_circular(data, y=None, hue=None, **kwargs):
 
             x = data[y][data[hue] == cond]
 
-            ax = circular(x, color=next(palette), axis=axs[i], **kwargs)
+            ax = circular(x, color=next(palette), ax=axs[i], **kwargs)
 
     return ax
 

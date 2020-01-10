@@ -100,7 +100,7 @@ def time_domain(x):
 
     Parameters
     ----------
-    x : array like
+    x : array-like
         Length of R-R intervals (in miliseconds).
 
     Returns
@@ -179,13 +179,13 @@ def hrv_psd(x, sfreq=5, method='welch', fbands=None, low=0.003,
 
     Parameters
     ----------
-    x : list or numpy array
+    x : 1d array-like
         Length of R-R intervals (default is in miliseconds).
     sfreq : int
         The sampling frequency.
     method : str
         The method used to extract freauency power. Default set to `'welch'`.
-    fbands : None | dict, optional
+    fbands : None or dict, optional
         Dictionary containing the names of the frequency bands of interest
         (str), their range (tuples) and their color in the PSD plot. Default is
         {'vlf': ['Very low frequency', (0.003, 0.04), 'b'],
@@ -193,8 +193,8 @@ def hrv_psd(x, sfreq=5, method='welch', fbands=None, low=0.003,
         'hf': ['High frequency', (0.15, 0.4), 'r']}
     show : boolean
         Plot the power spectrum density. Default is `True`.
-    ax : Matplotlib axe.
-        Where to draw the figure.
+    ax : Matplotlib.Axes instance | None
+        Where to draw the plot. Default is ´None´ (create a new figure).
 
     Returns
     -------
