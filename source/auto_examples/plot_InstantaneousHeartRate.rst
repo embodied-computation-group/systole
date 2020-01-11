@@ -20,6 +20,9 @@ plotted.
 .. code-block:: default
 
 
+    # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
+    # Licence: GPL v3
+
     from systole import serialSim
     from systole.utils import heart_rate
     from systole.recording import Oximeter
@@ -36,7 +39,7 @@ plotted.
 Recording
 ---------
 For the purpose of demonstration, here we simulate data acquisition through
-the pulse oimeter using a previously recorded signal.
+the pulse oximeter using pre-recorded signal.
 
 
 .. code-block:: default
@@ -80,7 +83,7 @@ oximeter is plugged.
 
     Reset input buffer
 
-    <systole.recording.Oximeter object at 0x000002A89C6C5828>
+    <systole.recording.Oximeter object at 0x00000267906F90B8>
 
 
 
@@ -108,7 +111,6 @@ Plotting
     ax[2].set_ylabel('RR intervals (ms)')
 
     plt.tight_layout()
-    plt.show()
 
 
 
@@ -116,22 +118,13 @@ Plotting
     :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-    C:\Users\au646069\github\systole\examples\plot_InstantaneousHeartRate.py:62: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
-      plt.show()
-
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  31.296 seconds)
+   **Total running time of the script:** ( 0 minutes  31.409 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_InstantaneousHeartRate.py:

@@ -9,6 +9,9 @@ Peaks are automatically labelled online and the instantaneous heart rate is
 plotted.
 """
 
+# Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
+# Licence: GPL v3
+
 from systole import serialSim
 from systole.utils import heart_rate
 from systole.recording import Oximeter
@@ -19,7 +22,7 @@ import numpy as np
 # Recording
 # ---------
 # For the purpose of demonstration, here we simulate data acquisition through
-# the pulse oimeter using a previously recorded signal.
+# the pulse oximeter using pre-recorded signal.
 
 ser = serialSim()
 
@@ -59,4 +62,3 @@ ax[2].set_title('Instantaneous Heart Rate', fontweight='bold')
 ax[2].set_ylabel('RR intervals (ms)')
 
 plt.tight_layout()
-plt.show()

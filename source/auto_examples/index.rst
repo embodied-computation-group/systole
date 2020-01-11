@@ -37,6 +37,26 @@ If you want to see the tutorials in action, you can also click on the link below
    :hidden:
 
    /auto_examples/plot_InstantaneousHeartRate
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This tutorial illustrates how to use the Oximeter class to triggers stimuli at different cardia...">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_plot_HeartBeatEvokedArpeggios_thumb.png
+
+     :ref:`sphx_glr_auto_examples_plot_HeartBeatEvokedArpeggios.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/plot_HeartBeatEvokedArpeggios
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>
