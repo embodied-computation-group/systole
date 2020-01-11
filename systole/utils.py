@@ -2,9 +2,10 @@
 
 import numpy as np
 from scipy.interpolate import interp1d
+from scipy.ndimage import gaussian_filter1d
 
 
-def norm_triggers(x, threshold, n, direction='higher'):
+def norm_triggers(x, threshold=1, n=5, direction='higher'):
     """Turns noisy triggers into unique boolean.
 
     Keep the first trigger and set to 0 the n following values.
@@ -14,9 +15,9 @@ def norm_triggers(x, threshold, n, direction='higher'):
     x : NumPy array
         The triggers to convert.
     threshold : float
-        Threshold for triggering values.
+        Threshold for triggering values. Default is 1.
     n : int
-        Number of values to force to 0 following each triggers.
+        Number of values to force to 0 following each triggers. Default is 5.
     direction : str
         Indicates if triggers are higher or lower than threshold. Can be
         `higher` or `lower`. Default is `higher`.
@@ -30,9 +31,9 @@ def norm_triggers(x, threshold, n, direction='higher'):
         raise ValueError('x must be a Numpy array')
 
     if direction == 'higher':
-        y = x > threshold
+        y = x >= threshold
     elif direction == 'lower':
-        y = x < threshold
+        y = x <= threshold
     else:
         raise ValueError('Invalid direction')
 
