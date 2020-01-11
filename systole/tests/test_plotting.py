@@ -8,7 +8,7 @@ from unittest import TestCase
 
 from systole import import_rr
 from systole.plotting import plot_hr, plot_events, plot_oximeter, plot_peaks,\
-    plot_subspaces, circular, plot_circular
+    plot_subspaces, circular, plot_circular, plot_subspaces
 from systole import import_ppg, import_rr
 from systole.recording import Oximeter
 from systole.detection import hrv_subspaces
@@ -74,6 +74,14 @@ class TestPlotting(TestCase):
         data = pd.DataFrame(data={'x': x, 'y': y, 'z': z}).melt()
         ax = plot_circular(data=data, y='value', hue='variable')
         assert isinstance(ax, matplotlib.axes.Axes)
+
+    def test_plot_subspaces(self):
+        rr = import_rr().rr  # Import PPG recording
+        s1, s2, s3 = hrv_subspaces(rr)
+        ax = plot_subspaces(s1, s2, s3)
+        assert isinstance(ax[0], matplotlib.axes.Axes)
+        assert isinstance(ax[1], matplotlib.axes.Axes)
+
 
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=False)

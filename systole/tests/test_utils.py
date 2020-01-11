@@ -2,19 +2,29 @@
 
 import unittest
 import numpy as np
-from systole.utils import heart_rate, to_angles, to_epochs
+from systole.utils import norm_triggers, heart_rate, to_angles, to_epochs
 from systole.detection import oxi_peaks
 from unittest import TestCase
 from systole import import_ppg, import_rr
 
-ppg = import_ppg('1')[0, :]  # Import PPG recording
-signal, peaks = oxi_peaks(ppg)
-
 
 class TestUtils(TestCase):
 
+    def test_norm_triggers(self):
+        ppg = import_ppg('1')[0, :]  # Import PPG recording
+        signal, peaks = oxi_peaks(ppg)
+        peaks[np.where(peaks)[0]+1] = 1
+        peaks[np.where(peaks)[0]+2] = 1
+        y = norm_triggers(peaks)
+        assert sum(y) == 378
+        peaks = -peaks
+        y = norm_triggers(peaks, threshold=-1, direction='lower')
+        assert sum(y) == 378
+
     def test_heart_rate(self):
         """Test heart_rate function"""
+        ppg = import_ppg('1')[0, :]  # Import PPG recording
+        signal, peaks = oxi_peaks(ppg)
         heartrate, time = heart_rate(peaks)
         assert len(heartrate) == len(time)
         heartrate, time = heart_rate(
