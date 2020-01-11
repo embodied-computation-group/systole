@@ -21,7 +21,6 @@ INSTALL_REQUIRES = [
     'pandas>=0.24',
     'matplotlib>=3.0.2',
     'seaborn>=0.9.0',
-    'psychopy>=3.2.3'
 ]
 
 PACKAGES = [
