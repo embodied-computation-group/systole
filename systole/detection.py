@@ -6,10 +6,6 @@ from scipy.stats import iqr
 from scipy.interpolate import interp1d
 from scipy.signal import find_peaks
 from scipy import interpolate
-from adtk.detector import ThresholdAD, GeneralizedESDTestAD
-from adtk.data import validate_series
-from adtk.pipe import Pipeline
-from adtk.transformer import RollingAggregate
 
 
 def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
@@ -130,10 +126,6 @@ def artefact_correction(peaks, low_thr=300, high_thr=2000, esdt=True):
         The cleaned peak boolean array.
     per : float
         Proportion (%) of beats that were corrected durig the procedure.
-
-    Notes
-    -----
-    This function use the GeneralizedESDTestAD to detect outliers.
     """
     per = 0
     while True:
@@ -165,43 +157,6 @@ def artefact_correction(peaks, low_thr=300, high_thr=2000, esdt=True):
 
         if (low is True) & (high is True):
             break
-
-    # Set high and low thresholds using ESDT estimator
-    if esdt is True:
-
-        # Detection
-        rr = np.diff(np.where(peaks))[0]
-        time = pd.to_datetime(np.cumsum(rr), unit='ms')
-        df = pd.DataFrame({'rr': rr}, index=time)
-        df = validate_series(df.rr)
-        quantile_ad = GeneralizedESDTestAD()
-        anomalies = quantile_ad.fit_detect(df)
-        outliers = rr[anomalies.values]
-        per += len(outliers)
-
-        # Correction
-        if np.any(outliers[outliers > np.median(df.values)]):
-            high_thr = outliers[outliers > np.median(df.values)].min()
-        else:
-            high_thr = None
-        if np.any(outliers[outliers < np.median(df.values)]):
-            low_thr = outliers[outliers < np.median(df.values)].max()
-        else:
-            low_thr = None
-
-        if low_thr is not None:
-            while np.any(np.diff(np.where(peaks)[0]) <= low_thr):
-                per += 1
-                # Find outliers using threshold
-                idx = np.where(np.diff(np.where(peaks)[0]) <= low_thr)[0]
-                peaks[np.where(peaks)[0][idx[0]+1]] = 0
-
-        if high_thr is not None:
-            while np.any(np.diff(np.where(peaks)[0]) >= high_thr):
-                per += 1
-                # Find outliers using threshold
-                idx = np.where(np.diff(np.where(peaks)[0]) >= high_thr)[0][0]
-                peaks, npeaks = missed_beat(peaks, idx)
 
     # Compute percent corrected
     per = per/sum(peaks)
@@ -324,57 +279,6 @@ def hrv_subspaces(x, alpha=5.2, window=45):
     return np.asarray(s11), np.asarray(s12), np.append(np.asarray(s22), [0, 0])
 
 
-def signal_quality(x):
-    """Verify signal quality and remove bad components.
-
-    Parameters
-    ----------
-    x : array
-        PPG signal.
-
-    Returns
-    -------
-    y : array
-        LargestcClean segment of PPG signal.
-    """
-    assert isinstance(x, (np.ndarray, np.generic))
-    assert x.ndim == 1
-
-    ###############
-    # Quality check
-    ###############
-
-    # To Panda DataFrame
-    time = pd.to_datetime(np.arange(0, len(x))/75, unit='ms')
-    df = pd.DataFrame({'oxi': x}, index=time)
-    df = validate_series(df.oxi)
-
-    steps = [
-        ("standard_deviation", RollingAggregate(agg="std", window=200,
-                                                center=True)),
-        ("median", RollingAggregate(agg="median", window=600, center=False)),
-        ("threshold", ThresholdAD(low=40))
-    ]
-    pipeline = Pipeline(steps)
-
-    anomalies = pipeline.fit_detect(df)
-
-    # Find longest segment
-    filt = anomalies.values
-    filt[np.isnan(filt)] = 0
-    filt = filt == 0
-    bounded = np.hstack(([0], filt, [0]))
-    difs = np.diff(bounded)
-    run_starts, = np.where(difs > 0)
-    run_ends, = np.where(difs < 0)
-    idx = np.argmax(run_ends - run_starts)
-    out = np.zeros(len(x))
-    out[run_starts[idx]:run_ends[idx]] = 1
-    per = sum(out)/len(x)
-
-    return x[out.astype(bool)], per
-
-
 def interpolate_clipping(signal, threshold=255):
     """Interoplate clipping segment.
 
@@ -390,9 +294,14 @@ def interpolate_clipping(signal, threshold=255):
     clean_signal : array
         Interpolated signal.
 
+    Notes
+    -----
+    Correct signal segment reaching recording threshold (default is 255)
+    using a cubic spline interpolation. Adapted from [#]_.
+
     References
     ----------
-    [1] https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/
+    .. [#] https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/
     """
     if isinstance(signal, list):
         signal = np.array(signal)
