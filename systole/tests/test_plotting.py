@@ -7,7 +7,7 @@ import matplotlib
 from unittest import TestCase
 
 from systole import import_rr
-from systole.plotting import plot_hr, plot_events, plot_oximeter, plot_peaks,\
+from systole.plotting import plot_hr, plot_events, plot_oximeter,\
     plot_subspaces, circular, plot_circular, plot_subspaces
 from systole import import_ppg, import_rr
 from systole.recording import Oximeter
@@ -45,10 +45,6 @@ class TestPlotting(TestCase):
 
     def test_plot_oximeter(self):
         ax = plot_oximeter(oxi)
-        assert isinstance(ax, matplotlib.axes.Axes)
-
-    def test_plot_peaks(self):
-        ax = plot_peaks(oxi.peaks)
         assert isinstance(ax, matplotlib.axes.Axes)
 
     def plot_subspaces(self):

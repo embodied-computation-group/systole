@@ -124,51 +124,6 @@ def plot_oximeter(oximeter, ax=None):
     return ax
 
 
-def plot_peaks(peaks, sfreq=1000, kind='lines', unit='rr', ax=None):
-    """Peaks vector to continuous time serie.
-
-    Parameters
-    ----------
-    peaks : 1d array-like
-        Boolean vector of peaks in Oxi data.
-    sfreq : int
-        Sampling frequency. Default is 1000 Hz.
-    kind : str
-        The method to use (parameter of `scipy.interpolate.interp1d`).
-    unit : str
-        The heartrate unit in use. Can be 'rr' (R-R intervals, in ms)
-        or 'bpm' (beats per minutes). Default is 'rr'.
-    ax : Matplotlib.Axes instance | None
-        Where to draw the plot. Default is ´None´ (create a new figure).
-
-    Returns
-    -------
-    ax : `Matplotlib.Axes`
-        The figure.
-    """
-    if isinstance(peaks, list):
-        peaks = np.asarray(peaks)
-
-    hr, time = heart_rate(peaks, sfreq=sfreq)
-
-    if unit == 'bpm':
-        ylab = 'BPM'
-    elif unit == 'rr':
-        ylab = 'R-R (ms)'
-    else:
-        raise ValueError('Invalid unit. Should be ´rr´ or ´bpm´')
-
-    if ax is None:
-        fig, ax = plt.subplots()
-
-    # Plot continuous HR
-    ax.plot(time, hr, color='gray', linestyle='--')
-    ax.set_ylabel(ylab)
-    ax.set_xlabel('Times (s)')
-
-    return ax
-
-
 def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
                    xlim=10, ylim=5, ax=None):
     """Plot hrv subspace as described by Lipponen & Tarvainen (2019).
