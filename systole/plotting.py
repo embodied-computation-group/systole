@@ -1,17 +1,27 @@
+# Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
+
+import itertools
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 from systole.detection import hrv_subspaces
 from systole.utils import heart_rate
+from scipy.interpolate import interp1d
+from systole.recording import Oximeter
 
 
-def plot_hr(oximeter, ax=None):
-    """Given a peaks vector, returns frequency plots.
+def plot_hr(x, sfreq=75, ax=None):
+    """Plot the instantaneous heart rate time course.
 
     Parameters
     ----------
-    oximeter : instance of Oximeter
+    x : 1d array-like or `systole.recording.Oximeter`
         The recording instance, where additional channels track different
-        events using boolean recording.
+        events using boolean recording. If a 1d array is provided, should be
+        a peaks vector.
+    sfreq : int
+        Signal sampling frequency. Default is 75 Hz.
     ax : `Matplotlib.Axes` or None
         Where to draw the plot. Default is *None* (create a new figure).
 
@@ -20,9 +30,23 @@ def plot_hr(oximeter, ax=None):
     ax : `Matplotlib.Axes`
         The figure.
     """
+    if isinstance(x, Oximeter):
+        peaks = x.peaks
+
     if ax is None:
         fig, ax = plt.subplots(figsize=(13, 5))
-    ax.plot(oximeter.times, oximeter.instant_rr)
+
+    hr, times = heart_rate(peaks, sfreq=sfreq)
+
+    # Interpolate instantaneous HR
+    ax.plot(times, hr, linestyle='--', color='gray')
+
+    # Interpolate peaks vector
+    f = interp1d(np.arange(0, len(peaks)/sfreq, 1/sfreq), peaks,
+                 kind='linear', bounds_error=False, fill_value=(0, 0))
+    new_peaks = f(times)
+    ax.plot(times[np.where(new_peaks)[0]], hr[np.where(new_peaks)[0]], 'bo',
+            alpha=0.8)
     ax.set_xlabel('Time (s)')
     ax.set_ylabel('R-R (ms)')
 
@@ -34,7 +58,7 @@ def plot_events(oximeter, ax=None):
 
     Parameters
     ----------
-    oximeter : instance of Oximeter
+    oximeter : `systole.recording.Oximeter`
         The recording instance, where additional channels track different
         events using boolean recording.
     ax : `Matplotlib.Axes` or None
@@ -65,7 +89,7 @@ def plot_oximeter(oximeter, ax=None):
 
     Parameters
     ----------
-    oximeter : Oximeter instance
+    oximeter : `systole.recording.Oximeter`
         The Oximeter instance used to record the signal.
     ax : `Matplotlib.Axes` or None
         Where to draw the plot. Default is *None* (create a new figure).
@@ -105,10 +129,10 @@ def plot_peaks(peaks, sfreq=1000, kind='lines', unit='rr', ax=None):
 
     Parameters
     ----------
-    peaks : array like
+    peaks : 1d array-like
         Boolean vector of peaks in Oxi data.
     sfreq : int
-        Sampling frequency. Default is 100 Hz.
+        Sampling frequency. Default is 1000 Hz.
     kind : str
         The method to use (parameter of `scipy.interpolate.interp1d`).
     unit : str
@@ -194,11 +218,15 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
         subspace3[subspace3 < -ylim] = -ylim
         subspace3[subspace3 > ylim] = ylim
 
+    # Find outliers
+
+
+
     if ax is None:
-        fig, ax = plt.subplots(2, 1, figsize=(8, 5))
+        fig, ax = plt.subplots(1, 2, figsize=(10, 5))
 
     ax[0].set_title('Subspace of successive RR interval differences')
-    ax[0].plot(subspace1, subspace2, 'bo')
+    ax[0].plot(subspace1, subspace2, 'bo', markersize=1, alpha=0.5)
 
     # Upper area
     ax[0].plot([-1, -10], [1, -c1*-10 - c2], 'k')
@@ -213,7 +241,7 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     ax[0].set_ylim(-5, 5)
     ax[0].set_xlim(-10, 10)
 
-    ax[1].plot(subspace1, subspace3, 'bo')
+    ax[1].plot(subspace1, subspace3, 'bo', markersize=1, alpha=0.5)
 
     # Upper area
     ax[1].plot([-1, -10], [1, 1], 'k')
@@ -256,20 +284,23 @@ def circular(data, bins=32, density='area', offset=0, mean=False, norm=True,
         Default set to 'radians'.
     color : Matplotlib color
         The color of the bars.
-    ax : Matplotlib.Axes instance | None
-        Where to draw the plot. Default is ´None´ (create a new figure).
+    ax : `Matplotlib.Axes` or None
+        Where to draw the plot. Default is *None* (create a new figure).
 
     Returns
     -------
-    ax : Matplotlib Axes instance
-        Axes object with the plot.
+    ax : `Matplotlib.Axes`
+        The figure.
 
     Notes
     -----
     The density function can be represented using the area of the bars, the
     height or the transparency (alpha). The default behaviour will use the
     area. Using the heigth can visually biase the importance of the largest
-    values. Adapted from: https://jwalton.info/Matplotlib-rose-plots/
+    values. Adapted from [#]_.
+
+    The circular mean was adapted from the implementation of the pingouin
+    python package [#]_
 
     Examples
     --------
@@ -281,6 +312,12 @@ def circular(data, bins=32, density='area', offset=0, mean=False, norm=True,
        from systole.circular import circular
        x = np.random.normal(np.pi, 0.5, 100)
        circular(x)
+
+    References
+    ----------
+    .. [#] https://jwalton.info/Matplotlib-rose-plots/
+
+    .. [#] https://pingouin-stats.org/_modules/pingouin/circular.html#circ_mean
     """
     if isinstance(data, list):
         data = np.asarray(data)
@@ -324,7 +361,11 @@ def circular(data, bins=32, density='area', offset=0, mean=False, norm=True,
 
     # Plot mean and CI
     if mean:
-        ax.plot(circ_mean(data), radius.max(), 'ko')
+        # Use pingouin.circ_mean() method
+        alpha = np.array(data)
+        w = np.ones_like(alpha)
+        circ_mean = np.angle(np.multiply(w, np.exp(1j * alpha)).sum(axis=0))
+        ax.plot(circ_mean, radius.max(), 'ko')
 
     # Set the direction of the zero angle
     ax.set_theta_offset(offset)
@@ -356,8 +397,8 @@ def plot_circular(data, y=None, hue=None, **kwargs):
 
     Returns
     -------
-    ax : Matplotlib axes
-        The circulars plot, one per condition.
+    ax : `Matplotlib.Axes`
+        The figure.
 
     Examples
     --------
