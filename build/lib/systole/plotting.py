@@ -7,16 +7,28 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from systole.detection import hrv_subspaces
 from systole.utils import heart_rate
+from scipy.interpolate import interp1d
 
 
-def plot_hr(oximeter, ax=None):
-    """Given a peaks vector, returns frequency plots.
+def plot_hr(x, sfreq=75, outliers=None, unit='rr', kind='cubic', ax=None):
+    """Plot the instantaneous heart rate time course.
 
     Parameters
     ----------
-    oximeter : `systole.recording.Oximeter`
+    x : 1d array-like or `systole.recording.Oximeter`
         The recording instance, where additional channels track different
-        events using boolean recording.
+        events using boolean recording. If a 1d array is provided, should be
+        a peaks vector.
+    sfreq : int
+        Signal sampling frequency. Default is 75 Hz.
+    outliers : 1d array-like
+        If not None, boolean array indexing RR intervals considered as outliers
+        and plotted separately.
+    unit : str
+        The heartrate unit in use. Can be 'rr' (R-R intervals, in ms)
+        or 'bpm' (beats per minutes). Default is 'rr'.
+    kind : str
+        The method to use (parameter of `scipy.interpolate.interp1d`).
     ax : `Matplotlib.Axes` or None
         Where to draw the plot. Default is *None* (create a new figure).
 
@@ -25,11 +37,47 @@ def plot_hr(oximeter, ax=None):
     ax : `Matplotlib.Axes`
         The figure.
     """
+    if isinstance(x, list):
+        x = np.asarray(x)
+    if not isinstance(x, np.ndarray):
+        x = np.asarray(x.peaks)
+
+    # If a RR time serie is provided, transform to peaks vector
+    if not ((x == 0) | (x == 1)).all():
+        x = np.round(x).astype(int)
+        peaks = np.zeros(np.cumsum(x)[-1])
+        peaks = np.insert(peaks, 0, 1)
+        peaks[np.cumsum(x)] = 1
+        sfreq = 1000
+    else:
+        peaks = x
+
+    # Compute the interpolated instantaneous heart rate
+    hr, times = heart_rate(peaks, sfreq=sfreq, unit=unit, kind=kind)
+
+    # New peaks vector
+    f = interp1d(np.arange(0, len(peaks)/sfreq, 1/sfreq), peaks,
+                 kind='linear', bounds_error=False, fill_value=(0, 0))
+    new_peaks = f(times)
+
     if ax is None:
         fig, ax = plt.subplots(figsize=(13, 5))
-    ax.plot(oximeter.times, oximeter.instant_rr)
+
+    # Interpolate instantaneous HR
+    ax.plot(times, hr, linestyle='--', color='gray')
+
+    # Heart beats
+    ax.plot(times[np.where(new_peaks)[0]], hr[np.where(new_peaks)[0]], 'bo',
+            alpha=0.5)
+
+    # Show outliers
+    if outliers is not None:
+        idx = np.where(peaks)[0][1:][np.where(outliers)[0]]
+        ax.plot(times[idx], hr[idx], 'ro')
+
     ax.set_xlabel('Time (s)')
     ax.set_ylabel('R-R (ms)')
+    ax.set_title('Instantaneous Heart rate', fontweight='bold')
 
     return ax
 
@@ -52,15 +100,18 @@ def plot_events(oximeter, ax=None):
     """
     if ax is None:
         fig, ax = plt.subplots(figsize=(13, 5))
+    palette = itertools.cycle(sns.color_palette('deep'))
     events = oximeter.channels.copy()
     for i, ch in enumerate(events):
-        for id in np.where(events[ch])[0]:
-            ax.plot(oximeter.times[id], i+0.5, 'bo')
+        ax.fill_between(x=oximeter.times, y1=i, y2=i+0.5,
+                        color=next(palette),
+                        where=np.array(events[ch]) == 1)
 
     # Add y ticks with channels names
     ax.set_yticks(np.arange(len(events)) + 0.5)
     ax.set_yticklabels([key for key in events])
     ax.set_xlabel('Time (s)')
+    ax.set_title('Events', fontweight='bold')
 
     return ax
 
@@ -90,62 +141,18 @@ def plot_oximeter(oximeter, ax=None):
                     y2=np.asarray(oximeter.recording).min(),
                     alpha=0.2,
                     color='gray')
-    ax.plot(oximeter.times, oximeter.recording, label='Recording')
+    ax.plot(oximeter.times, oximeter.recording, label='Recording',
+            color='#4c72b0')
     ax.fill_between(x=oximeter.times,
                     y1=oximeter.recording,
                     y2=np.asarray(oximeter.recording).min(),
                     color='w')
     ax.plot(np.asarray(oximeter.times)[np.where(oximeter.peaks)[0]],
             np.asarray(oximeter.recording)[np.where(oximeter.peaks)[0]],
-            'ro', label='Online estimation')
+            color='#c44e52', linestyle=None, label='Online estimation')
     ax.set_ylabel('PPG level')
     ax.set_xlabel('Time (s)')
     ax.legend()
-
-    return ax
-
-
-def plot_peaks(peaks, sfreq=1000, kind='lines', unit='rr', ax=None):
-    """Peaks vector to continuous time serie.
-
-    Parameters
-    ----------
-    peaks : 1d array-like
-        Boolean vector of peaks in Oxi data.
-    sfreq : int
-        Sampling frequency. Default is 1000 Hz.
-    kind : str
-        The method to use (parameter of `scipy.interpolate.interp1d`).
-    unit : str
-        The heartrate unit in use. Can be 'rr' (R-R intervals, in ms)
-        or 'bpm' (beats per minutes). Default is 'rr'.
-    ax : Matplotlib.Axes instance | None
-        Where to draw the plot. Default is ´None´ (create a new figure).
-
-    Returns
-    -------
-    ax : `Matplotlib.Axes`
-        The figure.
-    """
-    if isinstance(peaks, list):
-        peaks = np.asarray(peaks)
-
-    hr, time = heart_rate(peaks, sfreq=sfreq)
-
-    if unit == 'bpm':
-        ylab = 'BPM'
-    elif unit == 'rr':
-        ylab = 'R-R (ms)'
-    else:
-        raise ValueError('Invalid unit. Should be ´rr´ or ´bpm´')
-
-    if ax is None:
-        fig, ax = plt.subplots()
-
-    # Plot continuous HR
-    ax.plot(time, hr, color='gray', linestyle='--')
-    ax.set_ylabel(ylab)
-    ax.set_xlabel('Times (s)')
 
     return ax
 
@@ -156,17 +163,21 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
 
     Parameters
     ----------
-    x : array
+    x : 1d array-like
         Array of RR intervals or subspace1. If subspace1 is provided, subspace2
         and 3 must also be provided.
-    subspace2, subspace3 : array | None
+    subspace2, subspace3 : 1d array-like or None
         Default is `None` (expect x to be RR time serie).
     c1 : float
-        Fixed variable controling the slope of the threshold lines. Default set
-        to 0.13.
+        Fixed variable controling the slope of the threshold lines. Default is
+        0.13.
     c2 : float
-        Fixed variable controling the slope of the threshold lines. Default set
-        to 0.17.
+        Fixed variable controling the intersect of the threshold lines. Default
+        is 0.17.
+    xlim : int
+        Absolute range of the x axis. Default is 10.
+    ylim : int
+        Absolute range of the y axis. Default is 5.
     ax : `Matplotlib.Axes` or None
         Where to draw the plot. Default is *None* (create a new figure).
 
@@ -185,7 +196,8 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     if (subspace3 is not None) & (subspace3 is not None):
         subspace1 = x
     else:
-        assert isinstance(x, (np.ndarray, np.generic))
+        if not isinstance(x, (np.ndarray, np.generic)):
+            x = np.asarray(x)
         subspace1, subspace2, subspace3 = hrv_subspaces(x)
 
     # Rescale to show outlier in scatterplot
@@ -196,42 +208,92 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
         subspace2[subspace2 < -ylim] = -ylim
         subspace2[subspace2 > ylim] = ylim
 
-        subspace3[subspace3 < -ylim] = -ylim
-        subspace3[subspace3 > ylim] = ylim
+        subspace3[subspace3 < -ylim*2] = -ylim*2
+        subspace3[subspace3 > ylim*2] = ylim*2
+
+    # Outliers
+    ##########
+
+    # Find ectobeats
+    cond1 = (subspace1 > 1) & (subspace2 < (-c1 * subspace1-c2))
+    cond2 = (subspace1 < -1) & (subspace2 > (-c1 * subspace1+c2))
+    rejection1 = cond1 | cond2
+
+    # Find long or shorts
+    cond1 = (subspace1 > 1) & (subspace3 < -1)
+    cond2 = (subspace1 < -1) & (subspace3 > 1)
+    rejection2 = cond1 | cond2
 
     if ax is None:
-        fig, ax = plt.subplots(1, 2, figsize=(8, 5))
+        fig, ax = plt.subplots(1, 2, figsize=(10, 5))
 
-    ax[0].set_title('Subspace of successive RR interval differences')
-    ax[0].plot(subspace1, subspace2, 'bo')
-
-    # Upper area
-    ax[0].plot([-1, -10], [1, -c1*-10 - c2], 'k')
-    ax[0].plot([-1, -1], [1, 10], 'k')
-
-    # Lower area
-    ax[0].plot([1, 10], [-1, -c1*10 + c2], 'k')
-    ax[0].plot([1, 1], [-1, -10], 'k')
-
-    ax[0].set_xlabel('Subspace $S_11$')
-    ax[0].set_ylabel('Subspace $S_12$')
-    ax[0].set_ylim(-5, 5)
-    ax[0].set_xlim(-10, 10)
-
-    ax[1].plot(subspace1, subspace3, 'bo')
+    # Plot data points
+    ax[0].scatter(subspace1[~rejection1],
+                  subspace2[~rejection1], color='b', edgecolors='k', zorder=10)
+    ax[0].scatter(subspace1[rejection1],
+                  subspace2[rejection1], color='r', edgecolors='k', zorder=10)
 
     # Upper area
-    ax[1].plot([-1, -10], [1, 1], 'k')
-    ax[1].plot([-1, -1], [1, 10], 'k')
+    def f1(x): return -c1*x + c2
+    ax[0].plot([-1, -10], [f1(-1), f1(-10)], 'k', linewidth=1, linestyle='--')
+    ax[0].plot([-1, -1], [f1(-1), 10], 'k', linewidth=1, linestyle='--')
+    x = [-10, -10, -1, -1]
+    y = [f1(-10), 10, 10, f1(-1)]
+    ax[0].fill(x, y, color='#fcddcb', alpha=0.8)
 
     # Lower area
-    ax[1].plot([1, 10], [-1, -1], 'k')
-    ax[1].plot([1, 1], [-1, -10], 'k')
+    def f2(x): return -c1*x - c2
+    ax[0].plot([1, 10], [f2(1), f2(10)], 'k', linewidth=1, linestyle='--')
+    ax[0].plot([1, 1], [f2(1), -10], 'k', linewidth=1, linestyle='--')
+    x = [1, 1, 10, 10]
+    y = [f2(1), -10, -10, f2(10)]
+    ax[0].fill(x, y, color='#fcddcb', alpha=0.8)
 
-    ax[1].set_xlabel('Subspace $S_11$')
-    ax[1].set_ylabel('Subspace $S_12$')
-    ax[1].set_ylim(-5, 5)
-    ax[1].set_ylim(-10, 10)
+    # Blue area
+    x = [-10, -10, -1, -1, 10, 10, 1, 1]
+    y = [-10, f1(-10), f1(-1), 10, 10, f2(10), f2(1), -10]
+    ax[0].fill(x, y, color='#c7dbef')
+
+    ax[0].set_xlabel('Subspace $S_{11}$')
+    ax[0].set_ylabel('Subspace $S_{12}$')
+    ax[0].set_ylim(-ylim, ylim)
+    ax[0].set_xlim(-xlim, xlim)
+    ax[0].set_title('Subspace 1 \n (ectobeats detection)', fontweight='bold')
+
+    ############
+
+    # Plot data points
+    ax[1].scatter(subspace1[~rejection2], subspace3[~rejection2], color='b',
+                  edgecolors='k', zorder=10)
+    ax[1].scatter(subspace1[rejection2], subspace3[rejection2], color='r',
+                  edgecolors='k', zorder=10)
+
+    # Upper area
+    ax[1].plot([-1, -10], [1, 1], 'k', linewidth=1, linestyle='--')
+    ax[1].plot([-1, -1], [1, 10], 'k', linewidth=1, linestyle='--')
+    x = [-10, -10, -1, -1]
+    y = [1, 10, 10, 1]
+    ax[1].fill(x, y, color='#fcddcb', alpha=0.8)
+
+    # Lower area
+    ax[1].plot([1, 10], [-1, -1], 'k', linewidth=1, linestyle='--')
+    ax[1].plot([1, 1], [-1, -10], 'k', linewidth=1, linestyle='--')
+    x = [1, 1, 10, 10]
+    y = [-1, -10, -10, -1]
+    ax[1].fill(x, y, color='#fcddcb', alpha=0.8)
+
+    # Blue area
+    x = [-10, -10, -1, -1, 10, 10, 1, 1]
+    y = [-10, 1, 1, 10, 10, -1, -1, -10]
+    ax[1].fill(x, y, color='#c7dbef')
+
+    ax[1].set_xlabel('Subspace $S_{21}$')
+    ax[1].set_ylabel('Subspace $S_{22}$')
+    ax[1].set_ylim(-ylim*2, ylim*2)
+    ax[1].set_xlim(-xlim, xlim)
+    ax[1].set_title('Subspace 2 \n (long and short beats detection)',
+                    fontweight='bold')
+    plt.tight_layout()
 
     return ax
 

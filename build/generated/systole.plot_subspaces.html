@@ -15,7 +15,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="systole.circular" href="systole.circular.html" />
-    <link rel="prev" title="systole.plot_peaks" href="systole.plot_peaks.html" />
+    <link rel="prev" title="systole.plot_oximeter" href="systole.plot_oximeter.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -83,7 +83,7 @@
               
                 
   <li>
-    <a href="systole.plot_peaks.html" title="Previous Chapter: systole.plot_peaks"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; systole.plot_peaks</span>
+    <a href="systole.plot_oximeter.html" title="Previous Chapter: systole.plot_oximeter"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; systole.plot_oximeter</span>
     </a>
   </li>
   <li>
@@ -130,16 +130,20 @@
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl>
-<dt><strong>x</strong><span class="classifier">array</span></dt><dd><p>Array of RR intervals or subspace1. If subspace1 is provided, subspace2
+<dt><strong>x</strong><span class="classifier">1d array-like</span></dt><dd><p>Array of RR intervals or subspace1. If subspace1 is provided, subspace2
 and 3 must also be provided.</p>
 </dd>
-<dt><strong>subspace2, subspace3</strong><span class="classifier">array | None</span></dt><dd><p>Default is <cite>None</cite> (expect x to be RR time serie).</p>
+<dt><strong>subspace2, subspace3</strong><span class="classifier">1d array-like or None</span></dt><dd><p>Default is <cite>None</cite> (expect x to be RR time serie).</p>
 </dd>
-<dt><strong>c1</strong><span class="classifier">float</span></dt><dd><p>Fixed variable controling the slope of the threshold lines. Default set
-to 0.13.</p>
+<dt><strong>c1</strong><span class="classifier">float</span></dt><dd><p>Fixed variable controling the slope of the threshold lines. Default is
+0.13.</p>
 </dd>
-<dt><strong>c2</strong><span class="classifier">float</span></dt><dd><p>Fixed variable controling the slope of the threshold lines. Default set
-to 0.17.</p>
+<dt><strong>c2</strong><span class="classifier">float</span></dt><dd><p>Fixed variable controling the intersect of the threshold lines. Default
+is 0.17.</p>
+</dd>
+<dt><strong>xlim</strong><span class="classifier">int</span></dt><dd><p>Absolute range of the x axis. Default is 10.</p>
+</dd>
+<dt><strong>ylim</strong><span class="classifier">int</span></dt><dd><p>Absolute range of the y axis. Default is 5.</p>
 </dd>
 <dt><strong>ax</strong><span class="classifier"><cite>Matplotlib.Axes</cite> or None</span></dt><dd><p>Where to draw the plot. Default is <em>None</em> (create a new figure).</p>
 </dd>

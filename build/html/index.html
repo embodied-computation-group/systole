@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Installation &#8212; systole 0.0.1 documentation</title>
+    <title>The Embodied Computation Toolbox &#8212; systole 0.0.1 documentation</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
@@ -72,13 +72,11 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">Installation</a></li>
-<li><a class="reference internal" href="#recording">Recording</a><ul>
-<li><a class="reference internal" href="#oximeter">Oximeter</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#">The Embodied Computation Toolbox</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#dependencies">Dependencies</a></li>
 <li><a class="reference internal" href="#quick-start">Quick start</a></li>
-<li><a class="reference internal" href="#id1">Recording</a></li>
+<li><a class="reference internal" href="#recording">Recording</a></li>
 <li><a class="reference internal" href="#online-detection">Online detection</a></li>
 <li><a class="reference internal" href="#peaks-detection">Peaks detection</a></li>
 <li><a class="reference internal" href="#artifact-removal">Artifact removal</a></li>
@@ -139,12 +137,15 @@
 <div class="figure align-center">
 <img alt="_images/banner.png" src="_images/banner.png" />
 </div>
+<hr class="docutils" />
+<div class="section" id="the-embodied-computation-toolbox">
+<h1>The Embodied Computation Toolbox<a class="headerlink" href="#the-embodied-computation-toolbox" title="Permalink to this headline">¶</a></h1>
 <p><strong>Systole</strong> is an open-source Python package providing simple tools to record and analyze body signal for psychophysiology.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">Functions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api.html#detection">Detection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#hrv">HRV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#heart-rate-variability">Heart Rate Variability</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#plotting">Plotting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#recording">Recording</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#utils">Utils</a></li>
@@ -155,6 +156,7 @@
 </li>
 </ul>
 </div>
+</div>
 <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <p>Download the zip file, extract the folder and run from the terminal:</p>
@@ -162,15 +164,18 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="recording">
-<h1>Recording<a class="headerlink" href="#recording" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="oximeter">
-<h2>Oximeter<a class="headerlink" href="#oximeter" title="Permalink to this headline">¶</a></h2>
-<p>Systole support the recording of PPG signal through the <a class="reference external" href="https://www.nonin.com/products/xpod/">Nonin 3012LP Xpod USB pulse oximeter</a> together with the <a class="reference external" href="https://www.nonin.com/products/8000s/">Nonin 8000SM ‘soft-clip’ fingertip sensors</a>.</p>
-</div>
+<div class="section" id="dependencies">
+<h1>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h1>
+<p>numpy
+pandas
+scipy
+matplotlib
+seaborn</p>
 </div>
 <div class="section" id="quick-start">
 <h1>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
+<p>Systole support the recording of PPG signal through the <a class="reference external" href="https://www.nonin.com/products/xpod/">Nonin 3012LP Xpod USB pulse oximeter</a> together with the <a class="reference external" href="https://www.nonin.com/products/8000s/">Nonin 8000SM ‘soft-clip’ fingertip sensors</a>.
+It can easily interface with <a class="reference external" href="https://www.psychopy.org/">PsychoPy</a> to record PPG signal during psychological experiments.</p>
 <p>Record and plot data with less than 6 lines of code.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">serial</span>
 <span class="kn">from</span> <span class="nn">systole.recording</span> <span class="kn">import</span> <span class="n">Oximeter</span>
@@ -187,8 +192,8 @@
 <img alt="_images/recording.png" src="_images/recording.png" />
 </div>
 </div>
-<div class="section" id="id1">
-<h1>Recording<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="recording">
+<h1>Recording<a class="headerlink" href="#recording" title="Permalink to this headline">¶</a></h1>
 <p>2 methods are available to record PPG signal:</p>
 <ul class="simple">
 <li><p>The <cite>read()</cite> method</p></li>
@@ -242,11 +247,11 @@ other commands.</p>
 </div>
 <div class="section" id="peaks-detection">
 <h1>Peaks detection<a class="headerlink" href="#peaks-detection" title="Permalink to this headline">¶</a></h1>
-<p>Methods from clipping correction and peak detection algorithm is adapted from <a class="footnote-reference brackets" href="#id4" id="id2">1</a>.</p>
+<p>Methods from clipping correction and peak detection algorithm is adapted from <a class="footnote-reference brackets" href="#id3" id="id1">1</a>.</p>
 </div>
 <div class="section" id="artifact-removal">
 <h1>Artifact removal<a class="headerlink" href="#artifact-removal" title="Permalink to this headline">¶</a></h1>
-<p>It is possible to detect and correct outliers from RR time course following the method described in <a class="footnote-reference brackets" href="#id5" id="id3">2</a>.</p>
+<p>It is possible to detect and correct outliers from RR time course following the method described in <a class="footnote-reference brackets" href="#id4" id="id2">2</a>.</p>
 </div>
 <div class="section" id="heart-rate-variability">
 <h1>Heart rate variability<a class="headerlink" href="#heart-rate-variability" title="Permalink to this headline">¶</a></h1>
@@ -264,8 +269,8 @@ other commands.</p>
 <span class="n">stats</span>
 </pre></div>
 </div>
-<table class="colwidths-auto docutils align-default" id="id6">
-<caption><span class="caption-text">Output</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<table class="colwidths-auto docutils align-default" id="id5">
+<caption><span class="caption-text">Output</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
 <tbody>
 <tr class="row-odd"><td><p><em>Value</em></p></td>
 <td><p><em>Metric</em></p></td>
@@ -289,8 +294,8 @@ other commands.</p>
 <span class="n">frequency_domain</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
 </pre></div>
 </div>
-<table class="colwidths-auto docutils align-default" id="id7">
-<caption><span class="caption-text">Output</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<table class="colwidths-auto docutils align-default" id="id6">
+<caption><span class="caption-text">Output</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
 <tbody>
 <tr class="row-odd"><td><p><em>Metric</em></p></td>
 <td><p><em>Value</em></p></td>
@@ -305,8 +310,8 @@ other commands.</p>
 <span class="n">nonlinear</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
 </pre></div>
 </div>
-<table class="colwidths-auto docutils align-default" id="id8">
-<caption><span class="caption-text">Output</span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<table class="colwidths-auto docutils align-default" id="id7">
+<caption><span class="caption-text">Output</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
 <tbody>
 <tr class="row-odd"><td><p><em>Metric</em></p></td>
 <td><p><em>Value</em></p></td>
@@ -328,18 +333,19 @@ Some variability can be observed with frequency-domain outputs.</p>
 <p>HeartPy: <a class="reference external" href="https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/">https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/</a></p>
 <p>hrv: <a class="reference external" href="https://github.com/rhenanbartels/hrv">https://github.com/rhenanbartels/hrv</a></p>
 <p>ECG-detector: <a class="reference external" href="https://github.com/berndporr/py-ecg-detectors">https://github.com/berndporr/py-ecg-detectors</a></p>
+<p>Pingouin: <a class="reference external" href="https://pingouin-stats.org/">https://pingouin-stats.org/</a></p>
 </div>
 <div class="section" id="references">
 <h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
 <p><strong>Peak detection (PPG signal)</strong></p>
 <dl class="footnote brackets">
-<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p>van Gent, P., Farah, H., van Nes, N., &amp; van Arem, B. (2019). HeartPy: A novel heart rate algorithm for the analysis of noisy signals. Transportation Research Part F: Traffic Psychology and Behaviour, 66, 368–378. <a class="reference external" href="https://doi.org/10.1016/j.trf.2019.09.015">https://doi.org/10.1016/j.trf.2019.09.015</a></p>
 </dd>
 </dl>
 <p><strong>Artefact detection and correction:</strong></p>
 <dl class="footnote brackets">
-<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id3">2</a></span></dt>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
 <dd><p>Lipponen, J. A., &amp; Tarvainen, M. P. (2019). A robust algorithm for heart rate variability time series artefact correction using novel beat classification. <em>Journal of Medical Engineering &amp; Technology, 43(3), 173–181</em>. <a class="reference external" href="https://doi.org/10.1080/03091902.2019.1640306">https://doi.org/10.1080/03091902.2019.1640306</a></p>
 </dd>
 </dl>

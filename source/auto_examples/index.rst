@@ -20,6 +20,26 @@ If you want to see the tutorials in action, you can also click on the link below
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="This example show how to detect ectobeat extra, missed and ectobeats from RR time series using ...">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_plot_SubspaceCorrection_thumb.png
+
+     :ref:`sphx_glr_auto_examples_plot_SubspaceCorrection.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/plot_SubspaceCorrection
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="This example show how to record PPG signal through the `Nonin 3012LP Xpod USB pulse oximeter &lt;h...">
 
 .. only:: html

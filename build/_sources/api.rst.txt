@@ -20,11 +20,10 @@ Detection
   artefact_correction
   missed_beat
   hrv_subspaces
-  signal_quality
   interpolate_clipping
 
-HRV
----
+Heart Rate Variability
+----------------------
 
 .. _hrv:
 
@@ -50,7 +49,6 @@ Plotting
   plot_hr
   plot_events
   plot_oximeter
-  plot_peaks
   plot_subspaces
   circular
   plot_circular

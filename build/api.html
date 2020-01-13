@@ -75,7 +75,7 @@
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Functions</a><ul>
 <li><a class="reference internal" href="#detection">Detection</a></li>
-<li><a class="reference internal" href="#hrv">HRV</a></li>
+<li><a class="reference internal" href="#heart-rate-variability">Heart Rate Variability</a></li>
 <li><a class="reference internal" href="#plotting">Plotting</a></li>
 <li><a class="reference internal" href="#recording">Recording</a></li>
 <li><a class="reference internal" href="#utils">Utils</a></li>
@@ -129,23 +129,23 @@
     <div class="body col-md-12 content" role="main">
       
   <div class="section" id="functions">
-<span id="api-ref"></span><h1><a class="toc-backref" href="#id6">Functions</a><a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h1>
+<span id="api-ref"></span><h1><a class="toc-backref" href="#id5">Functions</a><a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#functions" id="id6">Functions</a></p>
+<li><p><a class="reference internal" href="#functions" id="id5">Functions</a></p>
 <ul>
-<li><p><a class="reference internal" href="#detection" id="id7">Detection</a></p></li>
-<li><p><a class="reference internal" href="#hrv" id="id8">HRV</a></p></li>
-<li><p><a class="reference internal" href="#plotting" id="id9">Plotting</a></p></li>
-<li><p><a class="reference internal" href="#recording" id="id10">Recording</a></p></li>
-<li><p><a class="reference internal" href="#utils" id="id11">Utils</a></p></li>
+<li><p><a class="reference internal" href="#detection" id="id6">Detection</a></p></li>
+<li><p><a class="reference internal" href="#heart-rate-variability" id="id7">Heart Rate Variability</a></p></li>
+<li><p><a class="reference internal" href="#plotting" id="id8">Plotting</a></p></li>
+<li><p><a class="reference internal" href="#recording" id="id9">Recording</a></p></li>
+<li><p><a class="reference internal" href="#utils" id="id10">Utils</a></p></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="detection">
-<h2><a class="toc-backref" href="#id7">Detection</a><a class="headerlink" href="#detection" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">Detection</a><a class="headerlink" href="#detection" title="Permalink to this headline">¶</a></h2>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -164,17 +164,14 @@
 <tr class="row-even"><td><p><a class="reference internal" href="generated/systole.hrv_subspaces.html#systole.hrv_subspaces" title="systole.hrv_subspaces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hrv_subspaces</span></code></a>(x[, alpha, window])</p></td>
 <td><p>Plot hrv subspace as described by Lipponen &amp; Tarvainen (2019).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.signal_quality.html#systole.signal_quality" title="systole.signal_quality"><code class="xref py py-obj docutils literal notranslate"><span class="pre">signal_quality</span></code></a>(x)</p></td>
-<td><p>Verify signal quality and remove bad components.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/systole.interpolate_clipping.html#systole.interpolate_clipping" title="systole.interpolate_clipping"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interpolate_clipping</span></code></a>(signal[, threshold])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.interpolate_clipping.html#systole.interpolate_clipping" title="systole.interpolate_clipping"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interpolate_clipping</span></code></a>(signal[, threshold])</p></td>
 <td><p>Interoplate clipping segment.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section" id="hrv">
-<h2><a class="toc-backref" href="#id8">HRV</a><a class="headerlink" href="#hrv" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="heart-rate-variability">
+<h2><a class="toc-backref" href="#id7">Heart Rate Variability</a><a class="headerlink" href="#heart-rate-variability" title="Permalink to this headline">¶</a></h2>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -206,15 +203,15 @@
 </table>
 </div>
 <div class="section" id="plotting">
-<h2><a class="toc-backref" href="#id9">Plotting</a><a class="headerlink" href="#plotting" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8">Plotting</a><a class="headerlink" href="#plotting" title="Permalink to this headline">¶</a></h2>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.plot_hr.html#systole.plot_hr" title="systole.plot_hr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hr</span></code></a>(oximeter[, ax])</p></td>
-<td><p>Given a peaks vector, returns frequency plots.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.plot_hr.html#systole.plot_hr" title="systole.plot_hr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hr</span></code></a>(x[, sfreq, outliers, unit, kind, ax])</p></td>
+<td><p>Plot the instantaneous heart rate time course.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/systole.plot_events.html#systole.plot_events" title="systole.plot_events"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_events</span></code></a>(oximeter[, ax])</p></td>
 <td><p>Plot events distribution.</p></td>
@@ -222,23 +219,20 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.plot_oximeter.html#systole.plot_oximeter" title="systole.plot_oximeter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_oximeter</span></code></a>(oximeter[, ax])</p></td>
 <td><p>Plot recorded PPG signal.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/systole.plot_peaks.html#systole.plot_peaks" title="systole.plot_peaks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_peaks</span></code></a>(peaks[, sfreq, kind, unit, ax])</p></td>
-<td><p>Peaks vector to continuous time serie.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.plot_subspaces.html#systole.plot_subspaces" title="systole.plot_subspaces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_subspaces</span></code></a>(x[, subspace2, subspace3, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/systole.plot_subspaces.html#systole.plot_subspaces" title="systole.plot_subspaces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_subspaces</span></code></a>(x[, subspace2, subspace3, …])</p></td>
 <td><p>Plot hrv subspace as described by Lipponen &amp; Tarvainen (2019).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/systole.circular.html#systole.circular" title="systole.circular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">circular</span></code></a>(data[, bins, density, offset, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.circular.html#systole.circular" title="systole.circular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">circular</span></code></a>(data[, bins, density, offset, …])</p></td>
 <td><p>Plot polar histogram.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.plot_circular.html#systole.plot_circular" title="systole.plot_circular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_circular</span></code></a>(data[, y, hue])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/systole.plot_circular.html#systole.plot_circular" title="systole.plot_circular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_circular</span></code></a>(data[, y, hue])</p></td>
 <td><p>Plot polar histogram.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="recording">
-<h2><a class="toc-backref" href="#id10">Recording</a><a class="headerlink" href="#recording" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id9">Recording</a><a class="headerlink" href="#recording" title="Permalink to this headline">¶</a></h2>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -252,14 +246,14 @@
 </table>
 </div>
 <div class="section" id="utils">
-<h2><a class="toc-backref" href="#id11">Utils</a><a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id10">Utils</a><a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h2>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.norm_triggers.html#systole.norm_triggers" title="systole.norm_triggers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">norm_triggers</span></code></a>(x, threshold, n[, direction])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.norm_triggers.html#systole.norm_triggers" title="systole.norm_triggers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">norm_triggers</span></code></a>(x[, threshold, n, direction])</p></td>
 <td><p>Turns noisy triggers into unique boolean.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/systole.time_shift.html#systole.time_shift" title="systole.time_shift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time_shift</span></code></a>(x, events[, order])</p></td>

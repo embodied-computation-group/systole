@@ -4,12 +4,11 @@ README.rst
 requirements.txt
 setup.py
 systole/__init__.py
-systole/circular.py
 systole/detection.py
-systole/epochs.py
 systole/hrv.py
 systole/plotting.py
 systole/recording.py
+systole/reports.py
 systole/utils.py
 systole.egg-info/PKG-INFO
 systole.egg-info/SOURCES.txt

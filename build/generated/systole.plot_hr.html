@@ -125,13 +125,24 @@
 <h1>systole.plot_hr<a class="headerlink" href="#systole-plot-hr" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="systole.plot_hr">
-<code class="sig-prename descclassname">systole.</code><code class="sig-name descname">plot_hr</code><span class="sig-paren">(</span><em class="sig-param">oximeter</em>, <em class="sig-param">ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/systole/plotting.html#plot_hr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#systole.plot_hr" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a peaks vector, returns frequency plots.</p>
+<code class="sig-prename descclassname">systole.</code><code class="sig-name descname">plot_hr</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">sfreq=75</em>, <em class="sig-param">outliers=None</em>, <em class="sig-param">unit='rr'</em>, <em class="sig-param">kind='cubic'</em>, <em class="sig-param">ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/systole/plotting.html#plot_hr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#systole.plot_hr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the instantaneous heart rate time course.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl>
-<dt><strong>oximeter</strong><span class="classifier">instance of Oximeter</span></dt><dd><p>The recording instance, where additional channels track different
-events using boolean recording.</p>
+<dt><strong>x</strong><span class="classifier">1d array-like or <cite>systole.recording.Oximeter</cite></span></dt><dd><p>The recording instance, where additional channels track different
+events using boolean recording. If a 1d array is provided, should be
+a peaks vector.</p>
+</dd>
+<dt><strong>sfreq</strong><span class="classifier">int</span></dt><dd><p>Signal sampling frequency. Default is 75 Hz.</p>
+</dd>
+<dt><strong>outliers</strong><span class="classifier">1d array-like</span></dt><dd><p>If not None, boolean array indexing RR intervals considered as outliers
+and plotted separately.</p>
+</dd>
+<dt><strong>unit</strong><span class="classifier">str</span></dt><dd><p>The heartrate unit in use. Can be ‘rr’ (R-R intervals, in ms)
+or ‘bpm’ (beats per minutes). Default is ‘rr’.</p>
+</dd>
+<dt><strong>kind</strong><span class="classifier">str</span></dt><dd><p>The method to use (parameter of <cite>scipy.interpolate.interp1d</cite>).</p>
 </dd>
 <dt><strong>ax</strong><span class="classifier"><cite>Matplotlib.Axes</cite> or None</span></dt><dd><p>Where to draw the plot. Default is <em>None</em> (create a new figure).</p>
 </dd>

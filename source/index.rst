@@ -8,9 +8,6 @@
 
 ================
 
-The Embodied Computation Toolbox
-================================
-
 **Systole** is an open-source Python package providing simple tools to record and analyze body signal for psychophysiology.
 
 .. toctree::

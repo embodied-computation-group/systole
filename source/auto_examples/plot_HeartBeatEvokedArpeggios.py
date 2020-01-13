@@ -106,7 +106,7 @@ while time.time() - tstart < 10:
 #%%
 # Events
 # --------
-# Each channel is recording the activation of one of the tone.
+# The
 f, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 5), sharex=True)
 oxi.plot_recording(ax=ax1)
 oxi.plot_events(ax=ax2)

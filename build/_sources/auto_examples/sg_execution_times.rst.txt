@@ -5,10 +5,12 @@
 
 Computation times
 =================
-**00:48.349** total execution time for **auto_examples** files:
+**00:00.582** total execution time for **auto_examples** files:
 
 +-------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_plot_InstantaneousHeartRate.py` (``plot_InstantaneousHeartRate.py``)     | 00:31.409 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_plot_SubspaceCorrection.py` (``plot_SubspaceCorrection.py``)             | 00:00.582 | 0.0 MB |
 +-------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_plot_HeartBeatEvokedArpeggios.py` (``plot_HeartBeatEvokedArpeggios.py``) | 00:16.941 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_plot_HeartBeatEvokedArpeggios.py` (``plot_HeartBeatEvokedArpeggios.py``) | 00:00.000 | 0.0 MB |
++-------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_examples_plot_InstantaneousHeartRate.py` (``plot_InstantaneousHeartRate.py``)     | 00:00.000 | 0.0 MB |
 +-------------------------------------------------------------------------------------------------------+-----------+--------+

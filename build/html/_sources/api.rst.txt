@@ -20,11 +20,10 @@ Detection
   artefact_correction
   missed_beat
   hrv_subspaces
-  signal_quality
   interpolate_clipping
 
-HRV
----
+Heart Rate Variability
+----------------------
 
 .. _hrv:
 

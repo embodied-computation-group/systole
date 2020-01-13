@@ -113,10 +113,6 @@
 <span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="k">import</span> <span class="n">interp1d</span>
 <span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="k">import</span> <span class="n">find_peaks</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">interpolate</span>
-<span class="kn">from</span> <span class="nn">adtk.detector</span> <span class="k">import</span> <span class="n">ThresholdAD</span><span class="p">,</span> <span class="n">GeneralizedESDTestAD</span>
-<span class="kn">from</span> <span class="nn">adtk.data</span> <span class="k">import</span> <span class="n">validate_series</span>
-<span class="kn">from</span> <span class="nn">adtk.pipe</span> <span class="k">import</span> <span class="n">Pipeline</span>
-<span class="kn">from</span> <span class="nn">adtk.transformer</span> <span class="k">import</span> <span class="n">RollingAggregate</span>
 
 
 <div class="viewcode-block" id="oxi_peaks"><a class="viewcode-back" href="../../generated/systole.oxi_peaks.html#systole.oxi_peaks">[docs]</a><span class="k">def</span> <span class="nf">oxi_peaks</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">new_sfreq</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">clipping</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -237,10 +233,6 @@
 <span class="sd">        The cleaned peak boolean array.</span>
 <span class="sd">    per : float</span>
 <span class="sd">        Proportion (%) of beats that were corrected durig the procedure.</span>
-
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    This function use the GeneralizedESDTestAD to detect outliers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">per</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -272,43 +264,6 @@
 
         <span class="k">if</span> <span class="p">(</span><span class="n">low</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">high</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">):</span>
             <span class="k">break</span>
-
-    <span class="c1"># Set high and low thresholds using ESDT estimator</span>
-    <span class="k">if</span> <span class="n">esdt</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-
-        <span class="c1"># Detection</span>
-        <span class="n">rr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">peaks</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">rr</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;ms&#39;</span><span class="p">)</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;rr&#39;</span><span class="p">:</span> <span class="n">rr</span><span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">validate_series</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">rr</span><span class="p">)</span>
-        <span class="n">quantile_ad</span> <span class="o">=</span> <span class="n">GeneralizedESDTestAD</span><span class="p">()</span>
-        <span class="n">anomalies</span> <span class="o">=</span> <span class="n">quantile_ad</span><span class="o">.</span><span class="n">fit_detect</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-        <span class="n">outliers</span> <span class="o">=</span> <span class="n">rr</span><span class="p">[</span><span class="n">anomalies</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
-        <span class="n">per</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">outliers</span><span class="p">)</span>
-
-        <span class="c1"># Correction</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">outliers</span><span class="p">[</span><span class="n">outliers</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">)]):</span>
-            <span class="n">high_thr</span> <span class="o">=</span> <span class="n">outliers</span><span class="p">[</span><span class="n">outliers</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">)]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">high_thr</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">outliers</span><span class="p">[</span><span class="n">outliers</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">)]):</span>
-            <span class="n">low_thr</span> <span class="o">=</span> <span class="n">outliers</span><span class="p">[</span><span class="n">outliers</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">)]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">low_thr</span> <span class="o">=</span> <span class="kc">None</span>
-
-        <span class="k">if</span> <span class="n">low_thr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">peaks</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">low_thr</span><span class="p">):</span>
-                <span class="n">per</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="c1"># Find outliers using threshold</span>
-                <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">peaks</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">low_thr</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">peaks</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">peaks</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">0</span>
-
-        <span class="k">if</span> <span class="n">high_thr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">peaks</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="n">high_thr</span><span class="p">):</span>
-                <span class="n">per</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="c1"># Find outliers using threshold</span>
-                <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">peaks</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="n">high_thr</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">peaks</span><span class="p">,</span> <span class="n">npeaks</span> <span class="o">=</span> <span class="n">missed_beat</span><span class="p">(</span><span class="n">peaks</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
 
     <span class="c1"># Compute percent corrected</span>
     <span class="n">per</span> <span class="o">=</span> <span class="n">per</span><span class="o">/</span><span class="nb">sum</span><span class="p">(</span><span class="n">peaks</span><span class="p">)</span>
@@ -431,57 +386,6 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">s11</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">s12</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">s22</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="signal_quality"><a class="viewcode-back" href="../../generated/systole.signal_quality.html#systole.signal_quality">[docs]</a><span class="k">def</span> <span class="nf">signal_quality</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Verify signal quality and remove bad components.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    x : array</span>
-<span class="sd">        PPG signal.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    y : array</span>
-<span class="sd">        LargestcClean segment of PPG signal.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">generic</span><span class="p">))</span>
-    <span class="k">assert</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span>
-
-    <span class="c1">###############</span>
-    <span class="c1"># Quality check</span>
-    <span class="c1">###############</span>
-
-    <span class="c1"># To Panda DataFrame</span>
-    <span class="n">time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">/</span><span class="mi">75</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;ms&#39;</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;oxi&#39;</span><span class="p">:</span> <span class="n">x</span><span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">validate_series</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">oxi</span><span class="p">)</span>
-
-    <span class="n">steps</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">(</span><span class="s2">&quot;standard_deviation&quot;</span><span class="p">,</span> <span class="n">RollingAggregate</span><span class="p">(</span><span class="n">agg</span><span class="o">=</span><span class="s2">&quot;std&quot;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
-                                                <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">)),</span>
-        <span class="p">(</span><span class="s2">&quot;median&quot;</span><span class="p">,</span> <span class="n">RollingAggregate</span><span class="p">(</span><span class="n">agg</span><span class="o">=</span><span class="s2">&quot;median&quot;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">)),</span>
-        <span class="p">(</span><span class="s2">&quot;threshold&quot;</span><span class="p">,</span> <span class="n">ThresholdAD</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">40</span><span class="p">))</span>
-    <span class="p">]</span>
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span>
-
-    <span class="n">anomalies</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit_detect</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-
-    <span class="c1"># Find longest segment</span>
-    <span class="n">filt</span> <span class="o">=</span> <span class="n">anomalies</span><span class="o">.</span><span class="n">values</span>
-    <span class="n">filt</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">filt</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">filt</span> <span class="o">=</span> <span class="n">filt</span> <span class="o">==</span> <span class="mi">0</span>
-    <span class="n">bounded</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(([</span><span class="mi">0</span><span class="p">],</span> <span class="n">filt</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-    <span class="n">difs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">bounded</span><span class="p">)</span>
-    <span class="n">run_starts</span><span class="p">,</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">difs</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">run_ends</span><span class="p">,</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">difs</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">run_ends</span> <span class="o">-</span> <span class="n">run_starts</span><span class="p">)</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-    <span class="n">out</span><span class="p">[</span><span class="n">run_starts</span><span class="p">[</span><span class="n">idx</span><span class="p">]:</span><span class="n">run_ends</span><span class="p">[</span><span class="n">idx</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">per</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="n">out</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)],</span> <span class="n">per</span></div>
-
-
 <div class="viewcode-block" id="interpolate_clipping"><a class="viewcode-back" href="../../generated/systole.interpolate_clipping.html#systole.interpolate_clipping">[docs]</a><span class="k">def</span> <span class="nf">interpolate_clipping</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">255</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Interoplate clipping segment.</span>
 
@@ -497,9 +401,14 @@
 <span class="sd">    clean_signal : array</span>
 <span class="sd">        Interpolated signal.</span>
 
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Correct signal segment reaching recording threshold (default is 255)</span>
+<span class="sd">    using a cubic spline interpolation. Adapted from [#]_.</span>
+
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    [1] https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/</span>
+<span class="sd">    .. [#] https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="n">signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>

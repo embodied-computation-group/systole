@@ -125,11 +125,11 @@
 <h1>systole.circular<a class="headerlink" href="#systole-circular" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="systole.circular">
-<code class="sig-prename descclassname">systole.</code><code class="sig-name descname">circular</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">bins=32</em>, <em class="sig-param">density='area'</em>, <em class="sig-param">offset=0</em>, <em class="sig-param">mean=False</em>, <em class="sig-param">norm=True</em>, <em class="sig-param">units='radians'</em>, <em class="sig-param">color=None</em>, <em class="sig-param">ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/systole/circular.html#circular"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#systole.circular" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">systole.</code><code class="sig-name descname">circular</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">bins=32</em>, <em class="sig-param">density='area'</em>, <em class="sig-param">offset=0</em>, <em class="sig-param">mean=False</em>, <em class="sig-param">norm=True</em>, <em class="sig-param">units='radians'</em>, <em class="sig-param">color=None</em>, <em class="sig-param">ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/systole/plotting.html#circular"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#systole.circular" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot polar histogram.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>data</strong><span class="classifier">array-like or list</span></dt><dd><p>Angular values, in radians.</p>
 </dd>
 <dt><strong>bins</strong><span class="classifier">int</span></dt><dd><p>Use even value to have a bin edge at zero.</p>
@@ -149,13 +149,13 @@ Default set to ‘radians’.</p>
 </dd>
 <dt><strong>color</strong><span class="classifier">Matplotlib color</span></dt><dd><p>The color of the bars.</p>
 </dd>
-<dt><strong>ax</strong><span class="classifier">Matplotlib.Axes instance | None</span></dt><dd><p>Where to draw the plot. Default is ´None´ (create a new figure).</p>
+<dt><strong>ax</strong><span class="classifier"><cite>Matplotlib.Axes</cite> or None</span></dt><dd><p>Where to draw the plot. Default is <em>None</em> (create a new figure).</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>ax</strong><span class="classifier">Matplotlib Axes instance</span></dt><dd><p>Axes object with the plot.</p>
+<dd class="field-even"><dl>
+<dt><strong>ax</strong><span class="classifier"><cite>Matplotlib.Axes</cite></span></dt><dd><p>The figure.</p>
 </dd>
 </dl>
 </dd>
@@ -164,7 +164,18 @@ Default set to ‘radians’.</p>
 <p>The density function can be represented using the area of the bars, the
 height or the transparency (alpha). The default behaviour will use the
 area. Using the heigth can visually biase the importance of the largest
-values. Adapted from: <a class="reference external" href="https://jwalton.info/Matplotlib-rose-plots/">https://jwalton.info/Matplotlib-rose-plots/</a></p>
+values. Adapted from <a class="footnote-reference brackets" href="#id3" id="id1">1</a>.</p>
+<p>The circular mean was adapted from the implementation of the pingouin
+python package <a class="footnote-reference brackets" href="#id4" id="id2">2</a></p>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p><a class="reference external" href="https://jwalton.info/Matplotlib-rose-plots/">https://jwalton.info/Matplotlib-rose-plots/</a></p>
+</dd>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p><a class="reference external" href="https://pingouin-stats.org/_modules/pingouin/circular.html#circ_mean">https://pingouin-stats.org/_modules/pingouin/circular.html#circ_mean</a></p>
+</dd>
+</dl>
 <p class="rubric">Examples</p>
 <p>Plot polar data.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>

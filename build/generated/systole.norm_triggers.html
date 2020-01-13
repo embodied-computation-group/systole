@@ -125,7 +125,7 @@
 <h1>systole.norm_triggers<a class="headerlink" href="#systole-norm-triggers" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="systole.norm_triggers">
-<code class="sig-prename descclassname">systole.</code><code class="sig-name descname">norm_triggers</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">threshold</em>, <em class="sig-param">n</em>, <em class="sig-param">direction='higher'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/systole/utils.html#norm_triggers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#systole.norm_triggers" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">systole.</code><code class="sig-name descname">norm_triggers</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">threshold=1</em>, <em class="sig-param">n=5</em>, <em class="sig-param">direction='higher'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/systole/utils.html#norm_triggers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#systole.norm_triggers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Turns noisy triggers into unique boolean.</p>
 <p>Keep the first trigger and set to 0 the n following values.</p>
 <dl class="field-list simple">
@@ -133,9 +133,9 @@
 <dd class="field-odd"><dl class="simple">
 <dt><strong>x</strong><span class="classifier">NumPy array</span></dt><dd><p>The triggers to convert.</p>
 </dd>
-<dt><strong>threshold</strong><span class="classifier">float</span></dt><dd><p>Threshold for triggering values.</p>
+<dt><strong>threshold</strong><span class="classifier">float</span></dt><dd><p>Threshold for triggering values. Default is 1.</p>
 </dd>
-<dt><strong>n</strong><span class="classifier">int</span></dt><dd><p>Number of values to force to 0 following each triggers.</p>
+<dt><strong>n</strong><span class="classifier">int</span></dt><dd><p>Number of values to force to 0 following each triggers. Default is 5.</p>
 </dd>
 <dt><strong>direction</strong><span class="classifier">str</span></dt><dd><p>Indicates if triggers are higher or lower than threshold. Can be
 <cite>higher</cite> or <cite>lower</cite>. Default is <cite>higher</cite>.</p>

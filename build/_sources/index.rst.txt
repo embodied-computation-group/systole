@@ -6,6 +6,8 @@
 .. figure::  images/banner.png
    :align:   center
 
+================
+
 **Systole** is an open-source Python package providing simple tools to record and analyze body signal for psychophysiology.
 
 .. toctree::
@@ -23,16 +25,19 @@ Download the zip file, extract the folder and run from the terminal:
 
   python setup.py install
 
-Recording
-=========
-
-Oximeter
---------
-
-Systole support the recording of PPG signal through the `Nonin 3012LP Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_.
+Dependencies
+============
+numpy
+pandas
+scipy
+matplotlib
+seaborn
 
 Quick start
 ===========
+
+Systole support the recording of PPG signal through the `Nonin 3012LP Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_.
+It can easily interface with `PsychoPy <https://www.psychopy.org/>`_ to record PPG signal during psychological experiments.
 
 Record and plot data with less than 6 lines of code.
 
@@ -210,6 +215,8 @@ HeartPy: https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/
 hrv: https://github.com/rhenanbartels/hrv
 
 ECG-detector: https://github.com/berndporr/py-ecg-detectors
+
+Pingouin: https://pingouin-stats.org/
 
 References
 ==========
