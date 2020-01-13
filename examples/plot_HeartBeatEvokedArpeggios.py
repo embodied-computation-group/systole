@@ -18,7 +18,8 @@ limiting the variability of phase in which the note is played.
 import time
 from systole import serialSim
 from psychopy.sound import Sound
-from systole.circular import to_angles, circular
+from systole.utils import to_angles
+from systole.plotting import circular
 from systole.recording import Oximeter
 import matplotlib.pyplot as plt
 import numpy as np
@@ -85,14 +86,16 @@ while time.time() - tstart < 10:
 
         # T + 2/4
         if systoleTime2 is not None:
-            if time.time() - systoleTime2 >= (((oxi.instant_rr[-1]/4) * 2)/1000):
+            if time.time() - systoleTime2 >= (
+                                    ((oxi.instant_rr[-1]/4) * 2)/1000):
                 diastole2 = Sound('G', secs=0.1)
                 diastole2.play()
                 systoleTime2 = None
 
         # T + 3/4
         if systoleTime3 is not None:
-            if time.time() - systoleTime3 >= (((oxi.instant_rr[-1]/4) * 3)/1000):
+            if time.time() - systoleTime3 >= (
+                                    ((oxi.instant_rr[-1]/4) * 3)/1000):
                 diastole3 = Sound('A', secs=0.1)
                 diastole3.play()
                 systoleTime3 = None
@@ -111,7 +114,6 @@ f, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 5), sharex=True)
 oxi.plot_recording(ax=ax1)
 oxi.plot_events(ax=ax2)
 plt.tight_layout()
-
 
 #%%
 # Cardiac cycle
