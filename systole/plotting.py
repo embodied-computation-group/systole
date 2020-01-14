@@ -144,7 +144,7 @@ def plot_oximeter(x, sfreq=75, ax=None):
     else:
         times = np.asarray(x.times)
         recording = np.asarray(x.recording)
-        peaks = np.asarray(x.recording)
+        peaks = np.asarray(x.peaks)
         threshold = np.asarray(x.threshold)
         label = 'Online estimation'
 
@@ -160,14 +160,14 @@ def plot_oximeter(x, sfreq=75, ax=None):
                         y2=recording.min(),
                         alpha=0.2,
                         color='gray')
-    ax.plot(times, recording, label='Recording', linewidth=.2,
+    ax.plot(times, recording, label='Recording',
             color='#4c72b0')
     ax.fill_between(x=times,
                     y1=recording,
                     y2=recording.min(),
                     color='w')
     ax.plot(times[np.where(peaks)[0]], recording[np.where(peaks)[0]], 'o',
-            color='#c44e52', markersize=0.8, label=label)
+            color='#c44e52', label=label)
     ax.set_ylabel('PPG level')
     ax.set_xlabel('Time (s)')
     ax.legend()
@@ -440,7 +440,7 @@ def circular(data, bins=32, density='area', offset=0, mean=False, norm=True,
     .. plot::
 
        import numpy as np
-       from systole.circular import circular
+       from systole.plotting import circular
        x = np.random.normal(np.pi, 0.5, 100)
        circular(x)
 
