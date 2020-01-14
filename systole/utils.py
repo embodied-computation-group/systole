@@ -141,9 +141,9 @@ def to_angles(x, events):
 
     Parameters
     ----------
-    x : list or numpy array
+    x : list or 1d array-like
         The reference time serie. Time points can be unevenly spaced.
-    events : list or numpy array
+    events : list or 1d array-like
         The events time serie.
 
     Returns
@@ -156,7 +156,7 @@ def to_angles(x, events):
     if isinstance(events, list):
         events = np.asarray(events)
 
-    # If data is provided as bollean format
+    # If data is provided in bollean format
     if not any(x > 1):
         x = np.where(x == 1)[0]
         events = np.where(events == 1)[0]
@@ -164,16 +164,19 @@ def to_angles(x, events):
     ang = []  # Where to store angular data
     for i in events:
 
-        if (i >= x.min()) & (i <= x.max()):
+        if (i >= x.min()) & (i < x.max()):
 
             # Length of current R-R interval
-            ln = np.min(x[x >= i]) - np.max(x[x < i])
+            ln = np.min(x[x > i]) - np.max(x[x <= i])
 
             # Event timing after previous R peak
             i -= np.max(x[x <= i])
 
             # Convert into radian [0 to pi*2]
             ang.append((i*np.pi*2)/ln)
+
+        elif i == x.max():
+            ang.append(0.0)
 
     return ang
 
