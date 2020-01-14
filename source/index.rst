@@ -1,6 +1,9 @@
 .. image:: https://img.shields.io/badge/License-GPL%20v3-blue.svg
   :target: https://github.com/LegrandNico/systole/blob/master/LICENSE
 
+.. image:: https://zenodo.org/badge/219720901.svg
+   :target: https://zenodo.org/badge/latestdoi/219720901
+
 ================
 
 .. figure::  images/banner.png

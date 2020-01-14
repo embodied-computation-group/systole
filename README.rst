@@ -1,8 +1,11 @@
 .. image:: https://img.shields.io/badge/License-GPL%20v3-blue.svg
-  :target: https://github.com/LegrandNico/systole/blob/master/LICENSE
+   :target: https://github.com/LegrandNico/systole/blob/master/LICENSE
 
 .. figure::  https://github.com/LegrandNico/systole/blob/master/Images/logo.png
    :align:   center
+
+.. image:: https://zenodo.org/badge/219720901.svg
+   :target: https://zenodo.org/badge/latestdoi/219720901
 
 ----------------
 
