@@ -1,8 +1,12 @@
+
 .. image:: https://img.shields.io/badge/License-GPL%20v3-blue.svg
   :target: https://github.com/LegrandNico/systole/blob/master/LICENSE
 
 .. image:: https://zenodo.org/badge/219720901.svg
    :target: https://zenodo.org/badge/latestdoi/219720901
+
+.. image:: https://badge.fury.io/py/systole.svg
+   :target: https://badge.fury.io/py/systole
 
 ================
 
@@ -13,33 +17,27 @@
 
 **Systole** is an open-source Python package providing simple tools to record and analyze body signal for psychophysiology.
 
-.. toctree::
-   :maxdepth: 2
-
-   api.rst
-   auto_examples/index.rst
-
 Installation
 ============
 
-Download the zip file, extract the folder and run from the terminal:
+Systole can be installed using pip:
 
 .. code-block:: shell
 
-  python setup.py install
+  pip install systole
 
-Dependencies
-============
-numpy
-pandas
-scipy
-matplotlib
-seaborn
+The following package will be required to use Systole:
 
-Quick start
-===========
+* Numpy (>=1.15)
+* SciPy (>=1.3.0)
+* Pandas (>=0.24)
+* Matplotlib (>=3.0.2)
+* Seaborn (>=0.9.0)
 
-Systole support the recording of PPG signal through the `Nonin 3012LP Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_.
+Recording
+=========
+
+Systole supports the recording of PPG signal through the `Nonin 3012LP Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_.
 It can easily interface with `PsychoPy <https://www.psychopy.org/>`_ to record PPG signal during psychological experiments.
 
 Record and plot data with less than 6 lines of code.
@@ -53,20 +51,15 @@ Record and plot data with less than 6 lines of code.
   # Open serial port, initialize and plot recording for Oximeter
   oxi = Oximeter(serial=ser).setup().read(duration=10)
 
-  # Plot data
-  oxi.plot()
 
-.. figure::  images/recording.png
-   :align:   center
-
-Recording
-=========
+Interfacing with PsychoPy
+-------------------------
 
 2 methods are available to record PPG signal:
 
 * The `read()` method
 
-Will continuously record for certain amount of time (specified by the
+Will continuously record for a certain amount of time (specified by the
 `duration` parameter, in seconds). This is the easiest and most robust method,
 but it is not possible to run instructions in the meantime (serial mode).
 
@@ -78,8 +71,8 @@ but it is not possible to run instructions in the meantime (serial mode).
 
 * The `readInWaiting()` method
 
-Will read all the availlable bytes (up to 10 seconds of recording). When
-inserted into a while loop, it allows to record PPG signal in parallel with
+Will read all the available bytes (up to 10 seconds of recording). When
+inserted into a while loop, it allows recording PPG signal in parallel with
 other commands.
 
 .. code-block:: python
@@ -91,9 +84,9 @@ other commands.
       # Insert code here {...}
 
 Online detection
-================
+----------------
 
-Set an online peak detection algorithm in less than 10 lines of code.
+Online heart beat detection.
 
 .. code-block:: python
 
@@ -116,29 +109,44 @@ Set an online peak detection algorithm in less than 10 lines of code.
           if oxi.peaks[-1] == 1:
             print('Heartbeat detected')
 
-See also a complete tutorial here: <https://github.com/LegrandNico/systole/tree/master/notebooks/HeartBeatEvokedTone.rst>
-
 Peaks detection
 ===============
+Heart beat can be detected in the PPG signal either online or offline.
+
 Methods from clipping correction and peak detection algorithm is adapted from [#]_.
+
+.. code-block:: python
+
+  # Plot data
+  oxi.plot()
+
+.. figure::  images/recording.png
+   :align:   center
 
 Artifact removal
 ================
 It is possible to detect and correct outliers from RR time course following the method described in [#]_.
 
-Heart rate variability
-======================
-Import RR time-serie.
-
 .. code-block:: python
 
-  from systole import import_rr
-  rr = import_rr().rr.values
+  from systole import import_rr()
+  from systole.plotting import plot_subspaces
+
+  rr = import_rr().rr[:100]
+  rr[20] = 1600  # Add missed beat
+
+  plot_subspaces(rr)
+
+.. figure::  images/subspaces.png
+   :align:   center
+
+Heart rate variability
+======================
 
 Time-domain
 -----------
 
-Extract summary of time-domain indexes.
+Extract the summary of time-domain indexes.
 
 .. code-block:: python
 
@@ -147,25 +155,18 @@ Extract summary of time-domain indexes.
   stats = time_domain(rr)
   stats
 
-.. table:: Output
-   :widths: auto
-
-   +-------+-----------+
-   |*Value*|*Metric*   |
-   +-------+-----------+
-
 Frequency-domain
 ----------------
 .. code-block:: python
 
-  from systole.hrv import hrv_psd1
+  from systole.hrv import plot_psd
 
-  hrv_psd(rr)
+  plot_psd(rr)
 
 .. figure::  images/psd.png
    :align:   center
 
-Extract summary of frequency-domain indexes.
+Extract the summary of frequency-domain indexes.
 
 .. code-block:: python
 
@@ -190,36 +191,30 @@ Non-linear
 
   nonlinear(rr)
 
-.. table:: Output
-   :widths: auto
-
-   +-----------+---------------+
-   | *Metric*  | *Value*       |
-   +-----------+---------------+
-
-
 All the results have been tested against Kubios HVR 2.2 (<https://www.kubios.com>).
-Some variability can be observed with frequency-domain outputs.
 
 
 Development
 ===========
 
-This module was created and is maintained by Nicolas Legrand and Micah Allen (ECG group, https://the-ecg.org/). If you want to contribute, feel free to contact one of the contributor, open an issue or submit a pull request.
+This module was created and is maintained by Nicolas Legrand and Micah Allen (ECG group, https://the-ecg.org/). If you want to contribute, feel free to contact one of the contributors, open an issue or submit a pull request.
 
 This program is provided with NO WARRANTY OF ANY KIND.
 
 Acknowledgement
 ===============
-Systole was largely inspired by preexisting toolboxes for heart rate variability and signal analysis.
 
-HeartPy: https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/
+This software supported by a Lundbeckfonden Fellowship (R272-2017-4345), and the AIAS-COFUND II fellowship programme that is supported by the Marie Skłodowska-Curie actions under the European Union’s Horizon 2020 (Grant agreement no 754513), and the Aarhus University Research Foundation.
 
-hrv: https://github.com/rhenanbartels/hrv
+Systole was largely inspired by preexisting toolboxes dedicated to heart rate variability and signal analysis.
 
-ECG-detector: https://github.com/berndporr/py-ecg-detectors
+* HeartPy: https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/
 
-Pingouin: https://pingouin-stats.org/
+* hrv: https://github.com/rhenanbartels/hrv
+
+* ECG-detector: https://github.com/berndporr/py-ecg-detectors
+
+* Pingouin: https://pingouin-stats.org/
 
 References
 ==========

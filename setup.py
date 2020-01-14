@@ -6,9 +6,7 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
-DESCRIPTION = "systole"
-LONG_DESCRIPTION = """Psychophysiology with Python.
-"""
+DESCRIPTION = """Psychophysiology with Python"""
 
 DISTNAME = 'systole'
 MAINTAINER = 'Nicolas Legrand'
@@ -42,8 +40,9 @@ if __name__ == "__main__":
           maintainer=MAINTAINER,
           maintainer_email=MAINTAINER_EMAIL,
           description=DESCRIPTION,
-          long_description=LONG_DESCRIPTION,
-          license=read('LICENSE'),
+          long_description=open('README.rst').read(),
+          long_description_content_type='text/x-rst',
+          license='GPL-3.0',
           version=VERSION,
           install_requires=INSTALL_REQUIRES,
           include_package_data=True,

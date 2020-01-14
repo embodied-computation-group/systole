@@ -34,7 +34,6 @@ Heart Rate Variability
   pnnX
   rmssd
   time_domain
-  hrv_psd
   frequency_domain
   nonlinear
 
