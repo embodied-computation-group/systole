@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib
 import unittest
 from unittest import TestCase
-from systole.hrv import nnX, pnnX, rmssd, time_domain, hrv_psd,\
+from systole.hrv import nnX, pnnX, rmssd, time_domain,\
     frequency_domain, nonlinear
 from systole import import_rr
 
@@ -33,13 +33,6 @@ class TestHrv(TestCase):
         stats = time_domain(rr)
         assert isinstance(stats, pd.DataFrame)
         assert stats.size == 24
-
-    def test_hrv_psd(self):
-        """Test hrv_psd function"""
-        ax = hrv_psd(rr)
-        assert isinstance(ax, matplotlib.axes.Axes)
-        freq, psd = hrv_psd(rr, show=False)
-        assert len(freq) == len(psd)
 
     def test_frequency_domain(self):
         """Test frequency_domain function"""

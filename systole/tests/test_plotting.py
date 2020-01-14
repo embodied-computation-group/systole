@@ -6,9 +6,8 @@ import unittest
 import matplotlib
 from unittest import TestCase
 
-from systole import import_rr
 from systole.plotting import plot_hr, plot_events, plot_oximeter,\
-    plot_subspaces, circular, plot_circular, plot_subspaces
+    plot_subspaces, circular, plot_circular, plot_psd
 from systole import import_ppg, import_rr
 from systole.recording import Oximeter
 from systole.detection import hrv_subspaces
@@ -38,6 +37,10 @@ class TestPlotting(TestCase):
     def test_plot_hr(self):
         ax = plot_hr(oxi)
         assert isinstance(ax, matplotlib.axes.Axes)
+        ax = plot_hr(oxi.peaks)
+        assert isinstance(ax, matplotlib.axes.Axes)
+        ax = plot_hr(np.asarray(oxi.peaks))
+        assert isinstance(ax, matplotlib.axes.Axes)
 
     def test_plot_events(self):
         ax = plot_events(oxi)
@@ -47,12 +50,20 @@ class TestPlotting(TestCase):
         ax = plot_oximeter(oxi)
         assert isinstance(ax, matplotlib.axes.Axes)
 
-    def plot_subspaces(self):
+    def test_plot_subspaces(self):
         rr = import_rr()
         s1, s2, s3 = hrv_subspaces(rr)
         ax = plot_subspaces(s1, s2, s3)
         assert isinstance(ax[0], matplotlib.axes.Axes)
         assert isinstance(ax[1], matplotlib.axes.Axes)
+
+    def test_plot_psd(self):
+        """Test plot_psd function"""
+        rr = import_rr().rr.values
+        ax = plot_psd(rr)
+        assert isinstance(ax, matplotlib.axes.Axes)
+        freq, psd = plot_psd(rr, show=False)
+        assert len(freq) == len(psd)
 
     def test_circular(self):
         """Tests _circular function"""

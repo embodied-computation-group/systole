@@ -1,11 +1,10 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import unittest
-import time
 import matplotlib
 import numpy as np
 from unittest import TestCase
-from systole import import_ppg, serialSim
+from systole import serialSim
 from systole.recording import Oximeter
 
 
@@ -17,7 +16,7 @@ class TestRecording(TestCase):
 
     def test_oximeter(self):
         oxi.setup()
-        oxi.read(5)
+        oxi.read(10)
         oxi.find_peaks()
 
         # Simulate events in recording
