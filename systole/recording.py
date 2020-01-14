@@ -307,17 +307,21 @@ class Oximeter():
                         if self.check(paquet=paquet):
                             break
 
-    def setup(self, read_duration=1):
+    def setup(self, read_duration=1, clear_peaks=True):
         """Find start byte and read a portion of signal.
 
         Parameters
         ----------
         read_duration : int
             Length of signal to record after setup. Default is set to 1 second.
+        clear_peaks : bool
+            If *True*, will remove detected peaks.
 
         Notes
         -----
-        .. warning:: Will remove previously recorded data.
+        .. warning:: setup() clear the input buffer and will remove previously
+        recorded data from the Oximeter instance. Peaks detected during this
+        procedure are automatically removed.
         """
         # Reset recording instance
         self.__init__(serial=self.serial, add_channels=self.n_channels)
@@ -327,6 +331,11 @@ class Oximeter():
             if self.check(paquet=paquet):
                 break
         self.read(duration=read_duration)
+
+        # Remove peaks
+        if clear_peaks is True:
+            self.peaks = [0] * len(self.peaks)
+
         return self
 
     def waitBeat(self):

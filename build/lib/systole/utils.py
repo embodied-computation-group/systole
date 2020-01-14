@@ -105,8 +105,10 @@ def heart_rate(x, sfreq=1000, unit='rr', kind='cubic'):
     before the first peak anf after the last peak will be filled with the
     adjacent heartrate.
     """
-    if np.any((np.abs(np.diff(x)) > 1)):
+    if not ((x == 1) | (x == 0)).all():
         raise ValueError('Input vector should only contain 0 and 1')
+    if isinstance(x, list):
+        x = np.asarray(x)
 
     # Find peak indexes
     peaks_idx = np.where(x)[0]
@@ -128,7 +130,7 @@ def heart_rate(x, sfreq=1000, unit='rr', kind='cubic'):
     if kind is not None:
         # Interpolate
         f = interp1d(time, heartrate, kind=kind, bounds_error=False,
-                     fill_value=(heartrate[0], heartrate[-1]))
+                     fill_value=(np.nan, np.nan))
         heartrate = f(new_time)
 
     return heartrate, new_time

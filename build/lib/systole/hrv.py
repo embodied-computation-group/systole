@@ -2,7 +2,6 @@
 
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from scipy import interpolate
 from scipy.signal import welch
 
@@ -171,80 +170,6 @@ def time_domain(x):
     stats = pd.DataFrame({'Values': values, 'Metric': metrics})
 
     return stats
-
-
-def hrv_psd(x, sfreq=5, method='welch', fbands=None, low=0.003,
-            high=0.4, show=True, ax=None):
-    """Plot PSD of heart rate variability.
-
-    Parameters
-    ----------
-    x : 1d array-like
-        Length of R-R intervals (default is in miliseconds).
-    sfreq : int
-        The sampling frequency.
-    method : str
-        The method used to extract freauency power. Default set to `'welch'`.
-    fbands : None or dict, optional
-        Dictionary containing the names of the frequency bands of interest
-        (str), their range (tuples) and their color in the PSD plot. Default is
-        {'vlf': ['Very low frequency', (0.003, 0.04), 'b'],
-        'lf': ['Low frequency', (0.04, 0.15), 'g'],
-        'hf': ['High frequency', (0.15, 0.4), 'r']}
-    show : boolean
-        Plot the power spectrum density. Default is `True`.
-    ax : Matplotlib.Axes instance | None
-        Where to draw the plot. Default is ´None´ (create a new figure).
-
-    Returns
-    -------
-    ax | freq, psd : Matplotlib instance | numpy array
-        If `show=True`, return the PSD plot. If `show=False`, will return the
-        frequencies and PSD level as arrays.
-    """
-    # Interpolate R-R interval
-    time = np.cumsum(x)
-    f = interpolate.interp1d(time, x, kind='cubic')
-    new_time = np.arange(time[0], time[-1], 1000/sfreq)  # Sampling rate = 5 Hz
-    x = f(new_time)
-
-    if method == 'welch':
-
-        # Define window length
-        nperseg = 256 * sfreq
-        if nperseg > len(x):
-            nperseg = len(x)
-
-        # Compute Power Spectral Density
-        freq, psd = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=nperseg)
-
-        psd = psd/1000000
-
-    if fbands is None:
-        fbands = {'vlf': ['Very low frequency', (0.003, 0.04), 'b'],
-                  'lf':	['Low frequency', (0.04, 0.15), 'g'],
-                  'hf':	['High frequency', (0.15, 0.4), 'r']}
-
-    if show is True:
-        # Plot the PSD
-        if ax is None:
-            fig, ax = plt.subplots(figsize=(8, 4))
-        ax.plot(freq, psd, 'k')
-        for f in ['vlf', 'lf', 'hf']:
-            mask = (freq >= fbands[f][1][0]) & (freq <= fbands[f][1][1])
-            ax.fill_between(freq, psd, where=mask, alpha=0.5,
-                            color=fbands[f][2])
-            ax.axvline(x=fbands[f][1][0],
-                       linestyle='--',
-                       color='gray')
-        ax.set_xlim(0.003, 0.4)
-        ax.set_xlabel('Frequency [Hz]')
-        ax.set_ylabel('PSD [$s^2$/Hz]')
-        ax.set_title('Power Spectral Density', fontweight='bold')
-
-        return ax
-    else:
-        return freq, psd
 
 
 def frequency_domain(x, sfreq=5, method='welch', fbands=None):

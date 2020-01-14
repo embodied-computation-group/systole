@@ -3,7 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from systole.detection import oxi_peaks, artefact_correction
-from systole.hrv import hrv_psd
+from systole.plotting import plot_psd, plot_oximeter, plot_hr
 from systole.utils import heart_rate
 
 
@@ -19,6 +19,10 @@ def report_oxi(signal, file_name='report.png', dpi=600):
     dpi : int
         Image quality.
     """
+    from systole import import_ppg
+    signal = import_ppg('1')[0]
+    plot_oximeter(signal)
+
     # Find peaks
     signal, peaks = oxi_peaks(signal)
 
@@ -62,7 +66,7 @@ def report_oxi(signal, file_name='report.png', dpi=600):
     fig_ax3.set_xlabel('RR(s)')
 
     fig_ax4 = fig.add_subplot(gs[2, 1])
-    hrv_psd(rr, show=True, ax=fig_ax4)
+    plot_psd(rr, show=True, ax=fig_ax4)
 
     fig_ax5 = fig.add_subplot(gs[2, 2])
     fig_ax5.plot(rr[:-1], rr[1:], color='gray', markersize=1, alpha=0.8)

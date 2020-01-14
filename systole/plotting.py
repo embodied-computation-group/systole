@@ -5,9 +5,10 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from systole.detection import hrv_subspaces
+from systole.detection import hrv_subspaces, oxi_peaks
 from systole.utils import heart_rate
 from scipy.interpolate import interp1d
+from scipy.signal import welch
 
 
 def plot_hr(x, sfreq=75, outliers=None, unit='rr', kind='cubic', ax=None):
@@ -39,25 +40,26 @@ def plot_hr(x, sfreq=75, outliers=None, unit='rr', kind='cubic', ax=None):
     """
     if isinstance(x, list):
         x = np.asarray(x)
-    if not isinstance(x, np.ndarray):
-        x = np.asarray(x.peaks)
-
-    # If a RR time serie is provided, transform to peaks vector
-    if not ((x == 0) | (x == 1)).all():
-        x = np.round(x).astype(int)
-        peaks = np.zeros(np.cumsum(x)[-1])
-        peaks = np.insert(peaks, 0, 1)
-        peaks[np.cumsum(x)] = 1
-        sfreq = 1000
-    else:
-        peaks = x
+    if isinstance(x, np.ndarray):
+        # If a RR time serie is provided, transform to peaks vector
+        if not ((x == 0) | (x == 1)).all():
+            x = np.round(x).astype(int)
+            peaks = np.zeros(np.cumsum(x)[-1])
+            peaks = np.insert(peaks, 0, 1)
+            peaks[np.cumsum(x)] = 1
+            sfreq = 1000
+        else:
+            peaks = x
+    else:  # Oximeter instance
+        peaks = np.asarray(x.peaks)
 
     # Compute the interpolated instantaneous heart rate
     hr, times = heart_rate(peaks, sfreq=sfreq, unit=unit, kind=kind)
 
     # New peaks vector
     f = interp1d(np.arange(0, len(peaks)/sfreq, 1/sfreq), peaks,
-                 kind='linear', bounds_error=False, fill_value=(0, 0))
+                 kind='linear', bounds_error=False,
+                 fill_value=(np.nan, np.nan))
     new_peaks = f(times)
 
     if ax is None:
@@ -83,7 +85,7 @@ def plot_hr(x, sfreq=75, outliers=None, unit='rr', kind='cubic', ax=None):
 
 
 def plot_events(oximeter, ax=None):
-    """Plot events distribution.
+    """Plot events occurence across recording.
 
     Parameters
     ----------
@@ -116,13 +118,15 @@ def plot_events(oximeter, ax=None):
     return ax
 
 
-def plot_oximeter(oximeter, ax=None):
-    """Plot recorded PPG signal.
+def plot_oximeter(x, sfreq=75, ax=None):
+    """Plot PPG signal.
 
     Parameters
     ----------
-    oximeter : `systole.recording.Oximeter`
-        The Oximeter instance used to record the signal.
+    x : 1d array-like or `systole.recording.Oximeter`
+        The ppg signal, or the Oximeter instance used to record the signal.
+    sfreq : int
+        Signal sampling frequency. Default is 75 Hz.
     ax : `Matplotlib.Axes` or None
         Where to draw the plot. Default is *None* (create a new figure).
 
@@ -131,25 +135,39 @@ def plot_oximeter(oximeter, ax=None):
     ax : `Matplotlib.Axes`
         The figure.
     """
+    if isinstance(x, (list, np.ndarray)):
+        times = np.arange(0, len(x)/sfreq, 1/sfreq)
+        recording = np.asarray(x)
+        signal, peaks = oxi_peaks(x, new_sfreq=sfreq)
+        threshold = None
+        label = 'Offline estimation'
+    else:
+        times = np.asarray(x.times)
+        recording = np.asarray(x.recording)
+        peaks = np.asarray(x.recording)
+        threshold = np.asarray(x.threshold)
+        label = 'Online estimation'
+
     if ax is None:
         fig, ax = plt.subplots(figsize=(13, 5))
     ax.set_title('Oximeter recording', fontweight='bold')
-    ax.plot(oximeter.times, oximeter.threshold, linestyle='--', color='gray',
-            label='Threshold')
-    ax.fill_between(x=oximeter.times,
-                    y1=oximeter.threshold,
-                    y2=np.asarray(oximeter.recording).min(),
-                    alpha=0.2,
-                    color='gray')
-    ax.plot(oximeter.times, oximeter.recording, label='Recording',
+
+    if threshold is not None:
+        ax.plot(times, threshold, linestyle='--', color='gray',
+                label='Threshold')
+        ax.fill_between(x=times,
+                        y1=threshold,
+                        y2=recording.min(),
+                        alpha=0.2,
+                        color='gray')
+    ax.plot(times, recording, label='Recording', linewidth=.2,
             color='#4c72b0')
-    ax.fill_between(x=oximeter.times,
-                    y1=oximeter.recording,
-                    y2=np.asarray(oximeter.recording).min(),
+    ax.fill_between(x=times,
+                    y1=recording,
+                    y2=recording.min(),
                     color='w')
-    ax.plot(np.asarray(oximeter.times)[np.where(oximeter.peaks)[0]], 'o',
-            np.asarray(oximeter.recording)[np.where(oximeter.peaks)[0]],
-            color='#c44e52', label='Online estimation')
+    ax.plot(times[np.where(peaks)[0]], recording[np.where(peaks)[0]], 'o',
+            color='#c44e52', markersize=0.8, label=label)
     ax.set_ylabel('PPG level')
     ax.set_xlabel('Time (s)')
     ax.legend()
@@ -296,6 +314,80 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     plt.tight_layout()
 
     return ax
+
+
+def plot_psd(x, sfreq=5, method='welch', fbands=None, low=0.003,
+             high=0.4, show=True, ax=None):
+    """Plot PSD of heart rate variability.
+
+    Parameters
+    ----------
+    x : 1d array-like
+        Length of R-R intervals (default is in miliseconds).
+    sfreq : int
+        The sampling frequency.
+    method : str
+        The method used to extract freauency power. Default set to `'welch'`.
+    fbands : None or dict, optional
+        Dictionary containing the names of the frequency bands of interest
+        (str), their range (tuples) and their color in the PSD plot. Default is
+        {'vlf': ['Very low frequency', (0.003, 0.04), 'b'],
+        'lf': ['Low frequency', (0.04, 0.15), 'g'],
+        'hf': ['High frequency', (0.15, 0.4), 'r']}
+    show : boolean
+        Plot the power spectrum density. Default is `True`.
+    ax : Matplotlib.Axes instance | None
+        Where to draw the plot. Default is ´None´ (create a new figure).
+
+    Returns
+    -------
+    ax | freq, psd : Matplotlib instance | numpy array
+        If `show=True`, return the PSD plot. If `show=False`, will return the
+        frequencies and PSD level as arrays.
+    """
+    # Interpolate R-R interval
+    time = np.cumsum(x)
+    f = interp1d(time, x, kind='cubic')
+    new_time = np.arange(time[0], time[-1], 1000/sfreq)  # Sampling rate = 5 Hz
+    x = f(new_time)
+
+    if method == 'welch':
+
+        # Define window length
+        nperseg = 256 * sfreq
+        if nperseg > len(x):
+            nperseg = len(x)
+
+        # Compute Power Spectral Density
+        freq, psd = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=nperseg)
+
+        psd = psd/1000000
+
+    if fbands is None:
+        fbands = {'vlf': ['Very low frequency', (0.003, 0.04), 'b'],
+                  'lf':	['Low frequency', (0.04, 0.15), 'g'],
+                  'hf':	['High frequency', (0.15, 0.4), 'r']}
+
+    if show is True:
+        # Plot the PSD
+        if ax is None:
+            fig, ax = plt.subplots(figsize=(8, 4))
+        ax.plot(freq, psd, 'k')
+        for f in ['vlf', 'lf', 'hf']:
+            mask = (freq >= fbands[f][1][0]) & (freq <= fbands[f][1][1])
+            ax.fill_between(freq, psd, where=mask, alpha=0.5,
+                            color=fbands[f][2])
+            ax.axvline(x=fbands[f][1][0],
+                       linestyle='--',
+                       color='gray')
+        ax.set_xlim(0.003, 0.4)
+        ax.set_xlabel('Frequency [Hz]')
+        ax.set_ylabel('PSD [$s^2$/Hz]')
+        ax.set_title('Power Spectral Density', fontweight='bold')
+
+        return ax
+    else:
+        return freq, psd
 
 
 def circular(data, bins=32, density='area', offset=0, mean=False, norm=True,
@@ -445,7 +537,7 @@ def plot_circular(data, y=None, hue=None, **kwargs):
 
        import numpy as np
        import pandas as pd
-       from systole.circular import plot_circular
+       from systole.plotting import plot_circular
        x = np.random.normal(np.pi, 0.5, 100)
        y = np.random.uniform(0, np.pi*2, 100)
        data = pd.DataFrame(data={'x': x, 'y': y}).melt()
