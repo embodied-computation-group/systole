@@ -12,11 +12,11 @@
    :target: https://travis-ci.org/LegrandNico/systole
 
 .. image:: https://codecov.io/gh/LegrandNico/systole/branch/master/graph/badge.svg
-  :target: https://codecov.io/gh/LegrandNico/systole
+   :target: https://codecov.io/gh/LegrandNico/systole
 
 ================
 
-.. figure::  https://github.com/LegrandNico/systole/raw/master/Images/banner.png
+.. figure::  https://github.com/LegrandNico/systole/raw/master/source/images/banner.png
    :align:   center
 
 ================
@@ -61,13 +61,15 @@ Record and plot data with less than 6 lines of code.
 Interfacing with PsychoPy
 -------------------------
 
-2 methods are available to record PPG signal:
+The ``Oximeter`` class can be used together with a stimuli presentation software
+to record cardiac activity during psychological experiments.
 
-* The `read()` method
+* The ``read()`` method
 
-Will continuously record for a certain amount of time (specified by the
-`duration` parameter, in seconds). This is the easiest and most robust method,
-but it is not possible to run instructions in the meantime (serial mode).
+| will record for a predefined amount of time (specified by the
+| ``duration`` parameter, in seconds). This is the easiest and most robust method,
+| but it does not allow to execute other instructions in the meantime (serial
+| mode).
 
 .. code-block:: python
 
@@ -75,11 +77,13 @@ but it is not possible to run instructions in the meantime (serial mode).
   oximeter.read(duration=10)
   # Code 2 {}
 
-* The `readInWaiting()` method
+* The ``readInWaiting()`` method
 
-Will read all the available bytes (up to 10 seconds of recording). When
-inserted into a while loop, it allows recording PPG signal in parallel with
-other commands.
+| will only read the bytes temporally stored in the USB buffer. For the nonin
+| devices, this represents up to 10 seconds of recording (this procedure should
+| be executed at least one time every 10 seconds for a continuous recording). When
+| inserted into a while loop, it can record PPG signal in parallel with
+| other commands.
 
 .. code-block:: python
 
@@ -131,7 +135,9 @@ Methods from clipping correction and peak detection algorithm is adapted from [#
 
 Artifact removal
 ================
-It is possible to detect and correct outliers from RR time course following the method described in [#]_.
+
+Systole implement the artefact rejection method recently proposed by Lipponen
+& Tarvainen (2019)[#]_.
 
 .. code-block:: python
 
@@ -149,20 +155,13 @@ It is possible to detect and correct outliers from RR time course following the 
 Heart rate variability
 ======================
 
-Time-domain
------------
+Systole supports basic time-domain, frequency-domain and non-linear indexes
+extraction.
 
-Extract the summary of time-domain indexes.
+All the time-domain and non-linear indexes have been tested against Kubios
+HVR 2.2 (<https://www.kubios.com>). The frequency-domain indexes can slightly
+differ. We recommend to always check your results with another software.
 
-.. code-block:: python
-
-  from systole.hrv import time_domain
-
-  stats = time_domain(rr)
-  stats
-
-Frequency-domain
-----------------
 .. code-block:: python
 
   from systole.hrv import plot_psd
@@ -171,34 +170,6 @@ Frequency-domain
 
 .. figure::  https://github.com/LegrandNico/systole/raw/master/Images/psd.png
    :align:   center
-
-Extract the summary of frequency-domain indexes.
-
-.. code-block:: python
-
-  from systole.hrv import frequency_domain
-
-  frequency_domain(rr)
-
-.. table:: Output
-   :widths: auto
-
-   +-----------+---------------+
-   | *Metric*  | *Value*       |
-   +-----------+---------------+
-
-
-Non-linear
-----------
-
-.. code-block:: python
-
-  from systole.hrv import nonlinear
-
-  nonlinear(rr)
-
-All the results have been tested against Kubios HVR 2.2 (<https://www.kubios.com>).
-
 
 Development
 ===========
