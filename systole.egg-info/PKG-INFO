@@ -12,12 +12,21 @@ Description:
         .. image:: https://img.shields.io/badge/License-GPL%20v3-blue.svg
           :target: https://github.com/LegrandNico/systole/blob/master/LICENSE
         
+        .. image:: https://badge.fury.io/py/systole.svg
+            :target: https://badge.fury.io/py/systole
+        
         .. image:: https://zenodo.org/badge/219720901.svg
            :target: https://zenodo.org/badge/latestdoi/219720901
         
+        .. image:: https://travis-ci.org/LegrandNico/systole.svg?branch=master
+           :target: https://travis-ci.org/LegrandNico/systole
+        
+        .. image:: https://codecov.io/gh/LegrandNico/systole/branch/master/graph/badge.svg
+           :target: https://codecov.io/gh/LegrandNico/systole
+        
         ================
         
-        .. figure::  images/banner.png
+        .. figure::  https://github.com/LegrandNico/systole/raw/master/source/images/banner.png
            :align:   center
         
         ================
@@ -127,7 +136,7 @@ Description:
           # Plot data
           oxi.plot()
         
-        .. figure::  images/recording.png
+        .. figure::  https://github.com/LegrandNico/systole/raw/master/Images/recording.png
            :align:   center
         
         Artifact removal
@@ -144,7 +153,7 @@ Description:
         
           plot_subspaces(rr)
         
-        .. figure::  images/subspaces.png
+        .. figure::  https://github.com/LegrandNico/systole/raw/master/Images/subspaces.png
            :align:   center
         
         Heart rate variability
@@ -170,7 +179,7 @@ Description:
         
           plot_psd(rr)
         
-        .. figure::  images/psd.png
+        .. figure::  https://github.com/LegrandNico/systole/raw/master/Images/psd.png
            :align:   center
         
         Extract the summary of frequency-domain indexes.

@@ -3,12 +3,14 @@
 import itertools
 import numpy as np
 import pandas as pd
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import seaborn as sns
 from systole.detection import hrv_subspaces, oxi_peaks
 from systole.utils import heart_rate
 from scipy.interpolate import interp1d
 from scipy.signal import welch
+
 
 
 def plot_hr(x, sfreq=75, outliers=None, unit='rr', kind='cubic', ax=None):
@@ -176,7 +178,7 @@ def plot_oximeter(x, sfreq=75, ax=None):
 
 
 def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
-                   xlim=10, ylim=5, ax=None):
+                   xlim=10, ylim=5, kind='hex', ax=None):
     """Plot hrv subspace as described by Lipponen & Tarvainen (2019).
 
     Parameters
@@ -196,6 +198,9 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
         Absolute range of the x axis. Default is 10.
     ylim : int
         Absolute range of the y axis. Default is 5.
+    kind : str
+        Visualisation of non-outlier data points. Can be 'hex', 'scatter' or
+        'bar'.
     ax : `Matplotlib.Axes` or None
         Where to draw the plot. Default is *None* (create a new figure).
 
@@ -245,9 +250,21 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     if ax is None:
         fig, ax = plt.subplots(1, 2, figsize=(10, 5))
 
-    # Plot data points
-    ax[0].scatter(subspace1[~rejection1],
-                  subspace2[~rejection1], color='b', edgecolors='k', zorder=10)
+    if kind == 'hex':
+        hex = ax[0].hexbin(subspace1[~rejection1], subspace2[~rejection1],
+                           gridsize=20, cmap='Blues',
+                           norm=mpl.colors.LogNorm())
+        plt.colorbar(hex, label='count in bin', ax=ax[0])
+    if kind == 'bar':
+        ax[0].hist2d(subspace1[~rejection1], subspace2[~rejection1],
+                     bins=15, cmap='Blues', norm=mpl.colors.LogNorm())
+    elif kind == 'scatter':
+        # Plot data points
+        ax[0].scatter(subspace1[~rejection1],
+                      subspace2[~rejection1], color='#0b559f', edgecolors='k',
+                      alpha=0.2, zorder=10)
+
+    # Plot outliers
     ax[0].scatter(subspace1[rejection1],
                   subspace2[rejection1], color='r', edgecolors='k', zorder=10)
 
@@ -257,7 +274,7 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     ax[0].plot([-1, -1], [f1(-1), 10], 'k', linewidth=1, linestyle='--')
     x = [-10, -10, -1, -1]
     y = [f1(-10), 10, 10, f1(-1)]
-    ax[0].fill(x, y, color='#fcddcb', alpha=0.8)
+    ax[0].fill(x, y, color='#c25539', alpha=0.3)
 
     # Lower area
     def f2(x): return -c1*x - c2
@@ -265,12 +282,7 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     ax[0].plot([1, 1], [f2(1), -10], 'k', linewidth=1, linestyle='--')
     x = [1, 1, 10, 10]
     y = [f2(1), -10, -10, f2(10)]
-    ax[0].fill(x, y, color='#fcddcb', alpha=0.8)
-
-    # Blue area
-    x = [-10, -10, -1, -1, 10, 10, 1, 1]
-    y = [-10, f1(-10), f1(-1), 10, 10, f2(10), f2(1), -10]
-    ax[0].fill(x, y, color='#c7dbef')
+    ax[0].fill(x, y, color='#c25539', alpha=0.3)
 
     ax[0].set_xlabel('Subspace $S_{11}$')
     ax[0].set_ylabel('Subspace $S_{12}$')
@@ -280,9 +292,21 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
 
     ############
 
-    # Plot data points
-    ax[1].scatter(subspace1[~rejection2], subspace3[~rejection2], color='b',
-                  edgecolors='k', zorder=10)
+    if kind == 'hex':
+        hex = ax[1].hexbin(subspace1[~rejection1], subspace3[~rejection1],
+                           gridsize=20, cmap='Blues',
+                           norm=mpl.colors.LogNorm())
+        plt.colorbar(hex, label='count in bin', ax=ax[1])
+    if kind == 'bar':
+        ax[1].hist2d(subspace1[~rejection1], subspace3[~rejection1],
+                     bins=15, cmap='Blues', norm=mpl.colors.LogNorm())
+    elif kind == 'scatter':
+        # Plot data points
+        ax[1].scatter(subspace1[~rejection1],
+                      subspace3[~rejection1], color='#0b559f', edgecolors='k',
+                      alpha=0.2, zorder=10)
+
+    # Plot outliers
     ax[1].scatter(subspace1[rejection2], subspace3[rejection2], color='r',
                   edgecolors='k', zorder=10)
 
@@ -291,19 +315,14 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     ax[1].plot([-1, -1], [1, 10], 'k', linewidth=1, linestyle='--')
     x = [-10, -10, -1, -1]
     y = [1, 10, 10, 1]
-    ax[1].fill(x, y, color='#fcddcb', alpha=0.8)
+    ax[1].fill(x, y, color='#c25539', alpha=0.3)
 
     # Lower area
     ax[1].plot([1, 10], [-1, -1], 'k', linewidth=1, linestyle='--')
     ax[1].plot([1, 1], [-1, -10], 'k', linewidth=1, linestyle='--')
     x = [1, 1, 10, 10]
     y = [-1, -10, -10, -1]
-    ax[1].fill(x, y, color='#fcddcb', alpha=0.8)
-
-    # Blue area
-    x = [-10, -10, -1, -1, 10, 10, 1, 1]
-    y = [-10, 1, 1, 10, 10, -1, -1, -10]
-    ax[1].fill(x, y, color='#c7dbef')
+    ax[1].fill(x, y, color='#c25539', alpha=0.3)
 
     ax[1].set_xlabel('Subspace $S_{21}$')
     ax[1].set_ylabel('Subspace $S_{22}$')

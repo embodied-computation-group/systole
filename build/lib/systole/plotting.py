@@ -10,6 +10,12 @@ from systole.utils import heart_rate
 from scipy.interpolate import interp1d
 from scipy.signal import welch
 
+import numpy as np
+import matplotlib.pyplot as pl
+import scipy.stats as st
+
+
+
 
 def plot_hr(x, sfreq=75, outliers=None, unit='rr', kind='cubic', ax=None):
     """Plot the instantaneous heart rate time course.
@@ -250,6 +256,23 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
                   subspace2[~rejection1], color='b', edgecolors='k', zorder=10)
     ax[0].scatter(subspace1[rejection1],
                   subspace2[rejection1], color='r', edgecolors='k', zorder=10)
+
+    # Plot density estimate
+    # Peform the kernel density estimate
+    xx, yy = np.mgrid[subspace1.min():subspace1.max():100j,
+                      subspace2.min():subspace2.max():100j]
+    positions = np.vstack([xx.ravel(), yy.ravel()])
+    values = np.vstack([subspace1, subspace2])
+    kernel = st.gaussian_kde(values)
+    f = np.reshape(kernel(positions).T, xx.shape)
+
+    ax[0] = fig.gca()
+    # Contourf plot
+    cfset = ax[0].contourf(xx, yy, f, cmap='Blues')
+    # Contour plot
+    cset = ax[0].contour(xx, yy, f, colors='k')
+    # Label plot
+    ax[0].clabel(cset, inline=1, fontsize=10)
 
     # Upper area
     def f1(x): return -c1*x + c2
