@@ -8,9 +8,12 @@
 .. image:: https://travis-ci.org/LegrandNico/systole.svg?branch=master
    :target: https://travis-ci.org/LegrandNico/systole
 
+.. image:: https://codecov.io/gh/LegrandNico/systole/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/LegrandNico/systole
+
 ================
 
-.. figure::  https://github.com/LegrandNico/mne-hmm/blob/master/Images/banner.png
+.. figure::  https://github.com/LegrandNico/systole/blob/master/Images/banner.png
    :align:   center
 
 ================
@@ -120,7 +123,7 @@ Methods from clipping correction and peak detection algorithm is adapted from [#
   # Plot data
   oxi.plot()
 
-.. figure::  https://github.com/LegrandNico/mne-hmm/blob/master/Images/recording.png
+.. figure::  https://github.com/LegrandNico/systole/blob/master/Images/recording.png
    :align:   center
 
 Artifact removal
@@ -137,7 +140,7 @@ It is possible to detect and correct outliers from RR time course following the 
 
   plot_subspaces(rr)
 
-.. figure::  https://github.com/LegrandNico/mne-hmm/blob/master/Images/subspaces.png
+.. figure::  https://github.com/LegrandNico/systole/blob/master/Images/subspaces.png
    :align:   center
 
 Heart rate variability
@@ -163,7 +166,7 @@ Frequency-domain
 
   plot_psd(rr)
 
-.. figure::  https://github.com/LegrandNico/mne-hmm/blob/master/Images/psd.png
+.. figure::  https://github.com/LegrandNico/systole/blob/master/Images/psd.png
    :align:   center
 
 Extract the summary of frequency-domain indexes.

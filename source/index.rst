@@ -8,6 +8,9 @@
 .. image:: https://travis-ci.org/LegrandNico/systole.svg?branch=master
    :target: https://travis-ci.org/LegrandNico/systole
 
+.. image:: https://codecov.io/gh/LegrandNico/systole/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/LegrandNico/systole
+
 ================
 
 .. figure::  https://github.com/LegrandNico/systole/blob/master/Images/banner.png
