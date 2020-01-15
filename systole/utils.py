@@ -2,7 +2,6 @@
 
 import numpy as np
 from scipy.interpolate import interp1d
-from scipy.ndimage import gaussian_filter1d
 
 
 def norm_triggers(x, threshold=1, n=5, direction='higher'):
@@ -12,7 +11,7 @@ def norm_triggers(x, threshold=1, n=5, direction='higher'):
 
     Parameters
     ----------
-    x : NumPy array
+    x : 1d array-like
         The triggers to convert.
     threshold : float
         Threshold for triggering values. Default is 1.
@@ -24,7 +23,7 @@ def norm_triggers(x, threshold=1, n=5, direction='higher'):
 
     Returns
     -------
-    y : array
+    y : 1d array-like
         The filterd triggers
     """
     if not isinstance(x, np.ndarray):
@@ -103,10 +102,10 @@ def heart_rate(x, sfreq=1000, unit='rr', kind='cubic'):
 
     Notes
     -----
-    The input should be in the form of a boolean vector encoding the peaks
-    position. The time and heartrate output will have the same length. Values
-    before the first peak anf after the last peak will be filled with the
-    adjacent heartrate.
+    The input should be in the form of a boolean vector encoding the position
+    of the peaks. The time and heart rate output will have the same
+    length. Values before the first peak and after the last peak will be filled
+    with NaN values.
     """
     if not ((x == 1) | (x == 0)).all():
         raise ValueError('Input vector should only contain 0 and 1')
@@ -152,7 +151,7 @@ def to_angles(x, events):
     Returns
     -------
     ang : numpy array
-        The angular value of events in the reference (in radians).
+        The angular value of events in the cycle of interest (radians).
     """
     if isinstance(x, list):
         x = np.asarray(x)
@@ -185,32 +184,32 @@ def to_angles(x, events):
 
 
 def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
-              smooth=True, sigma=10, apply_baseline=0, verbose=False):
+              sigma=10, apply_baseline=0, verbose=False):
     """Epoch signal based on events indexes.
 
     Parameters
     ----------
-    x : ndarray | list
+    x : 1darray-like or list
         An instance of Raw
-    events : boolean array
-        The events, shape (times*sfreq, 1)
+    events : 1d array-like
+        The boolean indexes of the events, shape (times*sfreq, 1)
     sfreq : int
         The sampling frequency (default is 1000 Hz).
-    tmin : float, default to -1
-        Start time before event, in seconds.
-    tmax : float, defautl to 10
-        End time after event, in seconds.
-    event_idx : int
-        The index of event of interest. Default is `1`.
-    apply_baseline : int, tuple, None
+    tmin : float
+        Start time before event, in seconds, default is -1.
+    tmax : float
+        End time after event, in seconds, defautl is 10.
+    event_val : int
+        The index of event of interest. Default is *1*.
+    apply_baseline : int, tuple or None
         If int or tuple, use the point or interval to apply a baseline (method:
-        mean). If None, no baseline is applied.
+        mean). If *None*, no baseline is applied.
     verbose : boolean
-        If True, will return warnings.
+        If True, will return warnings if epoc are droped.
 
     Returns
     -------
-    epochs : ndarray
+    epochs : 2d array-like
         Event * Time array.
     """
     if len(x) != len(events):
@@ -219,9 +218,6 @@ def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
 
     # From boolean to event indexes
     events = np.where(events == event_val)[0]
-
-    if smooth:
-        x = gaussian_filter1d(x, sigma=sigma)
 
     rejected = 0
     epochs = np.zeros(

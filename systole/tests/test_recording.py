@@ -8,13 +8,12 @@ from systole import serialSim
 from systole.recording import Oximeter
 
 
-serial = serialSim()
-oxi = Oximeter(serial=serial, add_channels=1)
-
-
 class TestRecording(TestCase):
 
     def test_oximeter(self):
+
+        serial = serialSim()
+        oxi = Oximeter(serial=serial, add_channels=1)
         oxi.setup()
         oxi.read(10)
         oxi.find_peaks()
@@ -33,6 +32,7 @@ class TestRecording(TestCase):
 
         oxi.readInWaiting()
         oxi.waitBeat()
+        oxi.find_peaks()
 
 
 if __name__ == '__main__':

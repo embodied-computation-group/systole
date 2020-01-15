@@ -12,7 +12,6 @@ from scipy.interpolate import interp1d
 from scipy.signal import welch
 
 
-
 def plot_hr(x, sfreq=75, outliers=None, unit='rr', kind='cubic', ax=None):
     """Plot the instantaneous heart rate time course.
 
@@ -25,8 +24,8 @@ def plot_hr(x, sfreq=75, outliers=None, unit='rr', kind='cubic', ax=None):
     sfreq : int
         Signal sampling frequency. Default is 75 Hz.
     outliers : 1d array-like
-        If not None, boolean array indexing RR intervals considered as outliers
-        and plotted separately.
+        Boolean array indexing RR intervals considered as outliers and plotted
+        separately.
     unit : str
         The heartrate unit in use. Can be 'rr' (R-R intervals, in ms)
         or 'bpm' (beats per minutes). Default is 'rr'.
@@ -178,7 +177,7 @@ def plot_oximeter(x, sfreq=75, ax=None):
 
 
 def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
-                   xlim=10, ylim=5, kind='hex', ax=None):
+                   xlim=10, ylim=5, kind='scatter', ax=None):
     """Plot hrv subspace as described by Lipponen & Tarvainen (2019).
 
     Parameters
@@ -251,10 +250,9 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
         fig, ax = plt.subplots(1, 2, figsize=(10, 5))
 
     if kind == 'hex':
-        hex = ax[0].hexbin(subspace1[~rejection1], subspace2[~rejection1],
-                           gridsize=20, cmap='Blues',
-                           norm=mpl.colors.LogNorm())
-        plt.colorbar(hex, label='count in bin', ax=ax[0])
+        ax[0].hexbin(subspace1[~rejection1], subspace2[~rejection1],
+                     gridsize=20, cmap='Blues',
+                     norm=mpl.colors.LogNorm())
     if kind == 'bar':
         ax[0].hist2d(subspace1[~rejection1], subspace2[~rejection1],
                      bins=15, cmap='Blues', norm=mpl.colors.LogNorm())
@@ -293,10 +291,9 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     ############
 
     if kind == 'hex':
-        hex = ax[1].hexbin(subspace1[~rejection1], subspace3[~rejection1],
-                           gridsize=20, cmap='Blues',
-                           norm=mpl.colors.LogNorm())
-        plt.colorbar(hex, label='count in bin', ax=ax[1])
+        ax[1].hexbin(subspace1[~rejection1], subspace3[~rejection1],
+                     gridsize=20, cmap='Blues',
+                     norm=mpl.colors.LogNorm())
     if kind == 'bar':
         ax[1].hist2d(subspace1[~rejection1], subspace3[~rejection1],
                      bins=15, cmap='Blues', norm=mpl.colors.LogNorm())
@@ -353,16 +350,16 @@ def plot_psd(x, sfreq=5, method='welch', fbands=None, low=0.003,
         {'vlf': ['Very low frequency', (0.003, 0.04), 'b'],
         'lf': ['Low frequency', (0.04, 0.15), 'g'],
         'hf': ['High frequency', (0.15, 0.4), 'r']}
-    show : boolean
-        Plot the power spectrum density. Default is `True`.
-    ax : Matplotlib.Axes instance | None
-        Where to draw the plot. Default is ´None´ (create a new figure).
+    show : bool
+        Plot the power spectrum density. Default is *True*.
+    ax : `Matplotlib.Axes` or None
+        Where to draw the plot. Default is *None* (create a new figure).
 
     Returns
     -------
-    ax | freq, psd : Matplotlib instance | numpy array
-        If `show=True`, return the PSD plot. If `show=False`, will return the
-        frequencies and PSD level as arrays.
+    ax or (freq, psd) : `Matplotlib.Axes` or 1d array-like
+        If show is *True*, return the PSD plot. If show is *False*, will return
+        the frequencies and PSD level as arrays.
     """
     # Interpolate R-R interval
     time = np.cumsum(x)
@@ -378,24 +375,24 @@ def plot_psd(x, sfreq=5, method='welch', fbands=None, low=0.003,
             nperseg = len(x)
 
         # Compute Power Spectral Density
-        freq, psd = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=nperseg)
+        freq, psd = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=nperseg*10)
 
         psd = psd/1000000
 
     if fbands is None:
-        fbands = {'vlf': ['Very low frequency', (0.003, 0.04), 'b'],
-                  'lf':	['Low frequency', (0.04, 0.15), 'g'],
-                  'hf':	['High frequency', (0.15, 0.4), 'r']}
+        fbands = {'vlf': ['Very low frequency', (0.003, 0.04), '#4c72b0'],
+                  'lf':	['Low frequency', (0.04, 0.15), '#55a868'],
+                  'hf':	['High frequency', (0.15, 0.4), '#c44e52']}
 
     if show is True:
         # Plot the PSD
         if ax is None:
-            fig, ax = plt.subplots(figsize=(8, 4))
+            fig, ax = plt.subplots(figsize=(8, 5))
         ax.plot(freq, psd, 'k')
         for f in ['vlf', 'lf', 'hf']:
             mask = (freq >= fbands[f][1][0]) & (freq <= fbands[f][1][1])
-            ax.fill_between(freq, psd, where=mask, alpha=0.5,
-                            color=fbands[f][2])
+            ax.fill_between(freq, psd, where=mask, color=fbands[f][2],
+                            alpha=0.8)
             ax.axvline(x=fbands[f][1][0],
                        linestyle='--',
                        color='gray')
