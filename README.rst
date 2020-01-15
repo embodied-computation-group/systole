@@ -5,9 +5,12 @@
 .. image:: https://zenodo.org/badge/219720901.svg
    :target: https://zenodo.org/badge/latestdoi/219720901
 
+.. image:: https://travis-ci.org/LegrandNico/systole.svg?branch=master
+   :target: https://travis-ci.org/LegrandNico/systole
+
 ================
 
-.. figure::  images/banner.png
+.. figure::  https://github.com/LegrandNico/mne-hmm/blob/master/Images/banner.png
    :align:   center
 
 ================
@@ -117,7 +120,7 @@ Methods from clipping correction and peak detection algorithm is adapted from [#
   # Plot data
   oxi.plot()
 
-.. figure::  images/recording.png
+.. figure::  https://github.com/LegrandNico/mne-hmm/blob/master/Images/recording.png
    :align:   center
 
 Artifact removal
@@ -134,7 +137,7 @@ It is possible to detect and correct outliers from RR time course following the 
 
   plot_subspaces(rr)
 
-.. figure::  images/subspaces.png
+.. figure::  https://github.com/LegrandNico/mne-hmm/blob/master/Images/subspaces.png
    :align:   center
 
 Heart rate variability
@@ -160,7 +163,7 @@ Frequency-domain
 
   plot_psd(rr)
 
-.. figure::  images/psd.png
+.. figure::  https://github.com/LegrandNico/mne-hmm/blob/master/Images/psd.png
    :align:   center
 
 Extract the summary of frequency-domain indexes.
