@@ -13,7 +13,7 @@
 
 ================
 
-.. figure::  https://github.com/LegrandNico/systole/raw/master/Images/banner.png
+.. figure::  https://github.com/LegrandNico/systole/raw/master/source/images/banner.png
    :align:   center
 
 ================
