@@ -14,23 +14,23 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
 
     Parameters
     ----------
-    x : list or Numpy array
+    x : list or 1d array-like
         The oxi signal.
-    sfreq = int
+    sfreq : int
         The sampling frequency. Default is set to 75 Hz.
     win : int
         Window size (in seconds) used to compute the threshold.
     new_sfreq : int
-        If `resample=True`, the new sampling frequency.
-    resample : boolean
-        If `True` (defaults), will resample the signal at `new_sfreq`. Default
+        If resample is *True*, the new sampling frequency.
+    resample : bool
+        If *True (defaults), will resample the signal at *new_sfreq*. Default
         value is 1000 Hz.
 
     Returns
     -------
-    peaks : boolean array
+    peaks : 1d array-like
         Numpy array containing R peak timing, in sfreq.
-    resampled_signal : array
+    resampled_signal : 1d array-like
         Signal resampled to the `new_sfreq` frequency.
 
     Notes
@@ -102,122 +102,12 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
     return resampled_signal, peaks
 
 
-def artefact_correction(peaks, low_thr=300, high_thr=2000, esdt=True):
-    """Artfact and outliers detection and correction.
-
-    Parameters
-    ----------
-    peak : boolean array
-        The peaks array to inspect. The sampling frequency must be 1000 Hz.
-    low_thr : int
-        Low threshold. Minimum possible RR interval (ms). Intervals under this
-        value will automatically be corrected by removing the first detected
-        beat. Default is 300.
-    high_thr : int
-        High threshold. Maximum possible RR interval (ms). Intervals higher
-        than this value will automatically be corrected using the
-        `missed_beat` function. Default is 2000.
-    esdt : boolean
-        If `True`, will use the ESDT estimator to find outliers.
-
-    Returns
-    -------
-    clean_peaks : boolean array
-        The cleaned peak boolean array.
-    per : float
-        Proportion (%) of beats that were corrected durig the procedure.
-    """
-    per = 0
-    while True:
-
-        low, high = False, False
-        # Remove impossible small values
-        if low_thr is not None:
-            while np.any(np.diff(np.where(peaks)[0]) <= low_thr):
-                per += 1
-                # Find outliers using threshold
-                idx = np.where(np.diff(np.where(peaks)[0]) <= low_thr)[0]
-                peaks[np.where(peaks)[0][idx[0]+1]] = 0
-
-        # Remove impossible large values
-        if high_thr is not None:
-            while np.any(np.diff(np.where(peaks)[0]) >= high_thr):
-                per += 1
-                # Find outliers using threshold
-                idx = np.where(np.diff(np.where(peaks)[0]) >= high_thr)[0][0]
-                peaks, npeaks = missed_beat(peaks, idx)
-
-        if high_thr is not None:
-            if not np.any(np.diff(np.where(peaks)[0]) >= high_thr):
-                high = True
-
-        if low_thr is not None:
-            if not np.any(np.diff(np.where(peaks)[0]) <= low_thr):
-                low = True
-
-        if (low is True) & (high is True):
-            break
-
-    # Compute percent corrected
-    per = per/sum(peaks)
-    clean_peaks = peaks.astype(int)
-
-    return clean_peaks, per
-
-
-def missed_beat(peaks, outlier):
-    """Given the index of a detected peak, will add the requiered number of R
-    peaks to minimize signal standard deviation.
-
-    Parameters
-    ----------
-    rr: boolean array
-        Indexes of R peaks.
-    outlier: int
-        Index of detected outlier
-
-    Returns
-    -------
-    new_rr: boolean array
-        New indexes vector with added spikes.
-    npeaks: int
-        Number of peaks added [1-5]
-    """
-    actual = np.where(peaks)[0][1:][outlier]
-    previous = np.where(peaks)[0][1:][outlier-1]
-
-    # Replace n peaks by minimising signal standard deviation
-    min_std = np.inf
-    for i in range(1, 2):
-
-        this_peaks = peaks.copy()
-
-        new_rr = int((actual - previous)/(i+1))
-
-        for ii in range(i):
-
-            # Add peak in vector
-            new_pos = previous+(new_rr*(ii+1))
-            if this_peaks[new_pos] == 1:
-                print('Peak already exists')
-            this_peaks[new_pos] = 1
-
-        # Compute signal std to measure effect of peak replacement
-        this_std = np.std(np.diff(np.where(this_peaks)[0]))
-        if min_std > this_std:
-            min_std = this_std
-            final_peaks = this_peaks.copy()
-            npeaks = i
-
-    return final_peaks, npeaks
-
-
 def hrv_subspaces(x, alpha=5.2, window=45):
     """Plot hrv subspace as described by Lipponen & Tarvainen (2019).
 
     Parameters
     ----------
-    x : array
+    x : 1d array-like
         Array of RR intervals.
     alpha : float
         Scaling factor used to normalize the RR intervals first deviation.
@@ -227,11 +117,11 @@ def hrv_subspaces(x, alpha=5.2, window=45):
 
     Returns
     -------
-    subspace1 : array
+    subspace1 : 1d array-like
         The first dimension. First derivative of R-R interval time serie.
-    subspace2 : array
+    subspace2 : 1d array-like
         The second dimension (1st plot).
-    subspace3 : array
+    subspace3 : 1d array-like
         The third dimension (2nd plot).
 
     References
@@ -284,14 +174,14 @@ def interpolate_clipping(signal, threshold=255):
 
     Parameters
     ----------
-    signal : array
+    signal : 1d array-like
         Noisy signal.
     threshold : int
         Threshold of clipping artefact.
 
     Returns
     -------
-    clean_signal : array
+    clean_signal : 1d array-like
         Interpolated signal.
 
     Notes
@@ -324,7 +214,7 @@ def rr_outliers(rr, c1=0.13, c2=0.17):
 
     Parameters
     ----------
-    rr : array
+    rr : 1d array-like
         Array of RR intervals.
     c1 : float
         Fixed variable controling the slope of the threshold lines. Default is

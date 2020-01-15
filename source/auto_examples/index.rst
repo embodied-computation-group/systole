@@ -24,9 +24,9 @@ If you want to see the tutorials in action, you can also click on the link below
 
 .. only:: html
 
- .. figure:: /auto_examples/images/thumb/sphx_glr_plot_SubspaceCorrection_thumb.png
+ .. figure:: /auto_examples/images/thumb/sphx_glr_plot_RRSubspacesDetection_thumb.png
 
-     :ref:`sphx_glr_auto_examples_plot_SubspaceCorrection.py`
+     :ref:`sphx_glr_auto_examples_plot_RRSubspacesDetection.py`
 
 .. raw:: html
 
@@ -36,7 +36,7 @@ If you want to see the tutorials in action, you can also click on the link below
 .. toctree::
    :hidden:
 
-   /auto_examples/plot_SubspaceCorrection
+   /auto_examples/plot_RRSubspacesDetection
 
 .. raw:: html
 

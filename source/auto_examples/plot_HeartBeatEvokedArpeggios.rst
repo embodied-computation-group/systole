@@ -27,12 +27,17 @@ limiting the variability of phase in which the note is played.
     # Licence: GPL v3
 
     import time
-    from systole import serialSim
-    from psychopy.sound import Sound
-    from systole.circular import to_angles, circular
-    from systole.recording import Oximeter
-    import matplotlib.pyplot as plt
     import numpy as np
+    import itertools
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    from psychopy.sound import Sound
+
+    from systole.utils import norm_triggers
+    from systole import serialSim
+    from systole.utils import to_angles
+    from systole.plotting import circular
+    from systole.recording import Oximeter
 
 
 
@@ -97,14 +102,14 @@ Create an Oxymeter instance, initialize recording and record for 10 seconds
 .. code-block:: default
 
 
-    systole = Sound('C', secs=0.1)
+    beat = Sound('C', secs=0.1)
     diastole1 = Sound('E', secs=0.1)
     diastole2 = Sound('G', secs=0.1)
     diastole3 = Sound('Bfl', secs=0.1)
 
     systoleTime1, systoleTime2, systoleTime3 = None, None, None
     tstart = time.time()
-    while time.time() - tstart < 10:
+    while time.time() - tstart < 30:
 
         # Check if there are new data to read
         while oxi.serial.inWaiting() >= 5:
@@ -117,8 +122,8 @@ Create an Oxymeter instance, initialize recording and record for 10 seconds
 
             # T + 0
             if oxi.peaks[-1] == 1:
-                systole = Sound('C', secs=0.1)
-                systole.play()
+                beat = Sound('C', secs=0.1)
+                beat.play()
                 systoleTime1 = time.time()
                 systoleTime2 = time.time()
                 systoleTime3 = time.time()
@@ -132,20 +137,22 @@ Create an Oxymeter instance, initialize recording and record for 10 seconds
 
             # T + 2/4
             if systoleTime2 is not None:
-                if time.time() - systoleTime2 >= (((oxi.instant_rr[-1]/4) * 2)/1000):
+                if time.time() - systoleTime2 >= (
+                                        ((oxi.instant_rr[-1]/4) * 2)/1000):
                     diastole2 = Sound('G', secs=0.1)
                     diastole2.play()
                     systoleTime2 = None
 
             # T + 3/4
             if systoleTime3 is not None:
-                if time.time() - systoleTime3 >= (((oxi.instant_rr[-1]/4) * 3)/1000):
+                if time.time() - systoleTime3 >= (
+                                        ((oxi.instant_rr[-1]/4) * 3)/1000):
                     diastole3 = Sound('A', secs=0.1)
                     diastole3.play()
                     systoleTime3 = None
 
             # Track the note status
-            oxi.channels['Channel_0'][-1] = systole.status
+            oxi.channels['Channel_0'][-1] = beat.status
             oxi.channels['Channel_1'][-1] = diastole1.status
             oxi.channels['Channel_2'][-1] = diastole2.status
             oxi.channels['Channel_3'][-1] = diastole3.status
@@ -172,7 +179,6 @@ The
 
 
 
-
 .. image:: /auto_examples/images/sphx_glr_plot_HeartBeatEvokedArpeggios_001.png
     :class: sphx-glr-single-img
 
@@ -189,16 +195,14 @@ Cardiac cycle
     angles = []
     x = np.asarray(oxi.peaks)
     for ev in oxi.channels:
-        events = np.asarray(oxi.channels[ev])
-        for i in range(len(events)):
-            if events[i] == 1:
-                events[i+1:i+10] = 0
-        angles.append(to_angles(x, events))
+        events = norm_triggers(np.asarray(oxi.channels[ev]), threshold=1, n=40,
+                               direction='higher')
+        angles.append(to_angles(np.where(x)[0], np.where(events)[0]))
 
-    circular(angles[0], color='gray')
-    circular(angles[1], color='r')
-    circular(angles[2], color='g')
-    circular(angles[3], color='b')
+    palette = itertools.cycle(sns.color_palette('deep'))
+    ax = plt.subplot(111, polar=True)
+    for i in angles:
+        circular(i, color=next(palette), ax=ax)
 
 
 
@@ -206,23 +210,13 @@ Cardiac cycle
     :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-    C:\ProgramData\Anaconda3\lib\site-packages\systole-0.0.1-py3.7.egg\systole\circular.py:69: MatplotlibDeprecationWarning: Adding an axes using the same arguments as a previous axes currently reuses the earlier instance.  In a future version, a new instance will always be created and returned.  Meanwhile, this warning can be suppressed, and the future behavior ensured, by passing a unique label to each axes instance.
-      ax = plt.subplot(111, polar=True)
-
-    <matplotlib.axes._subplots.PolarAxesSubplot object at 0x0000026794B6E5C0>
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  16.941 seconds)
+   **Total running time of the script:** ( 0 minutes  32.214 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_HeartBeatEvokedArpeggios.py:
