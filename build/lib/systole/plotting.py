@@ -3,18 +3,13 @@
 import itertools
 import numpy as np
 import pandas as pd
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import seaborn as sns
 from systole.detection import hrv_subspaces, oxi_peaks
 from systole.utils import heart_rate
 from scipy.interpolate import interp1d
 from scipy.signal import welch
-
-import numpy as np
-import matplotlib.pyplot as pl
-import scipy.stats as st
-
-
 
 
 def plot_hr(x, sfreq=75, outliers=None, unit='rr', kind='cubic', ax=None):
@@ -29,8 +24,8 @@ def plot_hr(x, sfreq=75, outliers=None, unit='rr', kind='cubic', ax=None):
     sfreq : int
         Signal sampling frequency. Default is 75 Hz.
     outliers : 1d array-like
-        If not None, boolean array indexing RR intervals considered as outliers
-        and plotted separately.
+        Boolean array indexing RR intervals considered as outliers and plotted
+        separately.
     unit : str
         The heartrate unit in use. Can be 'rr' (R-R intervals, in ms)
         or 'bpm' (beats per minutes). Default is 'rr'.
@@ -182,7 +177,7 @@ def plot_oximeter(x, sfreq=75, ax=None):
 
 
 def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
-                   xlim=10, ylim=5, ax=None):
+                   xlim=10, ylim=5, kind='scatter', ax=None):
     """Plot hrv subspace as described by Lipponen & Tarvainen (2019).
 
     Parameters
@@ -202,6 +197,9 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
         Absolute range of the x axis. Default is 10.
     ylim : int
         Absolute range of the y axis. Default is 5.
+    kind : str
+        Visualisation of non-outlier data points. Can be 'hex', 'scatter' or
+        'bar'.
     ax : `Matplotlib.Axes` or None
         Where to draw the plot. Default is *None* (create a new figure).
 
@@ -251,28 +249,22 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     if ax is None:
         fig, ax = plt.subplots(1, 2, figsize=(10, 5))
 
-    # Plot data points
-    ax[0].scatter(subspace1[~rejection1],
-                  subspace2[~rejection1], color='b', edgecolors='k', zorder=10)
+    if kind == 'hex':
+        ax[0].hexbin(subspace1[~rejection1], subspace2[~rejection1],
+                     gridsize=20, cmap='Blues',
+                     norm=mpl.colors.LogNorm())
+    if kind == 'bar':
+        ax[0].hist2d(subspace1[~rejection1], subspace2[~rejection1],
+                     bins=15, cmap='Blues', norm=mpl.colors.LogNorm())
+    elif kind == 'scatter':
+        # Plot data points
+        ax[0].scatter(subspace1[~rejection1],
+                      subspace2[~rejection1], color='#0b559f', edgecolors='k',
+                      alpha=0.2, zorder=10)
+
+    # Plot outliers
     ax[0].scatter(subspace1[rejection1],
                   subspace2[rejection1], color='r', edgecolors='k', zorder=10)
-
-    # Plot density estimate
-    # Peform the kernel density estimate
-    xx, yy = np.mgrid[subspace1.min():subspace1.max():100j,
-                      subspace2.min():subspace2.max():100j]
-    positions = np.vstack([xx.ravel(), yy.ravel()])
-    values = np.vstack([subspace1, subspace2])
-    kernel = st.gaussian_kde(values)
-    f = np.reshape(kernel(positions).T, xx.shape)
-
-    ax[0] = fig.gca()
-    # Contourf plot
-    cfset = ax[0].contourf(xx, yy, f, cmap='Blues')
-    # Contour plot
-    cset = ax[0].contour(xx, yy, f, colors='k')
-    # Label plot
-    ax[0].clabel(cset, inline=1, fontsize=10)
 
     # Upper area
     def f1(x): return -c1*x + c2
@@ -280,7 +272,7 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     ax[0].plot([-1, -1], [f1(-1), 10], 'k', linewidth=1, linestyle='--')
     x = [-10, -10, -1, -1]
     y = [f1(-10), 10, 10, f1(-1)]
-    ax[0].fill(x, y, color='#fcddcb', alpha=0.8)
+    ax[0].fill(x, y, color='#c25539', alpha=0.3)
 
     # Lower area
     def f2(x): return -c1*x - c2
@@ -288,12 +280,7 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     ax[0].plot([1, 1], [f2(1), -10], 'k', linewidth=1, linestyle='--')
     x = [1, 1, 10, 10]
     y = [f2(1), -10, -10, f2(10)]
-    ax[0].fill(x, y, color='#fcddcb', alpha=0.8)
-
-    # Blue area
-    x = [-10, -10, -1, -1, 10, 10, 1, 1]
-    y = [-10, f1(-10), f1(-1), 10, 10, f2(10), f2(1), -10]
-    ax[0].fill(x, y, color='#c7dbef')
+    ax[0].fill(x, y, color='#c25539', alpha=0.3)
 
     ax[0].set_xlabel('Subspace $S_{11}$')
     ax[0].set_ylabel('Subspace $S_{12}$')
@@ -303,9 +290,20 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
 
     ############
 
-    # Plot data points
-    ax[1].scatter(subspace1[~rejection2], subspace3[~rejection2], color='b',
-                  edgecolors='k', zorder=10)
+    if kind == 'hex':
+        ax[1].hexbin(subspace1[~rejection1], subspace3[~rejection1],
+                     gridsize=20, cmap='Blues',
+                     norm=mpl.colors.LogNorm())
+    if kind == 'bar':
+        ax[1].hist2d(subspace1[~rejection1], subspace3[~rejection1],
+                     bins=15, cmap='Blues', norm=mpl.colors.LogNorm())
+    elif kind == 'scatter':
+        # Plot data points
+        ax[1].scatter(subspace1[~rejection1],
+                      subspace3[~rejection1], color='#0b559f', edgecolors='k',
+                      alpha=0.2, zorder=10)
+
+    # Plot outliers
     ax[1].scatter(subspace1[rejection2], subspace3[rejection2], color='r',
                   edgecolors='k', zorder=10)
 
@@ -314,19 +312,14 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     ax[1].plot([-1, -1], [1, 10], 'k', linewidth=1, linestyle='--')
     x = [-10, -10, -1, -1]
     y = [1, 10, 10, 1]
-    ax[1].fill(x, y, color='#fcddcb', alpha=0.8)
+    ax[1].fill(x, y, color='#c25539', alpha=0.3)
 
     # Lower area
     ax[1].plot([1, 10], [-1, -1], 'k', linewidth=1, linestyle='--')
     ax[1].plot([1, 1], [-1, -10], 'k', linewidth=1, linestyle='--')
     x = [1, 1, 10, 10]
     y = [-1, -10, -10, -1]
-    ax[1].fill(x, y, color='#fcddcb', alpha=0.8)
-
-    # Blue area
-    x = [-10, -10, -1, -1, 10, 10, 1, 1]
-    y = [-10, 1, 1, 10, 10, -1, -1, -10]
-    ax[1].fill(x, y, color='#c7dbef')
+    ax[1].fill(x, y, color='#c25539', alpha=0.3)
 
     ax[1].set_xlabel('Subspace $S_{21}$')
     ax[1].set_ylabel('Subspace $S_{22}$')
@@ -357,16 +350,16 @@ def plot_psd(x, sfreq=5, method='welch', fbands=None, low=0.003,
         {'vlf': ['Very low frequency', (0.003, 0.04), 'b'],
         'lf': ['Low frequency', (0.04, 0.15), 'g'],
         'hf': ['High frequency', (0.15, 0.4), 'r']}
-    show : boolean
-        Plot the power spectrum density. Default is `True`.
-    ax : Matplotlib.Axes instance | None
-        Where to draw the plot. Default is ´None´ (create a new figure).
+    show : bool
+        Plot the power spectrum density. Default is *True*.
+    ax : `Matplotlib.Axes` or None
+        Where to draw the plot. Default is *None* (create a new figure).
 
     Returns
     -------
-    ax | freq, psd : Matplotlib instance | numpy array
-        If `show=True`, return the PSD plot. If `show=False`, will return the
-        frequencies and PSD level as arrays.
+    ax or (freq, psd) : `Matplotlib.Axes` or 1d array-like
+        If show is *True*, return the PSD plot. If show is *False*, will return
+        the frequencies and PSD level as arrays.
     """
     # Interpolate R-R interval
     time = np.cumsum(x)
@@ -382,24 +375,24 @@ def plot_psd(x, sfreq=5, method='welch', fbands=None, low=0.003,
             nperseg = len(x)
 
         # Compute Power Spectral Density
-        freq, psd = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=nperseg)
+        freq, psd = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=nperseg*10)
 
         psd = psd/1000000
 
     if fbands is None:
-        fbands = {'vlf': ['Very low frequency', (0.003, 0.04), 'b'],
-                  'lf':	['Low frequency', (0.04, 0.15), 'g'],
-                  'hf':	['High frequency', (0.15, 0.4), 'r']}
+        fbands = {'vlf': ['Very low frequency', (0.003, 0.04), '#4c72b0'],
+                  'lf':	['Low frequency', (0.04, 0.15), '#55a868'],
+                  'hf':	['High frequency', (0.15, 0.4), '#c44e52']}
 
     if show is True:
         # Plot the PSD
         if ax is None:
-            fig, ax = plt.subplots(figsize=(8, 4))
+            fig, ax = plt.subplots(figsize=(8, 5))
         ax.plot(freq, psd, 'k')
         for f in ['vlf', 'lf', 'hf']:
             mask = (freq >= fbands[f][1][0]) & (freq <= fbands[f][1][1])
-            ax.fill_between(freq, psd, where=mask, alpha=0.5,
-                            color=fbands[f][2])
+            ax.fill_between(freq, psd, where=mask, color=fbands[f][2],
+                            alpha=0.8)
             ax.axvline(x=fbands[f][1][0],
                        linestyle='--',
                        color='gray')
