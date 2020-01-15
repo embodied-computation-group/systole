@@ -2,7 +2,8 @@
 
 import unittest
 import numpy as np
-from systole.utils import norm_triggers, heart_rate, to_angles, to_epochs
+from systole.utils import norm_triggers, heart_rate, to_angles, to_epochs,\
+        time_shift
 from systole.detection import oxi_peaks
 from unittest import TestCase
 from systole import import_ppg, import_rr
@@ -31,6 +32,11 @@ class TestUtils(TestCase):
             peaks, unit='bpm', kind='cubic', sfreq=500)
         assert len(heartrate) == len(time)
 
+    def test_time_shft(self):
+        """Test time_shift function"""
+        lag = time_shift([40, 50, 60], [45, 52])
+        assert lag == [5, 2]
+
     def test_to_angle(self):
         """Test to_angles function"""
         rr = import_rr().rr.values
@@ -46,6 +52,7 @@ class TestUtils(TestCase):
         events = import_ppg('1')[1, :]  # Import events
         epochs = to_epochs(ppg, events, sfreq=75)
         assert epochs.ndim == 2
+
 
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=False)

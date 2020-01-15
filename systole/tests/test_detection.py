@@ -3,8 +3,8 @@
 import numpy as np
 import unittest
 from unittest import TestCase
-from systole.detection import oxi_peaks, artefact_correction, missed_beat,\
-    hrv_subspaces, rr_outliers, interpolate_clipping
+from systole.detection import oxi_peaks, hrv_subspaces, rr_outliers,\
+    interpolate_clipping
 from systole import import_ppg, import_rr
 
 
