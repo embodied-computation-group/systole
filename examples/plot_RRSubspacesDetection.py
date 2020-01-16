@@ -16,7 +16,7 @@ from systole import import_rr
 
 #%%
 # Simulate RR time series
-# ----------------------
+# -----------------------
 
 rr = import_rr().rr[:100]
 

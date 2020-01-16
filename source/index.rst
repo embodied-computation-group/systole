@@ -148,7 +148,7 @@ Systole implements the artefact rejection method recently proposed by Lipponen &
    :align:   center
 
 Heartrate variability
-=====================
+======================
 
 Systole supports basic time-domain, frequency-domain and non-linear extraction indices.
 
@@ -171,7 +171,7 @@ This module was created and is maintained by Nicolas Legrand and Micah Allen (EC
 This program is provided with NO WARRANTY OF ANY KIND.
 
 Acknowledgements
-================
+===============
 
 This software and the ECG are supported by a Lundbeckfonden Fellowship (R272-2017-4345), and the AIAS-COFUND II fellowship programme that is supported by the Marie Skłodowska-Curie actions under the European Union’s Horizon 2020 (Grant agreement no 754513), and the Aarhus University Research Foundation.
 

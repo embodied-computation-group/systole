@@ -7,17 +7,20 @@
 .. _sphx_glr_auto_examples_plot_HeartBeatEvokedArpeggios.py:
 
 
-Heart Beats Evoked Arpeggios
+Heartbeat Evoked Arpeggios
 ============================
 
 This tutorial illustrates how to use the ``Oximeter`` class to trigger stimuli
-at different cardiac cycles using the [Psychopy](https://www.psychopy.org/)
+at different phases of the cardiac cycle using the [Psychopy](https://www.psychopy.org/)
 toolbox. The PPG signal is recorded for 30 seconds and peaks are detected
 online. Four notes ('C', 'E', 'G', 'Bfl') are played in synch with peak
-detection with various delay: no delay,  1/4, 2/4 or 3/4 of the previous
-cardiac cycle length. While R-R intervals are prone to large changes in the
-long term, such changes are physiologically limited for heartbeat, thus
-limiting the variability of phase in which the note is played.
+detection with various delays: no delay,  1/4, 2/4 or 3/4 of the previous
+cardiac cycle length. While R-R intervals are prone to large changes over longer
+timescales, such changes are physiologically limited from one heartbeat to the next,
+limiting variance in the onset synchrony between the tones and the cardiac cycle.
+On this basis, each presentation time is calibrated based on the previous RR-interval.
+This procedure can easily be adapted to create a standard interoception task, e.g. by either presenting
+tones at no delay (systole, s+) or at a fixed offset (diastole, s-).
 
 
 .. code-block:: default
@@ -66,14 +69,14 @@ the pulse oximeter using pre-recorded signal.
 
 If you want to allow online data acquisition, you should uncomment the
 following lines and provide the reference of the COM port where the pulse
-oximeter is plugged.
+oximeter is plugged in.
 
 .. code-block:: python
 
   import serial
   ser = serial.Serial('COM4')  # Change this value according to your setup
 
-Create an Oxymeter instance, initialize recording and record for 10 seconds
+Create an Oximeter instance, initialize recording and record for 10 seconds
 
 
 .. code-block:: default
@@ -216,7 +219,7 @@ Cardiac cycle
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  32.338 seconds)
+   **Total running time of the script:** ( 0 minutes  31.752 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_HeartBeatEvokedArpeggios.py:

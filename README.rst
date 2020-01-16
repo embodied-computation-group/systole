@@ -25,6 +25,8 @@
 In particular, the package provides tools to pre-process, analyze, and synchronize cardiac data from psychophysiology research.
 This includes tools for data epoching, heart-rate variability, and synchronizing stimulus presentation with different cardiac phases via psychopy.
 
+The documentation can be found under the following `links <https://embodied-computation-group.github.io/>`_.
+
 Installation
 ============
 

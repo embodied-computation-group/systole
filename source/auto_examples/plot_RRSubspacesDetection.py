@@ -2,7 +2,7 @@
 Outliers and ectobeats detection
 ================================
 
-This example shows how to detect ectobeat extra, missed and ectobeats from RR
+This example shows how to detect extra ectobeats, missed and ectobeats from RR
 time series using the method proposed by Lipponen & Tarvainen (2019) [#]_.
 """
 
@@ -15,8 +15,8 @@ from systole.plotting import plot_subspaces, plot_hr
 from systole import import_rr
 
 #%%
-# Simulate RR time serie
-# ----------------------
+# Simulate RR time series
+# -----------------------
 
 rr = import_rr().rr[:100]
 

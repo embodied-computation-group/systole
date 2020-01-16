@@ -9,7 +9,7 @@
 Tutorials
 =========
 
-This section shows off some of the basic functionality of **systole**.
+This section demonstrates some of the basic functionality of **systole**.
 If you want to see the tutorials in action, you can also click on the link below and navigate to the ``tutorials/`` folder to launch one of the interactive Jupyter notebooks.
 
 .. contents:: Contents
@@ -20,7 +20,7 @@ If you want to see the tutorials in action, you can also click on the link below
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to detect ectobeat extra, missed and ectobeats from RR time series using...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to detect extra ectobeats, missed and ectobeats from RR time series usin...">
 
 .. only:: html
 
@@ -40,7 +40,7 @@ If you want to see the tutorials in action, you can also click on the link below
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example show how to record PPG signal through the `Nonin 3012LP Xpod USB pulse oximeter &lt;h...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example show how to record PPG signals using the `Nonin 3012LP Xpod USB pulse oximeter &lt;ht...">
 
 .. only:: html
 
@@ -60,7 +60,7 @@ If you want to see the tutorials in action, you can also click on the link below
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This tutorial illustrates how to use the Oximeter class to trigger stimuli at different cardiac...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This tutorial illustrates how to use the Oximeter class to trigger stimuli at different phases ...">
 
 .. only:: html
 
