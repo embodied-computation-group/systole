@@ -2,7 +2,7 @@
 Instantaneous Heart Rate
 ========================
 
-This example show how to record PPG signal through the `Nonin 3012LP
+This example show how to record PPG signals using the `Nonin 3012LP
 Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ and the `Nonin
 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_.
 Peaks are automatically labelled online and the instantaneous heart rate is
@@ -21,15 +21,15 @@ import numpy as np
 #%%
 # Recording
 # ---------
-# For the purpose of demonstration, here we simulate data acquisition through
+# For the demonstration purpose, here we simulate data acquisition through
 # the pulse oximeter using pre-recorded signal.
 
 ser = serialSim()
 
 #%%
-# If you want to allow online data acquisition, you should uncomment the
+# If you want to enable online data acquisition, you should uncomment the
 # following lines and provide the reference of the COM port where the pulse
-# oximeter is plugged.
+# oximeter is plugged in.
 
 ###############################################################################
 # .. code-block:: python
