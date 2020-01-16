@@ -28,6 +28,8 @@ class TestUtils(TestCase):
         signal, peaks = oxi_peaks(ppg)
         heartrate, time = heart_rate(peaks)
         assert len(heartrate) == len(time)
+        heartrate, time = heart_rate(list(peaks))
+        assert len(heartrate) == len(time)
         heartrate, time = heart_rate(
             peaks, unit='bpm', kind='cubic', sfreq=500)
         assert len(heartrate) == len(time)

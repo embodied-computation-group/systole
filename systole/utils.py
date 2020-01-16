@@ -107,12 +107,12 @@ def heart_rate(x, sfreq=1000, unit='rr', kind='cubic'):
     length. Values before the first peak and after the last peak will be filled
     with NaN values.
     """
-    if not ((x == 1) | (x == 0)).all():
-        raise ValueError('Input vector should only contain 0 and 1')
     if isinstance(x, list):
         x = np.asarray(x)
+    if not ((x == 1) | (x == 0)).all():
+        raise ValueError('Input vector should only contain 0 and 1')
 
-    # Find peak indexes
+    # Find peak indices
     peaks_idx = np.where(x)[0]
 
     # Create time vector (seconds):
@@ -185,14 +185,14 @@ def to_angles(x, events):
 
 def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
               sigma=10, apply_baseline=0, verbose=False):
-    """Epoch signal based on events indexes.
+    """Epoch signal based on events indices.
 
     Parameters
     ----------
     x : 1darray-like or list
         An instance of Raw
     events : 1d array-like
-        The boolean indexes of the events, shape (times*sfreq, 1)
+        The boolean indices of the events, shape (times*sfreq, 1)
     sfreq : int
         The sampling frequency (default is 1000 Hz).
     tmin : float
@@ -216,7 +216,7 @@ def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
         raise ValueError("""The length of the event and signal vector
                                 shoul match exactly""")
 
-    # From boolean to event indexes
+    # From boolean to event indices
     events = np.where(events == event_val)[0]
 
     rejected = 0
