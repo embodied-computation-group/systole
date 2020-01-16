@@ -66,10 +66,10 @@ to record cardiac activity during psychological experiments.
 
 * The ``read()`` method
 
-| will record for a predefined amount of time (specified by the
-| ``duration`` parameter, in seconds). This is the easiest and most robust method,
-| but it does not allow to execute other instructions in the meantime (serial
-| mode).
+will record for a predefined amount of time (specified by the
+``duration`` parameter, in seconds). This is the easiest and most robust method,
+but it does not allow to execute other instructions in the meantime (serial
+mode).
 
 .. code-block:: python
 
@@ -79,11 +79,11 @@ to record cardiac activity during psychological experiments.
 
 * The ``readInWaiting()`` method
 
-| will only read the bytes temporally stored in the USB buffer. For the nonin
-| devices, this represents up to 10 seconds of recording (this procedure should
-| be executed at least one time every 10 seconds for a continuous recording). When
-| inserted into a while loop, it can record PPG signal in parallel with
-| other commands.
+will only read the bytes temporally stored in the USB buffer. For the nonin
+devices, this represents up to 10 seconds of recording (this procedure should
+be executed at least one time every 10 seconds for a continuous recording). When
+inserted into a while loop, it can record PPG signal in parallel with
+other commands.
 
 .. code-block:: python
 
@@ -128,12 +128,12 @@ Methods from clipping correction and peak detection algorithm is adapted from [#
 .. code-block:: python
 
   # Plot data
-  oxi.plot()
+  oxi.plot_oximeter()
 
 .. figure::  https://github.com/LegrandNico/systole/raw/master/Images/recording.png
    :align:   center
 
-Artifact removal
+Artefact removal
 ================
 
 Systole implement the artefact rejection method recently proposed by Lipponen
