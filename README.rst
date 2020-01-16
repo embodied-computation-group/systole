@@ -1,6 +1,6 @@
 
 .. image:: https://img.shields.io/badge/License-GPL%20v3-blue.svg
-  :target: https://github.com/LegrandNico/systole/blob/master/LICENSE
+  :target: https://github.com/embodied-computation-group/systole/blob/master/LICENSE
 
 .. image:: https://badge.fury.io/py/systole.svg
     :target: https://badge.fury.io/py/systole
@@ -8,15 +8,15 @@
 .. image:: https://zenodo.org/badge/219720901.svg
    :target: https://zenodo.org/badge/latestdoi/219720901
 
-.. image:: https://travis-ci.org/LegrandNico/systole.svg?branch=master
-   :target: https://travis-ci.org/LegrandNico/systole
+.. image:: https://travis-ci.org/embodied-computation-group/systole.svg?branch=master
+   :target: https://travis-ci.org/embodied-computation-group/systole
 
-.. image:: https://codecov.io/gh/LegrandNico/systole/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/LegrandNico/systole
+.. image:: https://codecov.io/gh/embodied-computation-group/systole/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/embodied-computation-group/systole
 
 ================
 
-.. figure::  https://github.com/LegrandNico/systole/raw/master/source/images/banner.png
+.. figure::  https://github.com/embodied-computation-group/systole/raw/master/source/images/banner.png
    :align:   center
 
 ================
@@ -122,7 +122,7 @@ Methods from clipping correction and peak detection algorithm is adapted from [#
   # Plot data
   oxi.plot_oximeter()
 
-.. figure::  https://github.com/LegrandNico/systole/raw/master/Images/recording.png
+.. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/recording.png
    :align:   center
 
 Artefact removal
@@ -140,7 +140,7 @@ Systole implements the artefact rejection method recently proposed by Lipponen &
 
   plot_subspaces(rr)
 
-.. figure::  https://github.com/LegrandNico/systole/raw/master/Images/subspaces.png
+.. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/subspaces.png
    :align:   center
 
 Heart rate variability
@@ -156,7 +156,7 @@ All the time-domain and non-linear indexes have been tested against Kubios HVR 2
 
   plot_psd(rr)
 
-.. figure::  https://github.com/LegrandNico/systole/raw/master/Images/psd.png
+.. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/psd.png
    :align:   center
 
 Development
