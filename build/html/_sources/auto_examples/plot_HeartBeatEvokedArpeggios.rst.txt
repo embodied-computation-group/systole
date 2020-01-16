@@ -10,7 +10,7 @@
 Heart Beats Evoked Arpeggios
 ============================
 
-This tutorial illustrates how to use the ``Oximeter`` class to triggers stimuli
+This tutorial illustrates how to use the ``Oximeter`` class to trigger stimuli
 at different cardiac cycles using the [Psychopy](https://www.psychopy.org/)
 toolbox. The PPG signal is recorded for 30 seconds and peaks are detected
 online. Four notes ('C', 'E', 'G', 'Bfl') are played in synch with peak
@@ -216,7 +216,7 @@ Cardiac cycle
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  32.214 seconds)
+   **Total running time of the script:** ( 0 minutes  32.338 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_HeartBeatEvokedArpeggios.py:

@@ -2,7 +2,7 @@
 Outliers and ectobeats detection
 ================================
 
-This example show how to detect ectobeat extra, missed and ectobeats from RR
+This example shows how to detect ectobeat extra, missed and ectobeats from RR
 time series using the method proposed by Lipponen & Tarvainen (2019) [#]_.
 """
 
