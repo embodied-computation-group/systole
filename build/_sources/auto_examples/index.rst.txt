@@ -20,7 +20,7 @@ If you want to see the tutorials in action, you can also click on the link below
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example show how to detect ectobeat extra, missed and ectobeats from RR time series using ...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to detect ectobeat extra, missed and ectobeats from RR time series using...">
 
 .. only:: html
 
@@ -60,7 +60,7 @@ If you want to see the tutorials in action, you can also click on the link below
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This tutorial illustrates how to use the Oximeter class to triggers stimuli at different cardia...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This tutorial illustrates how to use the Oximeter class to trigger stimuli at different cardiac...">
 
 .. only:: html
 

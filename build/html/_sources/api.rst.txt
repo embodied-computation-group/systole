@@ -17,8 +17,6 @@ Detection
  :toctree: generated/
 
   oxi_peaks
-  artefact_correction
-  missed_beat
   hrv_subspaces
   interpolate_clipping
 

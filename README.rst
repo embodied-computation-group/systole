@@ -61,15 +61,11 @@ Record and plot data with less than 6 lines of code.
 Interfacing with PsychoPy
 -------------------------
 
-The ``Oximeter`` class can be used together with a stimuli presentation software
-to record cardiac activity during psychological experiments.
+The ``Oximeter`` class can be used together with a stimuli presentation software to record cardiac activity during psychological experiments.
 
 * The ``read()`` method
 
-will record for a predefined amount of time (specified by the
-``duration`` parameter, in seconds). This is the easiest and most robust method,
-but it does not allow to execute other instructions in the meantime (serial
-mode).
+will record for a predefined amount of time (specified by the ``duration`` parameter, in seconds). This is the easiest and most robust method, but it does not allow to execute other instructions in the meantime (serial mode).
 
 .. code-block:: python
 
@@ -79,11 +75,7 @@ mode).
 
 * The ``readInWaiting()`` method
 
-will only read the bytes temporally stored in the USB buffer. For the nonin
-devices, this represents up to 10 seconds of recording (this procedure should
-be executed at least one time every 10 seconds for a continuous recording). When
-inserted into a while loop, it can record PPG signal in parallel with
-other commands.
+will only read the bytes temporally stored in the USB buffer. For the Nonin devices, this represents up to 10 seconds of recording (this procedure should be executed at least one time every 10 seconds for a continuous recording). When inserted into a while loop, it can record PPG signal in parallel with other commands.
 
 .. code-block:: python
 
@@ -136,8 +128,7 @@ Methods from clipping correction and peak detection algorithm is adapted from [#
 Artefact removal
 ================
 
-Systole implement the artefact rejection method recently proposed by Lipponen
-& Tarvainen (2019)[#]_.
+Systole implements the artefact rejection method recently proposed by Lipponen & Tarvainen (2019) [#]_.
 
 .. code-block:: python
 
@@ -155,12 +146,9 @@ Systole implement the artefact rejection method recently proposed by Lipponen
 Heart rate variability
 ======================
 
-Systole supports basic time-domain, frequency-domain and non-linear indexes
-extraction.
+Systole supports basic time-domain, frequency-domain and non-linear indexes extraction.
 
-All the time-domain and non-linear indexes have been tested against Kubios
-HVR 2.2 (<https://www.kubios.com>). The frequency-domain indexes can slightly
-differ. We recommend to always check your results with another software.
+All the time-domain and non-linear indexes have been tested against Kubios HVR 2.2 (<https://www.kubios.com>). The frequency-domain indexes can slightly differ. We recommend to always check your results with another software.
 
 .. code-block:: python
 
@@ -181,7 +169,7 @@ This program is provided with NO WARRANTY OF ANY KIND.
 Acknowledgement
 ===============
 
-This software supported by a Lundbeckfonden Fellowship (R272-2017-4345), and the AIAS-COFUND II fellowship programme that is supported by the Marie Skłodowska-Curie actions under the European Union’s Horizon 2020 (Grant agreement no 754513), and the Aarhus University Research Foundation.
+This software is supported by a Lundbeckfonden Fellowship (R272-2017-4345), and the AIAS-COFUND II fellowship programme that is supported by the Marie Skłodowska-Curie actions under the European Union’s Horizon 2020 (Grant agreement no 754513), and the Aarhus University Research Foundation.
 
 Systole was largely inspired by preexisting toolboxes dedicated to heart rate variability and signal analysis.
 

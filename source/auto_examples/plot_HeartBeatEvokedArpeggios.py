@@ -2,7 +2,7 @@
 Heart Beats Evoked Arpeggios
 ============================
 
-This tutorial illustrates how to use the ``Oximeter`` class to triggers stimuli
+This tutorial illustrates how to use the ``Oximeter`` class to trigger stimuli
 at different cardiac cycles using the [Psychopy](https://www.psychopy.org/)
 toolbox. The PPG signal is recorded for 30 seconds and peaks are detected
 online. Four notes ('C', 'E', 'G', 'Bfl') are played in synch with peak

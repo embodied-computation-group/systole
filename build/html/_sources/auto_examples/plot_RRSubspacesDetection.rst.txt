@@ -10,7 +10,7 @@
 Outliers and ectobeats detection
 ================================
 
-This example show how to detect ectobeat extra, missed and ectobeats from RR
+This example shows how to detect ectobeat extra, missed and ectobeats from RR
 time series using the method proposed by Lipponen & Tarvainen (2019) [#]_.
 
 
@@ -112,8 +112,8 @@ too long or too short (right pannel).
  .. code-block:: none
 
 
-    array([<matplotlib.axes._subplots.AxesSubplot object at 0x000002AC0B4E46D8>,
-           <matplotlib.axes._subplots.AxesSubplot object at 0x000002AC0B7ADC88>],
+    array([<matplotlib.axes._subplots.AxesSubplot object at 0x000001790F5ADF98>,
+           <matplotlib.axes._subplots.AxesSubplot object at 0x000001790FA577F0>],
           dtype=object)
 
 
@@ -143,7 +143,7 @@ We can then plot back the labelled outliers in the RR interval time course
  .. code-block:: none
 
 
-    <matplotlib.axes._subplots.AxesSubplot object at 0x000002AC0BB31908>
+    <matplotlib.axes._subplots.AxesSubplot object at 0x000001790FDB61D0>
 
 
 
@@ -157,7 +157,7 @@ References
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.532 seconds)
+   **Total running time of the script:** ( 0 minutes  0.511 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_RRSubspacesDetection.py:
