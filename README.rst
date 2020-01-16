@@ -171,7 +171,7 @@ This program is provided with NO WARRANTY OF ANY KIND.
 Acknowledgements
 ===============
 
-This software is supported by a Lundbeckfonden Fellowship (R272-2017-4345), and the AIAS-COFUND II fellowship programme that is supported by the Marie Skłodowska-Curie actions under the European Union’s Horizon 2020 (Grant agreement no 754513), and the Aarhus University Research Foundation.
+This software and the ECG are supported by a Lundbeckfonden Fellowship (R272-2017-4345), and the AIAS-COFUND II fellowship programme that is supported by the Marie Skłodowska-Curie actions under the European Union’s Horizon 2020 (Grant agreement no 754513), and the Aarhus University Research Foundation.
 
 Systole was largely inspired by pre-existing toolboxes dedicated to heartrate variability and signal analysis.
 
