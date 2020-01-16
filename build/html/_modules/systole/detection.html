@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>systole.detection &#8212; systole 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html"><span><img src="../../_static/logo.png"></span>
+          systole</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../../api.html">Functions</a></li>
+                <li><a href="../../auto_examples/index.html">Tutorials</a></li>
+                <li><a href="https://github.com/embodied-computation-group/systole">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for systole.detection</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Author: Nicolas Legrand &lt;nicolas.legrand@cfin.au.dk&gt;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">iqr</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="k">import</span> <span class="n">interp1d</span>
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="k">import</span> <span class="n">find_peaks</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">interpolate</span>
+
+
+<div class="viewcode-block" id="oxi_peaks"><a class="viewcode-back" href="../../generated/systole.oxi_peaks.html#systole.oxi_peaks">[docs]</a><span class="k">def</span> <span class="nf">oxi_peaks</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">new_sfreq</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">clipping</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+              <span class="n">noise_removal</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">peak_enhancement</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A simple peak finder for PPG signal.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : list or 1d array-like</span>
+<span class="sd">        The oxi signal.</span>
+<span class="sd">    sfreq : int</span>
+<span class="sd">        The sampling frequency. Default is set to 75 Hz.</span>
+<span class="sd">    win : int</span>
+<span class="sd">        Window size (in seconds) used to compute the threshold.</span>
+<span class="sd">    new_sfreq : int</span>
+<span class="sd">        If resample is *True*, the new sampling frequency.</span>
+<span class="sd">    resample : bool</span>
+<span class="sd">        If *True (defaults), will resample the signal at *new_sfreq*. Default</span>
+<span class="sd">        value is 1000 Hz.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    peaks : 1d array-like</span>
+<span class="sd">        Numpy array containing R peak timing, in sfreq.</span>
+<span class="sd">    resampled_signal : 1d array-like</span>
+<span class="sd">        Signal resampled to the `new_sfreq` frequency.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This algorithm use a simple rolling average to detect peaks. The signal is</span>
+<span class="sd">    first resampled and a rolling average is applyed to correct high frequency</span>
+<span class="sd">    noise and clipping. The signal is then squared and detection of peaks is</span>
+<span class="sd">    performed using threshold set by the moving averagte + stadard deviation.</span>
+
+<span class="sd">    .. warning :: This function will resample the signal to 1000 Hz.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Some of the processing steps were adapted from the HeartPy toolbox [1]:</span>
+<span class="sd">    https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/index.html</span>
+
+<span class="sd">    [1] : van Gent, P., Farah, H., van Nes, N. and van Arem, B., 2019.</span>
+<span class="sd">    Analysing Noisy Driver Physiology Real-Time Using Off-the-Shelf Sensors:</span>
+<span class="sd">    Heart Rate Analysis Software from the Taking the Fast Lane Project. Journal</span>
+<span class="sd">    of Open Research Software, 7(1), p.32. DOI: http://doi.org/10.5334/jors.241</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Interpolate</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">sfreq</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">sfreq</span><span class="p">),</span>
+                             <span class="n">x</span><span class="p">,</span>
+                             <span class="n">fill_value</span><span class="o">=</span><span class="s2">&quot;extrapolate&quot;</span><span class="p">)</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">sfreq</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">new_sfreq</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+
+    <span class="c1"># Copy resampled signal for output</span>
+    <span class="n">resampled_signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Remove clipping artefacts with cubic interpolation</span>
+    <span class="k">if</span> <span class="n">clipping</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">interpolate_clipping</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">noise_removal</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="c1"># Moving average (high frequency noise + clipping)</span>
+        <span class="n">rollingNoise</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">new_sfreq</span><span class="o">*.</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 0.1 second window</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="p">{</span><span class="s1">&#39;signal&#39;</span><span class="p">:</span> <span class="n">x</span><span class="p">})</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">rollingNoise</span><span class="p">,</span>
+                                   <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">values</span>
+    <span class="k">if</span> <span class="n">peak_enhancement</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="c1"># Square signal (peak enhancement)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>
+
+    <span class="c1"># Compute moving average and standard deviation</span>
+    <span class="n">signal</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;signal&#39;</span><span class="p">:</span> <span class="n">x</span><span class="p">})</span>
+    <span class="n">mean_signal</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">new_sfreq</span><span class="o">*</span><span class="mf">0.75</span><span class="p">),</span>
+                                 <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">std_signal</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">new_sfreq</span><span class="o">*</span><span class="mf">0.75</span><span class="p">),</span>
+                                <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="c1"># Substract moving average + standard deviation</span>
+    <span class="n">x</span> <span class="o">-=</span> <span class="p">(</span><span class="n">mean_signal</span> <span class="o">+</span> <span class="n">std_signal</span><span class="p">)</span>
+
+    <span class="c1"># Find positive peaks</span>
+    <span class="n">peaks_idx</span> <span class="o">=</span> <span class="n">find_peaks</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Create boolean vector</span>
+    <span class="n">peaks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">peaks</span><span class="p">[</span><span class="n">peaks_idx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">peaks</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Inconsistent output lenght&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">resampled_signal</span><span class="p">,</span> <span class="n">peaks</span></div>
+
+
+<div class="viewcode-block" id="hrv_subspaces"><a class="viewcode-back" href="../../generated/systole.hrv_subspaces.html#systole.hrv_subspaces">[docs]</a><span class="k">def</span> <span class="nf">hrv_subspaces</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">5.2</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">45</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot hrv subspace as described by Lipponen &amp; Tarvainen (2019).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : 1d array-like</span>
+<span class="sd">        Array of RR intervals.</span>
+<span class="sd">    alpha : float</span>
+<span class="sd">        Scaling factor used to normalize the RR intervals first deviation.</span>
+<span class="sd">    window : int</span>
+<span class="sd">        Size of the window used to compute the interquartil range and normalize</span>
+<span class="sd">        the dRR serie.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    subspace1 : 1d array-like</span>
+<span class="sd">        The first dimension. First derivative of R-R interval time serie.</span>
+<span class="sd">    subspace2 : 1d array-like</span>
+<span class="sd">        The second dimension (1st plot).</span>
+<span class="sd">    subspace3 : 1d array-like</span>
+<span class="sd">        The third dimension (2nd plot).</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    [1] Lipponen, J. A., &amp; Tarvainen, M. P. (2019). A robust algorithm for</span>
+<span class="sd">        heart rate variability time series artefact correction using novel</span>
+<span class="sd">        beat classification. Journal of Medical Engineering &amp; Technology,</span>
+<span class="sd">        43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Subspace 1 - dRRs time serie</span>
+    <span class="n">s11</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+    <span class="n">th</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s11</span><span class="p">)):</span>
+        <span class="n">mi</span><span class="p">,</span> <span class="n">ma</span> <span class="o">=</span> <span class="n">i</span><span class="o">-</span><span class="mi">45</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">45</span>
+        <span class="k">if</span> <span class="n">mi</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">mi</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">ma</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">s11</span><span class="p">):</span>
+            <span class="n">ma</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s11</span><span class="p">)</span>
+        <span class="n">th</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">alpha</span><span class="o">*</span><span class="n">iqr</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">s11</span><span class="p">[</span><span class="n">mi</span><span class="p">:</span><span class="n">ma</span><span class="p">]))</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">s11</span> <span class="o">=</span> <span class="n">s11</span><span class="o">/</span><span class="n">th</span>
+
+    <span class="c1"># Subspace 2</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s11</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">s11</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s11</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">s11</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])])</span>
+    <span class="n">ma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">mi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">s12</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s11</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">s11</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">s12</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mi</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">s11</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">s12</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ma</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="c1"># Subspace 3</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">s11</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">s11</span><span class="p">[</span><span class="mi">2</span><span class="p">:]])</span>
+    <span class="n">ma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">mi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">s22</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s11</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">s11</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">s22</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ma</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">s11</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">s22</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mi</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">s11</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">s12</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">s22</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="interpolate_clipping"><a class="viewcode-back" href="../../generated/systole.interpolate_clipping.html#systole.interpolate_clipping">[docs]</a><span class="k">def</span> <span class="nf">interpolate_clipping</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">255</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Interoplate clipping segment.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    signal : 1d array-like</span>
+<span class="sd">        Noisy signal.</span>
+<span class="sd">    threshold : int</span>
+<span class="sd">        Threshold of clipping artefact.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    clean_signal : 1d array-like</span>
+<span class="sd">        Interpolated signal.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Correct signal segment reaching recording threshold (default is 255)</span>
+<span class="sd">    using a cubic spline interpolation. Adapted from [#]_.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [#] https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+
+    <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">))</span>
+
+    <span class="c1"># Interpolate</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">signal</span> <span class="o">!=</span> <span class="mi">255</span><span class="p">)[</span><span class="mi">0</span><span class="p">]],</span>
+                 <span class="n">signal</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">signal</span> <span class="o">!=</span> <span class="mi">255</span><span class="p">)[</span><span class="mi">0</span><span class="p">]],</span>
+                 <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;cubic&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Use the peaks vector as time input</span>
+    <span class="n">clean_signal</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">clean_signal</span></div>
+
+
+<span class="k">def</span> <span class="nf">rr_outliers</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="n">c1</span><span class="o">=</span><span class="mf">0.13</span><span class="p">,</span> <span class="n">c2</span><span class="o">=</span><span class="mf">0.17</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Find outliers in RR time series using subspaces decomposition.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rr : 1d array-like</span>
+<span class="sd">        Array of RR intervals.</span>
+<span class="sd">    c1 : float</span>
+<span class="sd">        Fixed variable controling the slope of the threshold lines. Default is</span>
+<span class="sd">        0.13.</span>
+<span class="sd">    c2 : float</span>
+<span class="sd">        Fixed variable controling the intersect of the threshold lines. Default</span>
+<span class="sd">        is 0.17.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ectobeats : 1d array-like</span>
+<span class="sd">        Boolean array indexing probable ectobeats.</span>
+<span class="sd">    outliers : 1d array-like</span>
+<span class="sd">        Boolean array indexing abberant shorts/long RR intervals.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This function will use the method proposed by Lipponen &amp; Tarvainen [1]_ to</span>
+<span class="sd">    find probable ectobeats and abberant long/shorts RR intervals.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    [1] Lipponen, J. A., &amp; Tarvainen, M. P. (2019). A robust algorithm for</span>
+<span class="sd">        heart rate variability time series artefact correction using novel</span>
+<span class="sd">        beat classification. Journal of Medical Engineering &amp; Technology,</span>
+<span class="sd">        43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">subspace1</span><span class="p">,</span> <span class="n">subspace2</span><span class="p">,</span> <span class="n">subspace3</span> <span class="o">=</span> <span class="n">hrv_subspaces</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
+
+    <span class="c1"># Find ectobeats</span>
+    <span class="n">cond1</span> <span class="o">=</span> <span class="p">(</span><span class="n">subspace1</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">subspace2</span> <span class="o">&lt;</span> <span class="p">(</span><span class="o">-</span><span class="n">c1</span> <span class="o">*</span> <span class="n">subspace1</span><span class="o">-</span><span class="n">c2</span><span class="p">))</span>
+    <span class="n">cond2</span> <span class="o">=</span> <span class="p">(</span><span class="n">subspace1</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">subspace2</span> <span class="o">&gt;</span> <span class="p">(</span><span class="o">-</span><span class="n">c1</span> <span class="o">*</span> <span class="n">subspace1</span><span class="o">+</span><span class="n">c2</span><span class="p">))</span>
+    <span class="n">ectobeats</span> <span class="o">=</span> <span class="n">cond1</span> <span class="o">|</span> <span class="n">cond2</span>
+
+    <span class="c1"># Find long or shorts</span>
+    <span class="n">cond1</span> <span class="o">=</span> <span class="p">(</span><span class="n">subspace1</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">subspace3</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">cond2</span> <span class="o">=</span> <span class="p">(</span><span class="n">subspace1</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">subspace3</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">outliers</span> <span class="o">=</span> <span class="n">cond1</span> <span class="o">|</span> <span class="n">cond2</span>
+
+    <span class="k">return</span> <span class="n">ectobeats</span><span class="p">,</span> <span class="n">outliers</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2020, Nicolas Legrand.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

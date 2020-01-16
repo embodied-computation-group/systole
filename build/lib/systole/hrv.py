@@ -177,7 +177,7 @@ def frequency_domain(x, sfreq=5, method='welch', fbands=None):
 
     Parameters
     ----------
-    x : list or numpy array
+    x : list or 1d array-like
         Length of R-R intervals (in miliseconds).
     sfreq : int
         The sampling frequency.

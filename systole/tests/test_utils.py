@@ -32,7 +32,7 @@ class TestUtils(TestCase):
             peaks, unit='bpm', kind='cubic', sfreq=500)
         assert len(heartrate) == len(time)
 
-    def test_time_shft(self):
+    def test_time_shift(self):
         """Test time_shift function"""
         lag = time_shift([40, 50, 60], [45, 52])
         assert lag == [5, 2]

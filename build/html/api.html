@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Functions &#8212; systole 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><span><img src="_static/logo.png"></span>
+          systole</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="#">Functions</a></li>
+                <li><a href="auto_examples/index.html">Tutorials</a></li>
+                <li><a href="https://github.com/embodied-computation-group/systole">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Functions</a><ul>
+<li><a class="reference internal" href="#detection">Detection</a></li>
+<li><a class="reference internal" href="#heart-rate-variability">Heart Rate Variability</a></li>
+<li><a class="reference internal" href="#plotting">Plotting</a></li>
+<li><a class="reference internal" href="#recording">Recording</a></li>
+<li><a class="reference internal" href="#utils">Utils</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="_sources/api.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <div class="section" id="functions">
+<span id="api-ref"></span><h1><a class="toc-backref" href="#id5">Functions</a><a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#functions" id="id5">Functions</a></p>
+<ul>
+<li><p><a class="reference internal" href="#detection" id="id6">Detection</a></p></li>
+<li><p><a class="reference internal" href="#heart-rate-variability" id="id7">Heart Rate Variability</a></p></li>
+<li><p><a class="reference internal" href="#plotting" id="id8">Plotting</a></p></li>
+<li><p><a class="reference internal" href="#recording" id="id9">Recording</a></p></li>
+<li><p><a class="reference internal" href="#utils" id="id10">Utils</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="detection">
+<h2><a class="toc-backref" href="#id6">Detection</a><a class="headerlink" href="#detection" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.oxi_peaks.html#systole.oxi_peaks" title="systole.oxi_peaks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">oxi_peaks</span></code></a>(x[, sfreq, win, new_sfreq, …])</p></td>
+<td><p>A simple peak finder for PPG signal.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">artefact_correction</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">missed_beat</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/systole.hrv_subspaces.html#systole.hrv_subspaces" title="systole.hrv_subspaces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hrv_subspaces</span></code></a>(x[, alpha, window])</p></td>
+<td><p>Plot hrv subspace as described by Lipponen &amp; Tarvainen (2019).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.interpolate_clipping.html#systole.interpolate_clipping" title="systole.interpolate_clipping"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interpolate_clipping</span></code></a>(signal[, threshold])</p></td>
+<td><p>Interoplate clipping segment.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="heart-rate-variability">
+<h2><a class="toc-backref" href="#id7">Heart Rate Variability</a><a class="headerlink" href="#heart-rate-variability" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.nnX.html#systole.nnX" title="systole.nnX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nnX</span></code></a>(x[, t])</p></td>
+<td><p>Number of difference in successive R-R interval &gt; t ms.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/systole.pnnX.html#systole.pnnX" title="systole.pnnX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pnnX</span></code></a>(x[, t])</p></td>
+<td><p>Number of successive differences larger than a value (def = 50ms).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.rmssd.html#systole.rmssd" title="systole.rmssd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rmssd</span></code></a>(x)</p></td>
+<td><p>Root Mean Square of Successive Differences.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/systole.time_domain.html#systole.time_domain" title="systole.time_domain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time_domain</span></code></a>(x)</p></td>
+<td><p>Extract all time domain parameters from R-R intervals.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.frequency_domain.html#systole.frequency_domain" title="systole.frequency_domain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frequency_domain</span></code></a>(x[, sfreq, method, fbands])</p></td>
+<td><p>Extract the frequency domain features of heart rate variability.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/systole.nonlinear.html#systole.nonlinear" title="systole.nonlinear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nonlinear</span></code></a>(x)</p></td>
+<td><p>Extract the frequency domain features of heart rate variability.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="plotting">
+<h2><a class="toc-backref" href="#id8">Plotting</a><a class="headerlink" href="#plotting" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.plot_hr.html#systole.plot_hr" title="systole.plot_hr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hr</span></code></a>(x[, sfreq, outliers, unit, kind, ax])</p></td>
+<td><p>Plot the instantaneous heart rate time course.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/systole.plot_events.html#systole.plot_events" title="systole.plot_events"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_events</span></code></a>(oximeter[, ax])</p></td>
+<td><p>Plot events occurence across recording.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.plot_oximeter.html#systole.plot_oximeter" title="systole.plot_oximeter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_oximeter</span></code></a>(x[, sfreq, ax])</p></td>
+<td><p>Plot PPG signal.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/systole.plot_subspaces.html#systole.plot_subspaces" title="systole.plot_subspaces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_subspaces</span></code></a>(x[, subspace2, subspace3, …])</p></td>
+<td><p>Plot hrv subspace as described by Lipponen &amp; Tarvainen (2019).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.circular.html#systole.circular" title="systole.circular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">circular</span></code></a>(data[, bins, density, offset, …])</p></td>
+<td><p>Plot polar histogram.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/systole.plot_circular.html#systole.plot_circular" title="systole.plot_circular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_circular</span></code></a>(data[, y, hue])</p></td>
+<td><p>Plot polar histogram.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="recording">
+<h2><a class="toc-backref" href="#id9">Recording</a><a class="headerlink" href="#recording" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.recording.Oximeter.html#systole.recording.Oximeter" title="systole.recording.Oximeter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">recording.Oximeter</span></code></a>(serial[, sfreq, add_channels])</p></td>
+<td><p>Recording PPG signal with Nonin pulse oximeter.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="utils">
+<h2><a class="toc-backref" href="#id10">Utils</a><a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.norm_triggers.html#systole.norm_triggers" title="systole.norm_triggers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">norm_triggers</span></code></a>(x[, threshold, n, direction])</p></td>
+<td><p>Turns noisy triggers into unique boolean.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/systole.time_shift.html#systole.time_shift" title="systole.time_shift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time_shift</span></code></a>(x, events[, order])</p></td>
+<td><p>Return the delay between x and events.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.heart_rate.html#systole.heart_rate" title="systole.heart_rate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">heart_rate</span></code></a>(x[, sfreq, unit, kind])</p></td>
+<td><p>Transform peaks data into heart rate time series.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/systole.to_angles.html#systole.to_angles" title="systole.to_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_angles</span></code></a>(x, events)</p></td>
+<td><p>Angular values of events according to x cycle peaks.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/systole.to_epochs.html#systole.to_epochs" title="systole.to_epochs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_epochs</span></code></a>(x, events[, sfreq, tmin, tmax, …])</p></td>
+<td><p>Epoch signal based on events indexes.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2020, Nicolas Legrand.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
