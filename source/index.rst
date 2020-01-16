@@ -25,7 +25,7 @@
 In particular, the package provides tools to pre-process, analyze, and synchronize cardiac data from psychophysiology research.
 This includes tools for data epoching, heart-rate variability, and synchronizing stimulus presentation with different cardiac phases via psychopy.
 
-The documentation can be found under the following `links <https://embodied-computation-group.github.io/>`_.
+The documentation can be found under the following `link <https://embodied-computation-group.github.io/>`_.
 
 Installation
 ============
@@ -117,6 +117,7 @@ Online heart beat detection, for cardiac-stimulus synchrony:
 
 Peaks detection
 ===============
+
 Heartbeats can be detected in the PPG signal either online or offline.
 
 Methods from clipping correction and peak detection algorithm is adapted from [#]_.
@@ -171,7 +172,7 @@ This module was created and is maintained by Nicolas Legrand and Micah Allen (EC
 This program is provided with NO WARRANTY OF ANY KIND.
 
 Acknowledgements
-===============
+================
 
 This software and the ECG are supported by a Lundbeckfonden Fellowship (R272-2017-4345), and the AIAS-COFUND II fellowship programme that is supported by the Marie Skłodowska-Curie actions under the European Union’s Horizon 2020 (Grant agreement no 754513), and the Aarhus University Research Foundation.
 
