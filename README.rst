@@ -21,7 +21,9 @@
 
 ================
 
-**Systole** is an open-source Python package providing simple tools to record and analyze body signal for psychophysiology.
+**Systole** is an open-source Python package providing simple tools to record and analyze, cardiac signals for psychophysiology.
+In particular, the package provides tools to pre-process, analyze, and synchronize cardiac data from psychophysiology research.
+This includes tools for data epoching, heart-rate variability, and synchronizing stimulus presentation with different cardiac phases via psychopy.
 
 Installation
 ============
@@ -32,7 +34,7 @@ Systole can be installed using pip:
 
   pip install systole
 
-The following package will be required to use Systole:
+The following packages are required to use Systole:
 
 * Numpy (>=1.15)
 * SciPy (>=1.3.0)
@@ -43,10 +45,10 @@ The following package will be required to use Systole:
 Recording
 =========
 
-Systole supports the recording of PPG signal through the `Nonin 3012LP Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_.
-It can easily interface with `PsychoPy <https://www.psychopy.org/>`_ to record PPG signal during psychological experiments.
+Systole natively supports the recording of PPG signals through the `Nonin 3012LP Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_.
+It can easily interface with `PsychoPy <https://www.psychopy.org/>`_ to record PPG signal during psychological experiments, and to synchronize stimulus deliver to e.g., systole or diastole.
 
-Record and plot data with less than 6 lines of code.
+For example, you can record and plot data in less than 6 lines of code:
 
 .. code-block:: python
 
@@ -61,11 +63,11 @@ Record and plot data with less than 6 lines of code.
 Interfacing with PsychoPy
 -------------------------
 
-The ``Oximeter`` class can be used together with a stimuli presentation software to record cardiac activity during psychological experiments.
+The ``Oximeter`` class can be used together with a stimulus presentation software to record cardiac activity during psychological experiments.
 
 * The ``read()`` method
 
-will record for a predefined amount of time (specified by the ``duration`` parameter, in seconds). This is the easiest and most robust method, but it does not allow to execute other instructions in the meantime (serial mode).
+will record for a predefined amount of time (specified by the ``duration`` parameter, in seconds). This 'serial mode' is the easiest and most robust method, but it does not allow the execution of other instructions in the meantime.
 
 .. code-block:: python
 
@@ -75,7 +77,7 @@ will record for a predefined amount of time (specified by the ``duration`` param
 
 * The ``readInWaiting()`` method
 
-will only read the bytes temporally stored in the USB buffer. For the Nonin devices, this represents up to 10 seconds of recording (this procedure should be executed at least one time every 10 seconds for a continuous recording). When inserted into a while loop, it can record PPG signal in parallel with other commands.
+will only read the bytes temporally stored in the USB buffer. For the Nonin device, this represents up to 10 seconds of recording (this procedure should be executed at least one time every 10 seconds for a continuous recording). When inserted into a while loop, it can record PPG signal in parallel with other commands.
 
 .. code-block:: python
 
@@ -88,7 +90,7 @@ will only read the bytes temporally stored in the USB buffer. For the Nonin devi
 Online detection
 ----------------
 
-Online heart beat detection.
+Online heart beat detection, for cardiac-stimulus synchrony:
 
 .. code-block:: python
 
@@ -113,7 +115,7 @@ Online heart beat detection.
 
 Peaks detection
 ===============
-Heart beat can be detected in the PPG signal either online or offline.
+Heartbeats can be detected in the PPG signal either online or offline.
 
 Methods from clipping correction and peak detection algorithm is adapted from [#]_.
 
@@ -143,12 +145,12 @@ Systole implements the artefact rejection method recently proposed by Lipponen &
 .. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/subspaces.png
    :align:   center
 
-Heart rate variability
+Heartrate variability
 ======================
 
-Systole supports basic time-domain, frequency-domain and non-linear indexes extraction.
+Systole supports basic time-domain, frequency-domain and non-linear extraction indices.
 
-All the time-domain and non-linear indexes have been tested against Kubios HVR 2.2 (<https://www.kubios.com>). The frequency-domain indexes can slightly differ. We recommend to always check your results with another software.
+All time-domain and non-linear indices have been tested against Kubios HVR 2.2 (<https://www.kubios.com>). The frequency-domain indices can slightly differ. We recommend to always check your results against another software.
 
 .. code-block:: python
 
@@ -166,12 +168,12 @@ This module was created and is maintained by Nicolas Legrand and Micah Allen (EC
 
 This program is provided with NO WARRANTY OF ANY KIND.
 
-Acknowledgement
+Acknowledgements
 ===============
 
 This software is supported by a Lundbeckfonden Fellowship (R272-2017-4345), and the AIAS-COFUND II fellowship programme that is supported by the Marie Skłodowska-Curie actions under the European Union’s Horizon 2020 (Grant agreement no 754513), and the Aarhus University Research Foundation.
 
-Systole was largely inspired by preexisting toolboxes dedicated to heart rate variability and signal analysis.
+Systole was largely inspired by pre-existing toolboxes dedicated to heartrate variability and signal analysis.
 
 * HeartPy: https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/
 
