@@ -34,6 +34,12 @@ class TestRecording(TestCase):
         oxi.readInWaiting()
         oxi.waitBeat()
         oxi.find_peaks()
+
+        oxi.peaks = []
+        oxi.instant_rr = []
+        oxi.times = []
+        oxi.threshold = []
+
         oxi.save('test')
         assert os.path.exists("test.npy")
         os.remove("test.npy")
