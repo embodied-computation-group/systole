@@ -307,6 +307,34 @@ class Oximeter():
                         if self.check(paquet=paquet):
                             break
 
+    def save(self, fname):
+        """Save the recording instance.
+
+        Parameters
+        ----------
+        fname : str
+            The file name.
+        """
+        if len(self.peaks) != len(self.recording):
+            self.peak = np.zeros(len(self.recording))
+
+        if len(self.instant_rr) != len(self.recording):
+            self.instant_rr = np.zeros(len(self.recording))
+
+        if len(self.times) != len(self.recording):
+            self.times = np.zeros(len(self.recording))
+
+        if len(self.threshold) != len(self.recording):
+            self.threshold = np.zeros(len(self.recording))
+
+        recording = np.array([np.asarray(self.recording),
+                              np.asarray(self.peaks),
+                              np.asarray(self.instant_rr),
+                              np.asarray(self.times),
+                              np.asarray(self.threshold)])
+
+        np.save(fname, recording)
+
     def setup(self, read_duration=1, clear_peaks=True):
         """Find start byte and read a portion of signal.
 
