@@ -1,5 +1,6 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+import os
 import unittest
 import matplotlib
 import numpy as np
@@ -33,6 +34,15 @@ class TestRecording(TestCase):
         oxi.readInWaiting()
         oxi.waitBeat()
         oxi.find_peaks()
+
+        oxi.peaks = []
+        oxi.instant_rr = []
+        oxi.times = []
+        oxi.threshold = []
+
+        oxi.save('test')
+        assert os.path.exists("test.npy")
+        os.remove("test.npy")
 
 
 if __name__ == '__main__':
