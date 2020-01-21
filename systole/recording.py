@@ -95,6 +95,15 @@ class Oximeter():
     The recorded signal can latter be inspected using the `plot()` method.
 
     >>> oximeter.plot()
+
+    .. warning:: Data read from the serial port are appended to list and
+    processed for pulse detection and instantaneous heart rate estimation. The
+    time required to append new data to the recording will increase as its size
+    increase. You should beware that this processing time does not exceed the
+    sampling frequency (i.e. 75Hz or 0.013 seconds per sample for Nonin pulse
+    oximeters) to allow continuous recording and fast processing of in waiting
+    samples. We recommend storing regularly 5 minutes recording as .npy file
+    using the save() method.
     """
     def __init__(self, serial, sfreq=75, add_channels=None):
 
