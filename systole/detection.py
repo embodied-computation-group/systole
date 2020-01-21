@@ -5,7 +5,6 @@ import pandas as pd
 from scipy.stats import iqr
 from scipy.interpolate import interp1d
 from scipy.signal import find_peaks
-from scipy import interpolate
 
 
 def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
@@ -56,7 +55,7 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
         x = np.asarray(x)
 
     # Interpolate
-    f = interpolate.interp1d(np.arange(0, len(x)/sfreq, 1/sfreq),
+    f = interp1d(np.arange(0, len(x)/sfreq, 1/sfreq),
                              x,
                              fill_value="extrapolate")
     time = np.arange(0, len(x)/sfreq, 1/new_sfreq)
