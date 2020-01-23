@@ -332,7 +332,7 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     return ax
 
 
-def plot_psd(x, sfreq=75, method='welch', fbands=None, low=0.003,
+def plot_psd(x, sfreq=5, method='welch', fbands=None, low=0.003,
              high=0.4, show=True, ax=None):
     """Plot PSD of heart rate variability.
 
