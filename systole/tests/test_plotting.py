@@ -71,8 +71,8 @@ class TestPlotting(TestCase):
         ax = plot_psd(rr)
         assert isinstance(ax, matplotlib.axes.Axes)
         freq, psd = plot_psd(rr, show=False)
-        assert freq.mean().round(4) == 18.75
-        assert psd.mean().round(4) == 0.0002
+        assert freq.mean() == 1.25
+        assert psd.mean().round(4) == 0.003
 
     def test_circular(self):
         """Tests _circular function"""
