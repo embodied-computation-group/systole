@@ -291,16 +291,16 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     ############
 
     if kind == 'hex':
-        ax[1].hexbin(subspace1[~rejection1], subspace3[~rejection1],
+        ax[1].hexbin(subspace1[~rejection2], subspace3[~rejection2],
                      gridsize=20, cmap='Blues',
                      norm=mpl.colors.LogNorm())
     if kind == 'bar':
-        ax[1].hist2d(subspace1[~rejection1], subspace3[~rejection1],
+        ax[1].hist2d(subspace1[~rejection2], subspace3[~rejection2],
                      bins=15, cmap='Blues', norm=mpl.colors.LogNorm())
     elif kind == 'scatter':
         # Plot data points
-        ax[1].scatter(subspace1[~rejection1],
-                      subspace3[~rejection1], color='#0b559f', edgecolors='k',
+        ax[1].scatter(subspace1[~rejection2],
+                      subspace3[~rejection2], color='#0b559f', edgecolors='k',
                       alpha=0.2, zorder=10)
 
     # Plot outliers
