@@ -92,7 +92,7 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
     peaks_idx = find_peaks(x, height=0)[0]
 
     # Create boolean vector
-    peaks = np.zeros(len(x))
+    peaks = np.zeros(len(x), dtype=bool)
     peaks[peaks_idx] = 1
 
     if len(peaks) != len(x):
