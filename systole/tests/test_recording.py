@@ -43,6 +43,7 @@ class TestRecording(TestCase):
         oxi.save('test')
         assert os.path.exists("test.npy")
         os.remove("test.npy")
+        oxi = Oximeter(serial=serial)
 
 
 if __name__ == '__main__':

@@ -534,9 +534,9 @@ def plot_circular(data, y=None, hue=None, **kwargs):
 
     Parameters
     ----------
-    data : DataFrame
-        Angular data (rad.)
-    y : str | list
+    data : `pd.DataFrame`
+        Angular data (rad.).
+    y : str or list
         If data is a pandas instance, column containing the angular values.
     hue : str or list of strings
         Columns in data encoding the different conditions.
@@ -562,18 +562,11 @@ def plot_circular(data, y=None, hue=None, **kwargs):
     # Check data format
     if isinstance(data, pd.DataFrame):
         assert data.shape[0] > 0, 'Data must have at least 1 row.'
-    elif isinstance(data, list):
-        data = np.asarray(data)
-        assert data.shape[0] > 1, 'Data must be 1d array.'
-    elif isinstance(data, np.ndarray):
-        assert data.shape[0] > 1, 'Data must be 1d array.'
-    else:
-        raise ValueError('Data must be instance of Numpy, Pandas or list.')
 
     palette = itertools.cycle(sns.color_palette('deep'))
 
     if hue is None:
-        ax = circular(data, **kwargs)
+        ax = circular(data[y].values, **kwargs)
 
     else:
         n_plot = data[hue].nunique()

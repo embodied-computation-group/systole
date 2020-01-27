@@ -3,6 +3,7 @@
 import numpy as np
 import pandas as pd
 import unittest
+import pytest
 import matplotlib
 from unittest import TestCase
 
@@ -47,6 +48,7 @@ class TestPlotting(TestCase):
         outliers = np.where(oxi.peaks)[0][:2]
         ax = plot_hr(np.asarray(oxi.peaks), unit='bpm', outliers=outliers)
         assert isinstance(ax, matplotlib.axes.Axes)
+        ax = plot_hr([600, 650, 700, 750])
 
     def test_plot_events(self):
         ax = plot_events(oxi)
@@ -76,7 +78,7 @@ class TestPlotting(TestCase):
 
     def test_circular(self):
         """Tests _circular function"""
-        ax = circular(x)
+        ax = circular(list(x))
         assert isinstance(ax, matplotlib.axes.Axes)
         for dens in ['area', 'heigth', 'alpha']:
             ax = circular(x, density='alpha', offset=np.pi, ax=None)
@@ -84,11 +86,15 @@ class TestPlotting(TestCase):
         ax = circular(x, density='height', mean=True,
                       units='degree', color='r')
         assert isinstance(ax, matplotlib.axes.Axes)
+        with pytest.raises(ValueError):
+            ax = circular(x, density='xx')
 
     def test_plot_circular(self):
         """Test plot_circular function"""
         data = pd.DataFrame(data={'x': x, 'y': y, 'z': z}).melt()
         ax = plot_circular(data=data, y='value', hue='variable')
+        assert isinstance(ax, matplotlib.axes.Axes)
+        ax = plot_circular(data=data, y='value', hue=None)
         assert isinstance(ax, matplotlib.axes.Axes)
 
 
