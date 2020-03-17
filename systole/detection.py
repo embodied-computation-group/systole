@@ -195,6 +195,12 @@ def interpolate_clipping(signal, threshold=255):
     if isinstance(signal, list):
         signal = np.array(signal)
 
+    # Security check for clipping at signal edge
+    if signal[0]==threshold:
+        signal[0] = threshold-1
+    if signal[-1]==threshold:
+        signal[-1] = threshold-1
+
     time = np.arange(0, len(signal))
 
     # Interpolate
