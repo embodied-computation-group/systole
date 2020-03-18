@@ -86,7 +86,7 @@ def heart_rate(x, sfreq=1000, unit='rr', kind='cubic'):
     x : 1d array-like
         Boolean vector of heartbeat detection.
     sfreq : int
-        Sampling frequency
+        Sampling frequency.
     unit : str
         The heartrate unit in use. Can be 'rr' (R-R intervals, in ms)
         or 'bpm' (beats per minutes). Default is 'rr'.
@@ -215,6 +215,11 @@ def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
     if len(x) != len(events):
         raise ValueError("""The length of the event and signal vector
                                 shoul match exactly""")
+    # To numpy array
+    if isinstance(x, list):
+        x = np.asarray(x)
+    if isinstance(events, list):
+        events = np.asarray(events)
 
     # From boolean to event indices
     events = np.where(events == event_val)[0]
