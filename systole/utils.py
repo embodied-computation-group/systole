@@ -184,7 +184,7 @@ def to_angles(x, events):
 
 
 def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
-              sigma=10, apply_baseline=0, verbose=False):
+              sigma=10, apply_baseline=0, verbose=False, reject=None):
     """Epoch signal based on events indices.
 
     Parameters
@@ -206,6 +206,8 @@ def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
         mean). If *None*, no baseline is applied.
     verbose : boolean
         If True, will return warnings if epoc are droped.
+    reject : 1d array-like or None
+        Segments of the signal that should be rejected.
 
     Returns
     -------
@@ -224,6 +226,10 @@ def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
     # From boolean to event indices
     events = np.where(events == event_val)[0]
 
+    # Bads array
+    if reject is None:
+        reject = np.zeros(len(x))
+
     rejected = 0
     epochs = np.zeros(
                 shape=(len(events), ((np.abs(tmin) + np.abs(tmax)) * sfreq)))
@@ -233,7 +239,15 @@ def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
         if (ev+round(tmin*sfreq) < 0) | (ev+round(tmax*sfreq) > len(x)):
             if verbose is True:
                 print('Drop 1 epoch due to signal limits.')
-                rejected += 1
+            rejected += 1
+            epochs[i, :] = np.nan
+
+        # Security check (trial contain bad peak)
+        elif np.any(reject[ev+round(tmin*sfreq):ev+round(tmax*sfreq)]):
+            if verbose is True:
+                print('Drop 1 epoch due to artefact.')
+            rejected += 1
+            epochs[i, :] = np.nan
         else:
             trial = x[ev+round(tmin*sfreq):ev+round(tmax*sfreq)]
             if apply_baseline is None:
