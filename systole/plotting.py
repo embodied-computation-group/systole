@@ -286,7 +286,7 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     ax[0].set_ylabel('Subspace $S_{12}$')
     ax[0].set_ylim(-ylim, ylim)
     ax[0].set_xlim(-xlim, xlim)
-    ax[0].set_title('Subspace 1 \n (ectobeats detection)', fontweight='bold')
+    ax[0].set_title('Subspace 1 \n (ectobeats detection)')
 
     ############
 
@@ -325,8 +325,8 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     ax[1].set_ylabel('Subspace $S_{22}$')
     ax[1].set_ylim(-ylim*2, ylim*2)
     ax[1].set_xlim(-xlim, xlim)
-    ax[1].set_title('Subspace 2 \n (long and short beats detection)',
-                    fontweight='bold')
+    ax[1].set_title('Subspace 2 \n (long and short beats detection)')
+
     plt.tight_layout()
 
     return ax
