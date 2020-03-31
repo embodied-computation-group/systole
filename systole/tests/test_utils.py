@@ -19,10 +19,10 @@ class TestUtils(TestCase):
         peaks[np.where(peaks)[0]+2] = 1
         peaks[-1:] = 1
         y = norm_triggers(peaks)
-        assert sum(y) == 379
+        assert sum(y) == 378
         peaks = - peaks.astype(int)
         y = norm_triggers(peaks, threshold=-1, direction='lower')
-        assert sum(y) == 379
+        assert sum(y) == 378
         with pytest.raises(ValueError):
             norm_triggers(None)
             norm_triggers(peaks, threshold=-1, direction='invalid')

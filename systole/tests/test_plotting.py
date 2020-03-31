@@ -11,7 +11,6 @@ from systole.plotting import plot_hr, plot_events, plot_oximeter,\
     plot_subspaces, circular, plot_circular, plot_psd
 from systole import import_ppg, import_rr, serialSim
 from systole.recording import Oximeter
-from systole.detection import hrv_subspaces
 
 
 serial = serialSim()
@@ -60,10 +59,7 @@ class TestPlotting(TestCase):
 
     def test_plot_subspaces(self):
         rr = import_rr().rr
-        s1, s2, s3 = hrv_subspaces(rr)
-        ax = plot_subspaces(s1, s2, s3)
-        ax = plot_subspaces(rr, kind='bar')
-        ax = plot_subspaces(rr, kind='hex')
+        ax = plot_subspaces(rr)
         assert isinstance(ax[0], matplotlib.axes.Axes)
         assert isinstance(ax[1], matplotlib.axes.Axes)
 
