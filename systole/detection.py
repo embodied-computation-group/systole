@@ -72,7 +72,7 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
         rollingNoise = int(new_sfreq*.2)  # 0.1 second window
         x = pd.DataFrame(
             {'signal': x}).rolling(rollingNoise,
-                                   center=True).mean().signal.values
+                                   center=True).mean().signal.to_numpy()
     if peak_enhancement is True:
         # Square signal (peak enhancement)
         x = x ** 2
@@ -80,9 +80,9 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
     # Compute moving average and standard deviation
     signal = pd.DataFrame({'signal': x})
     mean_signal = signal.rolling(int(new_sfreq*0.75),
-                                 center=True).mean().signal.values
+                                 center=True).mean().signal.to_numpy()
     std_signal = signal.rolling(int(new_sfreq*0.75),
-                                center=True).std().signal.values
+                                center=True).std().signal.to_numpy()
 
     # Substract moving average + standard deviation
     x -= (mean_signal + std_signal)
@@ -168,28 +168,26 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
     dRR[0] = dRR[1:].mean()  # Set first item to a realistic value
 
     dRR_df = pd.DataFrame({'signal': np.abs(dRR)})
-    q1 = dRR_df.rolling(91, center=True,
-                        min_periods=1).quantile(.25).signal.values
-    q3 = dRR_df.rolling(91, center=True,
-                        min_periods=1).quantile(.75).signal.values
+    q1 = dRR_df.rolling(
+        91, center=True, min_periods=1).quantile(.25).signal.to_numpy()
+    q3 = dRR_df.rolling(
+        91, center=True, min_periods=1).quantile(.75).signal.to_numpy()
 
     th1 = alpha * ((q3 - q1) / 2)
     dRR = dRR / th1
     s11 = dRR
 
     # mRRs time serie
-    medRR = pd.DataFrame(
-                {'signal': rr}).rolling(11,
-                                        center=True,
-                                        min_periods=1).median().signal.values
+    medRR = pd.DataFrame({'signal': rr}).rolling(
+                    11, center=True, min_periods=1).median().signal.to_numpy()
     mRR = rr - medRR
     mRR[mRR < 0] = 2 * mRR[mRR < 0]
 
     mRR_df = pd.DataFrame({'signal': np.abs(mRR)})
-    q1 = mRR_df.rolling(91, center=True,
-                        min_periods=1).quantile(.25).signal.values
-    q3 = mRR_df.rolling(91, center=True,
-                        min_periods=1).quantile(.75).signal.values
+    q1 = mRR_df.rolling(
+        91, center=True, min_periods=1).quantile(.25).signal.to_numpy()
+    q3 = mRR_df.rolling(
+        91, center=True, min_periods=1).quantile(.75).signal.to_numpy()
 
     th2 = alpha * ((q3 - q1) / 2)
     mRR /= th2
@@ -223,38 +221,43 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
     ectopic[:2] = False
 
     # Find long or shorts
-    long = ((s11 > 1) & (s22 < -1)) | (np.abs(mRR) > 3)
-    short = (s11 < -1) & (s22 > 1)
+    longBeats = ((s11 > 1) & (s22 < -1)) | (np.abs(mRR) > 3)
+    shortBeats = (s11 < -1) & (s22 > 1)
 
     # Test if next interval is also outlier
-    for cond in [long, short]:
+    for cond in [longBeats, shortBeats]:
         for i in range(len(cond)-2):
             if cond[i] is True:
                 if np.abs(s11[i+1]) < np.abs(s11[i+2]):
                     cond[i+1] = True
 
     # Ectopic beats are not considered as short or long
-    short[ectopic] = False
-    long[ectopic] = False
+    shortBeats[ectopic] = False
+    longBeats[ectopic] = False
 
     # Missed vector
     missed = np.abs((rr/2) - medRR) < th2
-    missed = missed & long
-    long[missed] = False  # Missed beats are not considered as long
+    missed = missed & longBeats
+    longBeats[missed] = False  # Missed beats are not considered as long
 
     # Etra vector
     extra = np.abs(rr + np.append(rr[1:], 0) - medRR) < th2
-    extra = extra & short
-    short[extra] = False  # Extra beats are not considered as short
+    extra = extra & shortBeats
+    shortBeats[extra] = False  # Extra beats are not considered as short
 
     # No short or long intervals at time serie edges
-    short[0], short[-1] = False, False
-    long[0], long[-1] = False, False
+    shortBeats[0], shortBeats[-1] = False, False
+    longBeats[0], longBeats[-1] = False, False
 
-    return {'subspace1': s11, 'subspace2': s12, 'subspace3': s22,
-            'mRR': mRR, 'ectopic': ectopic, 'long': long, 'short': short,
-            'missed': missed, 'extra': extra, 'threshold1': th1,
-            'threshold2': th2}
+    artefacts = {'subspace1': s11, 'subspace2': s12, 'subspace3': s22,
+                 'mRR': mRR, 'ectopic': ectopic, 'long': longBeats,
+                 'short': shortBeats, 'missed': missed, 'extra': extra,
+                 'threshold1': th1, 'threshold2': th2}
+
+    # Check array length consistency
+    assert np.all([len(artefacts[i]) == len(rr) for i in artefacts.keys()])
+
+    return artefacts
 
 
 def interpolate_clipping(signal, threshold=255):
