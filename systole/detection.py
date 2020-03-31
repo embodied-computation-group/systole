@@ -285,9 +285,9 @@ def interpolate_clipping(signal, threshold=255):
         signal = np.array(signal)
 
     # Security check for clipping at signal edge
-    if signal[0]==threshold:
+    if signal[0] == threshold:
         signal[0] = threshold-1
-    if signal[-1]==threshold:
+    if signal[-1] == threshold:
         signal[-1] = threshold-1
 
     time = np.arange(0, len(signal))
@@ -301,53 +301,3 @@ def interpolate_clipping(signal, threshold=255):
     clean_signal = f(time)
 
     return clean_signal
-
-
-def rr_outliers(rr, c1=0.13, c2=0.17):
-    """Find outliers in RR time series using subspaces decomposition.
-
-    Parameters
-    ----------
-    rr : 1d array-like
-        Array of RR intervals.
-    c1 : float
-        Fixed variable controling the slope of the threshold lines. Default is
-        0.13.
-    c2 : float
-        Fixed variable controling the intersect of the threshold lines. Default
-        is 0.17.
-
-    Returns
-    -------
-    ectobeats : 1d array-like
-        Boolean array indexing probable ectobeats.
-    outliers : 1d array-like
-        Boolean array indexing abberant shorts/long RR intervals.
-
-    Notes
-    -----
-    This function will use the method proposed by Lipponen & Tarvainen [1]_ to
-    find probable ectobeats and abberant long/shorts RR intervals.
-
-    References
-    ----------
-    [1] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
-        heart rate variability time series artefact correction using novel
-        beat classification. Journal of Medical Engineering & Technology,
-        43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306
-    """
-
-    subspace1, subspace2, subspace3 = hrv_subspaces(rr)
-
-    # Find ectobeats
-    cond1 = (subspace1 > 1) & (subspace2 < (-c1 * subspace1-c2))
-    cond2 = (subspace1 < -1) & (subspace2 > (-c1 * subspace1+c2))
-    ectobeats = cond1 | cond2
-
-    # Find long or shorts
-    cond1 = (subspace1 > 1) & (subspace3 < -1)
-    cond2 = (subspace1 < -1) & (subspace3 > 1)
-    cond3 =
-    outliers = cond1 | cond2
-
-    return ectobeats, outliers
