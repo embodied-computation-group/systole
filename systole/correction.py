@@ -92,13 +92,25 @@ def interpolate_bads(rr, idx):
     return clean_rr
 
 
-def correct_rr(rr):
+def correct_rr(rr, extra_correction=True, missed_correction=True,
+               short_correction=True, long_correction=True,
+               ectopic_correction=True):
     """Correct long and short beats using interpolation.
 
     Parameters
     ----------
     rr : 1d array-like
         RR intervals (ms).
+    correct_extra : boolean
+      If True, correct extra beats in the RR time series.
+    correct_missed : boolean
+      If True, correct missed beats in the RR time series.
+    correct_short : boolean
+      If True, correct short beats in the RR time series.
+    correct_long : boolean
+      If True, correct long beats in the RR time series.
+    correct_ectopic : boolean
+      If True, correct ectopic beats in the RR time series.
 
     Returns
     -------
@@ -127,48 +139,50 @@ def correct_rr(rr):
     artefacts = rr_artefacts(clean_rr)
 
     # Correct missed beats
-    if np.any(artefacts['missed']):
-        for this_id in np.where(artefacts['missed'])[0]:
-            this_id += nMissed
-            clean_rr = correct_missed(clean_rr, this_id)
-            nMissed += 1
-
-    artefacts = rr_artefacts(clean_rr)
+    if missed_correction:
+        if np.any(artefacts['missed']):
+            for this_id in np.where(artefacts['missed'])[0]:
+                this_id += nMissed
+                clean_rr = correct_missed(clean_rr, this_id)
+                nMissed += 1
+      artefacts = rr_artefacts(clean_rr)
 
     # Correct extra beats
-    if np.any(artefacts['extra']):
-        for this_id in np.where(artefacts['extra'])[0]:
-            this_id -= nExtra
-            clean_rr = correct_missed(clean_rr, this_id)
-            nExtra += 1
-
-    artefacts = rr_artefacts(clean_rr)
+    if extra_correction:
+        if np.any(artefacts['extra']):
+            for this_id in np.where(artefacts['extra'])[0]:
+                this_id -= nExtra
+                clean_rr = correct_missed(clean_rr, this_id)
+                nExtra += 1
+        artefacts = rr_artefacts(clean_rr)
 
     # Correct ectopic beats
-    if np.any(artefacts['ectopic']):
-        # Also correct the beat before
-        for i in np.where(artefacts['ectopic'])[0]:
-            if (i > 0) & (i < len(artefacts['ectopic'])):
-                artefacts['ectopic'][i-1] = True
-        this_id = np.where(artefacts['ectopic'])[0]
-        clean_rr = interpolate_bads(clean_rr, [this_id])
-        nEctopic = np.sum(artefacts['ectopic'])
+    if ectopic_correction:
+        if np.any(artefacts['ectopic']):
+            # Also correct the beat before
+            for i in np.where(artefacts['ectopic'])[0]:
+                if (i > 0) & (i < len(artefacts['ectopic'])):
+                    artefacts['ectopic'][i-1] = True
+            this_id = np.where(artefacts['ectopic'])[0]
+            clean_rr = interpolate_bads(clean_rr, [this_id])
+            nEctopic = np.sum(artefacts['ectopic'])
 
     # Correct short beats
-    if np.any(artefacts['short']):
-        this_id = np.where(artefacts['short'])[0]
-        clean_rr = interpolate_bads(clean_rr, this_id)
-        nShort = len(this_id)
+    if short_correction:
+        if np.any(artefacts['short']):
+            this_id = np.where(artefacts['short'])[0]
+            clean_rr = interpolate_bads(clean_rr, this_id)
+            nShort = len(this_id)
 
     # Correct long beats
-    if np.any(artefacts['long']):
-        this_id = np.where(artefacts['long'])[0]
-        clean_rr = interpolate_bads(clean_rr, this_id)
-        nLong = len(this_id)
+    if long_correction:
+        if np.any(artefacts['long']):
+            this_id = np.where(artefacts['long'])[0]
+            clean_rr = interpolate_bads(clean_rr, this_id)
+            nLong = len(this_id)
 
     return {'clean_rr': clean_rr, 'ectopic': nEctopic, 'short': nShort,
             'long': nLong, 'extra': nExtra, 'missed': nMissed}
-
 
 def correct_peaks(peaks, extra_correction=True, missed_correction=True,
                   short_correction=True, long_correction=True,
