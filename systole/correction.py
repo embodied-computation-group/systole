@@ -21,7 +21,7 @@ def correct_extra(rr, idx):
         Corrected RR intervals.
     """
     if isinstance(rr, list):
-        rr = np.asrray(rr)
+        rr = np.asarray(rr)
 
     clean_rr = rr
 
@@ -52,7 +52,7 @@ def correct_missed(rr, idx):
         Corrected RR intervals.
     """
     if isinstance(rr, list):
-        rr = np.asrray(rr)
+        rr = np.asarray(rr)
 
     clean_rr = rr
 
@@ -81,7 +81,7 @@ def interpolate_bads(rr, idx):
         Corrected RR intervals.
     """
     if isinstance(rr, list):
-        rr = np.asrray(rr)
+        rr = np.asarray(rr)
 
     x = np.arange(0, len(rr))
 
@@ -145,7 +145,7 @@ def correct_rr(rr, extra_correction=True, missed_correction=True,
                 this_id += nMissed
                 clean_rr = correct_missed(clean_rr, this_id)
                 nMissed += 1
-      artefacts = rr_artefacts(clean_rr)
+        artefacts = rr_artefacts(clean_rr)
 
     # Correct extra beats
     if extra_correction:
