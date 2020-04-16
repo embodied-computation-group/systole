@@ -92,7 +92,7 @@ def interpolate_bads(rr, idx):
     return clean_rr
 
 
-def correct_artefacts(rr):
+def correct_rr(rr):
     """Correct long and short beats using interpolation.
 
     Parameters
@@ -119,9 +119,9 @@ def correct_artefacts(rr):
             The number of missed beats corrected.
     """
     if isinstance(rr, list):
-        rr = np.asrray(rr)
+        rr = np.asarray(rr)
 
-    clean_rr = rr
+    clean_rr = rr.copy()
     nEctopic, nShort, nLong, nExtra, nMissed = 0, 0, 0, 0, 0
 
     artefacts = rr_artefacts(clean_rr)
@@ -168,3 +168,118 @@ def correct_artefacts(rr):
 
     return {'clean_rr': clean_rr, 'ectopic': nEctopic, 'short': nShort,
             'long': nLong, 'extra': nExtra, 'missed': nMissed}
+
+
+def correct_peaks(peaks, extra_correction=True, missed_correction=True,
+                  short_correction=True, long_correction=True,
+                  ectopic_correction=True):
+    """Correct long, short, extra, missed and ectopic beats in peaks vector.
+
+    Parameters
+    ----------
+    peaks : 1d array-like
+        Boolean vector of peaks.
+
+    Returns
+    -------
+    correction : dictionnary
+        The corrected RR time series and the number of artefacts corrected:
+
+        * clean_peaks: 1d array-like
+            The corrected boolean time-serie.
+        * ectopic: int
+            The number of ectopic beats corrected.
+        * short: int
+            The number of short beats corrected.
+        * long: int
+            The number of long beats corrcted.
+        * extra: int
+            The number of extra beats corrected.
+        * missed: int
+            The number of missed beats corrected.
+    """
+    if isinstance(peaks, list):
+        peaks = np.asarray(peaks, dtype=bool)
+
+    clean_peaks = peaks.copy()
+    nEctopic, nShort, nLong, nExtra, nMissed = 0, 0, 0, 0, 0
+
+    artefacts = rr_artefacts(np.diff(np.where(clean_peaks)[0]))
+
+    # Correct missed beats
+    if missed_correction:
+        if np.any(artefacts['missed']):
+            for this_id in np.where(artefacts['missed'])[0]:
+                this_id += nMissed
+                clean_peaks = correct_missed_peaks(clean_peaks, this_id)
+                nMissed += 1
+        artefacts = rr_artefacts(np.diff(np.where(clean_peaks)[0]))
+
+    # Correct extra beats
+    if extra_correction:
+        if np.any(artefacts['extra']):
+            for this_id in np.where(artefacts['extra'])[0]:
+                this_id -= nExtra
+                clean_peaks = correct_extra_peaks(clean_peaks, this_id)
+                nExtra += 1
+        artefacts = rr_artefacts(np.diff(np.where(clean_peaks)[0]))
+
+    return {'clean_peaks': clean_peaks, 'ectopic': nEctopic, 'short': nShort,
+            'long': nLong, 'extra': nExtra, 'missed': nMissed}
+
+
+def correct_missed_peaks(peaks, idx):
+    """Correct missed beats by adding a new RR interval.
+
+    Parameters
+    ----------
+    peaks : 1d array-like
+        Boolean vector of peaks.
+    idx : int
+        Index of the missed RR interval.
+
+    Returns
+    -------
+    clean_peaks : 1d array-like
+        Corrected boolean vector of peaks.
+    """
+    if isinstance(peaks, list):
+        peaks = np.asarray(peaks, dtype=bool)
+
+    clean_peaks = peaks.copy()
+    index = np.where(clean_peaks)[0]
+
+    # Estimate new interval
+    interval = int(round((index[idx+1] - index[idx])/2))
+
+    # Add peak in vector
+    clean_peaks[index[idx]+interval] = True
+
+    return clean_peaks
+
+
+def correct_extra_peaks(peaks, idx):
+    """Correct extra beats by removing peak.
+
+    Parameters
+    ----------
+    peaks : 1d array-like
+        Boolean vector of peaks.
+    idx : int
+        Index of the missed RR interval.
+
+    Returns
+    -------
+    clean_peaks : 1d array-like
+        Corrected boolean vector of peaks.
+    """
+    if isinstance(peaks, list):
+        peaks = np.asarray(peaks, dtype=bool)
+
+    clean_peaks = peaks.copy()
+    index = np.where(clean_peaks)[0]
+
+    # Remove peak in vector
+    clean_peaks[index[idx]] = False
+
+    return clean_peaks
