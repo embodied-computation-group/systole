@@ -4,7 +4,7 @@ import numpy as np
 import unittest
 from unittest import TestCase
 from systole.correction import correct_extra, correct_missed, \
-    correct_artefacts, interpolate_bads
+    correct_rr, interpolate_bads
 from systole import import_rr
 
 
@@ -38,7 +38,7 @@ class TestDetection(TestCase):
         rr[60] = 1300  # Long
         rr[80] = 500  # Short
         rr[90], rr[91] = 400, 1600  # Extra
-        correction = correct_artefacts(rr)
+        correction = correct_rr(rr)
         assert len(correction['clean_rr']) == 245
 
 
