@@ -69,7 +69,7 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
 
     if noise_removal is True:
         # Moving average (high frequency noise + clipping)
-        rollingNoise = int(new_sfreq*.2)  # 0.1 second window
+        rollingNoise = int(new_sfreq*.05)  # 0.5 second window
         x = pd.DataFrame(
             {'signal': x}).rolling(rollingNoise,
                                    center=True).mean().signal.to_numpy()
@@ -158,6 +158,8 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
         beat classification. Journal of Medical Engineering & Technology,
         43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306
     """
+    if isinstance(rr, list):
+        rr = np.array(rr)
 
     ###########
     # Detection
@@ -221,8 +223,10 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
     ectopic[:2] = False
 
     # Find long or shorts
-    longBeats = ((s11 > 1) & (s22 < -1)) | (np.abs(mRR) > 3)
-    shortBeats = (s11 < -1) & (s22 > 1)
+    longBeats = \
+        ((s11 > 1) & (s22 < -1)) | ((np.abs(mRR) > 3) & (rr > np.median(rr)))
+    shortBeats = \
+        ((s11 < -1) & (s22 > 1)) | ((np.abs(mRR) > 3) & (rr <= np.median(rr)))
 
     # Test if next interval is also outlier
     for cond in [longBeats, shortBeats]:
@@ -253,9 +257,6 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
                  'mRR': mRR, 'ectopic': ectopic, 'long': longBeats,
                  'short': shortBeats, 'missed': missed, 'extra': extra,
                  'threshold1': th1, 'threshold2': th2}
-
-    # Check array length consistency
-    assert np.all([len(artefacts[i]) == len(rr) for i in artefacts.keys()])
 
     return artefacts
 
