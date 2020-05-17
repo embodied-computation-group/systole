@@ -270,7 +270,7 @@ def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
 
 def simulate_rr(n_rr=350, extra_idx=[50], missed_idx=[100], short_idx=[150],
                 long_idx=[200], ectopic1_idx=[250], ectopic2_idx=[300],
-                random_state=42):
+                random_state=42, as_peaks=False):
     """ RR time series simulation with artefacts.
 
      n_rr : int
@@ -339,4 +339,12 @@ def simulate_rr(n_rr=350, extra_idx=[50], missed_idx=[100], short_idx=[150],
             rr[i] *= 1.3
             rr[i+1] *= .7
 
-    return rr
+    # Transform to peaks vector if needed
+    if as_peaks is True:
+        peaks = np.zeros(np.cumsum(np.rint(rr).astype(int))[-1]+50)
+        peaks[(np.cumsum(np.rint(rr).astype(int)))] = 1
+        peaks = peaks.astype(bool)
+        peaks[0] = True
+        return peaks
+    else:
+        return rr
