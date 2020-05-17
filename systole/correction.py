@@ -26,7 +26,7 @@ def correct_extra(rr, idx):
     clean_rr = rr
 
     if idx == len(clean_rr):
-        clean_rr = np.delete(clean_rr, idx)
+        clean_rr = np.delete(clean_rr, idx-1)
     else:
         # Add the extra interval to the next one
         clean_rr[idx+1] = clean_rr[idx+1] + clean_rr[idx]
@@ -183,6 +183,7 @@ def correct_rr(rr, extra_correction=True, missed_correction=True,
 
     return {'clean_rr': clean_rr, 'ectopic': nEctopic, 'short': nShort,
             'long': nLong, 'extra': nExtra, 'missed': nMissed}
+
 
 def correct_peaks(peaks, extra_correction=True, missed_correction=True,
                   short_correction=True, long_correction=True,
