@@ -94,9 +94,6 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
     peaks = np.zeros(len(x), dtype=bool)
     peaks[peaks_idx] = 1
 
-    if len(peaks) != len(x):
-        raise ValueError('Inconsistent output lenght')
-
     return resampled_signal, peaks
 
 
@@ -280,6 +277,10 @@ def interpolate_clipping(signal, threshold=255):
     -----
     Correct signal segment reaching recording threshold (default is 255)
     using a cubic spline interpolation. Adapted from [#]_.
+
+    .. Warning:: If clipping artefact is found at the edge of the signal, this
+        function will decrement the first/last value to allow interpolation,
+        which can lead to incorrect estimation.
 
     References
     ----------
