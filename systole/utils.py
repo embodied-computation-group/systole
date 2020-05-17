@@ -268,9 +268,9 @@ def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
     return epochs
 
 
-def rr_artifacts(n_rr=350, extra_idx=[50], missed_idx=[100], short_idx=[150],
-                 long_idx=[200], ectopic1_idx=[250], ectopic2_idx=[300],
-                 random_state=42):
+def simulate_rr(n_rr=350, extra_idx=[50], missed_idx=[100], short_idx=[150],
+                long_idx=[200], ectopic1_idx=[250], ectopic2_idx=[300],
+                random_state=42):
     """ RR time series simulation with artefacts.
 
      n_rr : int
