@@ -306,7 +306,7 @@ class Oximeter():
             if self.check(paquet):
                 self.add_paquet(paquet[2])
             else:
-                if stop:
+                if stop is True:
                     raise ValueError('Synch error')
                 else:
                     print('Synch error')
