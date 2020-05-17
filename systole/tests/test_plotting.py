@@ -55,6 +55,7 @@ class TestPlotting(TestCase):
 
     def test_plot_oximeter(self):
         ax = plot_oximeter(oxi)
+        ax = plot_oximeter(ppg[0, 75:])
         assert isinstance(ax, matplotlib.axes.Axes)
 
     def test_plot_subspaces(self):

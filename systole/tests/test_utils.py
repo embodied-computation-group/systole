@@ -4,7 +4,7 @@ import pytest
 import unittest
 import numpy as np
 from systole.utils import norm_triggers, heart_rate, to_angles, to_epochs,\
-        time_shift
+        time_shift, simulate_rr
 from systole.detection import oxi_peaks
 from unittest import TestCase
 from systole import import_ppg, import_rr
@@ -19,13 +19,14 @@ class TestUtils(TestCase):
         peaks[np.where(peaks)[0]+2] = 1
         peaks[-1:] = 1
         y = norm_triggers(peaks)
-        assert sum(y) == 378
+        assert sum(y) == 379
         peaks = - peaks.astype(int)
         y = norm_triggers(peaks, threshold=-1, direction='lower')
-        assert sum(y) == 378
+        assert sum(y) == 379
         with pytest.raises(ValueError):
             norm_triggers(None)
-            norm_triggers(peaks, threshold=-1, direction='invalid')
+        with pytest.raises(ValueError):
+            norm_triggers(peaks, direction='invalid')
 
     def test_heart_rate(self):
         """Test heart_rate function"""
@@ -66,10 +67,20 @@ class TestUtils(TestCase):
         epochs = to_epochs(ppg, events, sfreq=75, verbose=True,
                            apply_baseline=(-1, 0))
         assert epochs.ndim == 2
-        epochs = to_epochs(ppg, events, sfreq=75, apply_baseline=None)
-        epochs = to_epochs(ppg, events, sfreq=75, apply_baseline=-1)
+        epochs = to_epochs(list(ppg), list(events), sfreq=75,
+                           apply_baseline=None)
+        reject = np.arange(0, len(ppg))
+        reject[50:55] = 1
+        epochs = to_epochs(ppg, events, sfreq=75, apply_baseline=-1,
+                           reject=reject, verbose=True)
         with pytest.raises(ValueError):
             epochs = to_epochs(ppg[1:], events, sfreq=75)
+
+    def test_simulate_rr(self):
+        """Test oxi_peaks function"""
+        rr = simulate_rr()
+        assert isinstance(rr, np.ndarray)
+        assert len(rr) == 350
 
 
 if __name__ == '__main__':

@@ -16,9 +16,9 @@ class TestRecording(TestCase):
         serial = serialSim()
         oxi = Oximeter(serial=serial, add_channels=1)
         oxi.setup()
+        serial.ppg = serial.ppg[-2:]  # To the end of recording
         oxi.read(10)
         oxi.find_peaks()
-
         # Simulate events in recording
         for idx in np.random.choice(len(oxi.recording), 5):
             oxi.channels['Channel_0'][idx] = 1
@@ -31,7 +31,15 @@ class TestRecording(TestCase):
         ax = oxi.plot_recording()
         assert isinstance(ax, matplotlib.axes.Axes)
 
-        oxi.readInWaiting()
+        oxi.serial.ppg = [1000]  # Insert error in recording
+        with self.assertRaises(ValueError):
+            oxi.readInWaiting(stop=True)
+
+        serial = serialSim()
+        oxi.serial.ppg = [1000, -1, 1000, -1, -1]  # Insert error in recording
+        oxi.readInWaiting(stop=False)
+
+        oxi.serial.ppg = [1000, -1, 1000, -1, -1]  # Insert error in recording
         oxi.waitBeat()
         oxi.find_peaks()
 
