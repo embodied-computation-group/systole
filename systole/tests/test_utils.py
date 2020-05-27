@@ -78,7 +78,7 @@ class TestUtils(TestCase):
 
     def test_simulate_rr(self):
         """Test oxi_peaks function"""
-        rr = simulate_rr()
+        rr = simulate_rr(artefacts=True)
         assert isinstance(rr, np.ndarray)
         assert len(rr) == 350
 

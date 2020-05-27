@@ -270,7 +270,7 @@ def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
 
 def simulate_rr(n_rr=350, extra_idx=[50], missed_idx=[100], short_idx=[150],
                 long_idx=[200], ectopic1_idx=[250], ectopic2_idx=[300],
-                random_state=42, as_peaks=False):
+                random_state=42, as_peaks=False, artefacts=True):
     """ RR time series simulation with artefacts.
 
      n_rr : int
@@ -289,6 +289,8 @@ def simulate_rr(n_rr=350, extra_idx=[50], missed_idx=[100], short_idx=[150],
         Index of ectopic interval. Default is [300].
     random_state : int
         Random state. Default is *42*.
+    artefacts : bool
+        If True, simulate artefacts in the signal.
 
     Returns
     -------
@@ -301,43 +303,45 @@ def simulate_rr(n_rr=350, extra_idx=[50], missed_idx=[100], short_idx=[150],
         [800 + 50 * np.random.normal(i, .6) for i in np.sin(
             np.arange(0, n_rr, 1.0))])
 
-    # Insert extra beats
-    if extra_idx:
-        n_extra = 0
-        for i in extra_idx:
-            rr[i-n_extra] -= 100
-            rr = np.insert(rr, i, 100)
-            n_extra += 1
+    if artefacts is True:
 
-    # Insert missed beats
-    if missed_idx:
-        n_missed = 0
-        for i in missed_idx:
-            rr[i + n_missed] += rr[i + 1]
-            rr = np.delete(rr, i + 1)
-            n_missed += 1
+        # Insert extra beats
+        if extra_idx:
+            n_extra = 0
+            for i in extra_idx:
+                rr[i-n_extra] -= 100
+                rr = np.insert(rr, i, 100)
+                n_extra += 1
 
-    # Add short interval
-    if short_idx:
-        for i in short_idx:
-            rr[i] /= 2
+        # Insert missed beats
+        if missed_idx:
+            n_missed = 0
+            for i in missed_idx:
+                rr[i + n_missed] += rr[i + 1]
+                rr = np.delete(rr, i + 1)
+                n_missed += 1
 
-    # Add long interval
-    if long_idx:
-        for i in long_idx:
-            rr[i] *= 1.5
+        # Add short interval
+        if short_idx:
+            for i in short_idx:
+                rr[i] /= 2
 
-    # Add ectopic beat type 1 (NPN)
-    if ectopic1_idx:
-        for i in ectopic1_idx:
-            rr[i] *= .7
-            rr[i+1] *= 1.3
+        # Add long interval
+        if long_idx:
+            for i in long_idx:
+                rr[i] *= 1.5
 
-    # Add ectopic beat type 2 (PNP)
-    if ectopic2_idx:
-        for i in ectopic2_idx:
-            rr[i] *= 1.3
-            rr[i+1] *= .7
+        # Add ectopic beat type 1 (NPN)
+        if ectopic1_idx:
+            for i in ectopic1_idx:
+                rr[i] *= .7
+                rr[i+1] *= 1.3
+
+        # Add ectopic beat type 2 (PNP)
+        if ectopic2_idx:
+            for i in ectopic2_idx:
+                rr[i] *= 1.3
+                rr[i+1] *= .7
 
     # Transform to peaks vector if needed
     if as_peaks is True:
