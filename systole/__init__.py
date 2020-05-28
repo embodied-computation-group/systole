@@ -4,6 +4,6 @@ from .plotting import *
 from .hrv import *
 from .datasets import *
 from .correction import *
-from .interactive import *
+from .plotly import *
 
 __version__ = "0.1.1"
