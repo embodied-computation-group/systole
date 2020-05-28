@@ -118,7 +118,7 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
     -------
     artefacts : dictionnary
         Dictionnary storing the parameters of RR artefacts rejection. All the
-        vectors outputed have the same length than the provided RR time serie:
+        vectors outputed have the same length as the provided RR time serie:
 
         * subspace1 : 1d array-like
             The first dimension. First derivative of R-R interval time serie.
@@ -145,12 +145,12 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
 
     Notes
     -----
-    This function will use the method proposed by Lipponen & Tarvainen [1]_ to
-    detect ectopic beats, long, shorts, missed and extra RR intervals.
+    This function will use the method proposed by Lipponen & Tarvainen (2019)
+    to detect ectopic beats, long, shorts, missed and extra RR intervals.
 
     References
     ----------
-    [1] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
+    .. [1] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
         heart rate variability time series artefact correction using novel
         beat classification. Journal of Medical Engineering & Technology,
         43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306
