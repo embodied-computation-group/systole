@@ -40,47 +40,47 @@ class Oximeter():
     peaks : list
         List of 0 and 1. 1 index detected peaks.
     channels : list | dict
-        Additional channels to record. Will continuously record `n_channels`
+        Additional channels to record. Will continuously record *n_channels*
         additional channels in parallel of `recording` with default `0` as
         defalut value.
     serial : PySerial instance
         PySerial object indexing the USB port to read.
     rr : list or None
         RR intervals time course. The time course will be generated if
-        self.find_peaks() is used.
+        :py:func:`self.find_peaks` is used.
 
     Examples
     --------
-    First, you will need to define a `serial` instance, indexing the USB port
-    where the Nonin Pulse Oximeter is plugged.
+    First, you will need to define a :py:func:`serial` instance, indexing the
+    USB port where the Nonin Pulse Oximeter is plugged.
 
     >>> import serial
     >>> ser = serial.Serial('COM4')
 
-    This instance is then used to create an `Oximeter` instance that will be
-    used for the recording.
+    This instance is then used to create an :py:func:`Oximeter` instance that
+    will be used for the recording.
 
     >>> from ecgrecording import Oximeter
     >>> oximeter = Oximeter(serial=ser, sfreq=75)
 
-    Use the `setup()` method to initialize the recording. This will find the
-    start byte to ensure that all the forthcoming data is in Synch. You should
-    not wait more than ~10s between the setup and the recording, otherwise the
-    buffer will start to overwrite the data.
+    Use the :py:func:`setup` method to initialize the recording. This will find
+    the start byte to ensure that all the forthcoming data is in Synch. You
+    should not wait more than ~10s between the setup and the recording,
+    otherwise the buffer will start to overwrite the data.
 
     >>> oximeter.setup()
 
-    2 methods are availlable to record PPG signal:
+    Two methods are availlable to record PPG signal:
 
-    * The `read()` method.
+    1. The :py:func:`read` function.
 
     Will continuously record for certain amount of time (specified by the
-    `duration` parameter, in seconds). This is the easiest and most robust
+    *duration* parameter, in seconds). This is the easiest and most robust
     method, but it is not possible to run instructions in the meantime.
 
     >>> oximeter.read(duration=10)
 
-    * The `readInWaiting()` method.
+    2. The :py:func:`readInWaiting` function.
 
     Will read all the availlable bytes (up to 10 seconds of recording). When
     inserted into a while loop, it allows to record PPG signal together with
@@ -92,18 +92,19 @@ class Oximeter():
     >>>     oximeter.readInWaiting()
     >>>     # Insert code here
 
-    The recorded signal can latter be inspected using the `plot()` method.
+    The recorded signal can latter be inspected using the :py:func:`plot()`
+    method.
 
     >>> oximeter.plot()
 
     .. warning:: Data read from the serial port are appended to list and
-    processed for pulse detection and instantaneous heart rate estimation. The
-    time required to append new data to the recording will increase as its size
-    increase. You should beware that this processing time does not exceed the
-    sampling frequency (i.e. 75Hz or 0.013 seconds per sample for Nonin pulse
-    oximeters) to allow continuous recording and fast processing of in waiting
-    samples. We recommend storing regularly 5 minutes recording as .npy file
-    using the save() method.
+      processed for pulse detection and instantaneous heart rate estimation.
+      The time required to append new data to the recording will increase as
+      its size increase. You should beware that this processing time does not
+      exceed the sampling frequency (i.e. 75Hz or 0.013 seconds per sample for
+      Nonin pulse oximeters) to allow continuous recording and fast processing
+      of in waiting samples. We recommend storing regularly 5 minutes recording
+      as .npy file using the :py:func:save() function.
     """
     def __init__(self, serial, sfreq=75, add_channels=None):
 
@@ -194,12 +195,12 @@ class Oximeter():
         return self
 
     def check(self, paquet):
-        """Check if the provided paquet is correcg
+        """Check if the provided paquet is correct
 
         Parameters
         ----------
         paquet : list
-            The paquet to inspecg
+            The paquet to inspect.
         """
         check = False
         if len(paquet) >= 5:
