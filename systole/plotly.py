@@ -8,6 +8,7 @@ from systole.detection import oxi_peaks
 from systole.correction import rr_artefacts
 from systole.utils import heart_rate
 from systole.plotting import plot_psd
+from systole.hrv import time_domain, nonlinear
 
 
 def plot_raw(signal_df):
@@ -444,7 +445,7 @@ def frequency_domain(rr):
     fig.show()
 
 
-def nonlinear(rr):
+def plot_nonlinear(rr):
     """Plot nonlinear domain.
 
     Parameters
@@ -495,5 +496,52 @@ def nonlinear(rr):
                      range=[ax_min, ax_max])
     fig.update_yaxes(showline=True, linewidth=2, linecolor='black',
                      range=[ax_min, ax_max])
+
+    return fig
+
+
+def plot_timedomain(rr):
+    """Plot time domain.
+
+    Parameters
+    ----------
+    rr : 1d array-like
+        Time sere of R-R intervals.
+    """
+    df = time_domain(rr).round(2)
+
+    fig = make_subplots(
+        rows=2, cols=1,
+        specs=[[{"type": "scatter"}],
+               [{"type": "table"}]],
+    )
+
+    fig.add_trace(go.Table(
+      header=dict(
+        values=['<b>Variable</b>', '<b>Unit</b>', '<b>Value</b>'],
+        align='center'
+      ),
+      cells=dict(
+        values=[['Mean RR', 'Mean BPM', 'SDNN', 'RMSSD', 'pnn50'],
+                ['(ms)', '(1/min)', '(ms)', '(ms)', '(%)'],
+                [df[df.Metric == 'MeanRR'].Values,
+                 df[df.Metric == 'MeanBPM'].Values,
+                 df[df.Metric == 'SDNN'].Values,
+                 df[df.Metric == 'RMSSD'].Values,
+                 df[df.Metric == 'pnn50'].Values],
+                ], align='center')),
+                 row=2, col=1)
+
+    fig.add_trace(go.Histogram(x=rr, marker={'line': {'width': 2},
+                                             'color': '#4c72b0'}))
+
+    fig.update_layout(
+        plot_bgcolor="white", paper_bgcolor="white",
+        margin=dict(l=5, r=5, b=5, t=5), autosize=True, width=500, height=800,
+        xaxis_title='RR intervals (ms)', yaxis_title='Counts',
+        title={'text': "Distribution", 'x': 0.5,
+               'xanchor': 'center', 'yanchor': 'top'})
+    fig.update_xaxes(showline=True, linewidth=2, linecolor='black')
+    fig.update_yaxes(showline=True, linewidth=2, linecolor='black')
 
     return fig
