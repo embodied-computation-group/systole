@@ -442,3 +442,58 @@ def frequency_domain(rr):
     fig.update_yaxes(showline=True, linewidth=2, linecolor='black')
 
     fig.show()
+
+
+def nonlinear(rr):
+    """Plot nonlinear domain.
+
+    Parameters
+    ----------
+    rr : 1d array-like
+        Time sere of R-R intervals.
+    """
+    df = nonlinear(rr).round(2)
+
+    fig = make_subplots(
+        rows=2, cols=1,
+        specs=[[{"type": "scatter"}],
+               [{"type": "table"}]],
+    )
+
+    fig.add_trace(go.Table(
+      header=dict(
+        values=['<b>Pointcare Plot</b>', '<b>Value</b>'], align='center'
+      ),
+      cells=dict(
+        values=[['SD1', 'SD2'],
+                [df[df.Metric == 'SD1'].Values,
+                 df[df.Metric == 'SD2'].Values]], align='center')),
+                 row=2, col=1)
+
+    ax_min = rr.min() - (rr.max() - rr.min())*.1
+    ax_max = rr.max() + (rr.max() - rr.min())*.1
+
+    fig.add_trace(go.Scattergl(
+        x=rr[:-1],
+        y=rr[1:],
+        mode='markers',
+        opacity=0.6,
+        showlegend=False,
+        marker=dict(size=8,
+                    color='#4c72b0',
+                    line=dict(width=2, color='DarkSlateGrey'))))
+
+    fig.add_trace(go.Scatter(x=[0, 4000], y=[0, 4000], showlegend=False))
+
+    fig.update_layout(
+        plot_bgcolor="white", paper_bgcolor="white",
+        margin=dict(l=5, r=5, b=5, t=5), autosize=True, width=500, height=800,
+        xaxis_title='RR<sub>n</sub> (ms)', yaxis_title='RR<sub>n+1</sub> (ms)',
+        title={'text': "Pointcare Plot", 'x': 0.5,
+               'xanchor': 'center', 'yanchor': 'top'})
+    fig.update_xaxes(showline=True, linewidth=2, linecolor='black',
+                     range=[ax_min, ax_max])
+    fig.update_yaxes(showline=True, linewidth=2, linecolor='black',
+                     range=[ax_min, ax_max])
+
+    return fig

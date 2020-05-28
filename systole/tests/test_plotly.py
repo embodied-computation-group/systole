@@ -5,7 +5,7 @@ import numpy as np
 import unittest
 from unittest import TestCase
 from systole.plotly import plot_raw, plot_shortLong, plot_ectopic, \
-    plot_subspaces
+    plot_subspaces, plot_frequency, plot_nonlinear
 from systole import import_ppg
 from systole.utils import simulate_rr
 
@@ -33,6 +33,13 @@ class TestInteractive(TestCase):
         """Test nnX function"""
         plot_subspaces(rr)
 
+    def test_plot_frequency(self):
+        """Test nnX function"""
+        plot_frequency(rr)
+
+    def test_plot_nonlinear(self):
+        """Test nnX function"""
+        plot_nonlinear(rr)
 
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=False)
