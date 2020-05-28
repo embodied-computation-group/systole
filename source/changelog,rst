@@ -1,0 +1,56 @@
+v0.1.0 (January 2020)
+---------------------
+
+Initial release.
+
+**Detection**
+
+a. oxi_peaks()
+b. hr_subspaces()
+c. interpolate_clipping()
+d. rr_outliers()
+
+
+**HRV**
+
+a. nnX()
+b. pnX()
+c. rmssd()
+d. time_domain()
+e. frequency_domain()
+f. nonlinear()
+
+
+**Plotting**
+
+a. plot_hr()
+b. plot_events()
+c. plot_oximeter()
+d. plot_subspaces()
+e. plot_psd()
+f. circular()
+g. plot_circular()
+
+
+**Recording**
+
+a. Oximeter()
+
+
+**Report**
+
+a. report_oxi()
+
+
+**Utils**
+
+a. norm_triggers()
+b. time_shift()
+c. heart_rate()
+d. to_angles()
+e. to_epochs()
+
+v0.0.1 (January 2020)
+-------------------
+
+Alpha release.

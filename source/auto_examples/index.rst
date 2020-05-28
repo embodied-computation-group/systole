@@ -20,13 +20,14 @@ If you want to see the tutorials in action, you can also click on the link below
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to detect extra ectobeats, missed and ectobeats from RR time series usin...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to detect ectopic, missed, extra, slow and long long from RR or pulse ra...">
 
 .. only:: html
 
- .. figure:: /auto_examples/images/thumb/sphx_glr_plot_RRSubspacesDetection_thumb.png
+ .. figure:: /auto_examples/images/thumb/sphx_glr_plot_ArtefactsDetection_thumb.png
+     :alt: Outliers and artefacts detection
 
-     :ref:`sphx_glr_auto_examples_plot_RRSubspacesDetection.py`
+     :ref:`sphx_glr_auto_examples_plot_ArtefactsDetection.py`
 
 .. raw:: html
 
@@ -36,7 +37,28 @@ If you want to see the tutorials in action, you can also click on the link below
 .. toctree::
    :hidden:
 
-   /auto_examples/plot_RRSubspacesDetection
+   /auto_examples/plot_ArtefactsDetection
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to detect extra ectobeats, missed and ectobeats from RR time series usin...">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_plot_ArtefactsCorrection_thumb.png
+     :alt: Outliers and ectobeats correction
+
+     :ref:`sphx_glr_auto_examples_plot_ArtefactsCorrection.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/plot_ArtefactsCorrection
 
 .. raw:: html
 
@@ -45,6 +67,7 @@ If you want to see the tutorials in action, you can also click on the link below
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_plot_InstantaneousHeartRate_thumb.png
+     :alt: Instantaneous Heart Rate
 
      :ref:`sphx_glr_auto_examples_plot_InstantaneousHeartRate.py`
 
@@ -65,6 +88,7 @@ If you want to see the tutorials in action, you can also click on the link below
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_plot_HeartBeatEvokedArpeggios_thumb.png
+     :alt: Heartbeat Evoked Arpeggios
 
      :ref:`sphx_glr_auto_examples_plot_HeartBeatEvokedArpeggios.py`
 
@@ -89,13 +113,13 @@ If you want to see the tutorials in action, you can also click on the link below
     :class: sphx-glr-footer-gallery
 
 
-  .. container:: sphx-glr-download
+  .. container:: sphx-glr-download sphx-glr-download-python
 
     :download:`Download all examples in Python source code: auto_examples_python.zip </C:/Users/au646069/github/systole/source/auto_examples/auto_examples_python.zip>`
 
 
 
-  .. container:: sphx-glr-download
+  .. container:: sphx-glr-download sphx-glr-download-jupyter
 
     :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip </C:/Users/au646069/github/systole/source/auto_examples/auto_examples_jupyter.zip>`
 

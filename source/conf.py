@@ -11,6 +11,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import sphinx_bootstrap_theme
+from plotly.io._sg_scraper import plotly_sg_scraper
 
 # -- Project information -----------------------------------------------------
 
@@ -19,8 +20,16 @@ copyright = '2020, Nicolas Legrand'
 author = 'Nicolas Legrand'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.1'
+release = '0.1.1'
 
+
+image_scrapers = ('matplotlib', plotly_sg_scraper,)
+
+sphinx_gallery_conf = {
+     'examples_dirs': '../examples',
+     'backreferences_dir': 'api',
+     'image_scrapers': image_scrapers,
+}
 
 # -- General configuration ---------------------------------------------------
 

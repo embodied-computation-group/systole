@@ -8,7 +8,7 @@ from systole.detection import oxi_peaks
 from systole.correction import rr_artefacts
 from systole.utils import heart_rate
 from systole.plotting import plot_psd
-from systole.hrv import time_domain, nonlinear
+from systole.hrv import time_domain, frequency_domain, nonlinear
 
 
 def plot_raw(signal_df):
@@ -373,7 +373,7 @@ def plot_subspaces(rr):
     return fig
 
 
-def frequency_domain(rr):
+def plot_frequency(rr):
     """Plot PSD and frequency domain metrics.
 
     Parameters
@@ -442,7 +442,7 @@ def frequency_domain(rr):
     fig.update_xaxes(showline=True, linewidth=2, linecolor='black')
     fig.update_yaxes(showline=True, linewidth=2, linecolor='black')
 
-    fig.show()
+    return fig
 
 
 def plot_nonlinear(rr):
