@@ -1,6 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import numpy as np
+import pandas as pd
 import plotly_express as px
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
@@ -11,17 +12,24 @@ from systole.plotting import plot_psd
 from systole.hrv import time_domain, frequency_domain, nonlinear
 
 
-def plot_raw(signal_df):
-    """Interactive visualization of PPG signal and peak detection.
+def plot_raw(signal, sfreq=75):
+    """Interactive visualization of PPG signal and beats detection.
 
     Parameters
     ----------
-    signal_df : `pd.DataFrame` instance
+    signal : `pd.DataFrame` instance or 1d array-like
         Dataframe of signal recording in the long format. Should contain at
-        least the two following columns: ['time', 'signal'].
+        least the two following columns: ['time', 'signal']. If an array is
+        provided, will automatically create the DataFrame using th array as
+        signal and *sfreq* as sampling frequency.
+    sfreq : int
+        Signal sampling frequency. Default is 75 Hz.
     """
+    if isinstance(signal, (np.ndarray, np.generic)):
+        signal = pd.DataFrame({'signal': signal,
+                               'time': np.arange(0, len(signal), 1/sfreq)})
     # Find peaks - Remove learning phase
-    signal, peaks = oxi_peaks(signal_df.signal, noise_removal=False)
+    signal, peaks = oxi_peaks(signal.signal, noise_removal=False)
     time = np.arange(0, len(signal))/1000
 
     # Extract heart rate
