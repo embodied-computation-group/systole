@@ -130,22 +130,28 @@ Methods from clipping correction and peak detection algorithm is adapted from [#
 .. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/recording.png
    :align:   center
 
-Artefact removal
+Artefact correction
 ================
 
 Systole implements the artefact rejection method recently proposed by Lipponen & Tarvainen (2019) [#]_.
 
 .. code-block:: python
 
-  from systole import import_rr()
+  from systole import simulate_rr
   from systole.plotting import plot_subspaces
 
-  rr = import_rr().rr[:100]
-  rr[20] = 1600  # Add missed beat
-
+  rr = simulate_rr()
   plot_subspaces(rr)
 
 .. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/subspaces.png
+   :align:   center
+
+Interactive visualization
+=========================
+
+Systole integrates a set of functions for interactive data visualization based on `Plotly <https://plotly.com/>`_.
+
+.. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/systole.gif
    :align:   center
 
 Heartrate variability
