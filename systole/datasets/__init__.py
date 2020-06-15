@@ -32,7 +32,7 @@ class serialSim():
     def read(self, length):
 
         if len(self.ppg) == 0:
-            self.ppg = import_ppg(id=id)[0]
+            self.ppg = import_ppg()[0]
 
         # Read 1rst item of ppg signal
         rec = self.ppg[:1]
@@ -68,11 +68,6 @@ def import_ppg(id='1'):
 
 def import_rr():
     """Import PPG recording.
-
-    Parameters
-    ----------
-    id : int
-        Signal number (1 or 2).
 
     Returns
     -------

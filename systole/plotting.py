@@ -3,10 +3,9 @@
 import itertools
 import numpy as np
 import pandas as pd
-import matplotlib as mpl
 import matplotlib.pyplot as plt
 import seaborn as sns
-from systole.detection import hrv_subspaces, oxi_peaks
+from systole.detection import rr_artefacts, oxi_peaks
 from systole.utils import heart_rate
 from scipy.interpolate import interp1d
 from scipy.signal import welch
@@ -176,8 +175,7 @@ def plot_oximeter(x, sfreq=75, ax=None):
     return ax
 
 
-def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
-                   xlim=10, ylim=5, kind='scatter', ax=None):
+def plot_subspaces(x, c1=.17, c2=.13, xlim=10, ylim=5, ax=None):
     """Plot hrv subspace as described by Lipponen & Tarvainen (2019).
 
     Parameters
@@ -185,8 +183,6 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     x : 1d array-like
         Array of RR intervals or subspace1. If subspace1 is provided, subspace2
         and 3 must also be provided.
-    subspace2, subspace3 : 1d array-like or None
-        Default is `None` (expect x to be RR time serie).
     c1 : float
         Fixed variable controling the slope of the threshold lines. Default is
         0.13.
@@ -197,9 +193,6 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
         Absolute range of the x axis. Default is 10.
     ylim : int
         Absolute range of the y axis. Default is 5.
-    kind : str
-        Visualisation of non-outlier data points. Can be 'hex', 'scatter' or
-        'bar'.
     ax : `Matplotlib.Axes` or None
         Where to draw the plot. Default is *None* (create a new figure).
 
@@ -215,64 +208,64 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
         classification. Journal of Medical Engineering & Technology, 43(3),
         173–181. https://doi.org/10.1080/03091902.2019.1640306
     """
-    if (subspace3 is not None) & (subspace3 is not None):
-        subspace1 = x
-    else:
-        if not isinstance(x, (np.ndarray, np.generic)):
-            x = np.asarray(x)
-        subspace1, subspace2, subspace3 = hrv_subspaces(x)
+    if not isinstance(x, (np.ndarray, np.generic)):
+        x = np.asarray(x)
+    artefacts = rr_artefacts(x)
 
     # Rescale to show outlier in scatterplot
     if xlim is not None:
-        subspace1[subspace1 < -xlim] = -xlim
-        subspace1[subspace1 > xlim] = xlim
+        artefacts['subspace1'][artefacts['subspace1'] < -xlim] = -xlim
+        artefacts['subspace1'][artefacts['subspace1'] > xlim] = xlim
     if ylim is not None:
-        subspace2[subspace2 < -ylim] = -ylim
-        subspace2[subspace2 > ylim] = ylim
+        artefacts['subspace2'][artefacts['subspace2'] < -ylim] = -ylim
+        artefacts['subspace2'][artefacts['subspace2'] > ylim] = ylim
 
-        subspace3[subspace3 < -ylim*2] = -ylim*2
-        subspace3[subspace3 > ylim*2] = ylim*2
+        artefacts['subspace3'][artefacts['subspace3'] < -ylim*2] = -ylim*2
+        artefacts['subspace3'][artefacts['subspace3'] > ylim*2] = ylim*2
 
-    # Outliers
-    ##########
+    # Filter for normal beats
+    normalBeats = ((~artefacts['ectopic']) & (~artefacts['short']) &
+                   (~artefacts['long']) & (~artefacts['missed']) &
+                   (~artefacts['extra']))
 
-    # Find ectobeats
-    cond1 = (subspace1 > 1) & (subspace2 < (-c1 * subspace1-c2))
-    cond2 = (subspace1 < -1) & (subspace2 > (-c1 * subspace1+c2))
-    rejection1 = cond1 | cond2
-
-    # Find long or shorts
-    cond1 = (subspace1 > 1) & (subspace3 < -1)
-    cond2 = (subspace1 < -1) & (subspace3 > 1)
-    rejection2 = cond1 | cond2
+    #############
+    # First panel
+    #############
 
     if ax is None:
         fig, ax = plt.subplots(1, 2, figsize=(10, 5))
 
-    if kind == 'hex':
-        ax[0].hexbin(subspace1[~rejection1], subspace2[~rejection1],
-                     gridsize=20, cmap='Blues',
-                     norm=mpl.colors.LogNorm())
-    if kind == 'bar':
-        ax[0].hist2d(subspace1[~rejection1], subspace2[~rejection1],
-                     bins=15, cmap='Blues', norm=mpl.colors.LogNorm())
-    elif kind == 'scatter':
-        # Plot data points
-        ax[0].scatter(subspace1[~rejection1],
-                      subspace2[~rejection1], color='#0b559f', edgecolors='k',
-                      alpha=0.2, zorder=10)
+    # Plot normal beats
+    ax[0].scatter(artefacts['subspace1'][normalBeats],
+                  artefacts['subspace2'][normalBeats],
+                  color='gray', edgecolors='k', s=15,
+                  alpha=0.2, zorder=10, label='Normal')
 
     # Plot outliers
-    ax[0].scatter(subspace1[rejection1],
-                  subspace2[rejection1], color='r', edgecolors='k', zorder=10)
-
+    ax[0].scatter(artefacts['subspace1'][artefacts['ectopic']],
+                  artefacts['subspace2'][artefacts['ectopic']],
+                  color='r', edgecolors='k', zorder=10, label='Ectopic')
+    ax[0].scatter(artefacts['subspace1'][artefacts['short']],
+                  artefacts['subspace2'][artefacts['short']],
+                  color='b', edgecolors='k', zorder=10,
+                  marker='s', label='Short')
+    ax[0].scatter(artefacts['subspace1'][artefacts['long']],
+                  artefacts['subspace2'][artefacts['long']],
+                  color='g', edgecolors='k', zorder=10,
+                  marker='s', label='Long')
+    ax[0].scatter(artefacts['subspace1'][artefacts['missed']],
+                  artefacts['subspace2'][artefacts['missed']],
+                  color='g', edgecolors='k', zorder=10, label='Missed')
+    ax[0].scatter(artefacts['subspace1'][artefacts['extra']],
+                  artefacts['subspace2'][artefacts['extra']],
+                  color='b', edgecolors='k', zorder=10, label='Extra')
     # Upper area
     def f1(x): return -c1*x + c2
     ax[0].plot([-1, -10], [f1(-1), f1(-10)], 'k', linewidth=1, linestyle='--')
     ax[0].plot([-1, -1], [f1(-1), 10], 'k', linewidth=1, linestyle='--')
     x = [-10, -10, -1, -1]
     y = [f1(-10), 10, 10, f1(-1)]
-    ax[0].fill(x, y, color='#c25539', alpha=0.3)
+    ax[0].fill(x, y, color='gray', alpha=0.3)
 
     # Lower area
     def f2(x): return -c1*x - c2
@@ -280,53 +273,64 @@ def plot_subspaces(x, subspace2=None, subspace3=None, c1=0.13, c2=0.17,
     ax[0].plot([1, 1], [f2(1), -10], 'k', linewidth=1, linestyle='--')
     x = [1, 1, 10, 10]
     y = [f2(1), -10, -10, f2(10)]
-    ax[0].fill(x, y, color='#c25539', alpha=0.3)
+    ax[0].fill(x, y, color='gray', alpha=0.3)
 
     ax[0].set_xlabel('Subspace $S_{11}$')
     ax[0].set_ylabel('Subspace $S_{12}$')
     ax[0].set_ylim(-ylim, ylim)
     ax[0].set_xlim(-xlim, xlim)
-    ax[0].set_title('Subspace 1 \n (ectobeats detection)', fontweight='bold')
+    ax[0].set_title('Subspace 1 \n (ectopic beats detection)')
+    ax[0].legend()
 
-    ############
+    ##############
+    # Second panel
+    ##############
 
-    if kind == 'hex':
-        ax[1].hexbin(subspace1[~rejection1], subspace3[~rejection1],
-                     gridsize=20, cmap='Blues',
-                     norm=mpl.colors.LogNorm())
-    if kind == 'bar':
-        ax[1].hist2d(subspace1[~rejection1], subspace3[~rejection1],
-                     bins=15, cmap='Blues', norm=mpl.colors.LogNorm())
-    elif kind == 'scatter':
-        # Plot data points
-        ax[1].scatter(subspace1[~rejection1],
-                      subspace3[~rejection1], color='#0b559f', edgecolors='k',
-                      alpha=0.2, zorder=10)
+    # Plot normal beats
+    ax[1].scatter(artefacts['subspace1'][normalBeats],
+                  artefacts['subspace3'][normalBeats],
+                  color='gray', edgecolors='k', alpha=0.2,
+                  zorder=10, s=15, label='Normal')
 
     # Plot outliers
-    ax[1].scatter(subspace1[rejection2], subspace3[rejection2], color='r',
-                  edgecolors='k', zorder=10)
-
+    ax[1].scatter(artefacts['subspace1'][artefacts['ectopic']],
+                  artefacts['subspace3'][artefacts['ectopic']],
+                  color='r', edgecolors='k', zorder=10, label='Ectopic')
+    ax[1].scatter(artefacts['subspace1'][artefacts['short']],
+                  artefacts['subspace3'][artefacts['short']],
+                  color='b', edgecolors='k', zorder=10,
+                  marker='s', label='Short')
+    ax[1].scatter(artefacts['subspace1'][artefacts['long']],
+                  artefacts['subspace3'][artefacts['long']],
+                  color='g', edgecolors='k', zorder=10,
+                  marker='s', label='Long')
+    ax[1].scatter(artefacts['subspace1'][artefacts['missed']],
+                  artefacts['subspace3'][artefacts['missed']],
+                  color='g', edgecolors='k', zorder=10, label='Missed')
+    ax[1].scatter(artefacts['subspace1'][artefacts['extra']],
+                  artefacts['subspace3'][artefacts['extra']],
+                  color='b', edgecolors='k', zorder=10, label='Extra')
     # Upper area
     ax[1].plot([-1, -10], [1, 1], 'k', linewidth=1, linestyle='--')
     ax[1].plot([-1, -1], [1, 10], 'k', linewidth=1, linestyle='--')
     x = [-10, -10, -1, -1]
     y = [1, 10, 10, 1]
-    ax[1].fill(x, y, color='#c25539', alpha=0.3)
+    ax[1].fill(x, y, color='gray', alpha=0.3)
 
     # Lower area
     ax[1].plot([1, 10], [-1, -1], 'k', linewidth=1, linestyle='--')
     ax[1].plot([1, 1], [-1, -10], 'k', linewidth=1, linestyle='--')
     x = [1, 1, 10, 10]
     y = [-1, -10, -10, -1]
-    ax[1].fill(x, y, color='#c25539', alpha=0.3)
+    ax[1].fill(x, y, color='gray', alpha=0.3)
 
     ax[1].set_xlabel('Subspace $S_{21}$')
     ax[1].set_ylabel('Subspace $S_{22}$')
     ax[1].set_ylim(-ylim*2, ylim*2)
     ax[1].set_xlim(-xlim, xlim)
-    ax[1].set_title('Subspace 2 \n (long and short beats detection)',
-                    fontweight='bold')
+    ax[1].set_title('Subspace 2 \n (long and short beats detection)')
+    ax[1].legend()
+
     plt.tight_layout()
 
     return ax
@@ -534,9 +538,9 @@ def plot_circular(data, y=None, hue=None, **kwargs):
 
     Parameters
     ----------
-    data : DataFrame
-        Angular data (rad.)
-    y : str | list
+    data : `pd.DataFrame`
+        Angular data (rad.).
+    y : str or list
         If data is a pandas instance, column containing the angular values.
     hue : str or list of strings
         Columns in data encoding the different conditions.
@@ -562,18 +566,11 @@ def plot_circular(data, y=None, hue=None, **kwargs):
     # Check data format
     if isinstance(data, pd.DataFrame):
         assert data.shape[0] > 0, 'Data must have at least 1 row.'
-    elif isinstance(data, list):
-        data = np.asarray(data)
-        assert data.shape[0] > 1, 'Data must be 1d array.'
-    elif isinstance(data, np.ndarray):
-        assert data.shape[0] > 1, 'Data must be 1d array.'
-    else:
-        raise ValueError('Data must be instance of Numpy, Pandas or list.')
 
     palette = itertools.cycle(sns.color_palette('deep'))
 
     if hue is None:
-        ax = circular(data, **kwargs)
+        ax = circular(data[y].values, **kwargs)
 
     else:
         n_plot = data[hue].nunique()

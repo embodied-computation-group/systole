@@ -86,7 +86,7 @@ def heart_rate(x, sfreq=1000, unit='rr', kind='cubic'):
     x : 1d array-like
         Boolean vector of heartbeat detection.
     sfreq : int
-        Sampling frequency
+        Sampling frequency.
     unit : str
         The heartrate unit in use. Can be 'rr' (R-R intervals, in ms)
         or 'bpm' (beats per minutes). Default is 'rr'.
@@ -184,7 +184,7 @@ def to_angles(x, events):
 
 
 def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
-              sigma=10, apply_baseline=0, verbose=False):
+              sigma=10, apply_baseline=0, verbose=False, reject=None):
     """Epoch signal based on events indices.
 
     Parameters
@@ -206,6 +206,8 @@ def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
         mean). If *None*, no baseline is applied.
     verbose : boolean
         If True, will return warnings if epoc are droped.
+    reject : 1d array-like or None
+        Segments of the signal that should be rejected.
 
     Returns
     -------
@@ -215,9 +217,18 @@ def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
     if len(x) != len(events):
         raise ValueError("""The length of the event and signal vector
                                 shoul match exactly""")
+    # To numpy array
+    if isinstance(x, list):
+        x = np.asarray(x)
+    if isinstance(events, list):
+        events = np.asarray(events)
 
     # From boolean to event indices
     events = np.where(events == event_val)[0]
+
+    # Bads array
+    if reject is None:
+        reject = np.zeros(len(x))
 
     rejected = 0
     epochs = np.zeros(
@@ -228,7 +239,15 @@ def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
         if (ev+round(tmin*sfreq) < 0) | (ev+round(tmax*sfreq) > len(x)):
             if verbose is True:
                 print('Drop 1 epoch due to signal limits.')
-                rejected += 1
+            rejected += 1
+            epochs[i, :] = np.nan
+
+        # Security check (trial contain bad peak)
+        elif np.any(reject[ev+round(tmin*sfreq):ev+round(tmax*sfreq)]):
+            if verbose is True:
+                print('Drop 1 epoch due to artefact.')
+            rejected += 1
+            epochs[i, :] = np.nan
         else:
             trial = x[ev+round(tmin*sfreq):ev+round(tmax*sfreq)]
             if apply_baseline is None:
@@ -247,3 +266,89 @@ def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
         print(str(rejected) + ' trial(s) droped due to inconsistent recording')
 
     return epochs
+
+
+def simulate_rr(n_rr=350, extra_idx=[50], missed_idx=[100], short_idx=[150],
+                long_idx=[200], ectopic1_idx=[250], ectopic2_idx=[300],
+                random_state=42, as_peaks=False, artefacts=True):
+    """ RR time series simulation with artefacts.
+
+     n_rr : int
+        Number of RR intervals. Default is 350.
+    extra_idx : list
+        Index of extra interval. Default is [50].
+     missed_idx : list
+        Index of missed interval. Default is [100].
+     short_idx : list
+        Index of short interval. Default is [150].
+    long_idx : list
+        Index of long interval. Default is [200].
+    ectopic1_idx : list
+        Index of ectopic interval. Default is [250].
+    ectopic2_idx : list
+        Index of ectopic interval. Default is [300].
+    random_state : int
+        Random state. Default is *42*.
+    artefacts : bool
+        If True, simulate artefacts in the signal.
+
+    Returns
+    -------
+    rr : 1d array-like
+        The RR time series.
+    """
+    np.random.seed(random_state)
+
+    rr = np.array(
+        [800 + 50 * np.random.normal(i, .6) for i in np.sin(
+            np.arange(0, n_rr, 1.0))])
+
+    if artefacts is True:
+
+        # Insert extra beats
+        if extra_idx:
+            n_extra = 0
+            for i in extra_idx:
+                rr[i-n_extra] -= 100
+                rr = np.insert(rr, i, 100)
+                n_extra += 1
+
+        # Insert missed beats
+        if missed_idx:
+            n_missed = 0
+            for i in missed_idx:
+                rr[i + n_missed] += rr[i + 1]
+                rr = np.delete(rr, i + 1)
+                n_missed += 1
+
+        # Add short interval
+        if short_idx:
+            for i in short_idx:
+                rr[i] /= 2
+
+        # Add long interval
+        if long_idx:
+            for i in long_idx:
+                rr[i] *= 1.5
+
+        # Add ectopic beat type 1 (NPN)
+        if ectopic1_idx:
+            for i in ectopic1_idx:
+                rr[i] *= .7
+                rr[i+1] *= 1.3
+
+        # Add ectopic beat type 2 (PNP)
+        if ectopic2_idx:
+            for i in ectopic2_idx:
+                rr[i] *= 1.3
+                rr[i+1] *= .7
+
+    # Transform to peaks vector if needed
+    if as_peaks is True:
+        peaks = np.zeros(np.cumsum(np.rint(rr).astype(int))[-1]+50)
+        peaks[(np.cumsum(np.rint(rr).astype(int)))] = 1
+        peaks = peaks.astype(bool)
+        peaks[0] = True
+        return peaks
+    else:
+        return rr

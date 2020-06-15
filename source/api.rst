@@ -17,7 +17,7 @@ Detection
  :toctree: generated/
 
   oxi_peaks
-  hrv_subspaces
+  rr_artefacts
   interpolate_clipping
 
 Heart Rate Variability
@@ -49,6 +49,19 @@ Plotting
   plot_subspaces
   circular
   plot_circular
+
+Plotly
+--------
+
+.. _plotly:
+
+.. autosummary::
+ :toctree: generated/
+
+  plot_raw
+  plot_ectopic
+  plot_shortLong
+  plot_subspaces
 
 Recording
 ---------

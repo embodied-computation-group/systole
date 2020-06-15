@@ -3,9 +3,9 @@
 import numpy as np
 import unittest
 from unittest import TestCase
-from systole.detection import oxi_peaks, hrv_subspaces, rr_outliers,\
-    interpolate_clipping
-from systole import import_ppg, import_rr
+from systole.detection import oxi_peaks, rr_artefacts, interpolate_clipping
+from systole import import_ppg
+from systole.utils import simulate_rr
 
 
 class TestDetection(TestCase):
@@ -17,12 +17,12 @@ class TestDetection(TestCase):
         assert len(signal) == len(peaks)
         assert np.all(np.unique(peaks) == [0, 1])
 
-    def test_hrv_subspaces(self):
-        rr = import_rr().rr  # Import PPG recording
-        s1, s2, s3 = hrv_subspaces(rr)
-        assert round(np.mean(s1), 3) == -0.004
-        assert round(np.mean(s2), 3) == 0.076
-        assert round(np.mean(s3), 3) == -0.082
+    def test_rr_artefacts(self):
+        rr = simulate_rr()  # Import PPG recording
+        artefacts = rr_artefacts(rr)
+        artefacts = rr_artefacts(list(rr))
+        assert all(
+            350 == x for x in [len(artefacts[k]) for k in artefacts.keys()])
 
     def test_interpolate_clipping(self):
         ppg = import_ppg('1')[0]
@@ -30,12 +30,9 @@ class TestDetection(TestCase):
         assert clean_signal.mean().round() == 100
         clean_signal = interpolate_clipping(list(ppg))
         assert clean_signal.mean().round() == 100
-
-    def test_rr_outliers(self):
-        rr = import_rr().rr  # Import PPG recording
-        ectobeats, outliers = rr_outliers(rr)
-        assert np.where(ectobeats)[0][0] == 122
-        assert np.where(outliers)[0][0] == 120
+        clean_signal = interpolate_clipping(ppg)
+        ppg[0], ppg[-1] = 255, 255
+        clean_signal = interpolate_clipping(ppg)
 
 
 if __name__ == '__main__':

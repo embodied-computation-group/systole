@@ -11,10 +11,10 @@ DESCRIPTION = """Psychophysiology with Python"""
 DISTNAME = 'systole'
 MAINTAINER = 'Nicolas Legrand'
 MAINTAINER_EMAIL = 'nicolas.legrand@cfin.au.dk'
-VERSION = '0.1.0'
+VERSION = '0.1.1'
 
 INSTALL_REQUIRES = [
-    'numpy>=1.15',
+    'numpy>=1.17',
     'scipy>=1.3',
     'pandas>=0.24',
     'matplotlib>=3.0.2',

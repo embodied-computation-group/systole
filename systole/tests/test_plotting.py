@@ -3,6 +3,7 @@
 import numpy as np
 import pandas as pd
 import unittest
+import pytest
 import matplotlib
 from unittest import TestCase
 
@@ -10,7 +11,6 @@ from systole.plotting import plot_hr, plot_events, plot_oximeter,\
     plot_subspaces, circular, plot_circular, plot_psd
 from systole import import_ppg, import_rr, serialSim
 from systole.recording import Oximeter
-from systole.detection import hrv_subspaces
 
 
 serial = serialSim()
@@ -47,6 +47,7 @@ class TestPlotting(TestCase):
         outliers = np.where(oxi.peaks)[0][:2]
         ax = plot_hr(np.asarray(oxi.peaks), unit='bpm', outliers=outliers)
         assert isinstance(ax, matplotlib.axes.Axes)
+        ax = plot_hr([600, 650, 700, 750])
 
     def test_plot_events(self):
         ax = plot_events(oxi)
@@ -54,14 +55,12 @@ class TestPlotting(TestCase):
 
     def test_plot_oximeter(self):
         ax = plot_oximeter(oxi)
+        ax = plot_oximeter(ppg[0, 75:])
         assert isinstance(ax, matplotlib.axes.Axes)
 
     def test_plot_subspaces(self):
         rr = import_rr().rr
-        s1, s2, s3 = hrv_subspaces(rr)
-        ax = plot_subspaces(s1, s2, s3)
-        ax = plot_subspaces(rr, kind='bar')
-        ax = plot_subspaces(rr, kind='hex')
+        ax = plot_subspaces(rr)
         assert isinstance(ax[0], matplotlib.axes.Axes)
         assert isinstance(ax[1], matplotlib.axes.Axes)
 
@@ -76,7 +75,7 @@ class TestPlotting(TestCase):
 
     def test_circular(self):
         """Tests _circular function"""
-        ax = circular(x)
+        ax = circular(list(x))
         assert isinstance(ax, matplotlib.axes.Axes)
         for dens in ['area', 'heigth', 'alpha']:
             ax = circular(x, density='alpha', offset=np.pi, ax=None)
@@ -84,11 +83,15 @@ class TestPlotting(TestCase):
         ax = circular(x, density='height', mean=True,
                       units='degree', color='r')
         assert isinstance(ax, matplotlib.axes.Axes)
+        with pytest.raises(ValueError):
+            ax = circular(x, density='xx')
 
     def test_plot_circular(self):
         """Test plot_circular function"""
         data = pd.DataFrame(data={'x': x, 'y': y, 'z': z}).melt()
         ax = plot_circular(data=data, y='value', hue='variable')
+        assert isinstance(ax, matplotlib.axes.Axes)
+        ax = plot_circular(data=data, y='value', hue=None)
         assert isinstance(ax, matplotlib.axes.Axes)
 
 

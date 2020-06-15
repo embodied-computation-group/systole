@@ -2,10 +2,8 @@
 
 import numpy as np
 import pandas as pd
-from scipy.stats import iqr
 from scipy.interpolate import interp1d
 from scipy.signal import find_peaks
-from scipy import interpolate
 
 
 def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
@@ -56,9 +54,9 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
         x = np.asarray(x)
 
     # Interpolate
-    f = interpolate.interp1d(np.arange(0, len(x)/sfreq, 1/sfreq),
-                             x,
-                             fill_value="extrapolate")
+    f = interp1d(np.arange(0, len(x)/sfreq, 1/sfreq),
+                 x,
+                 fill_value="extrapolate")
     time = np.arange(0, len(x)/sfreq, 1/new_sfreq)
     x = f(time)
 
@@ -71,10 +69,10 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
 
     if noise_removal is True:
         # Moving average (high frequency noise + clipping)
-        rollingNoise = int(new_sfreq*.1)  # 0.1 second window
+        rollingNoise = int(new_sfreq*.05)  # 0.5 second window
         x = pd.DataFrame(
             {'signal': x}).rolling(rollingNoise,
-                                   center=True).mean().signal.values
+                                   center=True).mean().signal.to_numpy()
     if peak_enhancement is True:
         # Square signal (peak enhancement)
         x = x ** 2
@@ -82,91 +80,182 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
     # Compute moving average and standard deviation
     signal = pd.DataFrame({'signal': x})
     mean_signal = signal.rolling(int(new_sfreq*0.75),
-                                 center=True).mean().signal.values
+                                 center=True).mean().signal.to_numpy()
     std_signal = signal.rolling(int(new_sfreq*0.75),
-                                center=True).std().signal.values
+                                center=True).std().signal.to_numpy()
 
     # Substract moving average + standard deviation
     x -= (mean_signal + std_signal)
 
     # Find positive peaks
-    peaks_idx = find_peaks(x, height=0)[0]
+    peaks_idx = find_peaks(x, height=0, distance=int(new_sfreq*0.2))[0]
 
     # Create boolean vector
-    peaks = np.zeros(len(x))
+    peaks = np.zeros(len(x), dtype=bool)
     peaks[peaks_idx] = 1
-
-    if len(peaks) != len(x):
-        raise ValueError('Inconsistent output lenght')
 
     return resampled_signal, peaks
 
 
-def hrv_subspaces(x, alpha=5.2, window=45):
-    """Plot hrv subspace as described by Lipponen & Tarvainen (2019).
+def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
+    """Artefacts detection from RR time series using the subspaces approach
+    proposed by Lipponen & Tarvainen (2019).
 
     Parameters
     ----------
-    x : 1d array-like
+    rr : 1d array-like
         Array of RR intervals.
+    c1 : float
+        Fixed variable controling the slope of the threshold lines. Default is
+        0.13.
+    c2 : float
+        Fixed variable controling the intersect of the threshold lines. Default
+        is 0.17.
     alpha : float
         Scaling factor used to normalize the RR intervals first deviation.
-    window : int
-        Size of the window used to compute the interquartil range and normalize
-        the dRR serie.
 
     Returns
     -------
-    subspace1 : 1d array-like
-        The first dimension. First derivative of R-R interval time serie.
-    subspace2 : 1d array-like
-        The second dimension (1st plot).
-    subspace3 : 1d array-like
-        The third dimension (2nd plot).
+    artefacts : dictionnary
+        Dictionnary storing the parameters of RR artefacts rejection. All the
+        vectors outputed have the same length as the provided RR time serie:
+
+        * subspace1 : 1d array-like
+            The first dimension. First derivative of R-R interval time serie.
+        * subspace2 : 1d array-like
+            The second dimension (1st plot).
+        * subspace3 : 1d array-like
+            The third dimension (2nd plot).
+        * mRR : 1d array-like
+            The mRR time serie.
+        * ectopic : 1d array-like
+            Boolean array indexing probable ectopic beats.
+        * long : 1d array-like
+            Boolean array indexing long RR intervals.
+        * short : 1d array-like
+            Boolean array indexing short RR intervals.
+        * missed : 1d array-like
+            Boolean array indexing missed RR intervals.
+        * extra : 1d array-like
+            Boolean array indexing extra RR intervals.
+        * threshold1 : 1d array-like
+            Threshold 1.
+        * threshold2 : 1d array-like
+            Threshold 2.
+
+    Notes
+    -----
+    This function will use the method proposed by Lipponen & Tarvainen (2019)
+    to detect ectopic beats, long, shorts, missed and extra RR intervals.
 
     References
     ----------
-    [1] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
+    .. [1] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
         heart rate variability time series artefact correction using novel
         beat classification. Journal of Medical Engineering & Technology,
         43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306
     """
-    # Subspace 1 - dRRs time serie
-    s11 = np.append(0, np.diff(x))
+    if isinstance(rr, list):
+        rr = np.array(rr)
 
-    th = []
-    for i in range(len(s11)):
-        mi, ma = i-45, i+45
-        if mi < 0:
-            mi = 0
-        if ma > len(s11):
-            ma = len(s11)
-        th.append(alpha*iqr(np.abs(s11[mi:ma]))/2)
-    s11 = s11/th
+    ###########
+    # Detection
+    ###########
+
+    # Subspace 1 (dRRs time serie)
+    dRR = np.diff(rr, prepend=0)
+    dRR[0] = dRR[1:].mean()  # Set first item to a realistic value
+
+    dRR_df = pd.DataFrame({'signal': np.abs(dRR)})
+    q1 = dRR_df.rolling(
+        91, center=True, min_periods=1).quantile(.25).signal.to_numpy()
+    q3 = dRR_df.rolling(
+        91, center=True, min_periods=1).quantile(.75).signal.to_numpy()
+
+    th1 = alpha * ((q3 - q1) / 2)
+    dRR = dRR / th1
+    s11 = dRR
+
+    # mRRs time serie
+    medRR = pd.DataFrame({'signal': rr}).rolling(
+                    11, center=True, min_periods=1).median().signal.to_numpy()
+    mRR = rr - medRR
+    mRR[mRR < 0] = 2 * mRR[mRR < 0]
+
+    mRR_df = pd.DataFrame({'signal': np.abs(mRR)})
+    q1 = mRR_df.rolling(
+        91, center=True, min_periods=1).quantile(.25).signal.to_numpy()
+    q3 = mRR_df.rolling(
+        91, center=True, min_periods=1).quantile(.75).signal.to_numpy()
+
+    th2 = alpha * ((q3 - q1) / 2)
+    mRR /= th2
 
     # Subspace 2
-    diff = np.array([np.append(s11[1], s11[:-1]), np.append(s11[1:], s11[-1])])
-    ma = np.max(diff, 0)
-    mi = np.min(diff, 0)
-    s12 = []
-    for i in range(len(s11)):
-        if s11[i] <= 0:
-            s12.append(mi[i])
-        elif s11[i] > 0:
-            s12.append(ma[i])
+    ma = np.hstack(
+        [0, [np.max([dRR[i-1], dRR[i+1]]) for i in range(1, len(dRR)-1)], 0])
+    mi = np.hstack(
+        [0, [np.min([dRR[i-1], dRR[i+1]]) for i in range(1, len(dRR)-1)], 0])
+    s12 = ma
+    s12[dRR < 0] = mi[dRR < 0]
 
     # Subspace 3
-    diff = np.array([s11[1:-1], s11[2:]])
-    ma = np.max(diff, 0)
-    mi = np.min(diff, 0)
-    s22 = []
-    for i in range(len(s11)-2):
-        if s11[i] < 0:
-            s22.append(ma[i])
-        elif s11[i] >= 0:
-            s22.append(mi[i])
+    ma = np.hstack(
+        [[np.max([dRR[i+1], dRR[i+2]]) for i in range(0, len(dRR)-2)], 0, 0])
+    mi = np.hstack(
+        [[np.min([dRR[i+1], dRR[i+2]]) for i in range(0, len(dRR)-2)], 0, 0])
+    s22 = ma
+    s22[dRR >= 0] = mi[dRR >= 0]
 
-    return np.asarray(s11), np.asarray(s12), np.append(np.asarray(s22), [0, 0])
+    ##########
+    # Decision
+    ##########
+
+    # Find ectobeats
+    cond1 = (s11 > 1) & (s12 < (-c1 * s11-c2))
+    cond2 = (s11 < -1) & (s12 > (-c1 * s11+c2))
+    ectopic = cond1 | cond2
+    # No ectopic detection and correction at time serie edges
+    ectopic[-2:] = False
+    ectopic[:2] = False
+
+    # Find long or shorts
+    longBeats = \
+        ((s11 > 1) & (s22 < -1)) | ((np.abs(mRR) > 3) & (rr > np.median(rr)))
+    shortBeats = \
+        ((s11 < -1) & (s22 > 1)) | ((np.abs(mRR) > 3) & (rr <= np.median(rr)))
+
+    # Test if next interval is also outlier
+    for cond in [longBeats, shortBeats]:
+        for i in range(len(cond)-2):
+            if cond[i] is True:
+                if np.abs(s11[i+1]) < np.abs(s11[i+2]):
+                    cond[i+1] = True
+
+    # Ectopic beats are not considered as short or long
+    shortBeats[ectopic] = False
+    longBeats[ectopic] = False
+
+    # Missed vector
+    missed = np.abs((rr/2) - medRR) < th2
+    missed = missed & longBeats
+    longBeats[missed] = False  # Missed beats are not considered as long
+
+    # Etra vector
+    extra = np.abs(rr + np.append(rr[1:], 0) - medRR) < th2
+    extra = extra & shortBeats
+    shortBeats[extra] = False  # Extra beats are not considered as short
+
+    # No short or long intervals at time serie edges
+    shortBeats[0], shortBeats[-1] = False, False
+    longBeats[0], longBeats[-1] = False, False
+
+    artefacts = {'subspace1': s11, 'subspace2': s12, 'subspace3': s22,
+                 'mRR': mRR, 'ectopic': ectopic, 'long': longBeats,
+                 'short': shortBeats, 'missed': missed, 'extra': extra,
+                 'threshold1': th1, 'threshold2': th2}
+
+    return artefacts
 
 
 def interpolate_clipping(signal, threshold=255):
@@ -189,12 +278,22 @@ def interpolate_clipping(signal, threshold=255):
     Correct signal segment reaching recording threshold (default is 255)
     using a cubic spline interpolation. Adapted from [#]_.
 
+    .. Warning:: If clipping artefact is found at the edge of the signal, this
+        function will decrement the first/last value to allow interpolation,
+        which can lead to incorrect estimation.
+
     References
     ----------
     .. [#] https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/
     """
     if isinstance(signal, list):
         signal = np.array(signal)
+
+    # Security check for clipping at signal edge
+    if signal[0] == threshold:
+        signal[0] = threshold-1
+    if signal[-1] == threshold:
+        signal[-1] = threshold-1
 
     time = np.arange(0, len(signal))
 
@@ -207,52 +306,3 @@ def interpolate_clipping(signal, threshold=255):
     clean_signal = f(time)
 
     return clean_signal
-
-
-def rr_outliers(rr, c1=0.13, c2=0.17):
-    """Find outliers in RR time series using subspaces decomposition.
-
-    Parameters
-    ----------
-    rr : 1d array-like
-        Array of RR intervals.
-    c1 : float
-        Fixed variable controling the slope of the threshold lines. Default is
-        0.13.
-    c2 : float
-        Fixed variable controling the intersect of the threshold lines. Default
-        is 0.17.
-
-    Returns
-    -------
-    ectobeats : 1d array-like
-        Boolean array indexing probable ectobeats.
-    outliers : 1d array-like
-        Boolean array indexing abberant shorts/long RR intervals.
-
-    Notes
-    -----
-    This function will use the method proposed by Lipponen & Tarvainen [1]_ to
-    find probable ectobeats and abberant long/shorts RR intervals.
-
-    References
-    ----------
-    [1] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
-        heart rate variability time series artefact correction using novel
-        beat classification. Journal of Medical Engineering & Technology,
-        43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306
-    """
-
-    subspace1, subspace2, subspace3 = hrv_subspaces(rr)
-
-    # Find ectobeats
-    cond1 = (subspace1 > 1) & (subspace2 < (-c1 * subspace1-c2))
-    cond2 = (subspace1 < -1) & (subspace2 > (-c1 * subspace1+c2))
-    ectobeats = cond1 | cond2
-
-    # Find long or shorts
-    cond1 = (subspace1 > 1) & (subspace3 < -1)
-    cond2 = (subspace1 < -1) & (subspace3 > 1)
-    outliers = cond1 | cond2
-
-    return ectobeats, outliers

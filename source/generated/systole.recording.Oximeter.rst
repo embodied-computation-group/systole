@@ -22,6 +22,7 @@ systole.recording.Oximeter
       ~Oximeter.plot_recording
       ~Oximeter.read
       ~Oximeter.readInWaiting
+      ~Oximeter.save
       ~Oximeter.setup
       ~Oximeter.waitBeat
    

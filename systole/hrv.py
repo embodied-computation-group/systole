@@ -252,11 +252,11 @@ def frequency_domain(x, sfreq=5, method='welch', fbands=None):
 
     values = [power_per_vlf, power_per_lf, power_per_hf,
               power_nu_hf, power_nu_lf]
-    metrics = ['pover_vlf_per', 'pover_lf_per', 'pover_hf_per',
-               'pover_lf_nu', 'pover_hf_nu']
+    metrics = ['power_vlf_per', 'power_lf_per', 'power_hf_per',
+               'power_lf_nu', 'power_hf_nu']
 
     stats = stats.append(pd.DataFrame({'Values': values, 'Metric': metrics}),
-                         ignore_index=True, sort=False)
+                         ignore_index=True)
 
     return stats
 
