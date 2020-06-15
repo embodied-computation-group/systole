@@ -25,11 +25,11 @@ def plot_raw(signal, sfreq=75):
     sfreq : int
         Signal sampling frequency. Default is 75 Hz.
     """
-    if isinstance(signal, (np.ndarray, np.generic)):
-        signal = pd.DataFrame({'signal': signal,
-                               'time': np.arange(0, len(signal), 1/sfreq)})
-    # Find peaks - Remove learning phase
-    signal, peaks = oxi_peaks(signal.signal, noise_removal=False)
+    if isinstance(signal, pd.DataFrame):
+        # Find peaks - Remove learning phase
+        signal, peaks = oxi_peaks(signal.signal, noise_removal=False)
+    else:
+        signal, peaks = oxi_peaks(signal, noise_removal=False)
     time = np.arange(0, len(signal))/1000
 
     # Extract heart rate
@@ -193,8 +193,8 @@ def plot_ectopic(rr=None, artefacts=None):
                                                 color='DarkSlateGrey'))))
 
     subspacesPlot.update_layout(
-        width=600, height=600, xaxis_title="'Subspace $S_{11}$'",
-        yaxis_title="'Subspace $S_{12}$'", template='simple_white',
+        width=600, height=600, xaxis_title="Subspace $S_{11}$",
+        yaxis_title="Subspace $S_{12}$", template='simple_white',
         title={'text': "Ectopic beats", 'x': 0.5, 'xanchor': 'center',
                'yanchor': 'top'})
 
@@ -318,8 +318,8 @@ def plot_shortLong(rr=None, artefacts=None):
                                                 color='DarkSlateGrey'))))
 
     subspacesPlot.update_layout(
-        width=600, height=600, xaxis_title="'Subspace $S_{11}$'",
-        yaxis_title="'Subspace $S_{12}$'", template='simple_white',
+        width=600, height=600, xaxis_title="Subspace $S_{11}$",
+        yaxis_title="Subspace $S_{12}$", template='simple_white',
         title={'text': "Short/longs beats", 'x': 0.5, 'xanchor': 'center',
                'yanchor': 'top'})
 
