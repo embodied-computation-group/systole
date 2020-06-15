@@ -84,7 +84,8 @@ html_theme_options = {
     'navbar_links': [
      ("Functions", "api"),
      ("Tutorials", "auto_examples/index"),
-     ("GitHub", "https://github.com/embodied-computation-group/systole", True)
+     ("GitHub", "https://github.com/embodied-computation-group/systole", True),
+     ("What's new", "changelog")
      ]}
 
 # Add any paths that contain custom static files (such as style sheets) here,
