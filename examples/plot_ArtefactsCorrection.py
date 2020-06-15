@@ -24,6 +24,7 @@ detection using the method proposed by Lipponen & Tarvainen (2019) [#]_.
 import numpy as np
 import matplotlib.pyplot as plt
 from systole import simulate_rr
+from systole.plotting import plot_subspaces
 from systole.correction import correct_peaks, correct_rr
 
 
@@ -32,11 +33,12 @@ from systole.correction import correct_peaks, correct_rr
 
 peaks = simulate_rr(as_peaks=True)
 peaks_correction = correct_peaks(peaks)
+peaks_correction
 
 #%% Method 2 - RR correction
 # #############################
 rr = simulate_rr()
-correct_rr(rr)
+rr_correction = correct_rr(rr)
 
 #%%
 # References
