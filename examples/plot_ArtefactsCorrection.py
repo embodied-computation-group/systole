@@ -2,8 +2,8 @@
 Outliers and ectobeats correction
 =================================
 
-This example shows how to detect extra ectobeats, missed and ectobeats from RR
-time series using the method proposed by Lipponen & Tarvainen (2019) [#]_.
+Here, we describe two method for artefacts and outliers correction, after
+detection using the method proposed by Lipponen & Tarvainen (2019) [#]_.
 """
 
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
@@ -19,14 +19,24 @@ time series using the method proposed by Lipponen & Tarvainen (2019) [#]_.
 # signal length will possibly change after the interpolation of long, short or
 # ectopic beats. This method is more relevant for HRV analyse of long recording
 # where the timing of experimental events is not important.
-#
-# import numpy as np
-# import matplotlib.pyplot as plt
-#
-# rr = rr_artifacts()
-#
-# # Method 1
-# ##########
+
+#%%
+import numpy as np
+import matplotlib.pyplot as plt
+from systole import simulate_rr
+from systole.correction import correct_peaks, correct_rr
+
+
+#%% Method 1 - Peaks correction
+# #############################
+
+peaks = simulate_rr(as_peaks=True)
+peaks_correction = correct_peaks(peaks)
+
+#%% Method 2 - RR correction
+# #############################
+rr = simulate_rr()
+correct_rr(rr)
 
 #%%
 # References

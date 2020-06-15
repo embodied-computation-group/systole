@@ -157,7 +157,7 @@ All time-domain and non-linear indices have been tested against Kubios HVR 2.2 (
 
 .. code-block:: python
 
-  from systole.hrv import plot_psd
+  from systole.plotting import plot_psd
 
   plot_psd(rr)
 
@@ -171,6 +171,11 @@ This module was created and is maintained by Nicolas Legrand and Micah Allen (EC
 
 This program is provided with NO WARRANTY OF ANY KIND.
 
+Contributors
+============
+
+- Jan C. Brammer (jan.c.brammer@gmail.com)
+
 Acknowledgements
 ================
 
@@ -181,6 +186,8 @@ Systole was largely inspired by pre-existing toolboxes dedicated to heartrate va
 * HeartPy: https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/
 
 * hrv: https://github.com/rhenanbartels/hrv
+
+* pyHVR: https://pyhrv.readthedocs.io/en/latest/index.html
 
 * ECG-detector: https://github.com/berndporr/py-ecg-detectors
 

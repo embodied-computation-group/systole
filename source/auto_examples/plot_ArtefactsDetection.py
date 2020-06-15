@@ -11,10 +11,24 @@ Lipponen & Tarvainen (2019) [#]_.
 # Licence: GPL v3
 
 #%%
-import plotly
 from systole.detection import rr_artefacts
 from systole.utils import simulate_rr
-from systole.plotly import plot_subspaces
+from systole.plotting import plot_subspaces
+
+#%%
+# RR artefacts
+# ------------
+# The proposed method will detect 4 kinds of artefacts in an RR time series:
+# Missed R peaks, when an existing R component was erroneously NOT detected by
+# the algorithm.
+# * Extra R peaks, when an R peak was detected but does not exist in the
+# signal.
+# * Long or short interval intervals, when R peaks are correctly detected but
+# the resulting interval has extreme value in the overall time-series.
+# * Ectopic beats, due to disturbance of the cardiac rhythm when the heart
+# either skip or add an extra beat.
+# * The category in which the artefact belongs will have an influence on the
+# correction procedure (see Artefact correction).
 
 #%%
 # Simulate RR time series
@@ -28,17 +42,7 @@ rr = simulate_rr()
 # Artefact detection
 # ------------------
 
-artefacts = rr_artefacts(rr)
-
-#%%
-# Time series visualization
-# -------------------------
-# You can visualize the RR time series. Providing and `artefact` dictionary
-# will also highlight the detected artefactsa and outliers. Here, we can see
-# that all the simulated artefacts were correctly labelled by the algorythm.
-
-fig = plot_subspaces(rr)
-plotly.io.show(fig)
+outliers = rr_artefacts(rr)
 
 #%%
 # Subspaces visualization
@@ -48,8 +52,7 @@ plotly.io.show(fig)
 # panel plot subspaces that will be more sensitive to long or short beats,
 # comprizing the extra and missed beats.
 
-fig = plot_subspaces(rr)
-plotly.io.show(fig)
+plot_subspaces(rr)
 
 #%%
 # References

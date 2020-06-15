@@ -41,6 +41,27 @@ If you want to see the tutorials in action, you can also click on the link below
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="The pipeline of physiological recording can often benefiit from interactive data visualization ...">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_plot_InteractiveVisualizations_thumb.png
+     :alt: Interactive visualization
+
+     :ref:`sphx_glr_auto_examples_plot_InteractiveVisualizations.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/plot_InteractiveVisualizations
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to detect extra ectobeats, missed and ectobeats from RR time series usin...">
 
 .. only:: html
