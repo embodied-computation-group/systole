@@ -364,9 +364,9 @@ def plot_subspaces(rr):
         fig.add_traces([traces], rows=[1], cols=[2])
 
     fig.update_layout(
-        width=1200, height=600, xaxis_title="'Subspace $S_{11}$'",
-        yaxis_title="'Subspace $S_{12}$'", xaxis2_title="'Subspace $S_{21}$'",
-        yaxis2_title="'Subspace $S_{22}$'", template='simple_white')
+        width=1200, height=600, xaxis_title="Subspace $S_{11}$",
+        yaxis_title="Subspace $S_{12}$", xaxis2_title="Subspace $S_{21}$",
+        yaxis2_title="Subspace $S_{22}$", template='simple_white')
 
     fig.update_xaxes(showline=True, linewidth=2, linecolor='black',
                      range=[-xlim, xlim], row=1, col=1)
