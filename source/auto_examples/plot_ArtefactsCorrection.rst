@@ -1,17 +1,19 @@
-.. note::
-    :class: sphx-glr-download-link-note
+.. only:: html
 
-    Click :ref:`here <sphx_glr_download_auto_examples_plot_ArtefactsCorrection.py>` to download the full example code
-.. rst-class:: sphx-glr-example-title
+    .. note::
+        :class: sphx-glr-download-link-note
 
-.. _sphx_glr_auto_examples_plot_ArtefactsCorrection.py:
+        Click :ref:`here <sphx_glr_download_auto_examples_plot_ArtefactsCorrection.py>`     to download the full example code
+    .. rst-class:: sphx-glr-example-title
+
+    .. _sphx_glr_auto_examples_plot_ArtefactsCorrection.py:
 
 
 Outliers and ectobeats correction
 =================================
 
-This example shows how to detect extra ectobeats, missed and ectobeats from RR
-time series using the method proposed by Lipponen & Tarvainen (2019) [#]_.
+Here, we describe two method for artefacts and outliers correction, after
+detection using the method proposed by Lipponen & Tarvainen (2019) [#]_.
 
 
 .. code-block:: default
@@ -30,14 +32,63 @@ time series using the method proposed by Lipponen & Tarvainen (2019) [#]_.
     # signal length will possibly change after the interpolation of long, short or
     # ectopic beats. This method is more relevant for HRV analyse of long recording
     # where the timing of experimental events is not important.
-    #
-    # import numpy as np
-    # import matplotlib.pyplot as plt
-    #
-    # rr = rr_artifacts()
-    #
-    # # Method 1
-    # ##########
+
+
+
+
+
+
+
+
+
+.. code-block:: default
+
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from systole import simulate_rr
+    from systole.plotting import plot_subspaces
+    from systole.correction import correct_peaks, correct_rr
+
+
+
+
+
+
+
+
+
+#############################
+
+
+.. code-block:: default
+
+
+    peaks = simulate_rr(as_peaks=True)
+    peaks_correction = correct_peaks(peaks)
+    peaks_correction
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    {'clean_peaks': array([ True, False, False, ..., False, False, False]), 'ectopic': 0, 'short': 0, 'long': 0, 'extra': 1, 'missed': 1}
+
+
+
+#############################
+
+
+.. code-block:: default
+
+    rr = simulate_rr()
+    rr_correction = correct_rr(rr)
 
 
 
@@ -56,7 +107,7 @@ References
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.002 seconds)
+   **Total running time of the script:** ( 0 minutes  0.493 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_ArtefactsCorrection.py:
@@ -69,13 +120,13 @@ References
 
 
 
-  .. container:: sphx-glr-download
+  .. container:: sphx-glr-download sphx-glr-download-python
 
      :download:`Download Python source code: plot_ArtefactsCorrection.py <plot_ArtefactsCorrection.py>`
 
 
 
-  .. container:: sphx-glr-download
+  .. container:: sphx-glr-download sphx-glr-download-jupyter
 
      :download:`Download Jupyter notebook: plot_ArtefactsCorrection.ipynb <plot_ArtefactsCorrection.ipynb>`
 

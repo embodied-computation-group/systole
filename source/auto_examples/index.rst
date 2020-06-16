@@ -62,7 +62,7 @@ If you want to see the tutorials in action, you can also click on the link below
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to detect extra ectobeats, missed and ectobeats from RR time series usin...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Here, we describe two method for artefacts and outliers correction, after detection using the m...">
 
 .. only:: html
 
