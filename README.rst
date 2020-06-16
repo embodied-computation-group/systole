@@ -131,7 +131,7 @@ Methods from clipping correction and peak detection algorithm is adapted from [#
    :align:   center
 
 Artefact correction
-================
+===================
 
 Systole implements the artefact rejection method recently proposed by Lipponen & Tarvainen (2019) [#]_.
 
