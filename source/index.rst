@@ -25,7 +25,7 @@
 In particular, the package provides tools to pre-process, analyze, and synchronize cardiac data from psychophysiology research.
 This includes tools for data epoching, heart-rate variability, and synchronizing stimulus presentation with different cardiac phases via psychopy.
 
-The documentation can be found under the following `link <https://embodied-computation-group.github.io/>`_.
+The documentation can be found under the following `link <https://systole-docs.github.io/>`_.
 
 Installation
 ============
@@ -173,7 +173,7 @@ All time-domain and non-linear indices have been tested against Kubios HVR 2.2 (
 Development
 ===========
 
-This module was created and is maintained by Nicolas Legrand and Micah Allen (ECG group, https://the-ecg.org/). If you want to contribute, feel free to contact one of the contributors, open an issue or submit a pull request.
+This module was created and is maintained by Nicolas Legrand and Micah Allen (ECG group, https://the-ecg.org/). If you want to contribute, feel free to contact one of the developers, open an issue or submit a pull request.
 
 This program is provided with NO WARRANTY OF ANY KIND.
 
