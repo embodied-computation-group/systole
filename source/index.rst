@@ -130,22 +130,28 @@ Methods from clipping correction and peak detection algorithm is adapted from [#
 .. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/recording.png
    :align:   center
 
-Artefact removal
+Artefact correction
 ================
 
 Systole implements the artefact rejection method recently proposed by Lipponen & Tarvainen (2019) [#]_.
 
 .. code-block:: python
 
-  from systole import import_rr()
+  from systole import simulate_rr
   from systole.plotting import plot_subspaces
 
-  rr = import_rr().rr[:100]
-  rr[20] = 1600  # Add missed beat
-
+  rr = simulate_rr()
   plot_subspaces(rr)
 
 .. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/subspaces.png
+   :align:   center
+
+Interactive visualization
+=========================
+
+Systole integrates a set of functions for interactive data visualization based on `Plotly <https://plotly.com/>`_.
+
+.. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/systole.gif
    :align:   center
 
 Heartrate variability
@@ -157,7 +163,7 @@ All time-domain and non-linear indices have been tested against Kubios HVR 2.2 (
 
 .. code-block:: python
 
-  from systole.hrv import plot_psd
+  from systole.plotting import plot_psd
 
   plot_psd(rr)
 
@@ -171,6 +177,11 @@ This module was created and is maintained by Nicolas Legrand and Micah Allen (EC
 
 This program is provided with NO WARRANTY OF ANY KIND.
 
+Contributors
+============
+
+- Jan C. Brammer (jan.c.brammer@gmail.com)
+
 Acknowledgements
 ================
 
@@ -181,6 +192,8 @@ Systole was largely inspired by pre-existing toolboxes dedicated to heartrate va
 * HeartPy: https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/
 
 * hrv: https://github.com/rhenanbartels/hrv
+
+* pyHVR: https://pyhrv.readthedocs.io/en/latest/index.html
 
 * ECG-detector: https://github.com/berndporr/py-ecg-detectors
 
