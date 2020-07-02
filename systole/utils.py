@@ -352,3 +352,36 @@ def simulate_rr(n_rr=350, extra_idx=[50], missed_idx=[100], short_idx=[150],
         return peaks
     else:
         return rr
+
+
+def to_neighbour(signal, peaks, kind='max', size=50):
+    """Replace peaks with max/min neighbour in a given window.
+
+    Parameters
+    ----------
+    signal : 1d array-like
+        Signal used to maximize/minimize peaks.
+    peaks: 1d array-like
+        Boolean vector of peaks position.
+    kind : str
+        Can be 'max' or 'min'.
+
+    Returns
+    -------
+    new_peaks: 1d array-like
+        Boolean vector of peaks position.
+    """
+    new_peaks = peaks.copy()
+    for pk in np.where(peaks)[0]:
+        if kind == 'max':
+            x = signal[pk-size:pk+size].argmax()
+        elif kind == 'min':
+            x = signal[pk-size:pk+size].argmin()
+        else:
+            raise ValueError(
+                'Invalid argument, kind should be ''max'' or ''min''')
+
+        new_peaks[pk] = False
+        new_peaks[pk+(x-size)] = True
+
+    return new_peaks
