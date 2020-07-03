@@ -62,7 +62,7 @@ class Oximeter():
     This instance is then used to create an :py:func:`Oximeter` instance that
     will be used for the recording.
 
-    >>> from ecgrecording import Oximeter
+    >>> from ecg.recording import Oximeter
     >>> oximeter = Oximeter(serial=ser, sfreq=75)
 
     Use the :py:func:`setup` method to initialize the recording. This will find
@@ -401,69 +401,30 @@ class BrainVisionExG():
     ----------
     ip : str
         The IP address of the recording computer.
-    port : int
-        The port to listen. Default is 51244 for 32 bits recording.
     sfreq : int
-        The sampling frequency of the recording. Defautl is 2000 Hz.
+        The sampling frequency.
+    port : int
+        The port to listen. Default is 51244 (32 bits). Change port to 51234 to
+        connect to 16Bit RDA-port
 
     Examples
     --------
-    First, you will need to define a :py:func:`serial` instance, indexing the
-    USB port where the Nonin Pulse Oximeter is plugged.
+    This instance is then used to create an :py:func:`BrainVisionExG` instance
+    that will be used for the recording.
 
-    >>> import serial
-    >>> ser = serial.Serial('COM4')
+    >>> from ecg.recording import BrainVisionExG
+    >>> exg = BrainVisionExG(ip='xxx.xxx.xx', sfreq=1000).read(30)
 
-    This instance is then used to create an :py:func:`Oximeter` instance that
-    will be used for the recording.
+    Use the :py:func:`read` method to record some signal and save it in the
+    `exg` dictionnary.
 
-    >>> from ecgrecording import Oximeter
-    >>> oximeter = Oximeter(serial=ser, sfreq=75)
-
-    Use the :py:func:`setup` method to initialize the recording. This will find
-    the start byte to ensure that all the forthcoming data is in Synch. You
-    should not wait more than ~10s between the setup and the recording,
-    otherwise the buffer will start to overwrite the data.
-
-    >>> oximeter.setup()
-
-    Two methods are availlable to record PPG signal:
-
-    1. The :py:func:`read` function.
-
-    Will continuously record for certain amount of time (specified by the
-    *duration* parameter, in seconds). This is the easiest and most robust
-    method, but it is not possible to run instructions in the meantime.
-
-    >>> oximeter.read(duration=10)
-
-    2. The :py:func:`readInWaiting` function.
-
-    Will read all the availlable bytes (up to 10 seconds of recording). When
-    inserted into a while loop, it allows to record PPG signal together with
-    other scripts.
-
-    >>> import time
-    >>> tstart = time.time()
-    >>> while time.time() - tstart < 10:
-    >>>     oximeter.readInWaiting()
-    >>>     # Insert code here
-
-    The recorded signal can latter be inspected using the :py:func:`plot()`
-    method.
-
-    >>> oximeter.plot()
-
-    .. warning:: Data read from the serial port are appended to list and
-      processed for pulse detection and instantaneous heart rate estimation.
-      The time required to append new data to the recording will increase as
-      its size increase. You should beware that this processing time does not
-      exceed the sampling frequency (i.e. 75Hz or 0.013 seconds per sample for
-      Nonin pulse oximeters) to allow continuous recording and fast processing
-      of in waiting samples. We recommend storing regularly 5 minutes recording
-      as .npy file using the :py:func:save() function.
+    .. warning:: The signals received fom the host are appened to a list. This
+    process can require more time at each iteration as the signal length
+    increase in memory. You should alway make sure that this will not interfer
+    with other task and regularly save intermediate recording to save
+    resources.
     """
-    def __init__(self, ip, port=51244, sfreq=2000):
+    def __init__(self, ip, sfreq, port=51244):
 
         self.ip = ip
         self.port = port
@@ -477,9 +438,7 @@ class BrainVisionExG():
         # block counter to check overflows of tcpip buffer
         self.lastBlock = -1
 
-        # Connect to recorder host via 32Bit RDA-port
-        # adapt to your host, if recorder is not running on local machine
-        # change port to 51234 to connect to 16Bit RDA-port
+        # Connect to recorder host
         self.con.connect((self.ip, self.port))
 
         # Marker dict for storing marker information
@@ -511,7 +470,7 @@ class BrainVisionExG():
                 s = ""
         return stringlist
 
-    # Helper function for extracting eeg properties from a raw data array
+    # Helper function for extracting ExG properties from a raw data array
     # read from tcpip socket
     def GetProperties(self, rawdata):
 
@@ -563,20 +522,24 @@ class BrainVisionExG():
         return (block, points, markerCount, data, markers)
 
     def read(self, duration):
-        """Read incoming signal for a certain amount of time.
+        """Read incoming signals.
 
         Parameters
         ----------
         duration : float
-            The length in seconds of the desired signals.
+            The length of the recording.
 
         Returns
         -------
         recording : dict
             Dictionnary with channel name as key.
+
+        Notes
+        -----
+        Duration will be converted to expected signal length (duration * sfreq)
+        to ensure consistent recording.
         """
-        tstart = time.time()
-        while time.time() - tstart < duration:
+        while (len(self.recording) / self.sfreq) < duration:
 
             # Get message header as raw array of chars
             rawhdr = self.RecvData(24)
@@ -595,11 +558,11 @@ class BrainVisionExG():
                 # reset block counter
                 self.lastBlock = -1
 
-                print("Start")
-                print("Number of channels: " + str(channelCount))
-                print("Sampling interval: " + str(samplingInterval))
-                print("Resolutions: " + str(resolutions))
-                print("Channel Names: " + str(channelNames))
+                print("Reading TCP/IP connection (" +
+                      str(channelCount) + "channels found). "
+                      + str(resolutions) + " Hz. "
+                      + str(samplingInterval) + " samples. "
+                      + str(channelNames))
 
             elif msgtype == 4:
                 # Data message, extract data and markers
@@ -608,13 +571,15 @@ class BrainVisionExG():
 
                 # Check for overflow
                 if self.lastBlock != -1 and block > self.lastBlock + 1:
-                    print("*** Overflow with " + str(block - self.lastBlock) + " datablocks ***")
+                    print("*** Overflow with " +
+                          str(block - self.lastBlock) + " datablocks ***")
                 self.lastBlock = block
 
                 # Print markers, if there are some in actual block
                 if markerCount > 0:
                     for m in range(markerCount):
-                        print("Marker " + markers[m]['description'] + " of type " + markers[m]['type'])
+                        print("Marker " + markers[m]['description'] +
+                              " of type " + markers[m]['type'])
 
                 # Put data at the end of actual buffer
                 self.recording.extend(data)
@@ -632,8 +597,3 @@ class BrainVisionExG():
     def close(self):
         """Close TCPIP connections"""
         self.con.close()
-
-##################
-# Main RDA routine
-##################
-#recording = BrainVisionExG(ip='10.60.88.162').read(5)
