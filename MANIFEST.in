@@ -9,3 +9,4 @@ include systole/datasets/ppg2.npy
 include systole/datasets/ppg3.npy
 include systole/datasets/ppgNoisy1.npy
 include systole/datasets/rr.txt
+include systole/datasets/task1.txt
