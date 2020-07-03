@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from scipy.interpolate import interp1d
 from scipy.signal import find_peaks
+from ecgdetectors import Detectors
 
 
 def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
@@ -21,7 +22,7 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
     new_sfreq : int
         If resample is *True*, the new sampling frequency.
     resample : bool
-        If *True (defaults), will resample the signal at *new_sfreq*. Default
+        If *True* (defaults), will resample the signal at *new_sfreq*. Default
         value is 1000 Hz.
 
     Returns
@@ -45,7 +46,7 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
     Some of the processing steps were adapted from the HeartPy toolbox [1]:
     https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/index.html
 
-    [1] : van Gent, P., Farah, H., van Nes, N. and van Arem, B., 2019.
+    ..[1] van Gent, P., Farah, H., van Nes, N. and van Arem, B., 2019.
     Analysing Noisy Driver Physiology Real-Time Using Off-the-Shelf Sensors:
     Heart Rate Analysis Software from the Taking the Fast Lane Project. Journal
     of Open Research Software, 7(1), p.32. DOI: http://doi.org/10.5334/jors.241
@@ -93,6 +94,80 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
     # Create boolean vector
     peaks = np.zeros(len(x), dtype=bool)
     peaks[peaks_idx] = 1
+
+    return resampled_signal, peaks
+
+
+def ecg_peaks(x, sfreq=1000, new_sfreq=1000, method='pan-tompkins'):
+    """A simple wrapper for many popular R peaks detectors algorithms.
+
+    Parameters
+    ----------
+    x : list or 1d array-like
+        The oxi signal.
+    sfreq : int
+        The sampling frequency. Default is set to 75 Hz.
+    method : str
+        The method used. Can be one of the following: 'hamilton', 'christov',
+        'engelse-zeelenberg', 'pan-tompkins', 'wavelet-transform',
+        'moving-average'.
+
+    Returns
+    -------
+    peaks : 1d array-like
+        Numpy array containing R peak timing, in sfreq.
+    resampled_signal : 1d array-like
+        Signal resampled to the `new_sfreq` frequency.
+
+    Notes
+    -----
+    This function will call the py-ecg-detectors package to perform R wave
+    detection.
+
+    .. warning :: This function will resample the signal to 1000 Hz.
+
+    References
+    ----------
+    Some of the processing steps were adapted from the HeartPy toolbox [1]:
+    https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/index.html
+
+    ..[1] Howell, L., Porr, B. Popular ECG R peak detectors written in
+    python. DOI: 10.5281/zenodo.3353396
+    """
+    if isinstance(x, list):
+        x = np.asarray(x)
+
+    # Interpolate
+    f = interp1d(np.arange(0, len(x)/sfreq, 1/sfreq),
+                 x,
+                 fill_value="extrapolate")
+    time = np.arange(0, len(x)/sfreq, 1/new_sfreq)
+    x = f(time)
+
+    # Copy resampled signal for output
+    resampled_signal = np.copy(x)
+
+    detectors = Detectors(new_sfreq)
+
+    if method == 'hamilton':
+        peaks_idx = detectors.hamilton_detector(resampled_signal)
+    elif method == 'christov':
+        peaks_idx = detectors.christov_detector(resampled_signal)
+    elif method == 'engelse-zeelenberg':
+        peaks_idx = detectors.engzee_detector(resampled_signal)
+    elif method == 'pan-tompkins':
+        peaks_idx = detectors.pan_tompkins_detector(resampled_signal)
+    elif method == 'wavelet-transform':
+        peaks_idx = detectors.swt_detector(resampled_signal)
+    elif method == 'moving-average':
+        peaks_idx = detectors.two_average_detector(resampled_signal)
+    else:
+        raise ValueError(
+            'Invalid method provided, should be: hamilton,',
+            'christov, engelse-zeelenberg, pan-tompkins, wavelet-transform,',
+            'moving-average')
+    peaks = np.zeros(len(resampled_signal), dtype=bool)
+    peaks[peaks_idx] = True
 
     return resampled_signal, peaks
 
