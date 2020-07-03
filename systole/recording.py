@@ -2,6 +2,8 @@
 
 import numpy as np
 import time
+import socket
+from struct import unpack
 from systole.detection import oxi_peaks
 from systole.plotting import plot_oximeter, plot_events, plot_hr
 
@@ -274,7 +276,7 @@ class Oximeter():
         return ax
 
     def read(self, duration):
-        """Find start byte.
+        """Read PPG signal for some amount of time.
 
         Parameters
         ----------
@@ -390,3 +392,248 @@ class Oximeter():
                 else:
                     print('Synch error')
         return self
+
+
+class BrainVisionExG():
+    """Recording ECG signal through TCPIP.
+
+    Parameters
+    ----------
+    ip : str
+        The IP address of the recording computer.
+    port : int
+        The port to listen. Default is 51244 for 32 bits recording.
+    sfreq : int
+        The sampling frequency of the recording. Defautl is 2000 Hz.
+
+    Examples
+    --------
+    First, you will need to define a :py:func:`serial` instance, indexing the
+    USB port where the Nonin Pulse Oximeter is plugged.
+
+    >>> import serial
+    >>> ser = serial.Serial('COM4')
+
+    This instance is then used to create an :py:func:`Oximeter` instance that
+    will be used for the recording.
+
+    >>> from ecgrecording import Oximeter
+    >>> oximeter = Oximeter(serial=ser, sfreq=75)
+
+    Use the :py:func:`setup` method to initialize the recording. This will find
+    the start byte to ensure that all the forthcoming data is in Synch. You
+    should not wait more than ~10s between the setup and the recording,
+    otherwise the buffer will start to overwrite the data.
+
+    >>> oximeter.setup()
+
+    Two methods are availlable to record PPG signal:
+
+    1. The :py:func:`read` function.
+
+    Will continuously record for certain amount of time (specified by the
+    *duration* parameter, in seconds). This is the easiest and most robust
+    method, but it is not possible to run instructions in the meantime.
+
+    >>> oximeter.read(duration=10)
+
+    2. The :py:func:`readInWaiting` function.
+
+    Will read all the availlable bytes (up to 10 seconds of recording). When
+    inserted into a while loop, it allows to record PPG signal together with
+    other scripts.
+
+    >>> import time
+    >>> tstart = time.time()
+    >>> while time.time() - tstart < 10:
+    >>>     oximeter.readInWaiting()
+    >>>     # Insert code here
+
+    The recorded signal can latter be inspected using the :py:func:`plot()`
+    method.
+
+    >>> oximeter.plot()
+
+    .. warning:: Data read from the serial port are appended to list and
+      processed for pulse detection and instantaneous heart rate estimation.
+      The time required to append new data to the recording will increase as
+      its size increase. You should beware that this processing time does not
+      exceed the sampling frequency (i.e. 75Hz or 0.013 seconds per sample for
+      Nonin pulse oximeters) to allow continuous recording and fast processing
+      of in waiting samples. We recommend storing regularly 5 minutes recording
+      as .npy file using the :py:func:save() function.
+    """
+    def __init__(self, ip, port=51244, sfreq=2000):
+
+        self.ip = ip
+        self.port = port
+        self.sfreq = sfreq
+        self.dist = int(self.sfreq * 0.2)
+        self.recording = []
+
+        # Create a tcpip socket
+        self.con = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        # block counter to check overflows of tcpip buffer
+        self.lastBlock = -1
+
+        # Connect to recorder host via 32Bit RDA-port
+        # adapt to your host, if recorder is not running on local machine
+        # change port to 51234 to connect to 16Bit RDA-port
+        self.con.connect((self.ip, self.port))
+
+        # Marker dict for storing marker information
+        self.marker = {'position': 0, 'points': 0, 'channel': -1,
+                       'type': "", 'description': ""}
+
+    # Helper function for receiving whole message
+    def RecvData(self, requestedSize):
+        returnStream = b''
+        while len(returnStream) < requestedSize:
+            databytes = self.con.recv(requestedSize - len(returnStream))
+            if not databytes:
+                raise RuntimeError
+            returnStream += databytes
+
+        return returnStream
+
+    # Helper function for splitting a raw array of
+    # zero terminated strings (C) into an array of python strings
+    def SplitString(self, raw):
+        raw = raw.decode()
+        stringlist = []
+        s = ""
+        for i in range(len(raw)):
+            if raw[i] != '\x00':
+                s = s + raw[i]
+            else:
+                stringlist.append(s)
+                s = ""
+        return stringlist
+
+    # Helper function for extracting eeg properties from a raw data array
+    # read from tcpip socket
+    def GetProperties(self, rawdata):
+
+        # Extract numerical data
+        (channelCount, samplingInterval) = unpack('<Ld', rawdata[:12])
+
+        # Extract resolutions
+        resolutions = []
+        for c in range(channelCount):
+            index = 12 + c * 8
+            restuple = unpack('<d', rawdata[index:index+8])
+            resolutions.append(restuple[0])
+
+        # Extract channel names
+        channelNames = self.SplitString(rawdata[12 + 8 * channelCount:])
+
+        return (channelCount, samplingInterval, resolutions, channelNames)
+
+    # Helper function for extracting eeg and marker data from a raw data array
+    # read from tcpip socket
+    def GetData(self, rawdata, channelCount):
+
+        # Extract numerical data
+        (block, points, markerCount) = unpack('<LLL', rawdata[:12])
+
+        # Extract eeg data as array of floats
+        data = []
+        for i in range(points * channelCount):
+            index = 12 + 4 * i
+            value = unpack('<f', rawdata[index:index+4])
+            data.append(value[0])
+
+        # Extract markers
+        markers = []
+        index = 12 + 4 * points * channelCount
+        for m in range(markerCount):
+            markersize = unpack('<L', rawdata[index:index+4])
+
+            ma = self.marker.copy()
+            (ma['position'], ma['points'], ma['channel']) = \
+                unpack('<LLl', rawdata[index+4:index+16])
+            typedesc = self.SplitString(rawdata[index+16:index+markersize[0]])
+            ma['type'] = typedesc[0]
+            ma['description'] = typedesc[1]
+
+            markers.append(ma)
+            index = index + markersize[0]
+
+        return (block, points, markerCount, data, markers)
+
+    def read(self, duration):
+        """Read incoming signal for a certain amount of time.
+
+        Parameters
+        ----------
+        duration : float
+            The length in seconds of the desired signals.
+
+        Returns
+        -------
+        recording : dict
+            Dictionnary with channel name as key.
+        """
+        tstart = time.time()
+        while time.time() - tstart < duration:
+
+            # Get message header as raw array of chars
+            rawhdr = self.RecvData(24)
+
+            # Split array into usefull information id1 to id4 are constants
+            (id1, id2, id3, id4, msgsize, msgtype) = unpack('<llllLL', rawhdr)
+
+            # Get data part of message, which is of variable size
+            rawdata = self.RecvData(msgsize - 24)
+
+            # Perform action dependend on the message type
+            if msgtype == 1:
+                # Start message, extract eeg properties and display them
+                (channelCount, samplingInterval, resolutions, channelNames) = \
+                    self.GetProperties(rawdata)
+                # reset block counter
+                self.lastBlock = -1
+
+                print("Start")
+                print("Number of channels: " + str(channelCount))
+                print("Sampling interval: " + str(samplingInterval))
+                print("Resolutions: " + str(resolutions))
+                print("Channel Names: " + str(channelNames))
+
+            elif msgtype == 4:
+                # Data message, extract data and markers
+                (block, points, markerCount, data, markers) = \
+                    self.GetData(rawdata, channelCount)
+
+                # Check for overflow
+                if self.lastBlock != -1 and block > self.lastBlock + 1:
+                    print("*** Overflow with " + str(block - self.lastBlock) + " datablocks ***")
+                self.lastBlock = block
+
+                # Print markers, if there are some in actual block
+                if markerCount > 0:
+                    for m in range(markerCount):
+                        print("Marker " + markers[m]['description'] + " of type " + markers[m]['type'])
+
+                # Put data at the end of actual buffer
+                self.recording.extend(data)
+
+            elif msgtype == 3:
+                # Stop message, terminate program
+                print("Stop")
+
+        recording = {}
+        for ch_name, ch_nb in zip(channelNames, range(channelCount)):
+            recording[ch_name] = self.recording[ch_nb::channelCount]
+
+        return recording
+
+    def close(self):
+        """Close TCPIP connections"""
+        self.con.close()
+
+##################
+# Main RDA routine
+##################
+#recording = BrainVisionExG(ip='10.60.88.162').read(5)
