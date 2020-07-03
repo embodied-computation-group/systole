@@ -17,7 +17,7 @@ c. The **correction** sub-module has been largely rewritten and now include :py:
 
 **Enhancements**
 
-a. The **detection** sub-module has been improved. It is now about 10x faster and return more information. The main function has been renamed to :py:func:`systole.detection.rr_artefacts`.
+a. The **detection** sub-module has been improved. It is now about 10x faster and returns more information. The main function has been renamed to :py:func:`systole.detection.rr_artefacts`.
 
 **Bugfixes**
 
