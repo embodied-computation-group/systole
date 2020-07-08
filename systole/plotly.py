@@ -2,9 +2,6 @@
 
 import numpy as np
 import pandas as pd
-import plotly_express as px
-import plotly.graph_objs as go
-from plotly.subplots import make_subplots
 from systole.detection import oxi_peaks
 from systole.correction import rr_artefacts
 from systole.utils import heart_rate
@@ -25,6 +22,9 @@ def plot_raw(signal, sfreq=75):
     sfreq : int
         Signal sampling frequency. Default is 75 Hz.
     """
+    import plotly.graph_objs as go
+    from plotly.subplots import make_subplots
+
     if isinstance(signal, pd.DataFrame):
         # Find peaks - Remove learning phase
         signal, peaks = oxi_peaks(signal.signal, noise_removal=False)
@@ -99,6 +99,9 @@ def plot_ectopic(rr=None, artefacts=None):
     If both *rr* or *artefacts* are provided, will recompute *artefacts*
     given the current rr time-series.
     """
+    import plotly_express as px
+    import plotly.graph_objs as go
+
     c1, c2, xlim, ylim = 0.13, 0.17, 10, 10
 
     if artefacts is None:
@@ -226,6 +229,9 @@ def plot_shortLong(rr=None, artefacts=None):
     If both *rr* or *artefacts* are provided, will recompute *artefacts*
     given the current rr time-series.
     """
+    import plotly_express as px
+    import plotly.graph_objs as go
+
     xlim, ylim = 10, 10
 
     if artefacts is None:
@@ -351,6 +357,8 @@ def plot_subspaces(rr):
         classification. Journal of Medical Engineering & Technology, 43(3),
         173–181. https://doi.org/10.1080/03091902.2019.1640306
     """
+    from plotly.subplots import make_subplots
+
     xlim, ylim = 10, 10
     fig = make_subplots(rows=1, cols=2, column_widths=[0.5, 0.5],
                         subplot_titles=("Ectopic", "Short/longs beats"))
@@ -389,6 +397,9 @@ def plot_frequency(rr):
     rr : 1d array-like
         Time series of R-R intervals.
     """
+    import plotly.graph_objs as go
+    from plotly.subplots import make_subplots
+
     df = frequency_domain(rr).round(2)
 
     fig = make_subplots(
@@ -461,6 +472,9 @@ def plot_nonlinear(rr):
     rr : 1d array-like
         Time sere of R-R intervals.
     """
+    import plotly.graph_objs as go
+    from plotly.subplots import make_subplots
+
     df = nonlinear(rr).round(2)
 
     fig = make_subplots(
@@ -516,6 +530,9 @@ def plot_timedomain(rr):
     rr : 1d array-like
         Time sere of R-R intervals.
     """
+    import plotly.graph_objs as go
+    from plotly.subplots import make_subplots
+
     df = time_domain(rr).round(2)
 
     fig = make_subplots(
