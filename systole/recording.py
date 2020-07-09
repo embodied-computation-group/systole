@@ -541,7 +541,7 @@ class BrainVisionExG():
         Duration will be converted to expected signal length (duration * sfreq)
         to ensure consistent recording.
         """
-        while (len(self.recording) / self.sfreq) < duration:
+        while True:
 
             # Get message header as raw array of chars
             rawhdr = self.RecvData(24)
@@ -585,14 +585,15 @@ class BrainVisionExG():
 
                 # Put data at the end of actual buffer
                 self.recording.extend(data)
-
+                if ((len(self.recording)/self.sfreq)/channelCount) >= duration:
+                    break
             elif msgtype == 3:
                 # Stop message, terminate program
                 print("Stop")
 
         recording = {}
         for ch_name, ch_nb in zip(channelNames, range(channelCount)):
-            recording[ch_name] = self.recording[ch_nb::channelCount]
+            recording[ch_name] = np.array(self.recording[ch_nb::channelCount])
 
         return recording
 
