@@ -3,8 +3,9 @@
 import numpy as np
 import unittest
 from unittest import TestCase
-from systole.detection import oxi_peaks, rr_artefacts, interpolate_clipping
-from systole import import_ppg
+from systole.detection import oxi_peaks, rr_artefacts, interpolate_clipping,\
+    ecg_peaks
+from systole import import_ppg, import_dataset
 from systole.utils import simulate_rr
 
 
@@ -33,6 +34,14 @@ class TestDetection(TestCase):
         clean_signal = interpolate_clipping(ppg)
         ppg[0], ppg[-1] = 255, 255
         clean_signal = interpolate_clipping(ppg)
+
+    def test_ecg_peaks(self):
+        signal_df = import_dataset()[:20*2000]
+        for method in ['hamilton', 'christov', 'engelse-zeelenberg',
+                       'pan-tompkins', 'wavelet-transform', 'moving-average']:
+            signal, peaks = ecg_peaks(signal_df.ecg, method=method, sfreq=2000,
+                                      find_local=True)
+            assert not np.any(peaks > 1)
 
 
 if __name__ == '__main__':
