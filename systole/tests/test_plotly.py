@@ -28,12 +28,14 @@ class TestInteractive(TestCase):
     def test_plot_shortLong(self):
         """Test plot_shortLong function"""
         plot_shortLong(rr)
-        plot_shortLong(rr=None, artefacts=None)
+        with self.assertRaises(ValueError):
+            plot_shortLong(rr=None, artefacts=None)
 
     def test_plot_ectopic(self):
         """Test plot_ectopic function"""
         plot_ectopic(rr)
-        plot_ectopic(rr=None, artefacts=None)
+        with self.assertRaises(ValueError):
+            plot_ectopic(rr=None, artefacts=None)
 
     def test_plot_subspaces(self):
         """Test nnX function"""
