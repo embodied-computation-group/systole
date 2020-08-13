@@ -425,6 +425,12 @@ class BrainVisionExG():
     increase in memory. You should alway make sure that this will not interfer
     with other task and regularly save intermediate recording to save
     resources.
+
+    Notes
+    -----
+    This class is adapted from the RDA client for python made available by
+    Brain Products on the following link:
+        https://www.brainproducts.com/downloads.php?kid=2
     """
     def __init__(self, ip, sfreq, port=51244):
 
@@ -601,6 +607,7 @@ class BrainVisionExG():
         """Close TCPIP connections"""
         self.con.close()
 
+
 def findOximeter():
     """Find USB port where Nonin Pulse Oximeter is plugged.
 
@@ -611,7 +618,7 @@ def findOximeter():
 
     Notes
     -----
-    Only works on Windows.
+    This function is only compatible with Windows 10.
     """
     port = None
     usbList = list(list_ports.comports())
