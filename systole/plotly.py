@@ -2,14 +2,14 @@
 
 import numpy as np
 import pandas as pd
-from systole.detection import oxi_peaks
+from systole.detection import oxi_peaks, ecg_peaks
 from systole.correction import rr_artefacts
 from systole.utils import heart_rate
 from systole.plotting import plot_psd
 from systole.hrv import time_domain, frequency_domain, nonlinear
 
 
-def plot_raw(signal, sfreq=75):
+def plot_raw(signal, sfreq=75, type='ppg'):
     """Interactive visualization of PPG signal and beats detection.
 
     Parameters
@@ -21,19 +21,30 @@ def plot_raw(signal, sfreq=75):
         signal and *sfreq* as sampling frequency.
     sfreq : int
         Signal sampling frequency. Default is 75 Hz.
+    type : str
+        The recording modality. Can be 'ppg' (pulse oximeter) or 'ecg'
+        (electrocardiography).
     """
     import plotly.graph_objs as go
     from plotly.subplots import make_subplots
 
     if isinstance(signal, pd.DataFrame):
         # Find peaks - Remove learning phase
-        signal, peaks = oxi_peaks(signal.signal, noise_removal=False)
+        if type == 'ppg':
+            signal, peaks = oxi_peaks(signal.signal, noise_removal=False)
+        elif type == 'ecg':
+            signal, peaks = ecg_peaks(signal, method='hamilton', sfreq=sfreq,
+                                      find_local=True)
     else:
-        signal, peaks = oxi_peaks(signal, noise_removal=False)
+        if type == 'ppg':
+            signal, peaks = oxi_peaks(signal, noise_removal=False)
+        elif type == 'ecg':
+            signal, peaks = ecg_peaks(signal, method='hamilton', sfreq=sfreq,
+                                      find_local=True)
     time = np.arange(0, len(signal))/1000
 
     # Extract heart rate
-    hr, time = heart_rate(peaks, sfreq=1000, unit='rr', kind='previous')
+    hr, time = heart_rate(peaks, sfreq=1000, unit='rr', kind='linear')
 
     #############
     # Upper panel
@@ -69,7 +80,8 @@ def plot_raw(signal, sfreq=75):
                                                           'Heart rate'])
 
     raw.update_layout(plot_bgcolor="white", paper_bgcolor="white",
-                      margin=dict(l=5, r=5, b=5, t=5), autosize=True)
+                      margin=dict(l=5, r=5, b=5, t=5), autosize=True,
+                      xaxis_title="Time (s)")
 
     raw.add_trace(ppg_trace, 1, 1)
     raw.add_trace(peaks_trace, 1, 1)
