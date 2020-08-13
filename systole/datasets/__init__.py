@@ -100,9 +100,11 @@ def import_dataset():
         (2018). Preprint version 3.0.
         doi: https://www.biorxiv.org/content/10.1101/376954v3
     """
-    df = pd.DataFrame({'ecg': np.load('Task1_ECG.npy'),
-                       'eda': np.load('Task1_EDA.npy'),
-                       'respiration': np.load('Task1_Respiration.npy'),
-                       'stim': np.load('Task1_Stim.npy')})
+    df = pd.DataFrame({
+        'ecg': np.load(op.join(ddir, 'Task1_ECG.npy')),
+        'eda': np.load(op.join(ddir, 'Task1_EDA.npy')),
+        'respiration': np.load(op.join(ddir, 'Task1_Respiration.npy')),
+        'stim': np.load(op.join(ddir, 'Task1_Stim.npy'))})
+    df['time'] = np.arange(0, len(df))/1000
 
     return df

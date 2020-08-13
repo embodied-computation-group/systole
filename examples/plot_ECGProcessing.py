@@ -2,65 +2,76 @@
 ECG preprocessing and R wave detection
 ======================================
 
-This example shows how to extract peaks from ECG recording. The peaks detection
-algorithms are implemented by the py-ecg-detectors module:
-https://github.com/berndporr/py-ecg-detectors
+This notebook describe ECG signal processing, from R wave detection to heart
+rate variability and evoked heart rate activity.
 """
 
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 # Licence: GPL v3
 
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 from systole import import_dataset
 from systole.detection import ecg_peaks
-from systole.utils import heart_rate, to_neighbour
+from systole.utils import heart_rate, to_epochs
 
 #%%
 # Loading ECG dataset
 # -------------------
-data = import_dataset()
-
-
-segment = data.ecg[-2000*5:]
-
+signal_df = import_dataset()
 
 #%%
 # Finding R peaks
 # ---------------
-signal, peaks = ecg_peaks(segment, method='moving-average', sfreq=2000)
-peaks = to_neighbour(signal, peaks, size=100)
-time = np.arange(0, len(signal))/1000
-plt.plot(time, signal)
-plt.plot(time[peaks], signal[peaks], 'ro')
-
-
-(60000/np.diff(np.where(peaks)[0])).mean()
-
-hr, time = heart_rate(peaks)
-plt.subplot(211)
-plt.plot(time, hr)
-plt.subplot(212)
-plt.plot(time, signal)
-plt.plot(time[peaks], signal[peaks], 'ro')
-
+# The peaks detection algorithms are imported from the py-ecg-detectors module:
+# https://github.com/berndporr/py-ecg-detectors
+signal, peaks = ecg_peaks(signal_df.ecg, method='hamilton', sfreq=2000,
+                          find_local=True)
 
 #%%
-# Compare different methods
-# -------------------------
-# Here, we are going to estimate instantaneous heartrate from a 20 minutes
-# recording and compare the output from different methods.
-plt.figure(figsize=(13, 5))
-for method in ['hamilton', 'christov', 'engelse-zeelenberg', 'pan-tompkins',
-               'wavelet-transform', 'moving-average']:
+# Heart Rate Variability
+# ----------------------
 
-    signal, peaks = ecg_peaks(segment, method=method, sfreq=2000)
-    hr, time = heart_rate(peaks)
-    plt.plot(time, hr, label=method)
+#%%
+# Event related cardiac deceleration
+# ----------------------------------
 
-plt.legend()
-plt.ylim(400, 1200)
-plt.xlim(600, 630)
+# Extract instantaneous heart rate
+heartrate, new_time = heart_rate(peaks, kind='cubic', unit='bpm')
+
+# Downsample the stim events channel
+# to fit with the new sampling frequency (1000 Hz)
+neutral, disgust = np.zeros(len(new_time)), np.zeros(len(new_time))
+
+disgust[
+    np.round(np.where(signal_df.stim.to_numpy() == 2)[0]).astype(int)] = 1
+neutral[
+    np.round(np.where(signal_df.stim.to_numpy() == 3)[0]).astype(int)] = 1
+
+# Event related plot
+sns.set_context('talk')
+fig, ax = plt.subplots(figsize=(8, 5))
+for cond, col, data in zip(
+        ['Neutral', 'Disgust'], [neutral, disgust],
+        [sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]]):
+
+    # Epoch intantaneous heart rate
+    # and downsample to 2 Hz to save memory
+    epochs = to_epochs(heartrate, data, tmin=0, tmax=11)[:, ::500]
+
+    # Plot
+    df = pd.DataFrame(epochs).melt()
+    df.variable /= 2
+    sns.lineplot(data=df, x='variable', y='value', ci=68, label=cond,
+                 color=col, ax=ax)
+
+ax.set_xlim(0, 10)
+ax.set_xlabel('Time (s)')
+ax.set_ylabel('Heart Rate (BPM)')
+ax.set_title('Instantaneous heart rate after neutral and disgusting images')
+sns.despine()
 
 
 #%%

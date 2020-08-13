@@ -19,7 +19,8 @@ INSTALL_REQUIRES = [
     'pandas>=0.24',
     'matplotlib>=3.0.2',
     'seaborn>=0.9.0',
-    'pyserial>=3.4'
+    'pyserial>=3.4',
+    'py-ecg-detectors==1.0.2'
 ]
 
 PACKAGES = [
