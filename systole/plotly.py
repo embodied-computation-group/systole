@@ -114,7 +114,7 @@ def plot_ectopic(rr=None, artefacts=None):
     import plotly_express as px
     import plotly.graph_objs as go
 
-    c1, c2, xlim, ylim = 0.13, 0.17, 10, 10
+    c1, c2, xlim, ylim = 0.13, 0.17, 10, 5
 
     if artefacts is None:
         if rr is None:
