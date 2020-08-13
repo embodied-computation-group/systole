@@ -12,7 +12,7 @@ from systole.utils import simulate_rr
 rr = simulate_rr()
 ppg = import_ppg()
 signal_df = pd.DataFrame({'time': np.arange(0, len(ppg[0]))/75,
-                          'signal': ppg[0]})
+                          'ppg': ppg[0]})
 
 
 class TestInteractive(TestCase):
@@ -20,10 +20,10 @@ class TestInteractive(TestCase):
     def test_plot_raw(self):
         """Test plot_raw function"""
         plot_raw(signal_df)
-        plot_raw(signal_df.signal.to_numpy())
+        plot_raw(signal_df.ppg.to_numpy())
         ecg_df = import_dataset()[:20*2000]
         plot_raw(ecg_df, type='ecg')
-        plot_raw(ecg_df.ecg.to_numpy(), type='ecg')
+        plot_raw(ecg_df.ecg.to_numpy(), type='ecg', sfreq=2000)
 
     def test_plot_shortLong(self):
         """Test plot_shortLong function"""

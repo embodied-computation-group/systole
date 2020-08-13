@@ -16,7 +16,7 @@ def plot_raw(signal, sfreq=75, type='ppg'):
     ----------
     signal : `pd.DataFrame` instance or 1d array-like
         Dataframe of signal recording in the long format. Should contain at
-        least the two following columns: ['time', 'signal']. If an array is
+        one 'time' and one signal colum (can be 'ppg' or 'ecg'). If an array is
         provided, will automatically create the DataFrame using th array as
         signal and *sfreq* as sampling frequency.
     sfreq : int
@@ -31,13 +31,13 @@ def plot_raw(signal, sfreq=75, type='ppg'):
     if isinstance(signal, pd.DataFrame):
         # Find peaks - Remove learning phase
         if type == 'ppg':
-            signal, peaks = oxi_peaks(signal.signal, noise_removal=False)
+            signal, peaks = oxi_peaks(signal.ppg, noise_removal=False)
         elif type == 'ecg':
-            signal, peaks = ecg_peaks(signal, method='hamilton', sfreq=sfreq,
+            signal, peaks = ecg_peaks(signal.ecg, method='hamilton',
                                       find_local=True)
     else:
         if type == 'ppg':
-            signal, peaks = oxi_peaks(signal, noise_removal=False)
+            signal, peaks = oxi_peaks(signal, noise_removal=False, sfreq=sfreq)
         elif type == 'ecg':
             signal, peaks = ecg_peaks(signal, method='hamilton', sfreq=sfreq,
                                       find_local=True)
