@@ -5,6 +5,7 @@ import pandas as pd
 from scipy.interpolate import interp1d
 from scipy.signal import find_peaks
 from ecgdetectors import Detectors
+from systole.utils import to_neighbour
 
 
 def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
@@ -98,7 +99,8 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
     return resampled_signal, peaks
 
 
-def ecg_peaks(x, sfreq=1000, new_sfreq=1000, method='pan-tompkins'):
+def ecg_peaks(x, sfreq=1000, new_sfreq=1000, method='pan-tompkins',
+              find_local=True, win_size=100):
     """A simple wrapper for many popular R peaks detectors algorithms.
 
     Parameters
@@ -111,11 +113,16 @@ def ecg_peaks(x, sfreq=1000, new_sfreq=1000, method='pan-tompkins'):
         The method used. Can be one of the following: 'hamilton', 'christov',
         'engelse-zeelenberg', 'pan-tompkins', 'wavelet-transform',
         'moving-average'.
+    find_local : bool
+        If *True*, will use peaks indexs to search for local peaks given the
+        window size (win_size).
+    win_size : int
+        Size of the time window used by :py:func:`systole.utils.to_neighbour()`
 
     Returns
     -------
     peaks : 1d array-like
-        Numpy array containing R peak timing, in sfreq.
+        Numpy array containing peaks index.
     resampled_signal : 1d array-like
         Signal resampled to the `new_sfreq` frequency.
 
@@ -168,6 +175,9 @@ def ecg_peaks(x, sfreq=1000, new_sfreq=1000, method='pan-tompkins'):
             'moving-average')
     peaks = np.zeros(len(resampled_signal), dtype=bool)
     peaks[peaks_idx] = True
+
+    if find_local is True:
+        peaks = to_neighbour(resampled_signal, peaks, size=win_size)
 
     return resampled_signal, peaks
 
