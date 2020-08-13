@@ -84,7 +84,7 @@ def heart_rate(x, sfreq=1000, unit='rr', kind='cubic'):
     Parameters
     ----------
     x : 1d array-like
-        Boolean vector of heartbeat detection.
+        Boolean vector of peaks detection.
     sfreq : int
         Sampling frequency.
     unit : str
@@ -365,6 +365,8 @@ def to_neighbour(signal, peaks, kind='max', size=50):
         Boolean vector of peaks position.
     kind : str
         Can be 'max' or 'min'.
+    size : int
+        Size of the time window used to find max/min (samples).
 
     Returns
     -------
@@ -385,3 +387,30 @@ def to_neighbour(signal, peaks, kind='max', size=50):
         new_peaks[pk+(x-size)] = True
 
     return new_peaks
+
+
+def to_rr(peaks, sfreq=1000):
+    """Convert peaks index to intervals time series (RR, beat-to-beat...).
+
+    Parameters
+    ----------
+    peaks : 1d array-like or list
+        Either a boolean array or sample index. Default is *boolean*. If the
+        input array does not only contain 0 or 1, will automatically try sample
+        index.
+    sfreq : int
+        The sampling frequency (default is 1000 Hz).
+
+    Returns
+    -------
+    rr : 1d array-like
+        Interval time series (in miliseconds).
+    """
+    if isinstance(peaks, list):
+        peaks = np.asarray(peaks)
+    if ((peaks == 1) | (peaks == 0)).all():
+        rr = (np.diff(np.where(peaks)[0])/sfreq) * 1000
+    else:
+        rr = (np.diff(peaks)/sfreq) * 1000
+
+    return rr

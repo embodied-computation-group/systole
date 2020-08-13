@@ -4,7 +4,7 @@ import pytest
 import unittest
 import numpy as np
 from systole.utils import norm_triggers, heart_rate, to_angles, to_epochs,\
-        time_shift, simulate_rr
+        time_shift, simulate_rr, to_rr
 from systole.detection import oxi_peaks
 from unittest import TestCase
 from systole import import_ppg, import_rr
@@ -81,6 +81,14 @@ class TestUtils(TestCase):
         rr = simulate_rr(artefacts=True)
         assert isinstance(rr, np.ndarray)
         assert len(rr) == 350
+
+    def test_to_rr(self):
+        ppg = import_ppg('1')[0, :]
+        signal, peaks = oxi_peaks(ppg)
+        rr = to_rr(peaks)
+        assert rr.mean() == 874.2068965517242
+        rr = to_rr(np.where(peaks)[0])
+        assert rr.mean() == 874.2068965517242
 
 
 if __name__ == '__main__':
