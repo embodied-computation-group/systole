@@ -37,11 +37,17 @@ class TestDetection(TestCase):
 
     def test_ecg_peaks(self):
         signal_df = import_dataset()[:20*2000]
-        for method in ['hamilton', 'christov', 'engelse-zeelenberg',
-                       'pan-tompkins', 'wavelet-transform', 'moving-average']:
+        signal, peaks = ecg_peaks(signal_df.ecg.to_numpy(), method='hamilton',
+                                  sfreq=2000, find_local=True)
+        for method in ['christov', 'engelse-zeelenberg', 'pan-tompkins',
+                       'wavelet-transform', 'moving-average']:
             signal, peaks = ecg_peaks(signal_df.ecg, method=method, sfreq=2000,
                                       find_local=True)
             assert not np.any(peaks > 1)
+
+        with self.assertRaises(ValueError):
+            signal, peaks = ecg_peaks(signal_df.ecg.to_numpy(), method='error',
+                                      sfreq=2000, find_local=True)
 
 
 if __name__ == '__main__':

@@ -6,7 +6,7 @@ import unittest
 from unittest import TestCase
 from systole.plotly import plot_raw, plot_shortLong, plot_ectopic, \
     plot_subspaces, plot_frequency, plot_nonlinear, plot_timedomain
-from systole import import_ppg
+from systole import import_ppg, import_dataset
 from systole.utils import simulate_rr
 
 rr = simulate_rr()
@@ -20,14 +20,20 @@ class TestInteractive(TestCase):
     def test_plot_raw(self):
         """Test plot_raw function"""
         plot_raw(signal_df)
+        plot_raw(signal_df.signal.to_numpy())
+        ecg_df = import_dataset()[:20*2000]
+        plot_raw(ecg_df, type='ecg')
+        plot_raw(ecg_df.ecg.to_numpy(), type='ecg')
 
     def test_plot_shortLong(self):
         """Test plot_shortLong function"""
         plot_shortLong(rr)
+        plot_shortLong(rr=None, artefacts=None)
 
     def test_plot_ectopic(self):
         """Test plot_ectopic function"""
         plot_ectopic(rr)
+        plot_ectopic(rr=None, artefacts=None)
 
     def test_plot_subspaces(self):
         """Test nnX function"""
