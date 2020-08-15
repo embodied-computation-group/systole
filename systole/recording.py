@@ -453,8 +453,8 @@ class BrainVisionExG():
         self.marker = {'position': 0, 'points': 0, 'channel': -1,
                        'type': "", 'description': ""}
 
-    # Helper function for receiving whole message
     def RecvData(self, requestedSize):
+        """Helper function for receiving whole message"""
         returnStream = b''
         while len(returnStream) < requestedSize:
             databytes = self.con.recv(requestedSize - len(returnStream))
@@ -464,9 +464,10 @@ class BrainVisionExG():
 
         return returnStream
 
-    # Helper function for splitting a raw array of
-    # zero terminated strings (C) into an array of python strings
     def SplitString(self, raw):
+        """Helper function for splitting a raw array of zero terminated
+        strings (C) into an array of python strings"""
+
         raw = raw.decode()
         stringlist = []
         s = ""
@@ -478,9 +479,9 @@ class BrainVisionExG():
                 s = ""
         return stringlist
 
-    # Helper function for extracting ExG properties from a raw data array
-    # read from tcpip socket
     def GetProperties(self, rawdata):
+        """Helper function for extracting ExG properties from a raw data array
+        read from tcpip socket"""
 
         # Extract numerical data
         (channelCount, samplingInterval) = unpack('<Ld', rawdata[:12])
@@ -497,9 +498,9 @@ class BrainVisionExG():
 
         return (channelCount, samplingInterval, resolutions, channelNames)
 
-    # Helper function for extracting eeg and marker data from a raw data array
-    # read from tcpip socket
     def GetData(self, rawdata, channelCount):
+        """Helper function for extracting eeg and marker data from a raw data
+        array read from tcpip socket"""
 
         # Extract numerical data
         (block, points, markerCount) = unpack('<LLL', rawdata[:12])

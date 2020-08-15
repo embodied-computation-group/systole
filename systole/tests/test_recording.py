@@ -5,7 +5,6 @@ import unittest
 import threading
 import matplotlib
 import socket
-from struct import pack
 import numpy as np
 from unittest import TestCase
 from systole import serialSim
