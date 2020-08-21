@@ -11,13 +11,13 @@ __all__ = ["import_ppg", "import_rr", "serialSim", "import_dataset"]
 # Simulate serial inputs from ppg recording
 # =========================================
 class serialSim():
-    """Simulate online data cquisition using pre recorded signal and realistic
-    recording duration.
+    """Simulate online data acquisition using pre recorded signal and realistic
+    sampling rate (75 Hz).
     """
 
     def __init__(self, id='1'):
         self.sfreq = 75
-        self.ppg = import_ppg()[0]
+        self.ppg = import_ppg().ppg.to_numpy()
         self.start = time.time()
 
     def inWaiting(self):
@@ -32,7 +32,7 @@ class serialSim():
     def read(self, length):
 
         if len(self.ppg) == 0:
-            self.ppg = import_ppg()[0]
+            self.ppg = import_ppg().ppg.to_numpy()
 
         # Read 1rst item of ppg signal
         rec = self.ppg[:1]
@@ -48,22 +48,18 @@ class serialSim():
         print('Reset input buffer')
 
 
-def import_ppg(id='1'):
-    """Import PPG recording.
-
-    Parameters
-    ----------
-    id : int
-        Signal number (1 or 2).
+def import_ppg():
+    """Import a 5 minutes long PPG recording.
 
     Returns
     -------
-    signal : array
-        1d array containing the PPG signal.
+    df : :py:class:`pandas.DataFrame`
+        Dataframe containing the PPG signale.
     """
-    signal = np.load(op.join(ddir, 'ppg' + id + '.npy'))
+    df = pd.DataFrame({'ppg': np.load(op.join(ddir, 'ppg.npy'))})
+    df['time'] = np.arange(0, len(df))/75
 
-    return signal
+    return df
 
 
 def import_rr():
@@ -71,7 +67,7 @@ def import_rr():
 
     Returns
     -------
-    rr : pandas DataFrame
+    rr : :py:class:`pandas.DataFrame`
         Dataframe containing the RR time-serie.
     """
     rr = pd.read_csv(op.join(ddir, 'rr.txt'))
@@ -84,7 +80,7 @@ def import_dataset():
 
     Returns
     -------
-    df : pandas DataFrame
+    df : :py:class:`pandas.DataFrame`
         Dataframe containing the RR time-serie.
 
     Notes

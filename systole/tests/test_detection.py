@@ -13,27 +13,27 @@ class TestDetection(TestCase):
 
     def test_oxi_peaks(self):
         """Test oxi_peaks function"""
-        ppg = import_ppg('1')[0, :]  # Import PPG recording
-        signal, peaks = oxi_peaks(ppg)
+        df = import_ppg()  # Import PPG recording
+        signal, peaks = oxi_peaks(df.ppg.to_numpy())
         assert len(signal) == len(peaks)
         assert np.all(np.unique(peaks) == [0, 1])
 
     def test_rr_artefacts(self):
-        rr = simulate_rr()  # Import PPG recording
+        rr = simulate_rr()  # Simulate RR time series
         artefacts = rr_artefacts(rr)
         artefacts = rr_artefacts(list(rr))
         assert all(
             350 == x for x in [len(artefacts[k]) for k in artefacts.keys()])
 
     def test_interpolate_clipping(self):
-        ppg = import_ppg('1')[0]
-        clean_signal = interpolate_clipping(ppg)
+        df = import_ppg()
+        clean_signal = interpolate_clipping(df.ppg.to_numpy())
         assert clean_signal.mean().round() == 100
-        clean_signal = interpolate_clipping(list(ppg))
+        clean_signal = interpolate_clipping(list(df.ppg.to_numpy()))
         assert clean_signal.mean().round() == 100
-        clean_signal = interpolate_clipping(ppg)
-        ppg[0], ppg[-1] = 255, 255
-        clean_signal = interpolate_clipping(ppg)
+        clean_signal = interpolate_clipping(df.ppg.to_numpy())
+        df.ppg.iloc[0], df.ppg.iloc[-1] = 255, 255
+        clean_signal = interpolate_clipping(df.ppg.to_numpy())
 
     def test_ecg_peaks(self):
         signal_df = import_dataset()[:20*2000]

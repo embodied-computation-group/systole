@@ -4,10 +4,7 @@ include LICENSE
 include requirements.txt
 
 # Add datasets files
-include systole/datasets/ppg1.npy
-include systole/datasets/ppg2.npy
-include systole/datasets/ppg3.npy
-include systole/datasets/ppgNoisy1.npy
+include systole/datasets/ppg.npy
 include systole/datasets/rr.txt
 include systole/datasets/Task1_ECG.npy
 include systole/datasets/Task1_EDA.npy

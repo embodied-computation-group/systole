@@ -18,14 +18,14 @@ oxi = Oximeter(serial=serial, add_channels=1).setup().read(10)
 oxi.channels['Channel_0'][100] = 1
 
 # Simulate oximeter instance from recorded signal
-ppg = import_ppg()
+ppg = import_ppg().ppg.to_numpy()
 oxi = Oximeter(serial=None, add_channels=1)
 oxi.threshold = [0] * 75
 oxi.peaks = [0] * 75
 oxi.instant_rr = [0] * 75
-oxi.recording = list(ppg[0, :75])
-for i in range(len(ppg[0, 75:750])):
-    oxi.add_paquet(ppg[0, 75+i])
+oxi.recording = list(ppg[:75])
+for i in range(len(ppg[75:750])):
+    oxi.add_paquet(ppg[75+i])
 oxi.channels['Channel_0'] = np.zeros(750, dtype=int)
 oxi.channels['Channel_0'][np.random.choice(np.arange(0, 750), 5)] = 1
 oxi.times = list(np.arange(0, 10, 1/75))
@@ -55,7 +55,7 @@ class TestPlotting(TestCase):
 
     def test_plot_oximeter(self):
         ax = plot_oximeter(oxi)
-        ax = plot_oximeter(ppg[0, 75:])
+        ax = plot_oximeter(ppg[75:])
         assert isinstance(ax, matplotlib.axes.Axes)
 
     def test_plot_subspaces(self):

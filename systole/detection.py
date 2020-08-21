@@ -42,6 +42,14 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
 
     .. warning :: This function will resample the signal to 1000 Hz.
 
+    Examples
+    --------
+    >>> from systole import import_ppg
+    >>> from systole.detection import oxi_peaks
+    >>> df = import_ppg()  # Import PPG recording
+    >>> signal, peaks = oxi_peaks(df.ppg.to_numpy())
+    >>> print(f'{sum(peaks)} peaks detected.')
+
     References
     ----------
     Some of the processing steps were adapted from the HeartPy toolbox [1]:
@@ -132,6 +140,15 @@ def ecg_peaks(x, sfreq=1000, new_sfreq=1000, method='pan-tompkins',
     detection.
 
     .. warning :: This function will resample the signal to 1000 Hz.
+
+    Examples
+    --------
+    >>> from systole import import_dataset
+    >>> from systole.detection import ecg_peaks
+    >>> signal_df = import_dataset()[:20*2000]
+    >>> signal, peaks = ecg_peaks(signal_df.ecg.to_numpy(), method='hamilton',
+    >>>                           sfreq=2000, find_local=True)
+    >>> print(f'{sum(peaks)} peaks detected.')
 
     References
     ----------
@@ -232,6 +249,14 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
     -----
     This function will use the method proposed by Lipponen & Tarvainen (2019)
     to detect ectopic beats, long, shorts, missed and extra RR intervals.
+
+    Examples
+    --------
+    >>> from systole import simulate_rr
+    >>> from systole.detection import rr_artefacts
+    >>> rr = simulate_rr()  # Simulate RR time series
+    >>> artefacts = rr_artefacts(rr)
+    >>> print(artefacts.keys())
 
     References
     ----------
@@ -357,6 +382,21 @@ def interpolate_clipping(signal, threshold=255):
     -------
     clean_signal : 1d array-like
         Interpolated signal.
+
+    Examples
+    --------
+    .. plot::
+       >>> import matplotlib.pyplot as plt
+       >>> from systole import import_ppg
+       >>> from systole.detection import interpolate_clipping
+       >>> df = import_ppg()
+       >>> clean_signal = interpolate_clipping(df.ppg.to_numpy(),
+       >>>                                     threshold=255)
+       >>> plt.plot(df.time, clean_signal, color='#F15854')
+       >>> plt.plot(df.time, ppg, color='#5DA5DA')
+       >>> plt.axhline(y=255, linestyle='--', color='k')
+       >>> plt.xlabel('Time (s)')
+       >>> plt.ylabel('PPG level (a.u)')
 
     Notes
     -----

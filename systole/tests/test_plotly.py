@@ -10,9 +10,9 @@ from systole import import_ppg, import_dataset
 from systole.utils import simulate_rr
 
 rr = simulate_rr()
-ppg = import_ppg()
-signal_df = pd.DataFrame({'time': np.arange(0, len(ppg[0]))/75,
-                          'ppg': ppg[0]})
+ppg = import_ppg().ppg.to_numpy()
+signal_df = pd.DataFrame({'time': np.arange(0, len(ppg))/75,
+                          'ppg': ppg})
 
 
 class TestInteractive(TestCase):

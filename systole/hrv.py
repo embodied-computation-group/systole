@@ -104,7 +104,7 @@ def time_domain(x):
 
     Returns
     -------
-    stats : Pandas DataFrame
+    stats : :py:class:`pandas.DataFrame`
         Time domain summary statistics:
 
         'Mean RR' : Mean of R-R intervals.
@@ -192,7 +192,7 @@ def frequency_domain(x, sfreq=5, method='welch', fbands=None):
 
     Returns
     -------
-    stats : pandas DataFrame
+    stats : :py:class:`pandas.DataFrame`
         DataFrame of HRV parameters (frequency domain)
     """
     # Interpolate R-R interval
@@ -271,7 +271,7 @@ def nonlinear(x):
 
     Returns
     -------
-    stats : pandas DataFrame
+    stats : :py:class:`pandas.DataFrame`
         DataFrame of HRV parameters (frequency domain)
     """
 
