@@ -88,8 +88,6 @@ class TestRecording(TestCase):
             'EGG1', 'EGG2', 'EGG3', 'EGG4', 'EGG5', 'EGG6', 'RESP', 'PLETH']
         assert all([data[k].shape[0] == 20 for k in list(data.keys())])
 
-        recorder.close()
-
         # Ensure server thread ends
         server_thread.join()
 
