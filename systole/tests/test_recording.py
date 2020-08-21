@@ -73,7 +73,6 @@ class TestRecording(TestCase):
                 conn.send(data2)
                 conn.send(data3)
                 conn.send(data4)
-            server.close()
 
         # Start fake server in background thread
         server_thread = threading.Thread(target=simulateEXG)
@@ -86,9 +85,6 @@ class TestRecording(TestCase):
         assert list(data.keys()) == [
             'EGG1', 'EGG2', 'EGG3', 'EGG4', 'EGG5', 'EGG6', 'RESP', 'PLETH']
         assert all([data[k].shape[0] == 20 for k in list(data.keys())])
-
-        # Ensure server ends
-        server_thread.join()
 
 
 if __name__ == '__main__':

@@ -568,7 +568,7 @@ class BrainVisionExG():
                 self.lastBlock = -1
 
                 print("Reading TCP/IP connection (" +
-                      str(channelCount) + "channels found). "
+                      str(channelCount) + " channels found). "
                       + str(resolutions) + " Hz. "
                       + str(samplingInterval) + " samples. "
                       + str(channelNames))

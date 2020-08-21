@@ -52,10 +52,10 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
 
     References
     ----------
-    Some of the processing steps were adapted from the HeartPy toolbox [1]:
+    Some of the processing steps were adapted from the HeartPy toolbox:
     https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/index.html
 
-    ..[1] van Gent, P., Farah, H., van Nes, N. and van Arem, B., 2019.
+    .. [1] van Gent, P., Farah, H., van Nes, N. and van Arem, B., 2019.
     Analysing Noisy Driver Physiology Real-Time Using Off-the-Shelf Sensors:
     Heart Rate Analysis Software from the Taking the Fast Lane Project. Journal
     of Open Research Software, 7(1), p.32. DOI: http://doi.org/10.5334/jors.241
@@ -111,6 +111,8 @@ def ecg_peaks(x, sfreq=1000, new_sfreq=1000, method='pan-tompkins',
               find_local=True, win_size=100):
     """A simple wrapper for many popular R peaks detectors algorithms.
 
+    This function calls methods from the py-ecg-detectors [#]_ module.
+
     Parameters
     ----------
     x : list or 1d array-like
@@ -152,10 +154,7 @@ def ecg_peaks(x, sfreq=1000, new_sfreq=1000, method='pan-tompkins',
 
     References
     ----------
-    Some of the processing steps were adapted from the HeartPy toolbox [1]:
-    https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/index.html
-
-    ..[1] Howell, L., Porr, B. Popular ECG R peak detectors written in
+    .. [#] Howell, L., Porr, B. Popular ECG R peak detectors written in
     python. DOI: 10.5281/zenodo.3353396
     """
     if isinstance(x, list):
@@ -247,8 +246,8 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
 
     Notes
     -----
-    This function will use the method proposed by Lipponen & Tarvainen (2019)
-    to detect ectopic beats, long, shorts, missed and extra RR intervals.
+    This function will use the method proposed by [#]_ to detect ectopic beats,
+    long, shorts, missed and extra RR intervals.
 
     Examples
     --------
@@ -260,7 +259,7 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
 
     References
     ----------
-    .. [1] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
+    .. [#] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
         heart rate variability time series artefact correction using novel
         beat classification. Journal of Medical Engineering & Technology,
         43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306
@@ -369,7 +368,10 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
 
 
 def interpolate_clipping(signal, threshold=255):
-    """Interoplate clipping segment.
+    """Interoplate clipping artefacts.
+
+    This function removes all data points equalling the provided threshold
+    and re-creates the missing segments using cubic spline interpolation.
 
     Parameters
     ----------
@@ -405,7 +407,7 @@ def interpolate_clipping(signal, threshold=255):
 
     .. Warning:: If clipping artefact is found at the edge of the signal, this
         function will decrement the first/last value to allow interpolation,
-        which can lead to incorrect estimation.
+        which can result in incorrect estimation.
 
     References
     ----------
