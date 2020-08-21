@@ -69,11 +69,10 @@ class TestRecording(TestCase):
             server.listen(0)
             conn, addr = server.accept()
             with conn:
-                while True:
-                    conn.send(data1)
-                    conn.send(data2)
-                    conn.send(data3)
-                    conn.send(data4)
+                conn.send(data1)
+                conn.send(data2)
+                conn.send(data3)
+                conn.send(data4)
             server.close()
 
         # Start fake server in background thread
@@ -88,7 +87,7 @@ class TestRecording(TestCase):
             'EGG1', 'EGG2', 'EGG3', 'EGG4', 'EGG5', 'EGG6', 'RESP', 'PLETH']
         assert all([data[k].shape[0] == 20 for k in list(data.keys())])
 
-        # Ensure server thread ends
+        # Ensure server ends
         server_thread.join()
 
 
