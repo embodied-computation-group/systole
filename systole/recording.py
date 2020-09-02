@@ -421,10 +421,10 @@ class BrainVisionExG():
     `exg` dictionnary.
 
     .. warning:: The signals received fom the host are appened to a list. This
-    process can require more time at each iteration as the signal length
-    increase in memory. You should alway make sure that this will not interfer
-    with other task and regularly save intermediate recording to save
-    resources.
+       process can require more time at each iteration as the signal length
+       increase in memory. You should alway make sure that this will not
+       interfer with other task and regularly save intermediate recording to
+       save resources.
 
     Notes
     -----
@@ -432,6 +432,7 @@ class BrainVisionExG():
     Brain Products on the following link:
         https://www.brainproducts.com/downloads.php?kid=2
     """
+
     def __init__(self, ip, sfreq, port=51244):
 
         self.ip = ip

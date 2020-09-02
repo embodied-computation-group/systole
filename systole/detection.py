@@ -49,17 +49,16 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
     >>> df = import_ppg()  # Import PPG recording
     >>> signal, peaks = oxi_peaks(df.ppg.to_numpy())
     >>> print(f'{sum(peaks)} peaks detected.')
+    378 peaks detected.
 
     References
     ----------
-    Some of the processing steps were adapted from the HeartPy toolbox:
-    https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/index.html
-
     .. [1] van Gent, P., Farah, H., van Nes, N. and van Arem, B., 2019.
     Analysing Noisy Driver Physiology Real-Time Using Off-the-Shelf Sensors:
     Heart Rate Analysis Software from the Taking the Fast Lane Project. Journal
     of Open Research Software, 7(1), p.32. DOI: http://doi.org/10.5334/jors.241
     """
+
     if isinstance(x, list):
         x = np.asarray(x)
 
@@ -151,12 +150,14 @@ def ecg_peaks(x, sfreq=1000, new_sfreq=1000, method='pan-tompkins',
     >>> signal, peaks = ecg_peaks(signal_df.ecg.to_numpy(), method='hamilton',
     >>>                           sfreq=2000, find_local=True)
     >>> print(f'{sum(peaks)} peaks detected.')
+    24 peaks detected.
 
     References
     ----------
     .. [#] Howell, L., Porr, B. Popular ECG R peak detectors written in
     python. DOI: 10.5281/zenodo.3353396
     """
+
     if isinstance(x, list):
         x = np.asarray(x)
 
@@ -256,6 +257,8 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
     >>> rr = simulate_rr()  # Simulate RR time series
     >>> artefacts = rr_artefacts(rr)
     >>> print(artefacts.keys())
+    dict_keys(['subspace1', 'subspace2', 'subspace3', 'mRR', 'ectopic', 'long',
+    'short', 'missed', 'extra', 'threshold1', 'threshold2'])
 
     References
     ----------
@@ -388,14 +391,14 @@ def interpolate_clipping(signal, threshold=255):
     Examples
     --------
     .. plot::
+
        >>> import matplotlib.pyplot as plt
        >>> from systole import import_ppg
        >>> from systole.detection import interpolate_clipping
        >>> df = import_ppg()
-       >>> clean_signal = interpolate_clipping(df.ppg.to_numpy(),
-       >>>                                     threshold=255)
+       >>> clean_signal = interpolate_clipping(df.ppg.to_numpy())
        >>> plt.plot(df.time, clean_signal, color='#F15854')
-       >>> plt.plot(df.time, ppg, color='#5DA5DA')
+       >>> plt.plot(df.time, df.ppg, color='#5DA5DA')
        >>> plt.axhline(y=255, linestyle='--', color='k')
        >>> plt.xlabel('Time (s)')
        >>> plt.ylabel('PPG level (a.u)')

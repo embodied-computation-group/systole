@@ -12,7 +12,7 @@ def nnX(x, t=50):
     Parameters
     ----------
     x : array like
-        Length of R-R intervals (in miliseconds).
+        Interval time-series (R-R, beat-to-beat...), in miliseconds.
     t : int
         Threshold value: Defaut is set to 50 ms to calculate the nn50 index.
 
@@ -37,7 +37,7 @@ def pnnX(x, t=50):
     Parameters
     ----------
     x : array like
-        Length of R-R intervals (in miliseconds).
+        Interval time-series (R-R, beat-to-beat...), in miliseconds.
     t : int
         Threshold value: Defaut is set to 50 ms to calculate the nn50 index.
 
@@ -66,7 +66,7 @@ def rmssd(x):
     Parameters
     ----------
     x : array like
-        Length of R-R intervals (in miliseconds).
+        Interval time-series (R-R, beat-to-beat...), in miliseconds.
 
     Returns
     -------
@@ -99,26 +99,38 @@ def time_domain(x):
 
     Parameters
     ----------
-    x : array-like
-        Length of R-R intervals (in miliseconds).
+    x : 1d array-like
+        Interval time-series (R-R, beat-to-beat...), in miliseconds.
 
     Returns
     -------
     stats : :py:class:`pandas.DataFrame`
-        Time domain summary statistics:
+        Time domain summary statistics.
+        * ``'Mean RR'`` : Mean of R-R intervals.
+        * ``'Mean BPM'`` : Mean of beats per minutes.
+        * ``'Median RR'`` : Median of R-R intervals'.
+        * ``'Median BPM'`` : Meidan of beats per minutes.
+        * ``'MinRR'`` : Minimum R-R intervals.
+        * ``'MinBPM'`` : Minimum beats per minutes.
+        * ``'MaxRR'`` : Maximum R-R intervals.
+        * ``'MaxBPM'`` : Maximum beats per minutes.
+        * ``'SDNN'`` : Standard deviation of successive differences.
+        * ``'RMSSD'`` : Root Mean Square of the Successive Differences.
+        * ``'NN50'`` : number of successive differences larger than 50ms.
+        * ``'pNN50'`` : Proportion of successive difference larger than 50ms.
 
-        'Mean RR' : Mean of R-R intervals.
-        'Mean BPM' : Mean of beats per minutes.
-        'Median RR : Median of R-R intervals'.
-        'Median BPM' : Meidan of beats per minutes.
-        'MinRR' : Minimum R-R intervals.
-        'MinBPM' : Minimum beats per minutes.
-        'MaxRR' : Maximum R-R intervals.
-        'MaxBPM' : Maximum beats per minutes.
-        'SDNN' : Standard deviation of successive differences.
-        'RMSSD' : Root Mean Square of the Successive Differences.
-        'NN50' : number of successive differences larger than 50ms.
-        'pNN50' : Proportion of successive difference larger than 50ms.
+    See also
+    --------
+    frequency_domain, nonlinear
+
+    Notes
+    -----
+    The dataframe containing the summary statistics is returned in the long
+    format to facilitate the creation of group summary data frame that can
+    easily be transferred to other plotting or statistics library. You can
+    easily convert it into a wide format for a subject-level inline report
+    using the py:pandas.pivot_table() function:
+    >>> pd.pivot_table(stats, values='Values', columns='Metric')
     """
     if isinstance(x, list):
         x = np.asarray(x)
@@ -178,22 +190,40 @@ def frequency_domain(x, sfreq=5, method='welch', fbands=None):
     Parameters
     ----------
     x : list or 1d array-like
-        Length of R-R intervals (in miliseconds).
+        Interval time-series (R-R, beat-to-beat...), in miliseconds.
     sfreq : int
-        The sampling frequency.
+        The sampling frequency (Hz).
     method : str
-        The method used to extract freauency power. Default set to `'welch'`.
+        The method used to extract freauency power. Default is ``'welch'``.
     fbands : None | dict, optional
         Dictionary containing the names of the frequency bands of interest
         (str), their range (tuples) and their color in the PSD plot. Default is
-        {'vlf': ['Very low frequency', (0.003, 0.04), 'b'],
-        'lf': ['Low frequency', (0.04, 0.15), 'g'],
-        'hf': ['High frequency', (0.15, 0.4), 'r']}
+        >>> {'vlf': ['Very low frequency', (0.003, 0.04), 'b'],
+        >>> 'lf': ['Low frequency', (0.04, 0.15), 'g'],
+        >>> 'hf': ['High frequency', (0.15, 0.4), 'r']}
 
     Returns
     -------
     stats : :py:class:`pandas.DataFrame`
-        DataFrame of HRV parameters (frequency domain)
+        Frequency domain summary statistics.
+        * ``'power_vlf_per'`` : Very low frequency power (%).
+        * ``'power_lf_per'`` : Low frequency power (%).
+        * ``'power_hf_per'`` : High frequency power (%).
+        * ``'power_lf_nu'`` : Low frequency power (normalized units).
+        * ``'power_hf_nu'`` : High frequency power (normalized units).
+
+    See also
+    --------
+    time_domain, nonlinear
+
+    Notes
+    -----
+    The dataframe containing the summary statistics is returned in the long
+    format to facilitate the creation of group summary data frame that can
+    easily be transferred to other plotting or statistics library. You can
+    easily convert it into a wide format for a subject-level inline report
+    using the py:pandas.pivot_table() function:
+    >>> pd.pivot_table(stats, values='Values', columns='Metric')
     """
     # Interpolate R-R interval
     time = np.cumsum(x)
@@ -262,17 +292,32 @@ def frequency_domain(x, sfreq=5, method='welch', fbands=None):
 
 
 def nonlinear(x):
-    """Extract the frequency domain features of heart rate variability.
+    """Extract the non-linear features of heart rate variability.
 
     Parameters
     ----------
     x : list or numpy array
-        Length of R-R intervals (in miliseconds).
+        Interval time-series (R-R, beat-to-beat...), in miliseconds.
 
     Returns
     -------
     stats : :py:class:`pandas.DataFrame`
-        DataFrame of HRV parameters (frequency domain)
+        Non-linear domain summary statistics.
+        * ``'SD1'`` : SD1.
+        * ``'SD2'`` : SD2.
+
+    See also
+    --------
+    time_domain, frequency_domain
+
+    Notes
+    -----
+    The dataframe containing the summary statistics is returned in the long
+    format to facilitate the creation of group summary data frame that can
+    easily be transferred to other plotting or statistics library. You can
+    easily convert it into a wide format for a subject-level inline report
+    using the py:pandas.pivot_table() function:
+    >>> pd.pivot_table(stats, values='Values', columns='Metric')
     """
 
     diff_rr = np.diff(x)

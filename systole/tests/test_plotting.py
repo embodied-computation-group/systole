@@ -6,7 +6,6 @@ import unittest
 import pytest
 import matplotlib
 from unittest import TestCase
-
 from systole.plotting import plot_hr, plot_events, plot_oximeter,\
     plot_subspaces, circular, plot_circular, plot_psd
 from systole import import_ppg, import_rr, serialSim

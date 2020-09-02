@@ -14,15 +14,16 @@ def plot_raw(signal, sfreq=75, type='ppg'):
 
     Parameters
     ----------
-    signal : `pd.DataFrame` instance or 1d array-like
+    signal : :py:class:`pandas.DataFrame` or 1d array-like
         Dataframe of signal recording in the long format. Should contain at
-        one 'time' and one signal colum (can be 'ppg' or 'ecg'). If an array is
-        provided, will automatically create the DataFrame using th array as
-        signal and *sfreq* as sampling frequency.
+        least one ``'time'`` and one signal colum (can be ``'ppg'`` or
+        ``'ecg'``). If an array is provided, will automatically create the
+        DataFrame using the array as signal and ``sfreq`` as sampling
+        frequency.
     sfreq : int
         Signal sampling frequency. Default is 75 Hz.
     type : str
-        The recording modality. Can be 'ppg' (pulse oximeter) or 'ecg'
+        The recording modality. Can be ``'ppg'`` (pulse oximeter) or ``'ecg'``
         (electrocardiography).
     """
     import plotly.graph_objs as go
@@ -97,9 +98,10 @@ def plot_ectopic(rr=None, artefacts=None):
     Parameters
     ----------
     rr : 1d array-like or None
-        The RR time serie.
+        Interval time-series (R-R, beat-to-beat...), in miliseconds.
     artefacts : dict or None
-        The artefacts detected using *systole.detection.rr_artefacts()*.
+        The artefacts detected using
+        :py:func:`systole.detection.rr_artefacts()`.
 
     Returns
     -------
@@ -227,9 +229,10 @@ def plot_shortLong(rr=None, artefacts=None):
     Parameters
     ----------
     rr : 1d array-like or None
-        The RR time serie.
+        Interval time-series (R-R, beat-to-beat...), in miliseconds.
     artefacts : dict or None
-        The artefacts detected using *systole.detection.rr_artefacts()*.
+        The artefacts detected using
+        :py:func:`systole.detection.rr_artefacts()`.
 
     Returns
     -------
@@ -238,7 +241,7 @@ def plot_shortLong(rr=None, artefacts=None):
 
     Notes
     -----
-    If both *rr* or *artefacts* are provided, will recompute *artefacts*
+    If both ``rr`` or ``artefacts`` are provided, will recompute ``artefacts``
     given the current rr time-series.
     """
     import plotly_express as px
@@ -350,12 +353,12 @@ def plot_shortLong(rr=None, artefacts=None):
 
 
 def plot_subspaces(rr):
-    """Plot hrv subspace as described by Lipponen & Tarvainen (2019).
+    """Plot hrv subspace as described by Lipponen & Tarvainen (2019) [#]_.
 
     Parameters
     ----------
     rr : 1d array-like
-        The dataframe containing the recording.
+        Interval time-series (R-R, beat-to-beat...), in miliseconds.
 
     Returns
     -------
@@ -364,7 +367,7 @@ def plot_subspaces(rr):
 
     References
     ----------
-    [1] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
+    ..[#] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
         heart rate variability time series artefact correction using novel beat
         classification. Journal of Medical Engineering & Technology, 43(3),
         173–181. https://doi.org/10.1080/03091902.2019.1640306
@@ -407,7 +410,12 @@ def plot_frequency(rr):
     Parameters
     ----------
     rr : 1d array-like
-        Time series of R-R intervals.
+        Interval time-series (R-R, beat-to-beat...), in miliseconds.
+
+    Returns
+    -------
+    fig : `go.Figure`
+        The figure.
     """
     import plotly.graph_objs as go
     from plotly.subplots import make_subplots
@@ -482,7 +490,12 @@ def plot_nonlinear(rr):
     Parameters
     ----------
     rr : 1d array-like
-        Time sere of R-R intervals.
+        Interval time-series (R-R, beat-to-beat...), in miliseconds.
+
+    Returns
+    -------
+    fig : `go.Figure`
+        The figure.
     """
     import plotly.graph_objs as go
     from plotly.subplots import make_subplots
@@ -540,7 +553,12 @@ def plot_timedomain(rr):
     Parameters
     ----------
     rr : 1d array-like
-        Time sere of R-R intervals.
+        Interval time-series (R-R, beat-to-beat...), in miliseconds.
+
+    Returns
+    -------
+    fig : `go.Figure`
+        The figure.
     """
     import plotly.graph_objs as go
     from plotly.subplots import make_subplots

@@ -43,92 +43,25 @@ The following packages are required to use Systole:
 * Pandas (>=0.24)
 * Matplotlib (>=3.0.2)
 * Seaborn (>=0.9.0)
+* py-ecg-detectors (>=1.0.2)
+
+Interactive plotting functions and reports generation will also require the following packages to be installed:
+
+* plotly (>=4.8.0)
+* plotly_express (>=0.4.1)
+
+For an overview of all the recording functionalities, you can refer to the following tutorials:
+
+* Recording
+* Artefacts detection and artefacts correction
+* Heart rate variability
 
 Recording
 =========
 
-Systole natively supports the recording of PPG signals through the `Nonin 3012LP Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_.
-It can easily interface with `PsychoPy <https://www.psychopy.org/>`_ to record PPG signal during psychological experiments, and to synchronize stimulus deliver to e.g., systole or diastole.
-
-For example, you can record and plot data in less than 6 lines of code:
-
-.. code-block:: python
-
-  import serial
-  from systole.recording import Oximeter
-  ser = serial.Serial('COM4')  # Add your USB port here
-
-  # Open serial port, initialize and plot recording for Oximeter
-  oxi = Oximeter(serial=ser).setup().read(duration=10)
-
-
-Interfacing with PsychoPy
--------------------------
-
-The ``Oximeter`` class can be used together with a stimulus presentation software to record cardiac activity during psychological experiments.
-
-* The ``read()`` method
-
-will record for a predefined amount of time (specified by the ``duration`` parameter, in seconds). This 'serial mode' is the easiest and most robust method, but it does not allow the execution of other instructions in the meantime.
-
-.. code-block:: python
-
-  # Code 1 {}
-  oximeter.read(duration=10)
-  # Code 2 {}
-
-* The ``readInWaiting()`` method
-
-will only read the bytes temporally stored in the USB buffer. For the Nonin device, this represents up to 10 seconds of recording (this procedure should be executed at least one time every 10 seconds for a continuous recording). When inserted into a while loop, it can record PPG signal in parallel with other commands.
-
-.. code-block:: python
-
-  import time
-  tstart = time.time()
-  while time.time() - tstart < 10:
-      oximeter.readInWaiting()
-      # Insert code here {...}
-
-Online detection
-----------------
-
-Online heart beat detection, for cardiac-stimulus synchrony:
-
-.. code-block:: python
-
-  import serial
-  import time
-  from systole.recording import Oximeter
-
-  # Open serial port
-  ser = serial.Serial('COM4')  # Change this value according to your setup
-
-  # Create an Oxymeter instance and initialize recording
-  oxi = Oximeter(serial=ser, sfreq=75, add_channels=4).setup()
-
-  # Online peak detection for 10 seconds
-  tstart = time.time()
-  while time.time() - tstart < 10:
-      while oxi.serial.inWaiting() >= 5:
-          paquet = list(oxi.serial.read(5))
-          oxi.add_paquet(paquet[2])  # Add new data point
-          if oxi.peaks[-1] == 1:
-            print('Heartbeat detected')
-
-Peaks detection
-===============
-
-Heartbeats can be detected in the PPG signal either online or offline.
-
-Methods from clipping correction and peak detection algorithm is adapted from [#]_.
-
-.. code-block:: python
-
-  # Plot data
-  oxi.plot_oximeter()
-
-.. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/recording.png
-   :align:   center
+Systole natively supports recording of physiological signals from the following setups:
+* `Nonin 3012LP Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_ (USB).
+* Remote Data Access (RDA) via BrainVision Recorder together with Brain product ExG amplifier `<https://www.brainproducts.com/>`_ (Ethernet).
 
 Artefact correction
 ===================

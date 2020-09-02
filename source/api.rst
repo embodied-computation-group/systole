@@ -17,6 +17,7 @@ Detection
  :toctree: generated/
 
   oxi_peaks
+  ecg_peaks
   rr_artefacts
   interpolate_clipping
 
@@ -72,6 +73,7 @@ Recording
   :toctree: generated/
 
    recording.Oximeter
+   recording.BrainVisionExG
 
 Utils
 -----
@@ -86,3 +88,4 @@ Utils
   heart_rate
   to_angles
   to_epochs
+  to_rr
