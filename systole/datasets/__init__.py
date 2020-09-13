@@ -15,7 +15,7 @@ class serialSim():
     sampling rate (75 Hz).
     """
 
-    def __init__(self, id='1'):
+    def __init__(self):
         self.sfreq = 75
         self.ppg = import_ppg().ppg.to_numpy()
         self.start = time.time()
@@ -29,7 +29,7 @@ class serialSim():
 
         return lenInWating
 
-    def read(self, length):
+    def read(self, lenght):
 
         if len(self.ppg) == 0:
             self.ppg = import_ppg().ppg.to_numpy()
