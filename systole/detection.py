@@ -22,9 +22,11 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
         Window size (in seconds) used to compute the threshold.
     new_sfreq : int
         If resample is *True*, the new sampling frequency.
-    resample : bool
-        If *True* (defaults), will resample the signal at *new_sfreq*. Default
+    resample : boolean
+        If `True` (default), will resample the signal at *new_sfreq*. Default
         value is 1000 Hz.
+    peak_enhancement : boolean
+        If `True` (default), the ppg signal is squared before peaks detection.
 
     Returns
     -------
@@ -37,10 +39,11 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
     -----
     This algorithm use a simple rolling average to detect peaks. The signal is
     first resampled and a rolling average is applyed to correct high frequency
-    noise and clipping. The signal is then squared and detection of peaks is
-    performed using threshold set by the moving averagte + stadard deviation.
+    noise and clipping, using method detailled in [1]_. The signal is then
+    squared and detection of peaks is performed using threshold corresponding
+    to the moving averagte + stadard deviation.
 
-    .. warning :: This function will resample the signal to 1000 Hz.
+    .. warning :: This function will resample the signal to 1000 Hz by default.
 
     Examples
     --------
@@ -58,7 +61,6 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
     Heart Rate Analysis Software from the Taking the Fast Lane Project. Journal
     of Open Research Software, 7(1), p.32. DOI: http://doi.org/10.5334/jors.241
     """
-
     if isinstance(x, list):
         x = np.asarray(x)
 
@@ -78,7 +80,7 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
 
     if noise_removal is True:
         # Moving average (high frequency noise + clipping)
-        rollingNoise = int(new_sfreq*.05)  # 0.5 second window
+        rollingNoise = int(new_sfreq*.05)  # 0.05 second window
         x = pd.DataFrame(
             {'signal': x}).rolling(rollingNoise,
                                    center=True).mean().signal.to_numpy()
@@ -110,7 +112,7 @@ def ecg_peaks(x, sfreq=1000, new_sfreq=1000, method='pan-tompkins',
               find_local=True, win_size=100):
     """A simple wrapper for many popular R peaks detectors algorithms.
 
-    This function calls methods from the py-ecg-detectors [#]_ module.
+    This function calls methods from `py-ecg-detectors` [1]_.
 
     Parameters
     ----------
@@ -119,9 +121,9 @@ def ecg_peaks(x, sfreq=1000, new_sfreq=1000, method='pan-tompkins',
     sfreq : int
         The sampling frequency. Default is set to 75 Hz.
     method : str
-        The method used. Can be one of the following: 'hamilton', 'christov',
-        'engelse-zeelenberg', 'pan-tompkins', 'wavelet-transform',
-        'moving-average'.
+        The method used. Can be one of the following: `'hamilton'`,
+        `'christov'`, `'engelse-zeelenberg'`, `'pan-tompkins'`,
+        `'wavelet-transform'`, `'moving-average'`.
     find_local : bool
         If *True*, will use peaks indexs to search for local peaks given the
         window size (win_size).
@@ -154,10 +156,9 @@ def ecg_peaks(x, sfreq=1000, new_sfreq=1000, method='pan-tompkins',
 
     References
     ----------
-    .. [#] Howell, L., Porr, B. Popular ECG R peak detectors written in
+    .. [1] Howell, L., Porr, B. Popular ECG R peak detectors written in
     python. DOI: 10.5281/zenodo.3353396
     """
-
     if isinstance(x, list):
         x = np.asarray(x)
 
@@ -209,10 +210,10 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
         Array of RR intervals.
     c1 : float
         Fixed variable controling the slope of the threshold lines. Default is
-        0.13.
+        `0.13`.
     c2 : float
         Fixed variable controling the intersect of the threshold lines. Default
-        is 0.17.
+        is `0.17`.
     alpha : float
         Scaling factor used to normalize the RR intervals first deviation.
 
@@ -247,7 +248,7 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
 
     Notes
     -----
-    This function will use the method proposed by [#]_ to detect ectopic beats,
+    This function will use the method proposed by [1]_ to detect ectopic beats,
     long, shorts, missed and extra RR intervals.
 
     Examples
@@ -262,7 +263,7 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
 
     References
     ----------
-    .. [#] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
+    .. [1] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
         heart rate variability time series artefact correction using novel
         beat classification. Journal of Medical Engineering & Technology,
         43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306
@@ -406,7 +407,7 @@ def interpolate_clipping(signal, threshold=255):
     Notes
     -----
     Correct signal segment reaching recording threshold (default is 255)
-    using a cubic spline interpolation. Adapted from [#]_.
+    using a cubic spline interpolation. Adapted from [1]_.
 
     .. Warning:: If clipping artefact is found at the edge of the signal, this
         function will decrement the first/last value to allow interpolation,
@@ -414,7 +415,7 @@ def interpolate_clipping(signal, threshold=255):
 
     References
     ----------
-    .. [#] https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/
+    .. [1] https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/
     """
     if isinstance(signal, list):
         signal = np.array(signal)
