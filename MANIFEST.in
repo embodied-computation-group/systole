@@ -2,11 +2,3 @@
 include README.rst
 include LICENSE
 include requirements.txt
-
-# Add datasets files
-include systole/datasets/ppg.npy
-include systole/datasets/rr.txt
-include systole/datasets/Task1_ECG.npy
-include systole/datasets/Task1_EDA.npy
-include systole/datasets/Task1_Respiration.npy
-include systole/datasets/Task1_Stim.npy

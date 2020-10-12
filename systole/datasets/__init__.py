@@ -1,7 +1,12 @@
+# Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
+
 import time
 import numpy as np
 import pandas as pd
 import os.path as op
+from tqdm import tqdm
+import requests
+import io
 
 ddir = op.dirname(op.realpath(__file__))
 
@@ -75,7 +80,7 @@ def import_rr():
     return rr
 
 
-def import_dataset():
+def import_dataset1(modalities=['ECG', 'EDA', 'Respiration', 'Stim']):
     """Import PPG recording.
 
     Returns
@@ -96,11 +101,17 @@ def import_dataset():
         (2018). Preprint version 3.0.
         doi: https://www.biorxiv.org/content/10.1101/376954v3
     """
-    df = pd.DataFrame({
-        'ecg': np.load(op.join(ddir, 'Task1_ECG.npy')),
-        'eda': np.load(op.join(ddir, 'Task1_EDA.npy')),
-        'respiration': np.load(op.join(ddir, 'Task1_Respiration.npy')),
-        'stim': np.load(op.join(ddir, 'Task1_Stim.npy'))})
+    path = ('https://github.com/embodied-computation-group/systole/raw/'
+            'master/systole/datasets/Task1_')
+    pbar = tqdm(modalities, position=0, leave=True)
+    data = {}
+    for item in pbar:
+        pbar.set_description(f"Downloading {item} channel")
+        response = requests.get(f'{path}{item}.npy')
+        response.raise_for_status()
+        data[item] = np.load(io.BytesIO(response.content), allow_pickle=True)
+
+    df = pd.DataFrame(data)
     df['time'] = np.arange(0, len(df))/1000
 
     return df
