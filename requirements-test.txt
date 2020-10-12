@@ -6,3 +6,4 @@ seaborn>=0.9.0
 plotly>=4.8.0
 plotly_express>=0.4.1
 pyserial>=3.4
+tqdm>=4.41.1

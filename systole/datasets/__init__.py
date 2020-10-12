@@ -10,7 +10,7 @@ import io
 
 ddir = op.dirname(op.realpath(__file__))
 
-__all__ = ["import_ppg", "import_rr", "serialSim", "import_dataset"]
+__all__ = ["import_ppg", "import_rr", "serialSim", "import_dataset1"]
 
 
 # Simulate serial inputs from ppg recording
@@ -61,7 +61,12 @@ def import_ppg():
     df : :py:class:`pandas.DataFrame`
         Dataframe containing the PPG signale.
     """
-    df = pd.DataFrame({'ppg': np.load(op.join(ddir, 'ppg.npy'))})
+    path = ('https://github.com/embodied-computation-group/systole/raw/'
+            'master/systole/datasets/')
+    response = requests.get(f'{path}/ppg.npy')
+    response.raise_for_status()
+    ppg = np.load(io.BytesIO(response.content), allow_pickle=True)
+    df = pd.DataFrame({'ppg': ppg})
     df['time'] = np.arange(0, len(df))/75
 
     return df
@@ -75,7 +80,9 @@ def import_rr():
     rr : :py:class:`pandas.DataFrame`
         Dataframe containing the RR time-serie.
     """
-    rr = pd.read_csv(op.join(ddir, 'rr.txt'))
+    path = ('https://github.com/embodied-computation-group/systole/raw/'
+            'master/systole/datasets/')
+    rr = pd.read_csv(op.join(path, 'rr.txt'))
 
     return rr
 
@@ -109,7 +116,8 @@ def import_dataset1(modalities=['ECG', 'EDA', 'Respiration', 'Stim']):
         pbar.set_description(f"Downloading {item} channel")
         response = requests.get(f'{path}{item}.npy')
         response.raise_for_status()
-        data[item] = np.load(io.BytesIO(response.content), allow_pickle=True)
+        data[item.lower()] = np.load(io.BytesIO(response.content),
+                                     allow_pickle=True)
 
     df = pd.DataFrame(data)
     df['time'] = np.arange(0, len(df))/1000

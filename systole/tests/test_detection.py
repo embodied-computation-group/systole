@@ -5,7 +5,7 @@ import unittest
 from unittest import TestCase
 from systole.detection import oxi_peaks, rr_artefacts, interpolate_clipping,\
     ecg_peaks
-from systole import import_ppg, import_dataset
+from systole import import_ppg, import_dataset1
 from systole.utils import simulate_rr
 
 
@@ -36,7 +36,7 @@ class TestDetection(TestCase):
         clean_signal = interpolate_clipping(df.ppg.to_numpy())
 
     def test_ecg_peaks(self):
-        signal_df = import_dataset()[:20*2000]
+        signal_df = import_dataset1()[:20*2000]
         signal, peaks = ecg_peaks(signal_df.ecg.to_numpy(), method='hamilton',
                                   sfreq=2000, find_local=True)
         for method in ['christov', 'engelse-zeelenberg', 'pan-tompkins',

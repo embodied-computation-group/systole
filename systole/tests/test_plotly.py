@@ -6,7 +6,7 @@ import unittest
 from unittest import TestCase
 from systole.plotly import plot_raw, plot_shortLong, plot_ectopic, \
     plot_subspaces, plot_frequency, plot_nonlinear, plot_timedomain
-from systole import import_ppg, import_dataset
+from systole import import_ppg, import_dataset1
 from systole.utils import simulate_rr
 
 rr = simulate_rr()
@@ -21,7 +21,7 @@ class TestInteractive(TestCase):
         """Test plot_raw function"""
         plot_raw(signal_df)
         plot_raw(signal_df.ppg.to_numpy())
-        ecg_df = import_dataset()[:20*2000]
+        ecg_df = import_dataset1()[:20*2000]
         plot_raw(ecg_df, type='ecg')
         plot_raw(ecg_df.ecg.to_numpy(), type='ecg', sfreq=2000)
 
