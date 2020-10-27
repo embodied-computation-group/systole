@@ -9,7 +9,7 @@ from systole.plotting import plot_psd
 from systole.hrv import time_domain, frequency_domain, nonlinear
 
 
-def plot_raw(signal, sfreq=75, type='ppg'):
+def plot_raw(signal, sfreq=75, type='ppg', ecg_method='hamilton'):
     """Interactive visualization of PPG signal and beats detection.
 
     Parameters
@@ -25,6 +25,9 @@ def plot_raw(signal, sfreq=75, type='ppg'):
     type : str
         The recording modality. Can be ``'ppg'`` (pulse oximeter) or ``'ecg'``
         (electrocardiography).
+    ecg_method : str
+        Peak detection algorithm used by the
+        :py:func:`systole.detection.ecg_peaks` function. Default is 'hamilton'.
     """
     import plotly.graph_objs as go
     from plotly.subplots import make_subplots
@@ -34,13 +37,13 @@ def plot_raw(signal, sfreq=75, type='ppg'):
         if type == 'ppg':
             signal, peaks = oxi_peaks(signal.ppg, noise_removal=False)
         elif type == 'ecg':
-            signal, peaks = ecg_peaks(signal.ecg, method='hamilton',
+            signal, peaks = ecg_peaks(signal.ecg, method=ecg_method,
                                       find_local=True)
     else:
         if type == 'ppg':
             signal, peaks = oxi_peaks(signal, noise_removal=False, sfreq=sfreq)
         elif type == 'ecg':
-            signal, peaks = ecg_peaks(signal, method='hamilton', sfreq=sfreq,
+            signal, peaks = ecg_peaks(signal, method=ecg_method, sfreq=sfreq,
                                       find_local=True)
     time = np.arange(0, len(signal))/1000
 
