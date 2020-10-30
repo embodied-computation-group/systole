@@ -108,8 +108,7 @@ def import_dataset1(modalities=['ECG', 'EDA', 'Respiration', 'Stim']):
         (2018). Preprint version 3.0.
         doi: https://www.biorxiv.org/content/10.1101/376954v3
     """
-    path = ('https://github.com/embodied-computation-group/systole/tree/'
-            'dev/systole/datasets/Task1_')
+    path = 'https://github.com/embodied-computation-group/systole/raw/dev/systole/datasets/Task1_'
     pbar = tqdm(modalities, position=0, leave=True)
     data = {}
     for item in pbar:

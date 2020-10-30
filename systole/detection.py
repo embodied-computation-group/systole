@@ -109,7 +109,7 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
 
 
 def ecg_peaks(x, sfreq=1000, new_sfreq=1000, method='pan-tompkins',
-              find_local=True, win_size=100):
+              find_local=True, win_size=0.1):
     """A simple wrapper for many popular R peaks detectors algorithms.
 
     This function calls methods from `py-ecg-detectors` [1]_.
@@ -129,6 +129,7 @@ def ecg_peaks(x, sfreq=1000, new_sfreq=1000, method='pan-tompkins',
         window size (win_size).
     win_size : int
         Size of the time window used by :py:func:`systole.utils.to_neighbour()`
+        expressed in seconds. Defaut set to `0.1`.
 
     Returns
     -------
@@ -164,8 +165,7 @@ def ecg_peaks(x, sfreq=1000, new_sfreq=1000, method='pan-tompkins',
 
     # Interpolate
     f = interp1d(np.arange(0, len(x)/sfreq, 1/sfreq),
-                 x,
-                 fill_value="extrapolate")
+                 x, fill_value="extrapolate")
     time = np.arange(0, len(x)/sfreq, 1/new_sfreq)
     x = f(time)
 
@@ -188,14 +188,15 @@ def ecg_peaks(x, sfreq=1000, new_sfreq=1000, method='pan-tompkins',
         peaks_idx = detectors.two_average_detector(resampled_signal)
     else:
         raise ValueError(
-            'Invalid method provided, should be: hamilton,',
-            'christov, engelse-zeelenberg, pan-tompkins, wavelet-transform,',
+            'Invalid method provided, should be: hamilton, '
+            'christov, engelse-zeelenberg, pan-tompkins, wavelet-transform, '
             'moving-average')
     peaks = np.zeros(len(resampled_signal), dtype=bool)
     peaks[peaks_idx] = True
 
     if find_local is True:
-        peaks = to_neighbour(resampled_signal, peaks, size=win_size)
+        peaks = to_neighbour(resampled_signal, peaks,
+                             size=int(win_size*new_sfreq))
 
     return resampled_signal, peaks
 
