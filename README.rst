@@ -62,8 +62,9 @@ Tutorial
 For an introduction to Systole and cardiac signal analysis, you can check the following tutorial:
 
 Introduction to cardiac signal analysis for cognitive science
+
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
-  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/notebooks/IntroductionCardiacSignalAnalysis.ipynb
+   :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/notebooks/IntroductionCardiacSignalAnalysis.ipynb
 
 Recording
 =========
