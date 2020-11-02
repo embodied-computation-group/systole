@@ -355,13 +355,15 @@ def plot_shortLong(rr=None, artefacts=None):
     return subspacesPlot
 
 
-def plot_subspaces(rr):
+def plot_subspaces(rr, height=400):
     """Plot hrv subspace as described by Lipponen & Tarvainen (2019) [#]_.
 
     Parameters
     ----------
     rr : 1d array-like
         Interval time-series (R-R, beat-to-beat...), in miliseconds.
+    height : int
+        Height of the figure. The width will be set to  `height*2` by default.
 
     Returns
     -------
@@ -390,7 +392,7 @@ def plot_subspaces(rr):
         fig.add_traces([traces], rows=[1], cols=[2])
 
     fig.update_layout(
-        width=1200, height=600, xaxis_title="Subspace $S_{11}$",
+        width=height*2, height=600, xaxis_title="Subspace $S_{11}$",
         yaxis_title="Subspace $S_{12}$", xaxis2_title="Subspace $S_{21}$",
         yaxis2_title="Subspace $S_{22}$", template='simple_white')
 
