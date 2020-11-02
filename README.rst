@@ -61,7 +61,8 @@ Tutorial
 
 For an introduction to Systole and cardiac signal analysis, you can check the following tutorial:
 
-[Introduction to cardiac signal analysis for cognitive science](https://legrandnico.github.io/Notebooks/IntroductionCardiacSignalAnalysis.html)
+`Introduction to cardiac signal analysis for cognitive science <https://legrandnico.github.io/Notebooks/IntroductionCardiacSignalAnalysis.html>`_
+
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
    :target: https://colab.research.google.com/github/LegrandNico/Notebooks/raw/main/IntroductionCardiacSignalAnalysis.ipynb
 
