@@ -55,7 +55,7 @@ def plot_raw(signal, sfreq=75, type='ppg', ecg_method='hamilton'):
     #############
 
     # Signal
-    ppg_trace = go.Scattergl(x=time, y=signal, mode='lines', name='PPG',
+    ppg_trace = go.Scattergl(x=time, y=signal, mode='lines', name='PPG signal',
                              hoverinfo='skip', showlegend=False,
                              line=dict(width=1, color='#c44e52'))
     # Peaks

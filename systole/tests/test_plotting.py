@@ -6,7 +6,7 @@ import unittest
 import pytest
 import matplotlib
 from unittest import TestCase
-from systole.plotting import plot_hr, plot_events, plot_oximeter,\
+from systole.plotting import plot_raw, plot_events, plot_oximeter,\
     plot_subspaces, circular, plot_circular, plot_psd
 from systole import import_ppg, import_rr, serialSim
 from systole.recording import Oximeter
@@ -38,15 +38,9 @@ z = np.concatenate([np.random.normal(np.pi/2, 0.5, 50),
 
 class TestPlotting(TestCase):
 
-    def test_plot_hr(self):
-        ax = plot_hr(oxi)
-        assert isinstance(ax, matplotlib.axes.Axes)
-        ax = plot_hr(oxi.peaks)
-        assert isinstance(ax, matplotlib.axes.Axes)
-        outliers = np.where(oxi.peaks)[0][:2]
-        ax = plot_hr(np.asarray(oxi.peaks), unit='bpm', outliers=outliers)
-        assert isinstance(ax, matplotlib.axes.Axes)
-        ax = plot_hr([600, 650, 700, 750])
+    def test_plot_raw(self):
+        fig, ax = plot_raw(ppg)
+        assert isinstance(ax[0], matplotlib.axes.Axes)
 
     def test_plot_events(self):
         ax = plot_events(oxi)

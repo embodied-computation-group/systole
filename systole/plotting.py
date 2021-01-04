@@ -11,77 +11,81 @@ from scipy.interpolate import interp1d
 from scipy.signal import welch
 
 
-def plot_hr(x, sfreq=75, outliers=None, unit='rr', kind='cubic', ax=None):
-    """Plot the instantaneous heart rate time course.
+def plot_raw(signal, sfreq=75, type='ppg', ecg_method='hamilton', ax=None, figsize=(13, 5)):
+    """Interactive visualization of PPG signal and beats detection.
 
     Parameters
     ----------
-    x : 1d array-like or `systole.recording.Oximeter`
-        The recording instance, where additional channels track different
-        events using boolean recording. If a 1d array is provided, should be
-        a peaks vector.
+    signal : :py:class:`pandas.DataFrame` or 1d array-like
+        Dataframe of signal recording in the long format. Should contain at
+        least one ``'time'`` and one signal colum (can be ``'ppg'`` or
+        ``'ecg'``). If an array is provided, will automatically create the
+        DataFrame using the array as signal and ``sfreq`` as sampling
+        frequency.
     sfreq : int
         Signal sampling frequency. Default is 75 Hz.
-    outliers : 1d array-like
-        Boolean array indexing RR intervals considered as outliers and plotted
-        separately.
-    unit : str
-        The heartrate unit in use. Can be 'rr' (R-R intervals, in ms)
-        or 'bpm' (beats per minutes). Default is 'rr'.
-    kind : str
-        The method to use (parameter of `scipy.interpolate.interp1d`).
-    ax : `Matplotlib.Axes` or None
-        Where to draw the plot. Default is *None* (create a new figure).
-
-    Returns
-    -------
-    ax : `Matplotlib.Axes`
-        The figure.
+    type : str
+        The recording modality. Can be ``'ppg'`` (pulse oximeter) or ``'ecg'``
+        (electrocardiography).
+    ecg_method : str
+        Peak detection algorithm used by the
+        :py:func:`systole.detection.ecg_peaks` function. Default is 'hamilton'.
+    figsize : tuple
+        Figure size. Default set to `(13, 5)`
     """
-    if isinstance(x, list):
-        x = np.asarray(x)
-    if isinstance(x, np.ndarray):
-        # If a RR time serie is provided, transform to peaks vector
-        if not ((x == 0) | (x == 1)).all():
-            x = np.round(x).astype(int)
-            peaks = np.zeros(np.cumsum(x)[-1])
-            peaks = np.insert(peaks, 0, 1)
-            peaks[np.cumsum(x)] = 1
-            sfreq = 1000
-        else:
-            peaks = x
-    else:  # Oximeter instance
-        peaks = np.asarray(x.peaks)
+    if isinstance(signal, pd.DataFrame):
+        # Find peaks - Remove learning phase
+        if type == 'ppg':
+            signal, peaks = oxi_peaks(signal.ppg, noise_removal=False)
+        elif type == 'ecg':
+            signal, peaks = ecg_peaks(signal.ecg, method=ecg_method,
+                                      find_local=True)
+    else:
+        if type == 'ppg':
+            signal, peaks = oxi_peaks(signal, noise_removal=False, sfreq=sfreq)
+        elif type == 'ecg':
+            signal, peaks = ecg_peaks(signal, method=ecg_method, sfreq=sfreq,
+                                      find_local=True)
+    time = np.arange(0, len(signal))/1000
 
-    # Compute the interpolated instantaneous heart rate
-    hr, times = heart_rate(peaks, sfreq=sfreq, unit=unit, kind=kind)
+    # Extract heart rate
+    hr, time = heart_rate(peaks, sfreq=1000, unit='rr', kind='linear')
 
-    # New peaks vector
-    f = interp1d(np.arange(0, len(peaks)/sfreq, 1/sfreq), peaks,
-                 kind='linear', bounds_error=False,
-                 fill_value=(np.nan, np.nan))
-    new_peaks = f(times)
-
+    #############
+    # Upper panel
+    #############
     if ax is None:
-        fig, ax = plt.subplots(figsize=(13, 5))
+        fig, ax = plt.subplots(ncols=1, nrows=2, figsize=figsize, sharex=True)
 
-    # Interpolate instantaneous HR
-    ax.plot(times, hr, linestyle='--', color='gray')
+    # Signal
+    ax[0].plot(time, signal, label='PPG signal', linewidth=1, color='#c44e52')
+    
+    # Peaks
+    ax[0].scatter(x=time[peaks], y=signal[peaks], marker='o', label='Peaks', s=30,
+                  color='white', edgecolors='DarkSlateGrey')
+    ax[0].set_title('PPG recording')
+    ax[0].set_ylabel('PPG level (a.u.)')
+    ax[0].grid(True)
+    
+    #############
+    # Lower panel
+    #############
 
-    # Heart beats
-    ax.plot(times[np.where(new_peaks)[0]], hr[np.where(new_peaks)[0]], 'bo',
-            alpha=0.5)
+    # Instantaneous Heart Rate - Lines
+    ax[1].plot(time, hr, label='R-R intervals', linewidth=1, color='#4c72b0')
 
-    # Show outliers
-    if outliers is not None:
-        idx = np.where(peaks)[0][1:][np.where(outliers)[0]]
-        ax.plot(times[idx], hr[idx], 'ro')
+    # Instantaneous Heart Rate - Peaks
+    ax[1].scatter(x=time[peaks], y=hr[peaks], marker='o', label='R-R intervals', s=20,
+                  color='white', edgecolors='DarkSlateGrey')
+    ax[1].set_title('Instantaneous heart rate')
+    ax[1].set_xlabel('Time (s)')
+    ax[1].set_ylabel('R-R interval (ms)')
+    ax[1].grid(True)
+    
+    plt.tight_layout()
+    sns.despine()
 
-    ax.set_xlabel('Time (s)')
-    ax.set_ylabel('R-R (ms)')
-    ax.set_title('Instantaneous Heart rate', fontweight='bold')
-
-    return ax
+    return fig, ax
 
 
 def plot_events(oximeter, ax=None):
@@ -175,12 +179,12 @@ def plot_oximeter(x, sfreq=75, ax=None):
     return ax
 
 
-def plot_subspaces(x, c1=.17, c2=.13, xlim=10, ylim=5, ax=None):
+def plot_subspaces(rr, c1=.17, c2=.13, xlim=10, ylim=5, ax=None, figsize=(10, 5)):
     """Plot hrv subspace as described by Lipponen & Tarvainen (2019).
 
     Parameters
     ----------
-    x : 1d array-like
+    rr : 1d array-like
         Array of RR intervals or subspace1. If subspace1 is provided, subspace2
         and 3 must also be provided.
     c1 : float
@@ -195,6 +199,8 @@ def plot_subspaces(x, c1=.17, c2=.13, xlim=10, ylim=5, ax=None):
         Absolute range of the y axis. Default is 5.
     ax : `Matplotlib.Axes` or None
         Where to draw the plot. Default is *None* (create a new figure).
+    figsize : tuple
+        Figure size. Default set to `(10, 5)`
 
     Returns
     -------
@@ -208,9 +214,9 @@ def plot_subspaces(x, c1=.17, c2=.13, xlim=10, ylim=5, ax=None):
         classification. Journal of Medical Engineering & Technology, 43(3),
         173–181. https://doi.org/10.1080/03091902.2019.1640306
     """
-    if not isinstance(x, (np.ndarray, np.generic)):
-        x = np.asarray(x)
-    artefacts = rr_artefacts(x)
+    if not isinstance(rr, (np.ndarray, np.generic)):
+        rr = np.asarray(rr)
+    artefacts = rr_artefacts(rr)
 
     # Rescale to show outlier in scatterplot
     if xlim is not None:
@@ -233,7 +239,7 @@ def plot_subspaces(x, c1=.17, c2=.13, xlim=10, ylim=5, ax=None):
     #############
 
     if ax is None:
-        fig, ax = plt.subplots(1, 2, figsize=(10, 5))
+        fig, ax = plt.subplots(1, 2, figsize=figsize)
 
     # Plot normal beats
     ax[0].scatter(artefacts['subspace1'][normalBeats],

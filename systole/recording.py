@@ -7,7 +7,7 @@ import serial
 from serial.tools import list_ports
 from struct import unpack
 from systole.detection import oxi_peaks
-from systole.plotting import plot_oximeter, plot_events, plot_hr
+from systole.plotting import plot_oximeter, plot_events, plot_raw
 
 
 class Oximeter():
@@ -253,7 +253,7 @@ class Oximeter():
 
         return ax
 
-    def plot_hr(self, ax=None):
+    def plot_raw(self, ax=None):
         """Plot heartrate extracted from PPG recording.
 
         Returns
@@ -261,7 +261,7 @@ class Oximeter():
         fig, ax : Matplotlib instances.
             The figure and axe instances.
         """
-        ax = plot_hr(self, ax=ax)
+        ax = plot_raw(self.recording, ax=ax)
 
         return ax
 
