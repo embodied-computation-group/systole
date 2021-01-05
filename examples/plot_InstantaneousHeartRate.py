@@ -47,18 +47,22 @@ oxi.read(30)
 fig, ax = plt.subplots(3, 1, figsize=(13, 8), sharex=True)
 oxi.plot_recording(ax=ax[0])
 
-ax[1].plot(oxi.times, oxi.peaks, 'k')
-ax[1].set_title('Peaks vector', fontweight='bold')
-ax[1].set_xlabel('Time (s)')
-ax[1].set_ylabel('Peak\n detection')
+ax[1].plot(oxi.times, oxi.peaks, "k")
+ax[1].set_title("Peaks vector", fontweight="bold")
+ax[1].set_xlabel("Time (s)")
+ax[1].set_ylabel("Peak\n detection")
 
 
-hr, time = heart_rate(oxi.peaks, sfreq=75, unit='rr', kind='cubic')
-ax[2].plot(time, hr, label='Interpolated HR', linestyle='--', color='gray')
-ax[2].plot(np.array(oxi.times)[np.where(oxi.peaks)[0]],
-           hr[np.where(oxi.peaks)[0]], 'ro', label='Instantaneous HR')
-ax[2].set_xlabel('Time (s)')
-ax[2].set_title('Instantaneous Heart Rate', fontweight='bold')
-ax[2].set_ylabel('RR intervals (ms)')
+hr, time = heart_rate(oxi.peaks, sfreq=75, unit="rr", kind="cubic")
+ax[2].plot(time, hr, label="Interpolated HR", linestyle="--", color="gray")
+ax[2].plot(
+    np.array(oxi.times)[np.where(oxi.peaks)[0]],
+    hr[np.where(oxi.peaks)[0]],
+    "ro",
+    label="Instantaneous HR",
+)
+ax[2].set_xlabel("Time (s)")
+ax[2].set_title("Instantaneous Heart Rate", fontweight="bold")
+ax[2].set_ylabel("RR intervals (ms)")
 
 plt.tight_layout()

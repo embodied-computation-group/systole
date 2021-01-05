@@ -8,8 +8,17 @@ from ecgdetectors import Detectors
 from systole.utils import to_neighbour
 
 
-def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
-              noise_removal=True, peak_enhancement=True):
+def oxi_peaks(
+    x,
+    sfreq=75,
+    win=0.75,
+    new_sfreq=1000,
+    clipping=True,
+    noise_removal=True,
+    peak_enhancement=True,
+    distance=0.3,
+    clean_extra=False,
+):
     """A simple peak finder for PPG signal.
 
     Parameters
@@ -19,7 +28,8 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
     sfreq : int
         The sampling frequency. Default is set to 75 Hz.
     win : int
-        Window size (in seconds) used to compute the threshold.
+        Window size (in seconds) used to compute the threshold (i.e. rolling mean
+        + standard deviation).
     new_sfreq : int
         If resample is *True*, the new sampling frequency.
     resample : boolean
@@ -27,6 +37,11 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
         value is 1000 Hz.
     peak_enhancement : boolean
         If `True` (default), the ppg signal is squared before peaks detection.
+    distance : float
+        The minimum interval between two peaks (seconds).
+    clean_extra : bool
+        If `True`, use `:py:func:systole.detection.rr_artefacts()` to find and
+        remove extra peaks. Default is `False`.
 
     Returns
     -------
@@ -65,10 +80,8 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
         x = np.asarray(x)
 
     # Interpolate
-    f = interp1d(np.arange(0, len(x)/sfreq, 1/sfreq),
-                 x,
-                 fill_value="extrapolate")
-    time = np.arange(0, len(x)/sfreq, 1/new_sfreq)
+    f = interp1d(np.arange(0, len(x) / sfreq, 1 / sfreq), x, fill_value="extrapolate")
+    time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
     x = f(time)
 
     # Copy resampled signal for output
@@ -80,36 +93,52 @@ def oxi_peaks(x, sfreq=75, win=1, new_sfreq=1000, clipping=True,
 
     if noise_removal is True:
         # Moving average (high frequency noise + clipping)
-        rollingNoise = int(new_sfreq*.05)  # 0.05 second window
-        x = pd.DataFrame(
-            {'signal': x}).rolling(rollingNoise,
-                                   center=True).mean().signal.to_numpy()
+        rollingNoise = int(new_sfreq * 0.05)  # 0.05 second window
+        x = (
+            pd.DataFrame({"signal": x})
+            .rolling(rollingNoise, center=True)
+            .mean()
+            .signal.to_numpy()
+        )
     if peak_enhancement is True:
         # Square signal (peak enhancement)
         x = x ** 2
 
     # Compute moving average and standard deviation
-    signal = pd.DataFrame({'signal': x})
-    mean_signal = signal.rolling(int(new_sfreq*0.75),
-                                 center=True).mean().signal.to_numpy()
-    std_signal = signal.rolling(int(new_sfreq*0.75),
-                                center=True).std().signal.to_numpy()
+    signal = pd.DataFrame({"signal": x})
+    mean_signal = (
+        signal.rolling(int(new_sfreq * win), center=True).mean().signal.to_numpy()
+    )
+    std_signal = (
+        signal.rolling(int(new_sfreq * win), center=True).std().signal.to_numpy()
+    )
 
     # Substract moving average + standard deviation
-    x -= (mean_signal + std_signal)
+    x -= mean_signal + std_signal
 
     # Find positive peaks
-    peaks_idx = find_peaks(x, height=0, distance=int(new_sfreq*0.2))[0]
+    peaks_idx = find_peaks(x, height=0, distance=int(new_sfreq * distance))[0]
 
     # Create boolean vector
     peaks = np.zeros(len(x), dtype=bool)
     peaks[peaks_idx] = 1
 
+    # Remove extra peaks
+    if clean_extra:
+
+        # Search artefacts
+        rr = np.diff(np.where(peaks)[0])  # Convert to RR time series
+        artefacts = rr_artefacts(rr)
+
+        # Clean peak vector
+        peaks[peaks_idx[1:][artefacts["extra"]]] = 0
+
     return resampled_signal, peaks
 
 
-def ecg_peaks(x, sfreq=1000, new_sfreq=1000, method='pan-tompkins',
-              find_local=True, win_size=0.1):
+def ecg_peaks(
+    x, sfreq=1000, new_sfreq=1000, method="pan-tompkins", find_local=True, win_size=0.1
+):
     """A simple wrapper for many popular R peaks detectors algorithms.
 
     This function calls methods from `py-ecg-detectors` [1]_.
@@ -164,9 +193,8 @@ def ecg_peaks(x, sfreq=1000, new_sfreq=1000, method='pan-tompkins',
         x = np.asarray(x)
 
     # Interpolate
-    f = interp1d(np.arange(0, len(x)/sfreq, 1/sfreq),
-                 x, fill_value="extrapolate")
-    time = np.arange(0, len(x)/sfreq, 1/new_sfreq)
+    f = interp1d(np.arange(0, len(x) / sfreq, 1 / sfreq), x, fill_value="extrapolate")
+    time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
     x = f(time)
 
     # Copy resampled signal for output
@@ -174,29 +202,29 @@ def ecg_peaks(x, sfreq=1000, new_sfreq=1000, method='pan-tompkins',
 
     detectors = Detectors(new_sfreq)
 
-    if method == 'hamilton':
+    if method == "hamilton":
         peaks_idx = detectors.hamilton_detector(resampled_signal)
-    elif method == 'christov':
+    elif method == "christov":
         peaks_idx = detectors.christov_detector(resampled_signal)
-    elif method == 'engelse-zeelenberg':
+    elif method == "engelse-zeelenberg":
         peaks_idx = detectors.engzee_detector(resampled_signal)
-    elif method == 'pan-tompkins':
+    elif method == "pan-tompkins":
         peaks_idx = detectors.pan_tompkins_detector(resampled_signal)
-    elif method == 'wavelet-transform':
+    elif method == "wavelet-transform":
         peaks_idx = detectors.swt_detector(resampled_signal)
-    elif method == 'moving-average':
+    elif method == "moving-average":
         peaks_idx = detectors.two_average_detector(resampled_signal)
     else:
         raise ValueError(
-            'Invalid method provided, should be: hamilton, '
-            'christov, engelse-zeelenberg, pan-tompkins, wavelet-transform, '
-            'moving-average')
+            "Invalid method provided, should be: hamilton, "
+            "christov, engelse-zeelenberg, pan-tompkins, wavelet-transform, "
+            "moving-average"
+        )
     peaks = np.zeros(len(resampled_signal), dtype=bool)
     peaks[peaks_idx] = True
 
     if find_local is True:
-        peaks = to_neighbour(resampled_signal, peaks,
-                             size=int(win_size*new_sfreq))
+        peaks = to_neighbour(resampled_signal, peaks, size=int(win_size * new_sfreq))
 
     return resampled_signal, peaks
 
@@ -280,44 +308,48 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
     dRR = np.diff(rr, prepend=0)
     dRR[0] = dRR[1:].mean()  # Set first item to a realistic value
 
-    dRR_df = pd.DataFrame({'signal': np.abs(dRR)})
-    q1 = dRR_df.rolling(
-        91, center=True, min_periods=1).quantile(.25).signal.to_numpy()
-    q3 = dRR_df.rolling(
-        91, center=True, min_periods=1).quantile(.75).signal.to_numpy()
+    dRR_df = pd.DataFrame({"signal": np.abs(dRR)})
+    q1 = dRR_df.rolling(91, center=True, min_periods=1).quantile(0.25).signal.to_numpy()
+    q3 = dRR_df.rolling(91, center=True, min_periods=1).quantile(0.75).signal.to_numpy()
 
     th1 = alpha * ((q3 - q1) / 2)
     dRR = dRR / th1
     s11 = dRR
 
     # mRRs time serie
-    medRR = pd.DataFrame({'signal': rr}).rolling(
-                    11, center=True, min_periods=1).median().signal.to_numpy()
+    medRR = (
+        pd.DataFrame({"signal": rr})
+        .rolling(11, center=True, min_periods=1)
+        .median()
+        .signal.to_numpy()
+    )
     mRR = rr - medRR
     mRR[mRR < 0] = 2 * mRR[mRR < 0]
 
-    mRR_df = pd.DataFrame({'signal': np.abs(mRR)})
-    q1 = mRR_df.rolling(
-        91, center=True, min_periods=1).quantile(.25).signal.to_numpy()
-    q3 = mRR_df.rolling(
-        91, center=True, min_periods=1).quantile(.75).signal.to_numpy()
+    mRR_df = pd.DataFrame({"signal": np.abs(mRR)})
+    q1 = mRR_df.rolling(91, center=True, min_periods=1).quantile(0.25).signal.to_numpy()
+    q3 = mRR_df.rolling(91, center=True, min_periods=1).quantile(0.75).signal.to_numpy()
 
     th2 = alpha * ((q3 - q1) / 2)
     mRR /= th2
 
     # Subspace 2
     ma = np.hstack(
-        [0, [np.max([dRR[i-1], dRR[i+1]]) for i in range(1, len(dRR)-1)], 0])
+        [0, [np.max([dRR[i - 1], dRR[i + 1]]) for i in range(1, len(dRR) - 1)], 0]
+    )
     mi = np.hstack(
-        [0, [np.min([dRR[i-1], dRR[i+1]]) for i in range(1, len(dRR)-1)], 0])
+        [0, [np.min([dRR[i - 1], dRR[i + 1]]) for i in range(1, len(dRR) - 1)], 0]
+    )
     s12 = ma
     s12[dRR < 0] = mi[dRR < 0]
 
     # Subspace 3
     ma = np.hstack(
-        [[np.max([dRR[i+1], dRR[i+2]]) for i in range(0, len(dRR)-2)], 0, 0])
+        [[np.max([dRR[i + 1], dRR[i + 2]]) for i in range(0, len(dRR) - 2)], 0, 0]
+    )
     mi = np.hstack(
-        [[np.min([dRR[i+1], dRR[i+2]]) for i in range(0, len(dRR)-2)], 0, 0])
+        [[np.min([dRR[i + 1], dRR[i + 2]]) for i in range(0, len(dRR) - 2)], 0, 0]
+    )
     s22 = ma
     s22[dRR >= 0] = mi[dRR >= 0]
 
@@ -326,32 +358,30 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
     ##########
 
     # Find ectobeats
-    cond1 = (s11 > 1) & (s12 < (-c1 * s11-c2))
-    cond2 = (s11 < -1) & (s12 > (-c1 * s11+c2))
+    cond1 = (s11 > 1) & (s12 < (-c1 * s11 - c2))
+    cond2 = (s11 < -1) & (s12 > (-c1 * s11 + c2))
     ectopic = cond1 | cond2
     # No ectopic detection and correction at time serie edges
     ectopic[-2:] = False
     ectopic[:2] = False
 
     # Find long or shorts
-    longBeats = \
-        ((s11 > 1) & (s22 < -1)) | ((np.abs(mRR) > 3) & (rr > np.median(rr)))
-    shortBeats = \
-        ((s11 < -1) & (s22 > 1)) | ((np.abs(mRR) > 3) & (rr <= np.median(rr)))
+    longBeats = ((s11 > 1) & (s22 < -1)) | ((np.abs(mRR) > 3) & (rr > np.median(rr)))
+    shortBeats = ((s11 < -1) & (s22 > 1)) | ((np.abs(mRR) > 3) & (rr <= np.median(rr)))
 
     # Test if next interval is also outlier
     for cond in [longBeats, shortBeats]:
-        for i in range(len(cond)-2):
+        for i in range(len(cond) - 2):
             if cond[i] is True:
-                if np.abs(s11[i+1]) < np.abs(s11[i+2]):
-                    cond[i+1] = True
+                if np.abs(s11[i + 1]) < np.abs(s11[i + 2]):
+                    cond[i + 1] = True
 
     # Ectopic beats are not considered as short or long
     shortBeats[ectopic] = False
     longBeats[ectopic] = False
 
     # Missed vector
-    missed = np.abs((rr/2) - medRR) < th2
+    missed = np.abs((rr / 2) - medRR) < th2
     missed = missed & longBeats
     longBeats[missed] = False  # Missed beats are not considered as long
 
@@ -364,10 +394,19 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
     shortBeats[0], shortBeats[-1] = False, False
     longBeats[0], longBeats[-1] = False, False
 
-    artefacts = {'subspace1': s11, 'subspace2': s12, 'subspace3': s22,
-                 'mRR': mRR, 'ectopic': ectopic, 'long': longBeats,
-                 'short': shortBeats, 'missed': missed, 'extra': extra,
-                 'threshold1': th1, 'threshold2': th2}
+    artefacts = {
+        "subspace1": s11,
+        "subspace2": s12,
+        "subspace3": s22,
+        "mRR": mRR,
+        "ectopic": ectopic,
+        "long": longBeats,
+        "short": shortBeats,
+        "missed": missed,
+        "extra": extra,
+        "threshold1": th1,
+        "threshold2": th2,
+    }
 
     return artefacts
 
@@ -423,16 +462,18 @@ def interpolate_clipping(signal, threshold=255):
 
     # Security check for clipping at signal edge
     if signal[0] == threshold:
-        signal[0] = threshold-1
+        signal[0] = threshold - 1
     if signal[-1] == threshold:
-        signal[-1] = threshold-1
+        signal[-1] = threshold - 1
 
     time = np.arange(0, len(signal))
 
     # Interpolate
-    f = interp1d(time[np.where(signal != 255)[0]],
-                 signal[np.where(signal != 255)[0]],
-                 kind='cubic')
+    f = interp1d(
+        time[np.where(signal != 255)[0]],
+        signal[np.where(signal != 255)[0]],
+        kind="cubic",
+    )
 
     # Use the peaks vector as time input
     clean_signal = f(time)

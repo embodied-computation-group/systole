@@ -5,13 +5,21 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from systole.detection import rr_artefacts, oxi_peaks
+from systole.detection import rr_artefacts, oxi_peaks, ecg_peaks
 from systole.utils import heart_rate
 from scipy.interpolate import interp1d
 from scipy.signal import welch
 
 
-def plot_raw(signal, sfreq=75, type='ppg', ecg_method='hamilton', ax=None, figsize=(13, 5)):
+def plot_raw(
+    signal,
+    sfreq=75,
+    type="ppg",
+    ecg_method="hamilton",
+    ax=None,
+    figsize=(13, 5),
+    **kwargs
+):
     """Interactive visualization of PPG signal and beats detection.
 
     Parameters
@@ -32,24 +40,36 @@ def plot_raw(signal, sfreq=75, type='ppg', ecg_method='hamilton', ax=None, figsi
         :py:func:`systole.detection.ecg_peaks` function. Default is 'hamilton'.
     figsize : tuple
         Figure size. Default set to `(13, 5)`
+    **kwargs : keyword arguments
+        Additional arguments provided to `:py:func:systole.detection.oxi_peaks()`
+        or `:py:func:systole.detection.ecg_peaks()`.
+
+    Returns
+    -------
+    ax : `Matplotlib.Axes`
+        The figure.
     """
     if isinstance(signal, pd.DataFrame):
         # Find peaks - Remove learning phase
-        if type == 'ppg':
-            signal, peaks = oxi_peaks(signal.ppg, noise_removal=False)
-        elif type == 'ecg':
-            signal, peaks = ecg_peaks(signal.ecg, method=ecg_method,
-                                      find_local=True)
+        if type == "ppg":
+            signal, peaks = oxi_peaks(signal.ppg, noise_removal=False, **kwargs)
+        elif type == "ecg":
+            signal, peaks = ecg_peaks(
+                signal.ecg, method=ecg_method, find_local=True, **kwargs
+            )
     else:
-        if type == 'ppg':
-            signal, peaks = oxi_peaks(signal, noise_removal=False, sfreq=sfreq)
-        elif type == 'ecg':
-            signal, peaks = ecg_peaks(signal, method=ecg_method, sfreq=sfreq,
-                                      find_local=True)
-    time = np.arange(0, len(signal))/1000
+        if type == "ppg":
+            signal, peaks = oxi_peaks(
+                signal, noise_removal=False, sfreq=sfreq, **kwargs
+            )
+        elif type == "ecg":
+            signal, peaks = ecg_peaks(
+                signal, method=ecg_method, sfreq=sfreq, find_local=True, **kwargs
+            )
+    time = np.arange(0, len(signal)) / 1000
 
     # Extract heart rate
-    hr, time = heart_rate(peaks, sfreq=1000, unit='rr', kind='linear')
+    hr, time = heart_rate(peaks, sfreq=1000, unit="rr", kind="linear")
 
     #############
     # Upper panel
@@ -58,34 +78,52 @@ def plot_raw(signal, sfreq=75, type='ppg', ecg_method='hamilton', ax=None, figsi
         fig, ax = plt.subplots(ncols=1, nrows=2, figsize=figsize, sharex=True)
 
     # Signal
-    ax[0].plot(time, signal, label='PPG signal', linewidth=1, color='#c44e52')
-    
+    ax[0].plot(time, signal, label="PPG signal", linewidth=1, color="#c44e52")
+
     # Peaks
-    ax[0].scatter(x=time[peaks], y=signal[peaks], marker='o', label='Peaks', s=30,
-                  color='white', edgecolors='DarkSlateGrey')
-    ax[0].set_title('PPG recording')
-    ax[0].set_ylabel('PPG level (a.u.)')
+    ax[0].scatter(
+        x=time[peaks],
+        y=signal[peaks],
+        marker="o",
+        label="Peaks",
+        s=30,
+        color="white",
+        edgecolors="DarkSlateGrey",
+    )
+    if type == "ppg":
+        ax[0].set_title("PPG recording")
+        ax[0].set_ylabel("PPG level (a.u.)")
+    elif type == "ecg":
+        ax[0].set_title("ECG recording")
+        ax[0].set_ylabel("ECG (mV)")
     ax[0].grid(True)
-    
+
     #############
     # Lower panel
     #############
 
     # Instantaneous Heart Rate - Lines
-    ax[1].plot(time, hr, label='R-R intervals', linewidth=1, color='#4c72b0')
+    ax[1].plot(time, hr, label="R-R intervals", linewidth=1, color="#4c72b0")
 
     # Instantaneous Heart Rate - Peaks
-    ax[1].scatter(x=time[peaks], y=hr[peaks], marker='o', label='R-R intervals', s=20,
-                  color='white', edgecolors='DarkSlateGrey')
-    ax[1].set_title('Instantaneous heart rate')
-    ax[1].set_xlabel('Time (s)')
-    ax[1].set_ylabel('R-R interval (ms)')
+    ax[1].scatter(
+        x=time[peaks],
+        y=hr[peaks],
+        marker="o",
+        label="R-R intervals",
+        s=20,
+        color="white",
+        edgecolors="DarkSlateGrey",
+    )
+    ax[1].set_title("Instantaneous heart rate")
+    ax[1].set_xlabel("Time (s)")
+    ax[1].set_ylabel("R-R interval (ms)")
     ax[1].grid(True)
-    
+
     plt.tight_layout()
     sns.despine()
 
-    return fig, ax
+    return ax
 
 
 def plot_events(oximeter, ax=None):
@@ -106,18 +144,22 @@ def plot_events(oximeter, ax=None):
     """
     if ax is None:
         fig, ax = plt.subplots(figsize=(13, 5))
-    palette = itertools.cycle(sns.color_palette('deep'))
+    palette = itertools.cycle(sns.color_palette("deep"))
     events = oximeter.channels.copy()
     for i, ch in enumerate(events):
-        ax.fill_between(x=oximeter.times, y1=i, y2=i+0.5,
-                        color=next(palette),
-                        where=np.array(events[ch]) == 1)
+        ax.fill_between(
+            x=oximeter.times,
+            y1=i,
+            y2=i + 0.5,
+            color=next(palette),
+            where=np.array(events[ch]) == 1,
+        )
 
     # Add y ticks with channels names
     ax.set_yticks(np.arange(len(events)) + 0.5)
     ax.set_yticklabels([key for key in events])
-    ax.set_xlabel('Time (s)')
-    ax.set_title('Events', fontweight='bold')
+    ax.set_xlabel("Time (s)")
+    ax.set_title("Events", fontweight="bold")
 
     return ax
 
@@ -140,46 +182,44 @@ def plot_oximeter(x, sfreq=75, ax=None):
         The figure.
     """
     if isinstance(x, (list, np.ndarray)):
-        times = np.arange(0, len(x)/sfreq, 1/sfreq)
+        times = np.arange(0, len(x) / sfreq, 1 / sfreq)
         recording = np.asarray(x)
         signal, peaks = oxi_peaks(x, new_sfreq=sfreq)
         threshold = None
-        label = 'Offline estimation'
+        label = "Offline estimation"
     else:
         times = np.asarray(x.times)
         recording = np.asarray(x.recording)
         peaks = np.asarray(x.peaks)
         threshold = np.asarray(x.threshold)
-        label = 'Online estimation'
+        label = "Online estimation"
 
     if ax is None:
         fig, ax = plt.subplots(figsize=(13, 5))
-    ax.set_title('Oximeter recording', fontweight='bold')
+    ax.set_title("Oximeter recording", fontweight="bold")
 
     if threshold is not None:
-        ax.plot(times, threshold, linestyle='--', color='gray',
-                label='Threshold')
-        ax.fill_between(x=times,
-                        y1=threshold,
-                        y2=recording.min(),
-                        alpha=0.2,
-                        color='gray')
-    ax.plot(times, recording, label='Recording',
-            color='#4c72b0')
-    ax.fill_between(x=times,
-                    y1=recording,
-                    y2=recording.min(),
-                    color='w')
-    ax.plot(times[np.where(peaks)[0]], recording[np.where(peaks)[0]], 'o',
-            color='#c44e52', label=label)
-    ax.set_ylabel('PPG level')
-    ax.set_xlabel('Time (s)')
+        ax.plot(times, threshold, linestyle="--", color="gray", label="Threshold")
+        ax.fill_between(
+            x=times, y1=threshold, y2=recording.min(), alpha=0.2, color="gray"
+        )
+    ax.plot(times, recording, label="Recording", color="#4c72b0")
+    ax.fill_between(x=times, y1=recording, y2=recording.min(), color="w")
+    ax.plot(
+        times[np.where(peaks)[0]],
+        recording[np.where(peaks)[0]],
+        "o",
+        color="#c44e52",
+        label=label,
+    )
+    ax.set_ylabel("PPG level")
+    ax.set_xlabel("Time (s)")
     ax.legend()
 
     return ax
 
 
-def plot_subspaces(rr, c1=.17, c2=.13, xlim=10, ylim=5, ax=None, figsize=(10, 5)):
+def plot_subspaces(rr, c1=0.17, c2=0.13, xlim=10, ylim=5, ax=None, figsize=(10, 5)):
     """Plot hrv subspace as described by Lipponen & Tarvainen (2019).
 
     Parameters
@@ -220,19 +260,23 @@ def plot_subspaces(rr, c1=.17, c2=.13, xlim=10, ylim=5, ax=None, figsize=(10, 5)
 
     # Rescale to show outlier in scatterplot
     if xlim is not None:
-        artefacts['subspace1'][artefacts['subspace1'] < -xlim] = -xlim
-        artefacts['subspace1'][artefacts['subspace1'] > xlim] = xlim
+        artefacts["subspace1"][artefacts["subspace1"] < -xlim] = -xlim
+        artefacts["subspace1"][artefacts["subspace1"] > xlim] = xlim
     if ylim is not None:
-        artefacts['subspace2'][artefacts['subspace2'] < -ylim] = -ylim
-        artefacts['subspace2'][artefacts['subspace2'] > ylim] = ylim
+        artefacts["subspace2"][artefacts["subspace2"] < -ylim] = -ylim
+        artefacts["subspace2"][artefacts["subspace2"] > ylim] = ylim
 
-        artefacts['subspace3'][artefacts['subspace3'] < -ylim*2] = -ylim*2
-        artefacts['subspace3'][artefacts['subspace3'] > ylim*2] = ylim*2
+        artefacts["subspace3"][artefacts["subspace3"] < -ylim * 2] = -ylim * 2
+        artefacts["subspace3"][artefacts["subspace3"] > ylim * 2] = ylim * 2
 
     # Filter for normal beats
-    normalBeats = ((~artefacts['ectopic']) & (~artefacts['short']) &
-                   (~artefacts['long']) & (~artefacts['missed']) &
-                   (~artefacts['extra']))
+    normalBeats = (
+        (~artefacts["ectopic"])
+        & (~artefacts["short"])
+        & (~artefacts["long"])
+        & (~artefacts["missed"])
+        & (~artefacts["extra"])
+    )
 
     #############
     # First panel
@@ -242,50 +286,85 @@ def plot_subspaces(rr, c1=.17, c2=.13, xlim=10, ylim=5, ax=None, figsize=(10, 5)
         fig, ax = plt.subplots(1, 2, figsize=figsize)
 
     # Plot normal beats
-    ax[0].scatter(artefacts['subspace1'][normalBeats],
-                  artefacts['subspace2'][normalBeats],
-                  color='gray', edgecolors='k', s=15,
-                  alpha=0.2, zorder=10, label='Normal')
+    ax[0].scatter(
+        artefacts["subspace1"][normalBeats],
+        artefacts["subspace2"][normalBeats],
+        color="gray",
+        edgecolors="k",
+        s=15,
+        alpha=0.2,
+        zorder=10,
+        label="Normal",
+    )
 
     # Plot outliers
-    ax[0].scatter(artefacts['subspace1'][artefacts['ectopic']],
-                  artefacts['subspace2'][artefacts['ectopic']],
-                  color='r', edgecolors='k', zorder=10, label='Ectopic')
-    ax[0].scatter(artefacts['subspace1'][artefacts['short']],
-                  artefacts['subspace2'][artefacts['short']],
-                  color='b', edgecolors='k', zorder=10,
-                  marker='s', label='Short')
-    ax[0].scatter(artefacts['subspace1'][artefacts['long']],
-                  artefacts['subspace2'][artefacts['long']],
-                  color='g', edgecolors='k', zorder=10,
-                  marker='s', label='Long')
-    ax[0].scatter(artefacts['subspace1'][artefacts['missed']],
-                  artefacts['subspace2'][artefacts['missed']],
-                  color='g', edgecolors='k', zorder=10, label='Missed')
-    ax[0].scatter(artefacts['subspace1'][artefacts['extra']],
-                  artefacts['subspace2'][artefacts['extra']],
-                  color='b', edgecolors='k', zorder=10, label='Extra')
+    ax[0].scatter(
+        artefacts["subspace1"][artefacts["ectopic"]],
+        artefacts["subspace2"][artefacts["ectopic"]],
+        color="r",
+        edgecolors="k",
+        zorder=10,
+        label="Ectopic",
+    )
+    ax[0].scatter(
+        artefacts["subspace1"][artefacts["short"]],
+        artefacts["subspace2"][artefacts["short"]],
+        color="b",
+        edgecolors="k",
+        zorder=10,
+        marker="s",
+        label="Short",
+    )
+    ax[0].scatter(
+        artefacts["subspace1"][artefacts["long"]],
+        artefacts["subspace2"][artefacts["long"]],
+        color="g",
+        edgecolors="k",
+        zorder=10,
+        marker="s",
+        label="Long",
+    )
+    ax[0].scatter(
+        artefacts["subspace1"][artefacts["missed"]],
+        artefacts["subspace2"][artefacts["missed"]],
+        color="g",
+        edgecolors="k",
+        zorder=10,
+        label="Missed",
+    )
+    ax[0].scatter(
+        artefacts["subspace1"][artefacts["extra"]],
+        artefacts["subspace2"][artefacts["extra"]],
+        color="b",
+        edgecolors="k",
+        zorder=10,
+        label="Extra",
+    )
     # Upper area
-    def f1(x): return -c1*x + c2
-    ax[0].plot([-1, -10], [f1(-1), f1(-10)], 'k', linewidth=1, linestyle='--')
-    ax[0].plot([-1, -1], [f1(-1), 10], 'k', linewidth=1, linestyle='--')
+    def f1(x):
+        return -c1 * x + c2
+
+    ax[0].plot([-1, -10], [f1(-1), f1(-10)], "k", linewidth=1, linestyle="--")
+    ax[0].plot([-1, -1], [f1(-1), 10], "k", linewidth=1, linestyle="--")
     x = [-10, -10, -1, -1]
     y = [f1(-10), 10, 10, f1(-1)]
-    ax[0].fill(x, y, color='gray', alpha=0.3)
+    ax[0].fill(x, y, color="gray", alpha=0.3)
 
     # Lower area
-    def f2(x): return -c1*x - c2
-    ax[0].plot([1, 10], [f2(1), f2(10)], 'k', linewidth=1, linestyle='--')
-    ax[0].plot([1, 1], [f2(1), -10], 'k', linewidth=1, linestyle='--')
+    def f2(x):
+        return -c1 * x - c2
+
+    ax[0].plot([1, 10], [f2(1), f2(10)], "k", linewidth=1, linestyle="--")
+    ax[0].plot([1, 1], [f2(1), -10], "k", linewidth=1, linestyle="--")
     x = [1, 1, 10, 10]
     y = [f2(1), -10, -10, f2(10)]
-    ax[0].fill(x, y, color='gray', alpha=0.3)
+    ax[0].fill(x, y, color="gray", alpha=0.3)
 
-    ax[0].set_xlabel('Subspace $S_{11}$')
-    ax[0].set_ylabel('Subspace $S_{12}$')
+    ax[0].set_xlabel("Subspace $S_{11}$")
+    ax[0].set_ylabel("Subspace $S_{12}$")
     ax[0].set_ylim(-ylim, ylim)
     ax[0].set_xlim(-xlim, xlim)
-    ax[0].set_title('Subspace 1 \n (ectopic beats detection)')
+    ax[0].set_title("Subspace 1 \n (ectopic beats detection)")
     ax[0].legend()
 
     ##############
@@ -293,48 +372,79 @@ def plot_subspaces(rr, c1=.17, c2=.13, xlim=10, ylim=5, ax=None, figsize=(10, 5)
     ##############
 
     # Plot normal beats
-    ax[1].scatter(artefacts['subspace1'][normalBeats],
-                  artefacts['subspace3'][normalBeats],
-                  color='gray', edgecolors='k', alpha=0.2,
-                  zorder=10, s=15, label='Normal')
+    ax[1].scatter(
+        artefacts["subspace1"][normalBeats],
+        artefacts["subspace3"][normalBeats],
+        color="gray",
+        edgecolors="k",
+        alpha=0.2,
+        zorder=10,
+        s=15,
+        label="Normal",
+    )
 
     # Plot outliers
-    ax[1].scatter(artefacts['subspace1'][artefacts['ectopic']],
-                  artefacts['subspace3'][artefacts['ectopic']],
-                  color='r', edgecolors='k', zorder=10, label='Ectopic')
-    ax[1].scatter(artefacts['subspace1'][artefacts['short']],
-                  artefacts['subspace3'][artefacts['short']],
-                  color='b', edgecolors='k', zorder=10,
-                  marker='s', label='Short')
-    ax[1].scatter(artefacts['subspace1'][artefacts['long']],
-                  artefacts['subspace3'][artefacts['long']],
-                  color='g', edgecolors='k', zorder=10,
-                  marker='s', label='Long')
-    ax[1].scatter(artefacts['subspace1'][artefacts['missed']],
-                  artefacts['subspace3'][artefacts['missed']],
-                  color='g', edgecolors='k', zorder=10, label='Missed')
-    ax[1].scatter(artefacts['subspace1'][artefacts['extra']],
-                  artefacts['subspace3'][artefacts['extra']],
-                  color='b', edgecolors='k', zorder=10, label='Extra')
+    ax[1].scatter(
+        artefacts["subspace1"][artefacts["ectopic"]],
+        artefacts["subspace3"][artefacts["ectopic"]],
+        color="r",
+        edgecolors="k",
+        zorder=10,
+        label="Ectopic",
+    )
+    ax[1].scatter(
+        artefacts["subspace1"][artefacts["short"]],
+        artefacts["subspace3"][artefacts["short"]],
+        color="b",
+        edgecolors="k",
+        zorder=10,
+        marker="s",
+        label="Short",
+    )
+    ax[1].scatter(
+        artefacts["subspace1"][artefacts["long"]],
+        artefacts["subspace3"][artefacts["long"]],
+        color="g",
+        edgecolors="k",
+        zorder=10,
+        marker="s",
+        label="Long",
+    )
+    ax[1].scatter(
+        artefacts["subspace1"][artefacts["missed"]],
+        artefacts["subspace3"][artefacts["missed"]],
+        color="g",
+        edgecolors="k",
+        zorder=10,
+        label="Missed",
+    )
+    ax[1].scatter(
+        artefacts["subspace1"][artefacts["extra"]],
+        artefacts["subspace3"][artefacts["extra"]],
+        color="b",
+        edgecolors="k",
+        zorder=10,
+        label="Extra",
+    )
     # Upper area
-    ax[1].plot([-1, -10], [1, 1], 'k', linewidth=1, linestyle='--')
-    ax[1].plot([-1, -1], [1, 10], 'k', linewidth=1, linestyle='--')
+    ax[1].plot([-1, -10], [1, 1], "k", linewidth=1, linestyle="--")
+    ax[1].plot([-1, -1], [1, 10], "k", linewidth=1, linestyle="--")
     x = [-10, -10, -1, -1]
     y = [1, 10, 10, 1]
-    ax[1].fill(x, y, color='gray', alpha=0.3)
+    ax[1].fill(x, y, color="gray", alpha=0.3)
 
     # Lower area
-    ax[1].plot([1, 10], [-1, -1], 'k', linewidth=1, linestyle='--')
-    ax[1].plot([1, 1], [-1, -10], 'k', linewidth=1, linestyle='--')
+    ax[1].plot([1, 10], [-1, -1], "k", linewidth=1, linestyle="--")
+    ax[1].plot([1, 1], [-1, -10], "k", linewidth=1, linestyle="--")
     x = [1, 1, 10, 10]
     y = [-1, -10, -10, -1]
-    ax[1].fill(x, y, color='gray', alpha=0.3)
+    ax[1].fill(x, y, color="gray", alpha=0.3)
 
-    ax[1].set_xlabel('Subspace $S_{21}$')
-    ax[1].set_ylabel('Subspace $S_{22}$')
-    ax[1].set_ylim(-ylim*2, ylim*2)
+    ax[1].set_xlabel("Subspace $S_{21}$")
+    ax[1].set_ylabel("Subspace $S_{22}$")
+    ax[1].set_ylim(-ylim * 2, ylim * 2)
     ax[1].set_xlim(-xlim, xlim)
-    ax[1].set_title('Subspace 2 \n (long and short beats detection)')
+    ax[1].set_title("Subspace 2 \n (long and short beats detection)")
     ax[1].legend()
 
     plt.tight_layout()
@@ -342,8 +452,9 @@ def plot_subspaces(rr, c1=.17, c2=.13, xlim=10, ylim=5, ax=None, figsize=(10, 5)
     return ax
 
 
-def plot_psd(x, sfreq=5, method='welch', fbands=None, low=0.003,
-             high=0.4, show=True, ax=None):
+def plot_psd(
+    x, sfreq=5, method="welch", fbands=None, low=0.003, high=0.4, show=True, ax=None
+):
     """Plot PSD of heart rate variability.
 
     Parameters
@@ -373,11 +484,11 @@ def plot_psd(x, sfreq=5, method='welch', fbands=None, low=0.003,
     """
     # Interpolate R-R interval
     time = np.cumsum(x)
-    f = interp1d(time, x, kind='cubic')
-    new_time = np.arange(time[0], time[-1], 1000/sfreq)  # Sampling rate = 5 Hz
+    f = interp1d(time, x, kind="cubic")
+    new_time = np.arange(time[0], time[-1], 1000 / sfreq)  # Sampling rate = 5 Hz
     x = f(new_time)
 
-    if method == 'welch':
+    if method == "welch":
 
         # Define window length
         nperseg = 256 * sfreq
@@ -385,39 +496,47 @@ def plot_psd(x, sfreq=5, method='welch', fbands=None, low=0.003,
             nperseg = len(x)
 
         # Compute Power Spectral Density
-        freq, psd = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=nperseg*10)
+        freq, psd = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=nperseg * 10)
 
-        psd = psd/1000000
+        psd = psd / 1000000
 
     if fbands is None:
-        fbands = {'vlf': ['Very low frequency', (0.003, 0.04), '#4c72b0'],
-                  'lf':	['Low frequency', (0.04, 0.15), '#55a868'],
-                  'hf':	['High frequency', (0.15, 0.4), '#c44e52']}
+        fbands = {
+            "vlf": ["Very low frequency", (0.003, 0.04), "#4c72b0"],
+            "lf": ["Low frequency", (0.04, 0.15), "#55a868"],
+            "hf": ["High frequency", (0.15, 0.4), "#c44e52"],
+        }
 
     if show is True:
         # Plot the PSD
         if ax is None:
             fig, ax = plt.subplots(figsize=(8, 5))
-        ax.plot(freq, psd, 'k')
-        for f in ['vlf', 'lf', 'hf']:
+        ax.plot(freq, psd, "k")
+        for f in ["vlf", "lf", "hf"]:
             mask = (freq >= fbands[f][1][0]) & (freq <= fbands[f][1][1])
-            ax.fill_between(freq, psd, where=mask, color=fbands[f][2],
-                            alpha=0.8)
-            ax.axvline(x=fbands[f][1][0],
-                       linestyle='--',
-                       color='gray')
+            ax.fill_between(freq, psd, where=mask, color=fbands[f][2], alpha=0.8)
+            ax.axvline(x=fbands[f][1][0], linestyle="--", color="gray")
         ax.set_xlim(0.003, 0.4)
-        ax.set_xlabel('Frequency [Hz]')
-        ax.set_ylabel('PSD [$s^2$/Hz]')
-        ax.set_title('Power Spectral Density', fontweight='bold')
+        ax.set_xlabel("Frequency [Hz]")
+        ax.set_ylabel("PSD [$s^2$/Hz]")
+        ax.set_title("Power Spectral Density", fontweight="bold")
 
         return ax
     else:
         return freq, psd
 
 
-def circular(data, bins=32, density='area', offset=0, mean=False, norm=True,
-             units='radians', color=None, ax=None):
+def circular(
+    data,
+    bins=32,
+    density="area",
+    offset=0,
+    mean=False,
+    norm=True,
+    units="radians",
+    color=None,
+    ax=None,
+):
     """Plot polar histogram.
 
     Parameters
@@ -480,41 +599,49 @@ def circular(data, bins=32, density='area', offset=0, mean=False, norm=True,
         data = np.asarray(data)
 
     if color is None:
-        color = '#539dcc'
+        color = "#539dcc"
 
     if ax is None:
         ax = plt.subplot(111, polar=True)
 
     # Bin data and count
-    count, bin = np.histogram(data, bins=bins, range=(0, np.pi*2))
+    count, bin = np.histogram(data, bins=bins, range=(0, np.pi * 2))
 
     # Compute width
     widths = np.diff(bin)[0]
 
-    if density == 'area':  # Default
+    if density == "area":  # Default
         # Area to assign each bin
         area = count / data.size
         # Calculate corresponding bin radius
-        radius = (area / np.pi)**.5
+        radius = (area / np.pi) ** 0.5
         alpha = (count * 0) + 1
-    elif density == 'height':  # Using height (can be misleading)
+    elif density == "height":  # Using height (can be misleading)
         radius = count / data.size
         alpha = (count * 0) + 1
-    elif density == 'alpha':  # Using transparency
+    elif density == "alpha":  # Using transparency
         radius = (count * 0) + 1
         # Alpha level to each bin
         alpha = count / data.size
         alpha = alpha / alpha.max()
     else:
-        raise ValueError('Invalid method')
+        raise ValueError("Invalid method")
 
     if norm is True:
         radius = radius / radius.max()
 
     # Plot data on ax
     for b, r, a in zip(bin[:-1], radius, alpha):
-        plt.bar(b, r, align='edge', width=widths,
-                edgecolor='k', linewidth=1, color=color, alpha=a)
+        plt.bar(
+            b,
+            r,
+            align="edge",
+            width=widths,
+            edgecolor="k",
+            linewidth=1,
+            color=color,
+            alpha=a,
+        )
 
     # Plot mean and CI
     if mean:
@@ -522,7 +649,7 @@ def circular(data, bins=32, density='area', offset=0, mean=False, norm=True,
         alpha = np.array(data)
         w = np.ones_like(alpha)
         circ_mean = np.angle(np.multiply(w, np.exp(1j * alpha)).sum(axis=0))
-        ax.plot(circ_mean, radius.max(), 'ko')
+        ax.plot(circ_mean, radius.max(), "ko")
 
     # Set the direction of the zero angle
     ax.set_theta_offset(offset)
@@ -531,8 +658,16 @@ def circular(data, bins=32, density='area', offset=0, mean=False, norm=True,
     ax.set_yticks([])
 
     if units == "radians":
-        label = ['$0$', r'$\pi/4$', r'$\pi/2$', r'$3\pi/4$',
-                 r'$\pi$', r'$5\pi/4$', r'$3\pi/2$', r'$7\pi/4$']
+        label = [
+            "$0$",
+            r"$\pi/4$",
+            r"$\pi/2$",
+            r"$3\pi/4$",
+            r"$\pi$",
+            r"$5\pi/4$",
+            r"$3\pi/2$",
+            r"$7\pi/4$",
+        ]
         ax.set_xticklabels(label)
     plt.tight_layout()
 
@@ -571,9 +706,9 @@ def plot_circular(data, y=None, hue=None, **kwargs):
     """
     # Check data format
     if isinstance(data, pd.DataFrame):
-        assert data.shape[0] > 0, 'Data must have at least 1 row.'
+        assert data.shape[0] > 0, "Data must have at least 1 row."
 
-    palette = itertools.cycle(sns.color_palette('deep'))
+    palette = itertools.cycle(sns.color_palette("deep"))
 
     if hue is None:
         ax = circular(data[y].values, **kwargs)
@@ -581,7 +716,7 @@ def plot_circular(data, y=None, hue=None, **kwargs):
     else:
         n_plot = data[hue].nunique()
 
-        fig, axs = plt.subplots(1, n_plot, subplot_kw=dict(projection='polar'))
+        fig, axs = plt.subplots(1, n_plot, subplot_kw=dict(projection="polar"))
 
         for i, cond in enumerate(data[hue].unique()):
 

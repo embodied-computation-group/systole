@@ -15,7 +15,7 @@ __all__ = ["import_ppg", "import_rr", "serialSim", "import_dataset1"]
 
 # Simulate serial inputs from ppg recording
 # =========================================
-class serialSim():
+class serialSim:
     """Simulate online data acquisition using pre recorded signal and realistic
     sampling rate (75 Hz).
     """
@@ -50,7 +50,7 @@ class serialSim():
         return paquet[0], paquet[1], paquet[2], paquet[3], paquet[4]
 
     def reset_input_buffer(self):
-        print('Reset input buffer')
+        print("Reset input buffer")
 
 
 def import_ppg():
@@ -61,13 +61,15 @@ def import_ppg():
     df : :py:class:`pandas.DataFrame`
         Dataframe containing the PPG signale.
     """
-    path = ('https://github.com/embodied-computation-group/systole/raw/'
-            'master/systole/datasets/')
-    response = requests.get(f'{path}/ppg.npy')
+    path = (
+        "https://github.com/embodied-computation-group/systole/raw/"
+        "master/systole/datasets/"
+    )
+    response = requests.get(f"{path}/ppg.npy")
     response.raise_for_status()
     ppg = np.load(io.BytesIO(response.content), allow_pickle=True)
-    df = pd.DataFrame({'ppg': ppg})
-    df['time'] = np.arange(0, len(df))/75
+    df = pd.DataFrame({"ppg": ppg})
+    df["time"] = np.arange(0, len(df)) / 75
 
     return df
 
@@ -80,14 +82,16 @@ def import_rr():
     rr : :py:class:`pandas.DataFrame`
         Dataframe containing the RR time-serie.
     """
-    path = ('https://github.com/embodied-computation-group/systole/raw/'
-            'master/systole/datasets/')
-    rr = pd.read_csv(op.join(path, 'rr.txt'))
+    path = (
+        "https://github.com/embodied-computation-group/systole/raw/"
+        "master/systole/datasets/"
+    )
+    rr = pd.read_csv(op.join(path, "rr.txt"))
 
     return rr
 
 
-def import_dataset1(modalities=['ECG', 'EDA', 'Respiration', 'Stim']):
+def import_dataset1(modalities=["ECG", "EDA", "Respiration", "Stim"]):
     """Import PPG recording.
 
     Returns
@@ -108,17 +112,16 @@ def import_dataset1(modalities=['ECG', 'EDA', 'Respiration', 'Stim']):
         (2018). Preprint version 3.0.
         doi: https://www.biorxiv.org/content/10.1101/376954v3
     """
-    path = 'https://github.com/embodied-computation-group/systole/raw/dev/systole/datasets/Task1_'
+    path = "https://github.com/embodied-computation-group/systole/raw/dev/systole/datasets/Task1_"
     pbar = tqdm(modalities, position=0, leave=True)
     data = {}
     for item in pbar:
         pbar.set_description(f"Downloading {item} channel")
-        response = requests.get(f'{path}{item}.npy')
+        response = requests.get(f"{path}{item}.npy")
         response.raise_for_status()
-        data[item.lower()] = np.load(io.BytesIO(response.content),
-                                     allow_pickle=True)
+        data[item.lower()] = np.load(io.BytesIO(response.content), allow_pickle=True)
 
     df = pd.DataFrame(data)
-    df['time'] = np.arange(0, len(df))/1000
+    df["time"] = np.arange(0, len(df)) / 1000
 
     return df

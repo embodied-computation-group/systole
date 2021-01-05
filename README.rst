@@ -14,6 +14,9 @@
 .. image:: https://codecov.io/gh/embodied-computation-group/systole/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/embodied-computation-group/systole
 
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+  :target: https://github.com/psf/black
+
 ================
 
 .. figure::  https://github.com/embodied-computation-group/systole/raw/master/source/images/banner.png
@@ -50,22 +53,21 @@ Interactive plotting functions and reports generation will also require the foll
 * plotly (>=4.8.0)
 * plotly_express (>=0.4.1)
 
-For an overview of all the recording functionalities, you can refer to the following tutorials:
+Tutorial
+========
+
+For an overview of all the recording functionalities, you can refer to the following examples:
 
 * Recording
 * Artefacts detection and artefacts correction
 * Heart rate variability
-
-Tutorial
-========
 
 For an introduction to Systole and cardiac signal analysis, you can check the following tutorial:
 
 `Introduction to cardiac signal analysis for cognitive science <https://legrandnico.github.io/Notebooks/IntroductionCardiacSignalAnalysis.html>`_
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
-   :target: https://colab.research.google.com/github/LegrandNico/Notebooks/raw/main/IntroductionCardiacSignalAnalysis.ipynb
-
+   :target: https://colab.research.google.com/github/LegrandNico/Notebooks/blob/main/IntroductionCardiacSignalAnalysis.ipynb
 
 Recording
 =========

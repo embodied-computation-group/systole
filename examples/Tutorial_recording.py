@@ -24,7 +24,8 @@ Recording PPG signal
 
 import serial
 from systole.recording import Oximeter
-ser = serial.Serial('COM4')  # Add your USB port here
+
+ser = serial.Serial("COM4")  # Add your USB port here
 
 # Open serial port, initialize and plot recording for Oximeter
 oxi = Oximeter(serial=ser).setup().read(duration=10)
@@ -57,6 +58,7 @@ oximeter.read(duration=10)
 # record PPG signal in parallel with other commands.
 
 import time
+
 tstart = time.time()
 while time.time() - tstart < 10:
     oximeter.readInWaiting()
@@ -72,7 +74,7 @@ import time
 from systole.recording import Oximeter
 
 # Open serial port
-ser = serial.Serial('COM4')  # Change this value according to your setup
+ser = serial.Serial("COM4")  # Change this value according to your setup
 
 # Create an Oxymeter instance and initialize recording
 oxi = Oximeter(serial=ser, sfreq=75, add_channels=4).setup()
@@ -84,4 +86,4 @@ while time.time() - tstart < 10:
         paquet = list(oxi.serial.read(5))
         oxi.add_paquet(paquet[2])  # Add new data point
         if oxi.peaks[-1] == 1:
-            print('Heartbeat detected')
+            print("Heartbeat detected")

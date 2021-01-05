@@ -4,7 +4,7 @@ import numpy as np
 from scipy.interpolate import interp1d
 
 
-def norm_triggers(x, threshold=1, n=5, direction='higher'):
+def norm_triggers(x, threshold=1, n=5, direction="higher"):
     """Turns noisy triggers into unique boolean.
 
     Keep the first trigger and set to 0 the n following values.
@@ -27,26 +27,26 @@ def norm_triggers(x, threshold=1, n=5, direction='higher'):
         The filterd triggers
     """
     if not isinstance(x, np.ndarray):
-        raise ValueError('x must be a Numpy array')
+        raise ValueError("x must be a Numpy array")
 
-    if direction == 'higher':
+    if direction == "higher":
         y = x >= threshold
-    elif direction == 'lower':
+    elif direction == "lower":
         y = x <= threshold
     else:
-        raise ValueError('Invalid direction')
+        raise ValueError("Invalid direction")
 
     # Keep only the first trigger in window size
     for i in range(len(y)):
         if y[i]:
             if (len(y) - i) < n:  # If close to the end
-                y[i+1:] = False
+                y[i + 1 :] = False
             else:
-                y[i+1:i+n+1] = False
+                y[i + 1 : i + n + 1] = False
     return y
 
 
-def time_shift(x, events, order='after'):
+def time_shift(x, events, order="after"):
     """Return the delay between x and events.
 
     Parameters
@@ -78,7 +78,7 @@ def time_shift(x, events, order='after'):
     return lag
 
 
-def heart_rate(x, sfreq=1000, unit='rr', kind='cubic'):
+def heart_rate(x, sfreq=1000, unit="rr", kind="cubic"):
     """Transform peaks data into heart rate time series.
 
     Parameters
@@ -110,29 +110,30 @@ def heart_rate(x, sfreq=1000, unit='rr', kind='cubic'):
     if isinstance(x, list):
         x = np.asarray(x)
     if not ((x == 1) | (x == 0)).all():
-        raise ValueError('Input vector should only contain 0 and 1')
+        raise ValueError("Input vector should only contain 0 and 1")
 
     # Find peak indices
     peaks_idx = np.where(x)[0]
 
     # Create time vector (seconds):
-    time = (peaks_idx/sfreq)[1:]
+    time = (peaks_idx / sfreq)[1:]
 
     rr = np.diff(peaks_idx)
 
     # R-R heartratevals (in miliseconds)
     heartrate = (rr / sfreq) * 1000
-    if unit == 'bpm':
+    if unit == "bpm":
         # Beats per minutes
-        heartrate = (60000 / heartrate)
+        heartrate = 60000 / heartrate
 
     # Use the peaks vector as time input
-    new_time = np.arange(0, len(x)/sfreq, 1/sfreq)
+    new_time = np.arange(0, len(x) / sfreq, 1 / sfreq)
 
     if kind is not None:
         # Interpolate
-        f = interp1d(time, heartrate, kind=kind, bounds_error=False,
-                     fill_value=(np.nan, np.nan))
+        f = interp1d(
+            time, heartrate, kind=kind, bounds_error=False, fill_value=(np.nan, np.nan)
+        )
         heartrate = f(new_time)
 
     return heartrate, new_time
@@ -175,7 +176,7 @@ def to_angles(x, events):
             i -= np.max(x[x <= i])
 
             # Convert into radian [0 to pi*2]
-            ang.append((i*np.pi*2)/ln)
+            ang.append((i * np.pi * 2) / ln)
 
         elif i == x.max():
             ang.append(0.0)
@@ -183,8 +184,18 @@ def to_angles(x, events):
     return ang
 
 
-def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
-              sigma=10, apply_baseline=0, verbose=False, reject=None):
+def to_epochs(
+    x,
+    events,
+    sfreq=1000,
+    tmin=-1,
+    tmax=10,
+    event_val=1,
+    sigma=10,
+    apply_baseline=0,
+    verbose=False,
+    reject=None,
+):
     """Epoch signal based on events indices.
 
     Parameters
@@ -215,8 +226,10 @@ def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
         Event * Time array.
     """
     if len(x) != len(events):
-        raise ValueError("""The length of the event and signal vector
-                                shoul match exactly""")
+        raise ValueError(
+            """The length of the event and signal vector
+                                shoul match exactly"""
+        )
     # To numpy array
     if isinstance(x, list):
         x = np.asarray(x)
@@ -231,47 +244,55 @@ def to_epochs(x, events, sfreq=1000, tmin=-1, tmax=10, event_val=1,
         reject = np.zeros(len(x))
 
     rejected = 0
-    epochs = np.zeros(
-                shape=(len(events), ((np.abs(tmin) + np.abs(tmax)) * sfreq)))
+    epochs = np.zeros(shape=(len(events), ((np.abs(tmin) + np.abs(tmax)) * sfreq)))
     for i, ev in enumerate(events):
 
         # Security check (epochs is not outside signal limits)
-        if (ev+round(tmin*sfreq) < 0) | (ev+round(tmax*sfreq) > len(x)):
+        if (ev + round(tmin * sfreq) < 0) | (ev + round(tmax * sfreq) > len(x)):
             if verbose is True:
-                print('Drop 1 epoch due to signal limits.')
+                print("Drop 1 epoch due to signal limits.")
             rejected += 1
             epochs[i, :] = np.nan
 
         # Security check (trial contain bad peak)
-        elif np.any(reject[ev+round(tmin*sfreq):ev+round(tmax*sfreq)]):
+        elif np.any(reject[ev + round(tmin * sfreq) : ev + round(tmax * sfreq)]):
             if verbose is True:
-                print('Drop 1 epoch due to artefact.')
+                print("Drop 1 epoch due to artefact.")
             rejected += 1
             epochs[i, :] = np.nan
         else:
-            trial = x[ev+round(tmin*sfreq):ev+round(tmax*sfreq)]
+            trial = x[ev + round(tmin * sfreq) : ev + round(tmax * sfreq)]
             if apply_baseline is None:
                 epochs[i, :] = trial
             else:
                 if isinstance(apply_baseline, int):
-                    baseline = x[ev+round(apply_baseline*sfreq)]
+                    baseline = x[ev + round(apply_baseline * sfreq)]
                 if isinstance(apply_baseline, tuple):
-                    low = ev+round(apply_baseline[0]*sfreq)
-                    high = ev+round(apply_baseline[1]*sfreq)
+                    low = ev + round(apply_baseline[0] * sfreq)
+                    high = ev + round(apply_baseline[1] * sfreq)
                     baseline = x[low:high].mean()
                 epochs[i, :] = trial - baseline
 
     # Print % of rejected items
     if (rejected > 0) & (verbose is True):
-        print(str(rejected) + ' trial(s) droped due to inconsistent recording')
+        print(str(rejected) + " trial(s) droped due to inconsistent recording")
 
     return epochs
 
 
-def simulate_rr(n_rr=350, extra_idx=[50], missed_idx=[100], short_idx=[150],
-                long_idx=[200], ectopic1_idx=[250], ectopic2_idx=[300],
-                random_state=42, as_peaks=False, artefacts=True):
-    """ RR time series simulation with artefacts.
+def simulate_rr(
+    n_rr=350,
+    extra_idx=[50],
+    missed_idx=[100],
+    short_idx=[150],
+    long_idx=[200],
+    ectopic1_idx=[250],
+    ectopic2_idx=[300],
+    random_state=42,
+    as_peaks=False,
+    artefacts=True,
+):
+    """RR time series simulation with artefacts.
 
      n_rr : int
         Number of RR intervals. Default is 350.
@@ -300,8 +321,8 @@ def simulate_rr(n_rr=350, extra_idx=[50], missed_idx=[100], short_idx=[150],
     np.random.seed(random_state)
 
     rr = np.array(
-        [800 + 50 * np.random.normal(i, .6) for i in np.sin(
-            np.arange(0, n_rr, 1.0))])
+        [800 + 50 * np.random.normal(i, 0.6) for i in np.sin(np.arange(0, n_rr, 1.0))]
+    )
 
     if artefacts is True:
 
@@ -309,7 +330,7 @@ def simulate_rr(n_rr=350, extra_idx=[50], missed_idx=[100], short_idx=[150],
         if extra_idx:
             n_extra = 0
             for i in extra_idx:
-                rr[i-n_extra] -= 100
+                rr[i - n_extra] -= 100
                 rr = np.insert(rr, i, 100)
                 n_extra += 1
 
@@ -334,18 +355,18 @@ def simulate_rr(n_rr=350, extra_idx=[50], missed_idx=[100], short_idx=[150],
         # Add ectopic beat type 1 (NPN)
         if ectopic1_idx:
             for i in ectopic1_idx:
-                rr[i] *= .7
-                rr[i+1] *= 1.3
+                rr[i] *= 0.7
+                rr[i + 1] *= 1.3
 
         # Add ectopic beat type 2 (PNP)
         if ectopic2_idx:
             for i in ectopic2_idx:
                 rr[i] *= 1.3
-                rr[i+1] *= .7
+                rr[i + 1] *= 0.7
 
     # Transform to peaks vector if needed
     if as_peaks is True:
-        peaks = np.zeros(np.cumsum(np.rint(rr).astype(int))[-1]+50)
+        peaks = np.zeros(np.cumsum(np.rint(rr).astype(int))[-1] + 50)
         peaks[(np.cumsum(np.rint(rr).astype(int)))] = 1
         peaks = peaks.astype(bool)
         peaks[0] = True
@@ -354,7 +375,7 @@ def simulate_rr(n_rr=350, extra_idx=[50], missed_idx=[100], short_idx=[150],
         return rr
 
 
-def to_neighbour(signal, peaks, kind='max', size=50):
+def to_neighbour(signal, peaks, kind="max", size=50):
     """Replace peaks with max/min neighbour in a given window.
 
     Parameters
@@ -375,16 +396,15 @@ def to_neighbour(signal, peaks, kind='max', size=50):
     """
     new_peaks = peaks.copy()
     for pk in np.where(peaks)[0]:
-        if kind == 'max':
-            x = signal[pk-size:pk+size].argmax()
-        elif kind == 'min':
-            x = signal[pk-size:pk+size].argmin()
+        if kind == "max":
+            x = signal[pk - size : pk + size].argmax()
+        elif kind == "min":
+            x = signal[pk - size : pk + size].argmin()
         else:
-            raise ValueError(
-                'Invalid argument, kind should be ''max'' or ''min''')
+            raise ValueError("Invalid argument, kind should be " "max" " or " "min" "")
 
         new_peaks[pk] = False
-        new_peaks[pk+(x-size)] = True
+        new_peaks[pk + (x - size)] = True
 
     return new_peaks
 
@@ -409,8 +429,8 @@ def to_rr(peaks, sfreq=1000):
     if isinstance(peaks, list):
         peaks = np.asarray(peaks)
     if ((peaks == 1) | (peaks == 0)).all():
-        rr = (np.diff(np.where(peaks)[0])/sfreq) * 1000
+        rr = (np.diff(np.where(peaks)[0]) / sfreq) * 1000
     else:
-        rr = (np.diff(peaks)/sfreq) * 1000
+        rr = (np.diff(peaks) / sfreq) * 1000
 
     return rr

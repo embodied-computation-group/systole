@@ -10,7 +10,7 @@ from systole.detection import oxi_peaks
 from systole.plotting import plot_oximeter, plot_events, plot_raw
 
 
-class Oximeter():
+class Oximeter:
     """Recording PPG signal with Nonin pulse oximeter.
 
     Parameters
@@ -110,6 +110,7 @@ class Oximeter():
       of in waiting samples. We recommend storing regularly 5 minutes recording
       as .npy file using the :py:func:save() function.
     """
+
     def __init__(self, serial, sfreq=75, add_channels=None):
 
         self.serial = serial
@@ -128,7 +129,7 @@ class Oximeter():
         if add_channels is not None:
             self.channels = {}
             for i in range(add_channels):
-                self.channels['Channel_' + str(i)] = []
+                self.channels["Channel_" + str(i)] = []
         else:
             self.channels = None
 
@@ -166,12 +167,13 @@ class Oximeter():
         if not self.times:
             self.times = [0]
         else:
-            self.times.append(len(self.times)/self.sfreq)
+            self.times.append(len(self.times) / self.sfreq)
 
         # Update threshold
         window = int(window * self.sfreq)
-        self.threshold.append((np.mean(self.recording[-window:]) +
-                               np.std(self.recording[-window:])))
+        self.threshold.append(
+            (np.mean(self.recording[-window:]) + np.std(self.recording[-window:]))
+        )
 
         # Store new differential if not exist
         if not self.diff:
@@ -192,9 +194,10 @@ class Oximeter():
         # Update instantaneous heart rate
         if sum(self.peaks) >= 2:
             self.instant_rr.append(
-                (np.diff(np.where(self.peaks)[0])[-1]/self.sfreq)*1000)
+                (np.diff(np.where(self.peaks)[0])[-1] / self.sfreq) * 1000
+            )
         else:
-            self.instant_rr.append(float('nan'))
+            self.instant_rr.append(float("nan"))
 
         return self
 
@@ -230,14 +233,13 @@ class Oximeter():
         **kwargs : `~systole.detection.oxi_peaks` properties.
         """
         # Peak detection
-        resampled_signal, peaks = oxi_peaks(self.recording,
-                                            new_sfreq=75, **kwargs)
+        resampled_signal, peaks = oxi_peaks(self.recording, new_sfreq=75, **kwargs)
 
         # R-R intervals (in miliseconds)
-        self.rr = (np.diff(np.where(peaks)[0])/self.sfreq) * 1000
+        self.rr = (np.diff(np.where(peaks)[0]) / self.sfreq) * 1000
 
         # Beats per minutes
-        self.bpm = 60000/self.rr
+        self.bpm = 60000 / self.rr
 
         return self
 
@@ -312,9 +314,9 @@ class Oximeter():
                 self.add_paquet(paquet[2])
             else:
                 if stop is True:
-                    raise ValueError('Synch error')
+                    raise ValueError("Synch error")
                 else:
-                    print('Synch error')
+                    print("Synch error")
                     while True:
                         self.serial.reset_input_buffer()
                         paquet = list(self.serial.read(5))
@@ -341,11 +343,15 @@ class Oximeter():
         if len(self.threshold) != len(self.recording):
             self.threshold = np.zeros(len(self.recording))
 
-        recording = np.array([np.asarray(self.recording),
-                              np.asarray(self.peaks),
-                              np.asarray(self.instant_rr),
-                              np.asarray(self.times),
-                              np.asarray(self.threshold)])
+        recording = np.array(
+            [
+                np.asarray(self.recording),
+                np.asarray(self.peaks),
+                np.asarray(self.instant_rr),
+                np.asarray(self.times),
+                np.asarray(self.threshold),
+            ]
+        )
 
         np.save(fname, recording)
 
@@ -381,8 +387,7 @@ class Oximeter():
         return self
 
     def waitBeat(self):
-        """Read Oximeter until a heartbeat is detected.
-        """
+        """Read Oximeter until a heartbeat is detected."""
         while True:
             if self.serial.inWaiting() >= 5:
                 # Store Oxi level
@@ -392,11 +397,11 @@ class Oximeter():
                     if any(self.peaks[-2:]):  # Peak found
                         break
                 else:
-                    print('Synch error')
+                    print("Synch error")
         return self
 
 
-class BrainVisionExG():
+class BrainVisionExG:
     """Recording ECG signal through TCPIP.
 
     Parameters
@@ -451,12 +456,17 @@ class BrainVisionExG():
         self.con.connect((self.ip, self.port))
 
         # Marker dict for storing marker information
-        self.marker = {'position': 0, 'points': 0, 'channel': -1,
-                       'type': "", 'description': ""}
+        self.marker = {
+            "position": 0,
+            "points": 0,
+            "channel": -1,
+            "type": "",
+            "description": "",
+        }
 
     def RecvData(self, requestedSize):
         """Helper function for receiving whole message"""
-        returnStream = b''
+        returnStream = b""
         while len(returnStream) < requestedSize:
             databytes = self.con.recv(requestedSize - len(returnStream))
             if not databytes:
@@ -473,7 +483,7 @@ class BrainVisionExG():
         stringlist = []
         s = ""
         for i in range(len(raw)):
-            if raw[i] != '\x00':
+            if raw[i] != "\x00":
                 s = s + raw[i]
             else:
                 stringlist.append(s)
@@ -485,17 +495,17 @@ class BrainVisionExG():
         read from tcpip socket"""
 
         # Extract numerical data
-        (channelCount, samplingInterval) = unpack('<Ld', rawdata[:12])
+        (channelCount, samplingInterval) = unpack("<Ld", rawdata[:12])
 
         # Extract resolutions
         resolutions = []
         for c in range(channelCount):
             index = 12 + c * 8
-            restuple = unpack('<d', rawdata[index:index+8])
+            restuple = unpack("<d", rawdata[index : index + 8])
             resolutions.append(restuple[0])
 
         # Extract channel names
-        channelNames = self.SplitString(rawdata[12 + 8 * channelCount:])
+        channelNames = self.SplitString(rawdata[12 + 8 * channelCount :])
 
         return (channelCount, samplingInterval, resolutions, channelNames)
 
@@ -504,27 +514,28 @@ class BrainVisionExG():
         array read from tcpip socket"""
 
         # Extract numerical data
-        (block, points, markerCount) = unpack('<LLL', rawdata[:12])
+        (block, points, markerCount) = unpack("<LLL", rawdata[:12])
 
         # Extract eeg data as array of floats
         data = []
         for i in range(points * channelCount):
             index = 12 + 4 * i
-            value = unpack('<f', rawdata[index:index+4])
+            value = unpack("<f", rawdata[index : index + 4])
             data.append(value[0])
 
         # Extract markers
         markers = []
         index = 12 + 4 * points * channelCount
         for m in range(markerCount):
-            markersize = unpack('<L', rawdata[index:index+4])
+            markersize = unpack("<L", rawdata[index : index + 4])
 
             ma = self.marker.copy()
-            (ma['position'], ma['points'], ma['channel']) = \
-                unpack('<LLl', rawdata[index+4:index+16])
-            typedesc = self.SplitString(rawdata[index+16:index+markersize[0]])
-            ma['type'] = typedesc[0]
-            ma['description'] = typedesc[1]
+            (ma["position"], ma["points"], ma["channel"]) = unpack(
+                "<LLl", rawdata[index + 4 : index + 16]
+            )
+            typedesc = self.SplitString(rawdata[index + 16 : index + markersize[0]])
+            ma["type"] = typedesc[0]
+            ma["description"] = typedesc[1]
 
             markers.append(ma)
             index = index + markersize[0]
@@ -555,7 +566,7 @@ class BrainVisionExG():
             rawhdr = self.RecvData(24)
 
             # Split array into usefull information id1 to id4 are constants
-            (id1, id2, id3, id4, msgsize, msgtype) = unpack('<llllLL', rawhdr)
+            (id1, id2, id3, id4, msgsize, msgtype) = unpack("<llllLL", rawhdr)
 
             # Get data part of message, which is of variable size
             rawdata = self.RecvData(msgsize - 24)
@@ -563,37 +574,54 @@ class BrainVisionExG():
             # Perform action dependend on the message type
             if msgtype == 1:
                 # Start message, extract eeg properties and display them
-                (channelCount, samplingInterval, resolutions, channelNames) = \
-                    self.GetProperties(rawdata)
+                (
+                    channelCount,
+                    samplingInterval,
+                    resolutions,
+                    channelNames,
+                ) = self.GetProperties(rawdata)
                 # reset block counter
                 self.lastBlock = -1
 
-                print("Reading TCP/IP connection (" +
-                      str(channelCount) + " channels found). "
-                      + str(resolutions) + " Hz. "
-                      + str(samplingInterval) + " samples. "
-                      + str(channelNames))
+                print(
+                    "Reading TCP/IP connection ("
+                    + str(channelCount)
+                    + " channels found). "
+                    + str(resolutions)
+                    + " Hz. "
+                    + str(samplingInterval)
+                    + " samples. "
+                    + str(channelNames)
+                )
 
             elif msgtype == 4:
                 # Data message, extract data and markers
-                (block, points, markerCount, data, markers) = \
-                    self.GetData(rawdata, channelCount)
+                (block, points, markerCount, data, markers) = self.GetData(
+                    rawdata, channelCount
+                )
 
                 # Check for overflow
                 if self.lastBlock != -1 and block > self.lastBlock + 1:
-                    print("*** Overflow with " +
-                          str(block - self.lastBlock) + " datablocks ***")
+                    print(
+                        "*** Overflow with "
+                        + str(block - self.lastBlock)
+                        + " datablocks ***"
+                    )
                 self.lastBlock = block
 
                 # Print markers, if there are some in actual block
                 if markerCount > 0:
                     for m in range(markerCount):
-                        print("Marker " + markers[m]['description'] +
-                              " of type " + markers[m]['type'])
+                        print(
+                            "Marker "
+                            + markers[m]["description"]
+                            + " of type "
+                            + markers[m]["type"]
+                        )
 
                 # Put data at the end of actual buffer
                 self.recording.extend(data)
-                if ((len(self.recording)/self.sfreq)/channelCount) >= duration:
+                if ((len(self.recording) / self.sfreq) / channelCount) >= duration:
                     break
             elif msgtype == 3:
                 # Stop message, terminate program
@@ -626,12 +654,12 @@ def findOximeter():
     usbList = list(list_ports.comports())
 
     for usb in usbList:
-        print('Connecting on device found in USB port ' + usb.device)
+        print("Connecting on device found in USB port " + usb.device)
 
         try:
-            Oximeter(serial=serial.Serial(usb.device)).setup().read(.2)
+            Oximeter(serial=serial.Serial(usb.device)).setup().read(0.2)
             port = usb.device
         except:
-            print('Invalid signal.')
+            print("Invalid signal.")
 
     return port

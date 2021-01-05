@@ -26,10 +26,10 @@ def correct_extra(rr, idx):
     clean_rr = rr
 
     if idx == len(clean_rr):
-        clean_rr = np.delete(clean_rr, idx-1)
+        clean_rr = np.delete(clean_rr, idx - 1)
     else:
         # Add the extra interval to the next one
-        clean_rr[idx+1] = clean_rr[idx+1] + clean_rr[idx]
+        clean_rr[idx + 1] = clean_rr[idx + 1] + clean_rr[idx]
         # Remove current interval
         clean_rr = np.delete(clean_rr, idx)
 
@@ -92,9 +92,14 @@ def interpolate_bads(rr, idx):
     return clean_rr
 
 
-def correct_rr(rr, extra_correction=True, missed_correction=True,
-               short_correction=True, long_correction=True,
-               ectopic_correction=True):
+def correct_rr(
+    rr,
+    extra_correction=True,
+    missed_correction=True,
+    short_correction=True,
+    long_correction=True,
+    ectopic_correction=True,
+):
     """Correct long and short beats using interpolation.
 
     Parameters
@@ -140,8 +145,8 @@ def correct_rr(rr, extra_correction=True, missed_correction=True,
 
     # Correct missed beats
     if missed_correction:
-        if np.any(artefacts['missed']):
-            for this_id in np.where(artefacts['missed'])[0]:
+        if np.any(artefacts["missed"]):
+            for this_id in np.where(artefacts["missed"])[0]:
                 this_id += nMissed
                 clean_rr = correct_missed(clean_rr, this_id)
                 nMissed += 1
@@ -149,8 +154,8 @@ def correct_rr(rr, extra_correction=True, missed_correction=True,
 
     # Correct extra beats
     if extra_correction:
-        if np.any(artefacts['extra']):
-            for this_id in np.where(artefacts['extra'])[0]:
+        if np.any(artefacts["extra"]):
+            for this_id in np.where(artefacts["extra"])[0]:
                 this_id -= nExtra
                 clean_rr = correct_missed(clean_rr, this_id)
                 nExtra += 1
@@ -158,36 +163,47 @@ def correct_rr(rr, extra_correction=True, missed_correction=True,
 
     # Correct ectopic beats
     if ectopic_correction:
-        if np.any(artefacts['ectopic']):
+        if np.any(artefacts["ectopic"]):
             # Also correct the beat before
-            for i in np.where(artefacts['ectopic'])[0]:
-                if (i > 0) & (i < len(artefacts['ectopic'])):
-                    artefacts['ectopic'][i-1] = True
-            this_id = np.where(artefacts['ectopic'])[0]
+            for i in np.where(artefacts["ectopic"])[0]:
+                if (i > 0) & (i < len(artefacts["ectopic"])):
+                    artefacts["ectopic"][i - 1] = True
+            this_id = np.where(artefacts["ectopic"])[0]
             clean_rr = interpolate_bads(clean_rr, [this_id])
-            nEctopic = np.sum(artefacts['ectopic'])
+            nEctopic = np.sum(artefacts["ectopic"])
 
     # Correct short beats
     if short_correction:
-        if np.any(artefacts['short']):
-            this_id = np.where(artefacts['short'])[0]
+        if np.any(artefacts["short"]):
+            this_id = np.where(artefacts["short"])[0]
             clean_rr = interpolate_bads(clean_rr, this_id)
             nShort = len(this_id)
 
     # Correct long beats
     if long_correction:
-        if np.any(artefacts['long']):
-            this_id = np.where(artefacts['long'])[0]
+        if np.any(artefacts["long"]):
+            this_id = np.where(artefacts["long"])[0]
             clean_rr = interpolate_bads(clean_rr, this_id)
             nLong = len(this_id)
 
-    return {'clean_rr': clean_rr, 'ectopic': nEctopic, 'short': nShort,
-            'long': nLong, 'extra': nExtra, 'missed': nMissed}
+    return {
+        "clean_rr": clean_rr,
+        "ectopic": nEctopic,
+        "short": nShort,
+        "long": nLong,
+        "extra": nExtra,
+        "missed": nMissed,
+    }
 
 
-def correct_peaks(peaks, extra_correction=True, missed_correction=True,
-                  short_correction=True, long_correction=True,
-                  ectopic_correction=True):
+def correct_peaks(
+    peaks,
+    extra_correction=True,
+    missed_correction=True,
+    short_correction=True,
+    long_correction=True,
+    ectopic_correction=True,
+):
     """Correct long, short, extra, missed and ectopic beats in peaks vector.
 
     Parameters
@@ -223,8 +239,8 @@ def correct_peaks(peaks, extra_correction=True, missed_correction=True,
 
     # Correct missed beats
     if missed_correction:
-        if np.any(artefacts['missed']):
-            for this_id in np.where(artefacts['missed'])[0]:
+        if np.any(artefacts["missed"]):
+            for this_id in np.where(artefacts["missed"])[0]:
                 this_id += nMissed
                 clean_peaks = correct_missed_peaks(clean_peaks, this_id)
                 nMissed += 1
@@ -232,15 +248,21 @@ def correct_peaks(peaks, extra_correction=True, missed_correction=True,
 
     # Correct extra beats
     if extra_correction:
-        if np.any(artefacts['extra']):
-            for this_id in np.where(artefacts['extra'])[0]:
+        if np.any(artefacts["extra"]):
+            for this_id in np.where(artefacts["extra"])[0]:
                 this_id -= nExtra
                 clean_peaks = correct_extra_peaks(clean_peaks, this_id)
                 nExtra += 1
         artefacts = rr_artefacts(np.diff(np.where(clean_peaks)[0]))
 
-    return {'clean_peaks': clean_peaks, 'ectopic': nEctopic, 'short': nShort,
-            'long': nLong, 'extra': nExtra, 'missed': nMissed}
+    return {
+        "clean_peaks": clean_peaks,
+        "ectopic": nEctopic,
+        "short": nShort,
+        "long": nLong,
+        "extra": nExtra,
+        "missed": nMissed,
+    }
 
 
 def correct_missed_peaks(peaks, idx):
@@ -265,10 +287,10 @@ def correct_missed_peaks(peaks, idx):
     index = np.where(clean_peaks)[0]
 
     # Estimate new interval
-    interval = int(round((index[idx+1] - index[idx])/2))
+    interval = int(round((index[idx + 1] - index[idx]) / 2))
 
     # Add peak in vector
-    clean_peaks[index[idx]+interval] = True
+    clean_peaks[index[idx] + interval] = True
 
     return clean_peaks
 

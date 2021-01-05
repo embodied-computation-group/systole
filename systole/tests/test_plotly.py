@@ -4,26 +4,31 @@ import pandas as pd
 import numpy as np
 import unittest
 from unittest import TestCase
-from systole.plotly import plot_raw, plot_shortLong, plot_ectopic, \
-    plot_subspaces, plot_frequency, plot_nonlinear, plot_timedomain
+from systole.plotly import (
+    plot_raw,
+    plot_shortLong,
+    plot_ectopic,
+    plot_subspaces,
+    plot_frequency,
+    plot_nonlinear,
+    plot_timedomain,
+)
 from systole import import_ppg, import_dataset1
 from systole.utils import simulate_rr
 
 rr = simulate_rr()
 ppg = import_ppg().ppg.to_numpy()
-signal_df = pd.DataFrame({'time': np.arange(0, len(ppg))/75,
-                          'ppg': ppg})
+signal_df = pd.DataFrame({"time": np.arange(0, len(ppg)) / 75, "ppg": ppg})
 
 
 class TestInteractive(TestCase):
-
     def test_plot_raw(self):
         """Test plot_raw function"""
         plot_raw(signal_df)
         plot_raw(signal_df.ppg.to_numpy())
-        ecg_df = import_dataset1()[:20*2000]
-        plot_raw(ecg_df, type='ecg')
-        plot_raw(ecg_df.ecg.to_numpy(), type='ecg', sfreq=2000)
+        ecg_df = import_dataset1()[: 20 * 2000]
+        plot_raw(ecg_df, type="ecg")
+        plot_raw(ecg_df.ecg.to_numpy(), type="ecg", sfreq=2000)
 
     def test_plot_shortLong(self):
         """Test plot_shortLong function"""
@@ -53,5 +58,6 @@ class TestInteractive(TestCase):
         """Test nnX function"""
         plot_timedomain(rr)
 
-if __name__ == '__main__':
-    unittest.main(argv=['first-arg-is-ignored'], exit=False)
+
+if __name__ == "__main__":
+    unittest.main(argv=["first-arg-is-ignored"], exit=False)
