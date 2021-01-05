@@ -46,7 +46,7 @@ z = np.concatenate(
 
 class TestPlotting(TestCase):
     def test_plot_raw(self):
-        fig, ax = plot_raw(ppg)
+        ax = plot_raw(ppg)
         assert isinstance(ax[0], matplotlib.axes.Axes)
 
     def test_plot_events(self):

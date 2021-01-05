@@ -26,7 +26,7 @@ class TestRecording(TestCase):
         ax = oxi.plot_events()
         assert isinstance(ax, matplotlib.axes.Axes)
 
-        fig, ax = oxi.plot_raw()
+        ax = oxi.plot_raw()
         assert isinstance(ax[0], matplotlib.axes.Axes)
         assert isinstance(ax[1], matplotlib.axes.Axes)
 
