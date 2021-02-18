@@ -201,7 +201,7 @@ class Oximeter:
 
         return self
 
-    def check(self, paquet, data_format=2):
+    def check(self, paquet):
         """Check if the provided paquet is correct
 
         Parameters
@@ -213,7 +213,7 @@ class Oximeter:
         """
         check = False
         if len(paquet) >= 5:
-            if paquet[0] == 1:
+            if (paquet[0] == 1) | (paquet[0] >= 128):
                 if (paquet[1] >= 0) & (paquet[1] <= 255):
                     if (paquet[2] >= 0) & (paquet[2] <= 255):
                         if paquet[3] <= 127:
