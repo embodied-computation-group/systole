@@ -6,4 +6,4 @@ from .datasets import *
 from .correction import *
 from .plotly import *
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
