@@ -201,13 +201,15 @@ class Oximeter:
 
         return self
 
-    def check(self, paquet):
+    def check(self, paquet, data_format=2):
         """Check if the provided paquet is correct
 
         Parameters
         ----------
         paquet : list
             The paquet to inspect.
+        data_format: int
+            The data format 
         """
         check = False
         if len(paquet) >= 5:
@@ -355,7 +357,7 @@ class Oximeter:
 
         np.save(fname, recording)
 
-    def setup(self, read_duration=1, clear_peaks=True):
+    def setup(self, read_duration=1, clear_peaks=True, nAttempts=100):
         """Find start byte and read a portion of signal.
 
         Parameters
@@ -364,6 +366,9 @@ class Oximeter:
             Length of signal to record after setup. Default is set to 1 second.
         clear_peaks : bool
             If *True*, will remove detected peaks.
+        nAttempts : int
+            Number of attempts to read pulse oximeter signal from the USB. If no
+            readable signal has been receive after `nAttemps`, a RuntimeError is raised.
 
         Notes
         -----
@@ -373,11 +378,18 @@ class Oximeter:
         """
         # Reset recording instance
         self.__init__(serial=self.serial, add_channels=self.n_channels)
+        completed, i = False, 0
         while True:
+            i += 1
             self.serial.reset_input_buffer()
             paquet = list(self.serial.read(5))
             if self.check(paquet=paquet):
+                completed = True
                 break
+            if i > nAttempts:
+                break
+        if completed is False:
+            raise RuntimeError('Unable to read signal from the USB port.')
         self.read(duration=read_duration)
 
         # Remove peaks
