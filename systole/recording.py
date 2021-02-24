@@ -141,10 +141,13 @@ class Oximeter:
             self.channels = None
 
         # Set the get value function depending on the data format
+        self.data_format = data_format
         if data_format == "2":
             self.get_value = self.data_format2
         elif data_format == "7":
             self.get_value = self.data_format7
+        else:
+            raise ValueError('Data format should be "2" or "7"')
 
     def add_paquet(self, value: int, window: float = 1.0):
         """Read a portion of data.
@@ -221,8 +224,6 @@ class Oximeter:
         ----------
         paquet : list
             The paquet to inspect.
-        data_format: int
-            The data format.
         """
         check = False
         if len(paquet) >= 5:
@@ -265,7 +266,7 @@ class Oximeter:
 
         Other Parameters
         ----------------
-        **kwargs : `~systole.detection.oxi_peaks` properties.
+        **kwargs : py:func:`systole.detection.oxi_peaks` properties.
         """
         # Peak detection
         resampled_signal, peaks = oxi_peaks(self.recording, new_sfreq=75, **kwargs)
@@ -328,7 +329,7 @@ class Oximeter:
                 # Store Oxi level
                 paquet = list(self.serial.read(5))
                 if self.check(paquet):
-                    self.add_paquet(self.get_value(paquet))
+                    self.add_paquet(value=self.get_value(paquet))
                 else:
                     self.setup()
         return self
@@ -346,7 +347,7 @@ class Oximeter:
             # Store Oxi level
             paquet = list(self.serial.read(5))
             if self.check(paquet):
-                self.add_paquet(self.get_value(paquet))
+                self.add_paquet(value=self.get_value(paquet))
             else:
                 if stop is True:
                     raise ValueError("Synch error")
@@ -390,7 +391,8 @@ class Oximeter:
 
         np.save(fname, recording)
 
-    def setup(self, read_duration: float = 1.0, clear_peaks: bool = True, nAttempts: int = 100):
+    def setup(self, read_duration: float = 1.0, clear_peaks: bool = True,
+              nAttempts: int = 100):
         """Find start byte and read a portion of signal.
 
         Parameters
@@ -410,7 +412,8 @@ class Oximeter:
         procedure are automatically removed.
         """
         # Reset recording instance
-        self.__init__(serial=self.serial, add_channels=self.n_channels)
+        self.__init__(serial=self.serial, add_channels=self.n_channels,
+                      data_format=self.data_format)
         completed, i = False, 0
         while True:
             i += 1
@@ -438,7 +441,7 @@ class Oximeter:
                 # Store Oxi level
                 paquet = list(self.serial.read(5))
                 if self.check(paquet):
-                    self.add_paquet(self.get_value(paquet))
+                    self.add_paquet(value=self.get_value(paquet))
                     if any(self.peaks[-2:]):  # Peak found
                         break
                 else:
