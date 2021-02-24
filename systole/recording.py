@@ -8,6 +8,7 @@ from serial.tools import list_ports
 from struct import unpack
 from systole.detection import oxi_peaks
 from systole.plotting import plot_oximeter, plot_events, plot_raw
+from typing import Optional
 
 
 class Oximeter:
@@ -22,6 +23,11 @@ class Oximeter:
     add_channels : int
         If int, will create as many additionnal channels. If None, no
         additional channels created.
+    data_format : str
+        Data format returned by the USB dongle ("2" or "7"). See
+        https://www.nonin.com/wp-content/uploads/6000-7000-CP-7602-000-11_ENG.pdf
+        for details. The pulse waveform value is automatically normalized and
+        range between 0 and 255 both for data format "2" and "7".
 
     Attributes
     ----------
@@ -111,7 +117,8 @@ class Oximeter:
       as .npy file using the :py:func:save() function.
     """
 
-    def __init__(self, serial, sfreq=75, add_channels=None):
+    def __init__(self, serial, sfreq: int = 75, add_channels: Optional[int] = None,
+                 data_format: str = "2"):
 
         self.serial = serial
         self.lag = 0
@@ -133,16 +140,22 @@ class Oximeter:
         else:
             self.channels = None
 
-    def add_paquet(self, paquet, window=1):
+        # Set the get value function depending on the data format
+        if data_format == "2":
+            self.get_value = self.data_format2
+        elif data_format == "7":
+            self.get_value = self.data_format7
+
+    def add_paquet(self, value: int, window: float = 1.0):
         """Read a portion of data.
 
         Parameters
         ----------
-        paquet : int
-            The data to record. Should be an integer between 0 and 240.
-        window : int or float
+        value : int
+            The data to record. Should be an integer between 0 and 255.
+        window : float
             Length of the window used to compute threshold (seconds). Default
-            is `1`.
+            is `1.0`.
 
         Returns
         -------
@@ -155,7 +168,7 @@ class Oximeter:
         """
 
         # Store new data
-        self.recording.append(paquet)
+        self.recording.append(value)
         self.peaks.append(0)
 
         # Add 0 to the additional channels
@@ -182,7 +195,7 @@ class Oximeter:
             self.diff.append(self.recording[-1] - self.recording[-2])
 
             # Is it a threshold crossing value?
-            if paquet > self.threshold[-1]:
+            if value > self.threshold[-1]:
 
                 # Is the new differential zero or crossing zero?
                 if (self.diff[-1] <= 0) & (self.diff[-2] > 0):
@@ -201,7 +214,7 @@ class Oximeter:
 
         return self
 
-    def check(self, paquet):
+    def check(self, paquet: list):
         """Check if the provided paquet is correct
 
         Parameters
@@ -209,7 +222,7 @@ class Oximeter:
         paquet : list
             The paquet to inspect.
         data_format: int
-            The data format 
+            The data format.
         """
         check = False
         if len(paquet) >= 5:
@@ -221,6 +234,26 @@ class Oximeter:
                                 check = True
 
         return check
+
+    def data_format2(self, paquet):
+        """Extract pulse waveform value for data format 2.
+
+        Parameters
+        ----------
+        paquet : list
+            A list containg 5 items.
+        """
+        return paquet[2]
+
+    def data_format7(self, paquet):
+        """Extract pulse waveform value for data format 7.
+
+        Parameters
+        ----------
+        paquet : list
+            A list containg 5 items.
+        """
+        return ((paquet[:, 1]*256 + paquet[:, 2])/65535)*255
 
     def find_peaks(self, **kwargs):
         """Find peaks in recorded signal.
@@ -281,7 +314,7 @@ class Oximeter:
 
         return ax
 
-    def read(self, duration):
+    def read(self, duration: float):
         """Read PPG signal for some amount of time.
 
         Parameters
@@ -295,12 +328,12 @@ class Oximeter:
                 # Store Oxi level
                 paquet = list(self.serial.read(5))
                 if self.check(paquet):
-                    self.add_paquet(paquet[2])
+                    self.add_paquet(self.get_value(paquet))
                 else:
                     self.setup()
         return self
 
-    def readInWaiting(self, stop=False):
+    def readInWaiting(self, stop: bool = False):
         """Read in wainting oxi data.
 
         Parameters
@@ -313,7 +346,7 @@ class Oximeter:
             # Store Oxi level
             paquet = list(self.serial.read(5))
             if self.check(paquet):
-                self.add_paquet(paquet[2])
+                self.add_paquet(self.get_value(paquet))
             else:
                 if stop is True:
                     raise ValueError("Synch error")
@@ -325,7 +358,7 @@ class Oximeter:
                         if self.check(paquet=paquet):
                             break
 
-    def save(self, fname):
+    def save(self, fname: str):
         """Save the recording instance.
 
         Parameters
@@ -357,7 +390,7 @@ class Oximeter:
 
         np.save(fname, recording)
 
-    def setup(self, read_duration=1, clear_peaks=True, nAttempts=100):
+    def setup(self, read_duration: float = 1.0, clear_peaks: bool = True, nAttempts: int = 100):
         """Find start byte and read a portion of signal.
 
         Parameters
@@ -405,7 +438,7 @@ class Oximeter:
                 # Store Oxi level
                 paquet = list(self.serial.read(5))
                 if self.check(paquet):
-                    self.add_paquet(paquet[2])
+                    self.add_paquet(self.get_value(paquet))
                     if any(self.peaks[-2:]):  # Peak found
                         break
                 else:
