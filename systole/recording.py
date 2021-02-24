@@ -253,7 +253,7 @@ class Oximeter:
         paquet : list
             A list containg 5 items.
         """
-        return ((paquet[:, 1]*256 + paquet[:, 2])/65535)*255
+        return ((paquet[1]*256 + paquet[2])/65535)*255
 
     def find_peaks(self, **kwargs):
         """Find peaks in recorded signal.
