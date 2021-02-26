@@ -74,8 +74,10 @@ For an overview of all the recording functionalities, you can refer to the follo
 For an introduction to Systole and cardiac signal analysis, you can check the following tutorial:
 
 `Introduction to cardiac signal analysis for cognitive science <https://legrandnico.github.io/Notebooks/IntroductionCardiacSignalAnalysis.html>`_
+
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
-   :target: https://colab.research.google.com/github/LegrandNico/Notebooks/blob/main/IntroductionCardiacSignalAnalysis.ipynb
+  :target: https://colab.research.google.com/github/LegrandNico/Notebooks/blob/main/IntroductionCardiacSignalAnalysis.ipynb
+
 
 Recording
 =========

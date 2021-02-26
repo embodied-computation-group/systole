@@ -173,7 +173,7 @@ class Oximeter:
         if add_channels is not None:
             self.channels: Optional[Dict[str, List]] = {}
             for i in range(add_channels):
-                self.channels["Channel_" + str(i)] = []
+                self.channels[f"Channel_{i}"] = []
         else:
             self.channels = None
 
@@ -425,13 +425,13 @@ class Oximeter:
         """
         # Sanity checks
         if len(self.peaks) != len(self.recording):
-            self.peak = np.zeros(len(self.recording))
+            self.peak = [0 * len(self.recording)]
 
         if len(self.instant_rr) != len(self.recording):
-            self.instant_rr = np.zeros(len(self.recording))
+            self.instant_rr = [0 * len(self.recording)]
 
         if len(self.times) != len(self.recording):
-            self.times = np.zeros(len(self.recording))
+            self.times = [0 * len(self.recording)]
 
         # Data that should be saved
         saveList = [
@@ -444,9 +444,9 @@ class Oximeter:
         # Add stim channels if provided
         if self.channels is not None:
             for i in range(len(self.channels)):
-                if len(self.channels["Channel_{i}"]) != len(self.recording):
+                if len(self.channels[f"Channel_{i}"]) != len(self.recording):
                     self.channels["Channel_" + str(i)] = [0 * len(self.recording)]
-                saveList.append(self.channels[f"Channel_{i}"])
+                saveList.append(np.asarray(self.channels[f"Channel_{i}"]))
 
         # Check data format and save
         if fname.endswith(".txt"):
