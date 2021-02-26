@@ -1,15 +1,17 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+import socket
+import time
+from struct import unpack
+from typing import Dict, List, Optional
+
 import numpy as np
 import pandas as pd
-import time
-import socket
 import serial
 from serial.tools import list_ports
-from struct import unpack
+
 from systole.detection import oxi_peaks
-from systole.plotting import plot_oximeter, plot_events, plot_raw
-from typing import Optional
+from systole.plotting import plot_events, plot_oximeter, plot_raw
 
 
 class Oximeter:
@@ -118,24 +120,58 @@ class Oximeter:
       as .npy file using the :py:func:save() function.
     """
 
-    def __init__(self, serial, sfreq: int = 75, add_channels: Optional[int] = None,
-                 data_format: str = "2"):
+    def __init__(
+        self,
+        serial,
+        sfreq: int = 75,
+        add_channels: Optional[int] = None,
+        data_format: str = "2",
+    ):
+        self.reset(serial, sfreq, add_channels, data_format)
 
+    def reset(
+        self,
+        serial,
+        sfreq: int = 75,
+        add_channels: Optional[int] = None,
+        data_format: str = "2",
+    ):
+        """Initialize/restart the recording instance.
+
+        Parameters
+        ----------
+        serial : pySerial object
+            The `serial` instance interfacing with the USB port.
+        sfreq : int
+            The sampling frequency of the recording. Defautl is 75 Hz.
+        add_channels : int
+            If int, will create as many additionnal channels. If None, no
+            additional channels created.
+        data_format : str
+            Data format returned by the USB dongle ("2" or "7"). See
+            https://www.nonin.com/wp-content/uploads/6000-7000-CP-7602-000-11_ENG.pdf
+            for details. The pulse waveform value is automatically normalized and
+            range between 0 and 255 both for data format "2" and "7".
+
+        Returns
+        -------
+        Oximeter instance.
+        """
         self.serial = serial
         self.lag = 0
         self.sfreq = sfreq
         self.dist = int(self.sfreq * 0.2)
 
         # Initialize recording with empty lists
-        self.instant_rr = []
-        self.recording = []
-        self.times = []
-        self.n_channels = add_channels
-        self.threshold = []
-        self.diff = []
-        self.peaks = []
+        self.instant_rr: List[float] = []
+        self.recording: List[float] = []
+        self.times: List[float] = []
+        self.n_channels: Optional[int] = add_channels
+        self.threshold: List[float] = []
+        self.diff: List[float] = []
+        self.peaks: List[int] = []
         if add_channels is not None:
-            self.channels = {}
+            self.channels: Optional[Dict[str, List]] = {}
             for i in range(add_channels):
                 self.channels["Channel_" + str(i)] = []
         else:
@@ -149,6 +185,8 @@ class Oximeter:
             self.get_value = self.data_format7
         else:
             raise ValueError('Data format should be "2" or "7"')
+
+        return self
 
     def add_paquet(self, value: int, window: float = 1.0):
         """Read a portion of data.
@@ -255,7 +293,7 @@ class Oximeter:
         paquet : list
             A list containg 5 items.
         """
-        return ((paquet[1]*256 + paquet[2])/65535)*255
+        return ((paquet[1] * 256 + paquet[2]) / 65535) * 255
 
     def find_peaks(self, **kwargs):
         """Find peaks in recorded signal.
@@ -373,7 +411,7 @@ class Oximeter:
         Notes
         -----
         If the signal is saved as a :class:`pandas.DataFrame`, the resulting data
-        frame will contain the following columns: 
+        frame will contain the following columns:
             * `signal`
             * `peaks`
             * `instant_rr`
@@ -397,32 +435,33 @@ class Oximeter:
 
         # Data that should be saved
         saveList = [
-                np.asarray(self.recording),
-                np.asarray(self.peaks),
-                np.asarray(self.instant_rr),
-                np.asarray(self.times),
-            ]
+            np.asarray(self.recording),
+            np.asarray(self.peaks),
+            np.asarray(self.instant_rr),
+            np.asarray(self.times),
+        ]
 
         # Add stim channels if provided
-        if self.n_channels:
-            for i in range(self.n_channels):
-                if len(self.channels["Channel_" + str(i)]) != len(self.recording):
-                    self.channels["Channel_" + str(i)] = np.zeros(len(self.recording))
-                saveList.extend([self.channels["Channel_" + str(i)]])
+        if self.channels is not None:
+            for i in range(len(self.channels)):
+                if len(self.channels["Channel_{i}"]) != len(self.recording):
+                    self.channels["Channel_" + str(i)] = [0 * len(self.recording)]
+                saveList.append(self.channels[f"Channel_{i}"])
 
         # Check data format and save
-        if fname.endswith('.txt'):
-            colnames = ['signal', 'peaks', 'instant_rr', 'time']
+        if fname.endswith(".txt"):
+            colnames = ["signal", "peaks", "instant_rr", "time"]
             if self.n_channels:
                 for i in range(self.n_channels):
-                    colnames.extend("Channel_" + str(i))
+                    colnames.extend(["Channel_" + str(i)])
             pd.DataFrame(np.array(saveList).T, columns=colnames).to_csv(fname)
         else:
             recording = np.array(saveList)
             np.save(fname, recording)
 
-    def setup(self, read_duration: float = 1.0, clear_peaks: bool = True,
-              nAttempts: int = 100):
+    def setup(
+        self, read_duration: float = 1.0, clear_peaks: bool = True, nAttempts: int = 100
+    ):
         """Find start byte and read a portion of signal.
 
         Parameters
@@ -442,8 +481,11 @@ class Oximeter:
         procedure are automatically removed.
         """
         # Reset recording instance
-        self.__init__(serial=self.serial, add_channels=self.n_channels,
-                      data_format=self.data_format)
+        self.reset(
+            serial=self.serial,
+            add_channels=self.n_channels,
+            data_format=self.data_format,
+        )
         completed, i = False, 0
         while True:
             i += 1
@@ -455,7 +497,7 @@ class Oximeter:
             if i > nAttempts:
                 break
         if completed is False:
-            raise RuntimeError('Unable to read signal from the USB port.')
+            raise RuntimeError("Unable to read signal from the USB port.")
         self.read(duration=read_duration)
 
         # Remove peaks

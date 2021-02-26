@@ -17,6 +17,7 @@ d. The :py:class:`systole.recording.Oximeter()` class has been improved:
    * :py:func:`systole.recording.Oximeter.setup()` has an `nAttempts` argument so it will not run forever if no valid signal is recordedfor a given number of attempts (default is 100).
    * :py:func:`systole.recording.Oximeter.check()` has been updated and accept data format #7 from Xpods, allowing more flexibility.
    * :py:func:`systole.recording.Oximeter.save()` will now save additional channels and support `.txt` and `.npy` file extensions.
+   * Create a :py:func:`systole.recording.Oximeter.reset()` method to avoid improper use of `__init__()`.
 
 v0.1.2 (September 2020)
 -----------------------
