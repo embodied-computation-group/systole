@@ -1,23 +1,24 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+import unittest
+from unittest import TestCase
+
+import matplotlib
 import numpy as np
 import pandas as pd
-import unittest
 import pytest
-import matplotlib
-from unittest import TestCase
+
+from systole import import_ppg, import_rr, serialSim
 from systole.plotting import (
-    plot_raw,
-    plot_events,
-    plot_oximeter,
-    plot_subspaces,
     circular,
     plot_circular,
+    plot_events,
+    plot_oximeter,
     plot_psd,
+    plot_raw,
+    plot_subspaces,
 )
-from systole import import_ppg, import_rr, serialSim
 from systole.recording import Oximeter
-
 
 serial = serialSim()
 oxi = Oximeter(serial=serial, add_channels=1).setup().read(10)

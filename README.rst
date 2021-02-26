@@ -17,6 +17,15 @@
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
   :target: https://github.com/psf/black
 
+.. image:: https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336
+  :target: https://pycqa.github.io/isort/
+
+.. image:: http://www.mypy-lang.org/static/mypy_badge.svg
+  :target: http://mypy-lang.org/
+
+.. image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
+  :target: https://github.com/pre-commit/pre-commit
+
 ================
 
 .. figure::  https://github.com/embodied-computation-group/systole/raw/master/source/images/banner.png
@@ -65,7 +74,6 @@ For an overview of all the recording functionalities, you can refer to the follo
 For an introduction to Systole and cardiac signal analysis, you can check the following tutorial:
 
 `Introduction to cardiac signal analysis for cognitive science <https://legrandnico.github.io/Notebooks/IntroductionCardiacSignalAnalysis.html>`_
-
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
    :target: https://colab.research.google.com/github/LegrandNico/Notebooks/blob/main/IntroductionCardiacSignalAnalysis.ipynb
 
@@ -74,12 +82,12 @@ Recording
 
 Systole natively supports recording of physiological signals from the following setups:
 * `Nonin 3012LP Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_ (USB).
-* Remote Data Access (RDA) via BrainVision Recorder together with Brain product ExG amplifier `<https://www.brainproducts.com/>`_ (Ethernet).
+* Remote Data Access (RDA) via BrainVision Recorder together with `Brain product ExG amplifier <https://www.brainproducts.com/>`_ (Ethernet).
 
 Artefact correction
 ===================
 
-Systole implements the artefact rejection method recently proposed by Lipponen & Tarvainen (2019) [#]_.
+Systole implements systolic peak detection inspired by van Gent et al. (2019) [#]_ and the artefact rejection method recently proposed by Lipponen & Tarvainen (2019) [#]_.
 
 .. code-block:: python
 
@@ -155,5 +163,3 @@ References
 **Artefact detection and correction:**
 
 .. [#] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for heart rate variability time series artefact correction using novel beat classification. *Journal of Medical Engineering & Technology, 43(3), 173–181*. https://doi.org/10.1080/03091902.2019.1640306
-
-.. [#] Kaufmann, T., Sütterlin, S., Schulz, S. M., & Vögele, C. (2011). ARTiiFACT: a tool for heart rate artifact processing and heart rate variability analysis. *Behavior Research Methods, 43(4), 1161–1170*. https://doi.org/10.3758/s13428-011-0107-7

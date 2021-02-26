@@ -1,12 +1,13 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+import io
+import os.path as op
 import time
+
 import numpy as np
 import pandas as pd
-import os.path as op
-from tqdm import tqdm
 import requests
-import io
+from tqdm import tqdm
 
 ddir = op.dirname(op.realpath(__file__))
 

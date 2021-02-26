@@ -1,14 +1,16 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import itertools
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
-from systole.detection import rr_artefacts, oxi_peaks, ecg_peaks
-from systole.utils import heart_rate
 from scipy.interpolate import interp1d
 from scipy.signal import welch
+
+from systole.detection import ecg_peaks, oxi_peaks, rr_artefacts
+from systole.utils import heart_rate
 
 
 def plot_raw(
@@ -46,8 +48,8 @@ def plot_raw(
 
     Returns
     -------
-    ax : `Matplotlib.Axes`
-        The figure.
+    ax : :class:`matplotlib.axes.Axes`
+        The matplotlib axes containing the plot.
     """
     if isinstance(signal, pd.DataFrame):
         # Find peaks - Remove learning phase
@@ -139,8 +141,8 @@ def plot_events(oximeter, ax=None):
 
     Returns
     -------
-    ax : `Matplotlib.Axes`
-        The figure.
+    ax : :class:`matplotlib.axes.Axes`
+        The matplotlib axes containing the plot.
     """
     if ax is None:
         fig, ax = plt.subplots(figsize=(13, 5))
@@ -178,8 +180,8 @@ def plot_oximeter(x, sfreq=75, ax=None):
 
     Returns
     -------
-    ax : `Matplotlib.Axes`
-        The figure.
+    ax : :class:`matplotlib.axes.Axes`
+        The matplotlib axes containing the plot.
     """
     if isinstance(x, (list, np.ndarray)):
         times = np.arange(0, len(x) / sfreq, 1 / sfreq)
@@ -244,8 +246,8 @@ def plot_subspaces(rr, c1=0.17, c2=0.13, xlim=10, ylim=5, ax=None, figsize=(10, 
 
     Returns
     -------
-    ax : `Matplotlib.Axes`
-        The figure.
+    ax : :class:`matplotlib.axes.Axes`
+        The matplotlib axes containing the plot.
 
     References
     ----------
@@ -340,6 +342,7 @@ def plot_subspaces(rr, c1=0.17, c2=0.13, xlim=10, ylim=5, ax=None, figsize=(10, 
         zorder=10,
         label="Extra",
     )
+
     # Upper area
     def f1(x):
         return -c1 * x + c2
@@ -478,8 +481,8 @@ def plot_psd(
 
     Returns
     -------
-    ax or (freq, psd) : `Matplotlib.Axes` or 1d array-like
-        If show is *True*, return the PSD plot. If show is *False*, will return
+    ax or (freq, psd) : :class:`matplotlib.axes.Axes` or tuple of numpy array
+        If show is `*`True*, return the PSD plot. If show is *False*, will return
         the frequencies and PSD level as arrays.
     """
     # Interpolate R-R interval
@@ -565,8 +568,8 @@ def circular(
 
     Returns
     -------
-    ax : `Matplotlib.Axes`
-        The figure.
+    ax : :class:`matplotlib.axes.Axes`
+        The matplotlib axes containing the plot.
 
     Notes
     -----
@@ -689,8 +692,8 @@ def plot_circular(data, y=None, hue=None, **kwargs):
 
     Returns
     -------
-    ax : `Matplotlib.Axes`
-        The figure.
+    ax : :class:`matplotlib.axes.Axes`
+        The matplotlib axes containing the plot.
 
     Examples
     --------

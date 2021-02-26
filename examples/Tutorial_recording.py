@@ -22,7 +22,10 @@ Recording PPG signal
 # Recording and plotting your first time-series will only require 5 lines
 # of code:
 
+import time
+
 import serial
+
 from systole.recording import Oximeter
 
 ser = serial.Serial("COM4")  # Add your USB port here
@@ -57,7 +60,6 @@ oximeter.read(duration=10)
 # seconds for a continuous recording). When inserted into a while loop, it can
 # record PPG signal in parallel with other commands.
 
-import time
 
 tstart = time.time()
 while time.time() - tstart < 10:
@@ -69,9 +71,6 @@ while time.time() - tstart < 10:
 # ----------------
 # Online heart beat detection, for cardiac-stimulus synchrony
 
-import serial
-import time
-from systole.recording import Oximeter
 
 # Open serial port
 ser = serial.Serial("COM4")  # Change this value according to your setup

@@ -12,11 +12,12 @@ plotted.
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 # Licence: GPL v3
 
-from systole import serialSim
-from systole.utils import heart_rate
-from systole.recording import Oximeter
 import matplotlib.pyplot as plt
 import numpy as np
+
+from systole import serialSim
+from systole.recording import Oximeter
+from systole.utils import heart_rate
 
 #%%
 # Recording

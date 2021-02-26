@@ -2,6 +2,7 @@
 
 import numpy as np
 from scipy.interpolate import interp1d
+
 from systole.detection import rr_artefacts
 
 

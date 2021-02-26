@@ -1,14 +1,16 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import os
-import unittest
-import threading
-import matplotlib
 import socket
-import numpy as np
+import threading
+import unittest
 from unittest import TestCase
+
+import matplotlib
+import numpy as np
+
 from systole import serialSim
-from systole.recording import Oximeter, BrainVisionExG
+from systole.recording import BrainVisionExG, Oximeter
 
 
 class TestRecording(TestCase):
@@ -20,6 +22,15 @@ class TestRecording(TestCase):
         serial.ppg = serial.ppg[-2:]  # To the end of recording
         oxi.read(10)
         oxi.find_peaks()
+
+        oxi.save("test")
+        assert os.path.exists("test.npy")
+        os.remove("test.npy")
+
+        oxi.save("test.txt")
+        assert os.path.exists("test.txt")
+        os.remove("test.txt")
+
         # Simulate events in recording
         for idx in np.random.choice(len(oxi.recording), 5):
             oxi.channels["Channel_0"][idx] = 1
@@ -49,14 +60,6 @@ class TestRecording(TestCase):
         oxi.instant_rr = []
         oxi.times = []
         oxi.threshold = []
-
-        oxi.save("test")
-        assert os.path.exists("test.npy")
-        os.remove("test.npy")
-        
-        oxi.save("test.txt")
-        assert os.path.exists("test.txt")
-        os.remove("test.txt")
 
     def test_BrainVisionExG(self):
 

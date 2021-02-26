@@ -1,10 +1,12 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-import numpy as np
 import unittest
 from unittest import TestCase
-from systole.detection import oxi_peaks, rr_artefacts, interpolate_clipping, ecg_peaks
-from systole import import_ppg, import_dataset1
+
+import numpy as np
+
+from systole import import_dataset1, import_ppg
+from systole.detection import ecg_peaks, interpolate_clipping, oxi_peaks, rr_artefacts
 from systole.utils import simulate_rr
 
 

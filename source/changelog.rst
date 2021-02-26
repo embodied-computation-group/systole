@@ -18,6 +18,7 @@ d. The :py:class:`systole.recording.Oximeter()` class has been improved:
    * :py:func:`systole.recording.Oximeter.check()` has been updated and accept data format #7 from Xpods, allowing more flexibility.
    * :py:func:`systole.recording.Oximeter.save()` will now save additional channels and support `.txt` and `.npy` file extensions.
    * Create a :py:func:`systole.recording.Oximeter.reset()` method to avoid improper use of `__init__()`.
+e. Add pre-commit hooks, flake8, black and isort tests.
 
 v0.1.2 (September 2020)
 -----------------------

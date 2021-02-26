@@ -1,20 +1,22 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-import pytest
 import unittest
+from unittest import TestCase
+
 import numpy as np
+import pytest
+
+from systole import import_ppg, import_rr
+from systole.detection import oxi_peaks
 from systole.utils import (
-    norm_triggers,
     heart_rate,
+    norm_triggers,
+    simulate_rr,
+    time_shift,
     to_angles,
     to_epochs,
-    time_shift,
-    simulate_rr,
     to_rr,
 )
-from systole.detection import oxi_peaks
-from unittest import TestCase
-from systole import import_ppg, import_rr
 
 
 class TestUtils(TestCase):

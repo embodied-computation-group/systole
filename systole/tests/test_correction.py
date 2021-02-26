@@ -1,18 +1,20 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-import numpy as np
 import unittest
 from unittest import TestCase
+
+import numpy as np
+
+from systole import import_rr
 from systole.correction import (
     correct_extra,
+    correct_extra_peaks,
     correct_missed,
+    correct_missed_peaks,
+    correct_peaks,
     correct_rr,
     interpolate_bads,
-    correct_peaks,
-    correct_extra_peaks,
-    correct_missed_peaks,
 )
-from systole import import_rr
 from systole.utils import simulate_rr
 
 

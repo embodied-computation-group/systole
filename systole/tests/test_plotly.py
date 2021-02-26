@@ -1,19 +1,21 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-import pandas as pd
-import numpy as np
 import unittest
 from unittest import TestCase
+
+import numpy as np
+import pandas as pd
+
+from systole import import_dataset1, import_ppg
 from systole.plotly import (
-    plot_raw,
-    plot_shortLong,
     plot_ectopic,
-    plot_subspaces,
     plot_frequency,
     plot_nonlinear,
+    plot_raw,
+    plot_shortLong,
+    plot_subspaces,
     plot_timedomain,
 )
-from systole import import_ppg, import_dataset1
 from systole.utils import simulate_rr
 
 rr = simulate_rr()

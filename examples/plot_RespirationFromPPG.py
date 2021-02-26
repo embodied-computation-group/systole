@@ -10,8 +10,8 @@ This script shows how respration can be estimated from PPG signal.
 
 #%%
 import plotly
-from systole.detection import rr_artefacts
 
+from systole.detection import rr_artefacts
 
 #%%
 # Subspaces visualization

@@ -1,12 +1,14 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-import pandas as pd
-import numpy as np
 import unittest
-import pytest
 from unittest import TestCase
-from systole.hrv import nnX, pnnX, rmssd, time_domain, frequency_domain, nonlinear
+
+import numpy as np
+import pandas as pd
+import pytest
+
 from systole import import_rr
+from systole.hrv import frequency_domain, nnX, nonlinear, pnnX, rmssd, time_domain
 
 rr = import_rr().rr.values
 

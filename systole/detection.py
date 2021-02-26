@@ -2,9 +2,10 @@
 
 import numpy as np
 import pandas as pd
+from ecgdetectors import Detectors
 from scipy.interpolate import interp1d
 from scipy.signal import find_peaks
-from ecgdetectors import Detectors
+
 from systole.utils import to_neighbour
 
 

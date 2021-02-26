@@ -18,18 +18,18 @@ tones at no delay (systole, s+) or at a fixed offset (diastole, s-).
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 # Licence: GPL v3
 
-import time
-import numpy as np
 import itertools
-import seaborn as sns
+import time
+
 import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
 from psychopy.sound import Sound
 
-from systole.utils import norm_triggers
 from systole import serialSim
-from systole.utils import to_angles
 from systole.plotting import circular
 from systole.recording import Oximeter
+from systole.utils import norm_triggers, to_angles
 
 #%%
 # Recording

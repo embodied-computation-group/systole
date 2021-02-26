@@ -9,10 +9,11 @@ rate variability and evoked heart rate activity.
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 # Licence: GPL v3
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
+
 from systole import import_dataset
 from systole.detection import ecg_peaks
 from systole.utils import heart_rate, to_epochs

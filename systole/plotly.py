@@ -2,11 +2,12 @@
 
 import numpy as np
 import pandas as pd
-from systole.detection import oxi_peaks, ecg_peaks
+
 from systole.correction import rr_artefacts
-from systole.utils import heart_rate
+from systole.detection import ecg_peaks, oxi_peaks
+from systole.hrv import frequency_domain, nonlinear, time_domain
 from systole.plotting import plot_psd
-from systole.hrv import time_domain, frequency_domain, nonlinear
+from systole.utils import heart_rate
 
 
 def plot_raw(signal, sfreq=75, type="ppg", ecg_method="hamilton"):

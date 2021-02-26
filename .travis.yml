@@ -8,10 +8,14 @@ python:
 install:
   - pip install -r requirements-test.txt
   - pip install -r requirements.txt
-  - pip install coverage pytest
+  - pip install coverage pytest mypy flake8 isort
 
 script:
   - coverage run -m pytest
+  - black --check ./
+  - isort ./
+  - mypy ./systole/ --ignore-missing-imports --follow-imports=skip
+  - flake8 ./
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

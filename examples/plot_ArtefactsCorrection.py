@@ -20,13 +20,13 @@ detection using the method proposed by Lipponen & Tarvainen (2019) [#]_.
 # ectopic beats. This method is more relevant for HRV analyse of long recording
 # where the timing of experimental events is not important.
 
+import matplotlib.pyplot as plt
 #%%
 import numpy as np
-import matplotlib.pyplot as plt
-from systole import simulate_rr
-from systole.plotting import plot_subspaces
-from systole.correction import correct_peaks, correct_rr
 
+from systole import simulate_rr
+from systole.correction import correct_peaks, correct_rr
+from systole.plotting import plot_subspaces
 
 #%% Method 1 - Peaks correction
 # #############################
