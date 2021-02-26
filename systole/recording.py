@@ -1,6 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import numpy as np
+import pandas as pd
 import time
 import socket
 import serial
@@ -365,8 +366,26 @@ class Oximeter:
         Parameters
         ----------
         fname : str
-            The file name.
+            The file name. The file extension can be `.npy` for
+            :class:`numpy.array` or `.txt` for :class:`pandas.DataFrame`. If
+            no extension is provided, will use the `.npy` extension by default.
+
+        Notes
+        -----
+        If the signal is saved as a :class:`pandas.DataFrame`, the resulting data
+        frame will contain the following columns: 
+            * `signal`
+            * `peaks`
+            * `instant_rr`
+            * `time`
+        If stim channels are provided, additional columns are appended as Channel_`i`,
+        for `i` additional channels.
+
+        If the signal is saved as a :class:`numpy.array`, the first dimension
+        will encode the channels in that order, and the second dimension the
+        samples.
         """
+        # Sanity checks
         if len(self.peaks) != len(self.recording):
             self.peak = np.zeros(len(self.recording))
 
@@ -376,20 +395,31 @@ class Oximeter:
         if len(self.times) != len(self.recording):
             self.times = np.zeros(len(self.recording))
 
-        if len(self.threshold) != len(self.recording):
-            self.threshold = np.zeros(len(self.recording))
-
-        recording = np.array(
-            [
+        # Data that should be saved
+        saveList = [
                 np.asarray(self.recording),
                 np.asarray(self.peaks),
                 np.asarray(self.instant_rr),
                 np.asarray(self.times),
-                np.asarray(self.threshold),
             ]
-        )
 
-        np.save(fname, recording)
+        # Add stim channels if provided
+        if self.n_channels:
+            for i in range(self.n_channels):
+                if len(self.channels["Channel_" + str(i)]) != len(self.recording):
+                    self.channels["Channel_" + str(i)] = np.zeros(len(self.recording))
+                saveList.extend([self.channels["Channel_" + str(i)]])
+
+        # Check data format and save
+        if fname.endswith('.txt'):
+            colnames = ['signal', 'peaks', 'instant_rr', 'time']
+            if self.n_channels:
+                for i in range(self.n_channels):
+                    colnames.extend("Channel_" + str(i))
+            pd.DataFrame(np.array(saveList).T, columns=colnames).to_csv(fname)
+        else:
+            recording = np.array(saveList)
+            np.save(fname, recording)
 
     def setup(self, read_duration: float = 1.0, clear_peaks: bool = True,
               nAttempts: int = 100):

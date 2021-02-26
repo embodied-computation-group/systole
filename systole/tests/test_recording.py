@@ -53,7 +53,10 @@ class TestRecording(TestCase):
         oxi.save("test")
         assert os.path.exists("test.npy")
         os.remove("test.npy")
-        oxi = Oximeter(serial=serial)
+        
+        oxi.save("test.txt")
+        assert os.path.exists("test.txt")
+        os.remove("test.txt")
 
     def test_BrainVisionExG(self):
 
