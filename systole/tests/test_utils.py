@@ -52,7 +52,7 @@ class TestUtils(TestCase):
     def test_time_shift(self):
         """Test time_shift function"""
         lag = time_shift([40, 50, 60], [45, 52])
-        assert lag == [5, 2]
+        assert np.all(lag == [5, 2])
 
     def test_to_angle(self):
         """Test to_angles function"""

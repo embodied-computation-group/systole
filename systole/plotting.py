@@ -1,27 +1,32 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import itertools
+from typing import TYPE_CHECKING, Dict, List, Optional, Tuple, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from matplotlib.axes import Axes
 from scipy.interpolate import interp1d
 from scipy.signal import welch
 
 from systole.detection import ecg_peaks, oxi_peaks, rr_artefacts
 from systole.utils import heart_rate
 
+if TYPE_CHECKING:
+    from systole.recording import Oximeter
+
 
 def plot_raw(
-    signal,
-    sfreq=75,
-    type="ppg",
-    ecg_method="hamilton",
-    ax=None,
-    figsize=(13, 5),
+    signal: Union[pd.DataFrame, np.ndarray],
+    sfreq: int = 75,
+    type: str = "ppg",
+    ecg_method: str = "hamilton",
+    ax: Optional[Axes] = None,
+    figsize: Tuple[float, float] = (13, 5),
     **kwargs
-):
+) -> Axes:
     """Interactive visualization of PPG signal and beats detection.
 
     Parameters
@@ -128,7 +133,7 @@ def plot_raw(
     return ax
 
 
-def plot_events(oximeter, ax=None):
+def plot_events(oximeter: "Oximeter", ax: Optional[Axes] = None) -> Axes:
     """Plot events occurence across recording.
 
     Parameters
@@ -136,7 +141,7 @@ def plot_events(oximeter, ax=None):
     oximeter : `systole.recording.Oximeter`
         The recording instance, where additional channels track different
         events using boolean recording.
-    ax : `Matplotlib.Axes` or None
+    ax : :class:`matplotlib.axes.Axes` or None
         Where to draw the plot. Default is *None* (create a new figure).
 
     Returns
@@ -147,7 +152,10 @@ def plot_events(oximeter, ax=None):
     if ax is None:
         fig, ax = plt.subplots(figsize=(13, 5))
     palette = itertools.cycle(sns.color_palette("deep"))
-    events = oximeter.channels.copy()
+    if oximeter.channels is not None:
+        events = oximeter.channels.copy()
+    else:
+        raise ValueError("No event found")
     for i, ch in enumerate(events):
         ax.fill_between(
             x=oximeter.times,
@@ -166,7 +174,9 @@ def plot_events(oximeter, ax=None):
     return ax
 
 
-def plot_oximeter(x, sfreq=75, ax=None):
+def plot_oximeter(
+    x: "Union[Oximeter, np.ndarray, List]", sfreq: int = 75, ax: Optional[Axes] = None
+) -> Axes:
     """Plot PPG signal.
 
     Parameters
@@ -221,12 +231,20 @@ def plot_oximeter(x, sfreq=75, ax=None):
     return ax
 
 
-def plot_subspaces(rr, c1=0.17, c2=0.13, xlim=10, ylim=5, ax=None, figsize=(10, 5)):
+def plot_subspaces(
+    rr: Union[List, np.ndarray],
+    c1: float = 0.17,
+    c2: float = 0.13,
+    xlim: float = 10.0,
+    ylim: float = 5.0,
+    ax: Optional[Axes] = None,
+    figsize: Tuple[float, float] = (10, 5),
+) -> Axes:
     """Plot hrv subspace as described by Lipponen & Tarvainen (2019).
 
     Parameters
     ----------
-    rr : 1d array-like
+    rr : list or np.ndarray
         Array of RR intervals or subspace1. If subspace1 is provided, subspace2
         and 3 must also be provided.
     c1 : float
@@ -235,11 +253,11 @@ def plot_subspaces(rr, c1=0.17, c2=0.13, xlim=10, ylim=5, ax=None, figsize=(10, 
     c2 : float
         Fixed variable controling the intersect of the threshold lines. Default
         is 0.17.
-    xlim : int
+    xlim : float
         Absolute range of the x axis. Default is 10.
-    ylim : int
+    ylim : float
         Absolute range of the y axis. Default is 5.
-    ax : `Matplotlib.Axes` or None
+    ax : :class:`matplotlib.axes.Axes` or None
         Where to draw the plot. Default is *None* (create a new figure).
     figsize : tuple
         Figure size. Default set to `(10, 5)`
@@ -456,39 +474,44 @@ def plot_subspaces(rr, c1=0.17, c2=0.13, xlim=10, ylim=5, ax=None, figsize=(10, 
 
 
 def plot_psd(
-    x, sfreq=5, method="welch", fbands=None, low=0.003, high=0.4, show=True, ax=None
-):
+    x: Union[List, np.ndarray],
+    sfreq: int = 5,
+    method: str = "welch",
+    fbands: Optional[Dict[str, Tuple[str, Tuple[float, float], str]]] = None,
+    show: bool = True,
+    ax: Optional[Axes] = None,
+) -> Union[Tuple[np.ndarray, np.ndarray], Axes]:
     """Plot PSD of heart rate variability.
 
     Parameters
     ----------
-    x : 1d array-like
+    x : np.ndarray or list
         Length of R-R intervals (default is in miliseconds).
     sfreq : int
         The sampling frequency.
     method : str
         The method used to extract freauency power. Default set to `'welch'`.
-    fbands : None or dict, optional
+    fbands : None | dict, optional
         Dictionary containing the names of the frequency bands of interest
         (str), their range (tuples) and their color in the PSD plot. Default is
-        {'vlf': ['Very low frequency', (0.003, 0.04), 'b'],
-        'lf': ['Low frequency', (0.04, 0.15), 'g'],
-        'hf': ['High frequency', (0.15, 0.4), 'r']}
+        >>> {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
+        >>> 'lf': ('Low frequency', (0.04, 0.15), 'g'),
+        >>> 'hf': ('High frequency', (0.15, 0.4), 'r')}
     show : bool
         Plot the power spectrum density. Default is *True*.
-    ax : `Matplotlib.Axes` or None
-        Where to draw the plot. Default is *None* (create a new figure).
+    ax : :class:`matplotlib.axes.Axes` or None
+        Where to draw the plot. Default is `None` (create a new figure).
 
     Returns
     -------
     ax or (freq, psd) : :class:`matplotlib.axes.Axes` or tuple of numpy array
-        If show is `*`True*, return the PSD plot. If show is *False*, will return
-        the frequencies and PSD level as arrays.
+        If show is `*`True*, return the PSD plot. If show is *False*, will
+        return the frequencies and PSD level as arrays.
     """
     # Interpolate R-R interval
     time = np.cumsum(x)
     f = interp1d(time, x, kind="cubic")
-    new_time = np.arange(time[0], time[-1], 1000 / sfreq)  # Sampling rate = 5 Hz
+    new_time = np.arange(time[0], time[-1], 1000 / sfreq)  # sfreq = 5 Hz
     x = f(new_time)
 
     if method == "welch":
@@ -505,9 +528,9 @@ def plot_psd(
 
     if fbands is None:
         fbands = {
-            "vlf": ["Very low frequency", (0.003, 0.04), "#4c72b0"],
-            "lf": ["Low frequency", (0.04, 0.15), "#55a868"],
-            "hf": ["High frequency", (0.15, 0.4), "#c44e52"],
+            "vlf": ("Very low frequency", (0.003, 0.04), "#4c72b0"),
+            "lf": ("Low frequency", (0.04, 0.15), "#55a868"),
+            "hf": ("High frequency", (0.15, 0.4), "#c44e52"),
         }
 
     if show is True:
@@ -530,16 +553,16 @@ def plot_psd(
 
 
 def circular(
-    data,
-    bins=32,
-    density="area",
-    offset=0,
-    mean=False,
-    norm=True,
-    units="radians",
-    color=None,
-    ax=None,
-):
+    data: Union[List, np.ndarray],
+    bins: int = 32,
+    density: str = "area",
+    offset: float = 0.0,
+    mean: bool = False,
+    norm: bool = True,
+    units: str = "radians",
+    color: Optional[str] = None,
+    ax: Optional[Axes] = None,
+) -> Axes:
     """Plot polar histogram.
 
     Parameters
@@ -555,16 +578,16 @@ def circular(
         Where 0 will be placed on the circle, in radians. Default set to 0
         (right).
     mean : bool
-        If True, show the mean and 95% CI. Default set to `False`
+        If `True`, show the mean and 95% CI. Default set to `False`
     norm : boolean
         Normalize the distribution between 0 and 1.
     units : str
-        Unit of the angular representation. Can be 'degree' or 'radian'.
+        Unit of the angular representation. Can be `'degree'` or `'radian'`.
         Default set to 'radians'.
-    color : Matplotlib color
+    color : str
         The color of the bars.
-    ax : `Matplotlib.Axes` or None
-        Where to draw the plot. Default is *None* (create a new figure).
+    ax : :class:`matplotlib.axes.Axes` or None
+        Where to draw the plot. Default is `None` (create a new figure).
 
     Returns
     -------
@@ -677,12 +700,17 @@ def circular(
     return ax
 
 
-def plot_circular(data, y=None, hue=None, **kwargs):
+def plot_circular(
+    data: pd.DataFrame,
+    y: Union[str, List, None] = None,
+    hue: Optional[Union[str, List[str]]] = None,
+    **kwargs
+) -> Axes:
     """Plot polar histogram.
 
     Parameters
     ----------
-    data : `pd.DataFrame`
+    data : pd.DataFrame
         Angular data (rad.).
     y : str or list
         If data is a pandas instance, column containing the angular values.

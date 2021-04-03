@@ -1,24 +1,26 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+from typing import Dict, List, Union
+
 import numpy as np
 from scipy.interpolate import interp1d
 
 from systole.detection import rr_artefacts
 
 
-def correct_extra(rr, idx):
+def correct_extra(rr: Union[List, np.ndarray], idx: int) -> np.ndarray:
     """Correct extra beats by removing the RR interval.
 
     Parameters
     ----------
-    rr : 1d array-like
+    rr : np.ndarray or list
         RR intervals.
     idx : int
         Index of the extra RR interval.
 
     Returns
     -------
-    clean_rr : 1d array-like
+    clean_rr : np.ndarray
         Corrected RR intervals.
     """
     if isinstance(rr, list):
@@ -37,19 +39,19 @@ def correct_extra(rr, idx):
     return clean_rr
 
 
-def correct_missed(rr, idx):
+def correct_missed(rr: Union[List, np.ndarray], idx: int) -> np.ndarray:
     """Correct missed beats by adding a new RR interval.
 
     Parameters
     ----------
-    rr : 1d array-like
+    rr : np.ndarray or list
         RR intervals.
     idx : int
         Index of the missed RR interval.
 
     Returns
     -------
-    clean_rr : 1d array-like
+    clean_rr : np.ndarray
         Corrected RR intervals.
     """
     if isinstance(rr, list):
@@ -66,19 +68,21 @@ def correct_missed(rr, idx):
     return clean_rr
 
 
-def interpolate_bads(rr, idx):
+def interpolate_bads(
+    rr: Union[List, np.ndarray], idx: Union[int, List, np.ndarray]
+) -> np.ndarray:
     """Correct long and short beats using interpolation.
 
     Parameters
     ----------
-    rr : 1d array-like
+    rr : np.ndarray or list
         RR intervals (ms).
-    idx : int or 1d array-like
+    idx : int, np.ndarray or list
         Index of the RR interval to correct.
 
     Returns
     -------
-    clean_rr : 1d array-like
+    clean_rr : np.ndarray
         Corrected RR intervals.
     """
     if isinstance(rr, list):
@@ -94,13 +98,13 @@ def interpolate_bads(rr, idx):
 
 
 def correct_rr(
-    rr,
-    extra_correction=True,
-    missed_correction=True,
-    short_correction=True,
-    long_correction=True,
-    ectopic_correction=True,
-):
+    rr: Union[List, np.ndarray],
+    extra_correction: bool = True,
+    missed_correction: bool = True,
+    short_correction: bool = True,
+    long_correction: bool = True,
+    ectopic_correction: bool = True,
+) -> Dict[str, Union[int, np.ndarray]]:
     """Correct long and short beats using interpolation.
 
     Parameters
@@ -108,15 +112,15 @@ def correct_rr(
     rr : 1d array-like
         RR intervals (ms).
     correct_extra : boolean
-      If True, correct extra beats in the RR time series.
+      If `True`, correct extra beats in the RR time series.
     correct_missed : boolean
-      If True, correct missed beats in the RR time series.
+      If `True`, correct missed beats in the RR time series.
     correct_short : boolean
-      If True, correct short beats in the RR time series.
+      If `True`, correct short beats in the RR time series.
     correct_long : boolean
-      If True, correct long beats in the RR time series.
+      If `True`, correct long beats in the RR time series.
     correct_ectopic : boolean
-      If True, correct ectopic beats in the RR time series.
+      If `True`, correct ectopic beats in the RR time series.
 
     Returns
     -------
@@ -136,8 +140,7 @@ def correct_rr(
         * missed: int
             The number of missed beats corrected.
     """
-    if isinstance(rr, list):
-        rr = np.asarray(rr)
+    rr = np.asarray(rr)
 
     clean_rr = rr.copy()
     nEctopic, nShort, nLong, nExtra, nMissed = 0, 0, 0, 0, 0
@@ -171,7 +174,7 @@ def correct_rr(
                     artefacts["ectopic"][i - 1] = True
             this_id = np.where(artefacts["ectopic"])[0]
             clean_rr = interpolate_bads(clean_rr, [this_id])
-            nEctopic = np.sum(artefacts["ectopic"])
+            nEctopic = np.sum(artefacts["ectopic"])  # type: ignore
 
     # Correct short beats
     if short_correction:
@@ -198,13 +201,10 @@ def correct_rr(
 
 
 def correct_peaks(
-    peaks,
-    extra_correction=True,
-    missed_correction=True,
-    short_correction=True,
-    long_correction=True,
-    ectopic_correction=True,
-):
+    peaks: Union[List, np.ndarray],
+    extra_correction: bool = True,
+    missed_correction: bool = True,
+) -> Dict[str, Union[int, np.ndarray]]:
     """Correct long, short, extra, missed and ectopic beats in peaks vector.
 
     Parameters
@@ -266,7 +266,7 @@ def correct_peaks(
     }
 
 
-def correct_missed_peaks(peaks, idx):
+def correct_missed_peaks(peaks: Union[List, np.ndarray], idx: int) -> np.ndarray:
     """Correct missed beats by adding a new RR interval.
 
     Parameters
@@ -296,7 +296,7 @@ def correct_missed_peaks(peaks, idx):
     return clean_peaks
 
 
-def correct_extra_peaks(peaks, idx):
+def correct_extra_peaks(peaks: Union[List, np.ndarray], idx: int) -> np.ndarray:
     """Correct extra beats by removing peak.
 
     Parameters

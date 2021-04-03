@@ -1,5 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+from typing import Dict, List, Tuple, Union
+
 import numpy as np
 import pandas as pd
 from ecgdetectors import Detectors
@@ -10,27 +12,31 @@ from systole.utils import to_neighbour
 
 
 def oxi_peaks(
-    x,
-    sfreq=75,
-    win=0.75,
-    new_sfreq=1000,
-    clipping=True,
-    noise_removal=True,
-    peak_enhancement=True,
-    distance=0.3,
-    clean_extra=False,
-):
-    """A simple peak finder for PPG signal.
+    x: Union[List, np.ndarray],
+    sfreq: int = 75,
+    win: float = 0.75,
+    new_sfreq: int = 1000,
+    clipping: bool = True,
+    noise_removal: bool = True,
+    peak_enhancement: bool = True,
+    distance: float = 0.3,
+    clean_extra: bool = False,
+) -> Tuple[np.ndarray, np.ndarray]:
+    """A simple systolic peak finder for PPG signals.
+
+    This method uses a rolling average + standard deviation
+    approach to update a detection threshold. All the peaks found
+    above this threshold are potential systolic peaks.
 
     Parameters
     ----------
-    x : list or 1d array-like
-        The oxi signal.
+    x : np.ndarray or list
+        The pulse oximeter time series.
     sfreq : int
         The sampling frequency. Default is set to 75 Hz.
     win : int
-        Window size (in seconds) used to compute the threshold (i.e. rolling mean
-        + standard deviation).
+        Window size (in seconds) used to compute the threshold (i.e.
+        rolling mean + standard deviation).
     new_sfreq : int
         If resample is *True*, the new sampling frequency.
     resample : boolean
@@ -77,8 +83,7 @@ def oxi_peaks(
     Heart Rate Analysis Software from the Taking the Fast Lane Project. Journal
     of Open Research Software, 7(1), p.32. DOI: http://doi.org/10.5334/jors.241
     """
-    if isinstance(x, list):
-        x = np.asarray(x)
+    x = np.asarray(x)
 
     # Interpolate
     f = interp1d(np.arange(0, len(x) / sfreq, 1 / sfreq), x, fill_value="extrapolate")
@@ -103,7 +108,7 @@ def oxi_peaks(
         )
     if peak_enhancement is True:
         # Square signal (peak enhancement)
-        x = x ** 2
+        x = np.asarray(x) ** 2
 
     # Compute moving average and standard deviation
     signal = pd.DataFrame({"signal": x})
@@ -138,15 +143,20 @@ def oxi_peaks(
 
 
 def ecg_peaks(
-    x, sfreq=1000, new_sfreq=1000, method="pan-tompkins", find_local=True, win_size=0.1
-):
+    x: Union[List, np.ndarray],
+    sfreq: int = 1000,
+    new_sfreq: int = 1000,
+    method: str = "pan-tompkins",
+    find_local: bool = True,
+    win_size: float = 0.1,
+) -> Tuple[np.ndarray, np.ndarray]:
     """A simple wrapper for many popular R peaks detectors algorithms.
 
     This function calls methods from `py-ecg-detectors` [1]_.
 
     Parameters
     ----------
-    x : list or 1d array-like
+    x : np.ndarray or list
         The oxi signal.
     sfreq : int
         The sampling frequency. Default is set to 75 Hz.
@@ -163,9 +173,9 @@ def ecg_peaks(
 
     Returns
     -------
-    peaks : 1d array-like
+    peaks : np.ndarray
         Numpy array containing peaks index.
-    resampled_signal : 1d array-like
+    resampled_signal : np.ndarray
         Signal resampled to the `new_sfreq` frequency.
 
     Notes
@@ -230,7 +240,9 @@ def ecg_peaks(
     return resampled_signal, peaks
 
 
-def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
+def rr_artefacts(
+    rr: Union[List, np.ndarray], c1: float = 0.13, c2: float = 0.17, alpha: float = 5.2
+) -> Dict[str, np.ndarray]:
     """Artefacts detection from RR time series using the subspaces approach
     proposed by Lipponen & Tarvainen (2019).
 
@@ -249,7 +261,7 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
 
     Returns
     -------
-    artefacts : dictionnary
+    artefacts : dict
         Dictionnary storing the parameters of RR artefacts rejection. All the
         vectors outputed have the same length as the provided RR time serie:
 
@@ -412,7 +424,9 @@ def rr_artefacts(rr, c1=0.13, c2=0.17, alpha=5.2):
     return artefacts
 
 
-def interpolate_clipping(signal, threshold=255):
+def interpolate_clipping(
+    signal: Union[List, np.ndarray], threshold: int = 255
+) -> np.ndarray:
     """Interoplate clipping artefacts.
 
     This function removes all data points equalling the provided threshold
@@ -420,14 +434,14 @@ def interpolate_clipping(signal, threshold=255):
 
     Parameters
     ----------
-    signal : 1d array-like
+    signal : np.ndarray or list
         Noisy signal.
     threshold : int
         Threshold of clipping artefact.
 
     Returns
     -------
-    clean_signal : 1d array-like
+    clean_signal : np.ndarray
         Interpolated signal.
 
     Examples

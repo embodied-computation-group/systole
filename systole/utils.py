@@ -1,17 +1,24 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+from typing import List, Optional, Tuple, Union
+
 import numpy as np
 from scipy.interpolate import interp1d
 
 
-def norm_triggers(x, threshold=1, n=5, direction="higher"):
-    """Turns noisy triggers into unique boolean.
+def norm_triggers(
+    x: Union[List, np.ndarray],
+    threshold: int = 1,
+    n: int = 5,
+    direction: str = "higher",
+) -> Union[List, np.ndarray]:
+    """Turns noisy triggers into boolean.
 
     Keep the first trigger and set to 0 the n following values.
 
     Parameters
     ----------
-    x : 1d array-like
+    x : np.ndarray or list
         The triggers to convert.
     threshold : float
         Threshold for triggering values. Default is 1.
@@ -23,8 +30,8 @@ def norm_triggers(x, threshold=1, n=5, direction="higher"):
 
     Returns
     -------
-    y : 1d array-like
-        The filterd triggers
+    y : np.ndarray
+        The filterd triggers array.
     """
     if not isinstance(x, np.ndarray):
         raise ValueError("x must be a Numpy array")
@@ -46,22 +53,24 @@ def norm_triggers(x, threshold=1, n=5, direction="higher"):
     return y
 
 
-def time_shift(x, events, order="after"):
+def time_shift(
+    x: Union[List, np.ndarray], events: Union[List, np.ndarray], order: str = "after"
+) -> np.ndarray:
     """Return the delay between x and events.
 
     Parameters
     ----------
-    x : 1d array-like
+    x : np.ndarray or list
         Timing of reference events.
-    events : 1d array-like
+    events : np.ndarray or list
         Timing of events of heartrateest.
     order : str
         Consider event occurung before of after baseline. Default is 'after'.
 
     Returns
     -------
-    time_shift : 1d array-like
-        The delay between X and events (a.u)
+    time_shift : np.ndarray
+        The delay between X and events (a.u).
     """
     if isinstance(x, list):
         x = np.asarray(x)
@@ -75,15 +84,17 @@ def time_shift(x, events, order="after"):
         # Event timing
         lag.append(e - r)
 
-    return lag
+    return np.array(lag)
 
 
-def heart_rate(x, sfreq=1000, unit="rr", kind="cubic"):
+def heart_rate(
+    x: Union[List, np.ndarray], sfreq: int = 1000, unit: str = "rr", kind: str = "cubic"
+) -> Tuple[np.ndarray, np.ndarray]:
     """Transform peaks data into heart rate time series.
 
     Parameters
     ----------
-    x : 1d array-like
+    x : np.ndarray or list
         Boolean vector of peaks detection.
     sfreq : int
         Sampling frequency.
@@ -95,9 +106,9 @@ def heart_rate(x, sfreq=1000, unit="rr", kind="cubic"):
 
     Returns
     -------
-    heartrate : 1d array-like
+    heartrate : np.ndarray
         The heart rate frequency.
-    time : 1d array-like
+    time : np.ndarray
         Time array.
 
     Notes
@@ -139,14 +150,16 @@ def heart_rate(x, sfreq=1000, unit="rr", kind="cubic"):
     return heartrate, new_time
 
 
-def to_angles(x, events):
+def to_angles(
+    x: Union[List, np.ndarray], events: Union[List, np.ndarray]
+) -> np.ndarray:
     """Angular values of events according to x cycle peaks.
 
     Parameters
     ----------
-    x : list or 1d array-like
+    x : np.ndarray or list
         The reference time serie. Time points can be unevenly spaced.
-    events : list or 1d array-like
+    events : np.ndarray or list
         The events time serie.
 
     Returns
@@ -154,10 +167,8 @@ def to_angles(x, events):
     ang : numpy array
         The angular value of events in the cycle of interest (radians).
     """
-    if isinstance(x, list):
-        x = np.asarray(x)
-    if isinstance(events, list):
-        events = np.asarray(events)
+    x = np.asarray(x)
+    events = np.asarray(events)
 
     # If data is provided in bollean format
     if not any(x > 1):
@@ -167,7 +178,7 @@ def to_angles(x, events):
     ang = []  # Where to store angular data
     for i in events:
 
-        if (i >= x.min()) & (i < x.max()):
+        if (i >= np.min(x)) & (i < np.max(x)):
 
             # Length of current R-R interval
             ln = np.min(x[x > i]) - np.max(x[x <= i])
@@ -178,24 +189,23 @@ def to_angles(x, events):
             # Convert into radian [0 to pi*2]
             ang.append((i * np.pi * 2) / ln)
 
-        elif i == x.max():
+        elif i == np.max(x):
             ang.append(0.0)
 
-    return ang
+    return np.asarray(ang)
 
 
 def to_epochs(
-    x,
-    events,
-    sfreq=1000,
-    tmin=-1,
-    tmax=10,
-    event_val=1,
-    sigma=10,
-    apply_baseline=0,
-    verbose=False,
-    reject=None,
-):
+    x: Union[List, np.ndarray],
+    events: Union[List, np.ndarray],
+    sfreq: int = 1000,
+    tmin: float = -1.0,
+    tmax: float = 10.0,
+    event_val: int = 1,
+    apply_baseline: Optional[Union[int, Tuple]] = 0,
+    verbose: bool = False,
+    reject: Optional[np.ndarray] = None,
+) -> np.ndarray:
     """Epoch signal based on events indices.
 
     Parameters
@@ -217,7 +227,7 @@ def to_epochs(
         mean). If *None*, no baseline is applied.
     verbose : boolean
         If True, will return warnings if epoc are droped.
-    reject : 1d array-like or None
+    reject : np.ndarray or None
         Segments of the signal that should be rejected.
 
     Returns
@@ -244,7 +254,7 @@ def to_epochs(
         reject = np.zeros(len(x))
 
     rejected = 0
-    epochs = np.zeros(shape=(len(events), ((np.abs(tmin) + np.abs(tmax)) * sfreq)))
+    epochs = np.zeros(shape=(len(events), int((np.abs(tmin) + np.abs(tmax)) * sfreq)))
     for i, ev in enumerate(events):
 
         # Security check (epochs is not outside signal limits)
@@ -281,17 +291,17 @@ def to_epochs(
 
 
 def simulate_rr(
-    n_rr=350,
-    extra_idx=[50],
-    missed_idx=[100],
-    short_idx=[150],
-    long_idx=[200],
-    ectopic1_idx=[250],
-    ectopic2_idx=[300],
-    random_state=42,
-    as_peaks=False,
-    artefacts=True,
-):
+    n_rr: int = 350,
+    extra_idx: List = [50],
+    missed_idx: List = [100],
+    short_idx: List = [150],
+    long_idx: List = [200],
+    ectopic1_idx: List = [250],
+    ectopic2_idx: List = [300],
+    random_state: int = 42,
+    as_peaks: bool = False,
+    artefacts: bool = True,
+) -> np.ndarray:
     """RR time series simulation with artefacts.
 
      n_rr : int
@@ -315,7 +325,7 @@ def simulate_rr(
 
     Returns
     -------
-    rr : 1d array-like
+    rr : np.ndarray
         The RR time series.
     """
     np.random.seed(random_state)
@@ -375,14 +385,16 @@ def simulate_rr(
         return rr
 
 
-def to_neighbour(signal, peaks, kind="max", size=50):
+def to_neighbour(
+    signal: np.ndarray, peaks: np.ndarray, kind: str = "max", size: int = 50
+) -> np.ndarray:
     """Replace peaks with max/min neighbour in a given window.
 
     Parameters
     ----------
-    signal : 1d array-like
+    signal : np.ndarray
         Signal used to maximize/minimize peaks.
-    peaks: 1d array-like
+    peaks: np.ndarray
         Boolean vector of peaks position.
     kind : str
         Can be 'max' or 'min'.
@@ -391,7 +403,7 @@ def to_neighbour(signal, peaks, kind="max", size=50):
 
     Returns
     -------
-    new_peaks: 1d array-like
+    new_peaks: np.ndarray
         Boolean vector of peaks position.
     """
     new_peaks = peaks.copy()
@@ -409,12 +421,12 @@ def to_neighbour(signal, peaks, kind="max", size=50):
     return new_peaks
 
 
-def to_rr(peaks, sfreq=1000):
+def to_rr(peaks: Union[List[float], np.ndarray], sfreq: int = 1000) -> np.ndarray:
     """Convert peaks index to intervals time series (RR, beat-to-beat...).
 
     Parameters
     ----------
-    peaks : 1d array-like or list
+    peaks : np.ndarray or list
         Either a boolean array or sample index. Default is *boolean*. If the
         input array does not only contain 0 or 1, will automatically try sample
         index.
@@ -423,7 +435,7 @@ def to_rr(peaks, sfreq=1000):
 
     Returns
     -------
-    rr : 1d array-like
+    rr : np.ndarray
         Interval time series (in miliseconds).
     """
     if isinstance(peaks, list):

@@ -20,4 +20,4 @@ repos:
     hooks:
     - id: mypy 
       files: ^systole/
-      args: [--ignore-missing-imports, --follow-imports=skip]
+      args: [--ignore-missing-imports]

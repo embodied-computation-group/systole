@@ -1,17 +1,19 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+from typing import Dict, List, Optional, Tuple, Union
+
 import numpy as np
 import pandas as pd
 from scipy import interpolate
 from scipy.signal import welch
 
 
-def nnX(x, t=50):
+def nnX(x: Union[List, np.ndarray], t: int = 50) -> float:
     """Number of difference in successive R-R interval > t ms.
 
     Parameters
     ----------
-    x : array like
+    x : np.ndarray or list
         Interval time-series (R-R, beat-to-beat...), in miliseconds.
     t : int
         Threshold value: Defaut is set to 50 ms to calculate the nn50 index.
@@ -31,12 +33,12 @@ def nnX(x, t=50):
     return nn
 
 
-def pnnX(x, t=50):
+def pnnX(x: Union[List, np.ndarray], t: int = 50) -> float:
     """Number of successive differences larger than a value (def = 50ms).
 
     Parameters
     ----------
-    x : array like
+    x : np.ndarray or list
         Interval time-series (R-R, beat-to-beat...), in miliseconds.
     t : int
         Threshold value: Defaut is set to 50 ms to calculate the nn50 index.
@@ -60,12 +62,12 @@ def pnnX(x, t=50):
     return pnnX
 
 
-def rmssd(x):
+def rmssd(x: Union[List, np.ndarray]) -> float:
     """Root Mean Square of Successive Differences.
 
     Parameters
     ----------
-    x : array like
+    x : np.ndarray or list
         Interval time-series (R-R, beat-to-beat...), in miliseconds.
 
     Returns
@@ -94,12 +96,12 @@ def rmssd(x):
     return y
 
 
-def time_domain(x):
+def time_domain(x: Union[List, np.ndarray]) -> pd.DataFrame:
     """Extract all time domain parameters from R-R intervals.
 
     Parameters
     ----------
-    x : 1d array-like
+    x : np.ndarray or list
         Interval time-series (R-R, beat-to-beat...), in miliseconds.
 
     Returns
@@ -132,16 +134,15 @@ def time_domain(x):
     using the py:pandas.pivot_table() function:
     >>> pd.pivot_table(stats, values='Values', columns='Metric')
     """
-    if isinstance(x, list):
-        x = np.asarray(x)
+    x = np.asarray(x)
     if len(x.shape) > 1:
         raise ValueError("X must be a 1darray")
 
     # Mean R-R intervals
-    mean_rr = round(np.mean(x))
+    mean_rr = round(np.mean(x))  # type: ignore
 
     # Mean BPM
-    mean_bpm = round(np.mean(60000 / x), 2)
+    mean_bpm = round(np.mean(60000 / x), 2)  # type: ignore
 
     # Median BPM
     median_rr = round(np.median(x), 2)
@@ -162,7 +163,7 @@ def time_domain(x):
     max_bpm = round(np.max(60000 / x), 2)
 
     # Standard deviation of R-R intervals
-    sdnn = round(x.std(ddof=1), 2)
+    sdnn = round(x.std(ddof=1), 2)  # type: ignore
 
     # Root Mean Square of Successive Differences (RMSSD)
     rms = round(rmssd(x), 2)
@@ -208,12 +209,17 @@ def time_domain(x):
     return stats
 
 
-def frequency_domain(x, sfreq=5, method="welch", fbands=None):
+def frequency_domain(
+    x: Union[List, np.ndarray],
+    sfreq: int = 5,
+    method: str = "welch",
+    fbands: Optional[Dict[str, Tuple[str, Tuple[float, float], str]]] = None,
+) -> pd.DataFrame:
     """Extract the frequency domain features of heart rate variability.
 
     Parameters
     ----------
-    x : list or 1d array-like
+    x : np.ndarray or list
         Interval time-series (R-R, beat-to-beat...), in miliseconds.
     sfreq : int
         The sampling frequency (Hz).
@@ -222,9 +228,9 @@ def frequency_domain(x, sfreq=5, method="welch", fbands=None):
     fbands : None | dict, optional
         Dictionary containing the names of the frequency bands of interest
         (str), their range (tuples) and their color in the PSD plot. Default is
-        >>> {'vlf': ['Very low frequency', (0.003, 0.04), 'b'],
-        >>> 'lf': ['Low frequency', (0.04, 0.15), 'g'],
-        >>> 'hf': ['High frequency', (0.15, 0.4), 'r']}
+        >>> {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
+        >>> 'lf': ('Low frequency', (0.04, 0.15), 'g'),
+        >>> 'hf': ('High frequency', (0.15, 0.4), 'r')}
 
     Returns
     -------
@@ -252,7 +258,7 @@ def frequency_domain(x, sfreq=5, method="welch", fbands=None):
     # Interpolate R-R interval
     time = np.cumsum(x)
     f = interpolate.interp1d(time, x, kind="cubic")
-    new_time = np.arange(time[0], time[-1], 1000 / sfreq)  # Sampling rate = 5 Hz
+    new_time = np.arange(time[0], time[-1], 1000 / sfreq)  # sfreq = 5 Hz
     x = f(new_time)
 
     if method == "welch":
@@ -269,9 +275,9 @@ def frequency_domain(x, sfreq=5, method="welch", fbands=None):
 
     if fbands is None:
         fbands = {
-            "vlf": ["Very low frequency", (0.003, 0.04), "b"],
-            "lf": ["Low frequency", (0.04, 0.15), "g"],
-            "hf": ["High frequency", (0.15, 0.4), "r"],
+            "vlf": ("Very low frequency", (0.003, 0.04), "b"),
+            "lf": ("Low frequency", (0.04, 0.15), "g"),
+            "hf": ("High frequency", (0.15, 0.4), "r"),
         }
 
     # Extract HRV parameters
@@ -322,7 +328,7 @@ def frequency_domain(x, sfreq=5, method="welch", fbands=None):
     return stats
 
 
-def nonlinear(x):
+def nonlinear(x: Union[List, np.ndarray]) -> pd.DataFrame:
     """Extract the non-linear features of heart rate variability.
 
     Parameters

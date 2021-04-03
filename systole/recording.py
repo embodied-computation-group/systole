@@ -454,7 +454,9 @@ class Oximeter:
             if self.n_channels:
                 for i in range(self.n_channels):
                     colnames.extend(["Channel_" + str(i)])
-            pd.DataFrame(np.array(saveList).T, columns=colnames).to_csv(fname)
+            pd.DataFrame(np.array(saveList).T, columns=colnames).to_csv(
+                fname, index=False
+            )
         else:
             recording = np.array(saveList)
             np.save(fname, recording)

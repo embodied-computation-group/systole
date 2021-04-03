@@ -1,5 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+from typing import TYPE_CHECKING, Dict, List, Optional, Union
+
 import numpy as np
 import pandas as pd
 
@@ -9,8 +11,16 @@ from systole.hrv import frequency_domain, nonlinear, time_domain
 from systole.plotting import plot_psd
 from systole.utils import heart_rate
 
+if TYPE_CHECKING:
+    from plotly.graph_objects import Figure
 
-def plot_raw(signal, sfreq=75, type="ppg", ecg_method="hamilton"):
+
+def plot_raw(
+    signal: Union[pd.DataFrame, List, np.ndarray],
+    sfreq: int = 75,
+    type: str = "ppg",
+    ecg_method: str = "hamilton",
+) -> "Figure":
     """Interactive visualization of PPG signal and beats detection.
 
     Parameters
@@ -29,6 +39,11 @@ def plot_raw(signal, sfreq=75, type="ppg", ecg_method="hamilton"):
     ecg_method : str
         Peak detection algorithm used by the
         :py:func:`systole.detection.ecg_peaks` function. Default is 'hamilton'.
+
+    Returns
+    -------
+    raw : :py:class:`plotly.graph_objects.Figure`
+        Instance of :py:class:`plotly.graph_objects.Figure`.
     """
     import plotly.graph_objs as go
     from plotly.subplots import make_subplots
@@ -40,6 +55,7 @@ def plot_raw(signal, sfreq=75, type="ppg", ecg_method="hamilton"):
         elif type == "ecg":
             signal, peaks = ecg_peaks(signal.ecg, method=ecg_method, find_local=True)
     else:
+        signal = np.asarray(signal)
         if type == "ppg":
             signal, peaks = oxi_peaks(signal, noise_removal=False, sfreq=sfreq)
         elif type == "ecg":
@@ -125,7 +141,10 @@ def plot_raw(signal, sfreq=75, type="ppg", ecg_method="hamilton"):
     return raw
 
 
-def plot_ectopic(rr=None, artefacts=None):
+def plot_ectopic(
+    rr: Optional[Union[List, np.ndarray]] = None,
+    artefacts: Optional[Dict[str, np.ndarray]] = None,
+) -> "Figure":
     """Plot interactive ectobeats subspace.
 
     Parameters
@@ -138,8 +157,8 @@ def plot_ectopic(rr=None, artefacts=None):
 
     Returns
     -------
-    subspacesPlot : plotly Figure
-        The interactive plot.
+    subspacesPlot : :py:class:`plotly.graph_objects.Figure`
+        Instance of :py:class:`plotly.graph_objects.Figure`.
 
     Notes
     -----
@@ -330,7 +349,10 @@ def plot_ectopic(rr=None, artefacts=None):
     return subspacesPlot
 
 
-def plot_shortLong(rr=None, artefacts=None):
+def plot_shortLong(
+    rr: Optional[Union[List, np.ndarray]] = None,
+    artefacts: Optional[Dict[str, np.ndarray]] = None,
+) -> "Figure":
     """Plot interactive short/long subspace.
 
     Parameters
@@ -343,8 +365,8 @@ def plot_shortLong(rr=None, artefacts=None):
 
     Returns
     -------
-    subspacesPlot : plotly Figure
-        The interactive plot.
+    subspacesPlot : :py:class:`plotly.graph_objects.Figure`
+        Instance of :py:class:`plotly.graph_objects.Figure`.
 
     Notes
     -----
@@ -529,20 +551,20 @@ def plot_shortLong(rr=None, artefacts=None):
     return subspacesPlot
 
 
-def plot_subspaces(rr, height=400):
+def plot_subspaces(rr: Union[List, np.ndarray], height: float = 400) -> "Figure":
     """Plot hrv subspace as described by Lipponen & Tarvainen (2019) [#]_.
 
     Parameters
     ----------
-    rr : 1d array-like
+    rr : np.ndarray or list
         Interval time-series (R-R, beat-to-beat...), in miliseconds.
     height : int
         Height of the figure. The width will be set to  `height*2` by default.
 
     Returns
     -------
-    fig : `go.Figure`
-        The figure.
+    fig : :py:class:`plotly.graph_objects.Figure`
+        Instance of :py:class:`plotly.graph_objects.Figure`.
 
     References
     ----------
@@ -596,7 +618,7 @@ def plot_subspaces(rr, height=400):
     return fig
 
 
-def plot_frequency(rr):
+def plot_frequency(rr: Union[np.ndarray, list]) -> "Figure":
     """Plot PSD and frequency domain metrics.
 
     Parameters
@@ -606,8 +628,8 @@ def plot_frequency(rr):
 
     Returns
     -------
-    fig : `go.Figure`
-        The figure.
+    fig : :py:class:`plotly.graph_objects.Figure`
+        Instance of :py:class:`plotly.graph_objects.Figure`.
     """
     import plotly.graph_objs as go
     from plotly.subplots import make_subplots
@@ -671,9 +693,9 @@ def plot_frequency(rr):
     freq, psd = plot_psd(rr, show=False)
 
     fbands = {
-        "vlf": ["Very low frequency", (0.003, 0.04), "#4c72b0"],
-        "lf": ["Low frequency", (0.04, 0.15), "#55a868"],
-        "hf": ["High frequency", (0.15, 0.4), "#c44e52"],
+        "vlf": ("Very low frequency", (0.003, 0.04), "#4c72b0"),
+        "lf": ("Low frequency", (0.04, 0.15), "#55a868"),
+        "hf": ("High frequency", (0.15, 0.4), "#c44e52"),
     }
 
     for f in ["vlf", "lf", "hf"]:
@@ -709,7 +731,7 @@ def plot_frequency(rr):
     return fig
 
 
-def plot_nonlinear(rr):
+def plot_nonlinear(rr: Union[np.ndarray, List]) -> "Figure":
     """Plot nonlinear domain.
 
     Parameters
@@ -719,11 +741,14 @@ def plot_nonlinear(rr):
 
     Returns
     -------
-    fig : `go.Figure`
-        The figure.
+    fig : :py:class:`plotly.graph_objects.Figure`
+        Instance of :py:class:`plotly.graph_objects.Figure`.
     """
     import plotly.graph_objs as go
     from plotly.subplots import make_subplots
+
+    if isinstance(rr, list):
+        rr = np.asarray(rr)
 
     df = nonlinear(rr).round(2)
 
@@ -794,18 +819,18 @@ def plot_nonlinear(rr):
     return fig
 
 
-def plot_timedomain(rr):
+def plot_timedomain(rr: Union[np.ndarray, list]) -> "Figure":
     """Plot time domain.
 
     Parameters
     ----------
-    rr : 1d array-like
+    rr : np.ndarray or list
         Interval time-series (R-R, beat-to-beat...), in miliseconds.
 
     Returns
     -------
-    fig : `go.Figure`
-        The figure.
+    fig : :py:class:`plotly.graph_objects.Figure`
+        Instance of :py:class:`plotly.graph_objects.Figure`.
     """
     import plotly.graph_objs as go
     from plotly.subplots import make_subplots
