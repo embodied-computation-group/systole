@@ -50,17 +50,16 @@ Systole can be installed using pip:
 
 The following packages are required to use Systole:
 
-* Numpy (>=1.15)
-* SciPy (>=1.3.0)
-* Pandas (>=0.24)
-* Matplotlib (>=3.0.2)
-* Seaborn (>=0.9.0)
-* py-ecg-detectors (>=1.0.2)
+* `Numpy <https://numpy.org/>`_ (>=1.15)
+* `SciPy <https://www.scipy.org/>`_ (>=1.3.0)
+* `Pandas <https://pandas.pydata.org/>`_ (>=0.24)
+* `Matplotlib <https://matplotlib.org/>`_ (>=3.0.2)
+* `Seaborn <https://seaborn.pydata.org/>`_ (>=0.9.0)
+* `py-ecg-detectors <https://github.com/berndporr/py-ecg-detectors>`_ (>=1.0.2)
 
 Interactive plotting functions and reports generation will also require the following packages to be installed:
 
-* plotly (>=4.8.0)
-* plotly_express (>=0.4.1)
+* `Plotly <https://plotly.com/>`_ (>=4.8.0)
 
 Tutorial
 ========
@@ -71,13 +70,12 @@ For an overview of all the recording functionalities, you can refer to the follo
 * Artefacts detection and artefacts correction
 * Heart rate variability
 
-For an introduction to Systole and cardiac signal analysis, you can check the following tutorial:
+For an introduction to Systole and cardiac signal analysis, you can refer to the following tutorial:
 
-`Introduction to cardiac signal analysis for cognitive science <https://legrandnico.github.io/Notebooks/IntroductionCardiacSignalAnalysis.html>`_
+* `Introduction to cardiac signal analysis <https://legrandnico.github.io/Notebooks/IntroductionCardiacSignalAnalysis.html>`_  |Colab badge|  
 
-.. image:: https://colab.research.google.com/assets/colab-badge.svg
+.. |Colab badge| image:: https://colab.research.google.com/assets/colab-badge.svg
   :target: https://colab.research.google.com/github/LegrandNico/Notebooks/blob/main/IntroductionCardiacSignalAnalysis.ipynb
-
 
 Recording
 =========
