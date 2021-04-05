@@ -1,6 +1,6 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import TYPE_CHECKING, Dict, List, Optional, Union
+from typing import TYPE_CHECKING, Dict, List, Union, overload
 
 import numpy as np
 import pandas as pd
@@ -12,7 +12,7 @@ from systole.plotting import plot_psd
 from systole.utils import heart_rate
 
 if TYPE_CHECKING:
-    from plotly.graph_objects import Figure
+    from plotly.graph_objs._figure import Figure
 
 
 def plot_raw(
@@ -21,29 +21,65 @@ def plot_raw(
     type: str = "ppg",
     ecg_method: str = "hamilton",
 ) -> "Figure":
-    """Interactive visualization of PPG signal and beats detection.
+    """Interactive visualization of PPG signal and systolic peaks detection.
 
     Parameters
     ----------
-    signal : :py:class:`pandas.DataFrame` or 1d array-like
-        Dataframe of signal recording in the long format. Should contain at
-        least one ``'time'`` and one signal colum (can be ``'ppg'`` or
-        ``'ecg'``). If an array is provided, will automatically create the
-        DataFrame using the array as signal and ``sfreq`` as sampling
-        frequency.
+    signal : :py:class:`pandas.DataFrame`, :py:class:`numpy.ndarray` or list
+        Dataframe of PPG or ECG signal in the long format. If a data frame is
+        provided, it should contain at least one ``'time'`` and one colum for
+        signal(either ``'ppg'`` or ``'ecg'``). If an array is provided, it will
+        automatically create a DataFrame using the array as signal and
+        ``sfreq`` as sampling frequency.
     sfreq : int
-        Signal sampling frequency. Default is 75 Hz.
+        Signal sampling frequency. Default is set to 75 Hz.
     type : str
-        The recording modality. Can be ``'ppg'`` (pulse oximeter) or ``'ecg'``
-        (electrocardiography).
+        The type of signal provided. Can be ``'ppg'`` (pulse oximeter) or
+        ``'ecg'`` (electrocardiography). The peak detection algorithm used
+        depend on the type of signal provided.
     ecg_method : str
         Peak detection algorithm used by the
-        :py:func:`systole.detection.ecg_peaks` function. Default is 'hamilton'.
+        :py:func:`systole.detection.ecg_peaks` function. Can be one of the
+        following: `'hamilton'`, `'christov'`, `'engelse-zeelenberg'`,
+        `'pan-tompkins'`, `'wavelet-transform'`, `'moving-average'`. The
+        default is `'hamilton'`.
 
     Returns
     -------
     raw : :py:class:`plotly.graph_objects.Figure`
         Instance of :py:class:`plotly.graph_objects.Figure`.
+
+    See also
+    --------
+    plot_events, plot_ectopic, plot_shortLong, plot_subspaces, plot_frequency,
+    plot_timedomain, plot_nonlinear
+
+    Examples
+    --------
+
+    Plotting PPG recording.
+
+    .. jupyter-execute::
+
+       from systole import import_ppg
+       from systole.plotly import plot_raw
+       # Import PPG recording as pandas data frame
+       ppg = import_ppg()
+       # Only use the first 60 seconds for demonstration
+       ppg = ppg[ppg.time<60]
+       plot_raw(ppg)
+
+    Plotting ECG recording.
+
+    .. jupyter-execute::
+
+       from systole import import_dataset1
+       from systole.plotly import plot_raw
+       # Import PPG recording as pandas data frame
+       ecg = import_dataset1(modalities=['ECG'])
+       # Only use the first 60 seconds for demonstration
+       ecg = ecg[ecg.time<60]
+       plot_raw(ecg, type='ecg', sfreq=1000, ecg_method='pan-tompkins')
     """
     import plotly.graph_objs as go
     from plotly.subplots import make_subplots
@@ -141,10 +177,31 @@ def plot_raw(
     return raw
 
 
+@overload
 def plot_ectopic(
-    rr: Optional[Union[List, np.ndarray]] = None,
-    artefacts: Optional[Dict[str, np.ndarray]] = None,
+    rr: None,
+    artefacts: Dict[str, np.ndarray],
 ) -> "Figure":
+    ...
+
+
+@overload
+def plot_ectopic(
+    rr: Union[List[float], np.ndarray],
+    artefacts: None,
+) -> "Figure":
+    ...
+
+
+@overload
+def plot_ectopic(
+    rr: Union[List[float], np.ndarray],
+    artefacts: Dict[str, np.ndarray],
+) -> "Figure":
+    ...
+
+
+def plot_ectopic(rr=None, artefacts=None):
     """Plot interactive ectobeats subspace.
 
     Parameters
@@ -160,12 +217,43 @@ def plot_ectopic(
     subspacesPlot : :py:class:`plotly.graph_objects.Figure`
         Instance of :py:class:`plotly.graph_objects.Figure`.
 
+    See also
+    --------
+    plot_events, plot_ectopic, plot_shortLong, plot_subspaces, plot_frequency,
+    plot_timedomain, plot_nonlinear
+
     Notes
     -----
     If both *rr* or *artefacts* are provided, will recompute *artefacts*
     given the current rr time-series.
+
+    Examples
+    --------
+
+    Visualizing ectopic subspace from RR time series.
+
+    .. jupyter-execute::
+
+       from systole import import_rr
+       from systole.plotly import plot_ectopic
+       # Import PPG recording as numpy array
+       rr = import_rr().rr.to_numpy()
+       plot_ectopic(rr)
+
+    Visualizing ectopic subspace from the `artefact` dictionary.
+
+    .. jupyter-execute::
+
+       from systole import import_rr
+       from systole.plotly import plot_ectopic
+       from systole.detection import rr_artefacts
+       # Import PPG recording as numpy array
+       rr = import_rr().rr.to_numpy()
+       # Use the rr_artefacts function to find ectopic beats
+       artefacts = rr_artefacts(rr)
+       plot_ectopic(artefacts=artefacts)
     """
-    import plotly_express as px
+    import plotly.express as px
     import plotly.graph_objs as go
 
     c1, c2, xlim, ylim = 0.13, 0.17, 10, 5
@@ -328,8 +416,8 @@ def plot_ectopic(
     subspacesPlot.update_layout(
         width=600,
         height=600,
-        xaxis_title="Subspace $S_{11}$",
-        yaxis_title="Subspace $S_{12}$",
+        xaxis_title=r"Subspace $S_{11}$",
+        yaxis_title=r"Subspace $S_{12}$",
         template="simple_white",
         title={
             "text": "Ectopic beats",
@@ -349,10 +437,31 @@ def plot_ectopic(
     return subspacesPlot
 
 
+@overload
 def plot_shortLong(
-    rr: Optional[Union[List, np.ndarray]] = None,
-    artefacts: Optional[Dict[str, np.ndarray]] = None,
+    rr: None,
+    artefacts: Dict[str, np.ndarray],
 ) -> "Figure":
+    ...
+
+
+@overload
+def plot_shortLong(
+    rr: Union[List[float], np.ndarray],
+    artefacts: None,
+) -> "Figure":
+    ...
+
+
+@overload
+def plot_shortLong(
+    rr: Union[List[float], np.ndarray],
+    artefacts: Dict[str, np.ndarray],
+) -> "Figure":
+    ...
+
+
+def plot_shortLong(rr=None, artefacts=None) -> "Figure":
     """Plot interactive short/long subspace.
 
     Parameters
@@ -368,12 +477,44 @@ def plot_shortLong(
     subspacesPlot : :py:class:`plotly.graph_objects.Figure`
         Instance of :py:class:`plotly.graph_objects.Figure`.
 
+    See also
+    --------
+    plot_events, plot_ectopic, plot_shortLong, plot_subspaces, plot_frequency,
+    plot_timedomain, plot_nonlinear
+
     Notes
     -----
     If both ``rr`` or ``artefacts`` are provided, will recompute ``artefacts``
     given the current rr time-series.
+
+    Examples
+    --------
+
+    Visualizing short/long and missed/extra intervals from RR time series.
+
+    .. jupyter-execute::
+
+       from systole import import_rr
+       from systole.plotly import plot_shortLong
+       # Import PPG recording as numpy array
+       rr = import_rr().rr.to_numpy()
+       plot_shortLong(rr)
+
+    Visualizing ectopic subspace from the `artefact` dictionary.
+
+    .. jupyter-execute::
+
+       from systole import import_rr
+       from systole.plotly import plot_shortLong
+       from systole.detection import rr_artefacts
+       # Import PPG recording as numpy array
+       rr = import_rr().rr.to_numpy()
+       # Use the rr_artefacts function to short/long
+       # and extra/missed intervals
+       artefacts = rr_artefacts(rr)
+       plot_shortLong(artefacts=artefacts)
     """
-    import plotly_express as px
+    import plotly.express as px
     import plotly.graph_objs as go
 
     xlim, ylim = 10, 10
@@ -530,8 +671,8 @@ def plot_shortLong(
     subspacesPlot.update_layout(
         width=600,
         height=600,
-        xaxis_title="Subspace $S_{11}$",
-        yaxis_title="Subspace $S_{12}$",
+        xaxis_title=r"Subspace $S_{11}$",
+        yaxis_title=r"Subspace $S_{12}$",
         template="simple_white",
         title={
             "text": "Short/longs beats",
@@ -551,7 +692,7 @@ def plot_shortLong(
     return subspacesPlot
 
 
-def plot_subspaces(rr: Union[List, np.ndarray], height: float = 400) -> "Figure":
+def plot_subspaces(rr: Union[List[float], np.ndarray], height: float = 400) -> "Figure":
     """Plot hrv subspace as described by Lipponen & Tarvainen (2019) [#]_.
 
     Parameters
@@ -566,14 +707,34 @@ def plot_subspaces(rr: Union[List, np.ndarray], height: float = 400) -> "Figure"
     fig : :py:class:`plotly.graph_objects.Figure`
         Instance of :py:class:`plotly.graph_objects.Figure`.
 
+    See also
+    --------
+    plot_events, plot_ectopic, plot_shortLong, plot_subspaces, plot_frequency,
+    plot_timedomain, plot_nonlinear
+
     References
     ----------
     ..[#] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
         heart rate variability time series artefact correction using novel beat
         classification. Journal of Medical Engineering & Technology, 43(3),
         173–181. https://doi.org/10.1080/03091902.2019.1640306
+
+    Examples
+    --------
+
+    Visualizing artefacts from RR time series.
+
+    .. jupyter-execute::
+
+       from systole import import_rr
+       from systole.plotly import plot_subspaces
+       # Import PPG recording as numpy array
+       rr = import_rr().rr.to_numpy()
+       plot_subspaces(rr)
     """
     from plotly.subplots import make_subplots
+
+    rr = np.asarray(rr)
 
     xlim, ylim = 10, 10
     fig = make_subplots(
@@ -583,8 +744,8 @@ def plot_subspaces(rr: Union[List, np.ndarray], height: float = 400) -> "Figure"
         subplot_titles=("Ectopic", "Short/longs beats"),
     )
 
-    ectopic = plot_ectopic(rr.copy())
-    sl = plot_shortLong(rr.copy())
+    ectopic = plot_ectopic(rr=rr)  # type: ignore
+    sl = plot_shortLong(rr=rr)  # type: ignore
 
     for traces in ectopic.data:
         fig.add_traces([traces], rows=[1], cols=[1])
@@ -594,10 +755,10 @@ def plot_subspaces(rr: Union[List, np.ndarray], height: float = 400) -> "Figure"
     fig.update_layout(
         width=height * 2,
         height=height,
-        xaxis_title="Subspace $S_{11}$",
-        yaxis_title="Subspace $S_{12}$",
-        xaxis2_title="Subspace $S_{21}$",
-        yaxis2_title="Subspace $S_{22}$",
+        xaxis_title=r"Subspace $S_{11}$",
+        yaxis_title=r"Subspace $S_{12}$",
+        xaxis2_title=r"Subspace $S_{21}$",
+        yaxis2_title=r"Subspace $S_{22}$",
         template="simple_white",
     )
 
@@ -630,6 +791,24 @@ def plot_frequency(rr: Union[np.ndarray, list]) -> "Figure":
     -------
     fig : :py:class:`plotly.graph_objects.Figure`
         Instance of :py:class:`plotly.graph_objects.Figure`.
+
+    See also
+    --------
+    plot_events, plot_ectopic, plot_shortLong, plot_subspaces, plot_frequency,
+    plot_timedomain, plot_nonlinear
+
+    Examples
+    --------
+
+    Visualizing HRV frequency domain from RR time series.
+
+    .. jupyter-execute::
+
+       from systole import import_rr
+       from systole.plotly import plot_frequency
+       # Import PPG recording as numpy array
+       rr = import_rr().rr.to_numpy()
+       plot_frequency(rr)
     """
     import plotly.graph_objs as go
     from plotly.subplots import make_subplots
@@ -743,12 +922,29 @@ def plot_nonlinear(rr: Union[np.ndarray, List]) -> "Figure":
     -------
     fig : :py:class:`plotly.graph_objects.Figure`
         Instance of :py:class:`plotly.graph_objects.Figure`.
+
+    See also
+    --------
+    plot_events, plot_ectopic, plot_shortLong, plot_subspaces, plot_frequency,
+    plot_timedomain, plot_nonlinear
+
+    Examples
+    --------
+
+    Visualizing HRV non linear domain from RR time series.
+
+    .. jupyter-execute::
+
+       from systole import import_rr
+       from systole.plotly import plot_nonlinear
+       # Import PPG recording as numpy array
+       rr = import_rr().rr.to_numpy()
+       plot_nonlinear(rr)
     """
     import plotly.graph_objs as go
     from plotly.subplots import make_subplots
 
-    if isinstance(rr, list):
-        rr = np.asarray(rr)
+    rr = np.asarray(rr)
 
     df = nonlinear(rr).round(2)
 
@@ -820,7 +1016,7 @@ def plot_nonlinear(rr: Union[np.ndarray, List]) -> "Figure":
 
 
 def plot_timedomain(rr: Union[np.ndarray, list]) -> "Figure":
-    """Plot time domain.
+    """Plot time domain metrics and the histogram of RR intervals.
 
     Parameters
     ----------
@@ -831,6 +1027,24 @@ def plot_timedomain(rr: Union[np.ndarray, list]) -> "Figure":
     -------
     fig : :py:class:`plotly.graph_objects.Figure`
         Instance of :py:class:`plotly.graph_objects.Figure`.
+
+    See also
+    --------
+    plot_events, plot_ectopic, plot_shortLong, plot_subspaces, plot_frequency,
+    plot_timedomain, plot_nonlinear
+
+    Examples
+    --------
+
+    Visualizing HRV time domain metrics from RR time series.
+
+    .. jupyter-execute::
+
+       from systole import import_rr
+       from systole.plotly import plot_nonlinear
+       # Import PPG recording as numpy array
+       rr = import_rr().rr.to_numpy()
+       plot_nonlinear(rr)
     """
     import plotly.graph_objs as go
     from plotly.subplots import make_subplots

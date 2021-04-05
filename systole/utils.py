@@ -304,13 +304,13 @@ def simulate_rr(
 ) -> np.ndarray:
     """RR time series simulation with artefacts.
 
-     n_rr : int
+    n_rr : int
         Number of RR intervals. Default is 350.
     extra_idx : list
         Index of extra interval. Default is [50].
-     missed_idx : list
+    missed_idx : list
         Index of missed interval. Default is [100].
-     short_idx : list
+    short_idx : list
         Index of short interval. Default is [150].
     long_idx : list
         Index of long interval. Default is [200].

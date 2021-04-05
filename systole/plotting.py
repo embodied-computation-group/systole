@@ -27,34 +27,70 @@ def plot_raw(
     figsize: Tuple[float, float] = (13, 5),
     **kwargs
 ) -> Axes:
-    """Interactive visualization of PPG signal and beats detection.
+    """Visualization of PPG signal and systolic peaks detection.
 
     Parameters
     ----------
-    signal : :py:class:`pandas.DataFrame` or 1d array-like
-        Dataframe of signal recording in the long format. Should contain at
-        least one ``'time'`` and one signal colum (can be ``'ppg'`` or
-        ``'ecg'``). If an array is provided, will automatically create the
-        DataFrame using the array as signal and ``sfreq`` as sampling
-        frequency.
+    signal : :py:class:`pandas.DataFrame` or :py:class:`numpy.ndarray`
+        Dataframe of PPG or ECG signal in the long format. If a data frame is
+        provided, it should contain at least one ``'time'`` and one colum for
+        signal(either ``'ppg'`` or ``'ecg'``). If an array is provided, it will
+        automatically create a DataFrame using the array as signal and
+        ``sfreq`` as sampling frequency.
     sfreq : int
-        Signal sampling frequency. Default is 75 Hz.
+        Signal sampling frequency. Default is set to 75 Hz.
     type : str
-        The recording modality. Can be ``'ppg'`` (pulse oximeter) or ``'ecg'``
-        (electrocardiography).
+        The type of signal provided. Can be ``'ppg'`` (pulse oximeter) or
+        ``'ecg'`` (electrocardiography). The peak detection algorithm used
+        depend on the type of signal provided.
     ecg_method : str
         Peak detection algorithm used by the
-        :py:func:`systole.detection.ecg_peaks` function. Default is 'hamilton'.
+        :py:func:`systole.detection.ecg_peaks` function. Can be one of the
+        following: `'hamilton'`, `'christov'`, `'engelse-zeelenberg'`,
+        `'pan-tompkins'`, `'wavelet-transform'`, `'moving-average'`. The
+        default is `'hamilton'`.
     figsize : tuple
-        Figure size. Default set to `(13, 5)`
+        Figure size. Default set to `(13, 5)`.
     **kwargs : keyword arguments
-        Additional arguments provided to `:py:func:systole.detection.oxi_peaks()`
-        or `:py:func:systole.detection.ecg_peaks()`.
+        Additional arguments will be passed to
+        `:py:func:systole.detection.oxi_peaks()` or
+        `:py:func:systole.detection.ecg_peaks()`, depending on the type
+        of data.
 
     Returns
     -------
     ax : :class:`matplotlib.axes.Axes`
         The matplotlib axes containing the plot.
+
+    See also
+    --------
+    plot_events, plot_subspaces, plot_events, plot_psd, plot_oximeter
+
+    Examples
+    --------
+    Plotting PPG recording.
+
+    .. plot::
+
+       >>> from systole import import_ppg
+       >>> from systole.plotting import plot_raw
+       >>> # Import PPG recording as pandas data frame
+       >>> ppg = import_ppg()
+       >>> # Only use the first 60 seconds for demonstration
+       >>> ppg = ppg[ppg.time<60]
+       >>> plot_raw(ppg)
+
+    Plotting ECG recording.
+
+    .. plot::
+
+       >>> from systole import import_dataset1
+       >>> from systole.plotting import plot_raw
+       >>> # Import PPG recording as pandas data frame
+       >>> ecg = import_dataset1(modalities=['ECG'])
+       >>> # Only use the first 60 seconds for demonstration
+       >>> ecg = ecg[ecg.time<60]
+       >>> plot_raw(ecg, type='ecg', sfreq=1000, ecg_method='pan-tompkins')
     """
     if isinstance(signal, pd.DataFrame):
         # Find peaks - Remove learning phase
@@ -181,7 +217,7 @@ def plot_oximeter(
 
     Parameters
     ----------
-    x : 1d array-like or `systole.recording.Oximeter`
+    x : :py:class:`numpy.ndarray`, list or `systole.recording.Oximeter`
         The ppg signal, or the Oximeter instance used to record the signal.
     sfreq : int
         Signal sampling frequency. Default is 75 Hz.
@@ -244,7 +280,7 @@ def plot_subspaces(
 
     Parameters
     ----------
-    rr : list or np.ndarray
+    rr : :py:class:`numpy.ndarray` or list
         Array of RR intervals or subspace1. If subspace1 is provided, subspace2
         and 3 must also be provided.
     c1 : float
@@ -273,6 +309,20 @@ def plot_subspaces(
         heart rate variability time series artefact correction using novel beat
         classification. Journal of Medical Engineering & Technology, 43(3),
         173–181. https://doi.org/10.1080/03091902.2019.1640306
+
+    Examples
+    --------
+
+    Visualizing artefacts from RR time series.
+
+    .. plot::
+
+       from systole import import_rr
+       from systole.plotting import plot_subspaces
+       # Import PPG recording as numpy array
+       rr = import_rr().rr.to_numpy()
+       plot_subspaces(rr)
+
     """
     if not isinstance(rr, (np.ndarray, np.generic)):
         rr = np.asarray(rr)
@@ -481,32 +531,46 @@ def plot_psd(
     show: bool = True,
     ax: Optional[Axes] = None,
 ) -> Union[Tuple[np.ndarray, np.ndarray], Axes]:
-    """Plot PSD of heart rate variability.
+    """Plot frequency component of the heart rate variability.
 
-    Parameters
-    ----------
-    x : np.ndarray or list
-        Length of R-R intervals (default is in miliseconds).
-    sfreq : int
-        The sampling frequency.
-    method : str
-        The method used to extract freauency power. Default set to `'welch'`.
-    fbands : None | dict, optional
-        Dictionary containing the names of the frequency bands of interest
-        (str), their range (tuples) and their color in the PSD plot. Default is
-        >>> {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
-        >>> 'lf': ('Low frequency', (0.04, 0.15), 'g'),
-        >>> 'hf': ('High frequency', (0.15, 0.4), 'r')}
-    show : bool
-        Plot the power spectrum density. Default is *True*.
-    ax : :class:`matplotlib.axes.Axes` or None
-        Where to draw the plot. Default is `None` (create a new figure).
+     Parameters
+     ----------
+     x : :py:class:`numpy.ndarray` or list
+         Length of R-R intervals (default is in miliseconds).
+     sfreq : int
+         The sampling frequency.
+     method : str
+         The method used to extract freauency power. Default set to `'welch'`.
+     fbands : None | dict, optional
+         Dictionary containing the names of the frequency bands of interest
+         (str), their range (tuples) and their color in the PSD plot. Default is
+         >>> {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
+         >>> 'lf': ('Low frequency', (0.04, 0.15), 'g'),
+         >>> 'hf': ('High frequency', (0.15, 0.4), 'r')}
+     show : bool
+         Plot the power spectrum density. Default is *True*.
+     ax : :class:`matplotlib.axes.Axes` or None
+         Where to draw the plot. Default is `None` (create a new figure).
 
-    Returns
-    -------
-    ax or (freq, psd) : :class:`matplotlib.axes.Axes` or tuple of numpy array
-        If show is `*`True*, return the PSD plot. If show is *False*, will
-        return the frequencies and PSD level as arrays.
+     Returns
+     -------
+     ax or (freq, psd) : :class:`matplotlib.axes.Axes` or tuple of numpy array
+         If show is `*`True*, return the PSD plot. If show is *False*, will
+         return the frequencies and PSD level as arrays.
+
+    Examples
+     --------
+
+     Visualizing artefacts from RR time series.
+
+     .. plot::
+
+        from systole import import_rr
+        from systole.plotting import plot_psd
+        # Import PPG recording as numpy array
+        rr = import_rr().rr.to_numpy()
+        plot_psd(rr)
+
     """
     # Interpolate R-R interval
     time = np.cumsum(x)
@@ -567,7 +631,7 @@ def circular(
 
     Parameters
     ----------
-    data : array-like or list
+    data : :py:class:`numpy.ndarray` or list
         Angular values, in radians.
     bins : int
         Use even value to have a bin edge at zero.
@@ -620,6 +684,7 @@ def circular(
     .. [#] https://jwalton.info/Matplotlib-rose-plots/
 
     .. [#] https://pingouin-stats.org/_modules/pingouin/circular.html#circ_mean
+
     """
     if isinstance(data, list):
         data = np.asarray(data)
@@ -658,7 +723,7 @@ def circular(
 
     # Plot data on ax
     for b, r, a in zip(bin[:-1], radius, alpha):
-        plt.bar(
+        ax.bar(
             b,
             r,
             align="edge",
@@ -710,7 +775,7 @@ def plot_circular(
 
     Parameters
     ----------
-    data : pd.DataFrame
+    data : :py:class:`pandas.DataFrame`
         Angular data (rad.).
     y : str or list
         If data is a pandas instance, column containing the angular values.
@@ -734,6 +799,7 @@ def plot_circular(
        y = np.random.uniform(0, np.pi*2, 100)
        data = pd.DataFrame(data={'x': x, 'y': y}).melt()
        plot_circular(data=data, y='value', hue='variable')
+
     """
     # Check data format
     if isinstance(data, pd.DataFrame):

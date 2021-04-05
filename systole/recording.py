@@ -556,8 +556,7 @@ class BrainVisionExG:
     Notes
     -----
     This class is adapted from the RDA client for python made available by
-    Brain Products on the following link:
-        https://www.brainproducts.com/downloads.php?kid=2
+    Brain Products on the following link: https://www.brainproducts.com/downloads.php?kid=2
     """
 
     def __init__(self, ip, sfreq, port=51244):

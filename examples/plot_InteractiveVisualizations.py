@@ -29,7 +29,7 @@ from systole.plotly import (
 # Raw data
 # --------
 #
-ppg = import_ppg()[0]
+ppg = import_ppg()
 plot_raw(ppg)
 
 #%%

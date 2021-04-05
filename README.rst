@@ -72,7 +72,7 @@ For an overview of all the recording functionalities, you can refer to the follo
 
 For an introduction to Systole and cardiac signal analysis, you can refer to the following tutorial:
 
-* `Introduction to cardiac signal analysis <https://legrandnico.github.io/Notebooks/IntroductionCardiacSignalAnalysis.html>`_  |Colab badge|  
+* Introduction to cardiac signal analysis - |Colab badge| - `Jupyter Book <https://legrandnico.github.io/Notebooks/IntroductionCardiacSignalAnalysis.html>`_ 
 
 .. |Colab badge| image:: https://colab.research.google.com/assets/colab-badge.svg
   :target: https://colab.research.google.com/github/LegrandNico/Notebooks/blob/main/IntroductionCardiacSignalAnalysis.ipynb

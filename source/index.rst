@@ -14,6 +14,18 @@
 .. image:: https://codecov.io/gh/embodied-computation-group/systole/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/embodied-computation-group/systole
 
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+  :target: https://github.com/psf/black
+
+.. image:: https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336
+  :target: https://pycqa.github.io/isort/
+
+.. image:: http://www.mypy-lang.org/static/mypy_badge.svg
+  :target: http://mypy-lang.org/
+
+.. image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
+  :target: https://github.com/pre-commit/pre-commit
+
 ================
 
 .. figure::  https://github.com/embodied-computation-group/systole/raw/master/source/images/banner.png
@@ -38,102 +50,44 @@ Systole can be installed using pip:
 
 The following packages are required to use Systole:
 
-* Numpy (>=1.15)
-* SciPy (>=1.3.0)
-* Pandas (>=0.24)
-* Matplotlib (>=3.0.2)
-* Seaborn (>=0.9.0)
+* `Numpy <https://numpy.org/>`_ (>=1.15)
+* `SciPy <https://www.scipy.org/>`_ (>=1.3.0)
+* `Pandas <https://pandas.pydata.org/>`_ (>=0.24)
+* `Matplotlib <https://matplotlib.org/>`_ (>=3.0.2)
+* `Seaborn <https://seaborn.pydata.org/>`_ (>=0.9.0)
+* `py-ecg-detectors <https://github.com/berndporr/py-ecg-detectors>`_ (>=1.0.2)
+
+Interactive plotting functions and reports generation will also require the following packages to be installed:
+
+* `Plotly <https://plotly.com/>`_ (>=4.8.0)
+
+Tutorial
+========
+
+For an overview of all the recording functionalities, you can refer to the following examples:
+
+* Recording
+* Artefacts detection and artefacts correction
+* Heart rate variability
+
+For an introduction to Systole and cardiac signal analysis, you can refer to the following tutorial:
+
+* Introduction to cardiac signal analysis - |Colab badge| - `Jupyter Book <https://legrandnico.github.io/Notebooks/IntroductionCardiacSignalAnalysis.html>`_ 
+
+.. |Colab badge| image:: https://colab.research.google.com/assets/colab-badge.svg
+  :target: https://colab.research.google.com/github/LegrandNico/Notebooks/blob/main/IntroductionCardiacSignalAnalysis.ipynb
 
 Recording
 =========
 
-Systole natively supports the recording of PPG signals through the `Nonin 3012LP Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_.
-It can easily interface with `PsychoPy <https://www.psychopy.org/>`_ to record PPG signal during psychological experiments, and to synchronize stimulus deliver to e.g., systole or diastole.
-
-For example, you can record and plot data in less than 6 lines of code:
-
-.. code-block:: python
-
-  import serial
-  from systole.recording import Oximeter
-  ser = serial.Serial('COM4')  # Add your USB port here
-
-  # Open serial port, initialize and plot recording for Oximeter
-  oxi = Oximeter(serial=ser).setup().read(duration=10)
-
-
-Interfacing with PsychoPy
--------------------------
-
-The ``Oximeter`` class can be used together with a stimulus presentation software to record cardiac activity during psychological experiments.
-
-* The ``read()`` method
-
-will record for a predefined amount of time (specified by the ``duration`` parameter, in seconds). This 'serial mode' is the easiest and most robust method, but it does not allow the execution of other instructions in the meantime.
-
-.. code-block:: python
-
-  # Code 1 {}
-  oximeter.read(duration=10)
-  # Code 2 {}
-
-* The ``readInWaiting()`` method
-
-will only read the bytes temporally stored in the USB buffer. For the Nonin device, this represents up to 10 seconds of recording (this procedure should be executed at least one time every 10 seconds for a continuous recording). When inserted into a while loop, it can record PPG signal in parallel with other commands.
-
-.. code-block:: python
-
-  import time
-  tstart = time.time()
-  while time.time() - tstart < 10:
-      oximeter.readInWaiting()
-      # Insert code here {...}
-
-Online detection
-----------------
-
-Online heart beat detection, for cardiac-stimulus synchrony:
-
-.. code-block:: python
-
-  import serial
-  import time
-  from systole.recording import Oximeter
-
-  # Open serial port
-  ser = serial.Serial('COM4')  # Change this value according to your setup
-
-  # Create an Oxymeter instance and initialize recording
-  oxi = Oximeter(serial=ser, sfreq=75, add_channels=4).setup()
-
-  # Online peak detection for 10 seconds
-  tstart = time.time()
-  while time.time() - tstart < 10:
-      while oxi.serial.inWaiting() >= 5:
-          paquet = list(oxi.serial.read(5))
-          oxi.add_paquet(paquet[2])  # Add new data point
-          if oxi.peaks[-1] == 1:
-            print('Heartbeat detected')
-
-Peaks detection
-===============
-
-Heartbeats can be detected in the PPG signal either online or offline.
-
-Methods from clipping correction and peak detection algorithm is adapted from [#]_.
-
-.. code-block:: python
-
-  # Plot data
-  oxi.plot_oximeter()
-
-.. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/recording.png
-   :align:   center
+Systole natively supports recording of physiological signals from the following setups:
+* `Nonin 3012LP Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_ (USB).
+* Remote Data Access (RDA) via BrainVision Recorder together with `Brain product ExG amplifier <https://www.brainproducts.com/>`_ (Ethernet).
 
 Artefact correction
 ===================
 
-Systole implements the artefact rejection method recently proposed by Lipponen & Tarvainen (2019) [#]_.
+Systole implements systolic peak detection inspired by van Gent et al. (2019) [#]_ and the artefact rejection method recently proposed by Lipponen & Tarvainen (2019) [#]_.
 
 .. code-block:: python
 
@@ -204,7 +158,7 @@ References
 
 **Peak detection (PPG signal)**
 
-.. [#] van Gent, P., Farah, H., van Nes, N., & van Arem, B. (2019). HeartPy: A novel heart rate algorithm for the analysis of noisy signals. Transportation Research Part F: Traffic Psychology and Behaviour, 66, 368–378. https://doi.org/10.1016/j.trf.2019.09.015
+.. [#] van Gent, P., Farah, H., van Nes, N., & van Arem, B. (2019). HeartPy: A novel heart rate algorithm for the analysis of noisy signals. *Transportation Research Part F: Traffic Psychology and Behaviour, 66, 368–378*. https://doi.org/10.1016/j.trf.2019.09.015
 
 **Artefact detection and correction:**
 

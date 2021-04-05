@@ -10,15 +10,16 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+import time
 import sphinx_bootstrap_theme
 from plotly.io._sg_scraper import plotly_sg_scraper
 
 # -- Project information -----------------------------------------------------
 
 project = "systole"
-copyright = "2020, Nicolas Legrand"
+copyright = u'2020-{}, Nicolas Legrand'.format(time.strftime("%Y"))
 author = "Nicolas Legrand"
-release = "0.1.1"
+release = "0.1.3"
 
 
 image_scrapers = (
@@ -48,6 +49,7 @@ extensions = [
     "sphinx_gallery.gen_gallery",
     "matplotlib.sphinxext.plot_directive",
     "numpydoc",
+    "jupyter_sphinx",
 ]
 
 # Generate the API documentation when building

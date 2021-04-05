@@ -82,6 +82,7 @@ def oxi_peaks(
     Analysing Noisy Driver Physiology Real-Time Using Off-the-Shelf Sensors:
     Heart Rate Analysis Software from the Taking the Fast Lane Project. Journal
     of Open Research Software, 7(1), p.32. DOI: http://doi.org/10.5334/jors.241
+
     """
     x = np.asarray(x)
 
@@ -199,6 +200,7 @@ def ecg_peaks(
     ----------
     .. [1] Howell, L., Porr, B. Popular ECG R peak detectors written in
     python. DOI: 10.5281/zenodo.3353396
+
     """
     if isinstance(x, list):
         x = np.asarray(x)

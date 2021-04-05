@@ -3,6 +3,7 @@
 import io
 import os.path as op
 import time
+from typing import List
 
 import numpy as np
 import pandas as pd
@@ -54,7 +55,7 @@ class serialSim:
         print("Reset input buffer")
 
 
-def import_ppg():
+def import_ppg() -> pd.DataFrame:
     """Import a 5 minutes long PPG recording.
 
     Returns
@@ -75,7 +76,7 @@ def import_ppg():
     return df
 
 
-def import_rr():
+def import_rr() -> pd.DataFrame:
     """Import PPG recording.
 
     Returns
@@ -92,8 +93,10 @@ def import_rr():
     return rr
 
 
-def import_dataset1(modalities=["ECG", "EDA", "Respiration", "Stim"]):
-    """Import PPG recording.
+def import_dataset1(
+    modalities: List[str] = ["ECG", "EDA", "Respiration", "Stim"]
+) -> pd.DataFrame:
+    """Import ECG, EDA and respiration recording.
 
     Returns
     -------
@@ -104,14 +107,15 @@ def import_dataset1(modalities=["ECG", "EDA", "Respiration", "Stim"]):
     -----
     Load a 20 minutes recording of ECG, EDA and respiration of a young healthy
     participant undergoing the emotional task (valence rating of neutral and
-    disgusting images) described in _[1].
+    disgusting images) described in _[1]. The sampling frequency is 1000 Hz.
 
     References
     ----------
     [1] : Legrand, N., Etard, O., Vandevelde, A., Pierre, M., Viader, F.,
-        Clochon, P., Doidy, F., Peschanski, D., Eustache, F. & Gagnepain, P.
-        (2018). Preprint version 3.0.
-        doi: https://www.biorxiv.org/content/10.1101/376954v3
+        Clochon, P., Doidy, F., Peschanski, D., Eustache, F., &
+        Gagnepain, P. (2020). Long-term modulation of cardiac activity induced
+        by inhibitory control over emotional memories. Scientific Reports,
+        10(1). https://doi.org/10.1038/s41598-020-71858-2
     """
     path = "https://github.com/embodied-computation-group/systole/raw/dev/systole/datasets/Task1_"
     pbar = tqdm(modalities, position=0, leave=True)
