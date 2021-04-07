@@ -1,19 +1,19 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-import pandas as pd
-import numpy as np
 import unittest
-import pytest
 from unittest import TestCase
-from systole.hrv import nnX, pnnX, rmssd, time_domain,\
-    frequency_domain, nonlinear
+
+import numpy as np
+import pandas as pd
+import pytest
+
 from systole import import_rr
+from systole.hrv import frequency_domain, nnX, nonlinear, pnnX, rmssd, time_domain
 
 rr = import_rr().rr.values
 
 
 class TestHrv(TestCase):
-
     def test_nnX(self):
         """Test nnX function"""
         nn = nnX(list(rr))
@@ -56,5 +56,5 @@ class TestHrv(TestCase):
         self.assertEqual(stats.size, 4)
 
 
-if __name__ == '__main__':
-    unittest.main(argv=['first-arg-is-ignored'], exit=False)
+if __name__ == "__main__":
+    unittest.main(argv=["first-arg-is-ignored"], exit=False)

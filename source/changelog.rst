@@ -6,8 +6,23 @@ What's new
 .. contents:: Table of Contents
    :depth: 2
 
+v0.1.3 (April 2021)
+-------------------
+
+**Enhancements**
+a. :py:func:`systole.plotly.plot_raw()`: add `ecg_method` parameter to control the ECG peak detection method used.
+b. Download dataset directly from GitHub instead of copying the files at install.
+c. Haromonisation of :py:func:`systole.plotting.plot_raw()` and :py:func:`systole.plotting.plot_raw()` (replace the `plot_hr()` function), and :py:func:`systole.plotly.plot_subspaces()` and :py:func:`systole.plotly.plot_subspaces()`.
+d. The :py:class:`systole.recording.Oximeter()` class has been improved:
+   * :py:func:`systole.recording.Oximeter.setup()` has an `nAttempts` argument so it will not run forever if no valid signal is recordedfor a given number of attempts (default is 100).
+   * :py:func:`systole.recording.Oximeter.check()` has been updated and accept data format #7 from Xpods, allowing more flexibility.
+   * :py:func:`systole.recording.Oximeter.save()` will now save additional channels and support `.txt` and `.npy` file extensions.
+   * Create a :py:func:`systole.recording.Oximeter.reset()` method to avoid improper use of `__init__()`.
+e. Add pre-commit hooks, flake8, black and isort CI tests.
+f. Add type hints and CI testing with mypy.
+
 v0.1.2 (September 2020)
---------------------
+-----------------------
 
  **New functions**
 

@@ -1,0 +1,5 @@
+[flake8]
+max-line-length = 88
+extend-ignore = E203, E722, E501
+exclude =
+    __init__.py

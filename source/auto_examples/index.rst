@@ -104,6 +104,27 @@ If you want to see the tutorials in action, you can also click on the link below
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Recording PPG signal">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_Tutorial_recording_thumb.png
+     :alt: Recording PPG signal
+
+     :ref:`sphx_glr_auto_examples_Tutorial_recording.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/Tutorial_recording
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="This tutorial illustrates how to use the Oximeter class to trigger stimuli at different phases ...">
 
 .. only:: html
@@ -136,13 +157,13 @@ If you want to see the tutorials in action, you can also click on the link below
 
   .. container:: sphx-glr-download sphx-glr-download-python
 
-    :download:`Download all examples in Python source code: auto_examples_python.zip </C:/Users/au646069/github/systole/source/auto_examples/auto_examples_python.zip>`
+    :download:`Download all examples in Python source code: auto_examples_python.zip </auto_examples/auto_examples_python.zip>`
 
 
 
   .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-    :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip </C:/Users/au646069/github/systole/source/auto_examples/auto_examples_jupyter.zip>`
+    :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip </auto_examples/auto_examples_jupyter.zip>`
 
 
 .. only:: html

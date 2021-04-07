@@ -14,6 +14,18 @@
 .. image:: https://codecov.io/gh/embodied-computation-group/systole/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/embodied-computation-group/systole
 
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+  :target: https://github.com/psf/black
+
+.. image:: https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336
+  :target: https://pycqa.github.io/isort/
+
+.. image:: http://www.mypy-lang.org/static/mypy_badge.svg
+  :target: http://mypy-lang.org/
+
+.. image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
+  :target: https://github.com/pre-commit/pre-commit
+
 ================
 
 .. figure::  https://github.com/embodied-computation-group/systole/raw/master/source/images/banner.png
@@ -38,35 +50,44 @@ Systole can be installed using pip:
 
 The following packages are required to use Systole:
 
-* Numpy (>=1.15)
-* SciPy (>=1.3.0)
-* Pandas (>=0.24)
-* Matplotlib (>=3.0.2)
-* Seaborn (>=0.9.0)
-* py-ecg-detectors (>=1.0.2)
+* `Numpy <https://numpy.org/>`_ (>=1.15)
+* `SciPy <https://www.scipy.org/>`_ (>=1.3.0)
+* `Pandas <https://pandas.pydata.org/>`_ (>=0.24)
+* `Matplotlib <https://matplotlib.org/>`_ (>=3.0.2)
+* `Seaborn <https://seaborn.pydata.org/>`_ (>=0.9.0)
+* `py-ecg-detectors <https://github.com/berndporr/py-ecg-detectors>`_ (>=1.0.2)
 
 Interactive plotting functions and reports generation will also require the following packages to be installed:
 
-* plotly (>=4.8.0)
-* plotly_express (>=0.4.1)
+* `Plotly <https://plotly.com/>`_ (>=4.8.0)
 
-For an overview of all the recording functionalities, you can refer to the following tutorials:
+Tutorial
+========
+
+For an overview of all the recording functionalities, you can refer to the following examples:
 
 * Recording
 * Artefacts detection and artefacts correction
 * Heart rate variability
+
+For an introduction to Systole and cardiac signal analysis, you can refer to the following tutorial:
+
+* Introduction to cardiac signal analysis - |Colab badge| - `Jupyter Book <https://legrandnico.github.io/Notebooks/IntroductionCardiacSignalAnalysis.html>`_ 
+
+.. |Colab badge| image:: https://colab.research.google.com/assets/colab-badge.svg
+  :target: https://colab.research.google.com/github/LegrandNico/Notebooks/blob/main/IntroductionCardiacSignalAnalysis.ipynb
 
 Recording
 =========
 
 Systole natively supports recording of physiological signals from the following setups:
 * `Nonin 3012LP Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_ (USB).
-* Remote Data Access (RDA) via BrainVision Recorder together with Brain product ExG amplifier `<https://www.brainproducts.com/>`_ (Ethernet).
+* Remote Data Access (RDA) via BrainVision Recorder together with `Brain product ExG amplifier <https://www.brainproducts.com/>`_ (Ethernet).
 
 Artefact correction
 ===================
 
-Systole implements the artefact rejection method recently proposed by Lipponen & Tarvainen (2019) [#]_.
+Systole implements systolic peak detection inspired by van Gent et al. (2019) [#]_ and the artefact rejection method recently proposed by Lipponen & Tarvainen (2019) [#]_.
 
 .. code-block:: python
 
@@ -137,7 +158,7 @@ References
 
 **Peak detection (PPG signal)**
 
-.. [#] van Gent, P., Farah, H., van Nes, N., & van Arem, B. (2019). HeartPy: A novel heart rate algorithm for the analysis of noisy signals. Transportation Research Part F: Traffic Psychology and Behaviour, 66, 368–378. https://doi.org/10.1016/j.trf.2019.09.015
+.. [#] van Gent, P., Farah, H., van Nes, N., & van Arem, B. (2019). HeartPy: A novel heart rate algorithm for the analysis of noisy signals. *Transportation Research Part F: Traffic Psychology and Behaviour, 66, 368–378*. https://doi.org/10.1016/j.trf.2019.09.015
 
 **Artefact detection and correction:**
 

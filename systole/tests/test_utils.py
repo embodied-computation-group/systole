@@ -1,32 +1,40 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-import pytest
 import unittest
-import numpy as np
-from systole.utils import norm_triggers, heart_rate, to_angles, to_epochs,\
-        time_shift, simulate_rr, to_rr
-from systole.detection import oxi_peaks
 from unittest import TestCase
+
+import numpy as np
+import pytest
+
 from systole import import_ppg, import_rr
+from systole.detection import oxi_peaks
+from systole.utils import (
+    heart_rate,
+    norm_triggers,
+    simulate_rr,
+    time_shift,
+    to_angles,
+    to_epochs,
+    to_rr,
+)
 
 
 class TestUtils(TestCase):
-
     def test_norm_triggers(self):
         ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
         signal, peaks = oxi_peaks(ppg)
-        peaks[np.where(peaks)[0]+1] = 1
-        peaks[np.where(peaks)[0]+2] = 1
+        peaks[np.where(peaks)[0] + 1] = 1
+        peaks[np.where(peaks)[0] + 2] = 1
         peaks[-1:] = 1
         y = norm_triggers(peaks)
         assert sum(y) == 379
-        peaks = - peaks.astype(int)
-        y = norm_triggers(peaks, threshold=-1, direction='lower')
+        peaks = -peaks.astype(int)
+        y = norm_triggers(peaks, threshold=-1, direction="lower")
         assert sum(y) == 379
         with pytest.raises(ValueError):
             norm_triggers(None)
         with pytest.raises(ValueError):
-            norm_triggers(peaks, direction='invalid')
+            norm_triggers(peaks, direction="invalid")
 
     def test_heart_rate(self):
         """Test heart_rate function"""
@@ -36,8 +44,7 @@ class TestUtils(TestCase):
         assert len(heartrate) == len(time)
         heartrate, time = heart_rate(list(peaks))
         assert len(heartrate) == len(time)
-        heartrate, time = heart_rate(
-            peaks, unit='bpm', kind='cubic', sfreq=500)
+        heartrate, time = heart_rate(peaks, unit="bpm", kind="cubic", sfreq=500)
         assert len(heartrate) == len(time)
         with pytest.raises(ValueError):
             heartrate, time = heart_rate([1, 2, 3])
@@ -45,7 +52,7 @@ class TestUtils(TestCase):
     def test_time_shift(self):
         """Test time_shift function"""
         lag = time_shift([40, 50, 60], [45, 52])
-        assert lag == [5, 2]
+        assert np.all(lag == [5, 2])
 
     def test_to_angle(self):
         """Test to_angles function"""
@@ -64,15 +71,14 @@ class TestUtils(TestCase):
         ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
         events = import_ppg().ppg.to_numpy()  # Import events
         events[2] = 1
-        epochs = to_epochs(ppg, events, sfreq=75, verbose=True,
-                           apply_baseline=(-1, 0))
+        epochs = to_epochs(ppg, events, sfreq=75, verbose=True, apply_baseline=(-1, 0))
         assert epochs.ndim == 2
-        epochs = to_epochs(list(ppg), list(events), sfreq=75,
-                           apply_baseline=None)
+        epochs = to_epochs(list(ppg), list(events), sfreq=75, apply_baseline=None)
         reject = np.arange(0, len(ppg))
         reject[50:55] = 1
-        epochs = to_epochs(ppg, events, sfreq=75, apply_baseline=-1,
-                           reject=reject, verbose=True)
+        epochs = to_epochs(
+            ppg, events, sfreq=75, apply_baseline=-1, reject=reject, verbose=True
+        )
         with pytest.raises(ValueError):
             epochs = to_epochs(ppg[1:], events, sfreq=75)
 
@@ -91,5 +97,5 @@ class TestUtils(TestCase):
         assert rr.mean() == 874.2068965517242
 
 
-if __name__ == '__main__':
-    unittest.main(argv=['first-arg-is-ignored'], exit=False)
+if __name__ == "__main__":
+    unittest.main(argv=["first-arg-is-ignored"], exit=False)

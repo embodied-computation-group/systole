@@ -14,16 +14,22 @@ interactive data visualization and dashboard integration
 
 #%%
 import plotly
+
+from systole import import_ppg, import_rr
 from systole.detection import rr_artefacts
-from systole import import_rr, import_ppg
-from systole.plotly import plot_subspaces, plot_frequency, plot_raw,\
-    plot_timedomain, plot_nonlinear
+from systole.plotly import (
+    plot_frequency,
+    plot_nonlinear,
+    plot_raw,
+    plot_subspaces,
+    plot_timedomain,
+)
 
 #%%
 # Raw data
 # --------
 #
-ppg = import_ppg()[0]
+ppg = import_ppg()
 plot_raw(ppg)
 
 #%%

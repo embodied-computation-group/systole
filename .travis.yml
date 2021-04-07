@@ -4,14 +4,19 @@ python:
   - "3.6"
   - "3.7"
   - "3.8"
+  - "3.9"
 
 install:
   - pip install -r requirements-test.txt
   - pip install -r requirements.txt
-  - pip install coverage pytest
+  - pip install coverage pytest black mypy flake8 isort
 
 script:
   - coverage run -m pytest
+  - black --check ./systole/
+  - isort ./systole/
+  - mypy ./systole/ --ignore-missing-imports --follow-imports=skip
+  - flake8 ./systole/
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
