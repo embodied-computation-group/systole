@@ -39,15 +39,26 @@ class TestUtils(TestCase):
     def test_heart_rate(self):
         """Test heart_rate function"""
         ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
-        signal, peaks = oxi_peaks(ppg)
+        _, peaks = oxi_peaks(ppg)
         heartrate, time = heart_rate(peaks)
         assert len(heartrate) == len(time)
+        assert np.nanmean(heartrate) == 884.9252640845299
         heartrate, time = heart_rate(list(peaks))
         assert len(heartrate) == len(time)
+        assert np.nanmean(heartrate) == 884.9252640845299
         heartrate, time = heart_rate(peaks, unit="bpm", kind="cubic", sfreq=500)
         assert len(heartrate) == len(time)
+        assert np.nanmean(heartrate) == 34.34558271737578
         with pytest.raises(ValueError):
             heartrate, time = heart_rate([1, 2, 3])
+        heartrate, time = heart_rate(
+            np.diff(np.where(peaks)), kind="cubic", input_type="rr_ms"
+        )
+        assert np.nanmean(heartrate) == 884.9253824912565
+        heartrate, time = heart_rate(
+            np.diff(np.where(peaks)) / 1000, kind="cubic", input_type="rr_s"
+        )
+        assert np.nanmean(heartrate) == 884.9253824912565
 
     def test_time_shift(self):
         """Test time_shift function"""

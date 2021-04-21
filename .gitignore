@@ -1,3 +1,6 @@
 *.pyc
 *-checkpoint.ipynb
 mypyreports/
+build/
+dist/
+systole.egg-info/

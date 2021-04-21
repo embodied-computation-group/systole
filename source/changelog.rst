@@ -6,6 +6,13 @@ What's new
 .. contents:: Table of Contents
    :depth: 2
 
+v0.1.4
+------
+
+**Enhancements**
+a. :py:func:`systole.utils.heart_rate()`: now accepts peaks vectors as well as RR interval, either in milliseconds od in seconds.
+
+
 v0.1.3 (April 2021)
 -------------------
 

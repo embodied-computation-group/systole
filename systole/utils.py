@@ -88,21 +88,31 @@ def time_shift(
 
 
 def heart_rate(
-    x: Union[List, np.ndarray], sfreq: int = 1000, unit: str = "rr", kind: str = "cubic"
+    x: Union[List, np.ndarray],
+    sfreq: int = 1000,
+    unit: str = "rr",
+    kind: str = "cubic",
+    input_type: str = "peaks",
 ) -> Tuple[np.ndarray, np.ndarray]:
-    """Transform peaks data into heart rate time series.
+    """Transform peaks data or RR intervals into continuous heart rate time series.
 
     Parameters
     ----------
     x : np.ndarray or list
-        Boolean vector of peaks detection.
+        Boolean vector of peaks detection or RR intervals.
     sfreq : int
         Sampling frequency.
     unit : str
-        The heartrate unit in use. Can be 'rr' (R-R intervals, in ms)
+        The heart rate unit in use. Can be 'rr' (R-R intervals, in ms)
         or 'bpm' (beats per minutes). Default is 'rr'.
     kind : str
         The method to use (parameter of `scipy.interpolate.interp1d`).
+    input_type : str
+        The type of input vector. Default is `"peaks"` (a boolean vector where
+        `1` represents the occurrence of R waves or systolic peaks).
+        Can also be `"rr_s"` or `"rr_ms"` for vectors of RR intervals, or
+        interbeat intervals (IBI), expressed in seconds or milliseconds
+        (respectively).
 
     Returns
     -------
@@ -111,34 +121,67 @@ def heart_rate(
     time : np.ndarray
         Time array.
 
+    Examples
+    --------
+    1. From a boolean vector of peaks position:
+
+    >>> from systole import import_ppg
+    >>> ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
+    >>> _, peaks = oxi_peaks(ppg)  # Find systolic peaks
+    >>> heartrate, time = heart_rate(peaks)  # Create continuous time series
+
+    2. From a vector of RR intervals (miliseconds):
+    >>> from systole import import_rr
+    >>> rr = import_rr().rr.values
+    >>> heartrate, time = heart_rate(rr, unit="bpm", input_type="rr_ms")
+
     Notes
     -----
-    The input should be in the form of a boolean vector encoding the position
-    of the peaks. The time and heart rate output will have the same
-    length. Values before the first peak and after the last peak will be filled
-    with NaN values.
+    If the input is in the `peaks` format, it should be a boolean vector
+    encoding the position of R wave, or systolic peaks.
+
+    If it is in the form of RR intervals, it can be expressed in seconds or
+    milliseconds, using `rr_s` and `rr_ms` parameters, respectively.
+
+    The time and heart rate output will have the same length. Values before
+    the first peak and after the last peak will be filled with NaN values.
     """
-    if isinstance(x, list):
-        x = np.asarray(x)
-    if not ((x == 1) | (x == 0)).all():
-        raise ValueError("Input vector should only contain 0 and 1")
+    x = np.asarray(x)
 
-    # Find peak indices
-    peaks_idx = np.where(x)[0]
+    # A peaks vector
+    if input_type == "peaks":
+        if ((x == 1) | (x == 0)).all():
 
-    # Create time vector (seconds):
-    time = (peaks_idx / sfreq)[1:]
+            # Find peak indices
+            peaks_idx = np.where(x)[0]
 
-    rr = np.diff(peaks_idx)
+            # Create time vector (seconds):
+            time = (peaks_idx / sfreq)[1:]
 
-    # R-R heartratevals (in miliseconds)
+            rr = np.diff(peaks_idx)
+
+            # Use the peaks vector as time input
+            new_time = np.arange(0, len(x) / sfreq, 1 / sfreq)
+
+        else:
+            raise ValueError("Input vector should only contain 0 and 1")
+
+    # A vector of RR intervals
+    elif input_type == "rr_s":
+        time = np.cumsum(x)
+        rr = x * 1000
+        new_time = np.arange(0, np.sum(x), 1 / sfreq)
+
+    elif input_type == "rr_ms":
+        rr = x
+        time = np.cumsum(x) / 1000
+        new_time = np.arange(0, np.sum(x) / 1000, 1 / sfreq)
+
+    # R-R intervals (in miliseconds)
     heartrate = (rr / sfreq) * 1000
     if unit == "bpm":
         # Beats per minutes
         heartrate = 60000 / heartrate
-
-    # Use the peaks vector as time input
-    new_time = np.arange(0, len(x) / sfreq, 1 / sfreq)
 
     if kind is not None:
         # Interpolate
@@ -223,8 +266,8 @@ def to_epochs(
     event_val : int
         The index of event of interest. Default is *1*.
     apply_baseline : int, tuple or None
-        If int or tuple, use the point or interval to apply a baseline (method:
-        mean). If *None*, no baseline is applied.
+        If int or tuple, use the point or interval to apply a baseline
+        (method: mean). If *None*, no baseline is applied.
     verbose : boolean
         If True, will return warnings if epoc are droped.
     reject : np.ndarray or None
