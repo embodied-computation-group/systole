@@ -9,6 +9,7 @@ from scipy.interpolate import interp1d
 from bokeh.plotting.figure import Figure
 from systole.hrv import psd
 from systole.plots.utils import get_plotting_function
+from systole.utils import to_rr
 
 
 def plot_frequency(
@@ -77,7 +78,7 @@ def plot_frequency(
             figsize = 600
 
     if input_type == "peaks":
-        rr = np.where(rr)[0]
+        rr = to_rr(rr)
         freq, power = psd(rr)
     elif input_type == "rr_s":
         freq, power = psd(rr * 1000)

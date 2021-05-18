@@ -85,7 +85,7 @@ def plot_raw(
     raw.circle(
         x=time[peaks],
         y=signal[peaks],
-        size=10,
+        size=5,
         legend_label=peaks_label,
         fill_color="lightgrey",
         line_color="grey",
