@@ -7,6 +7,8 @@ import pandas as pd
 from scipy import interpolate
 from scipy.signal import welch
 
+from systole.utils import to_rr
+
 
 def nnX(x: Union[List, np.ndarray], t: int = 50) -> float:
     """Number of difference in successive R-R interval > t ms.
@@ -255,23 +257,7 @@ def frequency_domain(
     using the py:pandas.pivot_table() function:
     >>> pd.pivot_table(stats, values='Values', columns='Metric')
     """
-    # Interpolate R-R interval
-    time = np.cumsum(x)
-    f = interpolate.interp1d(time, x, kind="cubic")
-    new_time = np.arange(time[0], time[-1], 1000 / sfreq)  # sfreq = 5 Hz
-    x = f(new_time)
-
-    if method == "welch":
-
-        # Define window length
-        nperseg = 256 * sfreq
-        if nperseg > len(x):
-            nperseg = len(x)
-
-        # Compute Power Spectral Density
-        freq, psd = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=nperseg)
-
-        psd = psd / 1000000
+    freq, power = psd(x)
 
     if fbands is None:
         fbands = {
@@ -284,7 +270,7 @@ def frequency_domain(
     ########################
     stats = pd.DataFrame([])
     for band in fbands:
-        this_psd = psd[(freq >= fbands[band][1][0]) & (freq < fbands[band][1][1])]
+        this_psd = power[(freq >= fbands[band][1][0]) & (freq < fbands[band][1][1])]
         this_freq = freq[(freq >= fbands[band][1][0]) & (freq < fbands[band][1][1])]
 
         # Peaks (Hz)
@@ -366,3 +352,62 @@ def nonlinear(x: Union[List, np.ndarray]) -> pd.DataFrame:
     stats = pd.DataFrame({"Values": values, "Metric": metrics})
 
     return stats
+
+
+def psd(
+    x: Union[List, np.ndarray],
+    sfreq: int = 5,
+    method: str = "welch",
+    input_type: str = "rr_ms",
+) -> Tuple[np.ndarray, np.ndarray]:
+    """Extract the frequency domain features of heart rate variability.
+
+    Parameters
+    ----------
+    x : np.ndarray or list
+        Interval time-series (R-R, beat-to-beat...), in miliseconds.
+    sfreq : int
+        The sampling frequency (Hz).
+    method : str
+        The method used to extract freauency power. Default is ``'welch'``.
+    input_type : str
+        The type of input vector. Default is `"rr_ms"`, a vectors of RR
+        intervals, or interbeat intervals (IBI), expressed in milliseconds.
+        Can also be a boolean vector where `1` represents the occurrence
+        of R waves or systolic peaks) or IBI expressed in seconds `"rr_s"`.
+
+    Returns
+    -------
+    freq, power : np.array
+        The frequency and power spectral density of the given signal.
+
+    See also
+    --------
+    frequency_domain
+    """
+    x = np.asarray(x)
+
+    if input_type == "peaks":
+        x = to_rr(x)
+    elif input_type == "rr_s":
+        x *= 1000
+
+    # Interpolate R-R interval
+    time = np.cumsum(x)
+    f = interpolate.interp1d(time, x, kind="cubic")
+    new_time = np.arange(time[0], time[-1], 1000 / sfreq)  # sfreq = 5 Hz
+    x = f(new_time)
+
+    if method == "welch":
+
+        # Define window length
+        nperseg = 256 * sfreq
+        if nperseg > len(x):
+            nperseg = len(x)
+
+        # Compute Power Spectral Density
+        freq, power = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=nperseg)
+
+        power = power / 1000000
+
+    return freq, power

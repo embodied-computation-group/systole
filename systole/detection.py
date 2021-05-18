@@ -312,8 +312,7 @@ def rr_artefacts(
         beat classification. Journal of Medical Engineering & Technology,
         43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306
     """
-    if isinstance(rr, list):
-        rr = np.array(rr)
+    rr = np.asarray(rr)
 
     ###########
     # Detection
