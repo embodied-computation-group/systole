@@ -101,12 +101,14 @@ def heart_rate(
     x : np.ndarray or list
         Boolean vector of peaks detection or RR intervals.
     sfreq : int
-        Sampling frequency.
+        The sampling frequency of the desired output.
     unit : str
-        The heart rate unit in use. Can be 'rr' (R-R intervals, in ms)
-        or 'bpm' (beats per minutes). Default is 'rr'.
+        The heart rate unit in use. Can be `'rr'` (R-R intervals, in ms)
+        or `'bpm'` (beats per minutes). Default is `'rr'`.
     kind : str
-        The method to use (parameter of `scipy.interpolate.interp1d`).
+        The method to use (parameter of `scipy.interpolate.interp1d`). The
+        possible relevant methods for instantaneous heart rate are `'cubic'`
+        (defalut), `'linear'`, `'previous'` and `'next'`.
     input_type : str
         The type of input vector. Default is `"peaks"` (a boolean vector where
         `1` represents the occurrence of R waves or systolic peaks).
@@ -170,12 +172,12 @@ def heart_rate(
     elif input_type == "rr_s":
         time = np.cumsum(x)
         rr = x * 1000
-        new_time = np.arange(0, np.sum(x), 1 / sfreq)
+        new_time = np.arange(0, time[-1], 1 / sfreq)
 
     elif input_type == "rr_ms":
-        rr = x
         time = np.cumsum(x) / 1000
-        new_time = np.arange(0, np.sum(x) / 1000, 1 / sfreq)
+        rr = x
+        new_time = np.arange(0, time[-1], 1 / sfreq)
 
     # R-R intervals (in miliseconds)
     heartrate = (rr / sfreq) * 1000
