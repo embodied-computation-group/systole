@@ -12,7 +12,6 @@
 #
 import time
 import sphinx_bootstrap_theme
-from plotly.io._sg_scraper import plotly_sg_scraper
 
 # -- Project information -----------------------------------------------------
 
@@ -24,7 +23,6 @@ release = "0.1.3"
 
 image_scrapers = (
     "matplotlib",
-    plotly_sg_scraper,
 )
 
 sphinx_gallery_conf = {

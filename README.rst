@@ -59,7 +59,7 @@ The following packages are required to use Systole:
 
 Interactive plotting functions and reports generation will also require the following packages to be installed:
 
-* `Plotly <https://plotly.com/>`_ (>=4.8.0)
+* `bokeh <https://docs.bokeh.org/en/latest/index.html#>`_ (>=2.3.2)
 
 Tutorial
 ========
@@ -103,7 +103,7 @@ Systole implements systolic peak detection inspired by van Gent et al. (2019) [#
 Interactive visualization
 =========================
 
-Systole integrates a set of functions for interactive data visualization based on `Plotly <https://plotly.com/>`_.
+Systole integrates a set of functions for interactive data visualization based on `Bokeh <https://docs.bokeh.org/en/latest/index.html#>`_.
 
 .. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/systole.gif
    :align:   center

@@ -58,41 +58,27 @@ Heart Rate Variability
     frequency_domain
     nonlinear
 
-Plotly
---------
-
-.. currentmodule:: systole.plotly
-
-.. _plotly:
-
-.. autosummary::
-   :toctree: generated/plotly
-
-    plot_raw
-    plot_ectopic
-    plot_shortLong
-    plot_subspaces
-    plot_frequency
-    plot_nonlinear
-    plot_timedomain
-
-Plotting
---------
+Plots
+-----
 
 .. currentmodule:: systole.plotting
 
-.. _plotting:
+.. _plots:
 
 .. autosummary::
-   :toctree: generated/plotting
+   :toctree: generated/plots
 
-    plot_raw
-    plot_events
-    plot_oximeter
-    plot_subspaces
-    plot_psd
-    circular
     plot_circular
+    plot_ectopic
+    plot_events
+    plot_evoked
+    plot_frequency
+    plot_pointcare
+    plot_raw
+    plot_rr
+    plot_shortLong
+    plot_subspaces
+    plot_timevarying
 
 Recording
 ---------
