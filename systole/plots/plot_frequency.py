@@ -3,10 +3,10 @@
 from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
+from bokeh.plotting.figure import Figure
 from matplotlib.axes import Axes
 from scipy.interpolate import interp1d
 
-from bokeh.plotting.figure import Figure
 from systole.hrv import psd
 from systole.plots.utils import get_plotting_function
 from systole.utils import to_rr
@@ -55,7 +55,7 @@ def plot_frequency(
 
     See also
     --------
-    plot_events, plot_ectopic, plot_shortLong, plot_subspaces, plot_frequency,
+    plot_events, plot_ectopic, plot_shortlong, plot_subspaces, plot_frequency,
     plot_timedomain, plot_nonlinear
 
     Examples

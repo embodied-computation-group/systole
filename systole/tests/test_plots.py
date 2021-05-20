@@ -7,8 +7,6 @@ import numpy as np
 import pandas as pd
 
 from systole import import_ppg, import_rr, serialSim
-from systole.recording import Oximeter
-
 from systole.plots import (  # plot_events,; plot_evoked,; plot_timevarying,
     plot_circular,
     plot_ectopic,
@@ -16,9 +14,10 @@ from systole.plots import (  # plot_events,; plot_evoked,; plot_timevarying,
     plot_pointcare,
     plot_raw,
     plot_rr,
-    plot_shortLong,
+    plot_shortlong,
     plot_subspaces,
 )
+from systole.recording import Oximeter
 
 serial = serialSim()
 oxi = Oximeter(serial=serial, add_channels=1).setup().read(10)
@@ -93,11 +92,11 @@ class TestPlots(TestCase):
         for backend in ["matplotlib", "bokeh"]:
             plot_rr(rr, backend=backend, input_type="rr_ms")
 
-    def test_plot_shortLong(self):
-        """Test plot_shortLong function"""
+    def test_plot_shortlong(self):
+        """Test plot_shortlong function"""
         rr = import_rr().rr
         for backend in ["matplotlib", "bokeh"]:
-            plot_shortLong(rr, backend=backend, input_type="rr_ms")
+            plot_shortlong(rr, backend=backend, input_type="rr_ms")
 
     def test_plot_subspaces(self):
         """Test plot_subspaces function"""

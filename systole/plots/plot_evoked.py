@@ -3,9 +3,9 @@
 from typing import List, Optional, Tuple, Union, overload
 
 import numpy as np
+from bokeh.plotting.figure import Figure
 from matplotlib.axes import Axes
 
-from bokeh.plotting.figure import Figure
 from systole.detection import ecg_peaks, oxi_peaks
 from systole.plots.utils import get_plotting_function
 from systole.utils import heart_rate, to_epochs

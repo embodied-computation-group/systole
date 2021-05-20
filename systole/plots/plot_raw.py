@@ -4,9 +4,9 @@ from typing import List, Optional, Tuple, Union
 
 import numpy as np
 import pandas as pd
+from bokeh.plotting.figure import Figure
 from matplotlib.axes import Axes
 
-from bokeh.plotting.figure import Figure
 from systole.detection import ecg_peaks, oxi_peaks
 from systole.plots.utils import get_plotting_function
 

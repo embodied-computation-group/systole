@@ -3,4 +3,4 @@
 
 .. currentmodule:: systole.plotly
 
-.. autofunction:: plot_shortLong
+.. autofunction:: plot_shortlong

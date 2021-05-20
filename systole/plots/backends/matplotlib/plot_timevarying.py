@@ -5,8 +5,8 @@ from typing import List, Optional, Tuple, Union
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.axes import Axes
-
 from mne.time_frequency import tfr_array_multitaper
+
 from systole.utils import heart_rate
 
 

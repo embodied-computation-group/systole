@@ -1,18 +1,15 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import TYPE_CHECKING, Dict
+from typing import Dict
 
 import numpy as np
-
 from bokeh.plotting import figure
-
-if TYPE_CHECKING:
-    from bokeh.plotting.figure import Figure
+from bokeh.plotting.figure import Figure
 
 
-def plot_shortLong(
+def plot_shortlong(
     artefacts=Dict[str, np.ndarray], figsize: int = 600, **kwargs
-) -> "Figure":
+) -> Figure:
     """Plot interactive short/long subspace.
 
     Parameters
@@ -30,7 +27,7 @@ def plot_shortLong(
 
     See also
     --------
-    plot_events, plot_ectopic, plot_shortLong, plot_subspaces, plot_frequency,
+    plot_events, plot_ectopic, plot_shortlong, plot_subspaces, plot_frequency,
     plot_timedomain, plot_nonlinear
 
     Notes

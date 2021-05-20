@@ -3,9 +3,9 @@
 from typing import Dict, List, Tuple, Union, overload
 
 import numpy as np
+from bokeh.plotting.figure import Figure
 from matplotlib.axes import Axes
 
-from bokeh.plotting.figure import Figure
 from systole.correction import rr_artefacts
 from systole.plots.utils import get_plotting_function
 from systole.utils import to_rr
@@ -71,7 +71,7 @@ def plot_subspaces(
 
     See also
     --------
-    plot_events, plot_ectopic, plot_shortLong, plot_subspaces, plot_frequency,
+    plot_events, plot_ectopic, plot_shortlong, plot_subspaces, plot_frequency,
     plot_timedomain, plot_nonlinear
 
     References

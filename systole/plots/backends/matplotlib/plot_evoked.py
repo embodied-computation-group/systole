@@ -6,9 +6,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from matplotlib.axes import Axes
-
 from bokeh.plotting.figure import Figure
+from matplotlib.axes import Axes
 
 
 def plot_evoked(

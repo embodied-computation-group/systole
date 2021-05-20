@@ -3,9 +3,9 @@
 from typing import List, Optional, Tuple, Union
 
 import numpy as np
+from bokeh.plotting.figure import Figure
 from matplotlib.axes import Axes
 
-from bokeh.plotting.figure import Figure
 from systole.plots.utils import get_plotting_function
 
 
@@ -46,7 +46,7 @@ def plot_timevarying(
 
     See also
     --------
-    plot_events, plot_ectopic, plot_shortLong, plot_subspaces, plot_frequency,
+    plot_events, plot_ectopic, plot_shortlong, plot_subspaces, plot_frequency,
     plot_timedomain, plot_nonlinear
 
     References

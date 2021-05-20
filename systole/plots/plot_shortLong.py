@@ -3,30 +3,30 @@
 from typing import Dict, List, Optional, Tuple, Union, overload
 
 import numpy as np
+from bokeh.plotting.figure import Figure
 from matplotlib.axes import Axes
 
-from bokeh.plotting.figure import Figure
 from systole.correction import rr_artefacts
 from systole.plots.utils import get_plotting_function
 from systole.utils import to_rr
 
 
 @overload
-def plot_shortLong(
+def plot_shortlong(
     rr: None, artefacts: Dict[str, np.ndarray], input_type: str = "rr_ms"
 ) -> Union[Figure, Axes]:
     ...
 
 
 @overload
-def plot_shortLong(
+def plot_shortlong(
     rr: Union[List[float], np.ndarray], artefacts: None, input_type: str = "rr_ms"
 ) -> Union[Figure, Axes]:
     ...
 
 
 @overload
-def plot_shortLong(
+def plot_shortlong(
     rr: Union[List[float], np.ndarray],
     artefacts: Dict[str, np.ndarray],
     input_type: str = "rr_ms",
@@ -34,7 +34,7 @@ def plot_shortLong(
     ...
 
 
-def plot_shortLong(
+def plot_shortlong(
     rr=None,
     artefacts=None,
     input_type: str = "rr_ms",
@@ -75,7 +75,7 @@ def plot_shortLong(
 
     See also
     --------
-    plot_events, plot_ectopic, plot_shortLong, plot_subspaces, plot_frequency,
+    plot_events, plot_ectopic, plot_shortlong, plot_subspaces, plot_frequency,
     plot_timedomain, plot_nonlinear
 
     References
@@ -98,24 +98,24 @@ def plot_shortLong(
     .. jupyter-execute::
 
        from systole import import_rr
-       from systole.plots import plot_shortLong
+       from systole.plots import plot_shortlong
        # Import PPG recording as numpy array
        rr = import_rr().rr.to_numpy()
-       plot_shortLong(rr)
+       plot_shortlong(rr)
 
     Visualizing ectopic subspace from the `artefact` dictionary.
 
     .. jupyter-execute::
 
        from systole import import_rr
-       from systole.plots import plot_shortLong
+       from systole.plots import plot_shortlong
        from systole.detection import rr_artefacts
        # Import PPG recording as numpy array
        rr = import_rr().rr.to_numpy()
        # Use the rr_artefacts function to short/long
        # and extra/missed intervals
        artefacts = rr_artefacts(rr)
-       plot_shortLong(artefacts=artefacts)
+       plot_shortlong(artefacts=artefacts)
     """
     if figsize is None:
         if backend == "matplotlib":
@@ -133,15 +133,15 @@ def plot_shortLong(
                 rr *= 1000
             artefacts = rr_artefacts(rr)
 
-    plot_shortLong_args = {
+    plot_shortlong_args = {
         "artefacts": artefacts,
         "ax": ax,
         "figsize": figsize,
     }
 
     plotting_function = get_plotting_function(
-        "plot_shortLong", "plot_shortLong", backend
+        "plot_shortlong", "plot_shortlong", backend
     )
-    plot = plotting_function(**plot_shortLong_args)
+    plot = plotting_function(**plot_shortlong_args)
 
     return plot

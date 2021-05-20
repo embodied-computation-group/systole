@@ -49,7 +49,7 @@ v0.1.1 (June 2020)
 
 **New functions**
 
-a. Add the **plotly** sub-module, a set of Plotly functions comprising :py:func:`systole.plotly.plot_raw`, :py:func:`systole.plotly.plot_subspaces`, :py:func:`systole.plotly.plot_ectopic`, :py:func:`systole.plotly.plot_shortLong`, :py:func:`systole.plotly.plot_frequency`, :py:func:`systole.plotly.plot_nonlinear`, :py:func:`systole.plotly.plot_timedomain`.
+a. Add the **plotly** sub-module, a set of Plotly functions comprising :py:func:`systole.plotly.plot_raw`, :py:func:`systole.plotly.plot_subspaces`, :py:func:`systole.plotly.plot_ectopic`, :py:func:`systole.plotly.plot_shortlong`, :py:func:`systole.plotly.plot_frequency`, :py:func:`systole.plotly.plot_nonlinear`, :py:func:`systole.plotly.plot_timedomain`.
 b. Add :py:func:`systole.utils.simulate_rr()`, for random RR interval simulation with different kind of artefacts. Can also return peak vector.
 c. The **correction** sub-module has been largely rewritten and now include :py:func:`systole.correction.correct_extra`, :py:func:`systole.correction.correct_missed`, :py:func:`systole.correction.interpolate_bads`, :py:func:`systole.correction.correct_rr`, :py:func:`systole.correction.correct_peaks`, :py:func:`systole.correction.correct_missed_peaks`, :py:func:`systole.correction.correct_extra_peaks`. These function can correct artefacts either using peaks addition/removal or by interpolation of the RR time series.
 

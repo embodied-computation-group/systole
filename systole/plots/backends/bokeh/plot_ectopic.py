@@ -3,7 +3,6 @@
 from typing import Dict
 
 import numpy as np
-
 from bokeh.plotting import figure
 from bokeh.plotting.figure import Figure
 
@@ -28,7 +27,7 @@ def plot_ectopic(
 
     See also
     --------
-    plot_events, plot_ectopic, plot_shortLong, plot_subspaces, plot_frequency,
+    plot_events, plot_ectopic, plot_shortlong, plot_subspaces, plot_frequency,
     plot_timedomain, plot_nonlinear
 
     Notes

@@ -3,13 +3,13 @@
 from typing import List, Optional, Union
 
 import numpy as np
-from matplotlib.axes import Axes
-from pandas.core.indexes.datetimes import DatetimeIndex
-
 from bokeh.layouts import column
 from bokeh.models import ColumnDataSource, RangeTool
 from bokeh.plotting import figure
 from bokeh.plotting.figure import Figure
+from matplotlib.axes import Axes
+from pandas.core.indexes.datetimes import DatetimeIndex
+
 from systole.plots import plot_rr
 
 

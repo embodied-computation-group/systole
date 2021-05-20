@@ -5,7 +5,6 @@ from typing import Dict, Optional
 
 import numpy as np
 import seaborn as sns
-
 from bokeh.plotting import figure
 from bokeh.plotting.figure import Figure
 

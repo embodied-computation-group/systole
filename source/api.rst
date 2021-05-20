@@ -76,7 +76,7 @@ Plots
     plot_pointcare
     plot_raw
     plot_rr
-    plot_shortLong
+    plot_shortlong
     plot_subspaces
     plot_timevarying
 

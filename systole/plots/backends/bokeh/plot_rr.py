@@ -2,9 +2,9 @@
 
 import numpy as np
 import pandas as pd
-
 from bokeh.plotting import figure
 from bokeh.plotting.figure import Figure
+
 from systole.utils import heart_rate
 
 

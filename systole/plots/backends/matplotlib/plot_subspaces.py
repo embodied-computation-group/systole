@@ -5,7 +5,7 @@ from typing import Dict, Tuple
 import numpy as np
 from matplotlib.axes import Axes
 
-from systole.plots import plot_ectopic, plot_shortLong
+from systole.plots import plot_ectopic, plot_shortlong
 
 
 def plot_subspaces(
@@ -29,14 +29,14 @@ def plot_subspaces(
 
     See also
     --------
-    plot_events, plot_ectopic, plot_shortLong, plot_subspaces, plot_frequency,
+    plot_events, plot_ectopic, plot_shortlong, plot_subspaces, plot_frequency,
     plot_timedomain, plot_nonlinear
 
     """
     ectopic = plot_ectopic(  # type: ignore
         artefacts=artefacts, figsize=figsize, input_type=None, backend="matplotlib"
     )
-    shortLong = plot_shortLong(  # type: ignore
+    shortLong = plot_shortlong(  # type: ignore
         artefacts=artefacts, figsize=figsize, input_type=None, backend="matplotlib"
     )
 

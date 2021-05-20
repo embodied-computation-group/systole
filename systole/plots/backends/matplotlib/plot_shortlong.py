@@ -7,7 +7,7 @@ import numpy as np
 from matplotlib.axes import Axes
 
 
-def plot_shortLong(
+def plot_shortlong(
     artefacts=Dict[str, np.ndarray],
     figsize: int = 600,
     ax: Optional[Axes] = None,
@@ -32,7 +32,7 @@ def plot_shortLong(
 
     See also
     --------
-    plot_events, plot_ectopic, plot_shortLong, plot_subspaces, plot_frequency,
+    plot_events, plot_ectopic, plot_shortlong, plot_subspaces, plot_frequency,
     plot_timedomain, plot_nonlinear
 
     Notes
