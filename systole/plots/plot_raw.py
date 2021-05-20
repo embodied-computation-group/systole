@@ -7,7 +7,7 @@ import pandas as pd
 from bokeh.plotting.figure import Figure
 from matplotlib.axes import Axes
 
-from systole.detection import ecg_peaks, oxi_peaks
+from systole.detection import ecg_peaks, ppg_peaks
 from systole.plots.utils import get_plotting_function
 
 
@@ -64,7 +64,7 @@ def plot_raw(
         "matplotlib".
     **kwargs : keyword arguments
         Additional arguments will be passed to
-        `:py:func:systole.detection.oxi_peaks()` or
+        `:py:func:systole.detection.ppg_peaks()` or
         `:py:func:systole.detection.ecg_peaks()`, depending on the type
         of data.
 
@@ -112,14 +112,14 @@ def plot_raw(
     if isinstance(signal, pd.DataFrame):
         # Find peaks - Remove learning phase
         if modality == "ppg":
-            signal, peaks = oxi_peaks(signal.ppg, noise_removal=False, **kwargs)
+            signal, peaks = ppg_peaks(signal.ppg, noise_removal=False, **kwargs)
         elif modality == "ecg":
             signal, peaks = ecg_peaks(
                 signal.ecg, method=ecg_method, find_local=True, **kwargs
             )
     else:
         if modality == "ppg":
-            signal, peaks = oxi_peaks(
+            signal, peaks = ppg_peaks(
                 signal, noise_removal=False, sfreq=sfreq, **kwargs
             )
         elif modality == "ecg":

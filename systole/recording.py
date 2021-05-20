@@ -10,7 +10,7 @@ import pandas as pd
 import serial
 from serial.tools import list_ports
 
-from systole.detection import oxi_peaks
+from systole.detection import ppg_peaks
 from systole.plots import plot_events, plot_raw
 
 
@@ -305,10 +305,10 @@ class Oximeter:
 
         Other Parameters
         ----------------
-        **kwargs : py:func:`systole.detection.oxi_peaks` properties.
+        **kwargs : py:func:`systole.detection.ppg_peaks` properties.
         """
         # Peak detection
-        resampled_signal, peaks = oxi_peaks(self.recording, new_sfreq=75, **kwargs)
+        resampled_signal, peaks = ppg_peaks(self.recording, new_sfreq=75, **kwargs)
 
         # R-R intervals (in miliseconds)
         self.rr = (np.diff(np.where(peaks)[0]) / self.sfreq) * 1000

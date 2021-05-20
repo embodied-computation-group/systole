@@ -6,7 +6,7 @@ import numpy as np
 from bokeh.plotting.figure import Figure
 from matplotlib.axes import Axes
 
-from systole.detection import ecg_peaks, oxi_peaks
+from systole.detection import ecg_peaks, ppg_peaks
 from systole.plots.utils import get_plotting_function
 from systole.utils import heart_rate, to_epochs
 
@@ -128,7 +128,7 @@ def plot_evoked(
 
             # Extract instantaneous heart rate
             if modality == "ppg":
-                _, peaks = oxi_peaks(signal, sfreq=sfreq)
+                _, peaks = ppg_peaks(signal, sfreq=sfreq)
             elif modality == "ecg":
                 _, peaks = ecg_peaks(signal, sfreq=sfreq)
 

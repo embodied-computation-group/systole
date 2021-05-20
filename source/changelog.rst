@@ -74,7 +74,7 @@ Initial release.
 
 **Detection**
 
-a. oxi_peaks()
+a. ppg_peaks()
 b. hr_subspaces()
 c. interpolate_clipping()
 d. rr_outliers()

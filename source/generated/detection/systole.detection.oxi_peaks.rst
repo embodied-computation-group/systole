@@ -3,4 +3,4 @@
 
 .. currentmodule:: systole.detection
 
-.. autofunction:: oxi_peaks
+.. autofunction:: ppg_peaks

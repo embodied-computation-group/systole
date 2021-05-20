@@ -11,7 +11,7 @@ from scipy.signal import find_peaks
 from systole.utils import to_neighbour
 
 
-def oxi_peaks(
+def ppg_peaks(
     x: Union[List, np.ndarray],
     sfreq: int = 75,
     win: float = 0.75,
@@ -70,9 +70,9 @@ def oxi_peaks(
     Examples
     --------
     >>> from systole import import_ppg
-    >>> from systole.detection import oxi_peaks
+    >>> from systole.detection import ppg_peaks
     >>> df = import_ppg()  # Import PPG recording
-    >>> signal, peaks = oxi_peaks(df.ppg.to_numpy())
+    >>> signal, peaks = ppg_peaks(df.ppg.to_numpy())
     >>> print(f'{sum(peaks)} peaks detected.')
     378 peaks detected.
 
@@ -202,8 +202,7 @@ def ecg_peaks(
     python. DOI: 10.5281/zenodo.3353396
 
     """
-    if isinstance(x, list):
-        x = np.asarray(x)
+    x = np.asarray(x)
 
     # Interpolate
     f = interp1d(np.arange(0, len(x) / sfreq, 1 / sfreq), x, fill_value="extrapolate")

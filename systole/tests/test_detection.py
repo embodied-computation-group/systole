@@ -6,15 +6,15 @@ from unittest import TestCase
 import numpy as np
 
 from systole import import_dataset1, import_ppg
-from systole.detection import ecg_peaks, interpolate_clipping, oxi_peaks, rr_artefacts
+from systole.detection import ecg_peaks, interpolate_clipping, ppg_peaks, rr_artefacts
 from systole.utils import simulate_rr
 
 
 class TestDetection(TestCase):
-    def test_oxi_peaks(self):
-        """Test oxi_peaks function"""
+    def test_ppg_peaks(self):
+        """Test ppg_peaks function"""
         df = import_ppg()  # Import PPG recording
-        signal, peaks = oxi_peaks(df.ppg.to_numpy(), clean_extra=True)
+        signal, peaks = ppg_peaks(df.ppg.to_numpy(), clean_extra=True)
         assert len(signal) == len(peaks)
         assert np.all(np.unique(peaks) == [0, 1])
         assert np.mean(np.where(peaks)[0]) == 165778.0

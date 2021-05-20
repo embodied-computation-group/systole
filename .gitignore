@@ -4,3 +4,4 @@ mypyreports/
 build/
 dist/
 systole.egg-info/
+htmlcov/

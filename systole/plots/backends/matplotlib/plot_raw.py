@@ -52,7 +52,7 @@ def plot_raw(
         Figure heights. Default is `300`.
     **kwargs : keyword arguments
         Additional arguments will be passed to
-        `:py:func:systole.detection.oxi_peaks()` or
+        `:py:func:systole.detection.ppg_peaks()` or
         `:py:func:systole.detection.ecg_peaks()`, depending on the type
         of data.
 

@@ -36,7 +36,7 @@ Detection
 .. autosummary::
    :toctree: generated/detection
 
-    oxi_peaks
+    ppg_peaks
     ecg_peaks
     rr_artefacts
     interpolate_clipping

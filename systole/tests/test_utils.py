@@ -7,7 +7,7 @@ import numpy as np
 import pytest
 
 from systole import import_ppg, import_rr
-from systole.detection import oxi_peaks
+from systole.detection import ppg_peaks
 from systole.utils import (
     heart_rate,
     norm_triggers,
@@ -22,7 +22,7 @@ from systole.utils import (
 class TestUtils(TestCase):
     def test_norm_triggers(self):
         ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
-        signal, peaks = oxi_peaks(ppg)
+        signal, peaks = ppg_peaks(ppg)
         peaks[np.where(peaks)[0] + 1] = 1
         peaks[np.where(peaks)[0] + 2] = 1
         peaks[-1:] = 1
@@ -39,7 +39,7 @@ class TestUtils(TestCase):
     def test_heart_rate(self):
         """Test heart_rate function"""
         ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
-        _, peaks = oxi_peaks(ppg)
+        _, peaks = ppg_peaks(ppg)
         heartrate, time = heart_rate(peaks)
         assert len(heartrate) == len(time)
         assert np.nanmean(heartrate) == 884.9252640845299
@@ -74,11 +74,11 @@ class TestUtils(TestCase):
         assert ~np.any(np.asarray(ang) < 0)
         assert ~np.any(np.asarray(ang) > np.pi * 2)
         ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
-        signal, peaks = oxi_peaks(ppg)
+        signal, peaks = ppg_peaks(ppg)
         ang = to_angles(peaks, peaks)
 
     def test_to_epochs(self):
-        """Test oxi_peaks function"""
+        """Test ppg_peaks function"""
         ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
         events = import_ppg().ppg.to_numpy()  # Import events
         events[2] = 1
@@ -94,14 +94,14 @@ class TestUtils(TestCase):
             epochs = to_epochs(ppg[1:], events, sfreq=75)
 
     def test_simulate_rr(self):
-        """Test oxi_peaks function"""
+        """Test ppg_peaks function"""
         rr = simulate_rr(artefacts=True)
         assert isinstance(rr, np.ndarray)
         assert len(rr) == 350
 
     def test_to_rr(self):
         ppg = import_ppg().ppg.to_numpy()
-        signal, peaks = oxi_peaks(ppg)
+        signal, peaks = ppg_peaks(ppg)
         rr = to_rr(peaks)
         assert rr.mean() == 874.2068965517242
         rr = to_rr(np.where(peaks)[0])

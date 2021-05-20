@@ -129,7 +129,7 @@ def heart_rate(
 
     >>> from systole import import_ppg
     >>> ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
-    >>> _, peaks = oxi_peaks(ppg)  # Find systolic peaks
+    >>> _, peaks = ppg_peaks(ppg)  # Find systolic peaks
     >>> heartrate, time = heart_rate(peaks)  # Create continuous time series
 
     2. From a vector of RR intervals (miliseconds):
