@@ -7,20 +7,18 @@ import numpy as np
 import pandas as pd
 
 from systole import import_ppg, import_rr, serialSim
-from systole.plots import (
+from systole.recording import Oximeter
+
+from systole.plots import (  # plot_events,; plot_evoked,; plot_timevarying,
     plot_circular,
     plot_ectopic,
-    plot_events,
-    plot_evoked,
     plot_frequency,
     plot_pointcare,
     plot_raw,
     plot_rr,
     plot_shortLong,
     plot_subspaces,
-    plot_timevarying,
 )
-from systole.recording import Oximeter
 
 serial = serialSim()
 oxi = Oximeter(serial=serial, add_channels=1).setup().read(10)
@@ -61,43 +59,45 @@ class TestPlots(TestCase):
         for backend in ["matplotlib", "bokeh"]:
             plot_ectopic(rr, backend=backend)
 
-    def test_plot_events(self):
-        """Test plot_events function"""
-        for backend in ["matplotlib", "bokeh"]:
-            plot_events(oxi, backend=backend)
+    # def test_plot_events(self):
+    #    """Test plot_events function"""
+    #    for backend in ["matplotlib", "bokeh"]:
+    #        plot_events(oxi, backend=backend)
 
-    def test_plot_evoked(self):
-        """Test plot_evoked function"""
-        for backend in ["matplotlib", "bokeh"]:
-            plot_evoked(oxi, backend=backend)
+    # def test_plot_evoked(self):
+    #    """Test plot_evoked function"""
+    #    for backend in ["matplotlib", "bokeh"]:
+    #        plot_evoked(oxi, backend=backend)
 
     def test_plot_frequency(self):
         """Test plot_frequency function"""
         rr = import_rr().rr
         for backend in ["matplotlib", "bokeh"]:
-            plot_frequency(rr, backend=backend)
+            plot_frequency(rr, backend=backend, input_type="rr_ms")
 
     def test_plot_pointcare(self):
         """Test plot_pointcare function"""
         rr = import_rr().rr
         for backend in ["matplotlib", "bokeh"]:
-            plot_pointcare(rr, backend=backend)
+            plot_pointcare(rr, backend=backend, input_type="rr_ms")
 
     def test_plot_raw(self):
         """Test plot_raw function"""
         for backend in ["matplotlib", "bokeh"]:
             plot_raw(ppg, backend=backend)
+            plot_raw(ppg, backend=backend, show_heart_rate=True)
 
     def test_plot_rr(self):
         """Test plot_rr function"""
+        rr = import_rr().rr
         for backend in ["matplotlib", "bokeh"]:
-            plot_rr(ppg, backend=backend)
+            plot_rr(rr, backend=backend, input_type="rr_ms")
 
     def test_plot_shortLong(self):
         """Test plot_shortLong function"""
         rr = import_rr().rr
         for backend in ["matplotlib", "bokeh"]:
-            plot_shortLong(rr, backend=backend)
+            plot_shortLong(rr, backend=backend, input_type="rr_ms")
 
     def test_plot_subspaces(self):
         """Test plot_subspaces function"""
@@ -105,11 +105,11 @@ class TestPlots(TestCase):
         for backend in ["matplotlib", "bokeh"]:
             plot_subspaces(rr, backend=backend)
 
-    def test_plot_timevarying(self):
-        """Test plot_timevarying function"""
-        rr = import_rr().rr
-        for backend in ["matplotlib", "bokeh"]:
-            plot_timevarying(rr, backend=backend)
+    # def test_plot_timevarying(self):
+    #    """Test plot_timevarying function"""
+    #    rr = import_rr().rr
+    #    for backend in ["matplotlib", "bokeh"]:
+    #        plot_timevarying(rr, backend=backend)
 
 
 if __name__ == "__main__":

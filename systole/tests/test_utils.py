@@ -58,7 +58,7 @@ class TestUtils(TestCase):
         heartrate, time = heart_rate(
             np.diff(np.where(peaks)) / 1000, kind="cubic", input_type="rr_s"
         )
-        assert np.nanmean(heartrate) == 884.9253824912565
+        assert np.nanmean(heartrate) == 884.92526408453
 
     def test_time_shift(self):
         """Test time_shift function"""

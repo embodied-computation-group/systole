@@ -14,7 +14,7 @@ def plot_pointcare(
     figsize: Optional[Union[List[int], Tuple[int, int], int]] = None,
     ax=None,
 ) -> Figure:
-    """Plot PSD and frequency domain metrics.
+    """Pointcare plot.
 
     Parameters
     ----------
@@ -28,12 +28,8 @@ def plot_pointcare(
     Returns
     -------
     psd_plot : :class:`bokeh.plotting.figure.Figure`
-        Instance of :class:`bokeh.plotting.figure.Figure`.
+        The pointcare plot.
 
-    See also
-    --------
-    plot_events, plot_ectopic, plot_shortLong, plot_subspaces, plot_frequency,
-    plot_timedomain, plot_nonlinear
     """
     if figsize is None:
         height, width = 400, 400

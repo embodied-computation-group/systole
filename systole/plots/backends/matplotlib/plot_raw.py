@@ -1,35 +1,55 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import Optional, Tuple
+from typing import List, Optional, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
-import seaborn as sns
 from matplotlib.axes import Axes
+from pandas.core.indexes.datetimes import DatetimeIndex
+
+from systole.plots import plot_rr
 
 
 def plot_raw(
-    time: np.ndarray,
+    time: DatetimeIndex,
     signal: np.ndarray,
     peaks: np.ndarray,
-    hr: np.ndarray,
-    ax: Optional[Axes] = None,
-    figsize: Tuple[float, float] = (13, 5),
     modality: str = "ppg",
+    show_heart_rate: bool = True,
+    ax: Optional[Union[List, Axes]] = None,
+    slider: bool = True,
+    figsize: int = 300,
     **kwargs
 ) -> Axes:
-    """Visualization of PPG signal and systolic peaks detection.
+    """Visualization of PPG or ECG signal with systolic peaks/R wave detection.
+
+    The instantaneous heart rate can be derived in a second row.
 
     Parameters
     ----------
-    tim : :py:class:`numpy.ndarray`
+    time : :py:class:`pandas.core.indexes.datetimes.DatetimeIndex`
+        The time index.
     signal : :py:class:`numpy.ndarray`
+        The physiological signal (1d numpy array).
     peaks : :py:class:`numpy.ndarray`
-    hr : :py:class:`numpy.ndarray`
-    ax : :class:`matplotlib.axes.Axes` or None
-        Where to draw the plot. Default is *None* (create a new figure).
-    figsize : tuple
-        Figure size. Default is `(13, 5)`.
+        The peaks or R wave detection (1d boolean array).
+    modality : str
+        The recording modality. Can be `"ppg"` or `"ecg"`.
+    show_heart_rate : bool
+        If `True`, create a second row and plot the instantanesou heart rate
+        derived from the physiological signal
+        (calls :py:func:`systole.plots.plot_rr` internally). Defaults to
+        `False`.
+    ax : :class:`matplotlib.axes.Axes` list or None
+        Where to draw the plot. Default is *None* (create a new figure). Only
+        applies when `backend="matplotlib"`. If `show_heart_rate is True`, a
+        list of axes can be provided to plot the signal and instantaneous heart
+        rate separately.
+    slider : bool
+        If `True`, add a slider to zoom in/out in the signal (only working with
+        bokeh backend).
+    figsize : int
+        Figure heights. Default is `300`.
     **kwargs : keyword arguments
         Additional arguments will be passed to
         `:py:func:systole.detection.oxi_peaks()` or
@@ -38,90 +58,67 @@ def plot_raw(
 
     Returns
     -------
-    ax : :class:`matplotlib.axes.Axes`
+    fig : :class:`matplotlib.axes.Axes` or tuple
         The matplotlib axes containing the plot.
-
-    See also
-    --------
-    plot_events, plot_subspaces, plot_events, plot_psd, plot_oximeter
-
-    Examples
-    --------
-    Plotting PPG recording.
-
-    .. plot::
-
-       >>> from systole import import_ppg
-       >>> from systole.plotting import plot_raw
-       >>> # Import PPG recording as pandas data frame
-       >>> ppg = import_ppg()
-       >>> # Only use the first 60 seconds for demonstration
-       >>> ppg = ppg[ppg.time<60]
-       >>> plot_raw(ppg)
-
-    Plotting ECG recording.
-
-    .. plot::
-
-       >>> from systole import import_dataset1
-       >>> from systole.plotting import plot_raw
-       >>> # Import PPG recording as pandas data frame
-       >>> ecg = import_dataset1(modalities=['ECG'])
-       >>> # Only use the first 60 seconds for demonstration
-       >>> ecg = ecg[ecg.time<60]
-       >>> plot_raw(ecg, type='ecg', sfreq=1000, ecg_method='pan-tompkins')
     """
+
+    if modality == "ppg":
+        title = "PPG recording"
+        ylabel = "PPG level (a.u.)"
+        peaks_label = "Systolic peaks"
+    elif modality == "ecg":
+        title = "ECG recording"
+        ylabel = "ECG (mV)"
+        peaks_label = "R wave"
 
     #############
     # Upper panel
     #############
     if ax is None:
-        fig, ax = plt.subplots(ncols=1, nrows=2, figsize=figsize, sharex=True)
+        if show_heart_rate is True:
+            _, axs = plt.subplots(ncols=1, nrows=2, figsize=figsize, sharex=True)
+            signal_ax, hr_ax = axs
+        else:
+            _, signal_ax = plt.subplots(ncols=1, nrows=1, figsize=figsize)
+
+    elif isinstance(ax, list):
+        signal_ax, hr_ax = ax
 
     # Signal
-    ax[0].plot(time, signal, label="PPG signal", linewidth=1, color="#c44e52")
+    signal_ax.plot(time, signal, label="PPG signal", linewidth=1, color="#c44e52")
 
     # Peaks
-    ax[0].scatter(
+    signal_ax.scatter(
         x=time[peaks],
         y=signal[peaks],
         marker="o",
-        label="Peaks",
+        label=peaks_label,
         s=30,
         color="white",
         edgecolors="DarkSlateGrey",
     )
-    if type == "ppg":
-        ax[0].set_title("PPG recording")
-        ax[0].set_ylabel("PPG level (a.u.)")
-    elif type == "ecg":
-        ax[0].set_title("ECG recording")
-        ax[0].set_ylabel("ECG (mV)")
-    ax[0].grid(True)
+    if modality == "ppg":
+        signal_ax.set_title(title)
+        signal_ax.set_ylabel(ylabel)
+    elif modality == "ecg":
+        signal_ax.set_title(title)
+        signal_ax.set_ylabel(ylabel)
+    signal_ax.grid(True)
 
     #############
     # Lower panel
     #############
 
-    # Instantaneous Heart Rate - Lines
-    ax[1].plot(time, hr, label="R-R intervals", linewidth=1, color="#4c72b0")
+    if show_heart_rate is True:
 
-    # Instantaneous Heart Rate - Peaks
-    ax[1].scatter(
-        x=time[peaks],
-        y=hr[peaks],
-        marker="o",
-        label="R-R intervals",
-        s=20,
-        color="white",
-        edgecolors="DarkSlateGrey",
-    )
-    ax[1].set_title("Instantaneous heart rate")
-    ax[1].set_xlabel("Time (s)")
-    ax[1].set_ylabel("R-R interval (ms)")
-    ax[1].grid(True)
+        # Instantaneous Heart Rate - Peaks
+        plot_rr(
+            peaks, input_type="peaks", backend="matplotlib", figsize=figsize, ax=hr_ax
+        )
 
-    plt.tight_layout()
-    sns.despine()
+        plt.tight_layout()
 
-    return ax
+        return signal_ax, hr_ax
+
+    else:
+        return signal_ax

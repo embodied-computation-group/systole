@@ -1,7 +1,10 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+from typing import List, Optional, Union
+
 import numpy as np
-import pandas as pd
+from matplotlib.axes import Axes
+from pandas.core.indexes.datetimes import DatetimeIndex
 
 from bokeh.layouts import column
 from bokeh.models import ColumnDataSource, RangeTool
@@ -11,26 +14,42 @@ from systole.plots import plot_rr
 
 
 def plot_raw(
-    time: np.ndarray,
+    time: DatetimeIndex,
     signal: np.ndarray,
     peaks: np.ndarray,
     modality: str = "ppg",
     show_heart_rate: bool = True,
+    ax: Optional[Union[List, Axes]] = None,
     slider: bool = True,
     figsize: int = 300,
-    ax=None,
     **kwargs
 ) -> Figure:
-    """Visualization of PPG signal and systolic peaks detection.
+    """Visualization of PPG or ECG signal with systolic peaks/R wave detection.
+
+    The instantaneous heart rate can be derived in a second row.
 
     Parameters
     ----------
-    time : :py:class:`numpy.ndarray`
+    time : :py:class:`pandas.core.indexes.datetimes.DatetimeIndex`
+        The time index.
     signal : :py:class:`numpy.ndarray`
+        The physiological signal (1d numpy array).
     peaks : :py:class:`numpy.ndarray`
+        The peaks or R wave detection (1d boolean array).
     modality : str
+        The recording modality. Can be `"ppg"` or `"ecg"`.
     show_heart_rate : bool
+        If `True`, create a second row and plot the instantanesou heart rate
+        derived from the physiological signal
+        (calls :py:func:`systole.plots.plot_rr` internally). Defaults to `False`.
+    ax : :class:`matplotlib.axes.Axes` list or None
+        Where to draw the plot. Default is *None* (create a new figure). Only
+        applies when `backend="matplotlib"`. If `show_heart_rate is True`, a list
+        of axes can be provided to plot the signal and instantaneous heart rate
+        separately.
     slider : bool
+        If `True`, add a slider to zoom in/out in the signal (only working with
+        bokeh backend).
     figsize : int
         Figure heights. Default is `300`.
     **kwargs : keyword arguments
@@ -45,7 +64,6 @@ def plot_raw(
         The bokeh figure containing the plot.
     """
 
-    time = pd.to_datetime(time, unit="s", origin="unix")
     source = ColumnDataSource(
         data={"time": time[::10], "signal": signal[::10], "peaks": peaks[::10]}
     )
@@ -73,7 +91,6 @@ def plot_raw(
         x_range=(time[0], time[-1]),
     )
 
-    # Instantaneous Heart Rate - Lines
     raw.line(
         "time",
         "signal",

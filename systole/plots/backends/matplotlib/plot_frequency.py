@@ -10,9 +10,8 @@ from matplotlib.axes import Axes
 def plot_frequency(
     freq: np.ndarray,
     power: np.ndarray,
-    fbands: Optional[Dict[str, Tuple[str, Tuple[float, float], str]]] = None,
     figsize: Optional[Union[List[int], Tuple[int, int], int]] = None,
-    show: bool = True,
+    fbands: Optional[Dict[str, Tuple[str, Tuple[float, float], str]]] = None,
     ax: Optional[Axes] = None,
 ) -> Axes:
     """Plot the frequency component of the heart rate variability.
@@ -23,6 +22,8 @@ def plot_frequency(
         Frequencies.
     power : np.ndarray
         Power spectral density.
+    figsize : list, tuple, int or None
+        Figure size. Default is `(8, 5)`.
     fbands : None | dict, optional
         Dictionary containing the names of the frequency bands of interest
         (str), their range (tuples) and their color in the PSD plot.
@@ -30,15 +31,13 @@ def plot_frequency(
         >>> {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
         >>> 'lf': ('Low frequency', (0.04, 0.15), 'g'),
         >>> 'hf': ('High frequency', (0.15, 0.4), 'r')}
-    figsize : list, tuple, int or None
-        Figure size. Default is `(8, 5)`.
     ax : :class:`matplotlib.axes.Axes` or None
         Where to draw the plot. Default is `None` (create a new figure).
 
      Returns
      -------
      ax  : :class:`matplotlib.axes.Axes`
-        Return the PSD plot.
+        The matplotlib axes containing the plot.
 
     """
     if figsize is None:

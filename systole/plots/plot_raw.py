@@ -6,27 +6,30 @@ import numpy as np
 import pandas as pd
 from matplotlib.axes import Axes
 
+from bokeh.plotting.figure import Figure
 from systole.detection import ecg_peaks, oxi_peaks
 from systole.plots.utils import get_plotting_function
 
 
 def plot_raw(
-    signal: Union[pd.DataFrame, np.ndarray],
+    signal: Union[pd.DataFrame, np.ndarray, List],
     sfreq: int = 75,
     modality: str = "ppg",
     ecg_method: str = "hamilton",
-    show_heart_rate: bool = True,
+    show_heart_rate: bool = False,
     slider: bool = True,
     ax: Optional[Axes] = None,
     figsize: Optional[Union[int, List[int], Tuple[int, int]]] = None,
     backend: str = "matplotlib",
     **kwargs
-) -> Axes:
-    """Visualization of PPG signal and systolic peaks detection.
+) -> Union[Axes, Figure]:
+    """Visualization of PPG or ECG signal with systolic peaks/R wave detection.
+
+    The instantaneous heart rate can be derived in a second row.
 
     Parameters
     ----------
-    signal : :py:class:`pandas.DataFrame` or :py:class:`numpy.ndarray`
+    signal : :py:class:`pandas.DataFrame`, :py:class:`numpy.ndarray` or list
         Dataframe of PPG or ECG signal in the long format. If a data frame is
         provided, it should contain at least one ``'time'`` and one colum for
         signal(either ``'ppg'`` or ``'ecg'``). If an array is provided, it will
@@ -45,8 +48,8 @@ def plot_raw(
         `'pan-tompkins'`, `'wavelet-transform'`, `'moving-average'`. The
         default is `'hamilton'`.
     show_heart_rate : bool
-        If `True` (default), show the instnataneous heart rate below the raw
-        signal.
+        If `True`, show the instnataneous heart rate below the raw signal.
+        Defaults to `False`.
     slider : bool
         If `True`, will add a slider to select the time window to plot
         (requires bokeh backend).
@@ -72,7 +75,7 @@ def plot_raw(
 
     See also
     --------
-    plot_events, plot_subspaces, plot_events, plot_psd, plot_oximeter
+    plot_events, plot_rr
 
     Examples
     --------
@@ -81,7 +84,7 @@ def plot_raw(
     .. plot::
 
        >>> from systole import import_ppg
-       >>> from systole.plotting import plot_raw
+       >>> from systole.plots import plot_raw
        >>> # Import PPG recording as pandas data frame
        >>> ppg = import_ppg()
        >>> # Only use the first 60 seconds for demonstration
@@ -93,7 +96,7 @@ def plot_raw(
     .. plot::
 
        >>> from systole import import_dataset1
-       >>> from systole.plotting import plot_raw
+       >>> from systole.plots import plot_raw
        >>> # Import PPG recording as pandas data frame
        >>> ecg = import_dataset1(modalities=['ECG'])
        >>> # Only use the first 60 seconds for demonstration
@@ -123,7 +126,8 @@ def plot_raw(
             signal, peaks = ecg_peaks(
                 signal, method=ecg_method, sfreq=sfreq, find_local=True, **kwargs
             )
-    time = np.arange(0, len(signal)) / 1000
+
+    time = pd.to_datetime(np.arange(0, len(signal)), unit="ms", origin="unix")
 
     plot_raw_args = {
         "time": time,

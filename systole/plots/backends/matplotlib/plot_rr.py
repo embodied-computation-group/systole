@@ -1,16 +1,17 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import List, Optional, Tuple, Union
+from typing import Optional, Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 from matplotlib.axes import Axes
 
 from systole.utils import heart_rate
 
 
 def plot_rr(
-    rr: Union[List, np.ndarray],
+    rr: np.ndarray,
     unit: str = "rr",
     kind: str = "cubic",
     sfreq: int = 1000,
@@ -24,8 +25,8 @@ def plot_rr(
 
     Parameters
     ----------
-    rr : np.ndarray or list
-        Boolean vector of peaks detection or RR intervals.
+    rr : np.ndarray
+        1d numpy array of RR intervals (miliseconds).
     unit : str
         The heart rate unit in use. Can be `'rr'` (R-R intervals, in ms)
         or `'bpm'` (beats per minutes). Default is `'rr'`.
@@ -39,15 +40,13 @@ def plot_rr(
         If `True`, plot the interpolated instantaneous heart rate.
     points : bool
         If `True`, plot each peaks (R wave or systolic peaks) as separated
-        points
+        points.
     input_type : str
         The type of input vector. Default is `"peaks"` (a boolean vector where
         `1` represents the occurrence of R waves or systolic peaks).
         Can also be `"rr_s"` or `"rr_ms"` for vectors of RR intervals, or
         interbeat intervals (IBI), expressed in seconds or milliseconds
         (respectively).
-    ax : :class:`matplotlib.axes.Axes` or None
-        Where to draw the plot. Default is *None* (create a new figure).
     figsize : tuple
         Figure size. Default is `(13, 5)`.
 
@@ -56,23 +55,9 @@ def plot_rr(
     ax : :class:`matplotlib.axes.Axes`
         The matplotlib axes containing the plot.
 
-    See also
-    --------
-    plot_events, plot_subspaces, plot_events, plot_psd, plot_oximeter, plot_raw
-
-    Examples
-    --------
-
-    .. plot::
-
-        >>> from systole import import_rr
-        >>> from systole.plotting import plot_rr
-        >>> rr = import_rr().rr.values
-        >>> plot_rr(rr=rr, input_type="rr_ms", unit="bpm",)
     """
 
-    if (points is False) & (line is False):
-        raise ValueError("point and line arguments cannot be False at the same time")
+    ylabel = "R-R interval (ms)" if unit == "rr" else "Beats per minute (bpm)"
 
     if ax is None:
         _, ax = plt.subplots(figsize=figsize)
@@ -84,21 +69,24 @@ def plot_rr(
             rr, sfreq=sfreq, unit=unit, kind=kind, input_type=input_type
         )
 
+        # Convert to datetime format
+        time = pd.to_datetime(time, unit="s", origin="unix")
+
         # Instantaneous Heart Rate - Lines
-        ax.plot(time, hr, label="R-R intervals", linewidth=1, color="#4c72b0")
+        ax.plot(time, hr, label="Instantaneous heart rat", linewidth=1, color="#4c72b0")
 
     if points is True:
 
         # Instantaneous Heart Rate - Peaks
-        if input_type == "peaks":
-            ibi = np.where(rr)[0]
-            peaks_idx = np.cumsum(ibi) / 1000
+        if input_type == "rr_ms":
+            ibi = np.array(rr)
+            peaks_idx = pd.to_datetime(np.cumsum(ibi), unit="ms", origin="unix")
         elif input_type == "rr_s":
             ibi = np.array(rr) * 1000
-            peaks_idx = np.cumsum(ibi) / 1000
-        elif input_type == "rr_ms":
-            ibi = np.array(rr)
-            peaks_idx = np.cumsum(ibi) / 1000
+            peaks_idx = pd.to_datetime(np.cumsum(ibi) * 1000, unit="ms", origin="unix")
+        elif input_type == "peaks":
+            ibi = np.diff(np.where(rr)[0])
+            peaks_idx = pd.to_datetime(np.where(rr)[0][1:], unit="ms", origin="unix")
 
         if unit == "bpm":
             ibi = 60000 / ibi
@@ -112,8 +100,8 @@ def plot_rr(
             color="white",
             edgecolors="DarkSlateGrey",
         )
-    ax.set_xlabel("Time (s)")
-    ylabel = "R-R interval (ms)" if unit == "rr" else "Beats per minute (bpm)"
+    ax.set_title("Instantaneous heart rate")
+    ax.set_xlabel("Time")
     ax.set_ylabel(ylabel)
     ax.grid(True)
 

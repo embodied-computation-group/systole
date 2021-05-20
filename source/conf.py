@@ -16,14 +16,12 @@ import sphinx_bootstrap_theme
 # -- Project information -----------------------------------------------------
 
 project = "systole"
-copyright = u'2020-{}, Nicolas Legrand'.format(time.strftime("%Y"))
+copyright = u"2020-{}, Nicolas Legrand".format(time.strftime("%Y"))
 author = "Nicolas Legrand"
 release = "0.1.3"
 
 
-image_scrapers = (
-    "matplotlib",
-)
+image_scrapers = ("matplotlib",)
 
 sphinx_gallery_conf = {
     "examples_dirs": "../examples",

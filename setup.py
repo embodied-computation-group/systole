@@ -20,7 +20,7 @@ DESCRIPTION = """Cardiac signal analysis with Python"""
 DISTNAME = "systole"
 MAINTAINER = "Nicolas Legrand"
 MAINTAINER_EMAIL = "nicolas.legrand@cfin.au.dk"
-VERSION = "0.1.3"
+VERSION = "0.2.0a"
 
 
 if __name__ == "__main__":

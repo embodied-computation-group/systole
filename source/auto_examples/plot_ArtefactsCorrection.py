@@ -21,6 +21,7 @@ detection using the method proposed by Lipponen & Tarvainen (2019) [#]_.
 # where the timing of experimental events is not important.
 
 import matplotlib.pyplot as plt
+
 #%%
 import numpy as np
 

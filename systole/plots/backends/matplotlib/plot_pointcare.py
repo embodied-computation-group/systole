@@ -12,7 +12,7 @@ def plot_pointcare(
     figsize: Optional[Union[List[int], Tuple[int, int], int]] = None,
     ax: Optional[Axes] = None,
 ) -> Union[Tuple[np.ndarray, np.ndarray], Axes]:
-    """Plot the frequency component of the heart rate variability.
+    """Pointcare plot.
 
     Parameters
     ----------
@@ -26,7 +26,7 @@ def plot_pointcare(
      Returns
      -------
      ax  : :class:`matplotlib.axes.Axes`
-        Return the PSD plot.
+        The pointcare plot.
 
     """
     if figsize is None:
@@ -38,7 +38,7 @@ def plot_pointcare(
             figsize = (figsize[0], figsize[0])
 
     if ax is None:
-        fig, ax = plt.subplots(figsize=figsize)
+        _, ax = plt.subplots(figsize=figsize)
 
     if np.any(rr >= 3000) | np.any(rr <= 200):
 
@@ -60,7 +60,7 @@ def plot_pointcare(
     ax.scatter(
         rr_x[~outliers],
         rr_y[~outliers],
-        markersize=5,
+        s=5,
         color="#4c72b0",
         alpha=0.1,
         edgecolors="grey",
@@ -70,7 +70,7 @@ def plot_pointcare(
     ax.scatter(
         rr_x[outliers],
         rr_y[outliers],
-        markersize=5,
+        s=5,
         color="#a9373b",
         alpha=0.8,
         edgecolors="grey",

@@ -92,7 +92,7 @@ Systole implements systolic peak detection inspired by van Gent et al. (2019) [#
 .. code-block:: python
 
   from systole import simulate_rr
-  from systole.plotting import plot_subspaces
+  from systole.plots import plot_subspaces
 
   rr = simulate_rr()
   plot_subspaces(rr)
@@ -117,7 +117,7 @@ All time-domain and non-linear indices have been tested against Kubios HVR 2.2 (
 
 .. code-block:: python
 
-  from systole.plotting import plot_psd
+  from systole.plots import plot_frequency
 
   plot_psd(rr)
 

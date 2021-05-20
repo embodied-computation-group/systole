@@ -1,14 +1,12 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import TYPE_CHECKING, List, Optional, Tuple, Union
+from typing import List, Optional, Tuple, Union
 
 import numpy as np
+from matplotlib.axes import Axes
 
+from bokeh.plotting.figure import Figure
 from systole.plots.utils import get_plotting_function
-
-if TYPE_CHECKING:
-    from bokeh.plotting.figure import Figure
-    from matplotlib.axes import Axes
 
 
 def plot_pointcare(
@@ -18,7 +16,7 @@ def plot_pointcare(
     backend: str = "matplotlib",
     ax: Optional["Axes"] = None,
     **kwargs
-) -> "Union[Figure, Axes]":
+) -> Union[Figure, Axes]:
     """Plot PSD and frequency domain metrics.
 
     Parameters

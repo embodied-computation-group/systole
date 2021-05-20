@@ -27,7 +27,7 @@ import seaborn as sns
 from psychopy.sound import Sound
 
 from systole import serialSim
-from systole.plotting import circular
+from systole.plots import circular
 from systole.recording import Oximeter
 from systole.utils import norm_triggers, to_angles
 

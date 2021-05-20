@@ -70,6 +70,10 @@ def plot_rr(
         >>> rr = import_rr().rr.values
         >>> plot_rr(rr=rr, input_type="rr_ms", unit="bpm",)
     """
+
+    if (points is False) & (line is False):
+        raise ValueError("Either points or line should be True")
+
     if figsize is None:
         if backend == "matplotlib":
             figsize = (13, 5)

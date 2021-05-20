@@ -45,7 +45,7 @@ class TestHrv(TestCase):
 
     def test_frequency_domain(self):
         """Test frequency_domain function"""
-        stats = frequency_domain(list(rr))
+        stats = frequency_domain(rr=list(rr))
         assert isinstance(stats, pd.DataFrame)
         assert stats.size == 22
 

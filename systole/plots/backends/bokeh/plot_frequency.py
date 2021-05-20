@@ -15,7 +15,7 @@ def plot_frequency(
     fbands: Optional[Dict[str, Tuple[str, Tuple[float, float], str]]] = None,
     ax=None,
 ) -> "Figure":
-    """Plot PSD and frequency domain metrics.
+    """Plot the frequency component of the heart rate variability.
 
     Parameters
     ----------
@@ -38,7 +38,7 @@ def plot_frequency(
     Returns
     -------
     psd_plot : :class:`bokeh.plotting.figure.Figure`
-        Instance of :class:`bokeh.plotting.figure.Figure`.
+        The boken figure containing the plot.
 
     See also
     --------
