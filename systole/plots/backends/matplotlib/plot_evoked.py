@@ -14,7 +14,7 @@ def plot_evoked(
     epochs: np.ndarray,
     tmin: float = -1,
     tmax: float = 10,
-    sfreq: int = 10,
+    sfreq_out: int = 10,
     color: str = "#4c72b0",
     label: Optional[str] = None,
     unit: str = "bpm",
@@ -32,8 +32,8 @@ def plot_evoked(
     tmin, tmax : float
         Start and end time of the epochs in seconds, relative to the
         time-locked event. Defaults to -1 and 10, respectively.
-    sfreq : int
-        The sampling frequency.
+    sfreq_out : int
+        The sampling frequency of the epoched data.
     figsize : tuple
         Figure size. Default is `(13, 5)`.
     color : str
@@ -55,7 +55,7 @@ def plot_evoked(
     fig : :class:`bokeh.plotting.figure.Figure`
         The bokeh figure containing the plot.
     """
-    time = np.arange(tmin, tmax, 1 / sfreq)
+    time = np.arange(tmin, tmax, 1 / sfreq_out)
 
     if ax is None:
         _, ax = plt.subplots(figsize=figsize)
@@ -65,7 +65,7 @@ def plot_evoked(
 
     # Plot
     df = pd.DataFrame(epochs).melt()
-    df.variable /= sfreq
+    df.variable /= sfreq_out
     df.variable += tmin
     for i in range(len(epochs)):
         ax.plot(time, epochs[i], color=color, alpha=0.2, linestyle="--")

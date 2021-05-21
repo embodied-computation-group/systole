@@ -144,7 +144,7 @@ def plot_evoked(
         "epochs": epochs,
         "tmin": tmin,
         "tmax": tmax,
-        "sfreq": sfreq,
+        "sfreq_out": sfreq_out,
         "color": color,
         "ax": ax,
         "figsize": figsize,
