@@ -8,7 +8,7 @@ from matplotlib.axes import Axes
 
 from systole.correction import rr_artefacts
 from systole.plots.utils import get_plotting_function
-from systole.utils import to_rr
+from systole.utils import input_conversion
 
 
 @overload
@@ -104,10 +104,8 @@ def plot_subspaces(
         if rr is None:
             raise ValueError("rr or artefacts should be provided")
         else:
-            if input_type == "peaks":
-                rr = to_rr(rr)
-            elif input_type == "rr_s":
-                rr *= 1000
+            if input_type != "rr_ms":
+                rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
             artefacts = rr_artefacts(rr)
 
     plot_subspaces_args = {

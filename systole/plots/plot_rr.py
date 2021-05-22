@@ -1,10 +1,11 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from matplotlib.axes import Axes
 
+from systole.detection import rr_artefacts
 from systole.plots.utils import get_plotting_function
 
 
@@ -15,6 +16,7 @@ def plot_rr(
     line: bool = True,
     points: bool = True,
     input_type: str = "peaks",
+    show_artefacts: bool = False,
     ax: Optional[Axes] = None,
     figsize: Optional[Union[Tuple[float, float], int]] = None,
     backend: str = "matplotlib",
@@ -43,6 +45,10 @@ def plot_rr(
         Can also be `"rr_s"` or `"rr_ms"` for vectors of RR intervals, or
         interbeat intervals (IBI), expressed in seconds or milliseconds
         (respectively).
+    show_artefacts : bool
+        If `True`, the function will call
+        py:func:`systole.detection.rr_artefacts` to detect outliers interval
+        in the time serie and outline them using different colors.
     ax : :class:`matplotlib.axes.Axes` or None
         Where to draw the plot. Default is *None* (create a new figure).
     figsize : tuple, int or None
@@ -83,12 +89,20 @@ def plot_rr(
     if input_type not in ["peaks", "rr_ms", "rr_s"]:
         raise ValueError("Invalid input type")
 
+    # Detect artefacts in the rr time series if required
+    artefacts: Optional[Dict[str, np.ndarray]] = None
+    if show_artefacts is True:
+        if points is False:
+            raise Warning("show_artefacts is True but points is set to False")
+        artefacts = rr_artefacts(rr, input_type=input_type)
+
     plot_rr_args = {
         "rr": rr,
         "unit": unit,
         "kind": kind,
         "line": line,
         "points": points,
+        "artefacts": artefacts,
         "input_type": input_type,
         "ax": ax,
         "figsize": figsize,

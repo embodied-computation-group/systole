@@ -466,28 +466,105 @@ def to_neighbour(
     return new_peaks
 
 
-def to_rr(peaks: Union[List[float], np.ndarray], sfreq: int = 1000) -> np.ndarray:
-    """Convert peaks index to intervals time series (RR, beat-to-beat...).
+def input_conversion(
+    x: Union[List[float], np.ndarray],
+    input_type: str,
+    output_type: str,
+    sfreq: int = 1000,
+) -> np.ndarray:
+    """Convert input time series to the desired output format.
+
+    This function is called by functions to convert time series to
+    a different format. The input and outputs can be:
+        * `peaks`: a boolean vector where `1` denote the detection of an event in the
+            time-series.
+        * `peaks_idx`: a 1d NumPy array of integers where each item is the sample index
+             of an event in the time series.
+        * `rr_ms`: a 1d NumPy array (integers or floats) of RR /peak-to-peak intervals
+            in milliseconds.
+        * `rr_s`: a 1d NumPy array (integers or floats) of RR /peak-to-peak intervals
+            in seconds.
 
     Parameters
     ----------
-    peaks : np.ndarray or list
-        Either a boolean array or sample index. Default is *boolean*. If the
-        input array does not only contain 0 or 1, will automatically try sample
-        index.
+    x : np.ndarray or list
+        The input time series.
+    input_type : str
+        The type of input provided (can be `"peaks"`, `"peaks_idx"`, `"rr_ms"`,
+        `"rr_s"`).
+    output_type : str
+        The type of desired output (can be `"peaks"`, `"peaks_idx"`, `"rr_ms"`,
+        `"rr_s"`).
     sfreq : int
-        The sampling frequency (default is 1000 Hz).
+        The sampling frequency (default is 1000 Hz). Only applies when `iput_type` is
+        `"peaks"` or `"peaks_idx"`.
 
     Returns
     -------
-    rr : np.ndarray
-        Interval time series (in miliseconds).
+    output : np.ndarray
+        The time series converted to the desired format.
     """
-    if isinstance(peaks, list):
-        peaks = np.asarray(peaks)
-    if ((peaks == 1) | (peaks == 0)).all():
-        rr = (np.diff(np.where(peaks)[0]) / sfreq) * 1000
-    else:
-        rr = (np.diff(peaks) / sfreq) * 1000
 
-    return rr
+    if output_type not in ["peaks", "peaks_idx", "rr_ms", "rr_s"]:
+        raise ValueError("Invalid output type.")
+
+    if input_type == output_type:
+        raise ValueError("Input type and output type are the same.")
+
+    x = np.asarray(x)
+
+    if input_type == "peaks":
+        if ((x == 1) | (x == 0)).all():
+            if output_type == "rr_ms":
+                output = (np.diff(np.where(x)[0]) / sfreq) * 1000
+            elif output_type == "rr_s":
+                output = np.diff(np.where(x)[0]) / sfreq
+            elif output_type == "peaks_idx":
+                output = np.where(x)[0]
+        else:
+            raise ValueError("The peaks vector should only contain boolean values.")
+
+    elif input_type == "peaks_idx":
+        if (np.diff(x) > 0).all() & (np.rint(x) == x).all():
+            if output_type == "rr_ms":
+                output = (np.diff(x) / sfreq) * 1000
+            elif output_type == "rr_s":
+                output = np.diff(x) / sfreq
+            elif output_type == "peaks":
+                output = np.zeros(x[-1] + 1, dtype=bool)
+                output[x] = True
+        else:
+            raise ValueError("Invalid peaks index provided.")
+
+    elif input_type == "rr_ms":
+        if (x > 0).all():
+            if output_type == "rr_s":
+                output = x / 1000
+            elif output_type == "peaks":
+                output = np.zeros(np.sum(x) + 1, dtype=bool)
+                output[np.cumsum(x)] = True
+                output[0] = True
+            elif output_type == "peaks_idx":
+                output = np.cumsum(x)
+                output = np.insert(output, 0, 0)
+        else:
+            raise ValueError("Invalid intervals provided.")
+
+    elif input_type == "rr_s":
+        if (x > 0).all():
+            if output_type == "rr_ms":
+                output = x * 1000
+            elif output_type == "peaks":
+                output = np.zeros(np.sum(x * 1000).astype(int) + 1, dtype=bool)
+                output[np.cumsum(x * 1000).astype(int)] = True
+                output[0] = True
+            elif output_type == "peaks_idx":
+                output = np.cumsum(x * 1000).astype(int)
+                output = np.insert(output, 0, 0)
+        else:
+            raise ValueError("Invalid intervals provided.")
+
+    else:
+        raise ValueError("Invalid input type.")
+
+    return output

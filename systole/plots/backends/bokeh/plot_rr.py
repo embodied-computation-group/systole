@@ -1,5 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+from typing import Dict, Optional
+
 import numpy as np
 import pandas as pd
 from bokeh.plotting import figure
@@ -14,6 +16,7 @@ def plot_rr(
     kind: str = "cubic",
     line: bool = True,
     points: bool = True,
+    artefacts: Optional[Dict[str, np.ndarray]] = None,
     input_type: str = "peaks",
     figsize: int = 200,
     **kwarg,
@@ -23,7 +26,8 @@ def plot_rr(
     Parameters
     ----------
     rr : np.ndarray
-        1d numpy array of RR intervals (miliseconds).
+        1d numpy array of RR intervals (in seconds or miliseconds) or peaks
+        vector (boolean array).
     unit : str
         The heart rate unit in use. Can be `'rr'` (R-R intervals, in ms)
         or `'bpm'` (beats per minutes). Default is `'rr'`.
@@ -38,12 +42,11 @@ def plot_rr(
     points : bool
         If `True`, plot each peaks (R wave or systolic peaks) as separated
         points.
+    artefacts : dict
+        Dictionnary storing the parameters of RR artefacts rejection.
     input_type : str
-        The type of input vector. Default is `"peaks"` (a boolean vector where
-        `1` represents the occurrence of R waves or systolic peaks).
-        Can also be `"rr_s"` or `"rr_ms"` for vectors of RR intervals, or
-        interbeat intervals (IBI), expressed in seconds or milliseconds
-        (respectively).
+        The type of input vector. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"`,
+        or `"rr_s"`. Default to `"peaks"`.
     figsize : int
         The height of the figure. Default is `200`.
 
@@ -51,6 +54,7 @@ def plot_rr(
     -------
     fig : :class:`bokeh.plotting.figure.Figure`
         The bokeh figure containing the plot.
+
     """
 
     ylabel = "R-R interval (ms)" if unit == "rr" else "Beats per minute (bpm)"
@@ -101,14 +105,76 @@ def plot_rr(
         if unit == "bpm":
             ibi = 60000 / ibi
 
+        if artefacts is None:
+            outliers = np.zeros(len(ibi), dtype=bool)
+        else:
+            outliers = (
+                artefacts["ectopic"]
+                | artefacts["short"]
+                | artefacts["long"]
+                | artefacts["extra"]
+                | artefacts["missed"]
+            )
+
+        # Normal RR intervals
         p1.circle(
-            x=peaks_idx,
-            y=ibi,
+            x=peaks_idx[~outliers],
+            y=ibi[~outliers],
             legend_label="R-R intervals",
             fill_color="lightgrey",
             line_color="grey",
         )
 
-    p1.legend.title = "Instantaneous heart rate"
+        if artefacts is not None:
+
+            # Short RR intervals
+            p1.circle(
+                x=peaks_idx[artefacts["short"]],
+                y=ibi[artefacts["short"]],
+                size=10,
+                legend_label="Short intervals",
+                fill_color="#c56c5e",
+                line_color="black",
+            )
+
+            # Long RR intervals
+            p1.circle(
+                x=peaks_idx[artefacts["long"]],
+                y=ibi[artefacts["long"]],
+                size=10,
+                legend_label="Long intervals",
+                fill_color="#9ac1d4",
+                line_color="black",
+            )
+
+            # Missed RR intervals
+            p1.square(
+                x=peaks_idx[artefacts["missed"]],
+                y=ibi[artefacts["missed"]],
+                size=10,
+                legend_label="Missed intervals",
+                fill_color="#2f5f91",
+                line_color="black",
+            )
+
+            # Extra RR intervals
+            p1.square(
+                x=peaks_idx[artefacts["extra"]],
+                y=ibi[artefacts["extra"]],
+                size=10,
+                legend_label="Extra intervals",
+                fill_color="#9d2b39",
+                line_color="black",
+            )
+
+            # Ectopic beats
+            p1.triangle(
+                x=peaks_idx[artefacts["ectopic"]],
+                y=ibi[artefacts["ectopic"]],
+                size=10,
+                legend_label="Ectopic beats",
+                fill_color="#6c0073",
+                line_color="black",
+            )
 
     return p1

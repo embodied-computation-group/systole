@@ -6,7 +6,7 @@ What's new
 .. contents:: Table of Contents
    :depth: 2
 
-v0.2.0a
+v0.2.0
 ------
 
 **New functions**
@@ -14,7 +14,7 @@ Refactor the plots module. Merge plotting and plotly into a unique submodule. Dr
 
 **Enhancements**
 a. :py:func:`systole.utils.heart_rate()`: now accepts peaks vectors as well as RR interval, either in milliseconds od in seconds.
-
+b. :py:func:`systole.utils.to_rr()` has been renamed to :py:func:`systole.utils.input_conversion()` and accepts input and outputs it the form of peaks, peaks indexes, RR invervals in seconds and in miliseconds.
 
 v0.1.3 (April 2021)
 -------------------

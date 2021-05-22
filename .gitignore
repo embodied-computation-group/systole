@@ -5,4 +5,5 @@ build/
 dist/
 systole.egg-info/
 htmlcov/
-*.coverage
+.coverage
+.vscode/

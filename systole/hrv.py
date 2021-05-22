@@ -7,7 +7,7 @@ import pandas as pd
 from scipy import interpolate
 from scipy.signal import welch
 
-from systole.utils import to_rr
+from systole.utils import input_conversion
 
 
 def nnX(x: Union[List, np.ndarray], t: int = 50) -> float:
@@ -245,10 +245,8 @@ def psd(
     """
     rr = np.asarray(rr)
 
-    if input_type == "peaks":
-        rr = to_rr(rr)
-    elif input_type == "rr_s":
-        rr *= 1000
+    if input_type != "rr_ms":
+        rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
 
     # Interpolate R-R interval
     time = np.cumsum(rr)

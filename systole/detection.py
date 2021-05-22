@@ -8,7 +8,7 @@ from ecgdetectors import Detectors
 from scipy.interpolate import interp1d
 from scipy.signal import find_peaks
 
-from systole.utils import to_neighbour
+from systole.utils import input_conversion, to_neighbour
 
 
 def ppg_peaks(
@@ -242,15 +242,20 @@ def ecg_peaks(
 
 
 def rr_artefacts(
-    rr: Union[List, np.ndarray], c1: float = 0.13, c2: float = 0.17, alpha: float = 5.2
+    rr: Union[List, np.ndarray],
+    c1: float = 0.13,
+    c2: float = 0.17,
+    alpha: float = 5.2,
+    input_type: str = "rr_ms",
 ) -> Dict[str, np.ndarray]:
     """Artefacts detection from RR time series using the subspaces approach
     proposed by Lipponen & Tarvainen (2019).
 
     Parameters
     ----------
-    rr : 1d array-like
-        Array of RR intervals.
+    rr : np.ndarray or list
+        1d numpy array of RR intervals (in seconds or miliseconds) or peaks
+        vector (boolean array).
     c1 : float
         Fixed variable controling the slope of the threshold lines. Default is
         `0.13`.
@@ -259,6 +264,12 @@ def rr_artefacts(
         is `0.17`.
     alpha : float
         Scaling factor used to normalize the RR intervals first deviation.
+    input_type : str
+        The type of input vector. Defaults to `"rr_ms"` for vectors of RR
+        intervals, or  interbeat intervals (IBI), expressed in milliseconds.
+        Can also be a boolean vector where `1` represents the occurrence of
+        R waves or systolic peakspeaks vector `"rr_s"` or IBI expressed in
+        seconds.
 
     Returns
     -------
@@ -312,6 +323,9 @@ def rr_artefacts(
         43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306
     """
     rr = np.asarray(rr)
+
+    if input_type != "rr_ms":
+        rr = input_conversion(rr, input_type, output_type="rr_ms")
 
     ###########
     # Detection

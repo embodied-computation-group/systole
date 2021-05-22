@@ -10,12 +10,12 @@ from systole import import_ppg, import_rr
 from systole.detection import ppg_peaks
 from systole.utils import (
     heart_rate,
+    input_conversion,
     norm_triggers,
     simulate_rr,
     time_shift,
     to_angles,
     to_epochs,
-    to_rr,
 )
 
 
@@ -99,13 +99,42 @@ class TestUtils(TestCase):
         assert isinstance(rr, np.ndarray)
         assert len(rr) == 350
 
-    def test_to_rr(self):
+    def test_input_conversion(self):
+
+        # Load example PPG signal
         ppg = import_ppg().ppg.to_numpy()
-        signal, peaks = ppg_peaks(ppg)
-        rr = to_rr(peaks)
-        assert rr.mean() == 874.2068965517242
-        rr = to_rr(np.where(peaks)[0])
-        assert rr.mean() == 874.2068965517242
+        _, peaks = ppg_peaks(ppg)
+
+        # input_type = "peaks"
+        rr_ms = input_conversion(peaks, input_type="peaks", output_type="rr_ms")
+        rr_s = input_conversion(peaks, input_type="peaks", output_type="rr_s")
+        peaks_idx = input_conversion(peaks, input_type="peaks", output_type="peaks_idx")
+        assert rr_ms.mean() == rr_s.mean() * 1000
+        assert rr_ms.mean() == np.diff(peaks_idx).mean()
+
+        # input_type = "peaks_idx"
+        pks_idx = np.where(peaks)[0]
+        rr_ms = input_conversion(pks_idx, input_type="peaks_idx", output_type="rr_ms")
+        rr_s = input_conversion(pks_idx, input_type="peaks_idx", output_type="rr_s")
+        pks = input_conversion(pks_idx, input_type="peaks_idx", output_type="peaks")
+        assert rr_ms.mean() == rr_s.mean() * 1000
+        assert rr_ms.mean() == np.diff(np.where(pks)[0]).mean()
+
+        # input_type = "rr_ms"
+        rr_ms = np.diff(np.where(peaks)[0])
+        pks = input_conversion(rr_ms, input_type="rr_ms", output_type="peaks")
+        rr_s = input_conversion(rr_ms, input_type="rr_ms", output_type="rr_s")
+        peaks_idx = input_conversion(rr_ms, input_type="rr_ms", output_type="peaks_idx")
+        assert np.diff(np.where(pks)[0]).mean() == rr_s.mean() * 1000
+        assert rr_s.mean() * 1000 == np.diff(peaks_idx).mean()
+
+        # input_type = "rr_s"
+        rr_s = np.diff(np.where(peaks)[0]) / 1000
+        pks = input_conversion(rr_s, input_type="rr_s", output_type="peaks")
+        rr_ms = input_conversion(rr_s, input_type="rr_s", output_type="rr_ms")
+        peaks_idx = input_conversion(rr_s, input_type="rr_s", output_type="peaks_idx")
+        assert np.diff(np.where(pks)[0]).mean() == rr_ms.mean()
+        assert rr_ms.mean() == np.diff(peaks_idx).mean()
 
 
 if __name__ == "__main__":

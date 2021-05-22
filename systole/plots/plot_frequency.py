@@ -9,7 +9,7 @@ from scipy.interpolate import interp1d
 
 from systole.hrv import psd
 from systole.plots.utils import get_plotting_function
-from systole.utils import to_rr
+from systole.utils import input_conversion
 
 
 def plot_frequency(
@@ -77,15 +77,9 @@ def plot_frequency(
         elif backend == "bokeh":
             figsize = 600
 
-    if input_type == "peaks":
-        rr = to_rr(rr)
-        freq, power = psd(rr)
-    elif input_type == "rr_s":
-        freq, power = psd(rr * 1000)
-    elif input_type == "rr_ms":
-        freq, power = psd(rr)
-    else:
-        raise ValueError("Invalid input type")
+    if input_type != "rr_ms":
+        rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
+    freq, power = psd(rr)
 
     # Interpolate PSD line for plotting
     f = interp1d(freq, power, kind="cubic")
