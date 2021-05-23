@@ -10,23 +10,30 @@ from scipy.signal import welch
 from systole.utils import input_conversion
 
 
-def nnX(x: Union[List, np.ndarray], t: int = 50) -> float:
+def nnX(x: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> float:
     """Number of difference in successive R-R interval > t ms.
 
     Parameters
     ----------
     x : np.ndarray or list
-        Interval time-series (R-R, beat-to-beat...), in miliseconds.
+        Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
     t : int
         Threshold value: Defaut is set to 50 ms to calculate the nn50 index.
+    input_type : str
+        The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
+        `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
     nnX : float
         The number of successive differences larger than a value.
     """
-    if isinstance(x, list):
-        x = np.asarray(x)
+
+    x = np.asarray(x)
+
+    if input_type != "rr_ms":
+        x = input_conversion(x, input_type=input_type, output_type="rr_ms")
+
     if len(x.shape) > 1:
         raise ValueError("X must be a 1darray")
 
@@ -35,23 +42,30 @@ def nnX(x: Union[List, np.ndarray], t: int = 50) -> float:
     return nn
 
 
-def pnnX(x: Union[List, np.ndarray], t: int = 50) -> float:
+def pnnX(x: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> float:
     """Number of successive differences larger than a value (def = 50ms).
 
     Parameters
     ----------
     x : np.ndarray or list
-        Interval time-series (R-R, beat-to-beat...), in miliseconds.
+        Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
     t : int
         Threshold value: Defaut is set to 50 ms to calculate the nn50 index.
+    input_type : str
+        The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
+        `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
     nn : float
         The proportion of successive differences larger than a value (%).
     """
-    if isinstance(x, list):
-        x = np.asarray(x)
+
+    x = np.asarray(x)
+
+    if input_type != "rr_ms":
+        x = input_conversion(x, input_type=input_type, output_type="rr_ms")
+
     if len(x.shape) > 1:
         raise ValueError("X must be a 1darray")
 
@@ -64,32 +78,33 @@ def pnnX(x: Union[List, np.ndarray], t: int = 50) -> float:
     return pnnX
 
 
-def rmssd(x: Union[List, np.ndarray]) -> float:
+def rmssd(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> float:
     """Root Mean Square of Successive Differences.
 
     Parameters
     ----------
     x : np.ndarray or list
-        Interval time-series (R-R, beat-to-beat...), in miliseconds.
+        Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
+    input_type : str
+        The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
+        `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
     y : float
         The Root Mean Square of Successive Differences (RMSSD).
 
-    Notes
-    ------
-        The RMSSD is commonly used in the litterature as a good indexe of the
-        Autonomic Nervous System’s Parasympathetic activity. The RMSSD iS
-        computed using the following formula:
-
     Examples
     --------
     >>> rr = [800, 850, 810, 720]
     >>> rmssd(rr)
     """
-    if isinstance(x, list):
-        x = np.asarray(x)
+
+    x = np.asarray(x)
+
+    if input_type != "rr_ms":
+        x = input_conversion(x, input_type=input_type, output_type="rr_ms")
+
     if len(x.shape) > 1:
         raise ValueError("X must be a 1darray")
 
@@ -98,13 +113,16 @@ def rmssd(x: Union[List, np.ndarray]) -> float:
     return y
 
 
-def time_domain(x: Union[List, np.ndarray]) -> pd.DataFrame:
+def time_domain(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.DataFrame:
     """Extract all time domain parameters from R-R intervals.
 
     Parameters
     ----------
     x : np.ndarray or list
-        Interval time-series (R-R, beat-to-beat...), in miliseconds.
+        Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
+    input_type : str
+        The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
+        `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
@@ -136,7 +154,12 @@ def time_domain(x: Union[List, np.ndarray]) -> pd.DataFrame:
     using the py:pandas.pivot_table() function:
     >>> pd.pivot_table(stats, values='Values', columns='Metric')
     """
+
     x = np.asarray(x)
+
+    if input_type != "rr_ms":
+        x = input_conversion(x, input_type=input_type, output_type="rr_ms")
+
     if len(x.shape) > 1:
         raise ValueError("X must be a 1darray")
 
@@ -222,17 +245,15 @@ def psd(
     Parameters
     ----------
     rr : np.ndarray or list
-        Interval time-series (R-R, beat-to-beat...), in miliseconds.
+        Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
     sfreq : int
         The sampling frequency (Hz) of the interpolated instantaneous heart
         rate.
     method : str
         The method used to extract freauency power. Default is ``'welch'``.
     input_type : str
-        The type of input vector. Default is `"rr_ms"`, a vectors of RR
-        intervals, or interbeat intervals (IBI), expressed in milliseconds.
-        Can also be a boolean vector where `1` represents the occurrence
-        of R waves or systolic peaks) or IBI expressed in seconds `"rr_s"`.
+        The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
+        `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
@@ -243,6 +264,7 @@ def psd(
     --------
     frequency_domain
     """
+
     rr = np.asarray(rr)
 
     if input_type != "rr_ms":
@@ -274,13 +296,14 @@ def frequency_domain(
     sfreq: int = 5,
     method: str = "welch",
     fbands: Optional[Dict[str, Tuple[str, Tuple[float, float], str]]] = None,
+    input_type: str = "rr_ms",
 ) -> pd.DataFrame:
     """Extract the frequency domain features of heart rate variability.
 
     Parameters
     ----------
     rr : np.ndarray or list
-        Interval time-series (R-R, beat-to-beat...), in miliseconds.
+        Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
     sfreq : int
         The sampling frequency (Hz).
     method : str
@@ -291,6 +314,9 @@ def frequency_domain(
         >>> {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
         >>> 'lf': ('Low frequency', (0.04, 0.15), 'g'),
         >>> 'hf': ('High frequency', (0.15, 0.4), 'r')}
+    input_type : str
+        The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
+        `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
@@ -314,8 +340,15 @@ def frequency_domain(
     easily convert it into a wide format for a subject-level inline report
     using the py:pandas.pivot_table() function:
     >>> pd.pivot_table(stats, values='Values', columns='Metric')
+
     """
-    freq, power = psd(rr=np.asarray(rr), sfreq=sfreq, method=method)
+
+    rr = np.asarray(rr)
+
+    if input_type != "rr_ms":
+        rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
+
+    freq, power = psd(rr=rr, sfreq=sfreq, method=method, input_type="rr_ms")
 
     if fbands is None:
         fbands = {
@@ -372,13 +405,16 @@ def frequency_domain(
     return stats
 
 
-def nonlinear(x: Union[List, np.ndarray]) -> pd.DataFrame:
+def nonlinear(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.DataFrame:
     """Extract the non-linear features of heart rate variability.
 
     Parameters
     ----------
     x : list or numpy array
         Interval time-series (R-R, beat-to-beat...), in miliseconds.
+    input_type : str
+        The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
+        `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
@@ -399,7 +435,13 @@ def nonlinear(x: Union[List, np.ndarray]) -> pd.DataFrame:
     easily convert it into a wide format for a subject-level inline report
     using the py:pandas.pivot_table() function:
     >>> pd.pivot_table(stats, values='Values', columns='Metric')
+
     """
+
+    x = np.asarray(x)
+
+    if input_type != "rr_ms":
+        x = input_conversion(x, input_type=input_type, output_type="rr_ms")
 
     diff_rr = np.diff(x)
     sd1 = np.sqrt(np.std(diff_rr, ddof=1) ** 2 * 0.5)
