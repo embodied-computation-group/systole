@@ -52,8 +52,8 @@ def plot_evoked(
 
     Returns
     -------
-    fig : :class:`bokeh.plotting.figure.Figure`
-        The bokeh figure containing the plot.
+    ax : :class:`matplotlib.axes.Axes`
+        The matplotlib axes containing the plot.
     """
     time = np.arange(tmin, tmax, 1 / sfreq_out)
 
@@ -68,7 +68,7 @@ def plot_evoked(
     df.variable /= sfreq_out
     df.variable += tmin
     for i in range(len(epochs)):
-        ax.plot(time, epochs[i], color=color, alpha=0.2, linestyle="--")
+        ax.plot(time, epochs[i], color=color, alpha=0.2, linewidth=1)
 
     sns.lineplot(
         data=df,
