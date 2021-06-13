@@ -100,7 +100,7 @@ def ppg_peaks(
 
     if noise_removal is True:
         # Moving average (high frequency noise + clipping)
-        rollingNoise = max(int(sfreq * 0.05), 1)  # 0.05 second window
+        rollingNoise = max(int(new_sfreq * 0.05), 1)  # 0.05 second window
         x = (
             pd.DataFrame({"signal": x})
             .rolling(rollingNoise, center=True)
