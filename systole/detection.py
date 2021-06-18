@@ -100,7 +100,7 @@ def ppg_peaks(
 
     if noise_removal is True:
         # Moving average (high frequency noise + clipping)
-        rollingNoise = int(new_sfreq * 0.05)  # 0.05 second window
+        rollingNoise = max(int(new_sfreq * 0.05), 1)  # 0.05 second window
         x = (
             pd.DataFrame({"signal": x})
             .rolling(rollingNoise, center=True)
@@ -109,7 +109,7 @@ def ppg_peaks(
         )
     if peak_enhancement is True:
         # Square signal (peak enhancement)
-        x = np.asarray(x) ** 2
+        x = (np.asarray(x) ** 2) * np.sign(x)
 
     # Compute moving average and standard deviation
     signal = pd.DataFrame({"signal": x})

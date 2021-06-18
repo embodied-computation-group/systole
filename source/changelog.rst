@@ -15,6 +15,7 @@ Refactor the plots module. Merge plotting and plotly into a unique submodule. Dr
 **Enhancements**
 a. :py:func:`systole.utils.heart_rate()`: now accepts peaks vectors as well as RR interval, either in milliseconds od in seconds.
 b. :py:func:`systole.utils.to_rr()` has been renamed to :py:func:`systole.utils.input_conversion()` and accepts input and outputs it the form of peaks, peaks indexes, RR invervals in seconds and in miliseconds.
+c. :py:func:`systole.detection.ppg_peaks()` now better handles negative values/ low sampling rate.
 
 v0.1.3 (April 2021)
 -------------------

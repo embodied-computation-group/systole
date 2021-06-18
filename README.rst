@@ -135,6 +135,7 @@ Contributors
 ============
 
 - Jan C. Brammer (jan.c.brammer@gmail.com)
+- Gidon Levakov (gidonlevakov@gmail.com)
 
 Acknowledgements
 ================
