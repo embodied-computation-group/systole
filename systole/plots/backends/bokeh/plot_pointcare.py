@@ -3,6 +3,7 @@
 from typing import List, Optional, Tuple, Union
 
 import numpy as np
+from bokeh.models import Arrow, NormalHead
 from bokeh.plotting import figure
 from bokeh.plotting.figure import Figure
 
@@ -63,30 +64,65 @@ def plot_pointcare(
     )
 
     # Identity line
-    pointcare_plot.line([range_min, range_max], [range_min, range_max], color="grey")
-
-    # Ellipse
-    df = nonlinear(rr)
-    pointcare_plot.ellipse(
-        height=df[df["Metric"] == "SD1"]["Values"].values * 2,
-        width=df[df["Metric"] == "SD2"]["Values"].values * 2,
-        angle=45,
-        alpha=0.2,
+    pointcare_plot.line(
+        [range_min, range_max], [range_min, range_max], color="grey", line_dash="dashed"
     )
 
-    # Scatter plot - valid intervals
+    # Compute SD1 and SD2 metrics
+    df = nonlinear(rr)
+    sd1 = df[df["Metric"] == "SD1"]["Values"].values[0]
+    sd2 = df[df["Metric"] == "SD2"]["Values"].values[0]
+
+    # Ellipse
+    pointcare_plot.ellipse(
+        x=rr_x[~outliers].mean(),
+        y=rr_y[~outliers].mean(),
+        height=sd1 * 2,
+        width=sd2 * 2,
+        angle=np.pi / 4,
+        fill_alpha=0.4,
+        fill_color="#a9373b",
+        line_alpha=1.0,
+        line_width=3,
+        line_color="gray",
+        line_dash="dashed",
+    )
+
+    # Scatter plot - valid intervals only
     pointcare_plot.circle(
         rr_x[~outliers],
         rr_y[~outliers],
-        size=5,
+        size=2.5,
         fill_color="#4c72b0",
         line_color="gray",
-        alpha=0.4,
+        alpha=0.2,
     )
 
     # Scatter plot - outliers
     pointcare_plot.circle(
         rr_x[outliers], rr_y[outliers], size=5, color="#a9373b", alpha=0.8
+    )
+
+    # SD1 arrow
+    pointcare_plot.add_layout(
+        Arrow(
+            end=NormalHead(fill_color="blue", size=10),
+            x_start=rr_x[~outliers].mean(),
+            y_start=rr_y[~outliers].mean(),
+            x_end=rr_x[~outliers].mean() + (-sd1 * np.cos(np.deg2rad(45))),
+            y_end=rr_y[~outliers].mean() + sd1 * np.sin(np.deg2rad(45)),
+        )
+    )
+
+    # SD2 arrow
+    pointcare_plot.add_layout(
+        Arrow(
+            end=NormalHead(fill_color="green", size=10),
+            x_start=rr_x[~outliers].mean(),
+            y_start=rr_y[~outliers].mean(),
+            x_end=rr_x[~outliers].mean() + sd2 * np.cos(np.deg2rad(45)),
+            y_end=rr_y[~outliers].mean() + sd2 * np.sin(np.deg2rad(45)),
+        )
     )
 
     return pointcare_plot

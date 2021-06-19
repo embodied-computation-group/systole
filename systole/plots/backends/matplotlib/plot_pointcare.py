@@ -5,6 +5,9 @@ from typing import List, Optional, Tuple, Union
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.axes import Axes
+from matplotlib.patches import Ellipse
+
+from systole.hrv import nonlinear
 
 
 def plot_pointcare(
@@ -54,7 +57,36 @@ def plot_pointcare(
     range_min, range_max = rr.min() - 50, rr.max() + 50
 
     # Identity line
-    ax.plot([range_min, range_max], [range_min, range_max], color="grey")
+    ax.plot(
+        [range_min, range_max], [range_min, range_max], color="grey", linestyle="--"
+    )
+
+    # Compute SD1 and SD2 metrics
+    df = nonlinear(rr)
+    sd1 = df[df["Metric"] == "SD1"]["Values"].values[0]
+    sd2 = df[df["Metric"] == "SD2"]["Values"].values[0]
+
+    # Ellipse
+    ellipse_ = Ellipse(
+        (rr_x[~outliers].mean(), rr_y[~outliers].mean()),
+        sd1 * 2,
+        sd2 * 2,
+        angle=-45,
+        fc="grey",
+        zorder=1,
+        fill=False,
+    )
+    ax.add_artist(ellipse_)
+    ellipse_ = Ellipse(
+        (rr_x[~outliers].mean(), rr_y[~outliers].mean()),
+        sd1 * 2,
+        sd2 * 2,
+        angle=-45,
+        fc="#4c72b0",
+        alpha=0.4,
+        zorder=1,
+    )
+    ax.add_artist(ellipse_)
 
     # Scatter plot - valid intervals
     ax.scatter(
@@ -76,8 +108,37 @@ def plot_pointcare(
         edgecolors="grey",
     )
 
+    # SD1 arrow
+    ax.arrow(
+        rr_x[~outliers].mean(),
+        rr_y[~outliers].mean(),
+        -sd1 * np.cos(np.deg2rad(45)),
+        sd1 * np.sin(np.deg2rad(45)),
+        head_width=10,
+        head_length=10,
+        fc="b",
+        ec="b",
+        zorder=4,
+        linewidth=1.5,
+    )
+
+    # SD2 arrow
+    ax.arrow(
+        rr_x[~outliers].mean(),
+        rr_y[~outliers].mean(),
+        sd2 * np.cos(np.deg2rad(45)),
+        sd2 * np.sin(np.deg2rad(45)),
+        head_width=10,
+        head_length=10,
+        fc="b",
+        ec="g",
+        zorder=4,
+        linewidth=1.5,
+    )
+
     ax.set_xlabel("RR (n)")
     ax.set_ylabel("RR (n+1)")
-    ax.set_title("Pointcare plot", fontweight="bold")
+    ax.set_title("Pointcaré plot", fontweight="bold")
+    ax.minorticks_on()
 
     return ax

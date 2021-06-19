@@ -4,7 +4,8 @@ from typing import Dict, Optional
 
 import numpy as np
 import pandas as pd
-from bokeh.plotting import figure
+from bokeh.models.tools import HoverTool
+from bokeh.plotting import ColumnDataSource, figure
 from bokeh.plotting.figure import Figure
 
 from systole.utils import heart_rate
@@ -81,10 +82,24 @@ def plot_rr(
         time = time[::200]
         hr = hr[::200]
 
+        source = ColumnDataSource(data=dict(time=time, hr=hr, bpm=60000 / hr))
+
+        if points is False:
+            hover = HoverTool(
+                tooltips=[
+                    ("time", "@time{:%M:%S.%3Ns}"),
+                    ("R-R interval", "@hr{%0.2f} ms"),
+                    ("BPM", "@bpm{%0.2f} BPM"),
+                ],
+                formatters={"@time": "datetime", "@hr": "printf", "@bpm": "printf"},
+                mode="vline",
+            )
+
         # Instantaneous Heart Rate - Lines
         p1.line(
-            x=time,
-            y=hr,
+            x="time",
+            y="hr",
+            source=source,
             legend_label="Instantaneous heart rate",
             line_color="#4c72b0",
         )
@@ -102,9 +117,6 @@ def plot_rr(
             ibi = np.diff(np.where(rr)[0])
             peaks_idx = pd.to_datetime(np.where(rr)[0][1:], unit="ms", origin="unix")
 
-        if unit == "bpm":
-            ibi = 60000 / ibi
-
         if artefacts is None:
             outliers = np.zeros(len(ibi), dtype=bool)
         else:
@@ -116,10 +128,32 @@ def plot_rr(
                 | artefacts["missed"]
             )
 
+        points_source = ColumnDataSource(
+            data=dict(
+                time=peaks_idx,
+                rr=ibi,
+                bpm=60000 / rr,
+                nbeat=np.arange(1, len(peaks_idx) + 1),
+                outliers=outliers,
+            )
+        )
+
+        hover = HoverTool(
+            tooltips=[
+                ("time", "@time{:%M:%S.%3Ns}"),
+                ("R-R interval", "@rr{%0.2f} ms"),
+                ("BPM", "@bpm{%0.2f} BPM"),
+                ("Number of Beat", "@nbeat"),
+            ],
+            formatters={"@time": "datetime", "@rr": "printf", "@bpm": "printf"},
+        )
+
         # Normal RR intervals
         p1.circle(
-            x=peaks_idx[~outliers],
-            y=ibi[~outliers],
+            x="time",
+            y=unit,
+            size=5,
+            source=points_source,
             legend_label="R-R intervals",
             fill_color="lightgrey",
             line_color="grey",
@@ -176,5 +210,8 @@ def plot_rr(
                 fill_color="#6c0073",
                 line_color="black",
             )
+
+    # Add hover tool
+    p1.add_tools(hover)
 
     return p1
