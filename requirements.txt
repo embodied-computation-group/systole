@@ -7,3 +7,4 @@ py-ecg-detectors>=1.0.2
 pyserial>=3.4
 setuptools>=38.4
 packaging
+numba>=0.51.2

@@ -8,6 +8,7 @@ from ecgdetectors import Detectors
 from scipy.interpolate import interp1d
 from scipy.signal import find_peaks
 
+from systole.detectors import pan_tompkins
 from systole.utils import input_conversion, to_neighbour
 
 
@@ -221,7 +222,7 @@ def ecg_peaks(
     elif method == "engelse-zeelenberg":
         peaks_idx = detectors.engzee_detector(resampled_signal)
     elif method == "pan-tompkins":
-        peaks_idx = detectors.pan_tompkins_detector(resampled_signal)
+        peaks_idx = pan_tompkins(resampled_signal, sfreq=new_sfreq)
     elif method == "wavelet-transform":
         peaks_idx = detectors.swt_detector(resampled_signal)
     elif method == "moving-average":

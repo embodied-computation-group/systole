@@ -7,3 +7,4 @@ bokeh>=2.3.2
 pyserial>=3.4
 tqdm>=4.41.1
 requests>=2.24.0
+numba>=0.51.2
