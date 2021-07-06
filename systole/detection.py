@@ -88,9 +88,9 @@ def ppg_peaks(
     x = np.asarray(x)
 
     # Interpolate
-    f = interp1d(np.arange(0, len(x) / sfreq, 1 / sfreq), x, fill_value="extrapolate")
-    time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
-    x = f(time)
+    time = np.arange(0, len(x) / sfreq, 1 / sfreq)
+    new_time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
+    x = np.interp(new_time, time, x)
 
     # Copy resampled signal for output
     resampled_signal = np.copy(x)
@@ -206,26 +206,28 @@ def ecg_peaks(
     x = np.asarray(x)
 
     # Interpolate
-    f = interp1d(np.arange(0, len(x) / sfreq, 1 / sfreq), x, fill_value="extrapolate")
-    time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
-    x = f(time)
+    time = np.arange(0, len(x) / sfreq, 1 / sfreq)
+    new_time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
+    x = np.interp(new_time, time, x)
 
     # Copy resampled signal for output
     resampled_signal = np.copy(x)
 
-    detectors = Detectors(new_sfreq)
-
     if method == "hamilton":
         peaks_idx = hamilton(resampled_signal, sfreq=new_sfreq)
     elif method == "christov":
+        detectors = Detectors(new_sfreq)
         peaks_idx = detectors.christov_detector(resampled_signal)
     elif method == "engelse-zeelenberg":
+        detectors = Detectors(new_sfreq)
         peaks_idx = detectors.engzee_detector(resampled_signal)
     elif method == "pan-tompkins":
         peaks_idx = pan_tompkins(resampled_signal, sfreq=new_sfreq)
     elif method == "wavelet-transform":
+        detectors = Detectors(new_sfreq)
         peaks_idx = detectors.swt_detector(resampled_signal)
     elif method == "moving-average":
+        detectors = Detectors(new_sfreq)
         peaks_idx = detectors.two_average_detector(resampled_signal)
     else:
         raise ValueError(
