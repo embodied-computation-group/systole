@@ -18,6 +18,7 @@ b. :py:func:`systole.utils.to_rr()` has been renamed to :py:func:`systole.utils.
 c. :py:func:`systole.detection.ppg_peaks()` now better handles negative values/ low sampling rate.
 d. Use local version of the ECG detectors and add Numba support for the following function:
    * :py:func:`systole.detector.pan_tompkins()`
+   * :py:func:`systole.detector.hamilton()`
 
 v0.1.3 (April 2021)
 -------------------

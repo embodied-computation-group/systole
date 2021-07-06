@@ -45,9 +45,9 @@ def pan_tompkins(
     mwa = ma[moving_average](squared, N)
     mwa[: int(0.2 * sfreq)] = 0
 
-    mwa_peaks = panPeakDetect(mwa, sfreq)
+    peaks = panPeakDetect(mwa, sfreq)
 
-    return mwa_peaks
+    return peaks
 
 
 @jit(nopython=True)
