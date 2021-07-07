@@ -20,6 +20,8 @@ d. Use local version of the ECG detectors and add Numba support for the followin
    * :py:func:`systole.detector.pan_tompkins()` (~7x faster)
    * :py:func:`systole.detector.hamilton()` (~10x faster)
    * :py:func:`systole.detector.christov()` (~30x faster)
+   * :py:func:`systole.detector.engelse_zeelenberg()` (~20x faster)
+
 
 v0.1.3 (April 2021)
 -------------------
