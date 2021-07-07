@@ -84,17 +84,6 @@ def plot_rr(
 
         source = ColumnDataSource(data=dict(time=time, hr=hr, bpm=60000 / hr))
 
-        if points is False:
-            hover = HoverTool(
-                tooltips=[
-                    ("time", "@time{:%M:%S.%3Ns}"),
-                    ("R-R interval", "@hr{%0.2f} ms"),
-                    ("BPM", "@bpm{%0.2f} BPM"),
-                ],
-                formatters={"@time": "datetime", "@hr": "printf", "@bpm": "printf"},
-                mode="vline",
-            )
-
         # Instantaneous Heart Rate - Lines
         p1.line(
             x="time",
@@ -132,7 +121,7 @@ def plot_rr(
             data=dict(
                 time=peaks_idx,
                 rr=ibi,
-                bpm=60000 / rr,
+                bpm=60000 / ibi,
                 nbeat=np.arange(1, len(peaks_idx) + 1),
                 outliers=outliers,
             )
@@ -143,9 +132,10 @@ def plot_rr(
                 ("time", "@time{:%M:%S.%3Ns}"),
                 ("R-R interval", "@rr{%0.2f} ms"),
                 ("BPM", "@bpm{%0.2f} BPM"),
-                ("Number of Beat", "@nbeat"),
+                ("Heartbeat number", "@nbeat"),
             ],
             formatters={"@time": "datetime", "@rr": "printf", "@bpm": "printf"},
+            mode="vline",
         )
 
         # Normal RR intervals

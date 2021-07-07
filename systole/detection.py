@@ -8,7 +8,7 @@ from ecgdetectors import Detectors
 from scipy.interpolate import interp1d
 from scipy.signal import find_peaks
 
-from systole.detectors import hamilton, pan_tompkins
+from systole.detectors import christov, hamilton, pan_tompkins
 from systole.utils import input_conversion, to_neighbour
 
 
@@ -216,8 +216,7 @@ def ecg_peaks(
     if method == "hamilton":
         peaks_idx = hamilton(resampled_signal, sfreq=new_sfreq)
     elif method == "christov":
-        detectors = Detectors(new_sfreq)
-        peaks_idx = detectors.christov_detector(resampled_signal)
+        peaks_idx = christov(resampled_signal, sfreq=new_sfreq)
     elif method == "engelse-zeelenberg":
         detectors = Detectors(new_sfreq)
         peaks_idx = detectors.engzee_detector(resampled_signal)

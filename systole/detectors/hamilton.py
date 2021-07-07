@@ -6,7 +6,8 @@ from scipy.signal import butter, lfilter
 
 
 def hamilton(signal: np.ndarray, sfreq: int) -> np.ndarray:
-    """
+    """R peaks detection using Hamilton's method.
+
     Parameters
     ----------
     signal : np.ndarray

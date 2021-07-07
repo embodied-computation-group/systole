@@ -17,8 +17,9 @@ a. :py:func:`systole.utils.heart_rate()`: now accepts peaks vectors as well as R
 b. :py:func:`systole.utils.to_rr()` has been renamed to :py:func:`systole.utils.input_conversion()` and accepts input and outputs it the form of peaks, peaks indexes, RR invervals in seconds and in miliseconds.
 c. :py:func:`systole.detection.ppg_peaks()` now better handles negative values/ low sampling rate.
 d. Use local version of the ECG detectors and add Numba support for the following function:
-   * :py:func:`systole.detector.pan_tompkins()`
-   * :py:func:`systole.detector.hamilton()`
+   * :py:func:`systole.detector.pan_tompkins()` (~7x faster)
+   * :py:func:`systole.detector.hamilton()` (~10x faster)
+   * :py:func:`systole.detector.christov()` (~30x faster)
 
 v0.1.3 (April 2021)
 -------------------
