@@ -72,10 +72,12 @@ def plot_raw(
         title = "PPG recording"
         ylabel = "PPG level (a.u.)"
         peaks_label = "Systolic peaks"
+        signal_label = "PPG signal"
     elif modality == "ecg":
         title = "ECG recording"
         ylabel = "ECG (mV)"
         peaks_label = "R wave"
+        signal_label = "ECG signal"
 
     # Raw plot
     ##########
@@ -95,7 +97,7 @@ def plot_raw(
         "time",
         "signal",
         source=source,
-        legend_label="PPG signal",
+        legend_label=signal_label,
         line_color="#a9373b",
     )
 
