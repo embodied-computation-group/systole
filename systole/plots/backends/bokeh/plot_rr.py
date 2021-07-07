@@ -4,6 +4,7 @@ from typing import Dict, Optional
 
 import numpy as np
 import pandas as pd
+from bokeh.models import Circle, Line
 from bokeh.models.tools import HoverTool
 from bokeh.plotting import ColumnDataSource, figure
 from bokeh.plotting.figure import Figure
@@ -68,6 +69,7 @@ def plot_rr(
         x_axis_type="datetime",
         y_axis_label=ylabel,
         output_backend="webgl",
+        tools="pan,wheel_zoom,box_zoom,box_select,reset,save",
     )
 
     if line is True:
@@ -82,15 +84,17 @@ def plot_rr(
         time = time[::200]
         hr = hr[::200]
 
-        source = ColumnDataSource(data=dict(time=time, hr=hr, bpm=60000 / hr))
+        line_source = ColumnDataSource(data=dict(time=time, hr=hr, bpm=60000 / hr))
 
         # Instantaneous Heart Rate - Lines
-        p1.line(
+        linePlot = Line(
             x="time",
             y="hr",
-            source=source,
-            legend_label="Instantaneous heart rate",
             line_color="#4c72b0",
+        )
+        p1.add_glyph(
+            line_source,
+            linePlot,
         )
 
     if points is True:
@@ -127,7 +131,21 @@ def plot_rr(
             )
         )
 
+        # Normal RR intervals
+        circlePlot = Circle(
+            x="time",
+            y=unit,
+            size=5,
+            fill_color="lightgrey",
+            line_color="grey",
+        )
+        g1 = p1.add_glyph(
+            points_source,
+            circlePlot,
+        )
+
         hover = HoverTool(
+            renderers=[g1],
             tooltips=[
                 ("time", "@time{:%M:%S.%3Ns}"),
                 ("R-R interval", "@rr{%0.2f} ms"),
@@ -135,18 +153,7 @@ def plot_rr(
                 ("Heartbeat number", "@nbeat"),
             ],
             formatters={"@time": "datetime", "@rr": "printf", "@bpm": "printf"},
-            mode="vline",
-        )
-
-        # Normal RR intervals
-        p1.circle(
-            x="time",
-            y=unit,
-            size=5,
-            source=points_source,
-            legend_label="R-R intervals",
-            fill_color="lightgrey",
-            line_color="grey",
+            mode="mouse",
         )
 
         if artefacts is not None:
