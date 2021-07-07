@@ -63,7 +63,7 @@ def MWA_cumulative(input_array: np.ndarray, window_size: int) -> np.ndarray:
 
 
 @jit(nopython=True)
-def panPeakDetect(detection, sfreq: int) -> np.ndarray:
+def panPeakDetect(detection: np.ndarray, sfreq: int) -> np.ndarray:
     """Pan-Tompkins detection algorithm.
 
     Parameters
