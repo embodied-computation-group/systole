@@ -13,7 +13,7 @@ from systole.plots.utils import get_plotting_function
 
 def plot_raw(
     signal: Union[pd.DataFrame, np.ndarray, List],
-    sfreq: int = 75,
+    sfreq: int = 1000,
     modality: str = "ppg",
     ecg_method: str = "hamilton",
     show_heart_rate: bool = False,
@@ -36,7 +36,7 @@ def plot_raw(
         automatically create a DataFrame using the array as signal and
         ``sfreq`` as sampling frequency.
     sfreq : int
-        Signal sampling frequency. Default is set to 75 Hz.
+        Signal sampling frequency. Default is set to 1000 Hz.
     modality : str
         The type of signal provided. Can be ``'ppg'`` (pulse oximeter) or
         ``'ecg'`` (electrocardiography). The peak detection algorithm used
@@ -79,7 +79,7 @@ def plot_raw(
 
     Examples
     --------
-    Plotting PPG recording.
+    Plotting raw PPG recording.
 
     .. plot::
 
@@ -91,16 +91,15 @@ def plot_raw(
        >>> ppg = ppg[ppg.time<60]
        >>> plot_raw(ppg)
 
-    Plotting ECG recording.
+    Plotting raw ECG recording.
 
     .. plot::
 
        >>> from systole import import_dataset1
-       >>> from systole.plots import plot_raw
        >>> # Import PPG recording as pandas data frame
        >>> ecg = import_dataset1(modalities=['ECG'])
        >>> # Only use the first 60 seconds for demonstration
-       >>> ecg = ecg[ecg.time<60]
+       >>> ecg = ecg[ecg.time.between(60, 90)]
        >>> plot_raw(ecg, type='ecg', sfreq=1000, ecg_method='pan-tompkins')
     """
     if figsize is None:
