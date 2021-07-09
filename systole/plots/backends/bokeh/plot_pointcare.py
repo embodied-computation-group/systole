@@ -28,7 +28,7 @@ def plot_pointcare(
 
     Returns
     -------
-    psd_plot : :class:`bokeh.plotting.figure.Figure`
+    pointcare_plot : :class:`bokeh.plotting.figure.Figure`
         The pointcare plot.
 
     """

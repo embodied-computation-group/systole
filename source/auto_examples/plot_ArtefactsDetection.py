@@ -12,7 +12,7 @@ Lipponen & Tarvainen (2019) [#]_.
 
 #%%
 from systole.detection import rr_artefacts
-from systole.plotting import plot_subspaces
+from systole.plots import plot_subspaces
 from systole.utils import simulate_rr
 
 #%%

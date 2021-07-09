@@ -17,7 +17,7 @@ def plot_pointcare(
     ax: Optional["Axes"] = None,
     **kwargs
 ) -> Union[Figure, Axes]:
-    """Plot PSD and frequency domain metrics.
+    """Pointcare plot.
 
     Parameters
     ----------
@@ -50,15 +50,28 @@ def plot_pointcare(
     Examples
     --------
 
-    Visualizing HRV frequency domain from RR time series.
+    Visualizing pointcare plot from RR time series.
+
+    Using Matplotlib backend
 
     .. jupyter-execute::
 
        from systole import import_rr
-       from systole.plots import plot_frequency
+       from systole.plots import plot_pointcare
        # Import PPG recording as numpy array
        rr = import_rr().rr.to_numpy()
-       plot_frequency(rr)
+       plot_pointcare(rr, input_type="rr_ms")
+
+    Using Bokeh backend
+
+    .. jupyter-execute::
+
+       from systole import import_rr
+       from systole.plots import plot_pointcare
+       # Import PPG recording as numpy array
+       rr = import_rr().rr.to_numpy()
+       plot_pointcare(rr, input_type="rr_ms", backend="bokeh")
+
     """
     if input_type == "rr_ms":
         rr = np.asarray(rr)

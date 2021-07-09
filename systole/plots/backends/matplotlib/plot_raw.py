@@ -83,6 +83,8 @@ def plot_raw(
 
     elif isinstance(ax, list):
         signal_ax, hr_ax = ax
+    else:
+        signal_ax = ax
 
     # Signal
     signal_ax.plot(time, signal, label="PPG signal", linewidth=1, color="#c44e52")

@@ -135,13 +135,21 @@ def plot_rr(
         circlePlot = Circle(
             x="time",
             y=unit,
-            size=5,
+            size=6,
             fill_color="lightgrey",
+            line_color="grey",
+        )
+        circlePlot_selected = Circle(
+            x="time",
+            y=unit,
+            size=15,
+            fill_color="firebrick",
             line_color="grey",
         )
         g1 = p1.add_glyph(
             points_source,
             circlePlot,
+            hover_glyph=circlePlot_selected,
         )
 
         hover = HoverTool(

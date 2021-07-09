@@ -50,67 +50,12 @@ tones at no delay (systole, s+) or at a fixed offset (diastole, s-).
     from psychopy.sound import Sound
 
     from systole import serialSim
-    from systole.plotting import circular
+    from systole.plots import plot_circular
     from systole.recording import Oximeter
     from systole.utils import norm_triggers, to_angles
 
 
 
-
-
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-    c:\programdata\anaconda3\lib\site-packages\seaborn\cm.py:1582: UserWarning:
-
-    Trying to register the cmap 'rocket' which already exists.
-
-    c:\programdata\anaconda3\lib\site-packages\seaborn\cm.py:1583: UserWarning:
-
-    Trying to register the cmap 'rocket_r' which already exists.
-
-    c:\programdata\anaconda3\lib\site-packages\seaborn\cm.py:1582: UserWarning:
-
-    Trying to register the cmap 'mako' which already exists.
-
-    c:\programdata\anaconda3\lib\site-packages\seaborn\cm.py:1583: UserWarning:
-
-    Trying to register the cmap 'mako_r' which already exists.
-
-    c:\programdata\anaconda3\lib\site-packages\seaborn\cm.py:1582: UserWarning:
-
-    Trying to register the cmap 'icefire' which already exists.
-
-    c:\programdata\anaconda3\lib\site-packages\seaborn\cm.py:1583: UserWarning:
-
-    Trying to register the cmap 'icefire_r' which already exists.
-
-    c:\programdata\anaconda3\lib\site-packages\seaborn\cm.py:1582: UserWarning:
-
-    Trying to register the cmap 'vlag' which already exists.
-
-    c:\programdata\anaconda3\lib\site-packages\seaborn\cm.py:1583: UserWarning:
-
-    Trying to register the cmap 'vlag_r' which already exists.
-
-    c:\programdata\anaconda3\lib\site-packages\seaborn\cm.py:1582: UserWarning:
-
-    Trying to register the cmap 'flare' which already exists.
-
-    c:\programdata\anaconda3\lib\site-packages\seaborn\cm.py:1583: UserWarning:
-
-    Trying to register the cmap 'flare_r' which already exists.
-
-    c:\programdata\anaconda3\lib\site-packages\seaborn\cm.py:1582: UserWarning:
-
-    Trying to register the cmap 'crest' which already exists.
-
-    c:\programdata\anaconda3\lib\site-packages\seaborn\cm.py:1583: UserWarning:
-
-    Trying to register the cmap 'crest_r' which already exists.
 
 
 
@@ -250,33 +195,32 @@ Create an Oxymeter instance, initialize recording and record for 10 seconds
 Events
 --------
 
-.. GENERATED FROM PYTHON SOURCE LINES 117-123
+.. GENERATED FROM PYTHON SOURCE LINES 117-122
 
 .. code-block:: default
 
 
     f, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 5), sharex=True)
-    oxi.plot_recording(ax=ax1)
-    oxi.plot_events(ax=ax2)
+
     plt.tight_layout()
 
 
 
 
 .. image:: /auto_examples/images/sphx_glr_plot_HeartBeatEvokedArpeggios_001.png
-    :alt: Oximeter recording, Events
+    :alt: plot HeartBeatEvokedArpeggios
     :class: sphx-glr-single-img
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 124-126
+.. GENERATED FROM PYTHON SOURCE LINES 123-125
 
 Cardiac cycle
 -------------
 
-.. GENERATED FROM PYTHON SOURCE LINES 126-139
+.. GENERATED FROM PYTHON SOURCE LINES 125-138
 
 .. code-block:: default
 
@@ -292,24 +236,42 @@ Cardiac cycle
     palette = itertools.cycle(sns.color_palette("deep"))
     ax = plt.subplot(111, polar=True)
     for i in angles:
-        circular(i, color=next(palette), ax=ax)
+        plot_circular(i, color=next(palette), ax=ax)
 
 
 
-.. image:: /auto_examples/images/sphx_glr_plot_HeartBeatEvokedArpeggios_002.png
-    :alt: plot HeartBeatEvokedArpeggios
-    :class: sphx-glr-single-img
+.. rst-class:: sphx-glr-horizontal
 
 
-.. rst-class:: sphx-glr-script-out
+    *
 
- Out:
+      .. image:: /auto_examples/images/sphx_glr_plot_HeartBeatEvokedArpeggios_002.png
+          :alt: plot HeartBeatEvokedArpeggios
+          :class: sphx-glr-multi-img
 
- .. code-block:: none
+    *
 
-    c:\programdata\anaconda3\lib\site-packages\systole\plotting.py:697: UserWarning:
+      .. image:: /auto_examples/images/sphx_glr_plot_HeartBeatEvokedArpeggios_003.png
+          :alt: plot HeartBeatEvokedArpeggios
+          :class: sphx-glr-multi-img
 
-    FixedFormatter should only be used together with FixedLocator
+    *
+
+      .. image:: /auto_examples/images/sphx_glr_plot_HeartBeatEvokedArpeggios_004.png
+          :alt: plot HeartBeatEvokedArpeggios
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/images/sphx_glr_plot_HeartBeatEvokedArpeggios_005.png
+          :alt: plot HeartBeatEvokedArpeggios
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/images/sphx_glr_plot_HeartBeatEvokedArpeggios_006.png
+          :alt: plot HeartBeatEvokedArpeggios
+          :class: sphx-glr-multi-img
 
 
 
@@ -318,7 +280,7 @@ Cardiac cycle
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  41.321 seconds)
+   **Total running time of the script:** ( 0 minutes  33.945 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_HeartBeatEvokedArpeggios.py:

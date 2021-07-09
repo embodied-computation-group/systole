@@ -97,20 +97,26 @@ def plot_ectopic(
        from systole.plots import plot_ectopic
        # Import PPG recording as numpy array
        rr = import_rr().rr.to_numpy()
-       plot_ectopic(rr)
+       plot_ectopic(rr, input_type="rr_ms")
 
     Visualizing ectopic subspace from the `artefact` dictionary.
 
     .. jupyter-execute::
 
-       from systole import import_rr
-       from systole.plots import plot_ectopic
        from systole.detection import rr_artefacts
-       # Import PPG recording as numpy array
-       rr = import_rr().rr.to_numpy()
        # Use the rr_artefacts function to find ectopic beats
        artefacts = rr_artefacts(rr)
        plot_ectopic(artefacts=artefacts)
+
+    Using Bokeh backend.
+
+    .. jupyter-execute::
+
+       from systole.detection import rr_artefacts
+       # Use the rr_artefacts function to find ectopic beats
+       artefacts = rr_artefacts(rr)
+       plot_ectopic(artefacts=artefacts, backend="bokeh")
+
     """
 
     if figsize is None:

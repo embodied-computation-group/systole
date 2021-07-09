@@ -45,7 +45,7 @@ Lipponen & Tarvainen (2019) [#]_.
 .. code-block:: default
 
     from systole.detection import rr_artefacts
-    from systole.plotting import plot_subspaces
+    from systole.plots import plot_subspaces
     from systole.utils import simulate_rr
 
 
@@ -130,9 +130,20 @@ comprizing the extra and missed beats.
 
 
 
-.. image:: /auto_examples/images/sphx_glr_plot_ArtefactsDetection_001.png
-    :alt: Subspace 1   (ectopic beats detection), Subspace 2   (long and short beats detection)
-    :class: sphx-glr-single-img
+.. rst-class:: sphx-glr-horizontal
+
+
+    *
+
+      .. image:: /auto_examples/images/sphx_glr_plot_ArtefactsDetection_001.png
+          :alt: Subspace 1   (ectopic beats detection)
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/images/sphx_glr_plot_ArtefactsDetection_002.png
+          :alt: Subspace 2   (long and short beats detection)
+          :class: sphx-glr-multi-img
 
 
 .. rst-class:: sphx-glr-script-out
@@ -142,9 +153,7 @@ comprizing the extra and missed beats.
  .. code-block:: none
 
 
-    array([<AxesSubplot:title={'center':'Subspace 1 \n (ectopic beats detection)'}, xlabel='Subspace $S_{11}$', ylabel='Subspace $S_{12}$'>,
-           <AxesSubplot:title={'center':'Subspace 2 \n (long and short beats detection)'}, xlabel='Subspace $S_{21}$', ylabel='Subspace $S_{22}$'>],
-          dtype=object)
+    (<AxesSubplot:title={'center':'Subspace 1 \n (ectopic beats detection)'}, xlabel='Subspace $S_{11}$', ylabel='Subspace $S_{12}$'>, <AxesSubplot:title={'center':'Subspace 2 \n (long and short beats detection)'}, xlabel='Subspace $S_{21}$', ylabel='Subspace $S_{22}$'>)
 
 
 
@@ -160,7 +169,7 @@ References
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.520 seconds)
+   **Total running time of the script:** ( 0 minutes  0.819 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_ArtefactsDetection.py:

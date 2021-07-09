@@ -24,7 +24,7 @@ Outliers and ectobeats correction
 Here, we describe two method for artefacts and outliers correction, after
 detection using the method proposed by Lipponen & Tarvainen (2019) [#]_.
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-24
+.. GENERATED FROM PYTHON SOURCE LINES 8-25
 
 .. code-block:: default
 
@@ -51,7 +51,8 @@ detection using the method proposed by Lipponen & Tarvainen (2019) [#]_.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-31
+
+.. GENERATED FROM PYTHON SOURCE LINES 26-31
 
 .. code-block:: default
 
@@ -59,7 +60,6 @@ detection using the method proposed by Lipponen & Tarvainen (2019) [#]_.
 
     from systole import simulate_rr
     from systole.correction import correct_peaks, correct_rr
-    from systole.plotting import plot_subspaces
 
 
 
@@ -126,7 +126,7 @@ References
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.132 seconds)
+   **Total running time of the script:** ( 0 minutes  0.083 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_ArtefactsCorrection.py:

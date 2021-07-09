@@ -89,7 +89,7 @@ Interfacing with PsychoPy
     # of other instructions in the meantime.
 
     # Code 1 {}
-    oximeter.read(duration=10)
+    oxi.read(duration=10)
     # Code 2 {}
 
     # * The ``readInWaiting()`` method will only read the bytes temporally stored
@@ -101,7 +101,7 @@ Interfacing with PsychoPy
 
     tstart = time.time()
     while time.time() - tstart < 10:
-        oximeter.readInWaiting()
+        oxi.readInWaiting()
         # Insert code here {...}
 
 

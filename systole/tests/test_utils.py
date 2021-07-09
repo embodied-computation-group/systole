@@ -42,10 +42,10 @@ class TestUtils(TestCase):
         _, peaks = ppg_peaks(ppg)
         heartrate, time = heart_rate(peaks)
         assert len(heartrate) == len(time)
-        assert np.nanmean(heartrate) == 884.9252640845299
+        assert np.nanmean(heartrate) == 884.92526408453
         heartrate, time = heart_rate(list(peaks))
         assert len(heartrate) == len(time)
-        assert np.nanmean(heartrate) == 884.9252640845299
+        assert np.nanmean(heartrate) == 884.92526408453
         heartrate, time = heart_rate(peaks, unit="bpm", kind="cubic", sfreq=500)
         assert len(heartrate) == len(time)
         assert np.nanmean(heartrate) == 34.34558271737578

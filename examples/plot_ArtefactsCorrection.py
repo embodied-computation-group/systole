@@ -27,7 +27,6 @@ import numpy as np
 
 from systole import simulate_rr
 from systole.correction import correct_peaks, correct_rr
-from systole.plots import plot_subspaces
 
 #%% Method 1 - Peaks correction
 # #############################

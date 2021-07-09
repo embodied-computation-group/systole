@@ -17,10 +17,10 @@ a. :py:func:`systole.utils.heart_rate()`: now accepts peaks vectors as well as R
 b. :py:func:`systole.utils.to_rr()` has been renamed to :py:func:`systole.utils.input_conversion()` and accepts input and outputs it the form of peaks, peaks indexes, RR invervals in seconds and in miliseconds.
 c. :py:func:`systole.detection.ppg_peaks()` now better handles negative values/ low sampling rate.
 d. Use local version of the ECG detectors and add Numba support for the following function:
-   * :py:func:`systole.detector.pan_tompkins()` (~7x faster)
-   * :py:func:`systole.detector.hamilton()` (~10x faster)
-   * :py:func:`systole.detector.christov()` (~30x faster)
-   * :py:func:`systole.detector.engelse_zeelenberg()` (~20x faster)
+* :py:func:`systole.detector.pan_tompkins()` (~7x faster)
+* :py:func:`systole.detector.hamilton()` (~10x faster)
+* :py:func:`systole.detector.christov()` (~30x faster)
+* :py:func:`systole.detector.engelse_zeelenberg()` (~20x faster)
 
 
 v0.1.3 (April 2021)
@@ -31,10 +31,10 @@ a. :py:func:`systole.plotly.plot_raw()`: add `ecg_method` parameter to control t
 b. Download dataset directly from GitHub instead of copying the files at install.
 c. Haromonisation of :py:func:`systole.plotting.plot_raw()` and :py:func:`systole.plotting.plot_raw()` (replace the `plot_hr()` function), and :py:func:`systole.plotly.plot_subspaces()` and :py:func:`systole.plotly.plot_subspaces()`.
 d. The :py:class:`systole.recording.Oximeter()` class has been improved:
-   - :py:func:`systole.recording.Oximeter.setup()` has an `nAttempts` argument so it will not run forever if no valid signal is recordedfor a given number of attempts (default is 100).
-   - :py:func:`systole.recording.Oximeter.check()` has been updated and accept data format #7 from Xpods, allowing more flexibility.
-   - :py:func:`systole.recording.Oximeter.save()` will now save additional channels and support `.txt` and `.npy` file extensions.
-   - Create a :py:func:`systole.recording.Oximeter.reset()` method to avoid improper use of `__init__()`.
+- :py:func:`systole.recording.Oximeter.setup()` has an `nAttempts` argument so it will not run forever if no valid signal is recordedfor a given number of attempts (default is 100).
+- :py:func:`systole.recording.Oximeter.check()` has been updated and accept data format #7 from Xpods, allowing more flexibility.
+- :py:func:`systole.recording.Oximeter.save()` will now save additional channels and support `.txt` and `.npy` file extensions.
+- Create a :py:func:`systole.recording.Oximeter.reset()` method to avoid improper use of `__init__()`.
 e. Add pre-commit hooks, flake8, black and isort CI tests.
 f. Add type hints and CI testing with mypy.
 

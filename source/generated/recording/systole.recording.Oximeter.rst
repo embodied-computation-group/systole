@@ -21,7 +21,6 @@
       ~Oximeter.find_peaks
       ~Oximeter.plot_events
       ~Oximeter.plot_raw
-      ~Oximeter.plot_recording
       ~Oximeter.read
       ~Oximeter.readInWaiting
       ~Oximeter.reset

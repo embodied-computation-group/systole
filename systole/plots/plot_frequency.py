@@ -34,8 +34,8 @@ def plot_frequency(
         interbeat intervals (IBI), expressed in seconds or milliseconds
         (respectively).
     fbands : None | dict, optional
-        Dictionary containing the names of the frequency bands of interest
-        (str), their range (tuples) and their color in the PSD plot.
+        Dictionary containing the names of the frequency bands of interest (str), their
+        range (tuples) and their color in the PSD plot.
         Default is:
         >>> {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
         >>> 'lf': ('Low frequency', (0.04, 0.15), 'g'),
@@ -45,8 +45,7 @@ def plot_frequency(
     ax : :class:`matplotlib.axes.Axes` or None
         Where to draw the plot. Default is `None` (create a new figure).
     backend: str
-        Select plotting backend {"matplotlib", "bokeh"}. Defaults to
-        "matplotlib".
+        Select plotting backend {"matplotlib", "bokeh"}. Defaults to "matplotlib".
 
     Returns
     -------
@@ -63,13 +62,26 @@ def plot_frequency(
 
     Visualizing HRV frequency domain from RR time series.
 
+    Using Matplotlib backend
+
     .. jupyter-execute::
 
-       from systole import import_rr
-       from systole.plots import plot_frequency
-       # Import PPG recording as numpy array
-       rr = import_rr().rr.to_numpy()
-       plot_frequency(rr)
+        from systole import import_rr
+        from systole.plots import plot_frequency
+        # Import PPG recording as numpy array
+        rr = import_rr().rr.to_numpy()
+        plot_frequency(rr, input_type="rr_ms")
+
+    Using Bokeh backend
+
+    .. jupyter-execute::
+
+        from systole import import_rr
+        from systole.plots import plot_frequency
+        # Import PPG recording as numpy array
+        rr = import_rr().rr.to_numpy()
+        plot_frequency(rr, input_type="rr_ms", backend="bokeh")
+
     """
     if figsize is None:
         if backend == "matplotlib":

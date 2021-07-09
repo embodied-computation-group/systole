@@ -61,7 +61,7 @@ Heart Rate Variability
 Plots
 -----
 
-.. currentmodule:: systole.plotting
+.. currentmodule:: systole.plots
 
 .. _plots:
 
@@ -111,4 +111,4 @@ Utils
     to_epochs
     simulate_rr
     to_neighbour
-    input_converstion
+    input_conversion

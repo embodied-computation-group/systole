@@ -36,11 +36,11 @@ plotted.
     # Licence: GPL v3
 
     import matplotlib.pyplot as plt
-    import numpy as np
-
+    import pandas as pd
     from systole import serialSim
     from systole.recording import Oximeter
-    from systole.utils import heart_rate
+    from systole.plots import plot_raw, plot_rr
+
 
 
 
@@ -104,7 +104,7 @@ oximeter is plugged in.
 
     Reset input buffer
 
-    <systole.recording.Oximeter object at 0x000001BD4BF36B88>
+    <systole.recording.Oximeter object at 0x00000288967EAE48>
 
 
 
@@ -113,37 +113,27 @@ oximeter is plugged in.
 Plotting
 --------
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-70
+.. GENERATED FROM PYTHON SOURCE LINES 48-60
 
 .. code-block:: default
 
     fig, ax = plt.subplots(3, 1, figsize=(13, 8), sharex=True)
-    oxi.plot_recording(ax=ax[0])
 
-    ax[1].plot(oxi.times, oxi.peaks, "k")
-    ax[1].set_title("Peaks vector", fontweight="bold")
-    ax[1].set_xlabel("Time (s)")
+    plot_raw(oxi.recording, sfreq=75, show_heart_rate=False, ax=ax[0])
+
+    times = pd.to_datetime(oxi.times, unit="s", origin="unix")
+
+    ax[1].plot(times, oxi.peaks, "#55a868")
+    ax[1].set_title("Peaks vector")
     ax[1].set_ylabel("Peak\n detection")
 
-
-    hr, time = heart_rate(oxi.peaks, sfreq=75, unit="rr", kind="cubic")
-    ax[2].plot(time, hr, label="Interpolated HR", linestyle="--", color="gray")
-    ax[2].plot(
-        np.array(oxi.times)[np.where(oxi.peaks)[0]],
-        hr[np.where(oxi.peaks)[0]],
-        "ro",
-        label="Instantaneous HR",
-    )
-    ax[2].set_xlabel("Time (s)")
-    ax[2].set_title("Instantaneous Heart Rate", fontweight="bold")
-    ax[2].set_ylabel("RR intervals (ms)")
+    plot_rr(oxi.peaks, input_type='peaks', ax=ax[2])
 
     plt.tight_layout()
 
 
-
 .. image:: /auto_examples/images/sphx_glr_plot_InstantaneousHeartRate_001.png
-    :alt: Oximeter recording, Peaks vector, Instantaneous Heart Rate
+    :alt: PPG recording, Peaks vector, Instantaneous heart rate
     :class: sphx-glr-single-img
 
 
@@ -153,7 +143,7 @@ Plotting
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  32.270 seconds)
+   **Total running time of the script:** ( 0 minutes  32.002 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_InstantaneousHeartRate.py:

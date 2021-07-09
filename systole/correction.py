@@ -224,7 +224,7 @@ def correct_peaks(
         * short: int
             The number of short beats corrected.
         * long: int
-            The number of long beats corrcted.
+            The number of long beats corrected.
         * extra: int
             The number of extra beats corrected.
         * missed: int

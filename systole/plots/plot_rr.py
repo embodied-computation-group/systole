@@ -26,7 +26,7 @@ def plot_rr(
     Parameters
     ----------
     rr : np.ndarray or list
-        Boolean vector of peaks detection or RR intervals.
+        Boolean vector of peaks detection, peaks indexs or RR intervals.
     unit : str
         The heart rate unit in use. Can be `'rr'` (R-R intervals, in ms)
         or `'bpm'` (beats per minutes). Default is `'rr'`.
@@ -72,7 +72,7 @@ def plot_rr(
     .. plot::
 
         >>> from systole import import_rr
-        >>> from systole.plotting import plot_rr
+        >>> from systole.plots import plot_rr
         >>> rr = import_rr().rr.values
         >>> plot_rr(rr=rr, input_type="rr_ms", unit="bpm",)
     """

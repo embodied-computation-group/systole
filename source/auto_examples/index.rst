@@ -6,8 +6,8 @@
 
 .. _general_examples:
 
-Tutorials
-=========
+Example gallery
+===============
 
 This section demonstrates some of the basic functionality of **systole**.
 If you want to see the tutorials in action, you can also click on the link below and navigate to the ``tutorials/`` folder to launch one of the interactive Jupyter notebooks.
@@ -41,14 +41,14 @@ If you want to see the tutorials in action, you can also click on the link below
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="The pipeline of physiological recording can often benefiit from interactive data visualization ...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example show how to record PPG signals using the `Nonin 3012LP Xpod USB pulse oximeter &lt;ht...">
 
 .. only:: html
 
- .. figure:: /auto_examples/images/thumb/sphx_glr_plot_InteractiveVisualizations_thumb.png
-     :alt: Interactive visualization
+ .. figure:: /auto_examples/images/thumb/sphx_glr_plot_InstantaneousHeartRate_thumb.png
+     :alt: Instantaneous Heart Rate
 
-     :ref:`sphx_glr_auto_examples_plot_InteractiveVisualizations.py`
+     :ref:`sphx_glr_auto_examples_plot_InstantaneousHeartRate.py`
 
 .. raw:: html
 
@@ -58,7 +58,7 @@ If you want to see the tutorials in action, you can also click on the link below
 .. toctree::
    :hidden:
 
-   /auto_examples/plot_InteractiveVisualizations
+   /auto_examples/plot_InstantaneousHeartRate
 
 .. raw:: html
 
@@ -80,27 +80,6 @@ If you want to see the tutorials in action, you can also click on the link below
    :hidden:
 
    /auto_examples/plot_ArtefactsCorrection
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="This example show how to record PPG signals using the `Nonin 3012LP Xpod USB pulse oximeter &lt;ht...">
-
-.. only:: html
-
- .. figure:: /auto_examples/images/thumb/sphx_glr_plot_InstantaneousHeartRate_thumb.png
-     :alt: Instantaneous Heart Rate
-
-     :ref:`sphx_glr_auto_examples_plot_InstantaneousHeartRate.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
-   /auto_examples/plot_InstantaneousHeartRate
 
 .. raw:: html
 
