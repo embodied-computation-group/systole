@@ -7,3 +7,5 @@ systole.egg-info/
 htmlcov/
 .coverage
 .vscode/
+source/auto_examples
+source/generated
