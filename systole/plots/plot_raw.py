@@ -15,7 +15,7 @@ def plot_raw(
     signal: Union[pd.DataFrame, np.ndarray, List],
     sfreq: int = 1000,
     modality: str = "ppg",
-    ecg_method: str = "hamilton",
+    ecg_method: str = "pan-tompkins",
     show_heart_rate: bool = False,
     slider: bool = True,
     ax: Optional[Axes] = None,
@@ -46,7 +46,7 @@ def plot_raw(
         :py:func:`systole.detection.ecg_peaks` function. Can be one of the
         following: `'hamilton'`, `'christov'`, `'engelse-zeelenberg'`,
         `'pan-tompkins'`, `'wavelet-transform'`, `'moving-average'`. The
-        default is `'hamilton'`.
+        default is `'pan-tompkins'`.
     show_heart_rate : bool
         If `True`, show the instnataneous heart rate below the raw signal.
         Defaults to `False`.
