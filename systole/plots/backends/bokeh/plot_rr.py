@@ -37,8 +37,6 @@ def plot_rr(
         The method to use (parameter of `scipy.interpolate.interp1d`). The
         possible relevant methods for instantaneous heart rate are `'cubic'`
         (defalut), `'linear'`, `'previous'` and `'next'`.
-    sfreq : int
-        The sampling frequency of the interpolated line.
     line : bool
         If `True`, plot the interpolated instantaneous heart rate.
     points : bool
@@ -102,13 +100,16 @@ def plot_rr(
         # Instantaneous Heart Rate - Peaks
         if input_type == "rr_ms":
             ibi = np.array(rr)
-            peaks_idx = pd.to_datetime(np.cumsum(ibi), unit="ms", origin="unix")
+            rr_idx = pd.to_datetime(np.cumsum(ibi), unit="ms", origin="unix")
         elif input_type == "rr_s":
             ibi = np.array(rr) * 1000
-            peaks_idx = pd.to_datetime(np.cumsum(ibi) * 1000, unit="ms", origin="unix")
+            rr_idx = pd.to_datetime(np.cumsum(ibi), unit="ms", origin="unix")
         elif input_type == "peaks":
             ibi = np.diff(np.where(rr)[0])
-            peaks_idx = pd.to_datetime(np.where(rr)[0][1:], unit="ms", origin="unix")
+            rr_idx = pd.to_datetime(np.where(rr)[0][1:], unit="ms", origin="unix")
+        elif input_type == "peaks_idx":
+            ibi = np.diff(rr)
+            rr_idx = pd.to_datetime(rr[1:], unit="ms", origin="unix")
 
         if artefacts is None:
             outliers = np.zeros(len(ibi), dtype=bool)
@@ -123,10 +124,10 @@ def plot_rr(
 
         points_source = ColumnDataSource(
             data=dict(
-                time=peaks_idx,
+                time=rr_idx,
                 rr=ibi,
                 bpm=60000 / ibi,
-                nbeat=np.arange(1, len(peaks_idx) + 1),
+                nbeat=np.arange(1, len(rr_idx) + 1),
                 outliers=outliers,
             )
         )
@@ -168,7 +169,7 @@ def plot_rr(
 
             # Short RR intervals
             p1.circle(
-                x=peaks_idx[artefacts["short"]],
+                x=rr_idx[artefacts["short"]],
                 y=ibi[artefacts["short"]],
                 size=10,
                 legend_label="Short intervals",
@@ -178,7 +179,7 @@ def plot_rr(
 
             # Long RR intervals
             p1.circle(
-                x=peaks_idx[artefacts["long"]],
+                x=rr_idx[artefacts["long"]],
                 y=ibi[artefacts["long"]],
                 size=10,
                 legend_label="Long intervals",
@@ -188,7 +189,7 @@ def plot_rr(
 
             # Missed RR intervals
             p1.square(
-                x=peaks_idx[artefacts["missed"]],
+                x=rr_idx[artefacts["missed"]],
                 y=ibi[artefacts["missed"]],
                 size=10,
                 legend_label="Missed intervals",
@@ -198,7 +199,7 @@ def plot_rr(
 
             # Extra RR intervals
             p1.square(
-                x=peaks_idx[artefacts["extra"]],
+                x=rr_idx[artefacts["extra"]],
                 y=ibi[artefacts["extra"]],
                 size=10,
                 legend_label="Extra intervals",
@@ -208,7 +209,7 @@ def plot_rr(
 
             # Ectopic beats
             p1.triangle(
-                x=peaks_idx[artefacts["ectopic"]],
+                x=rr_idx[artefacts["ectopic"]],
                 y=ibi[artefacts["ectopic"]],
                 size=10,
                 legend_label="Ectopic beats",
@@ -216,7 +217,7 @@ def plot_rr(
                 line_color="black",
             )
 
-    # Add hover tool
-    p1.add_tools(hover)
+        # Add hover tool
+        p1.add_tools(hover)
 
     return p1

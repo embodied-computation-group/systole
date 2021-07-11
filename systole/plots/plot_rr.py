@@ -42,9 +42,9 @@ def plot_rr(
     input_type : str
         The type of input vector. Default is `"peaks"` (a boolean vector where
         `1` represents the occurrence of R waves or systolic peaks).
-        Can also be `"rr_s"` or `"rr_ms"` for vectors of RR intervals, or
-        interbeat intervals (IBI), expressed in seconds or milliseconds
-        (respectively).
+        Can also be `"peaks_idx"`, the idexs of samples where a peaks is detected,
+        `"rr_s"` or `"rr_ms"` for vectors of RR intervals, or interbeat intervals
+        (IBI), expressed in seconds or milliseconds (respectively).
     show_artefacts : bool
         If `True`, the function will call
         py:func:`systole.detection.rr_artefacts` to detect outliers interval
@@ -86,7 +86,7 @@ def plot_rr(
         elif backend == "bokeh":
             figsize = 200
 
-    if input_type not in ["peaks", "rr_ms", "rr_s"]:
+    if input_type not in ["peaks", "rr_ms", "rr_s", "peaks_idx"]:
         raise ValueError("Invalid input type")
 
     # Detect artefacts in the rr time series if required

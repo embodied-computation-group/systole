@@ -157,8 +157,7 @@ def heart_rate(
             # Find peak indices
             peaks_idx = np.where(x)[0]
 
-            # Create time vector (seconds):
-            time = (peaks_idx / sfreq)[1:]
+            time = (peaks_idx / sfreq)[1:]  # Create time vector (seconds)
 
             rr = np.diff(peaks_idx)
 
@@ -168,16 +167,36 @@ def heart_rate(
         else:
             raise ValueError("Input vector should only contain 0 and 1")
 
+    # A vector of peaks indexs
+    elif input_type == "peaks_idx":
+        if (np.diff(x) > 0).all():
+
+            time = (x / sfreq)[1:]  # Create time vector (seconds)
+
+            rr = np.diff(x)
+
+            # Use the peaks vector as time input
+            new_time = np.arange(0, time[-1], 1 / sfreq)
+
+        else:
+            raise ValueError("Input vector should only contain increasing integers")
+
     # A vector of RR intervals
     elif input_type == "rr_s":
-        time = np.cumsum(x)
-        rr = x * 1000
-        new_time = np.arange(0, time[-1], 1 / sfreq)
+        if (x > 0).all():
+            time = np.cumsum(x)  # Create time vector (seconds)
+            rr = x * 1000
+            new_time = np.arange(0, time[-1], 1 / sfreq)
+        else:
+            raise ValueError("RR intervals cannot be less than 0")
 
     elif input_type == "rr_ms":
-        time = np.cumsum(x) / 1000
-        rr = x
-        new_time = np.arange(0, time[-1], 1 / sfreq)
+        if (x > 0).all():
+            time = np.cumsum(x) / 1000  # Create time vector (seconds)
+            rr = x
+            new_time = np.arange(0, time[-1], 1 / sfreq)
+        else:
+            raise ValueError("RR intervals cannot be less than 0")
 
     # R-R intervals (in miliseconds)
     heartrate = (rr / sfreq) * 1000
