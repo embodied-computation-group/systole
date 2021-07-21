@@ -58,11 +58,6 @@ class TestPlots(TestCase):
         for backend in ["matplotlib", "bokeh"]:
             plot_ectopic(rr, backend=backend)
 
-    # def test_plot_events(self):
-    #    """Test plot_events function"""
-    #    for backend in ["matplotlib", "bokeh"]:
-    #        plot_events(oxi, backend=backend)
-
     # def test_plot_evoked(self):
     #    """Test plot_evoked function"""
     #    for backend in ["matplotlib", "bokeh"]:
@@ -84,7 +79,7 @@ class TestPlots(TestCase):
         """Test plot_raw function"""
         for backend in ["matplotlib", "bokeh"]:
             plot_raw(ppg, backend=backend)
-            plot_raw(ppg, backend=backend, show_heart_rate=True)
+            plot_raw(ppg, backend=backend, show_heart_rate=True, show_artefacts=True)
 
     def test_plot_rr(self):
         """Test plot_rr function"""
@@ -103,12 +98,6 @@ class TestPlots(TestCase):
         rr = import_rr().rr
         for backend in ["matplotlib", "bokeh"]:
             plot_subspaces(rr, backend=backend)
-
-    # def test_plot_timevarying(self):
-    #    """Test plot_timevarying function"""
-    #    rr = import_rr().rr
-    #    for backend in ["matplotlib", "bokeh"]:
-    #        plot_timevarying(rr, backend=backend)
 
 
 if __name__ == "__main__":

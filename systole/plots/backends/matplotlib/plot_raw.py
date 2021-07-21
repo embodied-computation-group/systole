@@ -16,6 +16,7 @@ def plot_raw(
     peaks: np.ndarray,
     modality: str = "ppg",
     show_heart_rate: bool = True,
+    show_artefacts: bool = False,
     ax: Optional[Union[List, Axes]] = None,
     slider: bool = True,
     figsize: int = 300,
@@ -115,7 +116,12 @@ def plot_raw(
 
         # Instantaneous Heart Rate - Peaks
         plot_rr(
-            peaks, input_type="peaks", backend="matplotlib", figsize=figsize, ax=hr_ax
+            peaks,
+            input_type="peaks",
+            backend="matplotlib",
+            figsize=figsize,
+            show_artefacts=show_artefacts,
+            ax=hr_ax,
         )
 
         plt.tight_layout()

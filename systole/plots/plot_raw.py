@@ -17,6 +17,7 @@ def plot_raw(
     modality: str = "ppg",
     ecg_method: str = "pan-tompkins",
     show_heart_rate: bool = False,
+    show_artefacts: bool = False,
     slider: bool = True,
     ax: Optional[Axes] = None,
     figsize: Optional[Union[int, List[int], Tuple[int, int]]] = None,
@@ -50,6 +51,10 @@ def plot_raw(
     show_heart_rate : bool
         If `True`, show the instnataneous heart rate below the raw signal.
         Defaults to `False`.
+    show_artefacts : bool
+        If `True`, the function will call
+        py:func:`systole.detection.rr_artefacts` to detect outliers intervalin the time
+        serie and outline them using different colors.
     slider : bool
         If `True`, will add a slider to select the time window to plot
         (requires bokeh backend).
@@ -79,6 +84,18 @@ def plot_raw(
 
     Examples
     --------
+
+    Plotting raw ECG recording.
+
+    .. plot::
+
+       >>> from systole import import_dataset1
+       >>> # Import PPG recording as pandas data frame
+       >>> ecg = import_dataset1(modalities=['ECG'])
+       >>> # Only use the first 60 seconds for demonstration
+       >>> ecg = ecg[ecg.time.between(60, 90)]
+       >>> plot_raw(ecg, type='ecg', sfreq=1000, ecg_method='pan-tompkins')
+
     Plotting raw PPG recording.
 
     .. plot::
@@ -91,16 +108,6 @@ def plot_raw(
        >>> ppg = ppg[ppg.time<60]
        >>> plot_raw(ppg)
 
-    Plotting raw ECG recording.
-
-    .. plot::
-
-       >>> from systole import import_dataset1
-       >>> # Import PPG recording as pandas data frame
-       >>> ecg = import_dataset1(modalities=['ECG'])
-       >>> # Only use the first 60 seconds for demonstration
-       >>> ecg = ecg[ecg.time.between(60, 90)]
-       >>> plot_raw(ecg, type='ecg', sfreq=1000, ecg_method='pan-tompkins')
     """
     if figsize is None:
         if backend == "matplotlib":
@@ -134,6 +141,7 @@ def plot_raw(
         "peaks": peaks,
         "modality": modality,
         "show_heart_rate": show_heart_rate,
+        "show_artefacts": show_artefacts,
         "ax": ax,
         "figsize": figsize,
         "slider": slider,

@@ -78,9 +78,9 @@ def plot_rr(
         # Convert to datetime format
         time = pd.to_datetime(time, unit="s", origin="unix")
 
-        # Downsample to 5Hz for plotting
-        time = time[::200]
-        hr = hr[::200]
+        # Downsample to 10Hz for plotting
+        time = time[::100]
+        hr = hr[::100]
 
         line_source = ColumnDataSource(data=dict(time=time, hr=hr, bpm=60000 / hr))
 

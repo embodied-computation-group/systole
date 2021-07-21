@@ -19,6 +19,7 @@ def plot_raw(
     peaks: np.ndarray,
     modality: str = "ppg",
     show_heart_rate: bool = True,
+    show_artefacts: bool = False,
     ax: Optional[Union[List, Axes]] = None,
     slider: bool = True,
     figsize: int = 300,
@@ -42,6 +43,10 @@ def plot_raw(
         If `True`, create a second row and plot the instantanesou heart rate
         derived from the physiological signal
         (calls :py:func:`systole.plots.plot_rr` internally). Defaults to `False`.
+    show_artefacts : bool
+        If `True`, the function will call
+        py:func:`systole.detection.rr_artefacts` to detect outliers intervalin the time
+        serie and outline them using different colors.
     ax : :class:`matplotlib.axes.Axes` list or None
         Where to draw the plot. Default is *None* (create a new figure). Only
         applies when `backend="matplotlib"`. If `show_heart_rate is True`, a list
@@ -117,7 +122,11 @@ def plot_raw(
     ##########################
     if show_heart_rate is True:
         instantaneous_hr = plot_rr(
-            peaks, input_type="peaks", backend="bokeh", figsize=figsize
+            peaks,
+            input_type="peaks",
+            backend="bokeh",
+            figsize=figsize,
+            show_artefacts=show_artefacts,
         )
         instantaneous_hr.x_range = raw.x_range
 
