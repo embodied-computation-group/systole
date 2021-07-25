@@ -161,7 +161,7 @@ def correct_rr(
         if np.any(artefacts["extra"]):
             for this_id in np.where(artefacts["extra"])[0]:
                 this_id -= nExtra
-                clean_rr = correct_missed(clean_rr, this_id)
+                clean_rr = correct_extra(clean_rr, this_id)
                 nExtra += 1
         artefacts = rr_artefacts(clean_rr)
 
