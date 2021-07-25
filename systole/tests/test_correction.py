@@ -20,7 +20,7 @@ from systole.utils import simulate_rr
 
 class TestDetection(TestCase):
     def test_correct_extra(self):
-        """Test oxi_peaks function"""
+        """Test ppg_peaks function"""
         rr = import_rr().rr.values  # Import RR time series
         rr[20] = 200
         clean_rr = correct_extra(rr, 20)

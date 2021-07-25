@@ -11,21 +11,18 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import time
+import systole
 import sphinx_bootstrap_theme
-from plotly.io._sg_scraper import plotly_sg_scraper
 
 # -- Project information -----------------------------------------------------
 
 project = "systole"
-copyright = u'2020-{}, Nicolas Legrand'.format(time.strftime("%Y"))
+copyright = u"2020-{}, Nicolas Legrand".format(time.strftime("%Y"))
 author = "Nicolas Legrand"
-release = "0.1.3"
+release = systole.__version__
 
 
-image_scrapers = (
-    "matplotlib",
-    plotly_sg_scraper,
-)
+image_scrapers = ("matplotlib",)
 
 sphinx_gallery_conf = {
     "examples_dirs": "../examples",
@@ -50,7 +47,12 @@ extensions = [
     "matplotlib.sphinxext.plot_directive",
     "numpydoc",
     "jupyter_sphinx",
+    "sphinx_panels",
+    "nbsphinx",
+    "sphinx_gallery.load_style",
 ]
+
+panels_add_bootstrap_css = False
 
 # Generate the API documentation when building
 autosummary_generate = True
@@ -81,18 +83,18 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages. See the documentation for
 # a list of builtin themes.
 
-html_theme = "bootstrap"
+html_theme = "pydata_sphinx_theme"
 html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 html_theme_options = {
-    "bootswatch_theme": "flatly",
-    "bootstrap_version": "3",
-    "navbar_class": "navbar",
-    "navbar_links": [
-        ("Functions", "api"),
-        ("Tutorials", "auto_examples/index"),
-        ("GitHub", "https://github.com/embodied-computation-group/systole", True),
-        ("What's new", "changelog"),
+    'icon_links': [
+        dict(name='GitHub',
+             url='https://github.com/embodied-computation-group/systole',
+             icon='fab fa-github-square'),
+        dict(name='Twitter',
+             url='https://twitter.com/visceral_mind',
+             icon='fab fa-twitter-square'),
     ],
+    "logo_link": "https://systole-docs.github.io/"
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,

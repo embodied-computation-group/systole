@@ -10,8 +10,8 @@ import pandas as pd
 import serial
 from serial.tools import list_ports
 
-from systole.detection import oxi_peaks
-from systole.plotting import plot_events, plot_oximeter, plot_raw
+from systole.detection import ppg_peaks
+from systole.plots import plot_events, plot_raw
 
 
 class Oximeter:
@@ -305,10 +305,10 @@ class Oximeter:
 
         Other Parameters
         ----------------
-        **kwargs : py:func:`systole.detection.oxi_peaks` properties.
+        **kwargs : py:func:`systole.detection.ppg_peaks` properties.
         """
         # Peak detection
-        resampled_signal, peaks = oxi_peaks(self.recording, new_sfreq=75, **kwargs)
+        resampled_signal, peaks = ppg_peaks(self.recording, new_sfreq=75, **kwargs)
 
         # R-R intervals (in miliseconds)
         self.rr = (np.diff(np.where(peaks)[0]) / self.sfreq) * 1000
@@ -330,29 +330,22 @@ class Oximeter:
 
         return ax
 
-    def plot_raw(self, ax=None):
+    def plot_raw(self, **kwargs):
         """Plot heartrate extracted from PPG recording.
 
-        Returns
-        -------
-        fig, ax : Matplotlib instances.
-            The figure and axe instances.
-        """
-        ax = plot_raw(self.recording, ax=ax)
-
-        return ax
-
-    def plot_recording(self, ax=None):
-        """Plot recorded signal.
+        Parameters
+        ----------
+        **kwargs : keyword arguments
+            Additional arguments will be passed to `:py:func:systole.plots.plot_raw`.
 
         Returns
         -------
-        fig, ax : Matplotlib instances.
-            The figure and axe instances.
+        plot : :class:`matplotlib.axes.Axes` or :class:`bokeh.plotting.figure.Figure`
+            The matplotlib axes, or the boken figure containing the plot.
         """
-        ax = plot_oximeter(self, ax=ax)
+        plot = plot_raw(signal=self.recording, **kwargs)
 
-        return ax
+        return plot
 
     def read(self, duration: float):
         """Read PPG signal for some amount of time.

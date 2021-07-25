@@ -8,10 +8,17 @@ from ecgdetectors import Detectors
 from scipy.interpolate import interp1d
 from scipy.signal import find_peaks
 
-from systole.utils import to_neighbour
+from systole.detectors import (
+    christov,
+    engelse_zeelenberg,
+    hamilton,
+    pan_tompkins,
+    wavelet_transform,
+)
+from systole.utils import input_conversion, to_neighbour
 
 
-def oxi_peaks(
+def ppg_peaks(
     x: Union[List, np.ndarray],
     sfreq: int = 75,
     win: float = 0.75,
@@ -70,9 +77,9 @@ def oxi_peaks(
     Examples
     --------
     >>> from systole import import_ppg
-    >>> from systole.detection import oxi_peaks
+    >>> from systole.detection import ppg_peaks
     >>> df = import_ppg()  # Import PPG recording
-    >>> signal, peaks = oxi_peaks(df.ppg.to_numpy())
+    >>> signal, peaks = ppg_peaks(df.ppg.to_numpy())
     >>> print(f'{sum(peaks)} peaks detected.')
     378 peaks detected.
 
@@ -87,9 +94,9 @@ def oxi_peaks(
     x = np.asarray(x)
 
     # Interpolate
-    f = interp1d(np.arange(0, len(x) / sfreq, 1 / sfreq), x, fill_value="extrapolate")
-    time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
-    x = f(time)
+    time = np.arange(0, len(x) / sfreq, 1 / sfreq)
+    new_time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
+    x = np.interp(new_time, time, x)
 
     # Copy resampled signal for output
     resampled_signal = np.copy(x)
@@ -100,7 +107,7 @@ def oxi_peaks(
 
     if noise_removal is True:
         # Moving average (high frequency noise + clipping)
-        rollingNoise = int(new_sfreq * 0.05)  # 0.05 second window
+        rollingNoise = max(int(new_sfreq * 0.05), 1)  # 0.05 second window
         x = (
             pd.DataFrame({"signal": x})
             .rolling(rollingNoise, center=True)
@@ -109,7 +116,7 @@ def oxi_peaks(
         )
     if peak_enhancement is True:
         # Square signal (peak enhancement)
-        x = np.asarray(x) ** 2
+        x = (np.asarray(x) ** 2) * np.sign(x)
 
     # Compute moving average and standard deviation
     signal = pd.DataFrame({"signal": x})
@@ -202,30 +209,28 @@ def ecg_peaks(
     python. DOI: 10.5281/zenodo.3353396
 
     """
-    if isinstance(x, list):
-        x = np.asarray(x)
+    x = np.asarray(x)
 
     # Interpolate
-    f = interp1d(np.arange(0, len(x) / sfreq, 1 / sfreq), x, fill_value="extrapolate")
-    time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
-    x = f(time)
+    time = np.arange(0, len(x) / sfreq, 1 / sfreq)
+    new_time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
+    x = np.interp(new_time, time, x)
 
     # Copy resampled signal for output
     resampled_signal = np.copy(x)
 
-    detectors = Detectors(new_sfreq)
-
     if method == "hamilton":
-        peaks_idx = detectors.hamilton_detector(resampled_signal)
+        peaks_idx = hamilton(resampled_signal, sfreq=new_sfreq)
     elif method == "christov":
-        peaks_idx = detectors.christov_detector(resampled_signal)
+        peaks_idx = christov(resampled_signal, sfreq=new_sfreq)
     elif method == "engelse-zeelenberg":
-        peaks_idx = detectors.engzee_detector(resampled_signal)
+        peaks_idx = engelse_zeelenberg(resampled_signal, sfreq=new_sfreq)
     elif method == "pan-tompkins":
-        peaks_idx = detectors.pan_tompkins_detector(resampled_signal)
+        peaks_idx = pan_tompkins(resampled_signal, sfreq=new_sfreq)
     elif method == "wavelet-transform":
-        peaks_idx = detectors.swt_detector(resampled_signal)
+        peaks_idx = wavelet_transform(resampled_signal, sfreq=new_sfreq)
     elif method == "moving-average":
+        detectors = Detectors(new_sfreq)
         peaks_idx = detectors.two_average_detector(resampled_signal)
     else:
         raise ValueError(
@@ -243,15 +248,20 @@ def ecg_peaks(
 
 
 def rr_artefacts(
-    rr: Union[List, np.ndarray], c1: float = 0.13, c2: float = 0.17, alpha: float = 5.2
+    rr: Union[List, np.ndarray],
+    c1: float = 0.13,
+    c2: float = 0.17,
+    alpha: float = 5.2,
+    input_type: str = "rr_ms",
 ) -> Dict[str, np.ndarray]:
     """Artefacts detection from RR time series using the subspaces approach
     proposed by Lipponen & Tarvainen (2019).
 
     Parameters
     ----------
-    rr : 1d array-like
-        Array of RR intervals.
+    rr : np.ndarray or list
+        1d numpy array of RR intervals (in seconds or miliseconds) or peaks
+        vector (boolean array).
     c1 : float
         Fixed variable controling the slope of the threshold lines. Default is
         `0.13`.
@@ -260,6 +270,12 @@ def rr_artefacts(
         is `0.17`.
     alpha : float
         Scaling factor used to normalize the RR intervals first deviation.
+    input_type : str
+        The type of input vector. Defaults to `"rr_ms"` for vectors of RR
+        intervals, or  interbeat intervals (IBI), expressed in milliseconds.
+        Can also be a boolean vector where `1` represents the occurrence of
+        R waves or systolic peakspeaks vector `"rr_s"` or IBI expressed in
+        seconds.
 
     Returns
     -------
@@ -312,8 +328,10 @@ def rr_artefacts(
         beat classification. Journal of Medical Engineering & Technology,
         43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306
     """
-    if isinstance(rr, list):
-        rr = np.array(rr)
+    rr = np.asarray(rr)
+
+    if input_type != "rr_ms":
+        rr = input_conversion(rr, input_type, output_type="rr_ms")
 
     ###########
     # Detection

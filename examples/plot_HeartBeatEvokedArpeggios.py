@@ -27,7 +27,7 @@ import seaborn as sns
 from psychopy.sound import Sound
 
 from systole import serialSim
-from systole.plotting import circular
+from systole.plots import plot_circular
 from systole.recording import Oximeter
 from systole.utils import norm_triggers, to_angles
 
@@ -116,8 +116,7 @@ while time.time() - tstart < 30:
 # --------
 
 f, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 5), sharex=True)
-oxi.plot_recording(ax=ax1)
-oxi.plot_events(ax=ax2)
+
 plt.tight_layout()
 
 #%%
@@ -135,4 +134,4 @@ for ev in oxi.channels:
 palette = itertools.cycle(sns.color_palette("deep"))
 ax = plt.subplot(111, polar=True)
 for i in angles:
-    circular(i, color=next(palette), ax=ax)
+    plot_circular(i, color=next(palette), ax=ax)

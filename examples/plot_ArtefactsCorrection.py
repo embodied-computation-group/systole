@@ -21,12 +21,12 @@ detection using the method proposed by Lipponen & Tarvainen (2019) [#]_.
 # where the timing of experimental events is not important.
 
 import matplotlib.pyplot as plt
+
 #%%
 import numpy as np
 
 from systole import simulate_rr
 from systole.correction import correct_peaks, correct_rr
-from systole.plotting import plot_subspaces
 
 #%% Method 1 - Peaks correction
 # #############################

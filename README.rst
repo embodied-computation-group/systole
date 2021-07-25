@@ -55,11 +55,11 @@ The following packages are required to use Systole:
 * `Pandas <https://pandas.pydata.org/>`_ (>=0.24)
 * `Matplotlib <https://matplotlib.org/>`_ (>=3.0.2)
 * `Seaborn <https://seaborn.pydata.org/>`_ (>=0.9.0)
-* `py-ecg-detectors <https://github.com/berndporr/py-ecg-detectors>`_ (>=1.0.2)
+* `Numba <http://numba.pydata.org/>`_ (>=0.51.2)
 
 Interactive plotting functions and reports generation will also require the following packages to be installed:
 
-* `Plotly <https://plotly.com/>`_ (>=4.8.0)
+* `Bokeh <https://docs.bokeh.org/en/latest/index.html#>`_ (>=2.3.3)
 
 Tutorial
 ========
@@ -87,12 +87,12 @@ Systole natively supports recording of physiological signals from the following 
 Artefact correction
 ===================
 
-Systole implements systolic peak detection inspired by van Gent et al. (2019) [#]_ and the artefact rejection method recently proposed by Lipponen & Tarvainen (2019) [#]_.
+Systole implements systolic peak detection inspired by van Gent et al. (2019) and the artefact rejection method recently proposed by Lipponen & Tarvainen (2019).
 
 .. code-block:: python
 
   from systole import simulate_rr
-  from systole.plotting import plot_subspaces
+  from systole.plots import plot_subspaces
 
   rr = simulate_rr()
   plot_subspaces(rr)
@@ -103,7 +103,7 @@ Systole implements systolic peak detection inspired by van Gent et al. (2019) [#
 Interactive visualization
 =========================
 
-Systole integrates a set of functions for interactive data visualization based on `Plotly <https://plotly.com/>`_.
+Systole integrates a set of functions for interactive data visualization based on `Bokeh <https://docs.bokeh.org/en/latest/index.html#>`_.
 
 .. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/systole.gif
    :align:   center
@@ -117,7 +117,7 @@ All time-domain and non-linear indices have been tested against Kubios HVR 2.2 (
 
 .. code-block:: python
 
-  from systole.plotting import plot_psd
+  from systole.plots import plot_frequency
 
   plot_psd(rr)
 
@@ -135,6 +135,7 @@ Contributors
 ============
 
 - Jan C. Brammer (jan.c.brammer@gmail.com)
+- Gidon Levakov (gidonlevakov@gmail.com)
 - Peter Doggart (peter.doggart@pulseai.io)
 
 Acknowledgements
@@ -153,14 +154,3 @@ Systole was largely inspired by pre-existing toolboxes dedicated to heartrate va
 * ECG-detector: https://github.com/berndporr/py-ecg-detectors
 
 * Pingouin: https://pingouin-stats.org/
-
-References
-==========
-
-**Peak detection (PPG signal)**
-
-.. [#] van Gent, P., Farah, H., van Nes, N., & van Arem, B. (2019). HeartPy: A novel heart rate algorithm for the analysis of noisy signals. *Transportation Research Part F: Traffic Psychology and Behaviour, 66, 368–378*. https://doi.org/10.1016/j.trf.2019.09.015
-
-**Artefact detection and correction:**
-
-.. [#] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for heart rate variability time series artefact correction using novel beat classification. *Journal of Medical Engineering & Technology, 43(3), 173–181*. https://doi.org/10.1080/03091902.2019.1640306

@@ -88,21 +88,33 @@ def time_shift(
 
 
 def heart_rate(
-    x: Union[List, np.ndarray], sfreq: int = 1000, unit: str = "rr", kind: str = "cubic"
+    x: Union[List, np.ndarray],
+    sfreq: int = 1000,
+    unit: str = "rr",
+    kind: str = "cubic",
+    input_type: str = "peaks",
 ) -> Tuple[np.ndarray, np.ndarray]:
-    """Transform peaks data into heart rate time series.
+    """Transform peaks data or RR intervals into continuous heart rate time series.
 
     Parameters
     ----------
     x : np.ndarray or list
-        Boolean vector of peaks detection.
+        Boolean vector of peaks detection or RR intervals.
     sfreq : int
-        Sampling frequency.
+        The sampling frequency of the desired output.
     unit : str
-        The heartrate unit in use. Can be 'rr' (R-R intervals, in ms)
-        or 'bpm' (beats per minutes). Default is 'rr'.
+        The heart rate unit in use. Can be `'rr'` (R-R intervals, in ms)
+        or `'bpm'` (beats per minutes). Default is `'rr'`.
     kind : str
-        The method to use (parameter of `scipy.interpolate.interp1d`).
+        The method to use (parameter of `scipy.interpolate.interp1d`). The
+        possible relevant methods for instantaneous heart rate are `'cubic'`
+        (defalut), `'linear'`, `'previous'` and `'next'`.
+    input_type : str
+        The type of input vector. Default is `"peaks"` (a boolean vector where
+        `1` represents the occurrence of R waves or systolic peaks).
+        Can also be `"rr_s"` or `"rr_ms"` for vectors of RR intervals, or
+        interbeat intervals (IBI), expressed in seconds or milliseconds
+        (respectively).
 
     Returns
     -------
@@ -111,34 +123,86 @@ def heart_rate(
     time : np.ndarray
         Time array.
 
+    Examples
+    --------
+    1. From a boolean vector of peaks position:
+
+    >>> from systole import import_ppg
+    >>> ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
+    >>> _, peaks = ppg_peaks(ppg)  # Find systolic peaks
+    >>> heartrate, time = heart_rate(peaks)  # Create continuous time series
+
+    2. From a vector of RR intervals (miliseconds):
+    >>> from systole import import_rr
+    >>> rr = import_rr().rr.values
+    >>> heartrate, time = heart_rate(rr, unit="bpm", input_type="rr_ms")
+
     Notes
     -----
-    The input should be in the form of a boolean vector encoding the position
-    of the peaks. The time and heart rate output will have the same
-    length. Values before the first peak and after the last peak will be filled
-    with NaN values.
+    If the input is in the `peaks` format, it should be a boolean vector
+    encoding the position of R wave, or systolic peaks.
+
+    If it is in the form of RR intervals, it can be expressed in seconds or
+    milliseconds, using `rr_s` and `rr_ms` parameters, respectively.
+
+    The time and heart rate output will have the same length. Values before
+    the first peak and after the last peak will be filled with NaN values.
     """
-    if isinstance(x, list):
-        x = np.asarray(x)
-    if not ((x == 1) | (x == 0)).all():
-        raise ValueError("Input vector should only contain 0 and 1")
+    x = np.asarray(x)
 
-    # Find peak indices
-    peaks_idx = np.where(x)[0]
+    # A peaks vector
+    if input_type == "peaks":
+        if ((x == 1) | (x == 0)).all():
 
-    # Create time vector (seconds):
-    time = (peaks_idx / sfreq)[1:]
+            # Find peak indices
+            peaks_idx = np.where(x)[0]
 
-    rr = np.diff(peaks_idx)
+            time = (peaks_idx / sfreq)[1:]  # Create time vector (seconds)
 
-    # R-R heartratevals (in miliseconds)
+            rr = np.diff(peaks_idx)
+
+            # Use the peaks vector as time input
+            new_time = np.arange(0, len(x) / sfreq, 1 / sfreq)
+
+        else:
+            raise ValueError("Input vector should only contain 0 and 1")
+
+    # A vector of peaks indexs
+    elif input_type == "peaks_idx":
+        if (np.diff(x) > 0).all():
+
+            time = (x / sfreq)[1:]  # Create time vector (seconds)
+
+            rr = np.diff(x)
+
+            # Use the peaks vector as time input
+            new_time = np.arange(0, time[-1], 1 / sfreq)
+
+        else:
+            raise ValueError("Input vector should only contain increasing integers")
+
+    # A vector of RR intervals
+    elif input_type == "rr_s":
+        if (x > 0).all():
+            time = np.cumsum(x)  # Create time vector (seconds)
+            rr = x * 1000
+            new_time = np.arange(0, time[-1], 1 / sfreq)
+        else:
+            raise ValueError("RR intervals cannot be less than 0")
+
+    elif input_type == "rr_ms":
+        if (x > 0).all():
+            time = np.cumsum(x) / 1000  # Create time vector (seconds)
+            rr = x
+            new_time = np.arange(0, time[-1], 1 / sfreq)
+        else:
+            raise ValueError("RR intervals cannot be less than 0")
+
+    # R-R intervals (in miliseconds)
     heartrate = (rr / sfreq) * 1000
     if unit == "bpm":
         # Beats per minutes
         heartrate = 60000 / heartrate
-
-    # Use the peaks vector as time input
-    new_time = np.arange(0, len(x) / sfreq, 1 / sfreq)
 
     if kind is not None:
         # Interpolate
@@ -223,8 +287,8 @@ def to_epochs(
     event_val : int
         The index of event of interest. Default is *1*.
     apply_baseline : int, tuple or None
-        If int or tuple, use the point or interval to apply a baseline (method:
-        mean). If *None*, no baseline is applied.
+        If int or tuple, use the point or interval to apply a baseline
+        (method: mean). If *None*, no baseline is applied.
     verbose : boolean
         If True, will return warnings if epoc are droped.
     reject : np.ndarray or None
@@ -421,28 +485,105 @@ def to_neighbour(
     return new_peaks
 
 
-def to_rr(peaks: Union[List[float], np.ndarray], sfreq: int = 1000) -> np.ndarray:
-    """Convert peaks index to intervals time series (RR, beat-to-beat...).
+def input_conversion(
+    x: Union[List[float], np.ndarray],
+    input_type: str,
+    output_type: str,
+    sfreq: int = 1000,
+) -> np.ndarray:
+    """Convert input time series to the desired output format.
+
+    This function is called by functions to convert time series to
+    a different format. The input and outputs can be:
+        * `peaks`: a boolean vector where `1` denote the detection of an event in the
+            time-series.
+        * `peaks_idx`: a 1d NumPy array of integers where each item is the sample index
+             of an event in the time series.
+        * `rr_ms`: a 1d NumPy array (integers or floats) of RR /peak-to-peak intervals
+            in milliseconds.
+        * `rr_s`: a 1d NumPy array (integers or floats) of RR /peak-to-peak intervals
+            in seconds.
 
     Parameters
     ----------
-    peaks : np.ndarray or list
-        Either a boolean array or sample index. Default is *boolean*. If the
-        input array does not only contain 0 or 1, will automatically try sample
-        index.
+    x : np.ndarray or list
+        The input time series.
+    input_type : str
+        The type of input provided (can be `"peaks"`, `"peaks_idx"`, `"rr_ms"`,
+        `"rr_s"`).
+    output_type : str
+        The type of desired output (can be `"peaks"`, `"peaks_idx"`, `"rr_ms"`,
+        `"rr_s"`).
     sfreq : int
-        The sampling frequency (default is 1000 Hz).
+        The sampling frequency (default is 1000 Hz). Only applies when `iput_type` is
+        `"peaks"` or `"peaks_idx"`.
 
     Returns
     -------
-    rr : np.ndarray
-        Interval time series (in miliseconds).
+    output : np.ndarray
+        The time series converted to the desired format.
     """
-    if isinstance(peaks, list):
-        peaks = np.asarray(peaks)
-    if ((peaks == 1) | (peaks == 0)).all():
-        rr = (np.diff(np.where(peaks)[0]) / sfreq) * 1000
-    else:
-        rr = (np.diff(peaks) / sfreq) * 1000
 
-    return rr
+    if output_type not in ["peaks", "peaks_idx", "rr_ms", "rr_s"]:
+        raise ValueError("Invalid output type.")
+
+    if input_type == output_type:
+        raise ValueError("Input type and output type are the same.")
+
+    x = np.asarray(x)
+
+    if input_type == "peaks":
+        if ((x == 1) | (x == 0)).all():
+            if output_type == "rr_ms":
+                output = (np.diff(np.where(x)[0]) / sfreq) * 1000
+            elif output_type == "rr_s":
+                output = np.diff(np.where(x)[0]) / sfreq
+            elif output_type == "peaks_idx":
+                output = np.where(x)[0]
+        else:
+            raise ValueError("The peaks vector should only contain boolean values.")
+
+    elif input_type == "peaks_idx":
+        if (np.diff(x) > 0).all() & (np.rint(x) == x).all():
+            if output_type == "rr_ms":
+                output = (np.diff(x) / sfreq) * 1000
+            elif output_type == "rr_s":
+                output = np.diff(x) / sfreq
+            elif output_type == "peaks":
+                output = np.zeros(x[-1] + 1, dtype=bool)
+                output[x] = True
+        else:
+            raise ValueError("Invalid peaks index provided.")
+
+    elif input_type == "rr_ms":
+        if (x > 0).all():
+            if output_type == "rr_s":
+                output = x / 1000
+            elif output_type == "peaks":
+                output = np.zeros(np.sum(x) + 1, dtype=bool)
+                output[np.cumsum(x)] = True
+                output[0] = True
+            elif output_type == "peaks_idx":
+                output = np.cumsum(x)
+                output = np.insert(output, 0, 0)
+        else:
+            raise ValueError("Invalid intervals provided.")
+
+    elif input_type == "rr_s":
+        if (x > 0).all():
+            if output_type == "rr_ms":
+                output = x * 1000
+            elif output_type == "peaks":
+                output = np.zeros(np.sum(x * 1000).astype(int) + 1, dtype=bool)
+                output[np.cumsum(x * 1000).astype(int)] = True
+                output[0] = True
+            elif output_type == "peaks_idx":
+                output = np.cumsum(x * 1000).astype(int)
+                output = np.insert(output, 0, 0)
+        else:
+            raise ValueError("Invalid intervals provided.")
+
+    else:
+        raise ValueError("Invalid input type.")
+
+    return output

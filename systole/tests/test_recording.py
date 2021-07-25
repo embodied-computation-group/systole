@@ -6,7 +6,6 @@ import threading
 import unittest
 from unittest import TestCase
 
-import matplotlib
 import numpy as np
 
 from systole import serialSim
@@ -34,15 +33,9 @@ class TestRecording(TestCase):
         # Simulate events in recording
         for idx in np.random.choice(len(oxi.recording), 5):
             oxi.channels["Channel_0"][idx] = 1
-        ax = oxi.plot_events()
-        assert isinstance(ax, matplotlib.axes.Axes)
+        oxi.plot_events()
 
-        ax = oxi.plot_raw()
-        assert isinstance(ax[0], matplotlib.axes.Axes)
-        assert isinstance(ax[1], matplotlib.axes.Axes)
-
-        ax = oxi.plot_recording()
-        assert isinstance(ax, matplotlib.axes.Axes)
+        oxi.plot_raw()
 
         oxi.serial.ppg = [1000]  # Insert error in recording
         with self.assertRaises(ValueError):

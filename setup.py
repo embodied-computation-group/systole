@@ -1,36 +1,27 @@
-# Copyright (C) 2019 Nicolas Legrand
 import os
+import codecs
+from setuptools import find_packages, setup
+
+PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
+REQUIREMENTS_FILE = os.path.join(PROJECT_ROOT, "requirements.txt")
 
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
-DESCRIPTION = """Psychophysiology with Python"""
+def get_requirements():
+    with codecs.open(REQUIREMENTS_FILE) as buff:
+        return buff.read().splitlines()
+
+
+DESCRIPTION = """Cardiac signal analysis with Python"""
 
 DISTNAME = "systole"
 MAINTAINER = "Nicolas Legrand"
 MAINTAINER_EMAIL = "nicolas.legrand@cfin.au.dk"
-VERSION = "0.1.3"
+VERSION = "0.2.0a"
 
-INSTALL_REQUIRES = [
-    "numpy>=1.17",
-    "scipy>=1.3",
-    "pandas>=0.24",
-    "matplotlib>=3.0.2",
-    "seaborn>=0.9.0",
-    "pyserial>=3.4",
-    "py-ecg-detectors==1.0.2",
-]
-
-PACKAGES = ["systole", "systole.datasets"]
-
-try:
-    from setuptools import setup
-
-    _has_setuptools = True
-except ImportError:
-    from distutils.core import setup
 
 if __name__ == "__main__":
 
@@ -45,7 +36,7 @@ if __name__ == "__main__":
         long_description_content_type="text/x-rst",
         license="GPL-3.0",
         version=VERSION,
-        install_requires=INSTALL_REQUIRES,
+        install_requires=get_requirements(),
         include_package_data=True,
-        packages=PACKAGES,
+        packages=find_packages(),
     )

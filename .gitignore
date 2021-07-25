@@ -1,3 +1,11 @@
 *.pyc
 *-checkpoint.ipynb
 mypyreports/
+build/
+dist/
+systole.egg-info/
+htmlcov/
+.coverage
+.vscode/
+source/auto_examples
+source/generated
