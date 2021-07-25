@@ -135,6 +135,7 @@ Contributors
 ============
 
 - Jan C. Brammer (jan.c.brammer@gmail.com)
+- Peter Doggart (peter.doggart@pulseai.io)
 
 Acknowledgements
 ================

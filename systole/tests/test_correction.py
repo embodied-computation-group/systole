@@ -50,12 +50,12 @@ class TestDetection(TestCase):
         rr = simulate_rr()  # Import RR time series
         correction = correct_rr(rr)
         correction = correct_rr(list(rr))
-        assert len(correction["clean_rr"]) == 352
+        assert len(correction["clean_rr"]) == 350
         assert correction["ectopic"] == 5
         assert correction["missed"] == 1
         assert correction["extra"] == 1
         assert correction["long"] == 1
-        assert correction["short"] == 3
+        assert correction["short"] == 2
 
     def test_correct_peaks(self):
         """Test correct_peaks function"""
