@@ -86,15 +86,19 @@ exclude_patterns = []
 html_theme = "pydata_sphinx_theme"
 html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 html_theme_options = {
-    'icon_links': [
-        dict(name='GitHub',
-             url='https://github.com/embodied-computation-group/systole',
-             icon='fab fa-github-square'),
-        dict(name='Twitter',
-             url='https://twitter.com/visceral_mind',
-             icon='fab fa-twitter-square'),
+    "icon_links": [
+        dict(
+            name="GitHub",
+            url="https://github.com/embodied-computation-group/systole",
+            icon="fab fa-github-square",
+        ),
+        dict(
+            name="Twitter",
+            url="https://twitter.com/visceral_mind",
+            icon="fab fa-twitter-square",
+        ),
     ],
-    "logo_link": "https://systole-docs.github.io/"
+    "logo_link": "https://systole-docs.github.io/",
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,

@@ -55,6 +55,6 @@ ax[1].plot(times, oxi.peaks, "#55a868")
 ax[1].set_title("Peaks vector")
 ax[1].set_ylabel("Peak\n detection")
 
-plot_rr(oxi.peaks, input_type='peaks', ax=ax[2])
+plot_rr(oxi.peaks, input_type="peaks", ax=ax[2])
 
 plt.tight_layout()
