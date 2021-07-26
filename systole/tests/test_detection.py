@@ -49,8 +49,8 @@ class TestDetection(TestCase):
         for method in [
             "christov",
             "engelse-zeelenberg",
+            "hamilton",
             "pan-tompkins",
-            "wavelet-transform",
             "moving-average",
         ]:
             _, peaks = ecg_peaks(
