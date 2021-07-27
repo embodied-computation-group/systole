@@ -80,7 +80,7 @@ def plot_raw(
 
     See also
     --------
-    plot_events, plot_rr
+    plot_events, plot_subspaces, plot_events, plot_psd, plot_oximeter, plot_raw
 
     Examples
     --------

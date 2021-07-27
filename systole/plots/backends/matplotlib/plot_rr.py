@@ -19,6 +19,7 @@ def plot_rr(
     artefacts: Optional[Dict[str, np.ndarray]] = None,
     input_type: str = "peaks",
     ax: Optional[Axes] = None,
+    show_limits: bool = True,
     figsize: Tuple[float, float] = (13, 5),
 ) -> Axes:
     """Plot continuous or discontinuous RR intervals time series.
@@ -26,15 +27,15 @@ def plot_rr(
     Parameters
     ----------
     rr : np.ndarray
-        1d numpy array of RR intervals (in seconds or miliseconds) or peaks
-        vector (boolean array).
+        1d numpy array of RR intervals (in seconds or miliseconds) or peaks vector
+        (boolean array).
     unit : str
-        The heart rate unit in use. Can be `'rr'` (R-R intervals, in ms)
-        or `'bpm'` (beats per minutes). Default is `'rr'`.
+        The heart rate unit in use. Can be `'rr'` (R-R intervals, in ms)or `'bpm'`
+        (beats per minutes). Default is `'rr'`.
     kind : str
-        The method to use (parameter of `scipy.interpolate.interp1d`). The
-        possible relevant methods for instantaneous heart rate are `'cubic'`
-        (defalut), `'linear'`, `'previous'` and `'next'`.
+        The method to use (parameter of `scipy.interpolate.interp1d`). The possible
+        relevant methods for instantaneous heart rate are `'cubic'` (defalut),
+        `'linear'`, `'previous'` and `'next'`.
     line : bool
         If `True`, plot the interpolated instantaneous heart rate.
     points : bool
@@ -43,8 +44,13 @@ def plot_rr(
     artefacts : dict
         Dictionnary storing the parameters of RR artefacts rejection.
     input_type : str
-        The type of input vector. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"`,
-        or `"rr_s"`. Default to `"peaks"`.
+        The type of input vector. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"`, or
+        `"rr_s"`. Default to `"peaks"`.
+    ax : :class:`matplotlib.axes.Axes` or None
+        Where to draw the plot. Default is *None* (create a new figure).
+    show_limits : bool
+        Use shaded areas to represent the range of physiologically impossible R-R
+        intervals. Defaults to `True`.
     figsize : tuple
         Figure size. Default is `(13, 5)`.
 
@@ -151,6 +157,15 @@ def plot_rr(
             color="#6c0073",
             edgecolors="black",
         )
+
+    # Show physiologically impossible ranges
+    if show_limits is True:
+        high, low = (3000, 200) if unit == "rr" else (20, 300)
+        if (ibi > high).any() | (ibi < low).any():
+            ylim_low, ylim_high = ax.get_ylim()
+            ax.axhspan(ymin=ylim_low, ymax=low, color="r", alpha=0.1)
+            ax.axhspan(ymin=high, ymax=ylim_high, color="r", alpha=0.1)
+            ax.set_ylim(ylim_low, ylim_high)
 
     ax.set_title("Instantaneous heart rate")
     ax.set_xlabel("Time")

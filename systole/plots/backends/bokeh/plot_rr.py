@@ -4,7 +4,7 @@ from typing import Dict, Optional
 
 import numpy as np
 import pandas as pd
-from bokeh.models import Circle, Line
+from bokeh.models import BoxAnnotation, Circle, Line
 from bokeh.models.tools import HoverTool
 from bokeh.plotting import ColumnDataSource, figure
 from bokeh.plotting.figure import Figure
@@ -20,8 +20,9 @@ def plot_rr(
     points: bool = True,
     artefacts: Optional[Dict[str, np.ndarray]] = None,
     input_type: str = "peaks",
+    show_limits: bool = True,
+    ax=None,
     figsize: int = 200,
-    **kwarg,
 ) -> Figure:
     """Plot continuous or discontinuous RR intervals time series.
 
@@ -47,6 +48,11 @@ def plot_rr(
     input_type : str
         The type of input vector. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"`,
         or `"rr_s"`. Default to `"peaks"`.
+    show_limits : bool
+        Use shaded areas to represent the range of physiologically impossible R-R
+        intervals. Defaults to `True`.
+    ax : None
+        Only relevant when using `backend="matplotlib"`.
     figsize : int
         The height of the figure. Default is `200`.
 
@@ -219,5 +225,13 @@ def plot_rr(
 
         # Add hover tool
         p1.add_tools(hover)
+
+    # Show physiologically impossible ranges
+    if show_limits is True:
+        high, low = (3000, 200) if unit == "rr" else (20, 300)
+        upper_bound = BoxAnnotation(bottom=high, fill_alpha=0.1, fill_color="red")
+        p1.add_layout(upper_bound)
+        lower_bound = BoxAnnotation(top=low, fill_alpha=0.1, fill_color="red")
+        p1.add_layout(lower_bound)
 
     return p1
