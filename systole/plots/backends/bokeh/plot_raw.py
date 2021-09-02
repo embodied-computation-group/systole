@@ -126,6 +126,7 @@ def plot_raw(
             input_type="peaks",
             backend="bokeh",
             figsize=figsize,
+            slider=False,
             show_artefacts=show_artefacts,
         )
         instantaneous_hr.x_range = raw.x_range

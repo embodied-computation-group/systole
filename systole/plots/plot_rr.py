@@ -18,6 +18,7 @@ def plot_rr(
     input_type: str = "peaks",
     show_artefacts: bool = False,
     show_limits: bool = True,
+    slider: bool = True,
     ax: Optional[Axes] = None,
     figsize: Optional[Union[Tuple[float, float], int]] = None,
     backend: str = "matplotlib",
@@ -53,6 +54,9 @@ def plot_rr(
     show_limits : bool
         Use shaded areas to represent the range of physiologically impossible R-R
         intervals. Defaults to `True`.
+    slider : bool
+        If `True`, add a slider to zoom in/out in the signal (only working with
+        bokeh backend).
     ax : :class:`matplotlib.axes.Axes` or None
         Where to draw the plot. Default is *None* (create a new figure).
     figsize : tuple, int or None
@@ -75,46 +79,52 @@ def plot_rr(
 
     .. jupyter-execute::
 
-        from systole import import_rr
-        from systole.plots import plot_rr
+       from systole import import_rr
+       from systole.plots import plot_rr
 
-        # Import R-R intervals time series
-        rr = import_rr().rr.values
+       # Import R-R intervals time series
+       rr = import_rr().rr.values
 
     Using Matplotlib backend.
 
     .. jupyter-execute::
-        plot_rr(rr=rr, input_type="rr_ms");
+
+       plot_rr(rr=rr, input_type="rr_ms")
 
     Change the default unit to beats per minute (BPM).
 
     .. jupyter-execute::
-        plot_rr(rr=rr, input_type="rr_ms", unit="bpm");
+
+       plot_rr(rr=rr, input_type="rr_ms", unit="bpm")
 
     Only plot time points.
 
     .. jupyter-execute::
-        plot_rr(rr=rr, input_type="rr_ms", unit="bpm", line=False);
+
+       plot_rr(rr=rr, input_type="rr_ms", unit="bpm", line=False);
 
     Only plot the interpolated instantaneous heart rate variability.
 
     .. jupyter-execute::
-        plot_rr(rr=rr, input_type="rr_ms", unit="bpm", points=False);
+
+       plot_rr(rr=rr, input_type="rr_ms", unit="bpm", points=False);
 
     Using the Bokeh backend.
 
     .. jupyter-execute::
-        from bokeh.plotting import show
-        show(
-            plot_rr(rr=rr, input_type="rr_ms", backend="bokeh")
-        )
+
+       from bokeh.plotting import show
+       show(
+           plot_rr(rr=rr, input_type="rr_ms", backend="bokeh")
+       )
 
     Highlight the RR artefacts and outliers.
 
     .. jupyter-execute::
-    show(
-        plot_rr(rr=rr, input_type="rr_ms", backend="bokeh", show_artefacts=True);
-    )
+
+       show(
+           plot_rr(rr=rr, input_type="rr_ms", backend="bokeh", show_artefacts=True)
+       )
 
     """
 
@@ -146,6 +156,7 @@ def plot_rr(
         "artefacts": artefacts,
         "input_type": input_type,
         "show_limits": show_limits,
+        "slider": slider,
         "ax": ax,
         "figsize": figsize,
     }

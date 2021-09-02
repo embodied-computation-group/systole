@@ -4,8 +4,9 @@ from typing import Dict, Optional
 
 import numpy as np
 import pandas as pd
-from bokeh.models import BoxAnnotation, Circle, Line
-from bokeh.models.tools import HoverTool
+from bokeh.layouts import column
+from bokeh.models import BoxAnnotation, Circle, Line, Range1d
+from bokeh.models.tools import HoverTool, RangeTool
 from bokeh.plotting import ColumnDataSource, figure
 from bokeh.plotting.figure import Figure
 
@@ -21,6 +22,7 @@ def plot_rr(
     artefacts: Optional[Dict[str, np.ndarray]] = None,
     input_type: str = "peaks",
     show_limits: bool = True,
+    slider: bool = True,
     ax=None,
     figsize: int = 200,
 ) -> Figure:
@@ -51,6 +53,9 @@ def plot_rr(
     show_limits : bool
         Use shaded areas to represent the range of physiologically impossible R-R
         intervals. Defaults to `True`.
+    slider : bool
+        If `True`, add a slider to zoom in/out in the signal (only working with
+        bokeh backend).
     ax : None
         Only relevant when using `backend="matplotlib"`.
     figsize : int
@@ -234,4 +239,37 @@ def plot_rr(
         lower_bound = BoxAnnotation(top=low, fill_alpha=0.1, fill_color="red")
         p1.add_layout(lower_bound)
 
-    return p1
+    cols = (p1,)
+
+    if slider is True:
+        select = figure(
+            title="Select the time window",
+            y_range=p1.y_range,
+            y_axis_type=None,
+            plot_height=int(figsize * 0.5),
+            x_axis_type="datetime",
+            tools="",
+            toolbar_location=None,
+            background_fill_color="#efefef",
+        )
+
+        if line is True:
+            select.line("time", "hr", source=line_source)
+            p1.x_range = Range1d(start=time[0], end=time[-1])
+        else:
+            select.circle("time", unit, source=points_source)
+            p1.x_range = Range1d(start=rr_idx[0], end=rr_idx[-1])
+        range_tool = RangeTool(x_range=p1.x_range)
+        range_tool.overlay.fill_color = "navy"
+        range_tool.overlay.fill_alpha = 0.2
+
+        select.ygrid.grid_line_color = None
+        select.add_tools(range_tool)
+        select.toolbar.active_multi = range_tool
+
+        cols += (select,)  # type: ignore
+
+    if len(cols) > 1:
+        return column(*cols, sizing_mode="stretch_width")
+    else:
+        return cols[0]

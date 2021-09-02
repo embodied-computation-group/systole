@@ -85,7 +85,15 @@ class TestPlots(TestCase):
         """Test plot_rr function"""
         rr = import_rr().rr
         for backend in ["matplotlib", "bokeh"]:
-            plot_rr(rr, backend=backend, input_type="rr_ms", show_artefacts=True)
+            plot_rr(
+                rr,
+                backend=backend,
+                input_type="rr_ms",
+                show_artefacts=True,
+                slider=True,
+            )
+            plot_rr(rr, backend=backend, input_type="rr_ms", points=False)
+            plot_rr(rr, backend=backend, input_type="rr_ms", line=False)
 
     def test_plot_shortlong(self):
         """Test plot_shortlong function"""

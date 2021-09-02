@@ -20,6 +20,7 @@ def plot_rr(
     input_type: str = "peaks",
     ax: Optional[Axes] = None,
     show_limits: bool = True,
+    slider=None,
     figsize: Tuple[float, float] = (13, 5),
 ) -> Axes:
     """Plot continuous or discontinuous RR intervals time series.
@@ -51,6 +52,9 @@ def plot_rr(
     show_limits : bool
         Use shaded areas to represent the range of physiologically impossible R-R
         intervals. Defaults to `True`.
+    slider : bool
+        If `True`, add a slider to zoom in/out in the signal (only working with
+        bokeh backend).
     figsize : tuple
         Figure size. Default is `(13, 5)`.
 
@@ -161,11 +165,18 @@ def plot_rr(
     # Show physiologically impossible ranges
     if show_limits is True:
         high, low = (3000, 200) if unit == "rr" else (20, 300)
-        if (ibi > high).any() | (ibi < low).any():
-            ylim_low, ylim_high = ax.get_ylim()
-            ax.axhspan(ymin=ylim_low, ymax=low, color="r", alpha=0.1)
-            ax.axhspan(ymin=high, ymax=ylim_high, color="r", alpha=0.1)
-            ax.set_ylim(ylim_low, ylim_high)
+        if points is True:
+            if (ibi > high).any() | (ibi < low).any():
+                ylim_low, ylim_high = ax.get_ylim()
+                ax.axhspan(ymin=ylim_low, ymax=low, color="r", alpha=0.1)
+                ax.axhspan(ymin=high, ymax=ylim_high, color="r", alpha=0.1)
+                ax.set_ylim(ylim_low, ylim_high)
+        else:
+            if (hr > high).any() | (hr < low).any():
+                ylim_low, ylim_high = ax.get_ylim()
+                ax.axhspan(ymin=ylim_low, ymax=low, color="r", alpha=0.1)
+                ax.axhspan(ymin=high, ymax=ylim_high, color="r", alpha=0.1)
+                ax.set_ylim(ylim_low, ylim_high)
 
     ax.set_title("Instantaneous heart rate")
     ax.set_xlabel("Time")
