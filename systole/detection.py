@@ -85,11 +85,12 @@ def ppg_peaks(
     References
     ----------
     .. [1] van Gent, P., Farah, H., van Nes, N. and van Arem, B., 2019.
-    Analysing Noisy Driver Physiology Real-Time Using Off-the-Shelf Sensors:
-    Heart Rate Analysis Software from the Taking the Fast Lane Project. Journal
-    of Open Research Software, 7(1), p.32. DOI: http://doi.org/10.5334/jors.241
+       Analysing Noisy Driver Physiology Real-Time Using Off-the-Shelf Sensors:
+       Heart Rate Analysis Software from the Taking the Fast Lane Project. Journal
+       of Open Research Software, 7(1), p.32. DOI: http://doi.org/10.5334/jors.241
 
     """
+
     x = np.asarray(x)
 
     # Interpolate
@@ -205,9 +206,10 @@ def ecg_peaks(
     References
     ----------
     .. [1] Howell, L., Porr, B. Popular ECG R peak detectors written in
-    python. DOI: 10.5281/zenodo.3353396
+       python. DOI: 10.5281/zenodo.3353396
 
     """
+
     x = np.asarray(x)
 
     # Interpolate

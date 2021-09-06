@@ -8,7 +8,6 @@ import numpy as np
 from systole import import_rr
 from systole.correction import (
     correct_extra,
-    correct_extra_peaks,
     correct_missed,
     correct_missed_peaks,
     correct_peaks,
@@ -65,27 +64,21 @@ class TestDetection(TestCase):
         assert len(peaks_correction["clean_peaks"]) == 280154
         assert peaks_correction["missed"] == 1
         assert peaks_correction["extra"] == 1
-        assert peaks_correction["ectopic"] == 0
-        assert peaks_correction["long"] == 0
-        assert peaks_correction["short"] == 0
-
-    def test_correct_extra_peaks(self):
-        """Test correct_extra_peaks function"""
-        peaks = simulate_rr(as_peaks=True)
-        # RR time series to peaks boolean vector
-        peaks_correction = correct_extra_peaks(peaks, 20)
-        peaks_correction = correct_extra_peaks(list(peaks), 20)
-        assert len(peaks_correction) == len(peaks)
-        assert sum(peaks_correction) == sum(peaks) - 1
 
     def test_correct_missed_peaks(self):
         """Test correct_missed_peaks function"""
-        peaks = simulate_rr(as_peaks=True)
-        # RR time series to peaks boolean vector
-        peaks_correction = correct_missed_peaks(peaks, 20)
-        peaks_correction = correct_missed_peaks(list(peaks), 20)
-        assert len(peaks_correction) == len(peaks)
-        assert sum(peaks_correction) == sum(peaks) + 1
+        np.random.seed(123)
+        rr = np.random.normal(1000, 200, 10).astype("int")
+        peaks = np.zeros(10000)
+        peaks[np.cumsum(rr)] = 1
+        assert np.where(peaks)[0].sum() == 52029
+
+        peaks[3735] = 0
+        peaks = correct_missed_peaks(peaks, idx=4619)
+        assert np.where(peaks)[0].sum() == 52122
+
+        with self.assertRaises(ValueError):
+            correct_missed_peaks(peaks, idx=4610)
 
 
 if __name__ == "__main__":

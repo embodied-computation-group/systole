@@ -6,6 +6,7 @@ import numpy as np
 from scipy.interpolate import interp1d
 
 from systole.detection import rr_artefacts
+from systole.utils import input_conversion
 
 
 def correct_extra(rr: Union[List, np.ndarray], idx: int) -> np.ndarray:
@@ -202,6 +203,7 @@ def correct_rr(
 
 def correct_peaks(
     peaks: Union[List, np.ndarray],
+    input_type: str = "peaks",
     extra_correction: bool = True,
     missed_correction: bool = True,
 ) -> Dict[str, Union[int, np.ndarray]]:
@@ -211,6 +213,12 @@ def correct_peaks(
     ----------
     peaks : 1d array-like
         Boolean vector of peaks.
+    input_type : str
+            The type of input vector. Defaults to `"rr_ms"` for vectors of RR
+            intervals, or  interbeat intervals (IBI), expressed in milliseconds.
+            Can also be a boolean vector where `1` represents the occurrence of
+            R waves or systolic peakspeaks vector `"rr_s"` or IBI expressed in
+            seconds.
 
     Returns
     -------
@@ -219,105 +227,100 @@ def correct_peaks(
 
         * clean_peaks: 1d array-like
             The corrected boolean time-serie.
-        * ectopic: int
-            The number of ectopic beats corrected.
-        * short: int
-            The number of short beats corrected.
-        * long: int
-            The number of long beats corrected.
         * extra: int
             The number of extra beats corrected.
         * missed: int
             The number of missed beats corrected.
+
+    See also
+    --------
+    correct_rr
+
+    Notes
+    -----
+    This function wil operate at the `peaks` vector level to keep the length of the
+    signal constant after peaks correction.
+
     """
-    if isinstance(peaks, list):
-        peaks = np.asarray(peaks, dtype=bool)
+    peaks = np.asarray(peaks)
+
+    if input_type != "peaks":
+        peaks = input_conversion(peaks, input_type, output_type="peaks")
 
     clean_peaks = peaks.copy()
-    nEctopic, nShort, nLong, nExtra, nMissed = 0, 0, 0, 0, 0
+    nExtra, nMissed = 0, 0
 
-    artefacts = rr_artefacts(np.diff(np.where(clean_peaks)[0]))
+    artefacts = rr_artefacts(peaks, input_type="peaks")
+    peaks_idx = np.where(peaks)[0][1:]
 
-    # Correct missed beats
+    # Convert the RR interval idx to sample idx
+    if extra_correction:
+        extra_idx = peaks_idx[np.where(artefacts["extra"])[0]]
     if missed_correction:
-        if np.any(artefacts["missed"]):
-            for this_id in np.where(artefacts["missed"])[0]:
-                this_id += nMissed
-                clean_peaks = correct_missed_peaks(clean_peaks, this_id)
-                nMissed += 1
-        artefacts = rr_artefacts(np.diff(np.where(clean_peaks)[0]))
+        missed_idx = peaks_idx[np.where(artefacts["missed"])[0]]
 
     # Correct extra beats
     if extra_correction:
         if np.any(artefacts["extra"]):
-            for this_id in np.where(artefacts["extra"])[0]:
-                this_id -= nExtra
-                clean_peaks = correct_extra_peaks(clean_peaks, this_id)
-                nExtra += 1
-        artefacts = rr_artefacts(np.diff(np.where(clean_peaks)[0]))
+
+            # Number of extra peaks to correct
+            nExtra = artefacts["extra"].sum()
+            print(f"... correcting {artefacts['extra'].sum()} extra peak(s).")
+
+            # Removing peak n+1 to correct RR interval n
+            clean_peaks[extra_idx] = False
+
+    # Correct missed beats
+    if missed_correction:
+        if np.any(artefacts["missed"]):
+
+            # Number of missed peaks to correct
+            nMissed = artefacts["missed"].sum()
+            print(f"... correcting {artefacts['missed'].sum()} missed peak(s).")
+
+            # Correct missed peaks using sample index
+            for this_idx in missed_idx:
+                clean_peaks = correct_missed_peaks(clean_peaks, this_idx)
 
     return {
         "clean_peaks": clean_peaks,
-        "ectopic": nEctopic,
-        "short": nShort,
-        "long": nLong,
         "extra": nExtra,
         "missed": nMissed,
     }
 
 
 def correct_missed_peaks(peaks: Union[List, np.ndarray], idx: int) -> np.ndarray:
-    """Correct missed beats by adding a new RR interval.
+    """Correct missed peaks in boolean peak vector.
+
+    The new peak is placed in the middle of the previous interval.
 
     Parameters
     ----------
     peaks : 1d array-like
         Boolean vector of peaks.
     idx : int
-        Index of the missed RR interval.
+        Index of the peaks corresponding to the missed RR interval. The new peaks will
+        be placed between this one and the previous one.
 
     Returns
     -------
     clean_peaks : 1d array-like
         Corrected boolean vector of peaks.
     """
-    if isinstance(peaks, list):
-        peaks = np.asarray(peaks, dtype=bool)
+    peaks = np.asarray(peaks, dtype=bool)
+
+    if not peaks[idx]:
+        raise (ValueError("The index provided does not match with a peaks."))
 
     clean_peaks = peaks.copy()
-    index = np.where(clean_peaks)[0]
+
+    # The index of the previous peak
+    previous_idx = np.where(clean_peaks[:idx])[0][-1]
 
     # Estimate new interval
-    interval = int(round((index[idx + 1] - index[idx]) / 2))
+    interval = int((idx - previous_idx) / 2)
 
     # Add peak in vector
-    clean_peaks[index[idx] + interval] = True
-
-    return clean_peaks
-
-
-def correct_extra_peaks(peaks: Union[List, np.ndarray], idx: int) -> np.ndarray:
-    """Correct extra beats by removing peak.
-
-    Parameters
-    ----------
-    peaks : 1d array-like
-        Boolean vector of peaks.
-    idx : int
-        Index of the missed RR interval.
-
-    Returns
-    -------
-    clean_peaks : 1d array-like
-        Corrected boolean vector of peaks.
-    """
-    if isinstance(peaks, list):
-        peaks = np.asarray(peaks, dtype=bool)
-
-    clean_peaks = peaks.copy()
-    index = np.where(clean_peaks)[0]
-
-    # Remove peak in vector
-    clean_peaks[index[idx]] = False
+    clean_peaks[previous_idx + interval] = True
 
     return clean_peaks

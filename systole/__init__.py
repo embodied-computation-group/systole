@@ -1,4 +1,3 @@
-# Raise a warning if a newer version of Systole is available
 from .correction import *
 from .datasets import *
 from .detection import *
