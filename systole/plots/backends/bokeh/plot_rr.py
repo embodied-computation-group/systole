@@ -10,8 +10,6 @@ from bokeh.models.tools import HoverTool, RangeTool
 from bokeh.plotting import ColumnDataSource, figure
 from bokeh.plotting.figure import Figure
 
-from systole.utils import heart_rate
-
 
 def plot_rr(
     rr: np.ndarray,
@@ -81,67 +79,55 @@ def plot_rr(
         tools="pan,wheel_zoom,box_zoom,box_select,reset,save",
     )
 
+    # Instantaneous Heart Rate - Peaks
+    if input_type == "rr_ms":
+        ibi = np.array(rr)
+        rr_idx = pd.to_datetime(np.cumsum(ibi), unit="ms", origin="unix")
+    elif input_type == "rr_s":
+        ibi = np.array(rr) * 1000
+        rr_idx = pd.to_datetime(np.cumsum(ibi), unit="ms", origin="unix")
+    elif input_type == "peaks":
+        ibi = np.diff(np.where(rr)[0])
+        rr_idx = pd.to_datetime(np.where(rr)[0][1:], unit="ms", origin="unix")
+    elif input_type == "peaks_idx":
+        ibi = np.diff(rr)
+        rr_idx = pd.to_datetime(rr[1:], unit="ms", origin="unix")
+
+    if artefacts is None:
+        outliers = np.zeros(len(ibi), dtype=bool)
+    else:
+        outliers = (
+            artefacts["ectopic"]
+            | artefacts["short"]
+            | artefacts["long"]
+            | artefacts["extra"]
+            | artefacts["missed"]
+        )
+
+    points_source = ColumnDataSource(
+        data=dict(
+            time=rr_idx,
+            rr=ibi,
+            bpm=60000 / ibi,
+            nbeat=np.arange(1, len(rr_idx) + 1),
+            outliers=outliers,
+        )
+    )
+
     if line is True:
-
-        # Extract instantaneous heart rate
-        hr, time = heart_rate(rr, unit=unit, kind=kind, input_type=input_type)
-
-        # Convert to datetime format
-        time = pd.to_datetime(time, unit="s", origin="unix")
-
-        # Downsample to 10Hz for plotting
-        time = time[::100]
-        hr = hr[::100]
-
-        line_source = ColumnDataSource(data=dict(time=time, hr=hr, bpm=60000 / hr))
 
         # Instantaneous Heart Rate - Lines
         linePlot = Line(
             x="time",
-            y="hr",
+            y=unit,
             line_color="#4c72b0",
         )
         p1.add_glyph(
-            line_source,
+            points_source,
             linePlot,
         )
 
     if points is True:
-
-        # Instantaneous Heart Rate - Peaks
-        if input_type == "rr_ms":
-            ibi = np.array(rr)
-            rr_idx = pd.to_datetime(np.cumsum(ibi), unit="ms", origin="unix")
-        elif input_type == "rr_s":
-            ibi = np.array(rr) * 1000
-            rr_idx = pd.to_datetime(np.cumsum(ibi), unit="ms", origin="unix")
-        elif input_type == "peaks":
-            ibi = np.diff(np.where(rr)[0])
-            rr_idx = pd.to_datetime(np.where(rr)[0][1:], unit="ms", origin="unix")
-        elif input_type == "peaks_idx":
-            ibi = np.diff(rr)
-            rr_idx = pd.to_datetime(rr[1:], unit="ms", origin="unix")
-
-        if artefacts is None:
-            outliers = np.zeros(len(ibi), dtype=bool)
-        else:
-            outliers = (
-                artefacts["ectopic"]
-                | artefacts["short"]
-                | artefacts["long"]
-                | artefacts["extra"]
-                | artefacts["missed"]
-            )
-
-        points_source = ColumnDataSource(
-            data=dict(
-                time=rr_idx,
-                rr=ibi,
-                bpm=60000 / ibi,
-                nbeat=np.arange(1, len(rr_idx) + 1),
-                outliers=outliers,
-            )
-        )
 
         # Normal RR intervals
         circlePlot = Circle(
@@ -233,7 +219,7 @@ def plot_rr(
 
     # Show physiologically impossible ranges
     if show_limits is True:
-        high, low = (3000, 200) if unit == "rr" else (20, 300)
+        high, low = (3000, 200) if unit == "rr" else (300, 20)
         upper_bound = BoxAnnotation(bottom=high, fill_alpha=0.1, fill_color="red")
         p1.add_layout(upper_bound)
         lower_bound = BoxAnnotation(top=low, fill_alpha=0.1, fill_color="red")
@@ -254,8 +240,8 @@ def plot_rr(
         )
 
         if line is True:
-            select.line("time", "hr", source=line_source)
-            p1.x_range = Range1d(start=time[0], end=time[-1])
+            select.line("time", "hr", source=points_source)
+            p1.x_range = Range1d(start=rr_idx[0], end=rr_idx[-1])
         else:
             select.circle("time", unit, source=points_source)
             p1.x_range = Range1d(start=rr_idx[0], end=rr_idx[-1])
