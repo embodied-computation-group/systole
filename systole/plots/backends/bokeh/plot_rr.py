@@ -5,7 +5,7 @@ from typing import Dict, Optional
 import numpy as np
 import pandas as pd
 from bokeh.layouts import column
-from bokeh.models import BoxAnnotation, Circle, Line, Range1d
+from bokeh.models import BoxAnnotation, CDSView, Circle, IndexFilter, Line, Range1d
 from bokeh.models.tools import HoverTool, RangeTool
 from bokeh.plotting import ColumnDataSource, figure
 from bokeh.plotting.figure import Figure
@@ -140,7 +140,7 @@ def plot_rr(
         circlePlot_selected = Circle(
             x="time",
             y=unit,
-            size=15,
+            size=6,
             fill_color="firebrick",
             line_color="grey",
         )
@@ -165,54 +165,89 @@ def plot_rr(
         if artefacts is not None:
 
             # Short RR intervals
-            p1.circle(
-                x=rr_idx[artefacts["short"]],
-                y=ibi[artefacts["short"]],
-                size=10,
-                legend_label="Short intervals",
-                fill_color="#c56c5e",
-                line_color="black",
-            )
+            if artefacts["short"].any():
+                short_view = CDSView(
+                    source=points_source,
+                    filters=[IndexFilter(np.where(artefacts["short"])[0])],
+                )
+                p1.circle(
+                    x="time",
+                    y=unit,
+                    size=10,
+                    legend_label="Short intervals",
+                    fill_color="#c56c5e",
+                    line_color="black",
+                    source=points_source,
+                    view=short_view,
+                )
 
             # Long RR intervals
-            p1.circle(
-                x=rr_idx[artefacts["long"]],
-                y=ibi[artefacts["long"]],
-                size=10,
-                legend_label="Long intervals",
-                fill_color="#9ac1d4",
-                line_color="black",
-            )
+            if artefacts["long"].any():
+                long_view = CDSView(
+                    source=points_source,
+                    filters=[IndexFilter(np.where(artefacts["long"])[0])],
+                )
+                p1.circle(
+                    x="time",
+                    y=unit,
+                    size=10,
+                    legend_label="Long intervals",
+                    fill_color="#9ac1d4",
+                    line_color="black",
+                    source=points_source,
+                    view=long_view,
+                )
 
             # Missed RR intervals
-            p1.square(
-                x=rr_idx[artefacts["missed"]],
-                y=ibi[artefacts["missed"]],
-                size=10,
-                legend_label="Missed intervals",
-                fill_color="#2f5f91",
-                line_color="black",
-            )
+            if artefacts["missed"].any():
+                missed_view = CDSView(
+                    source=points_source,
+                    filters=[IndexFilter(np.where(artefacts["missed"])[0])],
+                )
+                p1.square(
+                    x="time",
+                    y=unit,
+                    size=10,
+                    legend_label="Missed intervals",
+                    fill_color="#2f5f91",
+                    line_color="black",
+                    source=points_source,
+                    view=missed_view,
+                )
 
             # Extra RR intervals
-            p1.square(
-                x=rr_idx[artefacts["extra"]],
-                y=ibi[artefacts["extra"]],
-                size=10,
-                legend_label="Extra intervals",
-                fill_color="#9d2b39",
-                line_color="black",
-            )
+            if artefacts["extra"].any():
+                extra_view = CDSView(
+                    source=points_source,
+                    filters=[IndexFilter(np.where(artefacts["extra"])[0])],
+                )
+                p1.square(
+                    x="time",
+                    y=unit,
+                    size=10,
+                    legend_label="Extra intervals",
+                    fill_color="#9d2b39",
+                    line_color="black",
+                    source=points_source,
+                    view=extra_view,
+                )
 
             # Ectopic beats
-            p1.triangle(
-                x=rr_idx[artefacts["ectopic"]],
-                y=ibi[artefacts["ectopic"]],
-                size=10,
-                legend_label="Ectopic beats",
-                fill_color="#6c0073",
-                line_color="black",
-            )
+            if artefacts["ectopic"].any():
+                ectopic_view = CDSView(
+                    source=points_source,
+                    filters=[IndexFilter(np.where(artefacts["ectopic"])[0])],
+                )
+                p1.triangle(
+                    x="time",
+                    y=unit,
+                    size=10,
+                    legend_label="Ectopic beats",
+                    fill_color="#6c0073",
+                    line_color="black",
+                    source=points_source,
+                    view=ectopic_view,
+                )
 
         # Add hover tool
         p1.add_tools(hover)
@@ -240,7 +275,7 @@ def plot_rr(
         )
 
         if line is True:
-            select.line("time", "hr", source=points_source)
+            select.line("time", unit, source=points_source)
             p1.x_range = Range1d(start=rr_idx[0], end=rr_idx[-1])
         else:
             select.circle("time", unit, source=points_source)
