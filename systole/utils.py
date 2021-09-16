@@ -493,17 +493,16 @@ def input_conversion(
 ) -> np.ndarray:
     """Convert input time series to the desired output format.
 
-    This function is called by functions to convert time series to
-    a different format. The input and outputs can be:
-        * `peaks`: a boolean vector where `1` denote the detection of an event in the
-        time-series.
-        * `peaks_idx`: a 1d NumPy array of integers where each item is the sample index
-        of an event in the time series.
-        * `rr_ms`: a 1d NumPy array (integers or floats) of RR /peak-to-peak intervals
-        in milliseconds.
-        * `rr_s`: a 1d NumPy array (integers or floats) of RR /peak-to-peak intervals
-        in seconds.
-
+    This function is called by functions to convert time series to a different format.
+    The input and outputs can be:
+    * `peaks`: a boolean vector where `1` denote the detection of an event in the
+    time-series.
+    * `peaks_idx`: a 1d NumPy array of integers where each item is the sample index
+    of an event in the time series.
+    * `rr_ms`: a 1d NumPy array (integers or floats) of RR /peak-to-peak intervals
+    in milliseconds.
+    * `rr_s`: a 1d NumPy array (integers or floats) of RR /peak-to-peak intervals
+    in seconds.
 
     Parameters
     ----------
