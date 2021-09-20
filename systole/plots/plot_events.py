@@ -14,7 +14,7 @@ from systole.plots.utils import get_plotting_function
 def plot_events(
     triggers: Optional[Union[List, np.ndarray]] = None,
     triggers_idx: Optional[Union[List, np.ndarray]] = None,
-    events_labels: Dict[str, str] = {"1": "Event - 1"},
+    events_labels: Optional[Union[Dict[str, str], List, str]] = None,
     tmin: float = -1.0,
     tmax: float = 10.0,
     sfreq: int = 1000,
@@ -22,6 +22,7 @@ def plot_events(
     figsize: Optional[Union[int, List[int], Tuple[int, int]]] = None,
     ax: Optional[Axes] = None,
     backend: str = "matplotlib",
+    palette: Optional[List[str]] = None,
 ) -> Axes:
     """Plot events occurence across recording.
 
@@ -38,7 +39,8 @@ def plot_events(
     events_labels : dict
         The events label. The key of the dictionary is the condition number (from 1 to
         n, as `str`), the value is the label (`str`). Default set to
-        `{"1": "Event - 1"}`.
+        `{"1": "Event - 1"}` if one condition is provided, and generalize up to n
+        conditions `{"n": "Event - n"}`.
     tmin, tmax : float
         Start and end time of the epochs in seconds, relative to the time-locked event.
         Defaults to -1.0 and 10.0, respectively.
@@ -56,6 +58,8 @@ def plot_events(
     backend: str
         Select plotting backend {"matplotlib", "bokeh"}. Defaults to
         "matplotlib".
+    palette : list or None
+        Color palette. Default sets to Seaborn `"deep"`.
 
     Returns
     -------
@@ -70,15 +74,22 @@ def plot_events(
     --------
 
     """
+    # Define color palette
+    if palette is None:
+        this_palette = itertools.cycle(sns.color_palette("deep", as_cmap=True))
+    elif isinstance(palette, list):
+        this_palette = itertools.cycle(palette)
+    else:
+        raise ValueError("Invalid palette provided.")
 
-    palette = itertools.cycle(sns.color_palette("deep", as_cmap=True))
-
+    # Define figure size
     if figsize is None:
         if backend == "matplotlib":
             figsize = (13, 5)
         elif backend == "bokeh":
             figsize = 300
 
+    # Create a list of triggers indexs with length n = number of conditions
     if triggers_idx is None:
         if triggers is None:
             raise ValueError("No triggers provided")
@@ -89,6 +100,23 @@ def plot_events(
             for this_triggers in triggers:
                 triggers_idx.append(np.where(this_triggers)[0])
 
+    # Create the event dictionnary if not already provided
+    if events_labels is None:
+        events_labels = {}
+        for i in range(len(triggers_idx)):
+            events_labels[f"{i+1}"] = f"Event - {i+1}"
+    elif isinstance(events_labels, str):
+        event_str = events_labels
+        events_labels = {}
+        events_labels["1"] = event_str
+    elif isinstance(events_labels, list):
+        event_list = events_labels
+        events_labels = {}
+        for i, lab in enumerate(event_list):
+            events_labels[f"{i+1}"] = lab
+    else:
+        raise ValueError("Invalid event label provided.")
+
     # Creating the events info df
     # DataFrame : (tmin, trigger, tmax, label, color, df)
     df = pd.DataFrame([])
@@ -97,7 +125,7 @@ def plot_events(
     for i, this_trigger_idx in enumerate(triggers_idx):
 
         # Event color
-        col = next(palette)
+        col = next(this_palette)
 
         # Loop across triggers
         for event in this_trigger_idx:

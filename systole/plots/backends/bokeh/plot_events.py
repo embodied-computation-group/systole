@@ -42,7 +42,7 @@ def plot_events(
             plot_height=figsize,
             x_axis_label="Time",
             x_axis_type="datetime",
-            y_range=(0, df.label.nunique() + 1),
+            y_range=(0, 1),
             tooltips=TOOLTIPS,
         )
         # Plot time course of events
@@ -50,13 +50,17 @@ def plot_events(
 
         event_plot.circle(
             x="trigger",
-            y=1,
+            y=0.5,
             size=10,
             line_color="color",
             fill_color="white",
+            legend_field="label",
             line_width=3,
             source=event_source,
         )
+        # Hide y axis if no other time series is provided
+        event_plot.yaxis.visible = False
+
     else:
         event_plot = ax
 
