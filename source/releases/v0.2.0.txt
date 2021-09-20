@@ -1,0 +1,20 @@
+v0.2.0 (August 2021)
+--------------------
+
+This is a major release that introduce a new plotting backend using Bokeh, remove support for Plotly and rename some functions for consistency.
+
+- |Api| Remove support for Plotly. Add support for Bokeh. Merge interactive and non interactive modules into a unique :func:`plots` module.
+- |Docs| Use PyData Sphinx theme.
+- |Docs| Several additions to the tutorials pages.
+- |Enhancement| :func:`systole.utils.heart_rate()`: now accepts peaks vectors as well as RR interval, either in milliseconds od in seconds.
+- |Enhancement| :func:`systole.utils.to_rr()` has been renamed to :py:func:`systole.utils.input_conversion()` and accepts input and outputs it the form of peaks, peaks indexes, RR invervals in seconds and in miliseconds.
+- |Fix| |Enhancement| :func:`systole.detection.ppg_peaks()` now handles negative values/ low sampling rate.
+
+The ECG detectors functions are now incorporated to Systole to add Numba support.
+
+- |Enhancement| Add Numba support for :func:`systole.detector.pan_tompkins()` (~7x faster)
+- |Enhancement| Add Numba support for :func:`systole.detector.hamilton()` (~10x faster)
+- |Enhancement| Add Numba support for :func:`systole.detector.christov()` (~30x faster)
+- |Enhancement| Add Numba support for :func:`systole.detector.engelse_zeelenberg()` (~20x faster)
+
+- - |Enhancement| The correct.peaks function has been improved.

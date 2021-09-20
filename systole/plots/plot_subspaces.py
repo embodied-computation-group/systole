@@ -41,7 +41,7 @@ def plot_subspaces(
     figsize: Union[Tuple[float, float], int] = None,
     backend: str = "matplotlib",
 ) -> Union[Figure, Axes]:
-    """Plot hrv subspace as described by Lipponen & Tarvainen (2019) [#]_.
+    """Plot hrv subspace as described by Lipponen & Tarvainen (2019) [1]_.
 
     Parameters
     ----------
@@ -76,10 +76,10 @@ def plot_subspaces(
 
     References
     ----------
-    ..[1] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
-        heart rate variability time series artefact correction using novel beat
-        classification. Journal of Medical Engineering & Technology, 43(3),
-        173–181. https://doi.org/10.1080/03091902.2019.1640306
+    .. [1] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
+       heart rate variability time series artefact correction using novel beat
+       classification. Journal of Medical Engineering & Technology, 43(3),
+       173–181. https://doi.org/10.1080/03091902.2019.1640306
 
     Examples
     --------

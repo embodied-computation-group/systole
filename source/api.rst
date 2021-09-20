@@ -24,7 +24,6 @@ Correction
     correct_rr
     correct_peaks
     correct_missed_peaks
-    correct_extra_peaks
 
 Detection
 ---------
