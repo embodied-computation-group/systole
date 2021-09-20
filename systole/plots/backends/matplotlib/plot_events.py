@@ -1,19 +1,14 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-import itertools
-from typing import TYPE_CHECKING, Optional, Tuple
+from typing import Optional, Tuple
 
 import matplotlib.pyplot as plt
-import numpy as np
-import seaborn as sns
+import pandas as pd
 from matplotlib.axes import Axes
-
-if TYPE_CHECKING:
-    from systole.recording import Oximeter
 
 
 def plot_events(
-    oximeter: "Oximeter",
+    df: pd.DataFrame,
     figsize: Tuple[float, float] = (13, 5),
     ax: Optional[Axes] = None,
 ) -> Axes:
@@ -21,9 +16,8 @@ def plot_events(
 
     Parameters
     ----------
-    oximeter : `systole.recording.Oximeter`
-        The recording instance, where additional channels track different
-        events using boolean recording.
+    df : pd.DataFrame
+        The events data frame (tmin, trigger, tmax, label, color, [behavior]).
     figsize : tuple
         Figure size. Default is `(13, 5)`.
     ax : :class:`matplotlib.axes.Axes` or None
@@ -33,27 +27,22 @@ def plot_events(
     -------
     ax : :class:`matplotlib.axes.Axes`
         The matplotlib axes containing the plot.
+
     """
     if ax is None:
-        fig, ax = plt.subplots(figsize=(13, 5))
-    palette = itertools.cycle(sns.color_palette("deep"))
-    if oximeter.channels is not None:
-        events = oximeter.channels.copy()
-    else:
-        raise ValueError("No event found")
-    for i, ch in enumerate(events):
-        ax.fill_between(
-            x=oximeter.times,
-            y1=i,
-            y2=i + 0.5,
-            color=next(palette),
-            where=np.array(events[ch]) == 1,
-        )
+        _, ax = plt.subplots(figsize=(13, 5))
+
+    # Loop across events df
+    for i, tmin, trigger, tmax, label, color in df.itertuples():
+
+        # Plot time range
+        ax.axvspan(xmin=tmin, xmax=tmax, color=color, alpha=0.2, label=label)
+
+        # Plot trigger
+        ax.axvline(x=trigger, color="gray", linestyle="--", linewidth=1)
 
     # Add y ticks with channels names
-    ax.set_yticks(np.arange(len(events)) + 0.5)
-    ax.set_yticklabels([key for key in events])
-    ax.set_xlabel("Time (s)")
-    ax.set_title("Events", fontweight="bold")
+    ax.set_xlabel("Time")
+    ax.legend()
 
     return ax

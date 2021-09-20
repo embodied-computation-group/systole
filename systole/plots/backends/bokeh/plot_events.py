@@ -1,72 +1,82 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-import itertools
-from typing import Dict, Optional
+from typing import Optional
 
-import numpy as np
-import seaborn as sns
-from bokeh.plotting import figure
+import pandas as pd
+from bokeh.models import BoxAnnotation, Span
+from bokeh.plotting import ColumnDataSource, figure
 from bokeh.plotting.figure import Figure
 
 
 def plot_events(
-    events: np.ndarray,
-    events_dict: Optional[Dict] = None,
-    sfreq: int = 75,
-    figsize: int = 300,
-    **kwargs,
+    df: pd.DataFrame,
+    figsize: int = 400,
+    ax: Optional[Figure] = None,
 ) -> Figure:
     """Plot events occurence across recording.
 
     Parameters
     ----------
-    events : :py:class:`numpy.ndarray`
-        The events.
-    events_dict : dict
-        A dictionary indexing the event names ({"1": "Event number 1"}).
-    sfreq : int
-        The sampling frequency.
-    figsize : int
-        Figure size. Default is `300`.
+    df : pd.DataFrame
+        The events data frame (tmin, trigger, tmax, label, color, [behavior]).
+    figsize : tuple
+        Figure size. Default is `(13, 5)`.
+    ax : :class:`bokeh.plotting.figure.Figure` or None
+        Where to draw the plot. Default is `None` (create a new figure).
 
     Returns
     -------
-    fig : :class:`bokeh.plotting.figure.Figure`
+    event_plot : :class:`bokeh.plotting.figure.Figure`
         The bokeh figure containing the plot.
+
     """
-    unique_events = [e for e in np.unique(events) if e != 0]
 
-    if events_dict is None:
-        events_dict = {}
-        for i, ev in enumerate(unique_events):
-            events_dict[str(i)] = f"Event {i}"
+    if ax is None:
+        TOOLTIPS = [
+            ("(x,y)", "($tmin, $tmax)"),
+        ]
 
-    # Create a time vector
-    time = np.datetime64(np.datetime64("now", "ms")) + (
-        (np.arange(0, len(events)) / sfreq) * 1000
-    ).astype("int")
-
-    events_plot = figure(
-        title="Events",
-        x_axis_type="datetime",
-        toolbar_location=None,
-        sizing_mode="stretch_width",
-        plot_height=figsize,
-        x_axis_label="Time (s)",
-        output_backend="webgl",
-        x_range=(time[0], time[-1]),
-    )
-
-    palette = itertools.cycle(sns.color_palette().as_hex())
-    for i, ev in enumerate(unique_events):
-        event_idx = np.where(events == ev)[0]
-        events_plot.circle(
-            time[event_idx],
-            i + 1,
-            size=20,
-            alpha=0.5,
-            color=next(palette),
-            legend_label=events_dict[str(i + 1)],
+        event_plot = figure(
+            title="Events",
+            sizing_mode="stretch_width",
+            plot_height=figsize,
+            x_axis_label="Time",
+            x_axis_type="datetime",
+            y_range=(0, df.label.nunique() + 1),
+            tooltips=TOOLTIPS,
         )
+        # Plot time course of events
+        event_source = ColumnDataSource(data=df)
 
-    return events_plot
+        event_plot.circle(
+            x="trigger",
+            y=1,
+            size=10,
+            line_color="color",
+            fill_color="white",
+            line_width=3,
+            source=event_source,
+        )
+    else:
+        event_plot = ax
+
+    # Loop across events df
+    for i, tmin, trigger, tmax, label, color in df.itertuples():
+
+        # Plot time range
+        event_range = BoxAnnotation(
+            left=tmin, right=tmax, fill_alpha=0.2, fill_color=color
+        )
+        event_plot.add_layout(event_range)
+
+        # Plot trigger
+        event_trigger = Span(
+            location=trigger,
+            dimension="height",
+            line_color="gray",
+            line_dash="dashed",
+            line_width=1,
+        )
+        event_plot.add_layout(event_trigger)
+
+    return event_plot
