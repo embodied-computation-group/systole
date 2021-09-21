@@ -77,7 +77,6 @@ Plots
     plot_rr
     plot_shortlong
     plot_subspaces
-    plot_timevarying
 
 Recording
 ---------
