@@ -6,7 +6,7 @@ from unittest import TestCase
 import numpy as np
 import pytest
 
-from systole import import_ppg, import_rr
+from systole import import_dataset1, import_ppg, import_rr
 from systole.detection import ppg_peaks
 from systole.utils import (
     heart_rate,
@@ -79,19 +79,44 @@ class TestUtils(TestCase):
 
     def test_to_epochs(self):
         """Test ppg_peaks function"""
-        ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
-        events = import_ppg().ppg.to_numpy()  # Import events
-        events[2] = 1
-        epochs = to_epochs(ppg, events, sfreq=75, verbose=True, apply_baseline=(-1, 0))
-        assert epochs.ndim == 2
-        epochs = to_epochs(list(ppg), list(events), sfreq=75, apply_baseline=None)
-        reject = np.arange(0, len(ppg))
-        reject[50:55] = 1
-        epochs = to_epochs(
-            ppg, events, sfreq=75, apply_baseline=-1, reject=reject, verbose=True
+        # Load dataset
+        ecg_df = import_dataset1(modalities=["ECG", "Stim"])
+
+        triggers_idx = [
+            np.where(ecg_df.stim.to_numpy() == 2)[0],
+            np.where(ecg_df.stim.to_numpy() == 1)[0],
+        ]
+        signal = ecg_df.ecg.to_numpy()
+
+        # Using event idx
+        epoch, rejected = to_epochs(signal=signal, triggers_idx=triggers_idx)
+        assert len(epoch) == 2
+        assert len(rejected) == 2
+        assert epoch[0].mean() == 0.047150987567323624
+        assert rejected[0].mean() == 0.0
+
+        # Using event triggers
+        epoch, rejected = to_epochs(
+            signal=signal,
+            triggers=ecg_df.stim.to_numpy(),
+            event_val=2,
+            apply_baseline=(-1.0, 0.0),
         )
-        with pytest.raises(ValueError):
-            epochs = to_epochs(ppg[1:], events, sfreq=75)
+        assert epoch.mean() == 0.008389195914220333
+        assert rejected.mean() == 0.0
+
+        # Using a rejection vector
+        reject = np.zeros(len(signal))
+        reject[768285:] = 1
+        epoch, rejected = to_epochs(
+            signal=signal,
+            triggers=ecg_df.stim.to_numpy(),
+            event_val=2,
+            apply_baseline=(-1.0, 0.0),
+            reject=reject,
+        )
+        assert len(epoch) == 0
+        assert rejected.mean() == 1
 
     def test_simulate_rr(self):
         """Test ppg_peaks function"""

@@ -1,4 +1,4 @@
-v0.2.0 (August 2021)
+v0.2.0 (September 2021)
 --------------------
 
 This is a major release that introduce a new plotting backend using Bokeh, remove support for Plotly and rename some functions for consistency.
@@ -17,4 +17,5 @@ The ECG detectors functions are now incorporated to Systole to add Numba support
 - |Enhancement| Add Numba support for :func:`systole.detector.christov()` (~30x faster)
 - |Enhancement| Add Numba support for :func:`systole.detector.engelse_zeelenberg()` (~20x faster)
 
-- - |Enhancement| The correct.peaks function has been improved.
+- |Enhancement| The correct.peaks function has been refactored.
+- |Enhancement| utils.to_epochs() now accept multiple condition (as list) and returns rejection vectors for each one. The code has also been simplified and should run faster.

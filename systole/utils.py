@@ -61,9 +61,9 @@ def time_shift(
     Parameters
     ----------
     x : np.ndarray or list
-        Timing of reference events.
+        Timing of the baseline events.
     events : np.ndarray or list
-        Timing of events of heartrateest.
+        Timing of events of interest.
     order : str
         Consider event occurung before of after baseline. Default is 'after'.
 
@@ -79,7 +79,7 @@ def time_shift(
 
     lag = []
     for e in events:
-        # Find the closest reference before the event of heartrateest
+        # Find the closest reference before the event of interest
         r = x[x < e].max()
         # Event timing
         lag.append(e - r)
@@ -260,8 +260,9 @@ def to_angles(
 
 
 def to_epochs(
-    x: Union[List, np.ndarray],
-    events: Union[List, np.ndarray],
+    signal: Union[List, np.ndarray],
+    triggers: Optional[Union[List, np.ndarray]] = None,
+    triggers_idx: Optional[Union[List, np.ndarray]] = None,
     sfreq: int = 1000,
     tmin: float = -1.0,
     tmax: float = 10.0,
@@ -270,25 +271,32 @@ def to_epochs(
     verbose: bool = False,
     reject: Optional[np.ndarray] = None,
 ) -> np.ndarray:
-    """Epoch signal based on events indices.
+    """Epoch signal based on event triggers.
 
     Parameters
     ----------
-    x : 1darray-like or list
-        An instance of Raw
-    events : 1d array-like
-        The boolean indices of the events, shape (times*sfreq, 1)
+    signal : np.ndarray or list
+        The raw signal that should be epoched. The first dimension is time and should match
+        with `len(triggers)` if `triggers` is provided. If `triggers_idx` is provided,
+        `np.max(triggers_idx)` should be less than `signal.shape[0]`.
+    triggers : np.ndarray or list
+        The boolean indices of the events, shape=(times*sfreq, 1).
+    triggers_idx : np.ndarray or list
+        Trigger indexes. Each value encode the sample where an event occured (see
+        also `sfreq`). Different conditions should be provided separately as list of
+        arrays (can have different lenght).
     sfreq : int
         The sampling frequency (default is 1000 Hz).
     tmin : float
-        Start time before event, in seconds, default is -1.
+        Start time before event, in seconds, default is `-1.0`.
     tmax : float
-        End time after event, in seconds, defautl is 10.
+        End time after event, in seconds, defautl is `10.0`.
     event_val : int
-        The index of event of interest. Default is *1*.
+        The index of event of interest. Default is `1`. Only relevant if `triggers` is
+        not `None`.
     apply_baseline : int, tuple or None
         If int or tuple, use the point or interval to apply a baseline
-        (method: mean). If *None*, no baseline is applied.
+        (method: mean). If `None`, no baseline is applied. Default is set to `0`.
     verbose : boolean
         If True, will return warnings if epoc are droped.
     reject : np.ndarray or None
@@ -296,62 +304,129 @@ def to_epochs(
 
     Returns
     -------
-    epochs : 2d array-like
-        Event * Time array.
+    epochs : np.ndarray or tuple
+        Event * Time array * n signals. If n condition > 1, a tuple of np.ndarray is
+        returned.
+    reject : np.ndarray or tuple
+        List of rejected trials for each condition.
+
+    Examples
+    --------
+
+    # Load dataset
+
+    >>> ecg_df = import_dataset1(modalities=['ECG', 'Stim'])
+
+    >>> triggers_idx = [
+    >>>     np.where(ecg_df.stim.to_numpy() == 2)[0],
+    >>>     np.where(ecg_df.stim.to_numpy() == 1)[0]
+    >>> ]
+    >>> signal = ecg_df.ecg.to_numpy()
+
+    # Using event idx
+
+    >>> epoch, rejected = to_epochs(signal=signal, triggers_idx=triggers_idx)
+
+    # Using event triggers
+
+    >>> epoch, rejected = to_epochs(signal=signal, triggers=ecg_df.stim.to_numpy(),
+    >>>                             event_val=2, apply_baseline=(-1.0, 0.0))
+
+    # Using a rejection vector
+    >>> reject = np.zeros(len(signal))
+    >>> reject[768285:] = 1  # Reject the second part of the recording
+    >>> epoch, rejected = to_epochs(
+    >>>     signal=signal, triggers=ecg_df.stim.to_numpy(), event_val=2,
+    >>>     apply_baseline=(-1.0, 0.0), reject=reject
+    >>>     )
+
     """
-    if len(x) != len(events):
-        raise ValueError(
-            """The length of the event and signal vector
-                                shoul match exactly"""
-        )
     # To numpy array
-    if isinstance(x, list):
-        x = np.asarray(x)
-    if isinstance(events, list):
-        events = np.asarray(events)
+    signal = np.asarray(signal)
 
-    # From boolean to event indices
-    events = np.where(events == event_val)[0]
+    # Create a list of triggers_idx arays and check that
+    # the lengths are compatible with the signal array
+    if triggers is not None:
+        if isinstance(triggers, np.ndarray):
+            triggers = [triggers]
+        triggers_idx = []
+        for tr in triggers:
+            if signal.shape[0] != tr.shape[0]:
+                raise ValueError(
+                    """The length of the event and signal vector shoul match."""
+                )
+            triggers_idx.append(np.where(tr == event_val)[0])  # Find idx of events
 
-    # Bads array
+    else:
+        if triggers_idx is None:
+            raise ValueError("""No triggers or triggers_idx provided.""")
+        if isinstance(triggers_idx, np.ndarray):
+            triggers_idx = [triggers_idx]
+        for tr_idx in triggers_idx:
+            if np.max(tr_idx) > signal.shape[0]:
+                raise ValueError(
+                    """The triggers_idx array contains values that are greater that the signal length."""
+                )
+
+    # Create a default bad array if not already provided
     if reject is None:
-        reject = np.zeros(len(x))
+        reject = np.zeros(len(signal), dtype="bool")
 
-    rejected = 0
-    epochs = np.zeros(shape=(len(events), int((np.abs(tmin) + np.abs(tmax)) * sfreq)))
-    for i, ev in enumerate(events):
+    # Initialize counters
+    n_rejected, n_outside_signal = 0, 0
 
-        # Security check (epochs is not outside signal limits)
-        if (ev + round(tmin * sfreq) < 0) | (ev + round(tmax * sfreq) > len(x)):
-            if verbose is True:
-                print("Drop 1 epoch due to signal limits.")
-            rejected += 1
-            epochs[i, :] = np.nan
+    # How many sample to epoch before and after triggers
+    this_min, this_max = round(tmin * sfreq), round(tmax * sfreq)
 
-        # Security check (trial contain bad peak)
-        elif np.any(reject[ev + round(tmin * sfreq) : ev + round(tmax * sfreq)]):
-            if verbose is True:
-                print("Drop 1 epoch due to artefact.")
-            rejected += 1
-            epochs[i, :] = np.nan
-        else:
-            trial = x[ev + round(tmin * sfreq) : ev + round(tmax * sfreq)]
+    all_epochs, all_rejected = [], []
+    # Loop across conditions
+    for this_triggers_idx in triggers_idx:
+
+        epochs, rejected = [], []
+        # Loop across events
+        for ev in this_triggers_idx:
+
+            # Check that the epoch is not outside the signal range
+            if (ev + this_min < 0) | (ev + this_max > len(signal)):
+                n_outside_signal += 1
+                rejected.append(True)
+                continue
+
+            # Check if the signal contains an artefact
+            if np.any(reject[ev + this_min : ev + this_max]):
+                n_rejected += 1
+                rejected.append(True)
+                continue
+
+            # If no problem, store the array in the epoch list
+            trial = signal[ev + this_min : ev + this_max]
             if apply_baseline is None:
-                epochs[i, :] = trial
+                epochs.append(trial)
             else:
                 if isinstance(apply_baseline, int):
-                    baseline = x[ev + round(apply_baseline * sfreq)]
+                    baseline = signal[ev + round(apply_baseline * sfreq)]
                 if isinstance(apply_baseline, tuple):
                     low = ev + round(apply_baseline[0] * sfreq)
                     high = ev + round(apply_baseline[1] * sfreq)
-                    baseline = x[low:high].mean()
-                epochs[i, :] = trial - baseline
+                    baseline = signal[low:high].mean()
+                epochs.append(trial - baseline)
+                rejected.append(False)
+
+        # Append to the condition level
+        all_epochs.append(np.array(epochs))
+        all_rejected.append(np.asarray(rejected))
 
     # Print % of rejected items
-    if (rejected > 0) & (verbose is True):
-        print(str(rejected) + " trial(s) droped due to inconsistent recording")
+    if (n_rejected > 0) & (verbose is True):
+        print(str(n_rejected) + " trial(s) droped due to artefacts")
+    if (n_outside_signal > 0) & (verbose is True):
+        print(str(n_outside_signal) + " trial(s) droped due to signal range")
 
-    return epochs
+    # Return tuple if n condition > 1, nparray otherwise
+    if len(all_epochs) > 1:
+        return tuple(all_epochs), tuple(all_rejected)
+    else:
+        return all_epochs[0], all_rejected[0]
 
 
 def simulate_rr(
@@ -383,9 +458,9 @@ def simulate_rr(
     ectopic2_idx : list
         Index of ectopic interval. Default is [300].
     random_state : int
-        Random state. Default is *42*.
+        Random state. Default is `42`.
     artefacts : bool
-        If True, simulate artefacts in the signal.
+        If `True`, simulate artefacts in the signal.
 
     Returns
     -------
