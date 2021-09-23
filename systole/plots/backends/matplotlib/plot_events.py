@@ -32,6 +32,14 @@ def plot_events(
     if ax is None:
         _, ax = plt.subplots(figsize=(13, 5))
 
+    # Plot first label only
+    all_labels = []
+    for i in range(len(df)):
+        if df.loc[i, "label"] in all_labels:
+            df.loc[i, "label"] = ""
+        else:
+            all_labels.append(df.loc[i, "label"])
+
     # Loop across events df
     for i, tmin, trigger, tmax, label, color in df.itertuples():
 

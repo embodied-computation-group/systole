@@ -267,21 +267,21 @@ def to_epochs(
     tmin: float = -1.0,
     tmax: float = 10.0,
     event_val: int = 1,
-    apply_baseline: Optional[Union[int, Tuple]] = 0,
+    apply_baseline: Optional[Union[float, Tuple[float, float]]] = 0.0,
     verbose: bool = False,
     reject: Optional[np.ndarray] = None,
-) -> np.ndarray:
+) -> Tuple[List[np.ndarray], List[np.ndarray]]:
     """Epoch signal based on event triggers.
 
     Parameters
     ----------
-    signal : np.ndarray or list
+    signal : np.ndarray | list
         The raw signal that should be epoched. The first dimension is time and should match
         with `len(triggers)` if `triggers` is provided. If `triggers_idx` is provided,
         `np.max(triggers_idx)` should be less than `signal.shape[0]`.
-    triggers : np.ndarray or list
+    triggers : np.ndarray | list
         The boolean indices of the events, shape=(times*sfreq, 1).
-    triggers_idx : np.ndarray or list
+    triggers_idx : np.ndarray | list
         Trigger indexes. Each value encode the sample where an event occured (see
         also `sfreq`). Different conditions should be provided separately as list of
         arrays (can have different lenght).
@@ -294,20 +294,19 @@ def to_epochs(
     event_val : int
         The index of event of interest. Default is `1`. Only relevant if `triggers` is
         not `None`.
-    apply_baseline : int, tuple or None
+    apply_baseline : float | tuple | None
         If int or tuple, use the point or interval to apply a baseline
         (method: mean). If `None`, no baseline is applied. Default is set to `0`.
     verbose : boolean
         If True, will return warnings if epoc are droped.
-    reject : np.ndarray or None
+    reject : np.ndarray | None
         Segments of the signal that should be rejected.
 
     Returns
     -------
-    epochs : np.ndarray or tuple
-        Event * Time array * n signals. If n condition > 1, a tuple of np.ndarray is
-        returned.
-    reject : np.ndarray or tuple
+    epochs : list
+        List of (n Tials * Time) array.
+    reject : list
         List of rejected trials for each condition.
 
     Examples
@@ -403,7 +402,7 @@ def to_epochs(
             if apply_baseline is None:
                 epochs.append(trial)
             else:
-                if isinstance(apply_baseline, int):
+                if isinstance(apply_baseline, float):
                     baseline = signal[ev + round(apply_baseline * sfreq)]
                 if isinstance(apply_baseline, tuple):
                     low = ev + round(apply_baseline[0] * sfreq)
@@ -422,11 +421,8 @@ def to_epochs(
     if (n_outside_signal > 0) & (verbose is True):
         print(str(n_outside_signal) + " trial(s) droped due to signal range")
 
-    # Return tuple if n condition > 1, nparray otherwise
-    if len(all_epochs) > 1:
-        return tuple(all_epochs), tuple(all_rejected)
-    else:
-        return all_epochs[0], all_rejected[0]
+    # Return list of epochs and rejected arrays
+    return all_epochs, all_rejected
 
 
 def simulate_rr(

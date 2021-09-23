@@ -5,11 +5,15 @@ from unittest import TestCase
 
 import numpy as np
 import pandas as pd
+import seaborn as sns
 
-from systole import import_ppg, import_rr, serialSim
-from systole.plots import (  # plot_events,; plot_evoked,; plot_timevarying,
+from systole import import_dataset1, import_ppg, import_rr, serialSim
+from systole.detection import ecg_peaks
+from systole.plots import (
     plot_circular,
     plot_ectopic,
+    plot_events,
+    plot_evoked,
     plot_frequency,
     plot_pointcare,
     plot_raw,
@@ -58,10 +62,32 @@ class TestPlots(TestCase):
         for backend in ["matplotlib", "bokeh"]:
             plot_ectopic(rr, backend=backend)
 
-    # def test_plot_evoked(self):
-    #    """Test plot_evoked function"""
-    #    for backend in ["matplotlib", "bokeh"]:
-    #        plot_evoked(oxi, backend=backend)
+    def test_plot_evoked(self):
+        """Test plot_evoked function"""
+        # Import ECG recording and Stim channel
+        ecg_df = import_dataset1(modalities=["ECG", "Stim"])
+
+        # Peak detection in the ECG signal using the Pan-Tompkins method
+        _, peaks = ecg_peaks(ecg_df.ecg, method="pan-tompkins", sfreq=1000)
+
+        triggers_idx = [
+            np.where(ecg_df.stim.to_numpy() == 2)[0],
+            np.where(ecg_df.stim.to_numpy() == 1)[0],
+        ]
+
+        for backend in ["matplotlib", "bokeh"]:
+            plot_evoked(
+                rr=peaks,
+                triggers_idx=triggers_idx,
+                input_type="peaks",
+                backend=backend,
+                palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+            )
+
+    def test_plot_events(self):
+        """Test plot_events function"""
+        for backend in ["matplotlib", "bokeh"]:
+            plot_events(oxi, backend=backend)
 
     def test_plot_frequency(self):
         """Test plot_frequency function"""
