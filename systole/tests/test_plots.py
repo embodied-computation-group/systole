@@ -86,8 +86,22 @@ class TestPlots(TestCase):
 
     def test_plot_events(self):
         """Test plot_events function"""
+        # Import ECG recording and Stim channel
+        ecg_df = import_dataset1(modalities=["ECG", "Stim"])
+
+        triggers_idx = [
+            np.where(ecg_df.stim.to_numpy() == 2)[0],
+            np.where(ecg_df.stim.to_numpy() == 1)[0],
+        ]
+
         for backend in ["matplotlib", "bokeh"]:
-            plot_events(oxi, backend=backend)
+            plot_events(
+                triggers_idx=triggers_idx,
+                backend=backend,
+                events_labels=["Disgust", "Neutral"],
+                tmin=-0.5,
+                tmax=10.0,
+            )
 
     def test_plot_frequency(self):
         """Test plot_frequency function"""

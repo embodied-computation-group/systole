@@ -318,24 +318,34 @@ class Oximeter:
 
         return self
 
-    def plot_events(self, ax=None):
+    def plot_events(self, n_channel: str = "Channel_0", **kwargs):
         """Visualize the distribution of events stored in additional channels.
+
+        Parameters
+        ----------
+        n_channel : str
+            The name of the channel encoding the events of interest. Defaults to
+            `""Channel_0""`.
+        kwargs: key, value mappings
+            Other keyword arguments are passed down to
+            py:`func:systole.plots.plot_evoked()`.
 
         Returns
         -------
         fig, ax : Matplotlib instances.
             The figure and axe instances.
         """
-        ax = plot_events(self, ax=ax)
+        if self.channels is not None:
+            triggers = self.channels[n_channel]
 
-        return ax
+        return plot_events(triggers=triggers, sfreq=75, **kwargs)
 
     def plot_raw(self, **kwargs):
-        """Plot heartrate extracted from PPG recording.
+        """Plot the raw PPG signal.
 
         Parameters
         ----------
-        **kwargs : keyword arguments
+        **kwargs : key, value mappings
             Additional arguments will be passed to `:py:func:systole.plots.plot_raw`.
 
         Returns
@@ -343,9 +353,8 @@ class Oximeter:
         plot : :class:`matplotlib.axes.Axes` or :class:`bokeh.plotting.figure.Figure`
             The matplotlib axes, or the boken figure containing the plot.
         """
-        plot = plot_raw(signal=self.recording, **kwargs)
 
-        return plot
+        return plot_raw(signal=self.recording, sfreq=75, **kwargs)
 
     def read(self, duration: float):
         """Read PPG signal for some amount of time.

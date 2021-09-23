@@ -102,8 +102,8 @@ class TestUtils(TestCase):
             event_val=2,
             apply_baseline=(-1.0, 0.0),
         )
-        assert epoch.mean() == 0.008389195914220333
-        assert rejected.mean() == 0.0
+        assert epoch[0].mean() == 0.008389195914220333
+        assert rejected[0].mean() == 0.0
 
         # Using a rejection vector
         reject = np.zeros(len(signal))
@@ -115,8 +115,8 @@ class TestUtils(TestCase):
             apply_baseline=(-1.0, 0.0),
             reject=reject,
         )
-        assert len(epoch) == 0
-        assert rejected.mean() == 1
+        assert len(epoch[0]) == 0
+        assert rejected[0].mean() == 1
 
     def test_simulate_rr(self):
         """Test ppg_peaks function"""

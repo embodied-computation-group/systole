@@ -8,7 +8,7 @@ import papermill as pm
 
 
 class TestHrv(TestCase):
-    def test_nnX(self):
+    def test_notebooks(self):
         """Test tutorial notebooks"""
 
         # Load tutorial notebooks from the GitHub repository
