@@ -80,8 +80,7 @@ def circular(
     .. [#] https://pingouin-stats.org/_modules/pingouin/circular.html#circ_mean
 
     """
-    if isinstance(data, list):
-        data = np.asarray(data)
+    data = np.asarray(data)
 
     if color is None:
         color = "#539dcc"

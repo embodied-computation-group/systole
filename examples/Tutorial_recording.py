@@ -27,19 +27,16 @@ import time
 import serial
 
 from systole.recording import Oximeter
+from systole import serialSim
 
-ser = serial.Serial("COM4")  # Add your USB port here
+#ser = serial.Serial("COM4")  # Use this line for USB recording
+ser = serialSim()  # Simulate a device
 
 # Open serial port, initialize and plot recording for Oximeter
 oxi = Oximeter(serial=ser).setup().read(duration=10)
 
 # The signal can be directly plotted using built-in functions.
-oxi.plot_oximeter()
-
-##############################################################################
-# .. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/recording.png
-#    :align:   center
-##############################################################################
+oxi.plot_raw(show_heart_rate=True, figsize=(13, 8))
 
 #%%
 # Interfacing with PsychoPy
@@ -72,8 +69,8 @@ while time.time() - tstart < 10:
 # Online heart beat detection, for cardiac-stimulus synchrony
 
 
-# Open serial port
-ser = serial.Serial("COM4")  # Change this value according to your setup
+#ser = serial.Serial("COM4")  # Use this line for USB recording
+ser = serialSim()  # Simulate a device
 
 # Create an Oxymeter instance and initialize recording
 oxi = Oximeter(serial=ser, sfreq=75, add_channels=4).setup()

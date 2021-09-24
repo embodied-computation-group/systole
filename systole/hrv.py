@@ -15,7 +15,7 @@ def nnX(x: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> f
 
     Parameters
     ----------
-    x : np.ndarray or list
+    x : np.ndarray | list
         Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
     t : int
         Threshold value: Defaut is set to 50 ms to calculate the nn50 index.
@@ -47,7 +47,7 @@ def pnnX(x: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> 
 
     Parameters
     ----------
-    x : np.ndarray or list
+    x : np.ndarray | list
         Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
     t : int
         Threshold value: Defaut is set to 50 ms to calculate the nn50 index.
@@ -83,7 +83,7 @@ def rmssd(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> float:
 
     Parameters
     ----------
-    x : np.ndarray or list
+    x : np.ndarray | list
         Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
     input_type : str
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
@@ -118,7 +118,7 @@ def time_domain(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.Dat
 
     Parameters
     ----------
-    x : np.ndarray or list
+    x : np.ndarray | list
         Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
     input_type : str
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
@@ -153,6 +153,10 @@ def time_domain(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.Dat
     easily convert it into a wide format for a subject-level inline report
     using the py:pandas.pivot_table() function:
     >>> pd.pivot_table(stats, values='Values', columns='Metric')
+
+    All time-domain results have been tested against Kubios HVR 2.2
+    (<https://www.kubios.com>).
+
     """
 
     x = np.asarray(x)
@@ -244,7 +248,7 @@ def psd(
 
     Parameters
     ----------
-    rr : np.ndarray or list
+    rr : np.ndarray | list
         Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
     sfreq : int
         The sampling frequency (Hz) of the interpolated instantaneous heart
@@ -257,7 +261,7 @@ def psd(
 
     Returns
     -------
-    freq, power : np.array
+    freq, power : np.ndarray
         The frequency and power spectral density of the given signal.
 
     See also
@@ -302,13 +306,13 @@ def frequency_domain(
 
     Parameters
     ----------
-    rr : np.ndarray or list
+    rr : np.ndarray | list
         Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
     sfreq : int
         The sampling frequency (Hz).
     method : str
         The method used to extract freauency power. Default is ``'welch'``.
-    fbands : None | dict, optional
+    fbands : None | dict
         Dictionary containing the names of the frequency bands of interest
         (str), their range (tuples) and their color in the PSD plot. Default is
         >>> {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
@@ -340,6 +344,12 @@ def frequency_domain(
     easily convert it into a wide format for a subject-level inline report
     using the py:pandas.pivot_table() function:
     >>> pd.pivot_table(stats, values='Values', columns='Metric')
+
+    .. warning::
+        All frequency-domain results have been tested against Kubios HVR 2.2
+        (<https://www.kubios.com>). These results can slightly differ due to different
+        parametrization of the PSD estimation. We recommend to always check your results
+        against another software.
 
     """
 
@@ -410,7 +420,7 @@ def nonlinear(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.DataF
 
     Parameters
     ----------
-    x : list or numpy array
+    x : list | np.ndarray
         Interval time-series (R-R, beat-to-beat...), in miliseconds.
     input_type : str
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
@@ -435,6 +445,9 @@ def nonlinear(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.DataF
     easily convert it into a wide format for a subject-level inline report
     using the py:pandas.pivot_table() function:
     >>> pd.pivot_table(stats, values='Values', columns='Metric')
+
+    All time-domain results have been tested against Kubios HVR 2.2
+    (<https://www.kubios.com>).
 
     """
 

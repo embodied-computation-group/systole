@@ -21,7 +21,6 @@ Interactive plotting functions and reports generation will also require the foll
 
 * `Bokeh <https://docs.bokeh.org/en/latest/index.html#>`_ (>=2.3.3)
 
-
 Recording
 =========
 
@@ -29,10 +28,13 @@ Systole natively supports recording of physiological signals from the following 
 * `Nonin 3012LP Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_ (USB).
 * Remote Data Access (RDA) via BrainVision Recorder together with `Brain product ExG amplifier <https://www.brainproducts.com/>`_ (Ethernet).
 
-Artefact correction
+Features extraction
 ===================
 
-Systole implements systolic peak detection inspired by van Gent et al. (2019) and the artefact rejection method recently proposed by Lipponen & Tarvainen (2019).
+Cardiac cycles
+--------------
+
+Systole implements fast systolic peak detection for both photoplesthymography (PPG) and electrocardiography (ECG).
 
 .. code-block:: python
 
@@ -45,20 +47,20 @@ Systole implements systolic peak detection inspired by van Gent et al. (2019) an
 .. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/subspaces.png
    :align:   center
 
-Interactive visualization
-=========================
+Artefacts correction
+--------------------
+Artefacts can be detected and corrected in the RR interval time serie or the peaks vector following the algorythm proposed by Lipponen & Tarvainen (2019).
 
-Systole integrates a set of functions for interactive data visualization based on `Bokeh <https://docs.bokeh.org/en/latest/index.html#>`_.
-
-.. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/systole.gif
-   :align:   center
 
 Heartrate variability
 ======================
 
-Systole supports basic time-domain, frequency-domain and non-linear extraction indices.
+Systole implemetns basic time-domain, frequency-domain and non-linear HRV indices.
 
-All time-domain and non-linear indices have been tested against Kubios HVR 2.2 (<https://www.kubios.com>). The frequency-domain indices can slightly differ. We recommend to always check your results against another software.
+Interactive reports
+===================
+
+Systole integrates a set of functions for interactive data visualization based on `Bokeh <https://docs.bokeh.org/en/latest/index.html#>`_.
 
 .. code-block:: python
 

@@ -58,9 +58,9 @@ def ppg_peaks(
 
     Returns
     -------
-    peaks : 1d array-like
+    peaks : np.ndarray
         Numpy array containing R peak timing, in sfreq.
-    resampled_signal : 1d array-like
+    resampled_signal : np.ndarray
         Signal resampled to the `new_sfreq` frequency.
 
     Notes
@@ -281,27 +281,27 @@ def rr_artefacts(
         Dictionnary storing the parameters of RR artefacts rejection. All the
         vectors outputed have the same length as the provided RR time serie:
 
-        * subspace1 : 1d array-like
+        * subspace1 : np.ndarray
             The first dimension. First derivative of R-R interval time serie.
-        * subspace2 : 1d array-like
+        * subspace2 : np.ndarray
             The second dimension (1st plot).
-        * subspace3 : 1d array-like
+        * subspace3 : np.ndarray
             The third dimension (2nd plot).
-        * mRR : 1d array-like
+        * mRR : np.ndarray
             The mRR time serie.
-        * ectopic : 1d array-like
+        * ectopic : np.ndarray
             Boolean array indexing probable ectopic beats.
-        * long : 1d array-like
+        * long : np.ndarray
             Boolean array indexing long RR intervals.
-        * short : 1d array-like
+        * short : np.ndarray
             Boolean array indexing short RR intervals.
-        * missed : 1d array-like
+        * missed : np.ndarray
             Boolean array indexing missed RR intervals.
-        * extra : 1d array-like
+        * extra : np.ndarray
             Boolean array indexing extra RR intervals.
-        * threshold1 : 1d array-like
+        * threshold1 : np.ndarray
             Threshold 1.
-        * threshold2 : 1d array-like
+        * threshold2 : np.ndarray
             Threshold 2.
 
     Notes

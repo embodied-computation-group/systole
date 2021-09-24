@@ -50,7 +50,7 @@ def plot_ectopic(
 
     Parameters
     ----------
-    rr : 1d array-like or None
+    rr : np.ndarray | None
         Interval time-series (R-R, beat-to-beat...), in miliseconds.
     artefacts : dict or None
         The artefacts detected using
@@ -61,13 +61,13 @@ def plot_ectopic(
         Can also be `"peaks"` (a boolean vector where `1` represents the
         occurrence of R waves or systolic peaks) or `"rr_s"` for IBI expressed
         in seconds.
-    ax : :class:`matplotlib.axes.Axes` or None
+    ax : :class:`matplotlib.axes.Axes` | None
         Where to draw the plot. Default is *None* (create a new figure). Only
         applies when `backend="matplotlib"`.
     backend: str
         Select plotting backend {"matplotlib", "bokeh"}. Defaults to
         "matplotlib".
-    figsize : tuple, int or None
+    figsize : tuple | int | None
         Figure size. Default is `(13, 5)` for matplotlib backend, and the
         height is `600` when using bokeh backend.
 

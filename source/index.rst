@@ -42,7 +42,7 @@ This includes tools for data epoching, heart-rate variability, and synchronizing
     :column: col-lg-6 col-md-6 col-sm-6 col-xs-12 d-flex
 
     ---
-    :img-top: images/tutorials.png
+    :img-top: images/forward-fast-solid.png
 
     Getting started
     ^^^^^^^^^^^^^^^
@@ -58,12 +58,12 @@ This includes tools for data epoching, heart-rate variability, and synchronizing
             :classes: btn-block btn-secondary stretched-link
 
     ---
-    :img-top: images/tutorials.png
+    :img-top: images/table-cells-large-solid.png
 
     Example gallery
     ^^^^^^^^^^^^^^^
 
-    The example gallery .
+    See this section for examples of using Systole in different ways..
 
     +++
 
@@ -91,14 +91,13 @@ This includes tools for data epoching, heart-rate variability, and synchronizing
             :classes: btn-block btn-secondary stretched-link
 
     ---
-    :img-top: images/tutorials.png
+    :img-top: images/code-solid.png
 
     API reference
     ^^^^^^^^^^^^^
 
-    The reference guide contains a detailed description of
-    the Systole API. The reference describes how the methods work and which parameters can
-    be used.
+    The reference guide contains a detailed description of the Systole API. The
+    reference describes how the methods work and which parameters can be used.
 
     +++
 
@@ -107,15 +106,6 @@ This includes tools for data epoching, heart-rate variability, and synchronizing
             :text: To the reference guide
             :classes: btn-block btn-secondary stretched-link
 
-    ---
-    :img-top: images/tutorials.png
-
-Development
-===========
-
-This module was created and is maintained by Nicolas Legrand and Micah Allen (ECG group, https://the-ecg.org/). If you want to contribute, feel free to contact one of the developers, open an issue or submit a pull request.
-
-This program is provided with NO WARRANTY OF ANY KIND.
 
 Contributors
 ============
@@ -140,9 +130,30 @@ Systole was largely inspired by pre-existing toolboxes dedicated to heartrate va
 
 * Pingouin: https://pingouin-stats.org/
 
+* NeuroKit2: https://github.com/neuropsychology/NeuroKit
+
+
+Development
+===========
+
+This module was created and is maintained by Nicolas Legrand and Micah Allen (ECG group, https://the-ecg.org/). If you want to contribute, feel free to contact one of the developers, open an issue or submit a pull request.
+
+This program is provided with NO WARRANTY OF ANY KIND.
+
+================
+
+|AU| |lundbeck| |lab|
+
+.. |AU| image::  https://github.com/embodied-computation-group/systole/raw/master/Images/au_clinisk_logo.png
+
+.. |lundbeck| imgage::  https://github.com/embodied-computation-group/systole/raw/master/Images/lundbeckfonden_logo.png
+
+.. |lab| image::  https://github.com/embodied-computation-group/systole/raw/master/Images/LabLogo.png
+
+
 .. toctree::
-   :maxdepth: 4
-   
+   :maxdepth: 3
+   :hidden:
    Getting started <getting_started>
    Gallery <auto_examples/index.rst>
    Tutorials <tutorials.rst>

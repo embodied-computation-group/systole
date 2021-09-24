@@ -110,7 +110,7 @@ def correct_rr(
 
     Parameters
     ----------
-    rr : 1d array-like
+    rr : np.ndarray
         RR intervals (ms).
     correct_extra : boolean
       If `True`, correct extra beats in the RR time series.
@@ -128,7 +128,7 @@ def correct_rr(
     correction : dictionnary
         The corrected RR time series and the number of artefacts corrected:
 
-        * clean_rr: 1d array-like
+        * clean_rr: np.ndarray
             The corrected RR time-serie.
         * ectopic: int
             The number of ectopic beats corrected.
@@ -211,7 +211,7 @@ def correct_peaks(
 
     Parameters
     ----------
-    peaks : 1d array-like
+    peaks : np.ndarray
         Boolean vector of peaks.
     input_type : str
             The type of input vector. Defaults to `"rr_ms"` for vectors of RR
@@ -225,7 +225,7 @@ def correct_peaks(
     correction : dictionnary
         The corrected RR time series and the number of artefacts corrected:
 
-        * clean_peaks: 1d array-like
+        * clean_peaks: np.ndarray
             The corrected boolean time-serie.
         * extra: int
             The number of extra beats corrected.
@@ -296,7 +296,7 @@ def correct_missed_peaks(peaks: Union[List, np.ndarray], idx: int) -> np.ndarray
 
     Parameters
     ----------
-    peaks : 1d array-like
+    peaks : np.ndarray
         Boolean vector of peaks.
     idx : int
         Index of the peaks corresponding to the missed RR interval. The new peaks will
@@ -304,7 +304,7 @@ def correct_missed_peaks(peaks: Union[List, np.ndarray], idx: int) -> np.ndarray
 
     Returns
     -------
-    clean_peaks : 1d array-like
+    clean_peaks : np.ndarray
         Corrected boolean vector of peaks.
     """
     peaks = np.asarray(peaks, dtype=bool)

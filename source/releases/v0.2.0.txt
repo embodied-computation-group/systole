@@ -1,5 +1,5 @@
 v0.2.0 (September 2021)
---------------------
+-----------------------
 
 This is a major release that introduce a new plotting backend using Bokeh, remove support for Plotly and rename some functions for consistency.
 
