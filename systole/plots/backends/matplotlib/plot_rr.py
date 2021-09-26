@@ -79,7 +79,15 @@ def plot_rr(
         time = pd.to_datetime(time, unit="s", origin="unix")
 
         # Instantaneous Heart Rate - Lines
-        ax.plot(time, hr, label="Instantaneous heart rat", linewidth=1, color="#4c72b0")
+        ax.plot(
+            time,
+            hr,
+            label="Instantaneous heart rat",
+            linewidth=0.75,
+            color="#4c72b0",
+            alpha=0.4,
+            zorder=1,
+        )
 
     if points is True:
 
@@ -97,70 +105,87 @@ def plot_rr(
         if unit == "bpm":
             ibi = 60000 / ibi
 
+        if artefacts is None:
+            outliers = np.zeros(len(ibi), dtype=bool)
+        else:
+            outliers = (
+                artefacts["ectopic"]
+                | artefacts["short"]
+                | artefacts["long"]
+                | artefacts["extra"]
+                | artefacts["missed"]
+            )
+
         ax.scatter(
-            x=peaks_idx,
-            y=ibi,
+            x=peaks_idx[~outliers],
+            y=ibi[~outliers],
             marker="o",
             label="R-R intervals",
             s=20,
             color="white",
             edgecolors="DarkSlateGrey",
+            zorder=2,
         )
 
     if artefacts is not None:
 
         # Short RR intervals
-        ax.scatter(
-            x=peaks_idx[artefacts["short"]],
-            y=ibi[artefacts["short"]],
-            s=20,
-            label="Short intervals",
-            color="#c56c5e",
-            edgecolors="black",
-        )
+        if artefacts["short"].any():
+            ax.scatter(
+                x=peaks_idx[artefacts["short"]],
+                y=ibi[artefacts["short"]],
+                s=20,
+                label="Short intervals",
+                color="#c56c5e",
+                edgecolors="black",
+            )
 
         # Long RR intervals
-        ax.scatter(
-            x=peaks_idx[artefacts["long"]],
-            y=ibi[artefacts["long"]],
-            s=20,
-            label="Long intervals",
-            color="#9ac1d4",
-            edgecolors="black",
-        )
+        if artefacts["long"].any():
+            ax.scatter(
+                x=peaks_idx[artefacts["long"]],
+                y=ibi[artefacts["long"]],
+                s=20,
+                label="Long intervals",
+                color="#9ac1d4",
+                edgecolors="black",
+            )
 
         # Missed RR intervals
-        ax.scatter(
-            x=peaks_idx[artefacts["missed"]],
-            y=ibi[artefacts["missed"]],
-            s=20,
-            marker="s",
-            label="Missed intervals",
-            color="#2f5f91",
-            edgecolors="black",
-        )
+        if artefacts["missed"].any():
+            ax.scatter(
+                x=peaks_idx[artefacts["missed"]],
+                y=ibi[artefacts["missed"]],
+                s=20,
+                marker="s",
+                label="Missed intervals",
+                color="#2f5f91",
+                edgecolors="black",
+            )
 
         # Extra RR intervals
-        ax.scatter(
-            x=peaks_idx[artefacts["extra"]],
-            y=ibi[artefacts["extra"]],
-            s=20,
-            marker="s",
-            label="Extra intervals",
-            color="#9d2b39",
-            edgecolors="black",
-        )
+        if artefacts["extra"].any():
+            ax.scatter(
+                x=peaks_idx[artefacts["extra"]],
+                y=ibi[artefacts["extra"]],
+                s=20,
+                marker="s",
+                label="Extra intervals",
+                color="#9d2b39",
+                edgecolors="black",
+            )
 
         # Ectopic beats
-        ax.scatter(
-            x=peaks_idx[artefacts["ectopic"]],
-            y=ibi[artefacts["ectopic"]],
-            s=20,
-            marker="^",
-            label="Ectopic beats",
-            color="#6c0073",
-            edgecolors="black",
-        )
+        if artefacts["ectopic"].any():
+            ax.scatter(
+                x=peaks_idx[artefacts["ectopic"]],
+                y=ibi[artefacts["ectopic"]],
+                s=20,
+                marker="^",
+                label="Ectopic beats",
+                color="#6c0073",
+                edgecolors="black",
+            )
 
     # Show physiologically impossible ranges
     if show_limits is True:
@@ -182,5 +207,6 @@ def plot_rr(
     ax.set_xlabel("Time")
     ax.set_ylabel(ylabel)
     ax.grid(True)
+    ax.legend()
 
     return ax
