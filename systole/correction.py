@@ -237,6 +237,8 @@ def correct_peaks(
     input_type: str = "peaks",
     extra_correction: bool = True,
     missed_correction: bool = True,
+    n_iterations: int = 2,
+    verbose: bool = True,
 ) -> Dict[str, Union[int, np.ndarray]]:
     """Correct long, short, extra, missed and ectopic beats in peaks vector.
 
@@ -250,6 +252,10 @@ def correct_peaks(
             Can also be a boolean vector where `1` represents the occurrence of
             R waves or systolic peakspeaks vector `"rr_s"` or IBI expressed in
             seconds.
+    n_iterations : int
+        How many time to repeat the detection-correction process. Defaults to `2`.
+    verbose : bool
+        Control the verbosity of the function. Defaults to `True`.
 
     Returns
     -------
@@ -282,36 +288,55 @@ def correct_peaks(
     nExtra, nMissed = 0, 0
 
     artefacts = rr_artefacts(peaks, input_type="peaks")
-    peaks_idx = np.where(peaks)[0][1:]
 
-    # Convert the RR interval idx to sample idx
-    if extra_correction:
-        extra_idx = peaks_idx[np.where(artefacts["extra"])[0]]
-    if missed_correction:
-        missed_idx = peaks_idx[np.where(artefacts["missed"])[0]]
+    if verbose:
+        print(f"Cleaning the peaks vector using {n_iterations} iterations.")
 
-    # Correct extra beats
-    if extra_correction:
-        if np.any(artefacts["extra"]):
+    for n_it in range(n_iterations):
 
-            # Number of extra peaks to correct
-            nExtra = artefacts["extra"].sum()
-            print(f"... correcting {artefacts['extra'].sum()} extra peak(s).")
+        if verbose:
+            print(f" - Iteration {n_it+1} - ")
 
-            # Removing peak n+1 to correct RR interval n
-            clean_peaks[extra_idx] = False
+        # Correct extra beats
+        if extra_correction:
+            if np.any(artefacts["extra"]):
 
-    # Correct missed beats
-    if missed_correction:
-        if np.any(artefacts["missed"]):
+                peaks_idx = np.where(clean_peaks)[0][1:]
 
-            # Number of missed peaks to correct
-            nMissed = artefacts["missed"].sum()
-            print(f"... correcting {artefacts['missed'].sum()} missed peak(s).")
+                # Convert the RR interval idx to sample idx
+                extra_idx = peaks_idx[np.where(artefacts["extra"])[0]]
 
-            # Correct missed peaks using sample index
-            for this_idx in missed_idx:
-                clean_peaks = correct_missed_peaks(clean_peaks, this_idx)
+                # Number of extra peaks to correct
+                nExtra = artefacts["extra"].sum()
+                if verbose:
+                    print(f"... correcting {nExtra} extra peak(s).")
+
+                # Removing peak n+1 to correct RR interval n
+                clean_peaks[extra_idx] = False
+
+                # Artefact detection
+                artefacts = rr_artefacts(clean_peaks, input_type="peaks")
+
+        # Correct missed beats
+        if missed_correction:
+            if np.any(artefacts["missed"]):
+
+                peaks_idx = np.where(clean_peaks)[0][1:]
+
+                # Convert the RR interval idx to sample idx
+                missed_idx = peaks_idx[np.where(artefacts["missed"])[0]]
+
+                # Number of missed peaks to correct
+                nMissed = artefacts["missed"].sum()
+                if verbose:
+                    print(f"... correcting {nMissed} missed peak(s).")
+
+                # Correct missed peaks using sample index
+                for this_idx in missed_idx:
+                    clean_peaks = correct_missed_peaks(clean_peaks, this_idx)
+
+                # Artefact detection
+                artefacts = rr_artefacts(clean_peaks, input_type="peaks")
 
     return {
         "clean_peaks": clean_peaks,
