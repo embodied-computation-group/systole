@@ -105,6 +105,8 @@ def correct_rr(
     short_correction: bool = True,
     long_correction: bool = True,
     ectopic_correction: bool = True,
+    n_iterations: int = 2,
+    verbose: bool = True,
 ) -> Dict[str, Union[int, np.ndarray]]:
     """Correct long and short beats using interpolation.
 
@@ -122,6 +124,10 @@ def correct_rr(
       If `True`, correct long beats in the RR time series.
     correct_ectopic : boolean
       If `True`, correct ectopic beats in the RR time series.
+    n_iterations : int
+        How many time to repeat the detection-correction process. Defaults to `2`.
+    verbose : bool
+        Control the verbosity of the function. Defaults to `True`.
 
     Returns
     -------
@@ -140,56 +146,81 @@ def correct_rr(
             The number of extra beats corrected.
         * missed: int
             The number of missed beats corrected.
+
+    Examples
+    --------
+
     """
     rr = np.asarray(rr)
 
     clean_rr = rr.copy()
-    nEctopic, nShort, nLong, nExtra, nMissed = 0, 0, 0, 0, 0
 
     artefacts = rr_artefacts(clean_rr)
 
-    # Correct missed beats
-    if missed_correction:
-        if np.any(artefacts["missed"]):
-            for this_id in np.where(artefacts["missed"])[0]:
-                this_id += nMissed
-                clean_rr = correct_missed(clean_rr, this_id)
-                nMissed += 1
-        artefacts = rr_artefacts(clean_rr)
+    if verbose:
+        print(f"Cleaning the RR interval time series using {n_iterations} iterations.")
 
-    # Correct extra beats
-    if extra_correction:
-        if np.any(artefacts["extra"]):
-            for this_id in np.where(artefacts["extra"])[0]:
-                this_id -= nExtra
-                clean_rr = correct_extra(clean_rr, this_id)
-                nExtra += 1
-        artefacts = rr_artefacts(clean_rr)
+    for n_it in range(n_iterations):
 
-    # Correct ectopic beats
-    if ectopic_correction:
-        if np.any(artefacts["ectopic"]):
-            # Also correct the beat before
-            for i in np.where(artefacts["ectopic"])[0]:
-                if (i > 0) & (i < len(artefacts["ectopic"])):
-                    artefacts["ectopic"][i - 1] = True
-            this_id = np.where(artefacts["ectopic"])[0]
-            clean_rr = interpolate_bads(clean_rr, [this_id])
-            nEctopic = np.sum(artefacts["ectopic"])  # type: ignore
+        if verbose:
+            print(f" - Iteration {n_it+1} - ")
+        nEctopic, nShort, nLong, nExtra, nMissed = 0, 0, 0, 0, 0
 
-    # Correct short beats
-    if short_correction:
-        if np.any(artefacts["short"]):
-            this_id = np.where(artefacts["short"])[0]
-            clean_rr = interpolate_bads(clean_rr, this_id)
-            nShort = len(this_id)
+        # Correct missed beats
+        if missed_correction:
+            if np.any(artefacts["missed"]):
+                for this_id in np.where(artefacts["missed"])[0]:
+                    this_id += nMissed
+                    clean_rr = correct_missed(clean_rr, this_id)
+                    nMissed += 1
+            if verbose:
+                print(f"... correcting {nMissed} missed interval(s).")
+            artefacts = rr_artefacts(clean_rr)
 
-    # Correct long beats
-    if long_correction:
-        if np.any(artefacts["long"]):
-            this_id = np.where(artefacts["long"])[0]
-            clean_rr = interpolate_bads(clean_rr, this_id)
-            nLong = len(this_id)
+        # Correct extra beats
+        if extra_correction:
+            if np.any(artefacts["extra"]):
+                for this_id in np.where(artefacts["extra"])[0]:
+                    this_id -= nExtra
+                    clean_rr = correct_extra(clean_rr, this_id)
+                    nExtra += 1
+            if verbose:
+                print(f"... correcting {nExtra} extra interval(s).")
+            artefacts = rr_artefacts(clean_rr)
+
+        # Correct ectopic beats
+        if ectopic_correction:
+            if np.any(artefacts["ectopic"]):
+                # Also correct the beat before
+                for i in np.where(artefacts["ectopic"])[0]:
+                    if (i > 0) & (i < len(artefacts["ectopic"])):
+                        artefacts["ectopic"][i - 1] = True
+                this_id = np.where(artefacts["ectopic"])[0]
+                clean_rr = interpolate_bads(clean_rr, [this_id])
+                nEctopic = np.sum(artefacts["ectopic"])  # type: ignore
+            if verbose:
+                print(f"... correcting {nEctopic} ectopic interval(s).")
+            artefacts = rr_artefacts(clean_rr)
+
+        # Correct short beats
+        if short_correction:
+            if np.any(artefacts["short"]):
+                this_id = np.where(artefacts["short"])[0]
+                clean_rr = interpolate_bads(clean_rr, this_id)
+                nShort = len(this_id)
+            if verbose:
+                print(f"... correcting {nShort} short interval(s).")
+            artefacts = rr_artefacts(clean_rr)
+
+        # Correct long beats
+        if long_correction:
+            if np.any(artefacts["long"]):
+                this_id = np.where(artefacts["long"])[0]
+                clean_rr = interpolate_bads(clean_rr, this_id)
+                nLong = len(this_id)
+            if verbose:
+                print(f"... correcting {nLong} long interval(s).")
+            artefacts = rr_artefacts(clean_rr)
 
     return {
         "clean_rr": clean_rr,
