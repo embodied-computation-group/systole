@@ -37,6 +37,9 @@
 In particular, the package provides tools to pre-process, analyze, and synchronize cardiac data from psychophysiology research.
 This includes tools for data epoching, heart-rate variability, and synchronizing stimulus presentation with different cardiac phases via psychopy.
 
+Systole documentation
+=====================
+
 .. panels::
     :card: + intro-card text-center
     :column: col-lg-6 col-md-6 col-sm-6 col-xs-12 d-flex
@@ -63,7 +66,7 @@ This includes tools for data epoching, heart-rate variability, and synchronizing
     Example gallery
     ^^^^^^^^^^^^^^^
 
-    See this section for examples of using Systole in different ways..
+    See this section for examples of using Systole in different ways.
 
     +++
 
@@ -107,12 +110,6 @@ This includes tools for data epoching, heart-rate variability, and synchronizing
             :classes: btn-block btn-secondary stretched-link
 
 
-Contributors
-============
-
-- Jan C. Brammer (jan.c.brammer@gmail.com)
-- Gidon Levakov (gidonlevakov@gmail.com)
-
 Acknowledgements
 ================
 
@@ -140,20 +137,31 @@ This module was created and is maintained by Nicolas Legrand and Micah Allen (EC
 
 This program is provided with NO WARRANTY OF ANY KIND.
 
+Contributors
+============
+
+- Jan C. Brammer (jan.c.brammer@gmail.com)
+- Gidon Levakov (gidonlevakov@gmail.com)
+- Peter Doggart (peter.doggart@pulseai.io)
+
 ================
 
 |AU| |lundbeck| |lab|
 
-.. |AU| image::  https://github.com/embodied-computation-group/systole/raw/master/Images/au_clinisk_logo.png
+.. |AU| image::  https://github.com/embodied-computation-group/systole/raw/dev/Images/au_clinisk_logo.png
+   :width: 100%
 
-.. |lundbeck| imgage::  https://github.com/embodied-computation-group/systole/raw/master/Images/lundbeckfonden_logo.png
+.. |lundbeck| image::  https://github.com/embodied-computation-group/systole/raw/dev/Images/lundbeckfonden_logo.png
+   :width: 10%
 
-.. |lab| image::  https://github.com/embodied-computation-group/systole/raw/master/Images/LabLogo.png
+.. |lab| image::  https://github.com/embodied-computation-group/systole/raw/dev/Images/LabLogo.png
+   :width: 20%
 
 
 .. toctree::
    :maxdepth: 3
    :hidden:
+
    Getting started <getting_started>
    Gallery <auto_examples/index.rst>
    Tutorials <tutorials.rst>

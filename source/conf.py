@@ -100,7 +100,7 @@ html_theme_options = {
         dict(
             name="Pypi",
             url="https://pypi.org/project/systole/",
-            icon="fab fa-box-square",
+            icon="fas fa-box",
         ),
     ],
     "logo_link": "https://systole-docs.github.io/",
