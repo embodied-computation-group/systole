@@ -25,13 +25,9 @@ def plot_subspaces(
 
     Returns
     -------
-    row : :class:`bokeh.models.layout.Row`
+    fig : :class:`bokeh.models.layout.Row`
         The bokeh figure containing the two plots.
 
-    See also
-    --------
-    plot_events, plot_ectopic, plot_shortlong, plot_subspaces, plot_frequency,
-    plot_timedomain, plot_nonlinear
     """
     fig = row(
         plot_ectopic(  # type: ignore

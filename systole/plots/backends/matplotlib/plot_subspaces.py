@@ -27,11 +27,6 @@ def plot_subspaces(
     axs : tuple of :class:`matplotlib.axes.Axes`
         The matplotlib axes containing the plot.
 
-    See also
-    --------
-    plot_events, plot_ectopic, plot_shortlong, plot_subspaces, plot_frequency,
-    plot_timedomain, plot_nonlinear
-
     """
     ectopic = plot_ectopic(  # type: ignore
         artefacts=artefacts, figsize=figsize, input_type=None, backend="matplotlib"

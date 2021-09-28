@@ -59,7 +59,7 @@ def plot_raw(
 
     Returns
     -------
-    fig : :class:`matplotlib.axes.Axes` or tuple
+    ax : :class:`matplotlib.axes.Axes` | tuple
         The matplotlib axes containing the plot.
     """
 

@@ -39,10 +39,6 @@ def plot_frequency(
     psd_plot : :class:`bokeh.plotting.figure.Figure`
         The boken figure containing the plot.
 
-    See also
-    --------
-    plot_events, plot_ectopic, plot_shortlong, plot_subspaces, plot_frequency,
-    plot_timedomain, plot_nonlinear
     """
     if isinstance(figsize, int):
         height, width = figsize, figsize

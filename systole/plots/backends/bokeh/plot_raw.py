@@ -65,7 +65,7 @@ def plot_raw(
 
     Returns
     -------
-    fig : :class:`bokeh.plotting.figure.Figure`
+    raw : :class:`bokeh.plotting.figure.Figure`
         The bokeh figure containing the plot.
     """
 

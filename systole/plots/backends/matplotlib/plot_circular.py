@@ -170,9 +170,9 @@ def plot_circular(
     ----------
     data : :py:class:`pandas.DataFrame`
         Angular data (rad.).
-    y : str or list
+    y : str | list
         If data is a pandas instance, column containing the angular values.
-    hue : str or list of strings
+    hue : str | list
         Columns in data encoding the different conditions.
     **kwargs : Additional `_circular()` arguments.
 
@@ -180,18 +180,6 @@ def plot_circular(
     -------
     ax : :class:`matplotlib.axes.Axes`
         The matplotlib axes containing the plot.
-
-    Examples
-    --------
-    .. plot::
-
-       import numpy as np
-       import pandas as pd
-       from systole.plots import plot_circular
-       x = np.random.normal(np.pi, 0.5, 100)
-       y = np.random.uniform(0, np.pi*2, 100)
-       data = pd.DataFrame(data={'x': x, 'y': y}).melt()
-       plot_circular(data=data, y='value', hue='variable')
 
     """
     # Check data format
