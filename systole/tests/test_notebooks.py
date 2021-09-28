@@ -7,7 +7,7 @@ from unittest import TestCase
 import papermill as pm
 
 
-class TestHrv(TestCase):
+class TestNotebooks(TestCase):
     def test_notebooks(self):
         """Test tutorial notebooks"""
 

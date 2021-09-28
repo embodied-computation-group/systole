@@ -2,20 +2,20 @@
 Detecting and correcting artefacts in RR time series
 ====================================================
 
-This example describe artefacts correction in RR time series.
+This example describes artefacts correction in RR time series.
+
+The function `correct_rr()` automatically detect artefacts using the method proposed
+by Lipponen & Tarvainen (2019) [#]_. At each iteration, shorts, extra, long, missed 
+and ectopic beats are corrected using interpolation of the RR time series, and the
+detection procedure is run again using cleaned intervals. Importantly, when using 
+this method the signal length can be altered after the interpolation, introducing 
+misalignement with eg. triggers from the experiment. For this reason, it is only 
+recommended to use it in the context of "bloc design" study or heart rate variability.
+
 """
 
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 # Licence: GPL v3
-
-# The function `correct_rr()` automatically detect artefacts using the method proposed
-# by Lipponen & Tarvainen (2019) [1]_. At each iteration, shorts, extra, long, missed 
-# and ectopic beats are corrected using interpolation of the RR time series, and the
-# detection procedure is run again using cleaned intervals. Importantly, when using 
-# this method the signal length can be altered after the interpolation, introducing 
-# misalignement with eg. triggers from the experiment. For this reason, it is only 
-# recommended to use it in the context of "bloc design" study or heart rate variability.
-
 
 #%%
 import numpy as np
@@ -141,7 +141,7 @@ plt.show()
 #%%
 # References
 # ----------
-# .. [1] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
+# .. [#] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
 #   heart rate variability time series artefact correction using novel
 #   beat classification. Journal of Medical Engineering & Technology,
 #   43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306

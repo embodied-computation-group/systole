@@ -188,9 +188,6 @@ def ecg_peaks(
 
     Notes
     -----
-    This function will call the py-ecg-detectors package to perform R wave
-    detection.
-
     .. warning :: This function will resample the signal to 1000 Hz.
 
     Examples

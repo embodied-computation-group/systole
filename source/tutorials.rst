@@ -29,10 +29,11 @@ in general.
    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
    .. toctree::
-      :maxdepth: 3
+      :maxdepth: 4
 
       notebooks/1-PhysiologicalSignals.ipynb
 
+   +++
    .. image:: https://colab.research.google.com/assets/colab-badge.svg
       :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/1-PhysiologicalSignals.ipynb
       :align: center
@@ -43,10 +44,11 @@ in general.
    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
    .. toctree::
-      :maxdepth: 3
+      :maxdepth: 4
 
       notebooks/2-DetectingCycles.ipynb
 
+   +++
    .. image:: https://colab.research.google.com/assets/colab-badge.svg
       :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/1-PhysiologicalSignals.ipynb
       :align: center
@@ -57,24 +59,26 @@ in general.
    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
    .. toctree::
-      :maxdepth: 3
+      :maxdepth: 4
 
       notebooks/3-DetectingAndCorrectingArtefacts.ipynb
 
+   +++
    .. image:: https://colab.research.google.com/assets/colab-badge.svg
       :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/1-PhysiologicalSignals.ipynb
       :align: center
       
    ---
 
-   4 _ Heart rate variability
+   4 - Heart rate variability
    ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
    .. toctree::
-      :maxdepth: 3
+      :maxdepth: 4
 
       notebooks/4-HeartRateVariability.ipynb
 
+   +++
    .. image:: https://colab.research.google.com/assets/colab-badge.svg
       :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/1-PhysiologicalSignals.ipynb
       :align: center
@@ -85,10 +89,11 @@ in general.
    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
    .. toctree::
-      :maxdepth: 3
+      :maxdepth: 4
 
       notebooks/5-InstantaneousHeartRate.ipynb
 
+   +++
    .. image:: https://colab.research.google.com/assets/colab-badge.svg
       :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/1-PhysiologicalSignals.ipynb
       :align: center

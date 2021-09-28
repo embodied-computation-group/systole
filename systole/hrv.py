@@ -27,6 +27,7 @@ def nnX(x: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> f
     -------
     nnX : float
         The number of successive differences larger than a value.
+
     """
 
     x = np.asarray(x)
@@ -59,6 +60,7 @@ def pnnX(x: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> 
     -------
     nn : float
         The proportion of successive differences larger than a value (%).
+
     """
 
     x = np.asarray(x)
@@ -98,6 +100,8 @@ def rmssd(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> float:
     --------
     >>> rr = [800, 850, 810, 720]
     >>> rmssd(rr)
+    63.77042156569664
+
     """
 
     x = np.asarray(x)
@@ -128,18 +132,18 @@ def time_domain(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.Dat
     -------
     stats : :py:class:`pandas.DataFrame`
         Time domain summary statistics.
-        * ``'Mean RR'`` : Mean of R-R intervals.
-        * ``'Mean BPM'`` : Mean of beats per minutes.
-        * ``'Median RR'`` : Median of R-R intervals'.
-        * ``'Median BPM'`` : Meidan of beats per minutes.
-        * ``'MinRR'`` : Minimum R-R intervals.
-        * ``'MinBPM'`` : Minimum beats per minutes.
-        * ``'MaxRR'`` : Maximum R-R intervals.
-        * ``'MaxBPM'`` : Maximum beats per minutes.
-        * ``'SDNN'`` : Standard deviation of successive differences.
-        * ``'RMSSD'`` : Root Mean Square of the Successive Differences.
-        * ``'NN50'`` : number of successive differences larger than 50ms.
-        * ``'pNN50'`` : Proportion of successive difference larger than 50ms.
+        - ``'Mean RR'`` : Mean of R-R intervals.
+        - ``'Mean BPM'`` : Mean of beats per minutes.
+        - ``'Median RR'`` : Median of R-R intervals'.
+        - ``'Median BPM'`` : Meidan of beats per minutes.
+        - ``'MinRR'`` : Minimum R-R intervals.
+        - ``'MinBPM'`` : Minimum beats per minutes.
+        - ``'MaxRR'`` : Maximum R-R intervals.
+        - ``'MaxBPM'`` : Maximum beats per minutes.
+        - ``'SDNN'`` : Standard deviation of successive differences.
+        - ``'RMSSD'`` : Root Mean Square of the Successive Differences.
+        - ``'NN50'`` : number of successive differences larger than 50ms.
+        - ``'pNN50'`` : Proportion of successive difference larger than 50ms.
 
     See also
     --------
@@ -151,7 +155,7 @@ def time_domain(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.Dat
     format to facilitate the creation of group summary data frame that can
     easily be transferred to other plotting or statistics library. You can
     easily convert it into a wide format for a subject-level inline report
-    using the py:pandas.pivot_table() function:
+    using the py:func:`pandas.pivot_table` function:
     >>> pd.pivot_table(stats, values='Values', columns='Metric')
 
     All time-domain results have been tested against Kubios HVR 2.2
@@ -315,9 +319,10 @@ def frequency_domain(
     fbands : None | dict
         Dictionary containing the names of the frequency bands of interest
         (str), their range (tuples) and their color in the PSD plot. Default is
-        >>> {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
-        >>> 'lf': ('Low frequency', (0.04, 0.15), 'g'),
-        >>> 'hf': ('High frequency', (0.15, 0.4), 'r')}
+        .. python::
+           {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
+            'lf': ('Low frequency', (0.04, 0.15), 'g'),
+            'hf': ('High frequency', (0.15, 0.4), 'r')}
     input_type : str
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
@@ -326,11 +331,11 @@ def frequency_domain(
     -------
     stats : :py:class:`pandas.DataFrame`
         Frequency domain summary statistics.
-        * ``'power_vlf_per'`` : Very low frequency power (%).
-        * ``'power_lf_per'`` : Low frequency power (%).
-        * ``'power_hf_per'`` : High frequency power (%).
-        * ``'power_lf_nu'`` : Low frequency power (normalized units).
-        * ``'power_hf_nu'`` : High frequency power (normalized units).
+        - ``'power_vlf_per'`` : Very low frequency power (%).
+        - ``'power_lf_per'`` : Low frequency power (%).
+        - ``'power_hf_per'`` : High frequency power (%).
+        - ``'power_lf_nu'`` : Low frequency power (normalized units).
+        - ``'power_hf_nu'`` : High frequency power (normalized units).
 
     See also
     --------
@@ -342,7 +347,7 @@ def frequency_domain(
     format to facilitate the creation of group summary data frame that can
     easily be transferred to other plotting or statistics library. You can
     easily convert it into a wide format for a subject-level inline report
-    using the py:pandas.pivot_table() function:
+    using the py:func:`pandas.pivot_table` function:
     >>> pd.pivot_table(stats, values='Values', columns='Metric')
 
     .. warning::

@@ -125,4 +125,5 @@ intersphinx_mapping = {
     "pandas": ("https://pandas.pydata.org/pandas-docs/stable/", None),
     "seaborn": ("https://seaborn.pydata.org/", None),
     "sklearn": ("http://scikit-learn.org/stable", None),
+    "bokeh": ("http://docs.bokeh.org/en/latest/", None),
 }
