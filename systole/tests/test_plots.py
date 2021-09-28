@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
-from systole import import_dataset1, import_ppg, import_rr, serialSim
+from systole import import_dataset1, import_ppg, import_rr
 from systole.detection import ecg_peaks
 from systole.plots import (
     plot_circular,
@@ -21,40 +21,29 @@ from systole.plots import (
     plot_shortlong,
     plot_subspaces,
 )
-from systole.recording import Oximeter
-
-serial = serialSim()
-oxi = Oximeter(serial=serial, add_channels=1).setup().read(10)
-oxi.channels["Channel_0"][100] = 1
-
-# Simulate oximeter instance from recorded signal
-ppg = import_ppg().ppg.to_numpy()
-oxi = Oximeter(serial=None, add_channels=1)
-oxi.threshold = [0] * 75
-oxi.peaks = [0] * 75
-oxi.instant_rr = [0] * 75
-oxi.recording = list(ppg[:75])
-for i in range(len(ppg[75:750])):
-    oxi.add_paquet(ppg[75 + i])
-oxi.channels["Channel_0"] = np.zeros(750, dtype=int)
-oxi.channels["Channel_0"][np.random.choice(np.arange(0, 750), 5)] = 1
-oxi.times = list(np.arange(0, 10, 1 / 75))
-
-# Create angular data
-x = np.random.normal(np.pi, 0.5, 100)
-y = np.random.uniform(0, np.pi * 2, 100)
-z = np.concatenate(
-    [np.random.normal(np.pi / 2, 0.5, 50), np.random.normal(np.pi + np.pi / 2, 0.5, 50)]
-)
 
 
 class TestPlots(TestCase):
     def test_plot_circular(self):
         """Test plot_circular function"""
-        data = pd.DataFrame(data={"x": x, "y": y, "z": z}).melt()
-        for backend in ["matplotlib", "bokeh"]:
+        for backend in ["matplotlib"]:
+
+            # Single array as input
+            data = np.random.normal(np.pi, 0.5, 100)
+            plot_circular(data=data, backend=backend)
+
+            # List of arrays as input
+            data = [
+                np.random.normal(np.pi, 0.5, 100),
+                np.random.uniform(0, np.pi * 2, 100),
+            ]
+            plot_circular(data=data, hue=None, backend=backend)
+
+            # DataFrame as input
+            x = np.random.normal(np.pi, 0.5, 100)
+            y = np.random.uniform(0, np.pi * 2, 100)
+            data = pd.DataFrame(data={"x": x, "y": y}).melt()
             plot_circular(data=data, y="value", hue="variable", backend=backend)
-            plot_circular(data=data, y="value", hue=None, backend=backend)
 
     def test_plot_ectopic(self):
         """Test plot_ectopic function"""
@@ -118,8 +107,28 @@ class TestPlots(TestCase):
     def test_plot_raw(self):
         """Test plot_raw function"""
         for backend in ["matplotlib", "bokeh"]:
-            plot_raw(ppg, backend=backend)
-            plot_raw(ppg, backend=backend, show_heart_rate=True, show_artefacts=True)
+
+            # Using ppg signal
+            ppg = import_ppg().ppg.to_numpy()
+            plot_raw(
+                ppg,
+                backend=backend,
+                show_heart_rate=True,
+                show_artefacts=True,
+                modality="ppg",
+                sfreq=75,
+            )
+
+            # Using ecg signal
+            ecg_df = import_dataset1(modalities=["ECG"])
+            plot_raw(
+                ecg_df.ecg,
+                backend=backend,
+                show_heart_rate=True,
+                show_artefacts=True,
+                modality="ecg",
+                sfreq=1000,
+            )
 
     def test_plot_rr(self):
         """Test plot_rr function"""

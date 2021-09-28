@@ -7,7 +7,7 @@ from typing import List
 
 import numpy as np
 import pandas as pd
-import requests
+import requests  # type: ignore
 from tqdm import tqdm
 
 ddir = op.dirname(op.realpath(__file__))
