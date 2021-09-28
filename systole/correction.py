@@ -115,16 +115,16 @@ def correct_rr(
     ----------
     rr : np.ndarray
         RR intervals (ms).
-    extra_correction : boolean
-      If `True`, correct extra beats in the RR time series.
-    missed_correction : boolean
-      If `True`, correct missed beats in the RR time series.
-    short_correction : boolean
-      If `True`, correct short beats in the RR time series.
-    long_correction : boolean
-      If `True`, correct long beats in the RR time series.
-    ectopic_correction : boolean
-      If `True`, correct ectopic beats in the RR time series.
+    extra_correction : bool
+      If `True` (deault), correct extra beats in the RR time series.
+    missed_correction : bool
+      If `True` (deault), correct missed beats in the RR time series.
+    short_correction : bool
+      If `True` (deault), correct short beats in the RR time series.
+    long_correction : bool
+      If `True` (deault), correct long beats in the RR time series.
+    ectopic_correction : bool
+      If `True` (deault), correct ectopic beats in the RR time series.
     n_iterations : int
         How many time to repeat the detection-correction process. Defaults to `2`.
     input_type : str
@@ -152,6 +152,10 @@ def correct_rr(
             The number of extra beats corrected.
         * missed: int
             The number of missed beats corrected.
+
+    See also
+    --------
+    correct_peaks
 
     """
     rr = np.asarray(rr)
@@ -280,6 +284,10 @@ def correct_peaks(
             Can also be a boolean vector where `1` represents the occurrence of
             R waves or systolic peakspeaks vector `"rr_s"` or IBI expressed in
             seconds.
+    extra_correction : bool
+      If `True` (default), correct extra peaks in the peaks time series.
+    missed_correction : bool
+      If `True` (default), correct missed peaks in the peaks time series.
     n_iterations : int
         How many time to repeat the detection-correction process. Defaults to `2`.
     verbose : bool
@@ -307,6 +315,7 @@ def correct_peaks(
     signal constant after peaks correction.
 
     """
+
     peaks = np.asarray(peaks)
 
     if input_type != "peaks":
@@ -314,8 +323,6 @@ def correct_peaks(
 
     clean_peaks = peaks.copy()
     nExtra, nMissed = 0, 0
-
-    artefacts = rr_artefacts(peaks, input_type="peaks")
 
     if verbose:
         print(f"Cleaning the peaks vector using {n_iterations} iterations.")
@@ -325,8 +332,12 @@ def correct_peaks(
         if verbose:
             print(f" - Iteration {n_it+1} - ")
 
-        # Correct extra beats
+        # Correct extra peaks
         if extra_correction:
+
+            # Artefact detection
+            artefacts = rr_artefacts(clean_peaks, input_type="peaks")
+
             if np.any(artefacts["extra"]):
 
                 peaks_idx = np.where(clean_peaks)[0][1:]
@@ -335,17 +346,18 @@ def correct_peaks(
                 extra_idx = peaks_idx[np.where(artefacts["extra"])[0]]
 
                 # Number of extra peaks to correct
-                nExtra = artefacts["extra"].sum()
+                this_nextra = artefacts["extra"].sum()
                 if verbose:
-                    print(f"... correcting {nExtra} extra peak(s).")
+                    print(f"... correcting {this_nextra} extra peak(s).")
+
+                nExtra += this_nextra
 
                 # Removing peak n+1 to correct RR interval n
                 clean_peaks[extra_idx] = False
 
-                # Artefact detection
                 artefacts = rr_artefacts(clean_peaks, input_type="peaks")
 
-        # Correct missed beats
+        # Correct missed peaks
         if missed_correction:
             if np.any(artefacts["missed"]):
 
@@ -355,9 +367,11 @@ def correct_peaks(
                 missed_idx = peaks_idx[np.where(artefacts["missed"])[0]]
 
                 # Number of missed peaks to correct
-                nMissed = artefacts["missed"].sum()
+                this_nmissed = artefacts["missed"].sum()
                 if verbose:
-                    print(f"... correcting {nMissed} missed peak(s).")
+                    print(f"... correcting {this_nmissed} missed peak(s).")
+
+                nMissed += this_nmissed
 
                 # Correct missed peaks using sample index
                 for this_idx in missed_idx:
