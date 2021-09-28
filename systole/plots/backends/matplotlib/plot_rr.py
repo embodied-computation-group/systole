@@ -189,7 +189,7 @@ def plot_rr(
 
     # Show physiologically impossible ranges
     if show_limits is True:
-        high, low = (3000, 200) if unit == "rr" else (20, 300)
+        high, low = (3000, 200) if unit == "rr" else (300, 20)
         if points is True:
             if (ibi > high).any() | (ibi < low).any():
                 ylim_low, ylim_high = ax.get_ylim()
