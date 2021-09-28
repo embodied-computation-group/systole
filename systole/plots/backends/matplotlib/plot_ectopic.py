@@ -27,18 +27,9 @@ def plot_ectopic(
 
     Returns
     -------
-    plot : :class:`bokeh.plotting.figure.Figure`
-        The boken figure containing the plot.
+    ax : :class:`matplotlib.axes.Axes`
+        The matplotlib axes containing the plot.
 
-    See also
-    --------
-    plot_events, plot_ectopic, plot_shortlong, plot_subspaces, plot_frequency,
-    plot_timedomain, plot_nonlinear
-
-    Notes
-    -----
-    If both ``rr`` or ``artefacts`` are provided, will recompute ``artefacts``
-    given the current rr time-series.
     """
     c1, c2, xlim, ylim = 0.13, 0.17, 10, 5
 
@@ -73,49 +64,62 @@ def plot_ectopic(
         label="Normal",
     )
 
-    # Plot outliers
-    ax.scatter(
-        artefacts["subspace1"][artefacts["ectopic"]],
-        artefacts["subspace2"][artefacts["ectopic"]],
-        color="r",
-        edgecolors="k",
-        zorder=10,
-        label="Ectopic",
-    )
-    ax.scatter(
-        artefacts["subspace1"][artefacts["short"]],
-        artefacts["subspace2"][artefacts["short"]],
-        color="b",
-        edgecolors="k",
-        zorder=10,
-        marker="s",
-        label="Short",
-    )
-    ax.scatter(
-        artefacts["subspace1"][artefacts["long"]],
-        artefacts["subspace2"][artefacts["long"]],
-        color="g",
-        edgecolors="k",
-        zorder=10,
-        marker="s",
-        label="Long",
-    )
-    ax.scatter(
-        artefacts["subspace1"][artefacts["missed"]],
-        artefacts["subspace2"][artefacts["missed"]],
-        color="g",
-        edgecolors="k",
-        zorder=10,
-        label="Missed",
-    )
-    ax.scatter(
-        artefacts["subspace1"][artefacts["extra"]],
-        artefacts["subspace2"][artefacts["extra"]],
-        color="b",
-        edgecolors="k",
-        zorder=10,
-        label="Extra",
-    )
+    # Ectopic beats
+    if artefacts["ectopic"].any():
+        ax.scatter(
+            artefacts["subspace1"][artefacts["ectopic"]],
+            artefacts["subspace2"][artefacts["ectopic"]],
+            color="r",
+            edgecolors="k",
+            zorder=10,
+            label="Ectopic",
+        )
+
+    # Short RR intervals
+    if artefacts["short"].any():
+        ax.scatter(
+            artefacts["subspace1"][artefacts["short"]],
+            artefacts["subspace2"][artefacts["short"]],
+            color="b",
+            edgecolors="k",
+            zorder=10,
+            marker="s",
+            label="Short",
+        )
+
+    # Long RR intervals
+    if artefacts["long"].any():
+        ax.scatter(
+            artefacts["subspace1"][artefacts["long"]],
+            artefacts["subspace2"][artefacts["long"]],
+            color="g",
+            edgecolors="k",
+            zorder=10,
+            marker="s",
+            label="Long",
+        )
+
+    # Missed RR intervals
+    if artefacts["missed"].any():
+        ax.scatter(
+            artefacts["subspace1"][artefacts["missed"]],
+            artefacts["subspace2"][artefacts["missed"]],
+            color="g",
+            edgecolors="k",
+            zorder=10,
+            label="Missed",
+        )
+
+    # Extra RR intervals
+    if artefacts["extra"].any():
+        ax.scatter(
+            artefacts["subspace1"][artefacts["extra"]],
+            artefacts["subspace2"][artefacts["extra"]],
+            color="b",
+            edgecolors="k",
+            zorder=10,
+            label="Extra",
+        )
 
     # Upper area
     def f1(x):

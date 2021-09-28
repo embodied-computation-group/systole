@@ -22,18 +22,9 @@ def plot_shortlong(
 
     Returns
     -------
-    plot : :class:`bokeh.plotting.figure.Figure`
+    shorLong_plot : :class:`bokeh.plotting.figure.Figure`
         The boken figure containing the plot.
 
-    See also
-    --------
-    plot_events, plot_ectopic, plot_shortlong, plot_subspaces, plot_frequency,
-    plot_timedomain, plot_nonlinear
-
-    Notes
-    -----
-    If both ``rr`` or ``artefacts`` are provided, will recompute ``artefacts``
-    given the current rr time-series.
     """
     xlim, ylim = 10, 10
 
@@ -80,53 +71,58 @@ def plot_shortlong(
     )
 
     # Plot ectopic beats
-    shorLong_plot.triangle(
-        artefacts["subspace1"][artefacts["ectopic"]],
-        artefacts["subspace3"][artefacts["ectopic"]],
-        size=8,
-        alpha=0.8,
-        legend_label="Ectopic beats",
-        color="#6c0073",
-    )
+    if artefacts["ectopic"].any():
+        shorLong_plot.triangle(
+            artefacts["subspace1"][artefacts["ectopic"]],
+            artefacts["subspace3"][artefacts["ectopic"]],
+            size=8,
+            alpha=0.8,
+            legend_label="Ectopic beats",
+            color="#6c0073",
+        )
 
     # Plot missed beats
-    shorLong_plot.square(
-        artefacts["subspace1"][artefacts["missed"]],
-        artefacts["subspace3"][artefacts["missed"]],
-        size=8,
-        alpha=0.8,
-        legend_label="Missed beats",
-        color="#2f5f91",
-    )
+    if artefacts["missed"].any():
+        shorLong_plot.square(
+            artefacts["subspace1"][artefacts["missed"]],
+            artefacts["subspace3"][artefacts["missed"]],
+            size=8,
+            alpha=0.8,
+            legend_label="Missed beats",
+            color="#2f5f91",
+        )
 
     # Plot long beats
-    shorLong_plot.circle(
-        artefacts["subspace1"][artefacts["long"]],
-        artefacts["subspace3"][artefacts["long"]],
-        size=8,
-        alpha=0.8,
-        legend_label="Long beats",
-        color="#9ac1d4",
-    )
+    if artefacts["long"].any():
+        shorLong_plot.circle(
+            artefacts["subspace1"][artefacts["long"]],
+            artefacts["subspace3"][artefacts["long"]],
+            size=8,
+            alpha=0.8,
+            legend_label="Long beats",
+            color="#9ac1d4",
+        )
 
     # Plot extra beats
-    shorLong_plot.square(
-        artefacts["subspace1"][artefacts["extra"]],
-        artefacts["subspace3"][artefacts["extra"]],
-        size=8,
-        alpha=0.8,
-        legend_label="Extra beats",
-        color="#9d2b39",
-    )
+    if artefacts["extra"].any():
+        shorLong_plot.square(
+            artefacts["subspace1"][artefacts["extra"]],
+            artefacts["subspace3"][artefacts["extra"]],
+            size=8,
+            alpha=0.8,
+            legend_label="Extra beats",
+            color="#9d2b39",
+        )
 
     # Plot short beats
-    shorLong_plot.circle(
-        artefacts["subspace1"][artefacts["short"]],
-        artefacts["subspace3"][artefacts["short"]],
-        size=8,
-        alpha=0.8,
-        legend_label="Short beats",
-        color="#c56c5e",
-    )
+    if artefacts["short"].any():
+        shorLong_plot.circle(
+            artefacts["subspace1"][artefacts["short"]],
+            artefacts["subspace3"][artefacts["short"]],
+            size=8,
+            alpha=0.8,
+            legend_label="Short beats",
+            color="#c56c5e",
+        )
 
     return shorLong_plot
