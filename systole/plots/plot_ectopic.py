@@ -46,7 +46,9 @@ def plot_ectopic(
     backend: str = "matplotlib",
     figsize: Union[Tuple[float, float], int] = None,
 ) -> Union[Figure, Axes]:
-    """Plot interactive ectobeats subspace.
+    """Visualization of ectopic beats detection.
+
+    The artefact detection is based on the method described in [1]_.
 
     Parameters
     ----------
@@ -65,11 +67,11 @@ def plot_ectopic(
         Where to draw the plot. Default is *None* (create a new figure). Only
         applies when `backend="matplotlib"`.
     backend: str
-        Select plotting backend {"matplotlib", "bokeh"}. Defaults to
-        "matplotlib".
+        Select plotting backend (`"matplotlib"` or `"bokeh"`. Defaults to
+        `"matplotlib"`.
     figsize : tuple | int | None
-        Figure size. Default is `(13, 5)` for matplotlib backend, and the
-        height is `600` when using bokeh backend.
+        Figure size. Default is `(13, 5)` for Matplotlib backend, and the
+        height is `600` when using Bokeh backend.
 
     Returns
     -------
@@ -78,13 +80,18 @@ def plot_ectopic(
 
     See also
     --------
-    plot_events, plot_ectopic, plot_shortlong, plot_subspaces, plot_frequency,
-    plot_timedomain, plot_nonlinear
+    plot_shortlong, plot_subspaces
+
+    References
+    ----------
+    .. [1] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for heart
+       rate variability time series artefact correction using novel beat classification.
+       Journal of Medical Engineering & Technology, 43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306
 
     Notes
     -----
-    If both *rr* or *artefacts* are provided, will recompute *artefacts*
-    given the current rr time-series.
+    If both `rr` and `artefacts` are provided, the function will drop `artefacts`
+    and re-evaluate given the current RR time-series.
 
     Examples
     --------
@@ -95,8 +102,10 @@ def plot_ectopic(
 
        from systole import import_rr
        from systole.plots import plot_ectopic
+
        # Import PPG recording as numpy array
        rr = import_rr().rr.to_numpy()
+
        plot_ectopic(rr, input_type="rr_ms")
 
     Visualizing ectopic subspace from the `artefact` dictionary.
@@ -104,24 +113,32 @@ def plot_ectopic(
     .. jupyter-execute::
 
        from systole.detection import rr_artefacts
+
        # Use the rr_artefacts function to find ectopic beats
        artefacts = rr_artefacts(rr)
+
        plot_ectopic(artefacts=artefacts)
 
-    Using Bokeh backend.
+    Using the Bokeh backend.
 
     .. jupyter-execute::
 
+       from bokeh.io import output_notebook
+       from bokeh.plotting import show
        from systole.detection import rr_artefacts
+       output_notebook()
+
        # Use the rr_artefacts function to find ectopic beats
        artefacts = rr_artefacts(rr)
-       plot_ectopic(artefacts=artefacts, backend="bokeh")
+       show(
+           plot_ectopic(artefacts=artefacts, backend="bokeh")
+        )
 
     """
 
     if figsize is None:
         if backend == "matplotlib":
-            figsize = (13, 5)
+            figsize = (6, 6)
         elif backend == "bokeh":
             figsize = 600
 

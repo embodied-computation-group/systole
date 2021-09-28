@@ -24,13 +24,13 @@ def plot_raw(
     backend: str = "matplotlib",
     **kwargs
 ) -> Union[Axes, Figure]:
-    """Visualization of PPG or ECG signal with systolic peaks/R wave detection.
+    """Visualization of PPG or ECG signal with systolic peaks or R wave detection.
 
     The instantaneous heart rate can be derived in a second row.
 
     Parameters
     ----------
-    signal : :py:class:`pandas.DataFrame`, :py:class:`numpy.ndarray` or list
+    signal : :py:class:`pandas.DataFrame` | :py:class:`numpy.ndarray` | list
         Dataframe of PPG or ECG signal in the long format. If a data frame is
         provided, it should contain at least one ``'time'`` and one colum for
         signal(either ``'ppg'`` or ``'ecg'``). If an array is provided, it will
@@ -58,7 +58,7 @@ def plot_raw(
     slider : bool
         If `True`, will add a slider to select the time window to plot
         (requires bokeh backend).
-    ax : :class:`matplotlib.axes.Axes` or None
+    ax : :class:`matplotlib.axes.Axes` | None
         Where to draw the plot. Default is *None* (create a new figure). Only
         applies when `backend="matplotlib"`.
     figsize : tuple, int or None
@@ -75,38 +75,53 @@ def plot_raw(
 
     Returns
     -------
-    plot : :class:`matplotlib.axes.Axes` or :class:`bokeh.plotting.figure.Figure`
-        The matplotlib axes, or the boken figure containing the plot.
+    plot : :class:`matplotlib.axes.Axes` | :class:`bokeh.plotting.figure.Figure`
+        The matplotlib axes, or the bokeh figure containing the plot.
 
     See also
     --------
-    plot_events, plot_subspaces, plot_events, plot_psd, plot_oximeter, plot_rr
+    plot_events, plot_rr
 
     Examples
     --------
 
     Plotting raw ECG recording.
 
-    .. plot::
+    .. jupyter-execute::
 
-       >>> from systole import import_dataset1
-       >>> # Import PPG recording as pandas data frame
-       >>> ecg = import_dataset1(modalities=['ECG'])
-       >>> # Only use the first 60 seconds for demonstration
-       >>> ecg = ecg[ecg.time.between(60, 90)]
-       >>> plot_raw(ecg, type='ecg', sfreq=1000, ecg_method='pan-tompkins')
+       from systole import import_dataset1
+       from systole.plots import plot_raw
+
+       # Import PPG recording as pandas data frame
+       ecg = import_dataset1(modalities=['ECG'])
+
+       # Only use the first 60 seconds for demonstration
+       ecg = ecg[ecg.time.between(60, 90)]
+       plot_raw(ecg, modality='ecg', sfreq=1000, ecg_method='pan-tompkins')
 
     Plotting raw PPG recording.
 
-    .. plot::
+    .. jupyter-execute::
 
-       >>> from systole import import_ppg
-       >>> from systole.plots import plot_raw
-       >>> # Import PPG recording as pandas data frame
-       >>> ppg = import_ppg()
-       >>> # Only use the first 60 seconds for demonstration
-       >>> ppg = ppg[ppg.time<60]
-       >>> plot_raw(ppg)
+       from systole import import_ppg
+
+       # Import PPG recording as pandas data frame
+       ppg = import_ppg()
+
+       # Only use the first 60 seconds for demonstration
+       plot_raw(ppg[ppg.time<60])
+
+    Using Bokeh backend, with instantaneous heart rate and artefacts.
+
+    .. jupyter-execute::
+
+       from bokeh.io import output_notebook
+       from bokeh.plotting import show
+       output_notebook()
+
+       show(
+           plot_raw(ppg, backend="bokeh", show_heart_rate=True, show_artefacts=True)
+        )
 
     """
     if figsize is None:

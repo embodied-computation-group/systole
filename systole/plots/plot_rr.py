@@ -23,11 +23,11 @@ def plot_rr(
     figsize: Optional[Union[Tuple[float, float], int]] = None,
     backend: str = "matplotlib",
 ) -> Axes:
-    """Plot continuous and/or discontinuous RR intervals time series.
+    """Plot RR intervals time series.
 
     Parameters
     ----------
-    rr : np.ndarray or list
+    rr : np.ndarray | list
         Boolean vector of peaks detection, peaks indexs or RR intervals.
     unit : str
         The heart rate unit in use. Can be `'rr'` (R-R intervals, in ms)
@@ -59,7 +59,7 @@ def plot_rr(
         bokeh backend).
     ax : :class:`matplotlib.axes.Axes` or None
         Where to draw the plot. Default is *None* (create a new figure).
-    figsize : tuple, int or None
+    figsize : tuple | int | None
         Figure size. Default is `(13, 5)`.
     backend: str
         Select plotting backend {"matplotlib", "bokeh"}. Defaults to
@@ -72,7 +72,7 @@ def plot_rr(
 
     See also
     --------
-    plot_events, plot_subspaces, plot_events, plot_psd, plot_oximeter, plot_raw
+    plot_raw, plot_events
 
     Examples
     --------
@@ -113,12 +113,15 @@ def plot_rr(
 
     .. jupyter-execute::
 
+       from bokeh.io import output_notebook
        from bokeh.plotting import show
+       output_notebook()
+
        show(
            plot_rr(rr=rr, input_type="rr_ms", backend="bokeh")
        )
 
-    Highlight the RR artefacts and outliers.
+    Highlight RR artefacts and outliers.
 
     .. jupyter-execute::
 

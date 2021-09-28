@@ -82,7 +82,7 @@ def plot_rr(
         ax.plot(
             time,
             hr,
-            label="Instantaneous heart rat",
+            label="Instantaneous heart rate",
             linewidth=0.75,
             color="#4c72b0",
             alpha=0.4,

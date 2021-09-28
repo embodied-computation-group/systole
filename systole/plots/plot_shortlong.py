@@ -42,14 +42,16 @@ def plot_shortlong(
     figsize: Union[Tuple[float, float], int] = None,
     backend: str = "matplotlib",
 ) -> Union[Figure, Axes]:
-    """Plot interactive short/long subspace.
+    """Visualization of short, long, extra and missed intervals detection.
+
+    The artefact detection is based on the method described in [1]_.
 
     Parameters
     ----------
-    rr : :py:class:`numpy.ndarray` or None
+    rr : :py:class:`numpy.ndarray` | None
         Interval time-series (R-R, beat-to-beat...), in seconds or in
         miliseconds.
-    artefacts : dict or None
+    artefacts : dict | None
         The artefacts detected using
         :py:func:`systole.detection.rr_artefacts()`.
     input_type : str
@@ -58,25 +60,24 @@ def plot_shortlong(
         Can also be `"rr_s"` or `"rr_ms"` for vectors of RR intervals, or
         interbeat intervals (IBI), expressed in seconds or milliseconds
         (respectively).
-    ax : :class:`matplotlib.axes.Axes` or None
+    ax : :class:`matplotlib.axes.Axes` | None
         Where to draw the plot. Default is *None* (create a new figure). Only
         applies when `backend="matplotlib"`.
     backend: str
         Select plotting backend {"matplotlib", "bokeh"}. Defaults to
         "matplotlib".
-    figsize : tuple, int or None
+    figsize : tuple | int | None
         Figure size. Default is `(13, 5)` for matplotlib backend, and the height
         is `600` when using bokeh backend.
 
     Returns
     -------
-    plot : :class:`matplotlib.axes.Axes` or :class:`bokeh.plotting.figure.Figure`
+    plot : :class:`matplotlib.axes.Axes` | :class:`bokeh.plotting.figure.Figure`
         The matplotlib axes, or the boken figure containing the plot.
 
     See also
     --------
-    plot_events, plot_ectopic, plot_shortlong, plot_subspaces, plot_frequency,
-    plot_timedomain, plot_nonlinear
+    plot_ectopic, plot_subspaces
 
     References
     ----------
@@ -87,8 +88,8 @@ def plot_shortlong(
 
     Notes
     -----
-    If both ``rr`` or ``artefacts`` are provided, will recompute ``artefacts``
-    given the current rr time-series.
+    If both `rr` and `artefacts` are provided, the function will drop `artefacts`
+    and re-evaluate given the current RR time-series.
 
     Examples
     --------
@@ -99,23 +100,36 @@ def plot_shortlong(
 
        from systole import import_rr
        from systole.plots import plot_shortlong
+
        # Import PPG recording as numpy array
        rr = import_rr().rr.to_numpy()
+
        plot_shortlong(rr)
 
     Visualizing ectopic subspace from the `artefact` dictionary.
 
     .. jupyter-execute::
 
-       from systole import import_rr
-       from systole.plots import plot_shortlong
        from systole.detection import rr_artefacts
-       # Import PPG recording as numpy array
-       rr = import_rr().rr.to_numpy()
-       # Use the rr_artefacts function to short/long
-       # and extra/missed intervals
+
+       # Use the rr_artefacts function to short/long and extra/missed intervals
        artefacts = rr_artefacts(rr)
+
        plot_shortlong(artefacts=artefacts)
+
+    Using the Bokeh backend.
+
+    .. jupyter-execute::
+
+       from bokeh.io import output_notebook
+       from bokeh.plotting import show
+       from systole.detection import rr_artefacts
+       output_notebook()
+
+       show(
+          plot_shortlong(artefacts=artefacts, backend="bokeh")
+       )
+
     """
     if figsize is None:
         if backend == "matplotlib":

@@ -37,14 +37,14 @@ def plot_evoked(
     palette: Optional[List[str]] = None,
     **kwargs,
 ) -> Union[Figure, Axes]:
-    """Plot events occurence across recording.
+    """Plot evoked heart rate across trials.
 
     Parameters
     ----------
-    epochs : np.array
+    epochs : np.ndarray
         A 2d (trial * time) numpy array containing the time series of the epoched
         signal.
-    signal : np.array
+    signal : np.ndarray
         A 1d numpy array containing the physiological signal (can be PPG or
         ECG). The modality of the signal is parametrized using the `modality`
         parameter.
@@ -54,7 +54,7 @@ def plot_evoked(
         Trigger indexes. Each value encode the sample where an event occured (see
         also `sfreq`). Different conditions should be provided separately as list of
         arrays (can have different lenght).
-    rr : np.array | list
+    rr : np.ndarray | list
         Boolean vector of peaks detection or peaks indexs. See `input_type`.
     input_type : str
         The type of input vector. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"`,
@@ -75,7 +75,7 @@ def plot_evoked(
     decim : int | None
         Factor by which to subsample the data. Selects every Nth sample (where N is the
         value passed to decim). Default set to `None` (no decim).
-    labels : str or list
+    labels : str | list
         The condition labels.
     unit : str
         The heart rate unit. Can be `'rr'` (R-R intervals, in ms) or `'bpm'` (beats
@@ -106,6 +106,55 @@ def plot_evoked(
     -------
     plot : :class:`matplotlib.axes.Axes` or :class:`bokeh.plotting.figure.Figure`
         The matplotlib axes, or the boken figure containing the plot.
+
+    See also
+    --------
+    plot_events
+
+    Examples
+    --------
+
+    Plot evoked heart rate across two conditions using the Matplotlib backend.
+
+    .. jupyter-execute::
+
+       import numpy as np
+       import seaborn as sns
+       from systole.detection import ecg_peaks
+       from systole.plots import plot_evoked
+       from systole import import_dataset1
+
+       ecg_df = import_dataset1(modalities=['ECG', "Stim"])
+
+       # Get events triggers
+       triggers_idx = [
+            np.where(ecg_df.stim.to_numpy() == 2)[0],
+            np.where(ecg_df.stim.to_numpy() == 1)[0]
+       ]
+
+       # Peak detection in the ECG signal using the Pan-Tompkins method
+       signal, peaks = ecg_peaks(ecg_df.ecg, method='pan-tompkins', sfreq=1000)
+
+       plot_evoked(
+           rr=peaks, triggers_idx=triggers_idx, input_type="peaks",
+           palette=[sns.xkcd_rgb["pale red"], sns.xkcd_rgb["denim blue"]],
+           apply_baseline=(-1.0, 0.0), decim=100, figsize=(400, 400)
+       )
+
+    Plot evoked heart rate across two conditions using the Bokeh backend.
+
+    .. jupyter-execute::
+
+       from bokeh.io import output_notebook
+       from bokeh.plotting import show
+       output_notebook()
+
+       show(
+           plot_evoked(
+               rr=peaks, triggers_idx=triggers_idx, input_type="peaks", backend="bokeh",
+               palette=[sns.xkcd_rgb["pale red"], sns.xkcd_rgb["denim blue"]],
+               apply_baseline=(-1.0, 0.0), decim=100, figsize=(400, 400))
+        )
 
     """
     # Define color palette

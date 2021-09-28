@@ -21,35 +21,38 @@ def plot_frequency(
     ax: Optional[Axes] = None,
     **kwargs
 ) -> Union[Figure, Axes]:
-    """Plot PSD and frequency domain metrics.
+    """Plot power spectral densty of RR time series.
 
     Parameters
     ----------
-    rr : np.ndarray or list
+    rr : np.ndarray | list
         Boolean vector of peaks detection or RR intervals.
     input_type : str
         The type of input vector. Default is `"peaks"` (a boolean vector where
-        `1` represents the occurrence of R waves or systolic peaks).
-        Can also be `"rr_s"` or `"rr_ms"` for vectors of RR intervals, or
-        interbeat intervals (IBI), expressed in seconds or milliseconds
-        (respectively).
-    fbands : None | dict, optional
+        `1` represents the occurrence of R waves or systolic peaks). Can also be
+        `"rr_s"` or `"rr_ms"` for vectors of RR intervals, or interbeat intervals
+        (IBI), expressed in seconds or milliseconds (respectively).
+    fbands : None | dict | optional
         Dictionary containing the names of the frequency bands of interest (str), their
         range (tuples) and their color in the PSD plot.
         Default is:
-        >>> {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
-        >>> 'lf': ('Low frequency', (0.04, 0.15), 'g'),
-        >>> 'hf': ('High frequency', (0.15, 0.4), 'r')}
-    figsize : list, tuple, int or None
+
+        .. python::
+
+           {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
+            'lf': ('Low frequency', (0.04, 0.15), 'g'),
+            'hf': ('High frequency', (0.15, 0.4), 'r')}
+
+    figsize : list | tuple | int | None
         Figure size. Default is `(13, 5)`.
-    ax : :class:`matplotlib.axes.Axes` or None
+    ax : :class:`matplotlib.axes.Axes` | None
         Where to draw the plot. Default is `None` (create a new figure).
     backend: str
-        Select plotting backend {"matplotlib", "bokeh"}. Defaults to "matplotlib".
+        Select plotting backend (`"matplotlib"`, `"bokeh"`). Defaults to `"matplotlib"`.
 
     Returns
     -------
-    plot : :class:`matplotlib.axes.Axes` or :class:`bokeh.plotting.figure.Figure`
+    plot : :class:`matplotlib.axes.Axes` | :class:`bokeh.plotting.figure.Figure`
         The matplotlib axes, or the boken figure containing the plot.
 
     See also
@@ -78,14 +81,19 @@ def plot_frequency(
 
         from systole import import_rr
         from systole.plots import plot_frequency
-        # Import PPG recording as numpy array
-        rr = import_rr().rr.to_numpy()
-        plot_frequency(rr, input_type="rr_ms", backend="bokeh")
+        from bokeh.io import output_notebook
+        from bokeh.plotting import show
+        output_notebook()
+
+        show(
+            plot_frequency(rr, input_type="rr_ms", backend="bokeh")
+        )
 
     """
+    # Define figure size
     if figsize is None:
         if backend == "matplotlib":
-            figsize = (13, 5)
+            figsize = (8, 6)
         elif backend == "bokeh":
             figsize = 600
 

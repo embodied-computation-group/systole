@@ -41,14 +41,16 @@ def plot_subspaces(
     figsize: Union[Tuple[float, float], int] = None,
     backend: str = "matplotlib",
 ) -> Union[Figure, Axes]:
-    """Plot hrv subspace as described by Lipponen & Tarvainen (2019) [1]_.
+    """Visualization of short, long, extra, missed and ectopic beats detection.
+
+    The artefact detection is based on the method described in [1]_.
 
     Parameters
     ----------
-    rr : :py:class:`numpy.ndarray` or None
+    rr : :py:class:`numpy.ndarray` | None
         Interval time-series (R-R, beat-to-beat...), in seconds or in
         miliseconds.
-    artefacts : dict or None
+    artefacts : dict | None
         The artefacts detected using
         :py:func:`systole.detection.rr_artefacts()`.
     input_type : str
@@ -60,7 +62,7 @@ def plot_subspaces(
     backend: str
         Select plotting backend {"matplotlib", "bokeh"}. Defaults to
         "matplotlib".
-    figsize : tuple, int or None
+    figsize : tuple | int | None
         Figure size. Default is `(13, 5)` for matplotlib backend, and the
         height is `600` when using bokeh backend.
 
@@ -81,6 +83,11 @@ def plot_subspaces(
        classification. Journal of Medical Engineering & Technology, 43(3),
        173–181. https://doi.org/10.1080/03091902.2019.1640306
 
+    Notes
+    -----
+    If both `rr` and `artefacts` are provided, the function will drop `artefacts`
+    and re-evaluate given the current RR time-series.
+
     Examples
     --------
 
@@ -90,9 +97,35 @@ def plot_subspaces(
 
        from systole import import_rr
        from systole.plots import plot_subspaces
+
        # Import PPG recording as numpy array
        rr = import_rr().rr.to_numpy()
        plot_subspaces(rr, backend="bokeh")
+
+    Visualizing ectopic subspace from the `artefact` dictionary.
+
+    .. jupyter-execute::
+
+       from systole.detection import rr_artefacts
+
+       # Use the rr_artefacts function to short/long and extra/missed intervals
+       artefacts = rr_artefacts(rr)
+
+       plot_subspaces(artefacts=artefacts)
+
+    Using the Bokeh backend.
+
+    .. jupyter-execute::
+
+       from bokeh.io import output_notebook
+       from bokeh.plotting import show
+       from systole.detection import rr_artefacts
+       output_notebook()
+
+       show(
+          plot_subspaces(artefacts=artefacts, backend="bokeh")
+       )
+
     """
     if figsize is None:
         if backend == "matplotlib":

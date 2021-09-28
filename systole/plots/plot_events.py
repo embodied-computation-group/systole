@@ -28,11 +28,11 @@ def plot_events(
 
     Parameters
     ----------
-    triggers : list or np.ndarray
+    triggers : list | np.ndarray
         The events triggers. `0` indicates no events, `1` indicates the triger
         for one event. Different conditions should be provided separately as list
         of arrays.
-    triggers_idx : list or np.ndarray
+    triggers_idx : list | np.ndarray
         Trigger indexes. Each value encode the sample where an event occured (see
         also `sfreq`). Different conditions should be provided separately as list of
         arrays (can have different lenght).
@@ -46,32 +46,80 @@ def plot_events(
         Defaults to -1.0 and 10.0, respectively.
     sfreq : int
         Signal sampling frequency. Default is set to 1000 Hz.
-    behavior : list or pd.DataFrame
+    behavior : list | py:class:`pandas.DataFrame`
         Additional information about trials that should appear when hovering on the
         trial (`bokeh` version only). A py:class:`pd.DataFrame` instance with length =
         n trials, or a list of py:class:`pd.DataFrame` (for multiple conditions) should
         be provided.
     figsize : tuple
         Figure size. Default is `(13, 5)`.
-    ax : :class:`matplotlib.axes.Axes` or None
-        Where to draw the plot. Default is *None* (create a new figure).
+    ax : :class:`matplotlib.axes.Axes` | :class:`bokeh.plotting.figure.Figure` | None
+        Where to draw the plot. Default is `None` (create a new figure).
     backend: str
-        Select plotting backend {"matplotlib", "bokeh"}. Defaults to
-        "matplotlib".
-    palette : list or None
+        Select plotting backend (`"matplotlib"`, `"bokeh"`). Defaults to
+        `"matplotlib"`.
+    palette : list | None
         Color palette. Default sets to Seaborn `"deep"`.
+
+    .. warning:: The `behavior` parameter will be implemented in a future release.
 
     Returns
     -------
-    plot : :class:`matplotlib.axes.Axes` or :class:`bokeh.plotting.figure.Figure`
+    plot : :class:`matplotlib.axes.Axes` | :class:`bokeh.plotting.figure.Figure`
         The matplotlib axes, or the boken figure containing the plot.
 
     See also
     --------
-    plot_rr, plot_subspaces, plot_events, plot_psd, plot_oximeter, plot_raw
+    plot_rr, plot_raw
 
     Examples
     --------
+
+    Plot events distributions using the Matplotlib backend.
+
+    .. jupyter-execute::
+
+       import numpy as np
+       import seaborn as sns
+       from systole.plots import plot_events
+       from systole import import_dataset1
+
+       ecg_df = import_dataset1(modalities=['ECG', "Stim"])
+
+       # Get events triggers
+       triggers_idx = [
+            np.where(ecg_df.stim.to_numpy() == 2)[0],
+            np.where(ecg_df.stim.to_numpy() == 1)[0]
+       ]
+
+       plot_events(
+           triggers_idx=triggers_idx, events_labels=["Disgust", "Neutral"],
+           tmin=-0.5, tmax=10.0, figsize=(13, 3),
+           palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+        )
+
+    Plot events distributions using the Bokeh backend and add RR time series.
+
+    .. jupyter-execute::
+
+       from systole.detection import ecg_peaks
+       from systole.plots import plot_rr
+       from bokeh.io import output_notebook
+       from bokeh.plotting import show
+       output_notebook()
+
+       # Peak detection in the ECG signal using the Pan-Tompkins method
+       signal, peaks = ecg_peaks(ecg_df.ecg, method='pan-tompkins', sfreq=1000)
+
+       # First, we create a RR interval plot
+       rr_plot = plot_rr(peaks, input_type='peaks', backend='bokeh', figsize=250)
+
+       show(
+           # Then we add events annotations to this plot using the plot_events function
+           plot_events(triggers_idx=triggers_idx, backend="bokeh", events_labels=["Disgust", "Neutral"],
+                       tmin=-0.5, tmax=10.0, palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+                       ax=rr_plot.children[0])
+       )
 
     """
     # Define color palette
