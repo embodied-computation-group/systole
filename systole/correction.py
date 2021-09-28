@@ -106,6 +106,7 @@ def correct_rr(
     long_correction: bool = True,
     ectopic_correction: bool = True,
     n_iterations: int = 2,
+    input_type: str = "rr_ms",
     verbose: bool = True,
 ) -> Dict[str, Union[int, np.ndarray]]:
     """Correct long and short beats using interpolation.
@@ -114,18 +115,23 @@ def correct_rr(
     ----------
     rr : np.ndarray
         RR intervals (ms).
-    correct_extra : boolean
+    extra_correction : boolean
       If `True`, correct extra beats in the RR time series.
-    correct_missed : boolean
+    missed_correction : boolean
       If `True`, correct missed beats in the RR time series.
-    correct_short : boolean
+    short_correction : boolean
       If `True`, correct short beats in the RR time series.
-    correct_long : boolean
+    long_correction : boolean
       If `True`, correct long beats in the RR time series.
-    correct_ectopic : boolean
+    ectopic_correction : boolean
       If `True`, correct ectopic beats in the RR time series.
     n_iterations : int
         How many time to repeat the detection-correction process. Defaults to `2`.
+    input_type : str
+        The type of input vector. Default is `"rr_ms"` (a boolean vector where
+        `1` represents the occurrence of R waves or systolic peaks).
+        Can also be `"peaks_idx"`, the idexs of samples where a peaks is detected,
+        `"peaks"`, or `"rr_s"` for vectors of RR intervals expressed in seconds.
     verbose : bool
         Control the verbosity of the function. Defaults to `True`.
 
@@ -147,11 +153,14 @@ def correct_rr(
         * missed: int
             The number of missed beats corrected.
 
-    Examples
-    --------
-
     """
     rr = np.asarray(rr)
+
+    if input_type != "rr_ms":
+        if input_type not in ["peaks", "rr_s", "peaks_idx"]:
+            raise ValueError("Invalid input type")
+        else:
+            rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
 
     clean_rr = rr.copy()
 
@@ -160,33 +169,43 @@ def correct_rr(
     if verbose:
         print(f"Cleaning the RR interval time series using {n_iterations} iterations.")
 
+    nEctopic, nShort, nLong, nExtra, nMissed = 0, 0, 0, 0, 0
+
+    # Loop across n_iterations and perform the requested corrections
     for n_it in range(n_iterations):
 
         if verbose:
             print(f" - Iteration {n_it+1} - ")
-        nEctopic, nShort, nLong, nExtra, nMissed = 0, 0, 0, 0, 0
 
         # Correct missed beats
         if missed_correction:
             if np.any(artefacts["missed"]):
+                this_nmissed = 0  # How many corrected missed beat this iteration
                 for this_id in np.where(artefacts["missed"])[0]:
-                    this_id += nMissed
+                    this_id += (
+                        this_nmissed  # Adjust idx according to previous corrections
+                    )
                     clean_rr = correct_missed(clean_rr, this_id)
-                    nMissed += 1
-            if verbose:
-                print(f"... correcting {nMissed} missed interval(s).")
-            artefacts = rr_artefacts(clean_rr)
+                    this_nmissed += 1
+                if verbose:
+                    print(f"... correcting {this_nmissed} missed interval(s).")
+                nMissed += this_nmissed  # Update the total of corrected missed beats
+                artefacts = rr_artefacts(clean_rr)
 
         # Correct extra beats
         if extra_correction:
             if np.any(artefacts["extra"]):
+                this_nextra = 0  # How many corrected extra beat this iteration
                 for this_id in np.where(artefacts["extra"])[0]:
-                    this_id -= nExtra
+                    this_id -= (
+                        this_nextra  # Adjust idx according to previous corrections
+                    )
                     clean_rr = correct_extra(clean_rr, this_id)
-                    nExtra += 1
-            if verbose:
-                print(f"... correcting {nExtra} extra interval(s).")
-            artefacts = rr_artefacts(clean_rr)
+                    this_nextra += 1
+                if verbose:
+                    print(f"... correcting {this_nextra} extra interval(s).")
+                nExtra += this_nextra  # Update the total of corrected missed beats
+                artefacts = rr_artefacts(clean_rr)
 
         # Correct ectopic beats
         if ectopic_correction:
@@ -197,30 +216,39 @@ def correct_rr(
                         artefacts["ectopic"][i - 1] = True
                 this_id = np.where(artefacts["ectopic"])[0]
                 clean_rr = interpolate_bads(clean_rr, [this_id])
-                nEctopic = np.sum(artefacts["ectopic"])  # type: ignore
-            if verbose:
-                print(f"... correcting {nEctopic} ectopic interval(s).")
-            artefacts = rr_artefacts(clean_rr)
+                this_nectopic = np.sum(artefacts["ectopic"])  # type: ignore
+                if verbose:
+                    print(f"... correcting {this_nectopic} ectopic interval(s).")
+                artefacts = rr_artefacts(clean_rr)
+                nEctopic += (
+                    this_nectopic  # Update the total number of corrected ectopic beats
+                )
 
         # Correct short beats
         if short_correction:
             if np.any(artefacts["short"]):
+                this_nshort = 0  # How many corrected short beat this iteration
                 this_id = np.where(artefacts["short"])[0]
                 clean_rr = interpolate_bads(clean_rr, this_id)
-                nShort = len(this_id)
-            if verbose:
-                print(f"... correcting {nShort} short interval(s).")
-            artefacts = rr_artefacts(clean_rr)
+                this_nshort += this_id.shape[0]
+                if verbose:
+                    print(f"... correcting {this_nshort} short interval(s).")
+                artefacts = rr_artefacts(clean_rr)
+                nShort += (
+                    this_nshort  # Update the total number of corrected short beats
+                )
 
         # Correct long beats
         if long_correction:
             if np.any(artefacts["long"]):
+                this_nlong = 0
                 this_id = np.where(artefacts["long"])[0]
                 clean_rr = interpolate_bads(clean_rr, this_id)
-                nLong = len(this_id)
-            if verbose:
-                print(f"... correcting {nLong} long interval(s).")
-            artefacts = rr_artefacts(clean_rr)
+                this_nlong += this_id.shape[0]
+                if verbose:
+                    print(f"... correcting {this_nlong} long interval(s).")
+                artefacts = rr_artefacts(clean_rr)
+                nLong += this_nlong  # Update the total number of corrected long beats
 
     return {
         "clean_rr": clean_rr,
