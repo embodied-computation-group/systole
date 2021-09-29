@@ -111,6 +111,11 @@ Systole integrates a set of functions for interactive data visualization based o
 Heartrate variability
 ======================
 
+.. raw:: html
+   :file: source/images/hrv.html
+
+.. figure:: source/images/hrv.png
+
 Systole supports basic time-domain, frequency-domain and non-linear extraction indices.
 
 All time-domain and non-linear indices have been tested against Kubios HVR 2.2 (<https://www.kubios.com>). The frequency-domain indices can slightly differ. We recommend to always check your results against another software.

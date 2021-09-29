@@ -48,7 +48,7 @@ extensions = [
     "numpydoc",
     "jupyter_sphinx",
     "sphinx_panels",
-    "nbsphinx",
+    "myst_nb",
     "sphinx_gallery.load_style",
 ]
 
