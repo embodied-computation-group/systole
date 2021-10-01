@@ -67,7 +67,7 @@ def plot_shortlong(
         Select plotting backend {"matplotlib", "bokeh"}. Defaults to
         "matplotlib".
     figsize : tuple | int | None
-        Figure size. Default is `(13, 5)` for matplotlib backend, and the height
+        Figure size. Default is `(6, 6)` for matplotlib backend, and the height
         is `600` when using bokeh backend.
 
     Returns
@@ -133,7 +133,7 @@ def plot_shortlong(
     """
     if figsize is None:
         if backend == "matplotlib":
-            figsize = (13, 5)
+            figsize = (6, 6)
         elif backend == "bokeh":
             figsize = 600
 

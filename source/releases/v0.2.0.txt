@@ -1,21 +1,66 @@
 v0.2.0 (September 2021)
 -----------------------
 
-This is a major release that introduce a new plotting backend using Bokeh, remove support for Plotly and rename some functions for consistency.
+Highlights
+++++++++++
 
-- |Api| Remove support for Plotly. Add support for Bokeh. Merge interactive and non interactive modules into a unique :func:`plots` module.
-- |Docs| Use PyData Sphinx theme.
-- |Docs| Several additions to the tutorials pages.
-- |Enhancement| :func:`systole.utils.heart_rate()`: now accepts peaks vectors as well as RR interval, either in milliseconds od in seconds.
-- |Enhancement| :func:`systole.utils.to_rr()` has been renamed to :py:func:`systole.utils.input_conversion()` and accepts input and outputs it the form of peaks, peaks indexes, RR invervals in seconds and in miliseconds.
-- |Fix| |Enhancement| :func:`systole.detection.ppg_peaks()` now handles negative values/ low sampling rate.
+This is a major release that introduce a new plotting backend using Bokeh instead of Plotly, several API changes and performance improvement (Numba).
 
-The ECG detectors functions are now incorporated to Systole to add Numba support.
+The `plots` submodule now includes the following functions:
+
+- :func:`systole.plots.plot_circular`
+- :func:`systole.plots.plot_ectopic`
+- :func:`systole.plots.plot_events`
+- :func:`systole.plots.plot_evoked`
+- :func:`systole.plots.plot_frequency`
+- :func:`systole.plots.plot_pointcare`
+- :func:`systole.plots.plot_raw`
+- :func:`systole.plots.plot_rr`
+- :func:`systole.plots.plot_shortlong`
+- :func:`systole.plots.plot_subspaces`
+
+These function can be called using Bokeh or Matplotlib as backend (`plot_circular` only accepts Matplotlib for now).
+
+All the methods available in :func:`systole.detection.ecg_peaks` are now accelerated with Numba.
 
 - |Enhancement| Add Numba support for :func:`systole.detector.pan_tompkins()` (~7x faster)
 - |Enhancement| Add Numba support for :func:`systole.detector.hamilton()` (~10x faster)
 - |Enhancement| Add Numba support for :func:`systole.detector.christov()` (~30x faster)
 - |Enhancement| Add Numba support for :func:`systole.detector.engelse_zeelenberg()` (~20x faster)
 
-- |Enhancement| The correct.peaks function has been refactored.
-- |Enhancement| utils.to_epochs() now accept multiple condition (as list) and returns rejection vectors for each one. The code has also been simplified and should run faster.
+This also drops py-ecg-detectors dependency, and the refactored code is now included in Systole.
+
+This release also includes some API changes and renaming for consistency (`oxi_peaks` -> `ppg_peaks`).
+
+Changes
++++++++
+
+- |Api| Remove support for Plotly. Add support for Bokeh. Merge interactive and non interactive modules into a unique :func:`plots` module.
+
+- |Docs| Use PyData Sphinx theme.
+
+- |Docs| Several additions to the tutorials pages, now divided into 5 Chapters:
+1. Physiological signal analysis
+2. Detecting cycles
+3. Detecting and correcting artefacts
+4. Heart rate variability
+5. Instantaneous heart rate and evoked heart rate
+
+- |Docs| Add examples for :func:`systole.correction.correct_peaks()` and :func:`systole.correction.correct_rr()` in the gallery.
+
+- |Enhancement| |Feature| |API| Most of the functions now accept inputs as `peaks` (boolean vector), `peaks_idx` (int indexes vector), `rr_ms` (floats RR intervals in miliseconds) or `rr_s` (floats RR intervals in seconds).
+:func:`systole.utils.to_rr()` has been renamed to :py:func:`systole.utils.input_conversion()` and support the conversion between data types.
+
+- |Fix| |Enhancement| :func:`systole.detection.ppg_peaks()` now handles negative values/ low sampling rate.
+
+- |Enhancement| :func:`systole.correction.correct_peaks()` and :func:`systole.correction.correct_rr()` have been improved for performances, allows `n` iterations and print results. 
+
+- |Enhancement| utils.to_epochs() now accept multiple condition (as list) and returns rejection vectors for each one. The code has also been simplified and runs faster.
+
+- |Fix| Remove use of `outdated`.
+
+Contributors
+++++++++++++
+
+- Gidon Levakov (gidonlevakov@gmail.com)
+- Peter Doggart (peter.doggart@pulseai.io)

@@ -33,9 +33,11 @@
 
 ================
 
-**Systole** is an open-source Python package providing simple tools to record and analyze, cardiac signals for psychophysiology.
-In particular, the package provides tools to pre-process, analyze, and synchronize cardiac data from psychophysiology research.
-This includes tools for data epoching, heart-rate variability, and synchronizing stimulus presentation with different cardiac phases via psychopy.
+**Systole** is an open-source Python package implementing simple tools for working with cardiac signals for 
+psychophysiology research. In particular, the package provides tools to pre-process, visualize, and analyze cardiac data. 
+This includes tools for data epoching, artefact detection, artefact correction, evoked heart-rate analyses, heart-rate 
+variability analyses, circular statistical approaches to analysing cardiac cycles, and synchronising stimulus 
+presentation with different cardiac phases via the psychopy.
 
 Systole documentation
 =====================
@@ -53,13 +55,6 @@ Systole documentation
     New to *Systole*? Check out the getting started guides. They contain an
     introduction to *Systole'* main concepts and links to additional tutorials.
 
-    +++
-
-    .. link-button:: getting_started
-            :type: ref
-            :text: To the getting started guides
-            :classes: btn-block btn-secondary stretched-link
-
     ---
     :img-top: images/table-cells-large-solid.png
 
@@ -67,13 +62,6 @@ Systole documentation
     ^^^^^^^^^^^^^^^
 
     See this section for examples of using Systole in different ways.
-
-    +++
-
-    .. link-button:: auto_examples/index
-            :type: ref
-            :text: To the example gallery
-            :classes: btn-block btn-secondary stretched-link
 
     ---
     :img-top: images/tutorials.png
@@ -86,13 +74,6 @@ Systole documentation
     theoretical and practical aspects of physiological signal analysis for cognitive
     neuroscience.
 
-    +++
-
-    .. link-button:: tutorials
-            :type: ref
-            :text: To the tutorial notebooks
-            :classes: btn-block btn-secondary stretched-link
-
     ---
     :img-top: images/code-solid.png
 
@@ -101,13 +82,6 @@ Systole documentation
 
     The reference guide contains a detailed description of the Systole API. The
     reference describes how the methods work and which parameters can be used.
-
-    +++
-
-    .. link-button:: api
-            :type: ref
-            :text: To the reference guide
-            :classes: btn-block btn-secondary stretched-link
 
 
 Acknowledgements

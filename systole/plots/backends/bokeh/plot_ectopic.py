@@ -8,7 +8,7 @@ from bokeh.plotting.figure import Figure
 
 
 def plot_ectopic(
-    artefacts=Dict[str, np.ndarray], figsize: int = 600, **kwargs
+    artefacts=Dict[str, np.ndarray], figsize: int = 600, ax=None
 ) -> Figure:
     """Plot interactive ectopic subspace.
 
@@ -19,6 +19,8 @@ def plot_ectopic(
         :py:func:`systole.detection.rr_artefacts()`.
     figsize : int
         Figure heights. Default is `600`.
+    ax : None
+        Only apply when using Matplotlib backend.
 
     Returns
     -------

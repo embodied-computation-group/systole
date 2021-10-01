@@ -319,10 +319,9 @@ def frequency_domain(
     fbands : None | dict
         Dictionary containing the names of the frequency bands of interest
         (str), their range (tuples) and their color in the PSD plot. Default is
-        .. python::
-           {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
-            'lf': ('Low frequency', (0.04, 0.15), 'g'),
-            'hf': ('High frequency', (0.15, 0.4), 'r')}
+        >>> {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
+        >>>  'lf': ('Low frequency', (0.04, 0.15), 'g'),
+        >>>  'hf': ('High frequency', (0.15, 0.4), 'r')}pip
     input_type : str
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.

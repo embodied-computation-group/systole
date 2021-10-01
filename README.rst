@@ -33,14 +33,17 @@
 
 ================
 
-**Systole** is an open-source Python package providing simple tools to record and analyze, cardiac signals for psychophysiology.
-In particular, the package provides tools to pre-process, analyze, and synchronize cardiac data from psychophysiology research.
-This includes tools for data epoching, heart-rate variability, and synchronizing stimulus presentation with different cardiac phases via psychopy.
+**Systole** is an open-source Python package implementing simple tools for working with cardiac signals for 
+psychophysiology research. In particular, the package provides tools to pre-process, visualize, and analyze cardiac data. 
+This includes tools for data epoching, artefact detection, artefact correction, evoked heart-rate analyses, heart-rate 
+variability analyses, circular statistical approaches to analysing cardiac cycles, and synchronising stimulus 
+presentation with different cardiac phases via the psychopy.
+
 
 The documentation can be found under the following `link <https://systole-docs.github.io/>`_.
 
 Installation
-============
+++++++++++++
 
 Systole can be installed using pip:
 
@@ -53,98 +56,131 @@ The following packages are required to use Systole:
 * `Numpy <https://numpy.org/>`_ (>=1.15)
 * `SciPy <https://www.scipy.org/>`_ (>=1.3.0)
 * `Pandas <https://pandas.pydata.org/>`_ (>=0.24)
-* `Matplotlib <https://matplotlib.org/>`_ (>=3.0.2)
-* `Seaborn <https://seaborn.pydata.org/>`_ (>=0.9.0)
 * `Numba <http://numba.pydata.org/>`_ (>=0.51.2)
+* `Seaborn <https://seaborn.pydata.org/>`_ (>=0.9.0)
 
-Interactive plotting functions and reports generation will also require the following packages to be installed:
-
+Required when using `Matplotlib` plotting backend:
+* `Matplotlib <https://matplotlib.org/>`_ (>=3.0.2)
+Required when using `Bokeh` plotting backend:
 * `Bokeh <https://docs.bokeh.org/en/latest/index.html#>`_ (>=2.3.3)
 
-Tutorial
-========
 
-For an overview of all the recording functionalities, you can refer to the following examples:
-
-* Recording
-* Artefacts detection and artefacts correction
-* Heart rate variability
+Tutorials
+=========
 
 For an introduction to Systole and cardiac signal analysis, you can refer to the following tutorial:
 
-* Introduction to cardiac signal analysis - |Colab badge| - `Jupyter Book <https://legrandnico.github.io/Notebooks/IntroductionCardiacSignalAnalysis.html>`_ 
+1. Cardiac signal analysis - |Colab badge 1|
+2. Detecting cardiac cycles - |Colab badge 2|
+3. Detecting and correcting artefats - |Colab badge 3|
+4. Heart rate variability - |Colab badge 4|
+5. Instantaneous and evoked heart rate - |Colab badge 5|
 
-.. |Colab badge| image:: https://colab.research.google.com/assets/colab-badge.svg
-  :target: https://colab.research.google.com/github/LegrandNico/Notebooks/blob/main/IntroductionCardiacSignalAnalysis.ipynb
+.. |Colab badge 1| image:: https://colab.research.google.com/assets/colab-badge.svg
+  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/1-PhysiologicalSignals.ipynb
 
-Recording
-=========
+.. |Colab badge 2| image:: https://colab.research.google.com/assets/colab-badge.svg
+  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/2-DetectingCycles.ipynb
 
-Systole natively supports recording of physiological signals from the following setups:
-* `Nonin 3012LP Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_ (USB).
-* Remote Data Access (RDA) via BrainVision Recorder together with `Brain product ExG amplifier <https://www.brainproducts.com/>`_ (Ethernet).
+.. |Colab badge 3| image:: https://colab.research.google.com/assets/colab-badge.svg
+  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/3-DetectingAndCorrectingArtefacts.ipynb
 
-Artefact correction
-===================
+.. |Colab badge 4| image:: https://colab.research.google.com/assets/colab-badge.svg
+  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/4-HeartRateVariability.ipynb
 
-Systole implements systolic peak detection inspired by van Gent et al. (2019) and the artefact rejection method recently proposed by Lipponen & Tarvainen (2019).
+.. |Colab badge 5| image:: https://colab.research.google.com/assets/colab-badge.svg
+  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/5-InstantaneousHeartRate.ipynb
+
+
+Getting started
++++++++++++++++
 
 .. code-block:: python
 
-  from systole import simulate_rr
-  from systole.plots import plot_subspaces
+  from systole import import_dataset1
 
-  rr = simulate_rr()
-  plot_subspaces(rr)
+  # Import ECg recording
+  signal = import_dataset1(modalities=['ECG']).ecg.to_numpy()
 
-.. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/subspaces.png
-   :align:   center
 
-Interactive visualization
-=========================
+Signal extraction and interactive plotting
+==========================================
+The package integrates a set of functions for interactive or non interactive data visualization based on `Matplotlib <https://matplotlib.org/>`_ and `Bokeh <https://docs.bokeh.org/en/latest/index.html#>`_.
 
-Systole integrates a set of functions for interactive data visualization based on `Bokeh <https://docs.bokeh.org/en/latest/index.html#>`_.
+.. code-block:: python
 
-.. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/systole.gif
-   :align:   center
+  from systole.plots plot_raw
 
-Heartrate variability
-======================
+  plot_raw(signal[60000 : 120000], modality="ecg", backend="bokeh", 
+              show_heart_rate=True, show_artefacts=True, figsize=300)
+
+.. raw:: html
+   :file: source/images/raw.html
+
+
+Artefacts detection and rejection
+=================================
+Artefacts can be detected and corrected in the RR interval time series or the peaks vector following the algorythm proposed by Lipponen & Tarvainen (2019).
+
+.. code-block:: python
+
+  from systole.detection import ecg_peaks
+  from systole.plots plot_subspaces
+
+  # R peaks detection
+  signal, peaks = ecg_peaks(signal, method='pan-tompkins', sfreq=1000)
+
+  plot_subspaces(peaks, input_type="peaks", backend="bokeh")
+
+.. raw:: html
+   :file: source/images/subspaces.html
+
+Instantaneous and evoked heart rate
+===================================
+
+
+Heart rate variability analysis
+===============================
+Systole implemetns basic time-domain, frequency-domain and non-linear HRV indices.
+
+.. code-block:: python
+
+  from bokeh.layouts import row
+  from systole.plots plot_frequency, plot_pointcare
+
+  row(
+      plot_frequency(peaks, input_type="peaks", backend="bokeh", figsize=(600, 400)),
+      plot_pointcare(peaks, input_type="peaks", backend="bokeh", figsize=(400, 400)),
+      )
 
 .. raw:: html
    :file: source/images/hrv.html
 
-.. figure:: source/images/hrv.png
 
-Systole supports basic time-domain, frequency-domain and non-linear extraction indices.
+Online systolic peak detection, cardiac-stimulus synchrony, and cardiac circular analysis
+=========================================================================================
 
-All time-domain and non-linear indices have been tested against Kubios HVR 2.2 (<https://www.kubios.com>). The frequency-domain indices can slightly differ. We recommend to always check your results against another software.
+Systole natively supports recording of physiological signals from the following setups:
+- `Nonin 3012LP Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_ (USB).
+- Remote Data Access (RDA) via BrainVision Recorder together with `Brain product ExG amplifier <https://www.brainproducts.com/>`_ (Ethernet).
 
-.. code-block:: python
-
-  from systole.plots import plot_frequency
-
-  plot_psd(rr)
-
-.. figure::  https://github.com/embodied-computation-group/systole/raw/master/Images/psd.png
-   :align:   center
 
 Development
-===========
++++++++++++
 
 This module was created and is maintained by Nicolas Legrand and Micah Allen (ECG group, https://the-ecg.org/). If you want to contribute, feel free to contact one of the developers, open an issue or submit a pull request.
 
 This program is provided with NO WARRANTY OF ANY KIND.
 
 Contributors
-============
+++++++++++++
 
 - Jan C. Brammer (jan.c.brammer@gmail.com)
 - Gidon Levakov (gidonlevakov@gmail.com)
 - Peter Doggart (peter.doggart@pulseai.io)
 
 Acknowledgements
-================
+++++++++++++++++
 
 This software and the ECG are supported by a Lundbeckfonden Fellowship (R272-2017-4345), and the AIAS-COFUND II fellowship programme that is supported by the Marie Skłodowska-Curie actions under the European Union’s Horizon 2020 (Grant agreement no 754513), and the Aarhus University Research Foundation.
 
@@ -159,3 +195,18 @@ Systole was largely inspired by pre-existing toolboxes dedicated to heartrate va
 * ECG-detector: https://github.com/berndporr/py-ecg-detectors
 
 * Pingouin: https://pingouin-stats.org/
+
+* NeuroKit2: https://github.com/neuropsychology/NeuroKit
+
+================
+
+|AU| |lundbeck| |lab|
+
+.. |AU| image::  https://github.com/embodied-computation-group/systole/raw/dev/Images/au_clinisk_logo.png
+   :width: 100%
+
+.. |lundbeck| image::  https://github.com/embodied-computation-group/systole/raw/dev/Images/lundbeckfonden_logo.png
+   :width: 10%
+
+.. |lab| image::  https://github.com/embodied-computation-group/systole/raw/dev/Images/LabLogo.png
+   :width: 20%

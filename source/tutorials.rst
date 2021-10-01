@@ -25,8 +25,8 @@ in general.
 
 .. panels::
 
-   1 - Cardiac signal analysis
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   - 1 - 
+   ^^^^^^
 
    .. toctree::
       :maxdepth: 4
@@ -40,8 +40,8 @@ in general.
 
    ---
 
-   2 - Detecting cardiac cycles
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   - 2 - 
+   ^^^^^^
 
    .. toctree::
       :maxdepth: 4
@@ -50,13 +50,13 @@ in general.
 
    +++
    .. image:: https://colab.research.google.com/assets/colab-badge.svg
-      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/1-PhysiologicalSignals.ipynb
+      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/2-DetectingCycles.ipynb
       :align: center
 
    ---
 
-   3 - Detecting and correcting artefacts
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   - 3 - 
+   ^^^^^^
 
    .. toctree::
       :maxdepth: 4
@@ -65,13 +65,13 @@ in general.
 
    +++
    .. image:: https://colab.research.google.com/assets/colab-badge.svg
-      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/1-PhysiologicalSignals.ipynb
+      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/3-DetectingAndCorrectingArtefacts.ipynb
       :align: center
       
    ---
 
-   4 - Heart rate variability
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   - 4 - 
+   ^^^^^^
 
    .. toctree::
       :maxdepth: 4
@@ -80,13 +80,13 @@ in general.
 
    +++
    .. image:: https://colab.research.google.com/assets/colab-badge.svg
-      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/1-PhysiologicalSignals.ipynb
+      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/4-HeartRateVariability.ipynb
       :align: center
 
    ---
 
-   5 - Instantaneous and evoked heart rate
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   - 5 - 
+   ^^^^^^
 
    .. toctree::
       :maxdepth: 4
@@ -95,5 +95,5 @@ in general.
 
    +++
    .. image:: https://colab.research.google.com/assets/colab-badge.svg
-      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/1-PhysiologicalSignals.ipynb
+      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/5-InstantaneousHeartRate.ipynb
       :align: center

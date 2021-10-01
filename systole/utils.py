@@ -7,18 +7,18 @@ from scipy.interpolate import interp1d
 
 
 def norm_triggers(
-    x: Union[List, np.ndarray],
+    triggers: Union[List, np.ndarray],
     threshold: int = 1,
     n: int = 5,
     direction: str = "higher",
 ) -> Union[List, np.ndarray]:
-    """Turns noisy triggers into boolean.
+    """Turns noisy triggers into boolean vecor.
 
     Keep the first trigger and set to 0 the n following values.
 
     Parameters
     ----------
-    x : np.ndarray or list
+    triggers : np.ndarray or list
         The triggers to convert.
     threshold : float
         Threshold for triggering values. Default is 1.
@@ -33,13 +33,12 @@ def norm_triggers(
     y : np.ndarray
         The filterd triggers array.
     """
-    if not isinstance(x, np.ndarray):
-        raise ValueError("x must be a Numpy array")
+    triggers = np.asarray(triggers)
 
     if direction == "higher":
-        y = x >= threshold
+        y = triggers >= threshold
     elif direction == "lower":
-        y = x <= threshold
+        y = triggers <= threshold
     else:
         raise ValueError("Invalid direction")
 
@@ -50,7 +49,7 @@ def norm_triggers(
                 y[i + 1 :] = False
             else:
                 y[i + 1 : i + n + 1] = False
-    return y
+    return y.astype("bool")
 
 
 def time_shift(

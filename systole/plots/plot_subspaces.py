@@ -63,7 +63,7 @@ def plot_subspaces(
         Select plotting backend {"matplotlib", "bokeh"}. Defaults to
         "matplotlib".
     figsize : tuple | int | None
-        Figure size. Default is `(13, 5)` for matplotlib backend, and the
+        Figure size. Default is `(12, 6)` for matplotlib backend, and the
         height is `600` when using bokeh backend.
 
     Returns
@@ -129,7 +129,7 @@ def plot_subspaces(
     """
     if figsize is None:
         if backend == "matplotlib":
-            figsize = (13, 5)
+            figsize = (12, 6)
         elif backend == "bokeh":
             figsize = 600
 

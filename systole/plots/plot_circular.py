@@ -115,10 +115,6 @@ def plot_circular(
 
        plot_circular(data=data, y='value', hue='variable')
 
-    Examples
-    --------
-    Plot polar data.
-
     References
     ----------
     .. [#] https://jwalton.info/Matplotlib-rose-plots/
