@@ -52,7 +52,7 @@ outliers = rr_artefacts(rr)
 # panel plot subspaces that will be more sensitive to long or short beats,
 # comprizing the extra and missed beats.
 
-plot_subspaces(rr)
+plot_subspaces(rr, figsize=(12, 6))
 
 #%%
 # References

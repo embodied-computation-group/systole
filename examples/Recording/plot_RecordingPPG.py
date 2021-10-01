@@ -2,7 +2,7 @@
 Recording PPG signal
 ====================
 
-The py:class:systole.recording.Oximeter class can be used to read incoming PPG signal 
+The py:class:`systole.recording.Oximeter` class can be used to read incoming PPG signal 
 from `Nonin 3012LP Xpod USB pulse oximeter
 <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' 
 fingertip sensors <https://www.nonin.com/products/8000s/>`_. This function can easily 

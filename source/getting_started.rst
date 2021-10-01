@@ -45,7 +45,7 @@ The package integrates a set of functions for interactive or non interactive dat
               show_heart_rate=True, show_artefacts=True, figsize=300)
 
 .. raw:: html
-   :file: source/images/raw.html
+   :file: ./images/raw.html
 
 
 Artefacts detection and rejection
@@ -63,7 +63,7 @@ Artefacts can be detected and corrected in the RR interval time series or the pe
   plot_subspaces(peaks, input_type="peaks", backend="bokeh")
 
 .. raw:: html
-   :file: source/images/subspaces.html
+   :file: ./images/subspaces.html
 
 Instantaneous and evoked heart rate
 ===================================
@@ -79,12 +79,12 @@ Systole implemetns basic time-domain, frequency-domain and non-linear HRV indice
   from systole.plots plot_frequency, plot_pointcare
 
   row(
-      plot_frequency(peaks, input_type="peaks", backend="bokeh", figsize=(600, 400)),
-      plot_pointcare(peaks, input_type="peaks", backend="bokeh", figsize=(400, 400)),
+      plot_frequency(peaks, input_type="peaks", backend="bokeh", figsize=(300, 200)),
+      plot_pointcare(peaks, input_type="peaks", backend="bokeh", figsize=(200, 200)),
       )
 
 .. raw:: html
-   :file: source/images/hrv.html
+   :file: ./images/hrv.html
 
 
 Online systolic peak detection, cardiac-stimulus synchrony, and cardiac circular analysis

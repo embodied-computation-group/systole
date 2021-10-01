@@ -46,8 +46,8 @@ export_png(
 #%% As HTML
 save(
     row(
-        plot_frequency(peaks, input_type="peaks", backend="bokeh", figsize=(600, 400)),
-        plot_pointcare(peaks, input_type="peaks", backend="bokeh", figsize=(400, 400)),
+        plot_frequency(peaks, input_type="peaks", backend="bokeh", figsize=(300, 200)),
+        plot_pointcare(peaks, input_type="peaks", backend="bokeh", figsize=(200, 200)),
     ),filename="hrv.html"
 )
 

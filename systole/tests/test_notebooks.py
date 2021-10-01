@@ -19,7 +19,6 @@ class TestNotebooks(TestCase):
             "3-DetectingAndCorrectingArtefacts.ipynb",
             "4-HeartRateVariability.ipynb",
             "5-InstantaneousHeartRate.ipynb",
-            "6-CardiacRespiration.ipynb",
         ]:
             pm.execute_notebook(url + nb, "./tmp.ipynb")
         os.remove("./tmp.ipynb")

@@ -22,7 +22,7 @@ from systole.utils import (
 class TestUtils(TestCase):
     def test_norm_triggers(self):
         ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
-        signal, peaks = ppg_peaks(ppg)
+        _, peaks = ppg_peaks(ppg)
         peaks[np.where(peaks)[0] + 1] = 1
         peaks[np.where(peaks)[0] + 2] = 1
         peaks[-1:] = 1
@@ -31,7 +31,7 @@ class TestUtils(TestCase):
         peaks = -peaks.astype(int)
         y = norm_triggers(peaks, threshold=-1, direction="lower")
         assert sum(y) == 379
-        with pytest.raises(ValueError):
+        with pytest.raises(TypeError):
             norm_triggers(None)
         with pytest.raises(ValueError):
             norm_triggers(peaks, direction="invalid")

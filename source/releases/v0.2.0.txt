@@ -1,4 +1,4 @@
-v0.2.0 (September 2021)
+v0.2.0 (October 2021)
 -----------------------
 
 Highlights
@@ -48,8 +48,7 @@ Changes
 
 - |Docs| Add examples for :func:`systole.correction.correct_peaks()` and :func:`systole.correction.correct_rr()` in the gallery.
 
-- |Enhancement| |Feature| |API| Most of the functions now accept inputs as `peaks` (boolean vector), `peaks_idx` (int indexes vector), `rr_ms` (floats RR intervals in miliseconds) or `rr_s` (floats RR intervals in seconds).
-:func:`systole.utils.to_rr()` has been renamed to :py:func:`systole.utils.input_conversion()` and support the conversion between data types.
+- |Enhancement| |Feature| |API| Most of the functions now accept inputs as `peaks` (boolean vector), `peaks_idx` (int indexes vector), `rr_ms` (floats RR intervals in miliseconds) or `rr_s` (floats RR intervals in seconds). :func:`systole.utils.to_rr()` has been renamed to :py:func:`systole.utils.input_conversion()` and support the conversion between data types.
 
 - |Fix| |Enhancement| :func:`systole.detection.ppg_peaks()` now handles negative values/ low sampling rate.
 

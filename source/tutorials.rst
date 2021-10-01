@@ -25,8 +25,8 @@ in general.
 
 .. panels::
 
-   - 1 - 
-   ^^^^^^
+   - 1 - Cardiac signals
+   ^^^^^^^^^^^^^^^^^^^^^
 
    .. toctree::
       :maxdepth: 4
@@ -40,8 +40,8 @@ in general.
 
    ---
 
-   - 2 - 
-   ^^^^^^
+   - 2 - Cardica cycles
+   ^^^^^^^^^^^^^^^^^^^^
 
    .. toctree::
       :maxdepth: 4
@@ -55,8 +55,8 @@ in general.
 
    ---
 
-   - 3 - 
-   ^^^^^^
+   - 3 - Artefacts
+   ^^^^^^^^^^^^^^^
 
    .. toctree::
       :maxdepth: 4
@@ -70,8 +70,8 @@ in general.
       
    ---
 
-   - 4 - 
-   ^^^^^^
+   - 4 - HRV
+   ^^^^^^^^^
 
    .. toctree::
       :maxdepth: 4
@@ -85,8 +85,8 @@ in general.
 
    ---
 
-   - 5 - 
-   ^^^^^^
+   - 5 - Evoked HRV
+   ^^^^^^^^^^^^^^^^
 
    .. toctree::
       :maxdepth: 4
