@@ -4,7 +4,7 @@ v0.2.0 (October 2021)
 Highlights
 ++++++++++
 
-This is a major release that introduce a new plotting backend using Bokeh instead of Plotly, several API changes and performance improvement (Numba).
+This is a major release that introduces a new plotting backend using Bokeh instead of Plotly, several API changes and performance improvement (Numba).
 
 The `plots` submodule now includes the following functions:
 
@@ -19,7 +19,7 @@ The `plots` submodule now includes the following functions:
 - :func:`systole.plots.plot_shortlong`
 - :func:`systole.plots.plot_subspaces`
 
-These function can be called using Bokeh or Matplotlib as backend (`plot_circular` only accepts Matplotlib for now).
+These functions can be called using Bokeh or Matplotlib as backend (`plot_circular` only accepts Matplotlib for now).
 
 All the methods available in :func:`systole.detection.ecg_peaks` are now accelerated with Numba.
 
