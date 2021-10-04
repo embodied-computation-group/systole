@@ -1,0 +1,14 @@
+v0.1.2 (September 2020)
+-----------------------
+
+ **New functions**
+
+- |Feature| Add :py:func:`systole.utils.to_rr()`. for peaks or index vectors convertion to RR intervals
+- |Feature| Add :py:func:`systole.recording.BrainVisionExG()`, a class to read physio recording from BrainVision ExG products via TCP/IP connection.
+- |Feature| Add :py:func:`systole.recording.findOximeter()`, find the USB port where Nonin Oximeter is plugged by looping through the USB port and checking the input.
+- |Feature| Add :py:func:`systole.detection.ecg_peaks()`. A wrapper around py-ecg-detectors for basic ECG peaks detection.
+
+**Enhancements**
+- |Enhancement| Improved documentation and examples.
+- |Enhancement| Simplification of PPG example data import.
+- |Enhancement| Improved interactive plotting functions.

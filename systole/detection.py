@@ -4,14 +4,20 @@ from typing import Dict, List, Tuple, Union
 
 import numpy as np
 import pandas as pd
-from ecgdetectors import Detectors
 from scipy.interpolate import interp1d
 from scipy.signal import find_peaks
 
-from systole.utils import to_neighbour
+from systole.detectors import (
+    christov,
+    engelse_zeelenberg,
+    hamilton,
+    moving_average,
+    pan_tompkins,
+)
+from systole.utils import input_conversion, to_neighbour
 
 
-def oxi_peaks(
+def ppg_peaks(
     x: Union[List, np.ndarray],
     sfreq: int = 75,
     win: float = 0.75,
@@ -52,9 +58,9 @@ def oxi_peaks(
 
     Returns
     -------
-    peaks : 1d array-like
+    peaks : np.ndarray
         Numpy array containing R peak timing, in sfreq.
-    resampled_signal : 1d array-like
+    resampled_signal : np.ndarray
         Signal resampled to the `new_sfreq` frequency.
 
     Notes
@@ -70,26 +76,27 @@ def oxi_peaks(
     Examples
     --------
     >>> from systole import import_ppg
-    >>> from systole.detection import oxi_peaks
+    >>> from systole.detection import ppg_peaks
     >>> df = import_ppg()  # Import PPG recording
-    >>> signal, peaks = oxi_peaks(df.ppg.to_numpy())
+    >>> signal, peaks = ppg_peaks(df.ppg.to_numpy())
     >>> print(f'{sum(peaks)} peaks detected.')
     378 peaks detected.
 
     References
     ----------
     .. [1] van Gent, P., Farah, H., van Nes, N. and van Arem, B., 2019.
-    Analysing Noisy Driver Physiology Real-Time Using Off-the-Shelf Sensors:
-    Heart Rate Analysis Software from the Taking the Fast Lane Project. Journal
-    of Open Research Software, 7(1), p.32. DOI: http://doi.org/10.5334/jors.241
+       Analysing Noisy Driver Physiology Real-Time Using Off-the-Shelf Sensors:
+       Heart Rate Analysis Software from the Taking the Fast Lane Project. Journal
+       of Open Research Software, 7(1), p.32. DOI: http://doi.org/10.5334/jors.241
 
     """
+
     x = np.asarray(x)
 
     # Interpolate
-    f = interp1d(np.arange(0, len(x) / sfreq, 1 / sfreq), x, fill_value="extrapolate")
-    time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
-    x = f(time)
+    time = np.arange(0, len(x) / sfreq, 1 / sfreq)
+    new_time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
+    x = np.interp(new_time, time, x)
 
     # Copy resampled signal for output
     resampled_signal = np.copy(x)
@@ -100,7 +107,7 @@ def oxi_peaks(
 
     if noise_removal is True:
         # Moving average (high frequency noise + clipping)
-        rollingNoise = int(new_sfreq * 0.05)  # 0.05 second window
+        rollingNoise = max(int(new_sfreq * 0.05), 1)  # 0.05 second window
         x = (
             pd.DataFrame({"signal": x})
             .rolling(rollingNoise, center=True)
@@ -109,7 +116,7 @@ def oxi_peaks(
         )
     if peak_enhancement is True:
         # Square signal (peak enhancement)
-        x = np.asarray(x) ** 2
+        x = (np.asarray(x) ** 2) * np.sign(x)
 
     # Compute moving average and standard deviation
     signal = pd.DataFrame({"signal": x})
@@ -181,9 +188,6 @@ def ecg_peaks(
 
     Notes
     -----
-    This function will call the py-ecg-detectors package to perform R wave
-    detection.
-
     .. warning :: This function will resample the signal to 1000 Hz.
 
     Examples
@@ -199,34 +203,30 @@ def ecg_peaks(
     References
     ----------
     .. [1] Howell, L., Porr, B. Popular ECG R peak detectors written in
-    python. DOI: 10.5281/zenodo.3353396
+       python. DOI: 10.5281/zenodo.3353396
 
     """
-    if isinstance(x, list):
-        x = np.asarray(x)
+
+    x = np.asarray(x)
 
     # Interpolate
-    f = interp1d(np.arange(0, len(x) / sfreq, 1 / sfreq), x, fill_value="extrapolate")
-    time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
-    x = f(time)
+    time = np.arange(0, len(x) / sfreq, 1 / sfreq)
+    new_time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
+    x = np.interp(new_time, time, x)
 
     # Copy resampled signal for output
     resampled_signal = np.copy(x)
 
-    detectors = Detectors(new_sfreq)
-
     if method == "hamilton":
-        peaks_idx = detectors.hamilton_detector(resampled_signal)
+        peaks_idx = hamilton(resampled_signal, sfreq=new_sfreq)
     elif method == "christov":
-        peaks_idx = detectors.christov_detector(resampled_signal)
+        peaks_idx = christov(resampled_signal, sfreq=new_sfreq)
     elif method == "engelse-zeelenberg":
-        peaks_idx = detectors.engzee_detector(resampled_signal)
+        peaks_idx = engelse_zeelenberg(resampled_signal, sfreq=new_sfreq)
     elif method == "pan-tompkins":
-        peaks_idx = detectors.pan_tompkins_detector(resampled_signal)
-    elif method == "wavelet-transform":
-        peaks_idx = detectors.swt_detector(resampled_signal)
+        peaks_idx = pan_tompkins(resampled_signal, sfreq=new_sfreq)
     elif method == "moving-average":
-        peaks_idx = detectors.two_average_detector(resampled_signal)
+        peaks_idx = moving_average(resampled_signal, sfreq=new_sfreq)
     else:
         raise ValueError(
             "Invalid method provided, should be: hamilton, "
@@ -243,15 +243,20 @@ def ecg_peaks(
 
 
 def rr_artefacts(
-    rr: Union[List, np.ndarray], c1: float = 0.13, c2: float = 0.17, alpha: float = 5.2
+    rr: Union[List, np.ndarray],
+    c1: float = 0.13,
+    c2: float = 0.17,
+    alpha: float = 5.2,
+    input_type: str = "rr_ms",
 ) -> Dict[str, np.ndarray]:
     """Artefacts detection from RR time series using the subspaces approach
     proposed by Lipponen & Tarvainen (2019).
 
     Parameters
     ----------
-    rr : 1d array-like
-        Array of RR intervals.
+    rr : np.ndarray or list
+        1d numpy array of RR intervals (in seconds or miliseconds) or peaks
+        vector (boolean array).
     c1 : float
         Fixed variable controling the slope of the threshold lines. Default is
         `0.13`.
@@ -260,6 +265,12 @@ def rr_artefacts(
         is `0.17`.
     alpha : float
         Scaling factor used to normalize the RR intervals first deviation.
+    input_type : str
+        The type of input vector. Defaults to `"rr_ms"` for vectors of RR
+        intervals, or  interbeat intervals (IBI), expressed in milliseconds.
+        Can also be a boolean vector where `1` represents the occurrence of
+        R waves or systolic peakspeaks vector `"rr_s"` or IBI expressed in
+        seconds.
 
     Returns
     -------
@@ -267,27 +278,27 @@ def rr_artefacts(
         Dictionnary storing the parameters of RR artefacts rejection. All the
         vectors outputed have the same length as the provided RR time serie:
 
-        * subspace1 : 1d array-like
+        * subspace1 : np.ndarray
             The first dimension. First derivative of R-R interval time serie.
-        * subspace2 : 1d array-like
+        * subspace2 : np.ndarray
             The second dimension (1st plot).
-        * subspace3 : 1d array-like
+        * subspace3 : np.ndarray
             The third dimension (2nd plot).
-        * mRR : 1d array-like
+        * mRR : np.ndarray
             The mRR time serie.
-        * ectopic : 1d array-like
+        * ectopic : np.ndarray
             Boolean array indexing probable ectopic beats.
-        * long : 1d array-like
+        * long : np.ndarray
             Boolean array indexing long RR intervals.
-        * short : 1d array-like
+        * short : np.ndarray
             Boolean array indexing short RR intervals.
-        * missed : 1d array-like
+        * missed : np.ndarray
             Boolean array indexing missed RR intervals.
-        * extra : 1d array-like
+        * extra : np.ndarray
             Boolean array indexing extra RR intervals.
-        * threshold1 : 1d array-like
+        * threshold1 : np.ndarray
             Threshold 1.
-        * threshold2 : 1d array-like
+        * threshold2 : np.ndarray
             Threshold 2.
 
     Notes
@@ -312,8 +323,10 @@ def rr_artefacts(
         beat classification. Journal of Medical Engineering & Technology,
         43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306
     """
-    if isinstance(rr, list):
-        rr = np.array(rr)
+    rr = np.asarray(rr)
+
+    if input_type != "rr_ms":
+        rr = input_conversion(rr, input_type, output_type="rr_ms")
 
     ###########
     # Detection

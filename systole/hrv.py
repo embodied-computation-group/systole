@@ -7,24 +7,34 @@ import pandas as pd
 from scipy import interpolate
 from scipy.signal import welch
 
+from systole.utils import input_conversion
 
-def nnX(x: Union[List, np.ndarray], t: int = 50) -> float:
+
+def nnX(x: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> float:
     """Number of difference in successive R-R interval > t ms.
 
     Parameters
     ----------
-    x : np.ndarray or list
-        Interval time-series (R-R, beat-to-beat...), in miliseconds.
+    x : np.ndarray | list
+        Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
     t : int
         Threshold value: Defaut is set to 50 ms to calculate the nn50 index.
+    input_type : str
+        The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
+        `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
     nnX : float
         The number of successive differences larger than a value.
+
     """
-    if isinstance(x, list):
-        x = np.asarray(x)
+
+    x = np.asarray(x)
+
+    if input_type != "rr_ms":
+        x = input_conversion(x, input_type=input_type, output_type="rr_ms")
+
     if len(x.shape) > 1:
         raise ValueError("X must be a 1darray")
 
@@ -33,23 +43,31 @@ def nnX(x: Union[List, np.ndarray], t: int = 50) -> float:
     return nn
 
 
-def pnnX(x: Union[List, np.ndarray], t: int = 50) -> float:
+def pnnX(x: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> float:
     """Number of successive differences larger than a value (def = 50ms).
 
     Parameters
     ----------
-    x : np.ndarray or list
-        Interval time-series (R-R, beat-to-beat...), in miliseconds.
+    x : np.ndarray | list
+        Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
     t : int
         Threshold value: Defaut is set to 50 ms to calculate the nn50 index.
+    input_type : str
+        The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
+        `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
     nn : float
         The proportion of successive differences larger than a value (%).
+
     """
-    if isinstance(x, list):
-        x = np.asarray(x)
+
+    x = np.asarray(x)
+
+    if input_type != "rr_ms":
+        x = input_conversion(x, input_type=input_type, output_type="rr_ms")
+
     if len(x.shape) > 1:
         raise ValueError("X must be a 1darray")
 
@@ -62,32 +80,35 @@ def pnnX(x: Union[List, np.ndarray], t: int = 50) -> float:
     return pnnX
 
 
-def rmssd(x: Union[List, np.ndarray]) -> float:
+def rmssd(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> float:
     """Root Mean Square of Successive Differences.
 
     Parameters
     ----------
-    x : np.ndarray or list
-        Interval time-series (R-R, beat-to-beat...), in miliseconds.
+    x : np.ndarray | list
+        Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
+    input_type : str
+        The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
+        `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
     y : float
         The Root Mean Square of Successive Differences (RMSSD).
 
-    Notes
-    ------
-        The RMSSD is commonly used in the litterature as a good indexe of the
-        Autonomic Nervous System’s Parasympathetic activity. The RMSSD iS
-        computed using the following formula:
-
     Examples
     --------
     >>> rr = [800, 850, 810, 720]
     >>> rmssd(rr)
+    63.77042156569664
+
     """
-    if isinstance(x, list):
-        x = np.asarray(x)
+
+    x = np.asarray(x)
+
+    if input_type != "rr_ms":
+        x = input_conversion(x, input_type=input_type, output_type="rr_ms")
+
     if len(x.shape) > 1:
         raise ValueError("X must be a 1darray")
 
@@ -96,30 +117,33 @@ def rmssd(x: Union[List, np.ndarray]) -> float:
     return y
 
 
-def time_domain(x: Union[List, np.ndarray]) -> pd.DataFrame:
+def time_domain(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.DataFrame:
     """Extract all time domain parameters from R-R intervals.
 
     Parameters
     ----------
-    x : np.ndarray or list
-        Interval time-series (R-R, beat-to-beat...), in miliseconds.
+    x : np.ndarray | list
+        Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
+    input_type : str
+        The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
+        `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
     stats : :py:class:`pandas.DataFrame`
         Time domain summary statistics.
-        * ``'Mean RR'`` : Mean of R-R intervals.
-        * ``'Mean BPM'`` : Mean of beats per minutes.
-        * ``'Median RR'`` : Median of R-R intervals'.
-        * ``'Median BPM'`` : Meidan of beats per minutes.
-        * ``'MinRR'`` : Minimum R-R intervals.
-        * ``'MinBPM'`` : Minimum beats per minutes.
-        * ``'MaxRR'`` : Maximum R-R intervals.
-        * ``'MaxBPM'`` : Maximum beats per minutes.
-        * ``'SDNN'`` : Standard deviation of successive differences.
-        * ``'RMSSD'`` : Root Mean Square of the Successive Differences.
-        * ``'NN50'`` : number of successive differences larger than 50ms.
-        * ``'pNN50'`` : Proportion of successive difference larger than 50ms.
+        - ``'Mean RR'`` : Mean of R-R intervals.
+        - ``'Mean BPM'`` : Mean of beats per minutes.
+        - ``'Median RR'`` : Median of R-R intervals'.
+        - ``'Median BPM'`` : Meidan of beats per minutes.
+        - ``'MinRR'`` : Minimum R-R intervals.
+        - ``'MinBPM'`` : Minimum beats per minutes.
+        - ``'MaxRR'`` : Maximum R-R intervals.
+        - ``'MaxBPM'`` : Maximum beats per minutes.
+        - ``'SDNN'`` : Standard deviation of successive differences.
+        - ``'RMSSD'`` : Root Mean Square of the Successive Differences.
+        - ``'NN50'`` : number of successive differences larger than 50ms.
+        - ``'pNN50'`` : Proportion of successive difference larger than 50ms.
 
     See also
     --------
@@ -131,10 +155,19 @@ def time_domain(x: Union[List, np.ndarray]) -> pd.DataFrame:
     format to facilitate the creation of group summary data frame that can
     easily be transferred to other plotting or statistics library. You can
     easily convert it into a wide format for a subject-level inline report
-    using the py:pandas.pivot_table() function:
+    using the py:func:`pandas.pivot_table` function:
     >>> pd.pivot_table(stats, values='Values', columns='Metric')
+
+    All time-domain results have been tested against Kubios HVR 2.2
+    (<https://www.kubios.com>).
+
     """
+
     x = np.asarray(x)
+
+    if input_type != "rr_ms":
+        x = input_conversion(x, input_type=input_type, output_type="rr_ms")
+
     if len(x.shape) > 1:
         raise ValueError("X must be a 1darray")
 
@@ -209,55 +242,45 @@ def time_domain(x: Union[List, np.ndarray]) -> pd.DataFrame:
     return stats
 
 
-def frequency_domain(
-    x: Union[List, np.ndarray],
+def psd(
+    rr: Union[List, np.ndarray],
     sfreq: int = 5,
     method: str = "welch",
-    fbands: Optional[Dict[str, Tuple[str, Tuple[float, float], str]]] = None,
-) -> pd.DataFrame:
+    input_type: str = "rr_ms",
+) -> Tuple[np.ndarray, np.ndarray]:
     """Extract the frequency domain features of heart rate variability.
 
     Parameters
     ----------
-    x : np.ndarray or list
-        Interval time-series (R-R, beat-to-beat...), in miliseconds.
+    rr : np.ndarray | list
+        Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
     sfreq : int
-        The sampling frequency (Hz).
+        The sampling frequency (Hz) of the interpolated instantaneous heart
+        rate.
     method : str
         The method used to extract freauency power. Default is ``'welch'``.
-    fbands : None | dict, optional
-        Dictionary containing the names of the frequency bands of interest
-        (str), their range (tuples) and their color in the PSD plot. Default is
-        >>> {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
-        >>> 'lf': ('Low frequency', (0.04, 0.15), 'g'),
-        >>> 'hf': ('High frequency', (0.15, 0.4), 'r')}
+    input_type : str
+        The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
+        `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
-    stats : :py:class:`pandas.DataFrame`
-        Frequency domain summary statistics.
-        * ``'power_vlf_per'`` : Very low frequency power (%).
-        * ``'power_lf_per'`` : Low frequency power (%).
-        * ``'power_hf_per'`` : High frequency power (%).
-        * ``'power_lf_nu'`` : Low frequency power (normalized units).
-        * ``'power_hf_nu'`` : High frequency power (normalized units).
+    freq, power : np.ndarray
+        The frequency and power spectral density of the given signal.
 
     See also
     --------
-    time_domain, nonlinear
-
-    Notes
-    -----
-    The dataframe containing the summary statistics is returned in the long
-    format to facilitate the creation of group summary data frame that can
-    easily be transferred to other plotting or statistics library. You can
-    easily convert it into a wide format for a subject-level inline report
-    using the py:pandas.pivot_table() function:
-    >>> pd.pivot_table(stats, values='Values', columns='Metric')
+    frequency_domain
     """
+
+    rr = np.asarray(rr)
+
+    if input_type != "rr_ms":
+        rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
+
     # Interpolate R-R interval
-    time = np.cumsum(x)
-    f = interpolate.interp1d(time, x, kind="cubic")
+    time = np.cumsum(rr)
+    f = interpolate.interp1d(time, rr, kind="cubic")
     new_time = np.arange(time[0], time[-1], 1000 / sfreq)  # sfreq = 5 Hz
     x = f(new_time)
 
@@ -269,9 +292,77 @@ def frequency_domain(
             nperseg = len(x)
 
         # Compute Power Spectral Density
-        freq, psd = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=nperseg)
+        freq, power = welch(x=x, fs=sfreq, nperseg=nperseg, nfft=nperseg)
 
-        psd = psd / 1000000
+        power = power / 1000000
+
+    return freq, power
+
+
+def frequency_domain(
+    rr: Union[List, np.ndarray],
+    sfreq: int = 5,
+    method: str = "welch",
+    fbands: Optional[Dict[str, Tuple[str, Tuple[float, float], str]]] = None,
+    input_type: str = "rr_ms",
+) -> pd.DataFrame:
+    """Extract the frequency domain features of heart rate variability.
+
+    Parameters
+    ----------
+    rr : np.ndarray | list
+        Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
+    sfreq : int
+        The sampling frequency (Hz).
+    method : str
+        The method used to extract freauency power. Default is ``'welch'``.
+    fbands : None | dict
+        Dictionary containing the names of the frequency bands of interest
+        (str), their range (tuples) and their color in the PSD plot. Default is
+        >>> {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
+        >>>  'lf': ('Low frequency', (0.04, 0.15), 'g'),
+        >>>  'hf': ('High frequency', (0.15, 0.4), 'r')}pip
+    input_type : str
+        The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
+        `"rr_s"`. Defaults to `"rr_ms"`.
+
+    Returns
+    -------
+    stats : :py:class:`pandas.DataFrame`
+        Frequency domain summary statistics.
+        - ``'power_vlf_per'`` : Very low frequency power (%).
+        - ``'power_lf_per'`` : Low frequency power (%).
+        - ``'power_hf_per'`` : High frequency power (%).
+        - ``'power_lf_nu'`` : Low frequency power (normalized units).
+        - ``'power_hf_nu'`` : High frequency power (normalized units).
+
+    See also
+    --------
+    time_domain, nonlinear
+
+    Notes
+    -----
+    The dataframe containing the summary statistics is returned in the long
+    format to facilitate the creation of group summary data frame that can
+    easily be transferred to other plotting or statistics library. You can
+    easily convert it into a wide format for a subject-level inline report
+    using the py:func:`pandas.pivot_table` function:
+    >>> pd.pivot_table(stats, values='Values', columns='Metric')
+
+    .. warning::
+        All frequency-domain results have been tested against Kubios HVR 2.2
+        (<https://www.kubios.com>). These results can slightly differ due to different
+        parametrization of the PSD estimation. We recommend to always check your results
+        against another software.
+
+    """
+
+    rr = np.asarray(rr)
+
+    if input_type != "rr_ms":
+        rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
+
+    freq, power = psd(rr=rr, sfreq=sfreq, method=method, input_type="rr_ms")
 
     if fbands is None:
         fbands = {
@@ -284,7 +375,7 @@ def frequency_domain(
     ########################
     stats = pd.DataFrame([])
     for band in fbands:
-        this_psd = psd[(freq >= fbands[band][1][0]) & (freq < fbands[band][1][1])]
+        this_psd = power[(freq >= fbands[band][1][0]) & (freq < fbands[band][1][1])]
         this_freq = freq[(freq >= fbands[band][1][0]) & (freq < fbands[band][1][1])]
 
         # Peaks (Hz)
@@ -294,9 +385,9 @@ def frequency_domain(
         )
 
         # Power (ms**2)
-        power = np.trapz(x=this_freq, y=this_psd) * 1000000
+        this_power = np.trapz(x=this_freq, y=this_psd) * 1000000
         stats = stats.append(
-            {"Values": power, "Metric": band + "_power"}, ignore_index=True
+            {"Values": this_power, "Metric": band + "_power"}, ignore_index=True
         )
 
     hf = stats.Values[stats.Metric == "hf_power"].values[0]
@@ -328,13 +419,16 @@ def frequency_domain(
     return stats
 
 
-def nonlinear(x: Union[List, np.ndarray]) -> pd.DataFrame:
+def nonlinear(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.DataFrame:
     """Extract the non-linear features of heart rate variability.
 
     Parameters
     ----------
-    x : list or numpy array
+    x : list | np.ndarray
         Interval time-series (R-R, beat-to-beat...), in miliseconds.
+    input_type : str
+        The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
+        `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
@@ -355,7 +449,16 @@ def nonlinear(x: Union[List, np.ndarray]) -> pd.DataFrame:
     easily convert it into a wide format for a subject-level inline report
     using the py:pandas.pivot_table() function:
     >>> pd.pivot_table(stats, values='Values', columns='Metric')
+
+    All time-domain results have been tested against Kubios HVR 2.2
+    (<https://www.kubios.com>).
+
     """
+
+    x = np.asarray(x)
+
+    if input_type != "rr_ms":
+        x = input_conversion(x, input_type=input_type, output_type="rr_ms")
 
     diff_rr = np.diff(x)
     sd1 = np.sqrt(np.std(diff_rr, ddof=1) ** 2 * 0.5)

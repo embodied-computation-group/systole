@@ -8,7 +8,6 @@ import numpy as np
 from systole import import_rr
 from systole.correction import (
     correct_extra,
-    correct_extra_peaks,
     correct_missed,
     correct_missed_peaks,
     correct_peaks,
@@ -20,7 +19,7 @@ from systole.utils import simulate_rr
 
 class TestDetection(TestCase):
     def test_correct_extra(self):
-        """Test oxi_peaks function"""
+        """Test ppg_peaks function"""
         rr = import_rr().rr.values  # Import RR time series
         rr[20] = 200
         clean_rr = correct_extra(rr, 20)
@@ -49,13 +48,13 @@ class TestDetection(TestCase):
         """Test correct_rr function"""
         rr = simulate_rr()  # Import RR time series
         correction = correct_rr(rr)
-        correction = correct_rr(list(rr))
-        assert len(correction["clean_rr"]) == 352
+        correction = correct_rr(list(rr), n_iterations=1)
+        assert len(correction["clean_rr"]) == 350
         assert correction["ectopic"] == 5
         assert correction["missed"] == 1
         assert correction["extra"] == 1
-        assert correction["long"] == 1
-        assert correction["short"] == 3
+        assert correction["long"] == 2
+        assert correction["short"] == 1
 
     def test_correct_peaks(self):
         """Test correct_peaks function"""
@@ -65,27 +64,21 @@ class TestDetection(TestCase):
         assert len(peaks_correction["clean_peaks"]) == 280154
         assert peaks_correction["missed"] == 1
         assert peaks_correction["extra"] == 1
-        assert peaks_correction["ectopic"] == 0
-        assert peaks_correction["long"] == 0
-        assert peaks_correction["short"] == 0
-
-    def test_correct_extra_peaks(self):
-        """Test correct_extra_peaks function"""
-        peaks = simulate_rr(as_peaks=True)
-        # RR time series to peaks boolean vector
-        peaks_correction = correct_extra_peaks(peaks, 20)
-        peaks_correction = correct_extra_peaks(list(peaks), 20)
-        assert len(peaks_correction) == len(peaks)
-        assert sum(peaks_correction) == sum(peaks) - 1
 
     def test_correct_missed_peaks(self):
         """Test correct_missed_peaks function"""
-        peaks = simulate_rr(as_peaks=True)
-        # RR time series to peaks boolean vector
-        peaks_correction = correct_missed_peaks(peaks, 20)
-        peaks_correction = correct_missed_peaks(list(peaks), 20)
-        assert len(peaks_correction) == len(peaks)
-        assert sum(peaks_correction) == sum(peaks) + 1
+        np.random.seed(123)
+        rr = np.random.normal(1000, 200, 10).astype("int")
+        peaks = np.zeros(10000)
+        peaks[np.cumsum(rr)] = 1
+        assert np.where(peaks)[0].sum() == 52029
+
+        peaks[3735] = 0
+        peaks = correct_missed_peaks(peaks, idx=4619)
+        assert np.where(peaks)[0].sum() == 52122
+
+        with self.assertRaises(ValueError):
+            correct_missed_peaks(peaks, idx=4610)
 
 
 if __name__ == "__main__":
