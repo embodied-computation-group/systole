@@ -50,7 +50,7 @@ The package integrates a set of functions for interactive or non interactive dat
 
 Artefacts detection and rejection
 =================================
-Artefacts can be detected and corrected in the RR interval time series or the peaks vector following the algorythm proposed by Lipponen & Tarvainen (2019).
+Artefacts can be detected and corrected in the RR interval time series or the peaks vector using the method proposed by Lipponen & Tarvainen (2019).
 
 .. code-block:: python
 
@@ -65,13 +65,10 @@ Artefacts can be detected and corrected in the RR interval time series or the pe
 .. raw:: html
    :file: ./images/subspaces.html
 
-Instantaneous and evoked heart rate
-===================================
-
 
 Heart rate variability analysis
 ===============================
-Systole implemetns basic time-domain, frequency-domain and non-linear HRV indices.
+Systole implements time-domain, frequency-domain and non-linear HRV indices, as well as tools for evoked heart rate analysis.
 
 .. code-block:: python
 
@@ -90,6 +87,6 @@ Systole implemetns basic time-domain, frequency-domain and non-linear HRV indice
 Online systolic peak detection, cardiac-stimulus synchrony, and cardiac circular analysis
 =========================================================================================
 
-Systole natively supports recording of physiological signals from the following setups:
+The package natively supports recording of physiological signals from the following setups:
 - `Nonin 3012LP Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_ (USB).
 - Remote Data Access (RDA) via BrainVision Recorder together with `Brain product ExG amplifier <https://www.brainproducts.com/>`_ (Ethernet).

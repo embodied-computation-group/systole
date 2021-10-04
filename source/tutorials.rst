@@ -40,8 +40,8 @@ in general.
 
    ---
 
-   - 2 - Cardica cycles
-   ^^^^^^^^^^^^^^^^^^^^
+   - 2 - Cardicac cycles
+   ^^^^^^^^^^^^^^^^^^^^^
 
    .. toctree::
       :maxdepth: 4

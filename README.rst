@@ -114,13 +114,13 @@ The package integrates a set of functions for interactive or non interactive dat
   plot_raw(signal[60000 : 120000], modality="ecg", backend="bokeh", 
               show_heart_rate=True, show_artefacts=True, figsize=300)
 
-.. figure::  https://github.com/embodied-computation-group/systole/raw/master/source/images/raw.png
-   :align:   center
+.. raw:: html
+   :file: ./images/raw.html
 
 
 Artefacts detection and rejection
 =================================
-Artefacts can be detected and corrected in the RR interval time series or the peaks vector following the algorythm proposed by Lipponen & Tarvainen (2019).
+Artefacts can be detected and corrected in the RR interval time series or the peaks vector using the method proposed by Lipponen & Tarvainen (2019).
 
 .. code-block:: python
 
@@ -132,16 +132,13 @@ Artefacts can be detected and corrected in the RR interval time series or the pe
 
   plot_subspaces(peaks, input_type="peaks", backend="bokeh")
 
-.. figure::  https://github.com/embodied-computation-group/systole/raw/master/source/images/subspaces.png
-   :align:   center
-
-Instantaneous and evoked heart rate
-===================================
+.. raw:: html
+   :file: ./images/subspaces.html
 
 
 Heart rate variability analysis
 ===============================
-Systole implemetns basic time-domain, frequency-domain and non-linear HRV indices.
+Systole implements time-domain, frequency-domain and non-linear HRV indices, as well as tools for evoked heart rate analysis.
 
 .. code-block:: python
 
@@ -149,18 +146,18 @@ Systole implemetns basic time-domain, frequency-domain and non-linear HRV indice
   from systole.plots plot_frequency, plot_pointcare
 
   row(
-      plot_frequency(peaks, input_type="peaks", backend="bokeh", figsize=(600, 400)),
-      plot_pointcare(peaks, input_type="peaks", backend="bokeh", figsize=(400, 400)),
+      plot_frequency(peaks, input_type="peaks", backend="bokeh", figsize=(300, 200)),
+      plot_pointcare(peaks, input_type="peaks", backend="bokeh", figsize=(200, 200)),
       )
 
-.. figure::  https://github.com/embodied-computation-group/systole/raw/master/source/images/hrv.png
-   :align:   center
+.. raw:: html
+   :file: ./images/hrv.html
 
 
 Online systolic peak detection, cardiac-stimulus synchrony, and cardiac circular analysis
 =========================================================================================
 
-Systole natively supports recording of physiological signals from the following setups:
+The package natively supports recording of physiological signals from the following setups:
 - `Nonin 3012LP Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_ (USB).
 - Remote Data Access (RDA) via BrainVision Recorder together with `Brain product ExG amplifier <https://www.brainproducts.com/>`_ (Ethernet).
 
