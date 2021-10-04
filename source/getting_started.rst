@@ -17,8 +17,11 @@ The following packages are required to use Systole:
 * `Seaborn <https://seaborn.pydata.org/>`_ (>=0.9.0)
 
 Required when using `Matplotlib` plotting backend:
+
 * `Matplotlib <https://matplotlib.org/>`_ (>=3.0.2)
+
 Required when using `Bokeh` plotting backend:
+
 * `Bokeh <https://docs.bokeh.org/en/latest/index.html#>`_ (>=2.3.3)
 
 
