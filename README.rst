@@ -28,7 +28,7 @@
 
 ================
 
-.. figure::  https://github.com/embodied-computation-group/systole/raw/master/source/images/banner.png
+.. figure::  https://github.com/embodied-computation-group/systole/blob/dev/source/images/logo.png
    :align:   center
 
 ================
@@ -199,11 +199,11 @@ Systole was largely inspired by pre-existing toolboxes dedicated to heartrate va
 
 |AU| |lundbeck| |lab|
 
-.. |AU| image::  https://github.com/embodied-computation-group/systole/raw/dev/Images/au_clinisk_logo.png
+.. |AU| image::  https://github.com/embodied-computation-group/systole/blob/dev/source/images/au_clinisk_logo.png
    :width: 100%
 
-.. |lundbeck| image::  https://github.com/embodied-computation-group/systole/raw/dev/Images/lundbeckfonden_logo.png
+.. |lundbeck| image::  https://github.com/embodied-computation-group/systole/blob/dev/source/images/lundbeckfonden_logo.png
    :width: 10%
 
-.. |lab| image::  https://github.com/embodied-computation-group/systole/raw/dev/Images/LabLogo.png
+.. |lab| image::  https://github.com/embodied-computation-group/systole/blob/dev/source/images/LabLogo.png
    :width: 20%
