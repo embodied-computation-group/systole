@@ -28,7 +28,7 @@
 
 ================
 
-.. figure::  https://github.com/embodied-computation-group/systole/raw/master/source/images/banner.png
+.. figure::  https://github.com/embodied-computation-group/systole/raw/master/source/images/logo.png
    :align:   center
 
 ================
@@ -55,6 +55,13 @@ Systole documentation
     New to *Systole*? Check out the getting started guides. They contain an
     introduction to *Systole'* main concepts and links to additional tutorials.
 
+    +++
+
+    .. link-button:: getting_started
+            :type: ref
+            :text: To the getting started guides
+            :classes: btn btn-light btn-block stretched-link
+
     ---
     :img-top: images/table-cells-large-solid.png
 
@@ -62,6 +69,13 @@ Systole documentation
     ^^^^^^^^^^^^^^^
 
     See this section for examples of using Systole in different ways.
+
+    +++
+
+    .. link-button:: auto_examples/index
+            :type: ref
+            :text: To the example gallery
+            :classes: btn btn-light btn-block stretched-link
 
     ---
     :img-top: images/tutorials.png
@@ -74,6 +88,13 @@ Systole documentation
     theoretical and practical aspects of physiological signal analysis for cognitive
     neuroscience.
 
+    +++
+
+    .. link-button:: tutorials
+            :type: ref
+            :text: To the tutorial notebooks
+            :classes: btn btn-light btn-block stretched-link
+
     ---
     :img-top: images/code-solid.png
 
@@ -82,6 +103,13 @@ Systole documentation
 
     The reference guide contains a detailed description of the Systole API. The
     reference describes how the methods work and which parameters can be used.
+
+    +++
+
+    .. link-button:: api
+            :type: ref
+            :text: To the reference guide
+            :classes: btn btn-light btn-block stretched-link
 
 
 Acknowledgements
