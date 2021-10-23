@@ -109,7 +109,7 @@ The package integrates a set of functions for interactive or non interactive dat
 
 .. code-block:: python
 
-  from systole.plots plot_raw
+  from systole.plots import plot_raw
 
   plot_raw(signal[60000 : 120000], modality="ecg", backend="bokeh", 
               show_heart_rate=True, show_artefacts=True, figsize=300)
