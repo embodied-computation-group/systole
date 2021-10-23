@@ -125,7 +125,7 @@ Artefacts can be detected and corrected in the RR interval time series or the pe
 .. code-block:: python
 
   from systole.detection import ecg_peaks
-  from systole.plots plot_subspaces
+  from systole.plots import plot_subspaces
 
   # R peaks detection
   signal, peaks = ecg_peaks(signal, method='pan-tompkins', sfreq=1000)
@@ -143,7 +143,7 @@ Systole implements time-domain, frequency-domain and non-linear HRV indices, as 
 .. code-block:: python
 
   from bokeh.layouts import row
-  from systole.plots plot_frequency, plot_pointcare
+  from systole.plots import plot_frequency, plot_pointcare
 
   row(
       plot_frequency(peaks, input_type="peaks", backend="bokeh", figsize=(300, 200)),
