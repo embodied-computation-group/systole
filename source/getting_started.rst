@@ -15,14 +15,13 @@ The following packages are required to use Systole:
 * `Pandas <https://pandas.pydata.org/>`_ (>=0.24)
 * `Numba <http://numba.pydata.org/>`_ (>=0.51.2)
 * `Seaborn <https://seaborn.pydata.org/>`_ (>=0.9.0)
-
-Required when using `Matplotlib` plotting backend:
-
 * `Matplotlib <https://matplotlib.org/>`_ (>=3.0.2)
-
-Required when using `Bokeh` plotting backend:
-
 * `Bokeh <https://docs.bokeh.org/en/latest/index.html#>`_ (>=2.3.3)
+* `pyserial <https://pyserial.readthedocs.io/en/latest/pyserial.html>`_ (>=3.4)
+* `setuptools <https://setuptools.pypa.io/en/latest/>`_ (>=38.4)
+
+
+The Python version should be 3.7 or higher.
 
 
 Getting started
