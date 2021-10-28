@@ -42,23 +42,23 @@ class TestUtils(TestCase):
         _, peaks = ppg_peaks(ppg)
         heartrate, time = heart_rate(peaks)
         assert len(heartrate) == len(time)
-        assert np.nanmean(heartrate) == 884.92526408453
+        np.testing.assert_almost_equal(np.nanmean(heartrate), 884.92526408453)
         heartrate, time = heart_rate(list(peaks))
         assert len(heartrate) == len(time)
-        assert np.nanmean(heartrate) == 884.92526408453
+        np.testing.assert_almost_equal(np.nanmean(heartrate), 884.92526408453)
         heartrate, time = heart_rate(peaks, unit="bpm", kind="cubic", sfreq=500)
         assert len(heartrate) == len(time)
-        assert np.nanmean(heartrate) == 34.34558271737578
+        np.testing.assert_almost_equal(np.nanmean(heartrate), 34.34558271737578)
         with pytest.raises(ValueError):
             heartrate, time = heart_rate([1, 2, 3])
         heartrate, time = heart_rate(
             np.diff(np.where(peaks)), kind="cubic", input_type="rr_ms"
         )
-        assert np.nanmean(heartrate) == 884.9253824912565
+        np.testing.assert_almost_equal(np.nanmean(heartrate), 884.9253824912565)
         heartrate, time = heart_rate(
             np.diff(np.where(peaks)) / 1000, kind="cubic", input_type="rr_s"
         )
-        assert np.nanmean(heartrate) == 884.92526408453
+        np.testing.assert_almost_equal(np.nanmean(heartrate), 884.92526408453)
 
     def test_time_shift(self):
         """Test time_shift function"""
@@ -92,7 +92,7 @@ class TestUtils(TestCase):
         epoch, rejected = to_epochs(signal=signal, triggers_idx=triggers_idx)
         assert len(epoch) == 2
         assert len(rejected) == 2
-        assert epoch[0].mean() == 0.047150987567323624
+        np.testing.assert_almost_equal(epoch[0].mean(), 0.047150987567323624)
         assert rejected[0].mean() == 0.0
 
         # Using event triggers
@@ -102,7 +102,7 @@ class TestUtils(TestCase):
             event_val=2,
             apply_baseline=(-1.0, 0.0),
         )
-        assert epoch[0].mean() == 0.008389195914220333
+        np.testing.assert_almost_equal(epoch[0].mean(), 0.008389195914220333)
         assert rejected[0].mean() == 0.0
 
         # Using a rejection vector
