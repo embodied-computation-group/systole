@@ -33,11 +33,10 @@
 
 ================
 
-**Systole** is an open-source Python package implementing simple tools for working with cardiac signals for 
-psychophysiology research. In particular, the package provides tools to pre-process, visualize, and analyze cardiac data. 
-This includes tools for data epoching, artefact detection, artefact correction, evoked heart-rate analyses, heart-rate 
+**Systole** is an open-source Python package implementing simple tools for working with cardiac signals for psychophysiology research. In particular, the package provides tools to pre-process, visualize, and analyze cardiac data. 
+This includes tools for data epoching, artefact detection, artefact correction, evoked heart rate analyses, heart rate 
 variability analyses, circular statistical approaches to analysing cardiac cycles, and synchronising stimulus 
-presentation with different cardiac phases via the psychopy.
+presentation with different cardiac phases via Psychopy.
 
 Systole documentation
 =====================
