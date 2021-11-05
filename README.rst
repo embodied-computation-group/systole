@@ -207,3 +207,8 @@ Systole was largely inspired by pre-existing toolboxes dedicated to heartrate va
 
 .. |lab| image::  https://github.com/embodied-computation-group/systole/blob/dev/source/images/LabLogo.png
    :width: 20%
+
+
+.. image:: https://badges.gitter.im/ecg-systole/community.svg
+   :alt: Join the chat at https://gitter.im/ecg-systole/community
+   :target: https://gitter.im/ecg-systole/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
