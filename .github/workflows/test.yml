@@ -25,6 +25,7 @@ jobs:
       run: |
         pip install -e '.[test]'
         pip install -r requirements-test.txt
+        python -m ipykernel install --user --name python3
     - name: Run tests
       run: |
         pytest
