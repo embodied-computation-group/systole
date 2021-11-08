@@ -26,9 +26,12 @@
 .. image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
   :target: https://github.com/pre-commit/pre-commit
 
+.. image:: https://badges.gitter.im/ecg-systole/community.svg
+   :target: https://gitter.im/ecg-systole/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
+
 ================
 
-.. figure::  https://github.com/embodied-computation-group/systole/raw/master/source/images/logo.png
+.. figure::  https://github.com/embodied-computation-group/systole/blob/dev/source/images/logo.png
    :align:   center
 
 ================
@@ -37,6 +40,8 @@
 This includes tools for data epoching, artefact detection, artefact correction, evoked heart rate analyses, heart rate 
 variability analyses, circular statistical approaches to analysing cardiac cycles, and synchronising stimulus 
 presentation with different cardiac phases via Psychopy.
+
+If you have questions, you can ask them in the `Gitter chat <https://gitter.im/ecg-systole/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge>`_.
 
 Systole documentation
 =====================
