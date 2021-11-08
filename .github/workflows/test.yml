@@ -25,7 +25,8 @@ jobs:
       run: |
         pip install -e '.[test]'
         pip install -r requirements-test.txt
+        pip install ipykernel 
         python -m ipykernel install --user --name python3
     - name: Run tests
       run: |
-        pytest --ignore=systole/tests/test_notebooks.py
+        pytest
