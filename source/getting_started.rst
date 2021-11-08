@@ -19,6 +19,7 @@ The following packages are required to use Systole:
 * `Bokeh <https://docs.bokeh.org/en/latest/index.html#>`_ (>=2.3.3)
 * `pyserial <https://pyserial.readthedocs.io/en/latest/pyserial.html>`_ (>=3.4)
 * `setuptools <https://setuptools.pypa.io/en/latest/>`_ (>=38.4)
+* `requests <https://docs.python-requests.org/en/latest/>`_ (>=2.26.0)
 
 
 The Python version should be 3.7 or higher.

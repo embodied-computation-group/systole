@@ -9,3 +9,4 @@ setuptools>=38.4
 packaging
 numba>=0.51.2
 tqdm
+requests>=2.26.0
