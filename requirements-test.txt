@@ -5,7 +5,9 @@ matplotlib>=3.0.2
 seaborn>=0.9.0
 bokeh>=2.3.2
 pyserial>=3.4
+setuptools>=38.4
+packaging
+numba>=0.51.2
 tqdm
 requests>=2.24.0
-numba>=0.51.2
 papermill>=2.2.2
