@@ -28,4 +28,4 @@ jobs:
         python -m ipykernel install --user --name python3
     - name: Run tests
       run: |
-        pytest
+        pytest --ignore=systole/tests/test_notebooks.py
