@@ -114,12 +114,19 @@ def plot_evoked(
     Examples
     --------
 
-    Plot evoked heart rate across two conditions using the Matplotlib backend.
+    Plot evoked heart rate across two conditions using the Matplotlib backend. Here,
+    for the sake of example, we are going to create the same plot three time using
+    three kind of input data:
+
+    * The raw signal + the triggers timing (or a list of in case of multiple conditions).
+    * The peaks detection + the triggers timing (or a list of in case of multiple conditions)
+    * The epoched signal as a 2d NumPy array (or a list of in case of multiple conditions)
 
     .. jupyter-execute::
 
        import numpy as np
        import seaborn as sns
+       import matplotlib.pyplot as plt
        from systole.detection import ecg_peaks
        from systole.plots import plot_evoked
        from systole import import_dataset1
@@ -135,26 +142,82 @@ def plot_evoked(
        # Peak detection in the ECG signal using the Pan-Tompkins method
        signal, peaks = ecg_peaks(ecg_df.ecg, method='pan-tompkins', sfreq=1000)
 
-       plot_evoked(
-           rr=peaks, triggers_idx=triggers_idx, input_type="peaks",
-           palette=[sns.xkcd_rgb["pale red"], sns.xkcd_rgb["denim blue"]],
-           apply_baseline=(-1.0, 0.0), decim=100, figsize=(400, 400)
-       )
+       # Convert to instantaneous heart rate
+       rr, _ = heart_rate(peaks, kind="cubic", unit="bpm", input_type="peaks")
 
-    Plot evoked heart rate across two conditions using the Bokeh backend.
+       # Create list epochs arrays for each condition
+       epochs, _ = to_epochs(
+           signal=rr, triggers_idx=triggers_idx, tmin=-1.0, tmax=10.0,
+           apply_baseline=(-1.0, 0.0)
+           )
+
+       fig, axs = plt.subplots(ncols=3, figsize=(15, 5), sharey=True)
+
+       # Using the raw signal and events triggers
+       plot_evoked(
+            signal=ecg_df.ecg.to_numpy(), triggers_idx=triggers_idx, modality="ecg",
+            tmin=-1.0, tmax=10.0, apply_baseline=(-1.0, 0.0), backend="matplotlib",
+            palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+            ax=axs[0]
+            )
+
+       # Using the detected peaks and events triggers
+       plot_evoked(
+           rr=peaks, triggers_idx=triggers_idx, input_type="peaks", tmin=-1.0,
+           tmax=10.0, apply_baseline=(-1.0, 0.0), backend="matplotlib",
+           palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+           ax=axs[1]
+           )
+
+       # Using the list of epochs arrays
+       plot_evoked(
+           epochs=epochs,
+           palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+           backend="matplotlib",
+           ax=axs[2]
+           )
+
+    Plot evoked heart rate across two conditions using the Bokeh backend. Here,
+    for the sake of example, we are going to create the same plot three times using
+    three kind of input data:
+
+    * The raw signal + the triggers timing (or a list of in case of multiple conditions).
+    * The peaks detection + the triggers timing (or a list of in case of multiple conditions)
+    * The epoched signal as a 2d NumPy array (or a list of in case of multiple conditions)
 
     .. jupyter-execute::
 
        from bokeh.io import output_notebook
        from bokeh.plotting import show
+       from bokeh.layouts import row
        output_notebook()
 
-       show(
-           plot_evoked(
-               rr=peaks, triggers_idx=triggers_idx, input_type="peaks", backend="bokeh",
-               palette=[sns.xkcd_rgb["pale red"], sns.xkcd_rgb["denim blue"]],
-               apply_baseline=(-1.0, 0.0), decim=100, figsize=(400, 400))
-        )
+       # Using the raw signal and events triggers
+       raw_plot = plot_evoked(
+            signal=ecg_df.ecg.to_numpy(), triggers_idx=triggers_idx, modality="ecg",
+            tmin=-1.0, tmax=10.0, apply_baseline=(-1.0, 0.0), backend="bokeh",
+            palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+            figsize=(400, 400)
+            )
+
+       # Using the detected peaks and events triggers
+       peaks_plot = plot_evoked(
+           rr=peaks, triggers_idx=triggers_idx, input_type="peaks", tmin=-1.0,
+           tmax=10.0, apply_baseline=(-1.0, 0.0), backend="bokeh",
+           palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+           figsize=(400, 400)
+           )
+
+       # Using the list of epochs arrays
+       epochs_plots = plot_evoked(
+           epochs=epochs,
+           palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+           backend="bokeh",
+           figsize=(400, 400)
+           )
+
+       # Create a Bokeh layout and plot the figures side by side
+       show(row(raw_plot, peaks_plot, epochs_plots))
 
     """
     # Define color palette
@@ -172,18 +235,27 @@ def plot_evoked(
         elif backend == "bokeh":
             figsize = (400, 400)
 
-    # Extract instantaneous heart rate
-    if isinstance(signal, np.ndarray):
+    # Extract instantaneous heart rate from raw signal
+    if signal is not None:
+        signal = np.asarray(signal)
+        if signal.ndim > 1:
+            raise ValueError("The signal should be a 1d array, list or pandas serie")
         if modality == "ppg":
             _, peaks = ppg_peaks(signal, sfreq=sfreq)
         elif modality == "ecg":
             _, peaks = ecg_peaks(signal, sfreq=sfreq)
         rr, _ = heart_rate(peaks, kind=kind, unit=unit, input_type="peaks")
 
-    if isinstance(rr, np.ndarray):
+    # Extract instantaneous heart rate from peaks detection vector
+    elif rr is not None:
+        rr = np.asarray(rr)
+        if rr.ndim > 1:
+            raise ValueError(
+                "The RR intervals (rr) should be a 1d array, list or pandas serie"
+            )
         rr, _ = heart_rate(rr, kind=kind, unit=unit, input_type=input_type, sfreq=sfreq)
 
-    # Epoching
+    # Epoching instantaneous heart rate
     if epochs is None:
         epochs, _ = to_epochs(
             signal=rr,
@@ -195,8 +267,10 @@ def plot_evoked(
             tmin=tmin,
             tmax=tmax,
         )
-        if isinstance(epochs, np.ndarray):
-            epochs = [epochs]
+
+    # Format epochs if already provided
+    if isinstance(epochs, np.ndarray):
+        epochs = [epochs]
 
     # Define labels
     if labels is None:

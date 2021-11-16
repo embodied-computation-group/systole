@@ -21,6 +21,7 @@ from systole.plots import (
     plot_shortlong,
     plot_subspaces,
 )
+from systole.utils import heart_rate, to_epochs
 
 
 class TestPlots(TestCase):
@@ -59,16 +60,51 @@ class TestPlots(TestCase):
         # Peak detection in the ECG signal using the Pan-Tompkins method
         _, peaks = ecg_peaks(ecg_df.ecg, method="pan-tompkins", sfreq=1000)
 
+        # Triggers timimng
         triggers_idx = [
             np.where(ecg_df.stim.to_numpy() == 2)[0],
             np.where(ecg_df.stim.to_numpy() == 1)[0],
         ]
 
+        # Epochs array
+        rr, _ = heart_rate(peaks, kind="cubic", unit="bpm", input_type="peaks")
+        epochs, _ = to_epochs(
+            signal=rr,
+            triggers_idx=triggers_idx,
+            tmin=-1.0,
+            tmax=10.0,
+            apply_baseline=(-1.0, 0.0),
+        )
+
         for backend in ["matplotlib", "bokeh"]:
+
+            # Using raw ECG signal as input
+            plot_evoked(
+                signal=ecg_df.ecg.to_numpy(),
+                triggers_idx=triggers_idx,
+                modality="ecg",
+                tmin=-1.0,
+                tmax=10.0,
+                apply_baseline=(-1.0, 0.0),
+                backend=backend,
+                palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+            )
+
+            # Using instantaneous heart rate as input
             plot_evoked(
                 rr=peaks,
                 triggers_idx=triggers_idx,
                 input_type="peaks",
+                tmin=-1.0,
+                tmax=10.0,
+                apply_baseline=(-1.0, 0.0),
+                backend=backend,
+                palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+            )
+
+            # Using evoked array as input
+            plot_evoked(
+                epochs=epochs,
                 backend=backend,
                 palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
             )
