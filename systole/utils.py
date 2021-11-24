@@ -3,35 +3,36 @@
 from typing import List, Optional, Tuple, Union
 
 import numpy as np
+from numba import jit
 from scipy.interpolate import interp1d
 
 
+@jit(nopython=True)
 def norm_triggers(
     triggers: Union[List, np.ndarray],
     threshold: int = 1,
     n: int = 5,
     direction: str = "higher",
-) -> Union[List, np.ndarray]:
-    """Turns noisy triggers into boolean vecor.
-
-    Keep the first trigger and set to 0 the n following values.
+) -> np.ndarray:
+    """Ceaning noisy triggers into boolean vecor with a unique spike for each event.
 
     Parameters
     ----------
     triggers : np.ndarray or list
-        The triggers to convert.
+        The triggers array.
     threshold : float
         Threshold for triggering values. Default is 1.
     n : int
-        Number of values to force to 0 following each triggers. Default is 5.
+        The number of values to force to 0 after each triggers. Default is 5.
     direction : str
-        Indicates if triggers are higher or lower than threshold. Can be
-        `higher` or `lower`. Default is `higher`.
+        Indicates if triggers are higher or lower than threshold. Can be`"higher"` or
+        `"lower"`. Default sets to `"higher"`.
 
     Returns
     -------
     y : np.ndarray
         The filterd triggers array.
+
     """
     triggers = np.asarray(triggers)
 
@@ -49,7 +50,7 @@ def norm_triggers(
                 y[i + 1 :] = False
             else:
                 y[i + 1 : i + n + 1] = False
-    return y.astype("bool")
+    return y
 
 
 def time_shift(
@@ -351,7 +352,7 @@ def to_epochs(
         for tr in triggers:
             if signal.shape[0] != tr.shape[0]:
                 raise ValueError(
-                    """The length of the event and signal vector shoul match."""
+                    """The length of the event and signal vector should match."""
                 )
             triggers_idx.append(np.where(tr == event_val)[0])  # Find idx of events
 

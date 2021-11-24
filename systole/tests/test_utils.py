@@ -5,6 +5,7 @@ from unittest import TestCase
 
 import numpy as np
 import pytest
+from numba.core.errors import TypingError
 
 from systole import import_dataset1, import_ppg, import_rr
 from systole.detection import ppg_peaks
@@ -31,7 +32,7 @@ class TestUtils(TestCase):
         peaks = -peaks.astype(int)
         y = norm_triggers(peaks, threshold=-1, direction="lower")
         assert sum(y) == 379
-        with pytest.raises(TypeError):
+        with pytest.raises(TypingError):
             norm_triggers(None)
         with pytest.raises(ValueError):
             norm_triggers(peaks, direction="invalid")

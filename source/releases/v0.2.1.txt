@@ -9,3 +9,4 @@ Changes
 +++++++
 
 - |Fix| |Enhancement| Fix :func:`systole.plots.plot_evoked()` so it works with the three inputs types and improve documentation.
+- |Enhancement| Fix :func:`systole.utils.norm_triggers()` is now using Numba's jit by default.
