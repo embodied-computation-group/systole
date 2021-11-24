@@ -50,7 +50,11 @@ wellbeing. This diverse interest calls for more open-source tools designed to wo
 with cardiac data in the context of psychology research, but to date, only limited 
 options exist. To improve the reproducibility and accessibility of advanced forms of 
 cardiac physiological analysis, such as online peak detection and artefact control, 
-we here introduce a fully documented python package, Systole.
+we here introduce a fully documented python package, Systole. Systole introduces core 
+functionalities to interface with pulse oximeters devices, accelerated peaks detection 
+and artefacts rejection algorithms as well as a complete suite of interactive and 
+non-interactive plotting functions to improve quality checks and reports creation in 
+the context of physiological signal analysis. 
 
 
 # Overview
