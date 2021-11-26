@@ -26,7 +26,7 @@ bibliography: paper.bib
 
 # Summary
 
-Systole is a library for cardiac signal analysis in Python. It provides an interface 
+Systole is a package for cardiac signal analysis in Python. It provides an interface 
 for recording cardiac signals via electrocardiography (ECG) or photoplethysmography 
 (PPG), as well as both online and offline data analysis methods extracting cardiac 
 features, synchronizing experimental stimuli with different phases of the heart, 
