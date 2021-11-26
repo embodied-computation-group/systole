@@ -76,7 +76,7 @@ reports and dashboards from large datasets of physiological data.
 
 1. Artefact detection and rejection.
 The current artefact detection relies on the Python adaptation of the method proposed 
-by `@lipponen:2019`. The correcting of the artefacts is modular and can be 
+by @lipponen:2019. The correcting of the artefacts is modular and can be 
 adapted to specific uses. Options are provided to control for signal length and events 
 synchronization while correcting.
 
