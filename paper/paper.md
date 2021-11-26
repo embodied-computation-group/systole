@@ -44,7 +44,7 @@ Analysis of cardiac data remains a major component of medical, physiological,
 neuroscientific, and psychological research. In psychology, for example, rising 
 interest in interoception (i.e., sensing of cardiac signals) has led to a 
 proliferation of studies synchronizing the onset or timing of experimental stimuli to 
-different phases of the heart. Similarly, rising interest in understanding how 
+different phases of the heart. Similarly, there is rising interest in understanding how 
 heart-rate variability relates to mental illness, cognitive function, and physical 
 wellbeing. This diverse interest calls for more open-source tools designed to work 
 with cardiac data in the context of psychology research, but to date, only limited 
