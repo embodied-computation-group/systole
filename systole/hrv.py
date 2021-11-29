@@ -403,13 +403,13 @@ def frequency_domain(
     power_nu_hf = hf / (hf + lf)
     power_nu_lf = lf / (hf + lf)
 
-    values = [power_per_vlf, power_per_lf, power_per_hf, power_nu_hf, power_nu_lf]
+    values = [power_per_vlf, power_per_lf, power_per_hf, power_nu_lf, power_nu_hf]
     metrics = [
-        "power_vlf_per",
-        "power_lf_per",
-        "power_hf_per",
-        "power_lf_nu",
-        "power_hf_nu",
+        "vlf_power_per",
+        "lf_power_per",
+        "hf_power_per",
+        "lf_power_nu",
+        "hf_power_nu",
     ]
 
     stats = stats.append(
