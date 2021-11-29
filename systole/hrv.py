@@ -400,8 +400,8 @@ def frequency_domain(
     power_per_hf = hf / (vlf + lf + hf) * 100
 
     # Power (n.u.)
-    power_nu_hf = hf / (hf + lf)
-    power_nu_lf = lf / (hf + lf)
+    power_nu_hf = hf / (hf + lf) * 100
+    power_nu_lf = lf / (hf + lf) * 100
 
     values = [power_per_vlf, power_per_lf, power_per_hf, power_nu_lf, power_nu_hf]
     metrics = [
