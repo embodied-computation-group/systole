@@ -172,40 +172,40 @@ def time_domain(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.Dat
         raise ValueError("X must be a 1darray")
 
     # Mean R-R intervals
-    mean_rr = round(np.mean(x))  # type: ignore
+    mean_rr = round(np.mean(x), 6)  # type: ignore
 
     # Mean BPM
-    mean_bpm = round(np.mean(60000 / x), 2)  # type: ignore
+    mean_bpm = round(np.mean(60000 / x), 6)  # type: ignore
 
     # Median BPM
-    median_rr = round(np.median(x), 2)
+    median_rr = round(np.median(x), 6)
 
     # Median BPM
-    median_bpm = round(np.median(60000 / x), 2)
+    median_bpm = round(np.median(60000 / x), 6)
 
     # Minimum RR
-    min_rr = round(np.min(x), 2)
+    min_rr = round(np.min(x), 6)
 
     # Minimum BPM
-    min_bpm = round(np.min(60000 / x), 2)
+    min_bpm = round(np.min(60000 / x), 6)
 
     # Maximum RR
-    max_rr = round(np.max(x), 2)
+    max_rr = round(np.max(x), 6)
 
     # Maximum BPM
-    max_bpm = round(np.max(60000 / x), 2)
+    max_bpm = round(np.max(60000 / x), 6)
 
     # Standard deviation of R-R intervals
-    sdnn = round(x.std(ddof=1), 2)  # type: ignore
+    sdnn = round(x.std(ddof=1), 6)  # type: ignore
 
     # Root Mean Square of Successive Differences (RMSSD)
-    rms = round(rmssd(x), 2)
+    rms = round(rmssd(x), 6)
 
     # NN50: number of successive differences larger than 50ms
-    nn = round(nnX(x, t=50), 2)
+    nn = round(nnX(x, t=50), 6)
 
     # pNN50: Proportion of successive differences larger than 50ms
-    pnn = round(pnnX(x, t=50), 2)
+    pnn = round(pnnX(x, t=50), 6)
 
     # Create summary dataframe
     values = [
@@ -379,7 +379,7 @@ def frequency_domain(
         this_freq = freq[(freq >= fbands[band][1][0]) & (freq < fbands[band][1][1])]
 
         # Peaks (Hz)
-        peak = round(this_freq[np.argmax(this_psd)], 4)
+        peak = round(this_freq[np.argmax(this_psd)], 6)
         stats = stats.append(
             {"Values": peak, "Metric": band + "_peak"}, ignore_index=True
         )
