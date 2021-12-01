@@ -8,7 +8,7 @@ import pandas as pd
 import seaborn as sns
 
 from systole import import_dataset1, import_ppg, import_rr
-from systole.detection import ecg_peaks
+from systole.detection import ecg_peaks, rr_artefacts
 from systole.plots import (
     plot_circular,
     plot_ectopic,
@@ -189,8 +189,16 @@ class TestPlots(TestCase):
     def test_plot_subspaces(self):
         """Test plot_subspaces function"""
         rr = import_rr().rr
+        artefacts = rr_artefacts(rr)
         for backend in ["matplotlib", "bokeh"]:
-            plot_subspaces(rr, backend=backend)
+            plot_subspaces(rr=rr, backend=backend)
+            plot_subspaces(artefacts=artefacts)
+
+        with self.assertRaises(ValueError):
+            plot_subspaces(rr=rr, artefacts=artefacts)
+
+        with self.assertRaises(ValueError):
+            plot_subspaces(rr=None, artefacts=None)
 
 
 if __name__ == "__main__":

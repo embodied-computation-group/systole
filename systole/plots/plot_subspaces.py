@@ -13,14 +13,16 @@ from systole.utils import input_conversion
 
 @overload
 def plot_subspaces(
-    rr: None, artefacts: Dict[str, np.ndarray], input_type: str = "rr_ms"
+    rr: None,
+    artefacts: Dict[str, np.ndarray],
 ) -> Union[Figure, Axes]:
     ...
 
 
 @overload
 def plot_subspaces(
-    rr: Union[List[float], np.ndarray], artefacts: None, input_type: str = "rr_ms"
+    rr: Union[List[float], np.ndarray],
+    artefacts: None,
 ) -> Union[Figure, Axes]:
     ...
 
@@ -29,7 +31,6 @@ def plot_subspaces(
 def plot_subspaces(
     rr: Union[List[float], np.ndarray],
     artefacts: Dict[str, np.ndarray],
-    input_type: str = "rr_ms",
 ) -> Union[Figure, Axes]:
     ...
 
@@ -48,11 +49,13 @@ def plot_subspaces(
     Parameters
     ----------
     rr : :py:class:`numpy.ndarray` | None
-        Interval time-series (R-R, beat-to-beat...), in seconds or in
-        miliseconds.
+        R-R interval time-series, peaks or peaks index vectors. The default expected
+        vector is R-R intervals in milliseconds. Other data format can be provided by
+        specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
     artefacts : dict | None
-        The artefacts detected using
-        :py:func:`systole.detection.rr_artefacts()`.
+        A dictionnary containing the infos abount the artefacts detected using the
+        :py:func:`systole.detection.rr_artefacts()` function. This parameter is
+        optional, but if provided the data provided in `rr` will be ignored.
     input_type : str
         The type of input vector. Default is `"peaks"` (a boolean vector where
         `1` represents the occurrence of R waves or systolic peaks).
@@ -60,11 +63,10 @@ def plot_subspaces(
         interbeat intervals (IBI), expressed in seconds or milliseconds
         (respectively).
     backend: str
-        Select plotting backend {"matplotlib", "bokeh"}. Defaults to
-        "matplotlib".
+        Select plotting backend {"matplotlib", "bokeh"}. Defaults to "matplotlib".
     figsize : tuple | int | None
-        Figure size. Default is `(12, 6)` for matplotlib backend, and the
-        height is `600` when using bokeh backend.
+        Figure size. Default is `(12, 6)` for matplotlib backend, and the height is
+        `600` when using bokeh backend.
 
     Returns
     -------
@@ -83,11 +85,6 @@ def plot_subspaces(
        classification. Journal of Medical Engineering & Technology, 43(3),
        173–181. https://doi.org/10.1080/03091902.2019.1640306
 
-    Notes
-    -----
-    If both `rr` and `artefacts` are provided, the function will drop `artefacts`
-    and re-evaluate given the current RR time-series.
-
     Examples
     --------
 
@@ -100,7 +97,7 @@ def plot_subspaces(
 
        # Import PPG recording as numpy array
        rr = import_rr().rr.to_numpy()
-       plot_subspaces(rr, backend="bokeh")
+       plot_subspaces(rr)
 
     Visualizing ectopic subspace from the `artefact` dictionary.
 
@@ -123,7 +120,7 @@ def plot_subspaces(
        output_notebook()
 
        show(
-          plot_subspaces(artefacts=artefacts, backend="bokeh")
+          plot_subspaces(artefacts=artefacts, backend="bokeh", figsize=400)
        )
 
     """
@@ -132,6 +129,9 @@ def plot_subspaces(
             figsize = (12, 6)
         elif backend == "bokeh":
             figsize = 600
+
+    if (artefacts is not None) & (rr is not None):
+        raise ValueError("Both `artefacts` and `rr` are provided.")
 
     if artefacts is None:
         if rr is None:
