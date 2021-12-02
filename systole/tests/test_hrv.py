@@ -15,6 +15,7 @@ from systole.hrv import (
     pnnX,
     poincare,
     psd,
+    recurrence,
     rmssd,
     time_domain,
 )
@@ -54,7 +55,7 @@ class TestHrv(TestCase):
         """Test time_domain function"""
         stats = time_domain(list(rr))
         assert isinstance(stats, pd.DataFrame)
-        assert stats.size == 24
+        assert stats.size == 26
         with pytest.raises(ValueError):
             time_domain(np.array([[1, 1], [1, 1]]))
         stats = time_domain(rr / 1000, input_type="rr_s")
@@ -77,7 +78,7 @@ class TestHrv(TestCase):
         """Test nonlinear_domain function"""
         stats = nonlinear_domain(list(rr))
         assert isinstance(stats, pd.DataFrame)
-        self.assertEqual(stats.size, 4)
+        self.assertEqual(stats.size, 14)
         stats = nonlinear_domain(rr / 1000, input_type="rr_s")
 
     def test_poincare(self):
@@ -85,6 +86,15 @@ class TestHrv(TestCase):
         sd1, sd2 = poincare(list(rr))
         assert np.isclose(sd1, 32.205379429718406)
         assert np.isclose(sd2, 115.10533841926389)
+
+    def test_recurrence(self):
+        """Test recurrence function"""
+        recurrence_rate, l_max, l_mean, determinism, shan_entr = recurrence(list(rr))
+        assert np.isclose(recurrence_rate, 0.42067652973283537)
+        assert np.isclose(l_max, 235)
+        assert np.isclose(l_mean, 13.069634703196346)
+        assert np.isclose(determinism, 0.9772940674349125)
+        assert np.isclose(shan_entr, 3.2551017150244004)
 
 
 if __name__ == "__main__":

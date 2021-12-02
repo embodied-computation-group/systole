@@ -142,22 +142,23 @@ def time_domain(rr: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.Da
     -------
     stats : :py:class:`pandas.DataFrame`
         Time domain summary statistics.
-        - ``'Mean RR'`` : Mean of R-R intervals.
-        - ``'Mean BPM'`` : Mean of beats per minutes.
-        - ``'Median RR'`` : Median of R-R intervals'.
-        - ``'Median BPM'`` : Meidan of beats per minutes.
-        - ``'MinRR'`` : Minimum R-R intervals.
-        - ``'MinBPM'`` : Minimum beats per minutes.
-        - ``'MaxRR'`` : Maximum R-R intervals.
-        - ``'MaxBPM'`` : Maximum beats per minutes.
-        - ``'SDNN'`` : Standard deviation of successive differences.
-        - ``'RMSSD'`` : Root Mean Square of the Successive Differences.
-        - ``'NN50'`` : number of successive differences larger than 50ms.
-        - ``'pNN50'`` : Proportion of successive difference larger than 50ms.
+        - `'Mean RR'` : Mean of R-R intervals.
+        - `'Mean BPM'` : Mean of beats per minutes.
+        - `'Median RR'` : Median of R-R intervals'.
+        - `'Median BPM'` : Meidan of beats per minutes.
+        - `'MinRR'` : Minimum R-R intervals.
+        - `'MinBPM'` : Minimum beats per minutes.
+        - `'MaxRR'` : Maximum R-R intervals.
+        - `'MaxBPM'` : Maximum beats per minutes.
+        - `'SDNN'` : Standard deviation of RR intervals.
+        - `'SDSD'`: Standard deviation of the Successive difference.
+        - `'RMSSD'` : Root Mean Square of the Successive Differences.
+        - `'NN50'` : number of successive differences larger than 50ms.
+        - `'pNN50'` : Proportion of successive difference larger than 50ms.
 
     See also
     --------
-    frequency_domain, nonlinear
+    frequency_domain, nonlinear_domain
 
     Notes
     -----
@@ -208,6 +209,9 @@ def time_domain(rr: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.Da
     # Standard deviation of R-R intervals
     sdnn = round(rr.std(ddof=1), 6)  # type: ignore
 
+    # Standard deviation of the difference of successive R-R intervals
+    sdsd = round(np.diff(rr).std(ddof=1), 6)  # type: ignore
+
     # Root Mean Square of Successive Differences (RMSSD)
     rms = round(rmssd(rr), 6)
 
@@ -228,6 +232,7 @@ def time_domain(rr: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.Da
         max_rr,
         max_bpm,
         sdnn,
+        sdsd,
         rms,
         nn,
         pnn,
@@ -242,6 +247,7 @@ def time_domain(rr: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.Da
         "MaxRR",
         "MaxBPM",
         "SDNN",
+        "SDSD",
         "RMSSD",
         "nn50",
         "pnn50",
@@ -267,8 +273,7 @@ def psd(
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
     sfreq : int
-        The sampling frequency (Hz) of the interpolated instantaneous heart
-        rate.
+        The sampling frequency (Hz) of the interpolated instantaneous heart rate.
     method : str
         The method used to extract freauency power. Default is ``'welch'``.
     input_type : str
@@ -457,7 +462,7 @@ def nonlinear_domain(
 
     See also
     --------
-    time_domain, frequency_domain, poincare
+    time_domain, frequency_domain, poincare, rec
 
     Notes
     -----
@@ -468,8 +473,18 @@ def nonlinear_domain(
     using the py:pandas.pivot_table() function:
     >>> pd.pivot_table(stats, values='Values', columns='Metric')
 
-    All time-domain results have been tested against Kubios HVR 2.2
-    (<https://www.kubios.com>).
+    .. warning:: The recurrence plots results does not reproduce what is obtained using
+       Kubios (3.5.0) and should be used with caution for now.
+
+    References
+    ----------
+    .. [1] M. Brennan, M. Palaniswami, and P. Kamen. Do existing measures of Poincaré
+       plot geometry reflect nonlinear features of heart rate variability. IEEE Trans
+       Biomed Eng, 48(11):1342–1347, 2001.
+
+    .. [2] H. Dabire, D. Mestivier, J. Jarnet, M.E. Safar, and N. Phong Chau.
+       Quantification of sympathetic and parasympathetic tones by nonlinear indexes in
+       normotensive rats. amj, 44:H1290–H1297, 1998.
 
     """
 
@@ -478,10 +493,24 @@ def nonlinear_domain(
     if input_type != "rr_ms":
         rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
 
+    # Pointcare plot
     sd1, sd2 = poincare(rr, input_type="rr_ms")
 
-    values = [sd1, sd2]
-    metrics = ["SD1", "SD2"]
+    # Recurrence plot
+    recurrence_rate, l_max, l_mean, determinism, shan_entr = recurrence(
+        rr, input_type="rr_ms"
+    )
+
+    values = [sd1, sd2, recurrence_rate, l_max, l_mean, determinism, shan_entr]
+    metrics = [
+        "SD1",
+        "SD2",
+        "recurrence_rate",
+        "l_max",
+        "l_mean",
+        "determinism",
+        "shan_entr",
+    ]
 
     stats = pd.DataFrame({"Values": values, "Metric": metrics})
 
@@ -515,7 +544,7 @@ def poincare(
 
     See also
     --------
-    nonlinear_domain
+    nonlinear_domain, recurrence
 
     Notes
     -----
@@ -559,3 +588,146 @@ def _poincare(rr: np.ndarray) -> Tuple[float, float]:
     sd2 = np.sqrt(2 * np.std(rr) ** 2 - 0.5 * np.std(diff_rr) ** 2)
 
     return sd1, sd2
+
+
+def recurrence(
+    rr: Union[List, np.ndarray], input_type: str = "rr_ms"
+) -> Tuple[float, int, float, float, float]:
+    """Compute SD1 and SD2 from the recurrence plot [1]_ for heart rate variability.
+
+    Parameters
+    ----------
+    rr : list | np.ndarray
+        R-R interval time-series, peaks or peaks index vectors. The default expected
+        vector is R-R intervals in milliseconds. Other data format can be provided by
+        specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
+    input_type : str
+        The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
+        `"rr_s"`. Defaults to `"rr_ms"`.
+
+    Returns
+    -------
+    recurrence_rate : float
+        Recurence rate. The ratio of ones and zeros in the recurrence plot.
+    l_max : int
+        Maximum lenght of the diagonale in the reccurence plot.
+    l_mean : float
+        Mean of the diagonals lengths observed in the recurence plot.
+    determinism : float
+        Determinism of the time series.
+    shan_entr : float
+        Shannon information entropy.
+
+    .. warning:: The recurrence plots results does not reproduce what is obtained using
+       Kubios (3.5.0) and should be used with caution for now.
+
+    See also
+    --------
+    nonlinear_domain
+
+    References
+    ----------
+    .. [1] H. Dabire, D. Mestivier, J. Jarnet, M.E. Safar, and N. Phong Chau.
+       Quantification of sympathetic and parasympathetic tones by nonlinear indexes in
+       normotensive rats. amj, 44:H1290–H1297, 1998.
+
+    .. [2] C.L. Webber Jr. and J.P. Zbilut. Dynamical assessment of physiological
+       systems and states using recurrence plot strategies. J Appl Physiol, 76:965–973,
+       1994.
+
+    """
+    rr = np.asarray(rr)
+
+    if input_type != "rr_ms":
+        rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
+
+    recurrence_rate, l_max, l_mean, determinism, shan_entr = _recurrence(rr)
+
+    return recurrence_rate, l_max, l_mean, determinism, shan_entr
+
+
+def _recurrence(rr: np.array, m: int = 10):
+    """Compute recurrence scores"""
+
+    # Recurrence matrix
+    rc = recurrence_matrix(rr)
+
+    n = rc.shape[0]
+    recurrence_rate = np.sum(rc) / (n ** 2)
+
+    # Find diagonale lines lines
+    total_lines = []
+    for i in range(1, rc.shape[0]):
+
+        # All diagonals except the main one
+        diag = np.diagonal(rc, offset=i)
+
+        # Lenght of each diagonale with consecutive True values
+        d = np.diff(
+            np.where(np.concatenate(([diag[0]], diag[:-1] != diag[1:], [True])))[0]
+        )[::2]
+
+        if d.shape[0] > 0:
+            total_lines.extend(d)
+
+    # Compute scores
+    l_max = np.max(total_lines)
+    l_lines = np.asarray(total_lines).repeat(2)
+    l_lines = l_lines[np.where(l_lines > 2)[0]]
+
+    l_mean = l_lines.mean()
+
+    determinism = l_lines.sum() / np.sum(rc)
+
+    # Shannon information entropy
+    _, counts = np.unique(l_lines, return_counts=True)
+    shan_entr = -(np.log(counts / len(l_lines)) * (counts / len(l_lines))).sum()
+
+    return recurrence_rate, l_max, l_mean, determinism, shan_entr
+
+
+@jit(nopython=True)
+def recurrence_matrix(rr: np.ndarray, m: int = 10, tau: int = 1) -> Tuple[float, float]:
+    """Compute the recurrence matrix from an array of RR intervals [1]_.
+
+    Parameters
+    ----------
+    rr : np.ndarray
+        R-R interval time-series (seconds or miliseconds).
+    m : int
+        The embedding dimension. Defaults to `10`.
+    tau : int
+        The embedding lag. Defaults to `1`.
+
+    Returns
+    -------
+    rc : np.ndarray
+        The recurrence matrix.
+
+    References
+    ----------
+    .. [1] H. Dabire, D. Mestivier, J. Jarnet, M.E. Safar, and N. Phong Chau.
+       Quantification of sympathetic and parasympathetic tones by nonlinear indexes in
+       normotensive rats. amj, 44:H1290–H1297, 1998.
+
+    """
+    r = np.sqrt(m) * np.std(rr)  # Threshold for the Euclidean distance
+    lag = (m - 1) * tau  # Lag
+    j = rr.shape[0] - lag  # Dimension of the recurrence matrix
+
+    # Initialize a j by j matrix and fill with zeros
+    rc = np.zeros((j, j))
+
+    # Iterate over the lower triangle only
+    for i in range(j):
+        u_i = rr[i : i + lag : tau]  # First sub-sample of RR intervals
+        for ii in range(i):
+            u_ii = rr[ii : ii + lag : tau]  # Second sub-sample of RR intervals
+
+            # Compare the Euclidean distance to threshold
+            if np.linalg.norm(u_i - u_ii) <= r:
+                rc[i, ii] = 1
+
+    rc = rc + rc.T - np.diag(np.diag(rc))  # Make the matrix symmetric
+
+    return rc
