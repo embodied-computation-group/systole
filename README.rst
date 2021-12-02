@@ -75,7 +75,7 @@ Tutorials
 
 For an introduction to Systole and cardiac signal analysis, you can refer to the following tutorial:
 
-.. list-table:: Title
+.. list-table::
    :widths: 60 40
    :header-rows: 0
 
