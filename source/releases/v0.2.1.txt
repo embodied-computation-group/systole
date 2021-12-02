@@ -4,13 +4,15 @@ v0.2.1 (under progress)
 Highlights
 ++++++++++
 
-This release fixes dependencies and import errors pointed during the review of the JOSS Systole paper and add the paper to the main repository. It also adds several bug fixes and functionality improvements. We recommend all users upgrade to this new version.
+This release fixes dependencies and import errors pointed during the review of the JOSS Systole paper and add the paper to the main repository. It also adds several bug fixes and functionality improvements.
+
+We recommend all users upgrade to this new version.
 
 Changes
 +++++++
 
 - |Fix| Important BUGFIX: :func:`systole.hrv.frequency_domain()` switched the variables `"power_hf_nu"` and `"power_lf_nu"` before returning.
-- |Fix| Important BUGFIX: :func:`systole.hrv.frequency_domain()` the variables `"power_hf_nu"` and `"power_lf_nu"` should be multiplied by 100 before returning.
+- |Fix| Important BUGFIX: :func:`systole.hrv.frequency_domain()` the variables `"power_hf_nu"` and `"power_lf_nu"` were not properly scalled (x100) before returning.
 - |Fix| |Enhancement| Fix :func:`systole.plots.plot_evoked()` so it works with the three inputs types and improve documentation.
 - |Enhancement| Fix :func:`systole.utils.norm_triggers()` is now using Numba's jit by default.
 - |Enhancement| |Defaults| The :func:`systole.plot.plot_frequency()` function clip power to be >= 0 by default.
