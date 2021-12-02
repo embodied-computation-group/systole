@@ -31,8 +31,8 @@
 
 ================
 
-.. figure::  https://github.com/embodied-computation-group/systole/blob/dev/source/images/logo.png
-   :align:   center
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/logo.png
+   :align: center
 
 ================
 
@@ -128,8 +128,8 @@ The package integrates a set of functions for interactive or non interactive dat
   plot_raw(signal[60000 : 120000], modality="ecg", backend="bokeh", 
               show_heart_rate=True, show_artefacts=True, figsize=300)
 
-.. figure:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/raw.png
-   :align:   center
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/raw.png
+   :align: center
 
 
 Artefacts detection and rejection
@@ -146,8 +146,8 @@ Artefacts can be detected and corrected in the RR interval time series or the pe
 
   plot_subspaces(peaks, input_type="peaks", backend="bokeh")
 
-.. figure:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/subspaces.png
-   :align:   center
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/subspaces.png
+   :align: center
 
 
 Heart rate variability analysis
@@ -164,8 +164,8 @@ Systole implements time-domain, frequency-domain and non-linear HRV indices, as 
       plot_pointcare(peaks, input_type="peaks", backend="bokeh", figsize=(200, 200)),
       )
 
-.. figure:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/hrv.png
-   :align:   center
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/hrv.png
+   :align: center
 
 
 Online systolic peak detection, cardiac-stimulus synchrony, and cardiac circular analysis
