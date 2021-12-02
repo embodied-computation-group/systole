@@ -31,8 +31,8 @@
 
 ================
 
-.. figure::  https://github.com/embodied-computation-group/systole/blob/dev/source/images/logo.png
-   :align:   center
+.. figure:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/logo.png
+   :align: center
 
 ================
 
