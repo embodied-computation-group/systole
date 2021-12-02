@@ -76,11 +76,11 @@ Systole implements time-domain, frequency-domain and non-linear HRV indices, as 
 .. code-block:: python
 
   from bokeh.layouts import row
-  from systole.plots plot_frequency, plot_pointcare
+  from systole.plots plot_frequency, plot_poincare
 
   row(
       plot_frequency(peaks, input_type="peaks", backend="bokeh", figsize=(300, 200)),
-      plot_pointcare(peaks, input_type="peaks", backend="bokeh", figsize=(200, 200)),
+      plot_poincare(peaks, input_type="peaks", backend="bokeh", figsize=(200, 200)),
       )
 
 .. raw:: html

@@ -7,15 +7,15 @@ import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.patches import Ellipse
 
-from systole.hrv import nonlinear
+from systole.hrv import nonlinear_domain
 
 
-def plot_pointcare(
+def plot_poincare(
     rr: np.ndarray,
     figsize: Optional[Union[List[int], Tuple[int, int], int]] = None,
     ax: Optional[Axes] = None,
 ) -> Union[Tuple[np.ndarray, np.ndarray], Axes]:
-    """Pointcare plot.
+    """poincare plot.
 
     Parameters
     ----------
@@ -29,7 +29,7 @@ def plot_pointcare(
      Returns
      -------
      ax  : :class:`matplotlib.axes.Axes`
-        The pointcare plot.
+        The poincare plot.
 
     """
     if figsize is None:
@@ -62,7 +62,7 @@ def plot_pointcare(
     )
 
     # Compute SD1 and SD2 metrics
-    df = nonlinear(rr)
+    df = nonlinear_domain(rr)
     sd1 = df[df["Metric"] == "SD1"]["Values"].values[0]
     sd2 = df[df["Metric"] == "SD2"]["Values"].values[0]
 
@@ -138,7 +138,7 @@ def plot_pointcare(
 
     ax.set_xlabel("RR (n)")
     ax.set_ylabel("RR (n+1)")
-    ax.set_title("Pointcaré plot", fontweight="bold")
+    ax.set_title("Poincare plot", fontweight="bold")
     ax.minorticks_on()
 
     return ax

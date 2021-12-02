@@ -72,7 +72,7 @@ Plots
     plot_events
     plot_evoked
     plot_frequency
-    plot_pointcare
+    plot_poincare
     plot_raw
     plot_rr
     plot_shortlong

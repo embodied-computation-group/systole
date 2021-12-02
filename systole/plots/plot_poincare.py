@@ -9,14 +9,14 @@ from matplotlib.axes import Axes
 from systole.plots.utils import get_plotting_function
 
 
-def plot_pointcare(
+def plot_poincare(
     rr: Union[np.ndarray, list],
     input_type: str = "peaks",
     figsize: Optional[Union[List[int], Tuple[int, int], int]] = None,
     backend: str = "matplotlib",
     ax: Optional["Axes"] = None,
 ) -> Union[Figure, Axes]:
-    """Pointcare plot.
+    """Poincare plot.
 
     Parameters
     ----------
@@ -48,19 +48,19 @@ def plot_pointcare(
     Examples
     --------
 
-    Visualizing pointcare plot from RR time series.
+    Visualizing poincare plot from RR time series.
 
     Using Matplotlib backend
 
     .. jupyter-execute::
 
        from systole import import_rr
-       from systole.plots import plot_pointcare
+       from systole.plots import plot_poincare
 
        # Import PPG recording as numpy array
        rr = import_rr().rr.to_numpy()
 
-       plot_pointcare(rr, input_type="rr_ms")
+       plot_poincare(rr, input_type="rr_ms")
 
     Using Bokeh backend
 
@@ -71,10 +71,10 @@ def plot_pointcare(
        output_notebook()
 
        from systole import import_rr
-       from systole.plots import plot_pointcare
+       from systole.plots import plot_poincare
 
        show(
-        plot_pointcare(rr, input_type="rr_ms", backend="bokeh")
+        plot_poincare(rr, input_type="rr_ms", backend="bokeh")
        )
 
     """
@@ -93,15 +93,13 @@ def plot_pointcare(
     elif input_type == "peaks":
         rr = np.diff(np.where(rr)[0])
 
-    plot_pointcare_args = {
+    plot_poincare_args = {
         "rr": rr,
         "figsize": figsize,
         "ax": ax,
     }
 
-    plotting_function = get_plotting_function(
-        "plot_pointcare", "plot_pointcare", backend
-    )
-    plot = plotting_function(**plot_pointcare_args)
+    plotting_function = get_plotting_function("plot_poincare", "plot_poincare", backend)
+    plot = plotting_function(**plot_poincare_args)
 
     return plot

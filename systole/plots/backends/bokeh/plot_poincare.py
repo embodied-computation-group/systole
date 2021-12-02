@@ -7,15 +7,15 @@ from bokeh.models import Arrow, NormalHead
 from bokeh.plotting import figure
 from bokeh.plotting.figure import Figure
 
-from systole.hrv import nonlinear
+from systole.hrv import nonlinear_domain
 
 
-def plot_pointcare(
+def plot_poincare(
     rr: np.ndarray,
     figsize: Optional[Union[List[int], Tuple[int, int], int]] = None,
     ax=None,
 ) -> Figure:
-    """Pointcare plot.
+    """poincare plot.
 
     Parameters
     ----------
@@ -28,8 +28,8 @@ def plot_pointcare(
 
     Returns
     -------
-    pointcare_plot : :class:`bokeh.plotting.figure.Figure`
-        The pointcare plot.
+    poincare_plot : :class:`bokeh.plotting.figure.Figure`
+        The poincare plot.
 
     """
     if figsize is None:
@@ -52,8 +52,8 @@ def plot_pointcare(
     outliers = (rr_x == 3000) | (rr_x == 200) | (rr_y == 3000) | (rr_y == 200)
     range_min, range_max = rr.min() - 50, rr.max() + 50
 
-    pointcare_plot = figure(
-        title="Pointcaré plot",
+    poincare_plot = figure(
+        title="Poincare plot",
         plot_height=height,
         plot_width=width,
         x_axis_label="RR (n)",
@@ -64,17 +64,17 @@ def plot_pointcare(
     )
 
     # Identity line
-    pointcare_plot.line(
+    poincare_plot.line(
         [range_min, range_max], [range_min, range_max], color="grey", line_dash="dashed"
     )
 
     # Compute SD1 and SD2 metrics
-    df = nonlinear(rr)
+    df = nonlinear_domain(rr)
     sd1 = df[df["Metric"] == "SD1"]["Values"].values[0]
     sd2 = df[df["Metric"] == "SD2"]["Values"].values[0]
 
     # Ellipse
-    pointcare_plot.ellipse(
+    poincare_plot.ellipse(
         x=rr_x[~outliers].mean(),
         y=rr_y[~outliers].mean(),
         height=sd1 * 2,
@@ -89,7 +89,7 @@ def plot_pointcare(
     )
 
     # Scatter plot - valid intervals only
-    pointcare_plot.circle(
+    poincare_plot.circle(
         rr_x[~outliers],
         rr_y[~outliers],
         size=2.5,
@@ -99,12 +99,12 @@ def plot_pointcare(
     )
 
     # Scatter plot - outliers
-    pointcare_plot.circle(
+    poincare_plot.circle(
         rr_x[outliers], rr_y[outliers], size=5, color="#a9373b", alpha=0.8
     )
 
     # SD1 arrow
-    pointcare_plot.add_layout(
+    poincare_plot.add_layout(
         Arrow(
             end=NormalHead(fill_color="blue", size=10),
             x_start=rr_x[~outliers].mean(),
@@ -115,7 +115,7 @@ def plot_pointcare(
     )
 
     # SD2 arrow
-    pointcare_plot.add_layout(
+    poincare_plot.add_layout(
         Arrow(
             end=NormalHead(fill_color="green", size=10),
             x_start=rr_x[~outliers].mean(),
@@ -125,4 +125,4 @@ def plot_pointcare(
         )
     )
 
-    return pointcare_plot
+    return poincare_plot

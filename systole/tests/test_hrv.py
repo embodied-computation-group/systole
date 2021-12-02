@@ -8,7 +8,16 @@ import pandas as pd
 import pytest
 
 from systole import import_rr
-from systole.hrv import frequency_domain, nnX, nonlinear, pnnX, psd, rmssd, time_domain
+from systole.hrv import (
+    frequency_domain,
+    nnX,
+    nonlinear_domain,
+    pnnX,
+    poincare,
+    psd,
+    rmssd,
+    time_domain,
+)
 
 rr = import_rr().rr.values
 
@@ -64,12 +73,18 @@ class TestHrv(TestCase):
         assert stats.size == 22
         stats = frequency_domain(rr=rr / 1000, input_type="rr_s")
 
-    def test_nonlinear(self):
+    def test_nonlinear_domain(self):
         """Test nonlinear_domain function"""
-        stats = nonlinear(list(rr))
+        stats = nonlinear_domain(list(rr))
         assert isinstance(stats, pd.DataFrame)
         self.assertEqual(stats.size, 4)
-        stats = nonlinear(rr / 1000, input_type="rr_s")
+        stats = nonlinear_domain(rr / 1000, input_type="rr_s")
+
+    def test_poincare(self):
+        """Test poincare function"""
+        sd1, sd2 = poincare(list(rr))
+        assert np.isclose(sd1, 32.205379429718406)
+        assert np.isclose(sd2, 115.10533841926389)
 
 
 if __name__ == "__main__":

@@ -15,7 +15,7 @@ from systole.plots import (
     plot_events,
     plot_evoked,
     plot_frequency,
-    plot_pointcare,
+    plot_poincare,
     plot_raw,
     plot_rr,
     plot_shortlong,
@@ -134,11 +134,11 @@ class TestPlots(TestCase):
         for backend in ["matplotlib", "bokeh"]:
             plot_frequency(rr, backend=backend, input_type="rr_ms")
 
-    def test_plot_pointcare(self):
-        """Test plot_pointcare function"""
+    def test_plot_poincare(self):
+        """Test plot_poincare function"""
         rr = import_rr().rr
         for backend in ["matplotlib", "bokeh"]:
-            plot_pointcare(rr, backend=backend, input_type="rr_ms")
+            plot_poincare(rr, backend=backend, input_type="rr_ms")
 
     def test_plot_raw(self):
         """Test plot_raw function"""

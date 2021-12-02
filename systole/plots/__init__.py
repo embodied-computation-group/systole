@@ -4,7 +4,7 @@ from .plot_ectopic import plot_ectopic
 from .plot_events import plot_events
 from .plot_evoked import plot_evoked
 from .plot_frequency import plot_frequency
-from .plot_pointcare import plot_pointcare
+from .plot_poincare import plot_poincare
 from .plot_raw import plot_raw
 from .plot_rr import plot_rr
 from .plot_shortlong import plot_shortlong
@@ -20,5 +20,5 @@ __all__ = [
     "plot_ectopic",
     "plot_shortlong",
     "plot_frequency",
-    "plot_pointcare",
+    "plot_poincare",
 ]

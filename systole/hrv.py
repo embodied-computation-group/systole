@@ -4,19 +4,22 @@ from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
 import pandas as pd
+from numba import jit
 from scipy import interpolate
 from scipy.signal import welch
 
 from systole.utils import input_conversion
 
 
-def nnX(x: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> float:
+def nnX(rr: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> float:
     """Number of difference in successive R-R interval > t ms.
 
     Parameters
     ----------
-    x : np.ndarray | list
-        Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
+    rr : np.ndarray | list
+        R-R interval time-series, peaks or peaks index vectors. The default expected
+        vector is R-R intervals in milliseconds. Other data format can be provided by
+        specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
     t : int
         Threshold value: Defaut is set to 50 ms to calculate the nn50 index.
     input_type : str
@@ -30,26 +33,29 @@ def nnX(x: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> f
 
     """
 
-    x = np.asarray(x)
+    rr = np.asarray(rr)
 
     if input_type != "rr_ms":
-        x = input_conversion(x, input_type=input_type, output_type="rr_ms")
+        rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
 
-    if len(x.shape) > 1:
+    if len(rr.shape) > 1:
         raise ValueError("X must be a 1darray")
 
     # NN50: number of successive differences larger than t ms
-    nn = np.sum(np.abs(np.diff(x)) > t)
+    nn = np.sum(np.abs(np.diff(rr)) > t)
+
     return nn
 
 
-def pnnX(x: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> float:
+def pnnX(rr: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> float:
     """Number of successive differences larger than a value (def = 50ms).
 
     Parameters
     ----------
-    x : np.ndarray | list
-        Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
+    rr : np.ndarray | list
+        R-R interval time-series, peaks or peaks index vectors. The default expected
+        vector is R-R intervals in milliseconds. Other data format can be provided by
+        specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
     t : int
         Threshold value: Defaut is set to 50 ms to calculate the nn50 index.
     input_type : str
@@ -63,30 +69,32 @@ def pnnX(x: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> 
 
     """
 
-    x = np.asarray(x)
+    rr = np.asarray(rr)
 
     if input_type != "rr_ms":
-        x = input_conversion(x, input_type=input_type, output_type="rr_ms")
+        rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
 
-    if len(x.shape) > 1:
+    if len(rr.shape) > 1:
         raise ValueError("X must be a 1darray")
 
     # nnX: number of successive differences larger than t ms
-    nn = nnX(x, t)
+    nn = nnX(rr, t)
 
     # Proportion of successive differences larger than t ms
-    pnnX = 100 * nn / len(np.diff(x))
+    pnnX = 100 * nn / len(np.diff(rr))
 
     return pnnX
 
 
-def rmssd(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> float:
+def rmssd(rr: Union[List, np.ndarray], input_type: str = "rr_ms") -> float:
     """Root Mean Square of Successive Differences.
 
     Parameters
     ----------
-    x : np.ndarray | list
-        Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
+    rr : np.ndarray | list
+        R-R interval time-series, peaks or peaks index vectors. The default expected
+        vector is R-R intervals in milliseconds. Other data format can be provided by
+        specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
     input_type : str
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
@@ -104,26 +112,28 @@ def rmssd(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> float:
 
     """
 
-    x = np.asarray(x)
+    rr = np.asarray(rr)
 
     if input_type != "rr_ms":
-        x = input_conversion(x, input_type=input_type, output_type="rr_ms")
+        rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
 
-    if len(x.shape) > 1:
+    if len(rr.shape) > 1:
         raise ValueError("X must be a 1darray")
 
-    y = np.sqrt(np.mean(np.square(np.diff(x))))
+    y = np.sqrt(np.mean(np.square(np.diff(rr))))
 
     return y
 
 
-def time_domain(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.DataFrame:
+def time_domain(rr: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.DataFrame:
     """Extract all time domain parameters from R-R intervals.
 
     Parameters
     ----------
-    x : np.ndarray | list
-        Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
+    rr : np.ndarray | list
+        R-R interval time-series, peaks or peaks index vectors. The default expected
+        vector is R-R intervals in milliseconds. Other data format can be provided by
+        specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
     input_type : str
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
@@ -163,49 +173,49 @@ def time_domain(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.Dat
 
     """
 
-    x = np.asarray(x)
+    rr = np.asarray(rr)
 
     if input_type != "rr_ms":
-        x = input_conversion(x, input_type=input_type, output_type="rr_ms")
+        rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
 
-    if len(x.shape) > 1:
+    if len(rr.shape) > 1:
         raise ValueError("X must be a 1darray")
 
     # Mean R-R intervals
-    mean_rr = round(np.mean(x), 6)  # type: ignore
+    mean_rr = round(np.mean(rr), 6)  # type: ignore
 
     # Mean BPM
-    mean_bpm = round(np.mean(60000 / x), 6)  # type: ignore
+    mean_bpm = round(np.mean(60000 / rr), 6)  # type: ignore
 
     # Median BPM
-    median_rr = round(np.median(x), 6)
+    median_rr = round(np.median(rr), 6)
 
     # Median BPM
-    median_bpm = round(np.median(60000 / x), 6)
+    median_bpm = round(np.median(60000 / rr), 6)
 
     # Minimum RR
-    min_rr = round(np.min(x), 6)
+    min_rr = round(np.min(rr), 6)
 
     # Minimum BPM
-    min_bpm = round(np.min(60000 / x), 6)
+    min_bpm = round(np.min(60000 / rr), 6)
 
     # Maximum RR
-    max_rr = round(np.max(x), 6)
+    max_rr = round(np.max(rr), 6)
 
     # Maximum BPM
-    max_bpm = round(np.max(60000 / x), 6)
+    max_bpm = round(np.max(60000 / rr), 6)
 
     # Standard deviation of R-R intervals
-    sdnn = round(x.std(ddof=1), 6)  # type: ignore
+    sdnn = round(rr.std(ddof=1), 6)  # type: ignore
 
     # Root Mean Square of Successive Differences (RMSSD)
-    rms = round(rmssd(x), 6)
+    rms = round(rmssd(rr), 6)
 
     # NN50: number of successive differences larger than 50ms
-    nn = round(nnX(x, t=50), 6)
+    nn = round(nnX(rr, t=50), 6)
 
     # pNN50: Proportion of successive differences larger than 50ms
-    pnn = round(pnnX(x, t=50), 6)
+    pnn = round(pnnX(rr, t=50), 6)
 
     # Create summary dataframe
     values = [
@@ -253,7 +263,9 @@ def psd(
     Parameters
     ----------
     rr : np.ndarray | list
-        Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
+        R-R interval time-series, peaks or peaks index vectors. The default expected
+        vector is R-R intervals in milliseconds. Other data format can be provided by
+        specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
     sfreq : int
         The sampling frequency (Hz) of the interpolated instantaneous heart
         rate.
@@ -311,7 +323,9 @@ def frequency_domain(
     Parameters
     ----------
     rr : np.ndarray | list
-        Interval time-series (R-R in seconds or miliseconds, peaks or peaks indexes).
+        R-R interval time-series, peaks or peaks index vectors. The default expected
+        vector is R-R intervals in milliseconds. Other data format can be provided by
+        specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
     sfreq : int
         The sampling frequency (Hz).
     method : str
@@ -419,13 +433,17 @@ def frequency_domain(
     return stats
 
 
-def nonlinear(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.DataFrame:
+def nonlinear_domain(
+    rr: Union[List, np.ndarray], input_type: str = "rr_ms"
+) -> pd.DataFrame:
     """Extract the non-linear features of heart rate variability.
 
     Parameters
     ----------
-    x : list | np.ndarray
-        Interval time-series (R-R, beat-to-beat...), in miliseconds.
+    rr : list | np.ndarray
+        R-R interval time-series, peaks or peaks index vectors. The default expected
+        vector is R-R intervals in milliseconds. Other data format can be provided by
+        specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
     input_type : str
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
@@ -439,7 +457,7 @@ def nonlinear(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.DataF
 
     See also
     --------
-    time_domain, frequency_domain
+    time_domain, frequency_domain, poincare
 
     Notes
     -----
@@ -455,17 +473,89 @@ def nonlinear(x: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.DataF
 
     """
 
-    x = np.asarray(x)
+    rr = np.asarray(rr)
 
     if input_type != "rr_ms":
-        x = input_conversion(x, input_type=input_type, output_type="rr_ms")
+        rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
 
-    diff_rr = np.diff(x)
-    sd1 = np.sqrt(np.std(diff_rr, ddof=1) ** 2 * 0.5)
-    sd2 = np.sqrt(2 * np.std(x, ddof=1) ** 2 - 0.5 * np.std(diff_rr, ddof=1) ** 2)
+    sd1, sd2 = poincare(rr, input_type="rr_ms")
+
     values = [sd1, sd2]
     metrics = ["SD1", "SD2"]
 
     stats = pd.DataFrame({"Values": values, "Metric": metrics})
 
     return stats
+
+
+def poincare(
+    rr: Union[List, np.ndarray], input_type: str = "rr_ms"
+) -> Tuple[float, float]:
+    """Compute SD1 and SD2 from the Poincaré nonlinear method for heart rate variability.
+
+    Parameters
+    ----------
+    rr : list | np.ndarray
+        R-R interval time-series, peaks or peaks index vectors. The default expected
+        vector is R-R intervals in milliseconds. Other data format can be provided by
+        specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
+    input_type : str
+        The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
+        `"rr_s"`. Defaults to `"rr_ms"`.
+
+    Returns
+    -------
+    sd1 : float
+        The standard deviation of the points perpendicular to the identity line. This
+        metric is thought to be influenced mainly by the respiratory sinus arythmia
+        (RSA) and reflect short-term heart rate variability.
+    sd2 : float
+        The standard deviation of the points along the identity line. This metric is
+        thought to reflect the long-term heart rate variability.
+
+    See also
+    --------
+    nonlinear_domain
+
+    Notes
+    -----
+    The Poincare plot is a commonly used nonlinear method that is based on the
+    graphical representation of the correlation between lagged successive RR intervals
+    (the :math:`\\RR_{n}` intervals are plotted as a function of the :math:`\\RR_{n+1}`)
+    intervals. The shape of the resulting plot is then analyzed and two metrics are
+    extracted, representing the standard deviation of the distribution perpendicular to
+    the identity line (SD1) and along the identity line (SD2).
+
+    SD1, which corresponds to the standard deviation of the points perpendicular to the
+    identity line, reflects short-term variability and is thought to be caused by
+    respiratory sinus arrhythmia (RSA). SD2, on the other side, the standard deviation
+    along the identity line, corresponds to the long-term heart rate variability.
+
+    References
+    ----------
+    .. [1] https://en.wikipedia.org/wiki/Poincar%C3%A9_plot
+
+    .. [2] M. Brennan, M. Palaniswami, and P. Kamen. Do existing measures of Poincaré
+       plot geometry reflect nonlinear features of heart rate variability. IEEE Trans
+       Biomed Eng, 48(11):1342–1347, 2001.
+
+    """
+    rr = np.asarray(rr)
+
+    if input_type != "rr_ms":
+        rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
+
+    sd1, sd2 = _poincare(rr)
+
+    return sd1, sd2
+
+
+@jit(nopython=True)
+def _poincare(rr: np.ndarray) -> Tuple[float, float]:
+    """Compute SD1 and SD2 from the Poincaré nonlinear method for heart rate variability."""
+
+    diff_rr = np.diff(rr)
+    sd1 = np.sqrt(np.std(diff_rr) ** 2 * 0.5)
+    sd2 = np.sqrt(2 * np.std(rr) ** 2 - 0.5 * np.std(diff_rr) ** 2)
+
+    return sd1, sd2
