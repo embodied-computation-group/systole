@@ -23,10 +23,10 @@ These functions can be called using Bokeh or Matplotlib as backend (`plot_circul
 
 All the methods available in :func:`systole.detection.ecg_peaks` are now accelerated with Numba.
 
-- |Enhancement| Add Numba support for :func:`systole.detector.pan_tompkins()` (~7x faster)
-- |Enhancement| Add Numba support for :func:`systole.detector.hamilton()` (~10x faster)
-- |Enhancement| Add Numba support for :func:`systole.detector.christov()` (~30x faster)
-- |Enhancement| Add Numba support for :func:`systole.detector.engelse_zeelenberg()` (~20x faster)
+- |Enhancement| Add Numba support for :func:`systole.detectors.pan_tompkins()` (~7x faster)
+- |Enhancement| Add Numba support for :func:`systole.detectors.hamilton()` (~10x faster)
+- |Enhancement| Add Numba support for :func:`systole.detectors.christov()` (~30x faster)
+- |Enhancement| Add Numba support for :func:`systole.detectors.engelse_zeelenberg()` (~20x faster)
 
 This also drops py-ecg-detectors dependency, and the refactored code is now included in Systole.
 
