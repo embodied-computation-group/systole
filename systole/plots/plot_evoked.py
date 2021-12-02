@@ -130,6 +130,7 @@ def plot_evoked(
        from systole.detection import ecg_peaks
        from systole.plots import plot_evoked
        from systole import import_dataset1
+       from systole.utils import heart_rate, to_epochs
 
        ecg_df = import_dataset1(modalities=['ECG', "Stim"])
 
