@@ -75,11 +75,20 @@ Tutorials
 
 For an introduction to Systole and cardiac signal analysis, you can refer to the following tutorial:
 
-1. Cardiac signal analysis - |Colab badge 1|
-2. Detecting cardiac cycles - |Colab badge 2|
-3. Detecting and correcting artefats - |Colab badge 3|
-4. Heart rate variability - |Colab badge 4|
-5. Instantaneous and evoked heart rate - |Colab badge 5|
+.. list-table:: Title
+   :widths: 60 40
+   :header-rows: 0
+
+   * - Cardiac signal analysis 
+     - |Colab badge 1|
+   * - Detecting cardiac cycles 
+     - |Colab badge 2|
+   * - Detecting and correcting artefats 
+     - |Colab badge 3|
+   * - Heart rate variability 
+     - |Colab badge 4|
+   * - Instantaneous and evoked heart rate 
+     - |Colab badge 5|
 
 .. |Colab badge 1| image:: https://colab.research.google.com/assets/colab-badge.svg
   :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/1-PhysiologicalSignals.ipynb
