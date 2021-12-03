@@ -54,6 +54,25 @@ class TestHrv(TestCase):
     def test_time_domain(self):
         """Test time_domain function"""
         stats = time_domain(list(rr))
+
+        # Kubios 2.2: 883.24
+        assert np.isclose(stats[stats.Metric == "MeanRR"].Values, 883.238095)
+
+        # Kubios 2.2: 69578
+        assert np.isclose(stats[stats.Metric == "MeanBPM"].Values, 68.577834)
+
+        # Kubios 2.2: 84.691
+        assert np.isclose(stats[stats.Metric == "SDNN"].Values, 84.690544)
+
+        # Kubios 2.2: 64
+        assert np.isclose(stats[stats.Metric == "nn50"].Values, 64.000000)
+
+        # Kubios 2.2: 26.230
+        assert np.isclose(stats[stats.Metric == "pnn50"].Values, 26.229508)
+
+        # Kubios 2.2: 45.545
+        assert np.isclose(stats[stats.Metric == "RMSSD"].Values, 45.546669)
+
         assert isinstance(stats, pd.DataFrame)
         assert stats.size == 26
         with pytest.raises(ValueError):
@@ -70,6 +89,40 @@ class TestHrv(TestCase):
     def test_frequency_domain(self):
         """Test frequency_domain function"""
         stats = frequency_domain(rr=list(rr))
+
+        # Kubios 2.2: 0.031250
+        assert np.isclose(stats[stats.Metric == "vlf_peak"].Values, 0.032468)
+
+        # Kubios 2.2: 4504.4
+        assert np.isclose(stats[stats.Metric == "vlf_power"].Values, 4063.165990)
+
+        # Kubios 2.2: 60.341
+        assert np.isclose(stats[stats.Metric == "vlf_power_per"].Values, 58.424644)
+
+        # Kubios 2.2: 0.066406
+        assert np.isclose(stats[stats.Metric == "lf_peak"].Values, 0.064935)
+
+        # Kubios 2.2: 2393.9
+        assert np.isclose(stats[stats.Metric == "lf_power"].Values, 2339.544469)
+
+        # Kubios 2.2: 32.068
+        assert np.isclose(stats[stats.Metric == "lf_power_per"].Values, 33.640529)
+
+        # Kubios 2.2: 80.860
+        assert np.isclose(stats[stats.Metric == "lf_power_nu"].Values, 80.914590)
+
+        # Kubios 2.2: 0.31250
+        assert np.isclose(stats[stats.Metric == "hf_peak"].Values, 0.310761)
+
+        # Kubios 2.2: 566.30
+        assert np.isclose(stats[stats.Metric == "hf_power"].Values, 551.830831)
+
+        # Kubios 2.2: 7.5861
+        assert np.isclose(stats[stats.Metric == "hf_power_per"].Values, 7.934827)
+
+        # Kubios 2.2: 19.129
+        assert np.isclose(stats[stats.Metric == "hf_power_nu"].Values, 19.085410)
+
         assert isinstance(stats, pd.DataFrame)
         assert stats.size == 22
         stats = frequency_domain(rr=rr / 1000, input_type="rr_s")
@@ -84,17 +137,31 @@ class TestHrv(TestCase):
     def test_poincare(self):
         """Test poincare function"""
         sd1, sd2 = poincare(list(rr))
+
+        # Kubios 2.2: 32.273
         assert np.isclose(sd1, 32.205379429718406)
+
+        # Kubios 2.2: 115.38
         assert np.isclose(sd2, 115.10533841926389)
 
     def test_recurrence(self):
         """Test recurrence function"""
         recurrence_rate, l_max, l_mean, determinism, shan_entr = recurrence(list(rr))
-        assert np.isclose(recurrence_rate, 0.42067652973283537)
+
+        # Kubios 2.2: 37.231
+        assert np.isclose(recurrence_rate, 43.09772809231879)
+
+        # Kubios 2.2: 235
         assert np.isclose(l_max, 235)
-        assert np.isclose(l_mean, 13.069634703196346)
-        assert np.isclose(determinism, 0.9772940674349125)
-        assert np.isclose(shan_entr, 3.2551017150244004)
+
+        # Kubios 2.2: 11.501
+        assert np.isclose(l_mean, 13.366559485530546)
+
+        # Kubios 2.2: 99.055
+        assert np.isclose(determinism, 70.96884336320956)
+
+        # Kubios 2.2: 3.2120
+        assert np.isclose(shan_entr, 3.2689082061701855)
 
 
 if __name__ == "__main__":
