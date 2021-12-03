@@ -593,7 +593,7 @@ def _poincare(rr: np.ndarray) -> Tuple[float, float]:
 def recurrence(
     rr: Union[List, np.ndarray], input_type: str = "rr_ms"
 ) -> Tuple[float, int, float, float, float]:
-    """Compute SD1 and SD2 from the recurrence plot [1]_ for heart rate variability.
+    """Compute quantitative metrics from the recurrence plot for heart rate variability.
 
     Parameters
     ----------
@@ -608,13 +608,14 @@ def recurrence(
     Returns
     -------
     recurrence_rate : float
-        Recurence rate. The ratio of ones and zeros in the recurrence plot.
+        The percentage of recurence in the time series. This corresponds to the ratio
+        of ones and zeros in the recurrence plot.
     l_max : int
         Maximum lenght of the diagonale in the reccurence plot.
     l_mean : float
         Mean of the diagonals lengths observed in the recurence plot.
-    determinism : float
-        Determinism of the time series.
+    determinism_rate : float
+        The percentage of determinism in the time series.
     shan_entr : float
         Shannon information entropy.
 
@@ -623,7 +624,7 @@ def recurrence(
 
     See also
     --------
-    nonlinear_domain
+    nonlinear_domain, poincare
 
     References
     ----------
@@ -635,55 +636,67 @@ def recurrence(
        systems and states using recurrence plot strategies. J Appl Physiol, 76:965–973,
        1994.
 
+    .. [3] Zbilut J. P., Webber C. L., Zak M.Quantification of heart rate variability
+       using methods derived from nonlinear dynamics.Assessment and Analysis of
+       Cardiovascular Function, Drzewiecki G., Li J. K.-J. Springer New York.
+
     """
     rr = np.asarray(rr)
 
     if input_type != "rr_ms":
         rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
 
-    recurrence_rate, l_max, l_mean, determinism, shan_entr = _recurrence(rr)
+    recurrence_rate, l_max, l_mean, determinism_rate, shan_entr = _recurrence(rr)
 
-    return recurrence_rate, l_max, l_mean, determinism, shan_entr
+    return recurrence_rate, l_max, l_mean, determinism_rate, shan_entr
 
 
-def _recurrence(rr: np.array, m: int = 10):
+def _recurrence(rr: np.array, m: int = 10, l_min: int = 2):
     """Compute recurrence scores"""
 
     # Recurrence matrix
     rc = recurrence_matrix(rr)
 
-    n = rc.shape[0]
-    recurrence_rate = np.sum(rc) / (n ** 2)
+    # Compute the recurrence rate - Exclude the main identity line
+    j = rc.shape[0]
+    recurrence_rate = np.triu(rc).sum() / ((j ** 2 - j) / 2) * 100
 
     # Find diagonale lines lines
     total_lines = []
-    for i in range(1, rc.shape[0]):
+    for i in range(1, rc.shape[0] // 2):
 
         # All diagonals except the main one
         diag = np.diagonal(rc, offset=i)
 
-        # Lenght of each diagonale with consecutive True values
+        # Lenght of each diagonale found with consecutive `True` values
         d = np.diff(
             np.where(np.concatenate(([diag[0]], diag[:-1] != diag[1:], [True])))[0]
         )[::2]
 
+        # Store the result if any
         if d.shape[0] > 0:
             total_lines.extend(d)
 
     # Compute scores
     l_max = np.max(total_lines)
-    l_lines = np.asarray(total_lines).repeat(2)
-    l_lines = l_lines[np.where(l_lines > 2)[0]]
 
+    # Diagonales from upper and lower triangle
+    l_lines = np.asarray(total_lines).repeat(2)
+
+    # Exclude small digonales (< l_min, default to 2)
+    l_lines = l_lines[np.where(l_lines > l_min)[0]]
+
+    # Average length of diagonales
     l_mean = l_lines.mean()
 
-    determinism = l_lines.sum() / np.sum(rc)
+    # Determinism - Do not include the main diagonale
+    determinism_rate = (l_lines.sum() / (np.sum(rc) - j)) * 100
 
     # Shannon information entropy
     _, counts = np.unique(l_lines, return_counts=True)
     shan_entr = -(np.log(counts / len(l_lines)) * (counts / len(l_lines))).sum()
 
-    return recurrence_rate, l_max, l_mean, determinism, shan_entr
+    return recurrence_rate, l_max, l_mean, determinism_rate, shan_entr
 
 
 @jit(nopython=True)
@@ -693,11 +706,13 @@ def recurrence_matrix(rr: np.ndarray, m: int = 10, tau: int = 1) -> Tuple[float,
     Parameters
     ----------
     rr : np.ndarray
-        R-R interval time-series (seconds or miliseconds).
+        R-R interval time-series. Can be in seconds or miliseconds.
     m : int
-        The embedding dimension. Defaults to `10`.
+        The embedding dimension. This corresponds to the length of the subsamples.
+        Defaults to `10`.
     tau : int
-        The embedding lag. Defaults to `1`.
+        The embedding lag. This corresponds to the number of datapoints that are skipped
+        when creating the sub-sample. Defaults to `1` (take all values).
 
     Returns
     -------
@@ -715,17 +730,17 @@ def recurrence_matrix(rr: np.ndarray, m: int = 10, tau: int = 1) -> Tuple[float,
     lag = (m - 1) * tau  # Lag
     j = rr.shape[0] - lag  # Dimension of the recurrence matrix
 
-    # Initialize a j by j matrix and fill with zeros
+    # Initialize a (j-l) by (j-l) matrix and fill with zeros
     rc = np.zeros((j, j))
 
     # Iterate over the lower triangle only
     for i in range(j):
         u_i = rr[i : i + lag : tau]  # First sub-sample of RR intervals
-        for ii in range(i):
+        for ii in range(i + 1):
             u_ii = rr[ii : ii + lag : tau]  # Second sub-sample of RR intervals
 
             # Compare the Euclidean distance to threshold
-            if np.linalg.norm(u_i - u_ii) <= r:
+            if np.sqrt(np.sum(np.square(u_i - u_ii))) <= r:
                 rc[i, ii] = 1
 
     rc = rc + rc.T - np.diag(np.diag(rc))  # Make the matrix symmetric
