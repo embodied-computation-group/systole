@@ -12,3 +12,4 @@ tqdm
 requests>=2.24.0
 papermill>=2.2.2
 pytest
+tabulate>=0.8.9

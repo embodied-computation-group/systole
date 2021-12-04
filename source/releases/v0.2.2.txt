@@ -12,6 +12,7 @@ Changes
 - |Feature| HRV module: Add recurence plot analysis and fast recurrence matrix computation (thanks to Dominique Makowski), and basic quantitative metrics (recurrence rate, l_max, l_mean, determinism rate, Shannon entropy). These metrics are now part of the nonlinear reports (py:func:`systole.hrv.nonlinear_domain()`) or can be called separately (py:func:`systole.hrv.recurrence()`).
 - |Feature| HRV module: The time domain function (py:func:`systole.hrv.time_domain()`) also reports the SDSD by default.
 - |Feature| HRV module: The frequency domain function (py:func:`systole.hrv.frequency_domain()`) now returns the total power and LF/HF ratio by default.
+- |Feature| Plotting module: Add nicer rendering for table output for time_domain, frequency_domain and nonlinear_domain functions, working either with Tabulate or Bokeh.
 
 Contributors
 ++++++++++++

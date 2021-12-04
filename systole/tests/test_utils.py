@@ -126,7 +126,7 @@ class TestUtils(TestCase):
         assert len(rr) == 350
 
     def test_input_conversion(self):
-
+        """Test the input_conversion function"""
         # Load example PPG signal
         ppg = import_ppg().ppg.to_numpy()
         _, peaks = ppg_peaks(ppg)

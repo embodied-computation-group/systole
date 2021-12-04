@@ -525,8 +525,8 @@ def nonlinear_domain(
         "recurrence_rate",
         "l_max",
         "l_mean",
-        "determinism",
-        "shan_entr",
+        "determinism_rate",
+        "shannon_entropy",
     ]
 
     stats = pd.DataFrame({"Values": values, "Metric": metrics})
