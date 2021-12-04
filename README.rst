@@ -8,9 +8,6 @@
 .. image:: https://zenodo.org/badge/219720901.svg
    :target: https://zenodo.org/badge/latestdoi/219720901
 
-.. image:: https://travis-ci.org/embodied-computation-group/systole.svg?branch=master
-   :target: https://travis-ci.org/embodied-computation-group/systole
-
 .. image:: https://codecov.io/gh/embodied-computation-group/systole/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/embodied-computation-group/systole
 
