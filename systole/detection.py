@@ -413,7 +413,7 @@ def rr_artefacts(
     missed = missed & longBeats
     longBeats[missed] = False  # Missed beats are not considered as long
 
-    # Etra vector
+    # Extra vector
     extra = np.abs(rr + np.append(rr[1:], 0) - medRR) < th2
     extra = extra & shortBeats
     shortBeats[extra] = False  # Extra beats are not considered as short
@@ -427,11 +427,11 @@ def rr_artefacts(
         "subspace2": s12,
         "subspace3": s22,
         "mRR": mRR,
-        "ectopic": ectopic,
-        "long": longBeats,
-        "short": shortBeats,
-        "missed": missed,
-        "extra": extra,
+        "ectopic": ectopic.astype(bool),
+        "long": longBeats.astype(bool),
+        "short": shortBeats.astype(bool),
+        "missed": missed.astype(bool),
+        "extra": extra.astype(bool),
         "threshold1": th1,
         "threshold2": th2,
     }

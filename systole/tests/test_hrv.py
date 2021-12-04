@@ -123,8 +123,14 @@ class TestHrv(TestCase):
         # Kubios 2.2: 19.129
         assert np.isclose(stats[stats.Metric == "hf_power_nu"].Values, 19.085410)
 
+        # Kubios 2.2: 7465
+        assert np.isclose(stats[stats.Metric == "total_power"].Values, 6954.541289)
+
+        # Kubios 2.2: 4.227
+        assert np.isclose(stats[stats.Metric == "lf_hf_ratio"].Values, 4.239604)
+
         assert isinstance(stats, pd.DataFrame)
-        assert stats.size == 22
+        assert stats.size == 26
         stats = frequency_domain(rr=rr / 1000, input_type="rr_s")
 
     def test_nonlinear_domain(self):

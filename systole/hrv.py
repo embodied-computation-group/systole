@@ -409,9 +409,13 @@ def frequency_domain(
             {"Values": this_power, "Metric": band + "_power"}, ignore_index=True
         )
 
+    # Power (ms**2)
     hf = stats.Values[stats.Metric == "hf_power"].values[0]
     lf = stats.Values[stats.Metric == "lf_power"].values[0]
     vlf = stats.Values[stats.Metric == "vlf_power"].values[0]
+
+    total_power = vlf + lf + hf
+    lf_hf_ratio = lf / hf
 
     # Power (%)
     power_per_vlf = vlf / (vlf + lf + hf) * 100
@@ -422,13 +426,23 @@ def frequency_domain(
     power_nu_hf = hf / (hf + lf) * 100
     power_nu_lf = lf / (hf + lf) * 100
 
-    values = [power_per_vlf, power_per_lf, power_per_hf, power_nu_lf, power_nu_hf]
+    values = [
+        power_per_vlf,
+        power_per_lf,
+        power_per_hf,
+        power_nu_lf,
+        power_nu_hf,
+        total_power,
+        lf_hf_ratio,
+    ]
     metrics = [
         "vlf_power_per",
         "lf_power_per",
         "hf_power_per",
         "lf_power_nu",
         "hf_power_nu",
+        "total_power",
+        "lf_hf_ratio",
     ]
 
     stats = stats.append(
@@ -651,7 +665,9 @@ def recurrence(
     return recurrence_rate, l_max, l_mean, determinism_rate, shan_entr
 
 
-def _recurrence(rr: np.array, m: int = 10, l_min: int = 2):
+def _recurrence(
+    rr: np.ndarray, m: int = 10, l_min: int = 2
+) -> Tuple[float, int, float, float, float]:
     """Compute recurrence scores"""
 
     # Recurrence matrix
@@ -696,11 +712,17 @@ def _recurrence(rr: np.array, m: int = 10, l_min: int = 2):
     _, counts = np.unique(l_lines, return_counts=True)
     shan_entr = -(np.log(counts / len(l_lines)) * (counts / len(l_lines))).sum()
 
-    return recurrence_rate, l_max, l_mean, determinism_rate, shan_entr
+    return (
+        float(recurrence_rate),
+        int(l_max),
+        float(l_mean),
+        float(determinism_rate),
+        float(shan_entr),
+    )
 
 
 @jit(nopython=True)
-def recurrence_matrix(rr: np.ndarray, m: int = 10, tau: int = 1) -> Tuple[float, float]:
+def recurrence_matrix(rr: np.ndarray, m: int = 10, tau: int = 1) -> np.ndarray:
     """Compute the recurrence matrix from an array of RR intervals [1]_.
 
     Parameters

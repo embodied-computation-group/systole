@@ -14,11 +14,11 @@ from systole.utils import heart_rate, to_epochs
 
 
 def plot_evoked(
-    epochs: Optional[np.ndarray] = None,
-    signal: Optional[np.ndarray] = None,
+    epochs: Optional[List[np.ndarray]] = None,
+    signal: Optional[Union[List, np.ndarray]] = None,
     triggers: Optional[np.ndarray] = None,
     triggers_idx: Optional[np.ndarray] = None,
-    rr: Optional[np.ndarray] = None,
+    rr: Optional[Union[np.ndarray, List]] = None,
     input_type: str = "peaks",
     reject: Optional[np.ndarray] = None,
     modality: str = "ppg",
@@ -41,10 +41,11 @@ def plot_evoked(
 
     Parameters
     ----------
-    epochs : np.ndarray
-        A 2d (trial * time) numpy array containing the time series of the epoched
-        signal.
-    signal : np.ndarray
+    epochs : list of np.ndarray
+        A list of 2d (trial * time) numpy array containing the time series of the
+        epoched signal. When multiple arrays are provided, will be plotted separately
+        as different conditions.
+    signal : np.ndarray | list
         A 1d numpy array containing the physiological signal (can be PPG or
         ECG). The modality of the signal is parametrized using the `modality`
         parameter.
@@ -259,7 +260,7 @@ def plot_evoked(
     # Epoching instantaneous heart rate
     if epochs is None:
         epochs, _ = to_epochs(
-            signal=rr,
+            signal=rr,  # type: ignore
             triggers=triggers,
             triggers_idx=triggers_idx,
             reject=reject,

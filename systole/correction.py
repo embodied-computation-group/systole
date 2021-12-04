@@ -220,7 +220,7 @@ def correct_rr(
                         artefacts["ectopic"][i - 1] = True
                 this_id = np.where(artefacts["ectopic"])[0]
                 clean_rr = interpolate_bads(clean_rr, [this_id])
-                this_nectopic = np.sum(artefacts["ectopic"])  # type: ignore
+                this_nectopic = int(np.sum(artefacts["ectopic"]))
                 if verbose:
                     print(f"... correcting {this_nectopic} ectopic interval(s).")
                 artefacts = rr_artefacts(clean_rr)
@@ -346,7 +346,7 @@ def correct_peaks(
                 extra_idx = peaks_idx[np.where(artefacts["extra"])[0]]
 
                 # Number of extra peaks to correct
-                this_nextra = artefacts["extra"].sum()
+                this_nextra = int(artefacts["extra"].sum())
                 if verbose:
                     print(f"... correcting {this_nextra} extra peak(s).")
 
@@ -367,7 +367,7 @@ def correct_peaks(
                 missed_idx = peaks_idx[np.where(artefacts["missed"])[0]]
 
                 # Number of missed peaks to correct
-                this_nmissed = artefacts["missed"].sum()
+                this_nmissed = int(artefacts["missed"].sum())
                 if verbose:
                     print(f"... correcting {this_nmissed} missed peak(s).")
 

@@ -631,7 +631,7 @@ def input_conversion(
             if output_type == "rr_s":
                 output = x / 1000
             elif output_type == "peaks":
-                output = np.zeros(np.sum(x) + 1, dtype=bool)
+                output = np.zeros(int(np.sum(x)) + 1, dtype=bool)
                 output[np.cumsum(x)] = True
                 output[0] = True
             elif output_type == "peaks_idx":

@@ -151,4 +151,4 @@ def panPeakDetect(detection: np.ndarray, sfreq: int) -> np.ndarray:
 
     signal_peaks.pop(0)
 
-    return signal_peaks
+    return np.array(signal_peaks, dtype=int)
