@@ -7,6 +7,7 @@ import pandas as pd
 from numba import jit
 from scipy import interpolate
 from scipy.signal import welch
+from scipy.spatial.distance import cdist
 
 from systole.utils import input_conversion
 
@@ -332,15 +333,17 @@ def frequency_domain(
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
     sfreq : int
-        The sampling frequency (Hz).
+        The sampling frequency (Hz) used to interpolate the instantaneous heart rate
+        for PSD computation.
     method : str
-        The method used to extract freauency power. Default is ``'welch'``.
+        The method used to extract the power of the different frequency bands. Default
+        is ``'welch'`` (only one method is implemented for now).
     fbands : None | dict
         Dictionary containing the names of the frequency bands of interest
         (str), their range (tuples) and their color in the PSD plot. Default is
         >>> {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
         >>>  'lf': ('Low frequency', (0.04, 0.15), 'g'),
-        >>>  'hf': ('High frequency', (0.15, 0.4), 'r')}pip
+        >>>  'hf': ('High frequency', (0.15, 0.4), 'r')}
     input_type : str
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
@@ -677,7 +680,7 @@ def _recurrence(
     j = rc.shape[0]
     recurrence_rate = np.triu(rc).sum() / ((j ** 2 - j) / 2) * 100
 
-    # Find diagonale lines lines
+    # Find diagonale lines
     total_lines = []
     for i in range(1, rc.shape[0] // 2):
 
@@ -721,7 +724,6 @@ def _recurrence(
     )
 
 
-@jit(nopython=True)
 def recurrence_matrix(rr: np.ndarray, m: int = 10, tau: int = 1) -> np.ndarray:
     """Compute the recurrence matrix from an array of RR intervals [1]_.
 
@@ -750,21 +752,25 @@ def recurrence_matrix(rr: np.ndarray, m: int = 10, tau: int = 1) -> np.ndarray:
     """
     r = np.sqrt(m) * np.std(rr)  # Threshold for the Euclidean distance
     lag = (m - 1) * tau  # Lag
-    j = rr.shape[0] - lag  # Dimension of the recurrence matrix
+    N = rr.shape[0]  # Size of the input signal
+    j = N - lag  # Dimension of the recurrence matrix
 
-    # Initialize a (j-l) by (j-l) matrix and fill with zeros
+    Y = np.zeros((m, j))  # Initialize the time embedding matrix
+
+    # Create a 2d array with segments of the signal lagged
+    # according to tau and m (the embedding dimension)
+    for i in range(m):
+        k = i * tau
+        Y[i] = rr[k : k + j]
+    embedded = Y.T
+
+    # Compute Euclidean distance
+    d = cdist(embedded, embedded, metric="euclidean")
+
+    # Initialize the recurrence matrix filled with 0s
     rc = np.zeros((j, j))
 
-    # Iterate over the lower triangle only
-    for i in range(j):
-        u_i = rr[i : i + lag : tau]  # First sub-sample of RR intervals
-        for ii in range(i + 1):
-            u_ii = rr[ii : ii + lag : tau]  # Second sub-sample of RR intervals
-
-            # Compare the Euclidean distance to threshold
-            if np.sqrt(np.sum(np.square(u_i - u_ii))) <= r:
-                rc[i, ii] = 1
-
-    rc = rc + rc.T - np.diag(np.diag(rc))  # Make the matrix symmetric
+    # If lower or equal to threshold, then 1
+    rc[d <= r] = 1
 
     return rc

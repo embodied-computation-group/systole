@@ -155,19 +155,19 @@ class TestHrv(TestCase):
         recurrence_rate, l_max, l_mean, determinism, shan_entr = recurrence(list(rr))
 
         # Kubios 2.2: 37.231
-        assert np.isclose(recurrence_rate, 43.09772809231879)
+        assert np.isclose(recurrence_rate, 38.08510638297872)
 
         # Kubios 2.2: 235
         assert np.isclose(l_max, 235)
 
         # Kubios 2.2: 11.501
-        assert np.isclose(l_mean, 13.366559485530546)
+        assert np.isclose(l_mean, 12.69109947643979)
 
         # Kubios 2.2: 99.055
-        assert np.isclose(determinism, 70.96884336320956)
+        assert np.isclose(determinism, 70.43099273607749)
 
         # Kubios 2.2: 3.2120
-        assert np.isclose(shan_entr, 3.2689082061701855)
+        assert np.isclose(shan_entr, 3.1961134772254334)
 
 
 if __name__ == "__main__":
