@@ -143,19 +143,19 @@ def time_domain(rr: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.Da
     -------
     stats : :py:class:`pandas.DataFrame`
         Time domain summary statistics.
-        - `'Mean RR'` : Mean of R-R intervals.
-        - `'Mean BPM'` : Mean of beats per minutes.
-        - `'Median RR'` : Median of R-R intervals'.
-        - `'Median BPM'` : Meidan of beats per minutes.
-        - `'MinRR'` : Minimum R-R intervals.
-        - `'MinBPM'` : Minimum beats per minutes.
-        - `'MaxRR'` : Maximum R-R intervals.
-        - `'MaxBPM'` : Maximum beats per minutes.
-        - `'SDNN'` : Standard deviation of RR intervals.
-        - `'SDSD'`: Standard deviation of the Successive difference.
-        - `'RMSSD'` : Root Mean Square of the Successive Differences.
-        - `'NN50'` : number of successive differences larger than 50ms.
-        - `'pNN50'` : Proportion of successive difference larger than 50ms.
+        * 'MeanRR' : Mean of R-R intervals (ms).
+        * 'MeanBPM' : Mean of beats per minutes (bpm).
+        * 'MedianRR' : Median of R-R intervals' (ms).
+        * 'MedianBPM' : Median of beats per minutes (bpm).
+        * 'MinRR' : Minimum R-R intervals (ms).
+        * 'MinBPM' : Minimum beats per minutes (bpm).
+        * 'MaxRR' : Maximum R-R intervals (ms).
+        * 'MaxBPM' : Maximum beats per minutes (bpm).
+        * 'SDNN' : Standard deviation of RR intervals (ms).
+        * 'SDSD' : Standard deviation of the Successive difference (ms).
+        * 'RMSSD' : Root Mean Square of the Successive Differences (ms).
+        * 'nn50' : number of successive differences larger than 50ms (count).
+        * 'pnn50' : Proportion of successive difference larger than 50ms (%).
 
     See also
     --------
@@ -352,11 +352,19 @@ def frequency_domain(
     -------
     stats : :py:class:`pandas.DataFrame`
         Frequency domain summary statistics.
-        - ``'power_vlf_per'`` : Very low frequency power (%).
-        - ``'power_lf_per'`` : Low frequency power (%).
-        - ``'power_hf_per'`` : High frequency power (%).
-        - ``'power_lf_nu'`` : Low frequency power (normalized units).
-        - ``'power_hf_nu'`` : High frequency power (normalized units).
+        * 'vlf_peak' : Very low frequency peak (HZ).
+        * 'vlf_power' : Very low frequency power (ms²).
+        * 'lf_peak' : Low frquency peak (Hz).
+        * 'lf_power' : Low frequency power (ms²).
+        * 'hf_peak' : High frequency peak (Hz).
+        * 'hf_power' : High frequency power (ms²).
+        * 'vlf_power_per' : Very low frequency power (%).
+        * 'lf_power_per' : Low frequency power (%).
+        * 'hf_power_per' : High frequency power (%).
+        * 'lf_power_nu' : Low frequency power (normalized units).
+        * 'hf_power_nu' : High frequency power (normalized units).
+        * 'total_power' : Total frequency power (ms²).
+        * 'lf_hf_ratio' : Low / high frequency ratio (normalized units).
 
     See also
     --------
@@ -473,9 +481,14 @@ def nonlinear_domain(
     Returns
     -------
     stats : :py:class:`pandas.DataFrame`
-        Non-linear domain summary statistics.
-        * ``'SD1'`` : SD1.
-        * ``'SD2'`` : SD2.
+        Nonlinear domain summary statistics.
+        * 'SD1' : SD1, the standard deviation of the poincare plot orthogonal to the identity line (ms).
+        * 'SD2' : SD2, the standard deviation of the poincare plot along the identity line (ms).
+        * 'recurrence_rate' : The recurrence rate in the recurrence plot (%).
+        * 'l_max' : The maximun diagonal length in the recurrence plot (beats).
+        * 'l_mean' : The mean diagonal length in the recurrence plot (beats).
+        * 'determinism_rate' : The determinism rate in the recurrence plot (%).
+        * 'shannon_entropy' : The Shannon entropy.
 
     See also
     --------
@@ -774,3 +787,82 @@ def recurrence_matrix(rr: np.ndarray, m: int = 10, tau: int = 1) -> np.ndarray:
     rc[d <= r] = 1
 
     return rc
+
+
+def all_domain(rr: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.DataFrame:
+    """Extract all the HRV indices implemented for the time domain, frequency domain
+    and linear domain.
+
+    Parameters
+    ----------
+    rr : list | np.ndarray
+        R-R interval time-series, peaks or peaks index vectors. The default expected
+        vector is R-R intervals in milliseconds. Other data format can be provided by
+        specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
+    input_type : str
+        The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
+        `"rr_s"`. Defaults to `"rr_ms"`.
+
+    Returns
+    -------
+    stats : :py:class:`pandas.DataFrame`
+        Summary of the HRV indices extracted.
+        * 'MeanRR' : Mean of R-R intervals (ms).
+        * 'MeanBPM' : Mean of beats per minutes (bpm).
+        * 'MedianRR' : Median of R-R intervals' (ms).
+        * 'MedianBPM' : Median of beats per minutes (bpm).
+        * 'MinRR' : Minimum R-R intervals (ms).
+        * 'MinBPM' : Minimum beats per minutes (bpm).
+        * 'MaxRR' : Maximum R-R intervals (ms).
+        * 'MaxBPM' : Maximum beats per minutes (bpm).
+        * 'SDNN' : Standard deviation of RR intervals (ms).
+        * 'SDSD' : Standard deviation of the Successive difference (ms).
+        * 'RMSSD' : Root Mean Square of the Successive Differences (ms).
+        * 'nn50' : number of successive differences larger than 50ms (count).
+        * 'pnn50' : Proportion of successive difference larger than 50ms (%).
+        * 'vlf_peak' : Very low frequency peak (HZ).
+        * 'vlf_power' : Very low frequency power (ms²).
+        * 'lf_peak' : Low frquency peak (Hz).
+        * 'lf_power' : Low frequency power (ms²).
+        * 'hf_peak' : High frequency peak (Hz).
+        * 'hf_power' : High frequency power (ms²).
+        * 'vlf_power_per' : Very low frequency power (%).
+        * 'lf_power_per' : Low frequency power (%).
+        * 'hf_power_per' : High frequency power (%).
+        * 'lf_power_nu' : Low frequency power (normalized units).
+        * 'hf_power_nu' : High frequency power (normalized units).
+        * 'total_power' : Total frequency power (ms²).
+        * 'lf_hf_ratio' : Low / high frequency ratio (normalized units).
+        * 'SD1' : SD1, the standard deviation of the poincare plot orthogonal to the identity line (ms).
+        * 'SD2' : SD2, the standard deviation of the poincare plot along the identity line (ms).
+        * 'recurrence_rate' : The recurrence rate in the recurrence plot (%).
+        * 'l_max' : The maximun diagonal length in the recurrence plot (beats).
+        * 'l_mean' : The mean diagonal length in the recurrence plot (beats).
+        * 'determinism_rate' : The determinism rate in the recurrence plot (%).
+        * 'shannon_entropy' : The Shannon entropy.
+
+    See also
+    --------
+    time_domain, frequency_domain, nonlinear_domain
+
+    Notes
+    -----
+    The dataframe containing the summary statistics is returned in the long
+    format to facilitate the creation of group summary data frame that can
+    easily be transferred to other plotting or statistics library. You can
+    easily convert it into a wide format for a subject-level inline report
+    using the py:pandas.pivot_table() function:
+    >>> pd.pivot_table(stats, values='Values', columns='Metric')
+
+    """
+
+    rr = np.asarray(rr)
+
+    if input_type != "rr_ms":
+        rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
+
+    time_df = time_domain(rr, input_type="rr_ms")
+    frequency_df = frequency_domain(rr, input_type="rr_ms")
+    nonlinear_df = nonlinear_domain(rr, input_type="rr_ms")
+
+    return pd.concat([time_df, frequency_df, nonlinear_df])

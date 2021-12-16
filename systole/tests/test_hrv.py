@@ -9,6 +9,7 @@ import pytest
 
 from systole import import_rr
 from systole.hrv import (
+    all_domain,
     frequency_domain,
     nnX,
     nonlinear_domain,
@@ -168,6 +169,48 @@ class TestHrv(TestCase):
 
         # Kubios 2.2: 3.2120
         assert np.isclose(shan_entr, 3.1961134772254334)
+
+    def test_all_domain(self):
+        """Test all_domain function"""
+        all_df = all_domain(list(rr))
+
+        metrics = [
+            "MeanRR",
+            "MeanBPM",
+            "MedianRR",
+            "MedianBPM",
+            "MinRR",
+            "MinBPM",
+            "MaxRR",
+            "MaxBPM",
+            "SDNN",
+            "SDSD",
+            "RMSSD",
+            "nn50",
+            "pnn50",
+            "vlf_peak",
+            "vlf_power",
+            "lf_peak",
+            "lf_power",
+            "hf_peak",
+            "hf_power",
+            "vlf_power_per",
+            "lf_power_per",
+            "hf_power_per",
+            "lf_power_nu",
+            "hf_power_nu",
+            "total_power",
+            "lf_hf_ratio",
+            "SD1",
+            "SD2",
+            "recurrence_rate",
+            "l_max",
+            "l_mean",
+            "determinism_rate",
+            "shannon_entropy",
+        ]
+
+        assert np.all([metric in metrics for metric in all_df.Metric.unique()])
 
 
 if __name__ == "__main__":
