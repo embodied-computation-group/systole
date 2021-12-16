@@ -37,6 +37,7 @@ Detection
 
     ppg_peaks
     ecg_peaks
+    res_peaks
     rr_artefacts
     interpolate_clipping
 
@@ -54,8 +55,13 @@ Heart Rate Variability
     pnnX
     rmssd
     time_domain
+    psd
     frequency_domain
-    nonlinear
+    nonlinear_domain
+    poincare
+    recurrence
+    recurrence_matrix
+    all_domain
 
 Plots
 -----
