@@ -1,10 +1,10 @@
-v0.2.2 (December 2021 - 2)
---------------------------
+v0.2.2 (December 2021)
+----------------------
 
 Highlights
 ++++++++++
 
-This release seeks to improve the heart rate variability metrics implemented in Systole and provide tools for interactive reports creation and group results summary from any BIDS structured folders containing physiological recording.
+This release seeks to improve the heart rate variability module and will be the reference version for the JOSS publication.
 
 Changes
 +++++++
@@ -18,3 +18,4 @@ Contributors
 ++++++++++++
 
 - Dominique Makowski (https://github.com/DominiqueMakowski)
+- Bertrand Hermann (bertrand.hermann@ghu-paris.fr)

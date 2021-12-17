@@ -146,6 +146,8 @@ Contributors
 - Jan C. Brammer (jan.c.brammer@gmail.com)
 - Gidon Levakov (gidonlevakov@gmail.com)
 - Peter Doggart (peter.doggart@pulseai.io)
+- Dominique Makowski (https://github.com/DominiqueMakowski)
+- Bertrand Hermann (bertrand.hermann@ghu-paris.fr)
 
 ================
 

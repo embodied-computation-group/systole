@@ -63,6 +63,7 @@ The following packages are required to use Systole:
 * `pyserial <https://pyserial.readthedocs.io/en/latest/pyserial.html>`_ (>=3.4)
 * `setuptools <https://setuptools.pypa.io/en/latest/>`_ (>=38.4)
 * `requests <https://docs.python-requests.org/en/latest/>`_ (>=2.26.0)
+* `tabulate <https://github.com/astanin/python-tabulate/>`_ (>=0.8.9)
 
 
 The Python version should be 3.7 or higher.
@@ -75,6 +76,7 @@ For an introduction to Systole and cardiac signal analysis, you can refer to the
 .. list-table::
    :widths: 60 40
    :header-rows: 0
+   :align: center
 
    * - Cardiac signal analysis 
      - |Colab badge 1|
