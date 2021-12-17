@@ -36,7 +36,7 @@ def ppg_peaks(
 
     Parameters
     ----------
-    x : np.ndarray or list
+    x : np.ndarray | list
         The pulse oximeter time series.
     sfreq : int
         The sampling frequency. Default is set to 75 Hz.
@@ -164,8 +164,8 @@ def ecg_peaks(
 
     Parameters
     ----------
-    x : np.ndarray or list
-        The oxi signal.
+    x : np.ndarray | list
+        The ECG signal.
     sfreq : int
         The sampling frequency. Default is set to 75 Hz.
     method : str
@@ -240,6 +240,87 @@ def ecg_peaks(
         peaks = to_neighbour(resampled_signal, peaks, size=int(win_size * new_sfreq))
 
     return resampled_signal, peaks
+
+
+def res_peaks(
+    resp: Union[List, np.ndarray],
+    sfreq: int = 1000,
+    win: float = 0.025,
+    kind: str = "peaks-trough",
+) -> Union[np.ndarray, Tuple[np.ndarray, np.ndarray]]:
+    """Identify peaks and/or troughs in respiratory signal.
+
+    Parameters
+    ----------
+    resp : np.ndarray | list
+        The respiratory signal. Peaks are considered to represent end of inspiration,
+        trough represent end of expiration.
+    sfreq : int
+        The sampling frequency. Default is set to 1000 Hz.
+    win : int
+        Window size (in seconds). Default is set to 25ms, following recommandation
+        from [1]_.
+    kind : str
+        What kind of detection to perform. Peak detection (`"peaks"`), trough detection
+        (`"troughs"`) or both (`"peaks-troughs"`, default).
+
+    Returns
+    -------
+    peaks | trough | (peaks, trough) : np.ndarray | np.ndarray | (np.ndarray, np.ndarray)
+        The peaks and / or troughs indexes vectors.
+
+    Examples
+    --------
+
+    Notes
+    -----
+    Inspired by [1]_.
+
+    References
+    ----------
+    .. [1] Torben Noto, Guangyu Zhou, Stephan Schuele, Jessica Templer, Christina
+       Zelano,Automated analysis of breathing waveforms using BreathMetrics: a
+       respiratory signal processing toolbox, Chemical Senses, Volume 43, Issue 8,
+       October 2018, Pages 583–597, https://doi.org/10.1093/chemse/bjy045
+
+    """
+    if kind not in ["peaks", "troughs", "peaks-troughs"]:
+        raise ValueError(
+            "Invalid kind parameter. Should be 'peaks', 'troughs' or 'peaks-troughs'"
+        )
+
+    x = np.asarray(resp)
+
+    # Soothing using rolling mean
+    x = (
+        pd.DataFrame({"signal": x})
+        .rolling(int(sfreq * win), center=True)
+        .mean()
+        .fillna(method="bfill")
+        .fillna(method="ffill")
+        .signal.to_numpy()
+    )
+
+    # Normalize (z-score) the respiration signal
+    x = (x - x.mean()) / x.std()  # type: ignore
+
+    # Peak enhancement
+    x = x ** 3
+
+    # Find peaks and trough in preprocessed signal
+    if "peaks" in kind:
+        peaks = find_peaks(x, height=0, distance=int(2 * sfreq))[0]
+    if "troughs" in kind:
+        troughs = find_peaks(-x, height=0, distance=int(2 * sfreq))[0]
+
+    if kind == "peaks-troughs":
+        out = peaks, troughs
+    elif kind == "peaks":
+        out = peaks
+    elif kind == "trough":
+        out = troughs
+
+    return out
 
 
 def rr_artefacts(

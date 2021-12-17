@@ -6,7 +6,7 @@ Functions
 =========
 
 .. contents:: Table of Contents
-   :depth: 3
+   :depth: 2
 
 Correction
 ----------
@@ -37,6 +37,7 @@ Detection
 
     ppg_peaks
     ecg_peaks
+    res_peaks
     rr_artefacts
     interpolate_clipping
 
@@ -54,8 +55,13 @@ Heart Rate Variability
     pnnX
     rmssd
     time_domain
+    psd
     frequency_domain
-    nonlinear
+    nonlinear_domain
+    poincare
+    recurrence
+    recurrence_matrix
+    all_domain
 
 Plots
 -----
@@ -72,7 +78,7 @@ Plots
     plot_events
     plot_evoked
     plot_frequency
-    plot_pointcare
+    plot_poincare
     plot_raw
     plot_rr
     plot_shortlong

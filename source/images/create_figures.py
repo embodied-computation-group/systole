@@ -4,7 +4,7 @@
 
 from systole import import_dataset1
 from systole.detection import ecg_peaks
-from systole.plots import plot_frequency, plot_pointcare, plot_raw, plot_subspaces
+from systole.plots import plot_frequency, plot_poincare, plot_raw, plot_subspaces
 from bokeh.io import export_png, save
 from bokeh.layouts import row
 # Import ECg recording
@@ -39,7 +39,7 @@ save(
 export_png(
     row(
         plot_frequency(peaks, input_type="peaks", backend="bokeh", figsize=(600, 400)),
-        plot_pointcare(peaks, input_type="peaks", backend="bokeh", figsize=(400, 400)),
+        plot_poincare(peaks, input_type="peaks", backend="bokeh", figsize=(400, 400)),
     ),filename="hrv.png"
 )
 
@@ -47,7 +47,7 @@ export_png(
 save(
     row(
         plot_frequency(peaks, input_type="peaks", backend="bokeh", figsize=(300, 200)),
-        plot_pointcare(peaks, input_type="peaks", backend="bokeh", figsize=(200, 200)),
+        plot_poincare(peaks, input_type="peaks", backend="bokeh", figsize=(200, 200)),
     ),filename="hrv.html"
 )
 

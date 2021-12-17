@@ -94,14 +94,23 @@ def import_rr() -> pd.DataFrame:
 
 
 def import_dataset1(
-    modalities: List[str] = ["ECG", "EDA", "Respiration", "Stim"]
+    modalities: List[str] = ["ECG", "EDA", "Respiration", "Stim"], disable: bool = False
 ) -> pd.DataFrame:
     """Import ECG, EDA and respiration recording.
+
+    Parameters
+    ----------
+    modalities : list
+        The list of modalities that should be downloaded. Can contain `"ECG"`, `"EDA"`,
+        `"Respiration"` or `"Stim"`.
+    disable : bool
+        Whether to disable the progress bar or not. Default is `False` (show progress
+        bar).
 
     Returns
     -------
     df : :py:class:`pandas.DataFrame`
-        Dataframe containing the RR time-serie.
+        Dataframe containing the signal.
 
     Notes
     -----
@@ -111,14 +120,14 @@ def import_dataset1(
 
     References
     ----------
-    [1] : Legrand, N., Etard, O., Vandevelde, A., Pierre, M., Viader, F.,
-        Clochon, P., Doidy, F., Peschanski, D., Eustache, F., &
-        Gagnepain, P. (2020). Long-term modulation of cardiac activity induced
-        by inhibitory control over emotional memories. Scientific Reports,
-        10(1). https://doi.org/10.1038/s41598-020-71858-2
+    [1] : Legrand, N., Etard, O., Vandevelde, A., Pierre, M., Viader, F., Clochon, P.,
+        Doidy, F., Peschanski, D., Eustache, F., & Gagnepain, P. (2020). Long-term
+        modulation of cardiac activity induced by inhibitory control over emotional
+        memories. Scientific Reports, 10(1). https://doi.org/10.1038/s41598-020-71858-2
+
     """
     path = "https://github.com/embodied-computation-group/systole/raw/dev/systole/datasets/Task1_"
-    pbar = tqdm(modalities, position=0, leave=True)
+    pbar = tqdm(modalities, position=0, leave=True, disable=disable)
     data = {}
     for item in pbar:
         pbar.set_description(f"Downloading {item} channel")

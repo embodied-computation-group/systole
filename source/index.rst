@@ -8,9 +8,6 @@
 .. image:: https://zenodo.org/badge/219720901.svg
    :target: https://zenodo.org/badge/latestdoi/219720901
 
-.. image:: https://travis-ci.org/embodied-computation-group/systole.svg?branch=master
-   :target: https://travis-ci.org/embodied-computation-group/systole
-
 .. image:: https://codecov.io/gh/embodied-computation-group/systole/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/embodied-computation-group/systole
 
@@ -149,6 +146,8 @@ Contributors
 - Jan C. Brammer (jan.c.brammer@gmail.com)
 - Gidon Levakov (gidonlevakov@gmail.com)
 - Peter Doggart (peter.doggart@pulseai.io)
+- Dominique Makowski (https://github.com/DominiqueMakowski)
+- Bertrand Hermann (bertrand.hermann@ghu-paris.fr)
 
 ================
 

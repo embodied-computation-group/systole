@@ -107,7 +107,7 @@ def plot_frequency(
     power = f(freq)
 
     # Clip power to avoid values < 0 before plotting
-    power = np.clip(power, a_min=0, a_max=None)
+    power = np.clip(power, a_min=0, a_max=None)  # type: ignore
 
     plot_frequency_args = {
         "freq": freq,

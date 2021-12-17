@@ -1,5 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+from typing import List
+
 import numpy as np
 from numba import jit
 from scipy.signal import butter, lfilter
@@ -47,7 +49,7 @@ def pan_tompkins(
 
     peaks = panPeakDetect(mwa, sfreq)
 
-    return peaks
+    return np.array(peaks, dtype=int)
 
 
 @jit(nopython=True)
@@ -63,7 +65,7 @@ def MWA_cumulative(input_array: np.ndarray, window_size: int) -> np.ndarray:
 
 
 @jit(nopython=True)
-def panPeakDetect(detection: np.ndarray, sfreq: int) -> np.ndarray:
+def panPeakDetect(detection: np.ndarray, sfreq: int) -> List:
     """Pan-Tompkins detection algorithm.
 
     Parameters
