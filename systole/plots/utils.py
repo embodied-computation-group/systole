@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from bokeh.models import Column, ColumnDataSource, DataTable, TableColumn
 from packaging.version import parse
-from tabulate import tabulate
+from tabulate import tabulate  # type: ignore
 
 from systole.hrv import frequency_domain, nonlinear_domain, time_domain
 
