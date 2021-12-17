@@ -1,7 +1,6 @@
 import os
 import codecs
 from setuptools import find_packages, setup
-from systole import __version__
 
 PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
 REQUIREMENTS_FILE = os.path.join(PROJECT_ROOT, "requirements.txt")
@@ -21,7 +20,7 @@ DESCRIPTION = """Systole: A python package for cardiac signal synchrony and anal
 DISTNAME = "systole"
 MAINTAINER = "Nicolas Legrand"
 MAINTAINER_EMAIL = "nicolas.legrand@cfin.au.dk"
-VERSION = __version__
+VERSION = "0.2.2"
 
 
 if __name__ == "__main__":
