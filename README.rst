@@ -5,8 +5,8 @@
 .. image:: https://badge.fury.io/py/systole.svg
     :target: https://badge.fury.io/py/systole
 
-.. image:: https://zenodo.org/badge/219720901.svg
-   :target: https://zenodo.org/badge/latestdoi/219720901
+.. image:: https://joss.theoj.org/papers/10.21105/joss.03832/status.svg
+   :target: https://doi.org/10.21105/joss.03832
 
 .. image:: https://codecov.io/gh/embodied-computation-group/systole/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/embodied-computation-group/systole
@@ -212,11 +212,11 @@ Systole was largely inspired by pre-existing toolboxes dedicated to heartrate va
 
 |AU| |lundbeck| |lab|
 
-.. |AU| image::  https://github.com/embodied-computation-group/systole/blob/dev/source/images/au_clinisk_logo.png
+.. |AU| image::  https://github.com/embodied-computation-group/systole/raw/dev/source/images/au_clinisk_logo.png
    :width: 100%
 
-.. |lundbeck| image::  https://github.com/embodied-computation-group/systole/blob/dev/source/images/lundbeckfonden_logo.png
+.. |lundbeck| image::  https://github.com/embodied-computation-group/systole/raw/dev/source/images/lundbeckfonden_logo.png
    :width: 10%
 
-.. |lab| image::  https://github.com/embodied-computation-group/systole/blob/dev/source/images/LabLogo.png
+.. |lab| image::  https://github.com/embodied-computation-group/systole/raw/dev/source/images/LabLogo.png
    :width: 20%
