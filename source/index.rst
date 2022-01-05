@@ -5,8 +5,8 @@
 .. image:: https://badge.fury.io/py/systole.svg
     :target: https://badge.fury.io/py/systole
 
-.. image:: https://zenodo.org/badge/219720901.svg
-   :target: https://zenodo.org/badge/latestdoi/219720901
+.. image:: https://joss.theoj.org/papers/10.21105/joss.03832/status.svg
+   :target: https://doi.org/10.21105/joss.03832
 
 .. image:: https://codecov.io/gh/embodied-computation-group/systole/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/embodied-computation-group/systole
