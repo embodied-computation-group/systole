@@ -31,7 +31,7 @@ for recording cardiac signals via electrocardiography (ECG) or photoplethysmogra
 (PPG), as well as both online and offline data analysis methods extracting cardiac 
 features, synchronizing experimental stimuli with different phases of the heart, 
 removing artefacts at different levels and generating plots for data quality check and 
-publication. Systole is built on the top of Numpy [@harris:2020], Pandas [@reback2020pandas; mckinney-proc-scipy-2010] and Scipy [@SciPy:2020], and can use both 
+publication. Systole is built on the top of Numpy [@harris:2020], Pandas [@reback2020pandas; @mckinney-proc-scipy-2010] and Scipy [@SciPy:2020], and can use both 
 Matplotlib [@hunter:2007] and Bokeh [@bokeh] to generate visualisations. It is designed to build modular 
 pipelines that can interface easily with other signal processing or heart rate 
 variability toolboxes, with a focus on data quality checks. Several parts of the 
