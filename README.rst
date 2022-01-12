@@ -200,7 +200,7 @@ Systole was largely inspired by pre-existing toolboxes dedicated to heartrate va
 
 * hrv: https://github.com/rhenanbartels/hrv
 
-* pyHVR: https://pyhrv.readthedocs.io/en/latest/index.html
+* pyHRV: https://pyhrv.readthedocs.io/en/latest/index.html
 
 * ECG-detector: https://github.com/berndporr/py-ecg-detectors
 
