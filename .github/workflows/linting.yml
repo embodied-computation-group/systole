@@ -1,4 +1,4 @@
-name: Test
+name: Linting
 
 on: [push, pull_request]
 
@@ -23,10 +23,11 @@ jobs:
           ${{ runner.os }}-pip-
     - name: Install dependencies
       run: |
-        pip install coverage
         pip install -r requirements-tests.txt
+        pip install isort flake8 black mypy
     - name: Run tests and coverage
       run: |
-        coverage run -m unittest
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
+        mypy ./systole/ --ignore-missing-imports
+        flake8 ./systole/
+        black ./systole/
+        isort ./systole/
