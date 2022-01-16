@@ -1,21 +1,2 @@
-codecov:
-  token: 11a4b360-4894-4ef4-9f7c-c6d2858453c0
-  require_ci_to_pass: yes
-
-coverage:
-  precision: 2
-  round: down
-  range: "70...100"
-
-  status:
-    project: yes
-    patch: yes
-    changes: no
-
-parsers:
-  gcov:
-    branch_detection:
-      conditional: yes
-      loop: yes
-      method: no
-      macro: no
+ignore:
+  - "./systole/tests/*"
