@@ -40,6 +40,14 @@ presentation with different cardiac phases via Psychopy.
 
 If you have questions, you can ask them in the `Gitter chat <https://gitter.im/ecg-systole/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge>`_.
 
+How to cite?
+============
+
+If you are using **Systole** in a publication we ask you to cite the following paper:
+
+.. Legrand et al., (2022). Systole: A python package for cardiac signal synchrony and analysis. Journal of Open Source Software, 7(69), 3832, https://doi.org/10.21105/joss.03832
+
+
 Systole documentation
 =====================
 
