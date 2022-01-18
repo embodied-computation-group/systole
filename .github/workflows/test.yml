@@ -23,10 +23,11 @@ jobs:
           ${{ runner.os }}-pip-
     - name: Install dependencies
       run: |
-        pip install coverage
         pip install -r requirements-tests.txt
+        pip install ipykernel coverage pytest
+        python -m ipykernel install --user --name python3
     - name: Run tests and coverage
       run: |
-        coverage run -m unittest
+        coverage run -m pytest
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v2.1.0
