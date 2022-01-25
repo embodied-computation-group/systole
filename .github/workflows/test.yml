@@ -24,6 +24,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements-tests.txt
+        pip install PyGithub
         pip install ipykernel coverage pytest pytest-cov
         python -m ipykernel install --user --name python3
         pip install .

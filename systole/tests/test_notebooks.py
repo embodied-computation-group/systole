@@ -12,7 +12,7 @@ class TestNotebooks(TestCase):
         """Test tutorial notebooks"""
 
         # Load tutorial notebooks from the GitHub repository
-        url = "https://github.com/embodied-computation-group/systole/raw/dev/source/notebooks/"
+        url = "./source/notebooks/"
         for nb in [
             "1-PhysiologicalSignals.ipynb",
             "2-DetectingCycles.ipynb",
