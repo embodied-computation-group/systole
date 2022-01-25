@@ -1,6 +1,5 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from operator import methodcaller
 from typing import List, Optional, Tuple, Union
 
 import numpy as np
@@ -17,7 +16,7 @@ def plot_rsp(
     slider: bool = True,
     ax: Optional[Axes] = None,
     figsize: Optional[Union[int, List[int], Tuple[int, int]]] = None,
-    backend: str = "matplotlib"
+    backend: str = "matplotlib",
 ) -> Union[Axes, Figure]:
     """Visualization of Respiration signal.
 
@@ -28,7 +27,7 @@ def plot_rsp(
         provided, it should contain at least one ``'time'`` and one column for
         signal(`"respiration"`). If an array is provided, it will
         automatically create a DataFrame using the array as signal and
-        ``sfreq`` as sampling frequency.    
+        ``sfreq`` as sampling frequency.
     sfreq : int
         Signal sampling frequency. Default is set to 1000 Hz.
     slider : bool
@@ -88,7 +87,7 @@ def plot_rsp(
             figsize = (13, 5)
         elif backend == "bokeh":
             figsize = 300
-    
+
     if isinstance(signal, pd.DataFrame):
         signal = signal.respiration
     else:

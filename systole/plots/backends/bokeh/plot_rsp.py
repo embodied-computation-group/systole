@@ -10,12 +10,13 @@ from bokeh.plotting.figure import Figure
 from matplotlib.axes import Axes
 from pandas.core.indexes.datetimes import DatetimeIndex
 
+
 def plot_rsp(
     time: DatetimeIndex,
     signal: np.ndarray,
     ax: Optional[Union[List, Axes]] = None,
     slider: bool = True,
-    figsize: int = 300
+    figsize: int = 300,
 ) -> Figure:
     """Visualization of Respiration signal.
 
@@ -40,9 +41,7 @@ def plot_rsp(
         The bokeh figure containing the plot.
     """
 
-    source = ColumnDataSource(
-        data={"time": time[::10], "signal": signal[::10]}
-    )
+    source = ColumnDataSource(data={"time": time[::10], "signal": signal[::10]})
 
     title = "Respiration recording"
     ylabel = "Respiration (mV)"

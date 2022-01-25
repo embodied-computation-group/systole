@@ -19,8 +19,8 @@ from systole.plots import (
     plot_frequency,
     plot_poincare,
     plot_raw,
-    plot_rsp,
     plot_rr,
+    plot_rsp,
     plot_shortlong,
     plot_subspaces,
 )
@@ -169,7 +169,7 @@ class TestPlots(TestCase):
                 modality="ecg",
                 sfreq=1000,
             )
-    
+
     def test_plot_rsp(self):
         """Test plot_rsp function"""
         for backend in ["matplotlib", "bokeh"]:

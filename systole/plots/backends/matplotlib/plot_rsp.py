@@ -13,7 +13,7 @@ def plot_rsp(
     signal: np.ndarray,
     ax: Optional[Union[List, Axes]] = None,
     slider: bool = True,
-    figsize: int = 300
+    figsize: int = 300,
 ) -> Axes:
     """Visualization of Respiration signal.
 
@@ -50,7 +50,9 @@ def plot_rsp(
         signal_ax = ax
 
     # Signal
-    signal_ax.plot(time, signal, label="Respiration signal", linewidth=1, color="#c44e52")
+    signal_ax.plot(
+        time, signal, label="Respiration signal", linewidth=1, color="#c44e52"
+    )
 
     signal_ax.set_title(title)
     signal_ax.set_ylabel(ylabel)
