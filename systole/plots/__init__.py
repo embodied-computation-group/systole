@@ -7,6 +7,7 @@ from .plot_frequency import plot_frequency
 from .plot_poincare import plot_poincare
 from .plot_raw import plot_raw
 from .plot_rr import plot_rr
+from .plot_rsp import plot_rsp
 from .plot_shortlong import plot_shortlong
 from .plot_subspaces import plot_subspaces
 
@@ -21,4 +22,5 @@ __all__ = [
     "plot_shortlong",
     "plot_frequency",
     "plot_poincare",
+    "plot_rsp",
 ]
