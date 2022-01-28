@@ -1,7 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import importlib
-from typing import List, Optional, Union, overload
+from typing import List, Optional, Union
 
 import numpy as np
 import pandas as pd
@@ -59,28 +59,10 @@ def get_plotting_function(plot_name, plot_module, backend="matplotlib"):
     return plotting_method
 
 
-@overload
 def time_table(
-    rr: None,
-    input_type: None,
-    time_df=pd.DataFrame,
-) -> Union[Column, str]:
-    ...
-
-
-@overload
-def time_table(
-    rr: Union[List, np.ndarray],
+    rr: Optional[Union[List, np.ndarray]] = None,
+    time_df: Optional[pd.DataFrame] = None,
     input_type: str = "rr_ms",
-    time_df=None,
-) -> Union[Column, str]:
-    ...
-
-
-def time_table(
-    rr=None,
-    input_type="rr_ms",
-    time_df=None,
     backend: str = "tabulate",
     width: Optional[int] = 600,
     height: Optional[int] = 300,
@@ -93,11 +75,11 @@ def time_table(
         R-R interval time-series, peaks or peaks index vectors. The default expected
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
+    time_df : pd.DataFrame | None
+        The time domain results obtained from py:func:`systole.hrv.time_domain`.
     input_type : str
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
-    time_df : pd.DataFrame | None
-        The time domain results obtained from py:func:`systole.hrv.time_domain`.
     bakend : str
         Which backend to use. Can be `"bokeh"` or `"tabulate"`. Defaults to `"tabulate"`.
     width, height : int
@@ -115,7 +97,7 @@ def time_table(
             raise ValueError(
                 "If no summary dataframe is provided, you must provide an RR time series."
             )
-        time_df = time_domain(rr=rr, input_type=input_type)
+        time_df = time_domain(rr=rr, input_type=input_type)  # type: ignore
 
     data = {
         "variable": [
@@ -198,28 +180,10 @@ def time_table(
     return table
 
 
-@overload
 def frequency_table(
-    rr: None,
-    input_type=None,
-    frequency_df=pd.DataFrame,
-) -> Union[Column, str]:
-    ...
-
-
-@overload
-def frequency_table(
-    rr: Union[List, np.ndarray],
+    rr: Optional[Union[List, np.ndarray]] = None,
+    frequency_df: Optional[pd.DataFrame] = None,
     input_type: str = "rr_ms",
-    frequency_df=None,
-) -> Union[Column, str]:
-    ...
-
-
-def frequency_table(
-    rr=None,
-    input_type="rr_ms",
-    frequency_df=None,
     backend: str = "tabulate",
     width: Optional[int] = 600,
     height: Optional[int] = 300,
@@ -232,11 +196,11 @@ def frequency_table(
         R-R interval time-series, peaks or peaks index vectors. The default expected
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
+    frequency_df : pd.DataFrame | None
+        The frequency domain results obtained from py:func:`systole.hrv.frequency_domain`.
     input_type : str
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
-    frequency_df : pd.DataFrame | None
-        The frequency domain results obtained from py:func:`systole.hrv.frequency_domain`.
     bakend : str
         Which backend to use. Can be `"bokeh"` or `"tabulate"`. Defaults to `"tabulate"`.
     width, height : int
@@ -254,7 +218,7 @@ def frequency_table(
             raise ValueError(
                 "If no summary dataframe is provided, you must provide an RR time series."
             )
-        frequency_df = frequency_domain(rr=rr, input_type=input_type)
+        frequency_df = frequency_domain(rr=rr, input_type=input_type)  # type: ignore
 
     data = {
         "frequencies": [
@@ -332,28 +296,10 @@ def frequency_table(
     return table
 
 
-@overload
 def nonlinear_table(
-    rr: None,
-    input_type=None,
-    nonlinear_df=pd.DataFrame,
-) -> Union[Column, str]:
-    ...
-
-
-@overload
-def nonlinear_table(
-    rr: Union[List, np.ndarray],
-    input_type: str = "rr_ms",
-    nonlinear_df=None,
-) -> Union[Column, str]:
-    ...
-
-
-def nonlinear_table(
-    rr=None,
+    rr: Optional[Union[List, np.ndarray]] = None,
+    nonlinear_df: Optional[pd.DataFrame] = None,
     input_type="rr_ms",
-    nonlinear_df=None,
     backend: str = "tabulate",
     width: Optional[int] = 600,
     height: Optional[int] = 300,
@@ -366,11 +312,11 @@ def nonlinear_table(
         R-R interval time-series, peaks or peaks index vectors. The default expected
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
+    nonlinear_df : pd.DataFrame | None
+        The time domain results obtained from py:func:`systole.hrv.nonlinear_domain`.
     input_type : str
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
-    nonlinear_df : pd.DataFrame | None
-        The time domain results obtained from py:func:`systole.hrv.nonlinear_domain`.
     bakend : str
         Which backend to use. Can be `"bokeh"` or `"tabulate"`. Defaults to `"tabulate"`.
     width, height : int
@@ -388,7 +334,7 @@ def nonlinear_table(
             raise ValueError(
                 "If no summary dataframe is provided, you must provide an RR time series."
             )
-        nonlinear_df = nonlinear_domain(rr=rr, input_type=input_type)
+        nonlinear_df = nonlinear_domain(rr=rr, input_type=input_type)  # type: ignore
 
     data = {
         "variable": [

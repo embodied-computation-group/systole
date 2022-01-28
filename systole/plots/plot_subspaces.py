@@ -1,6 +1,6 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import Dict, List, Tuple, Union, overload
+from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from bokeh.plotting.figure import Figure
@@ -11,35 +11,11 @@ from systole.plots.utils import get_plotting_function
 from systole.utils import input_conversion
 
 
-@overload
 def plot_subspaces(
-    rr: None,
-    artefacts: Dict[str, np.ndarray],
-) -> Union[Figure, Axes]:
-    ...
-
-
-@overload
-def plot_subspaces(
-    rr: Union[List[float], np.ndarray],
-    artefacts: None,
-) -> Union[Figure, Axes]:
-    ...
-
-
-@overload
-def plot_subspaces(
-    rr: Union[List[float], np.ndarray],
-    artefacts: Dict[str, np.ndarray],
-) -> Union[Figure, Axes]:
-    ...
-
-
-def plot_subspaces(
-    rr=None,
-    artefacts=None,
+    rr: Optional[Union[List[float], np.ndarray]] = None,
+    artefacts: Optional[Dict[str, np.ndarray]] = None,
     input_type: str = "rr_s",
-    figsize: Union[Tuple[float, float], int] = None,
+    figsize: Optional[Union[Tuple[float, float], int]] = None,
     backend: str = "matplotlib",
 ) -> Union[Figure, Axes]:
     """Visualization of short, long, extra, missed and ectopic beats detection.
