@@ -47,7 +47,7 @@ How to cite?
 
 If you are using **Systole** in a publication we ask you to cite the following paper:
 
-.. Legrand et al., (2022). Systole: A python package for cardiac signal synchrony and analysis. Journal of Open Source Software, 7(69), 3832, https://doi.org/10.21105/joss.03832
+  Legrand et al., (2022). Systole: A python package for cardiac signal synchrony and analysis. Journal of Open Source Software, 7(69), 3832, https://doi.org/10.21105/joss.03832
 
 
 Installation
