@@ -3,6 +3,7 @@
 import unittest
 from unittest import TestCase
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -50,11 +51,15 @@ class TestPlots(TestCase):
             data = pd.DataFrame(data={"x": x, "y": y}).melt()
             plot_circular(data=data, y="value", hue="variable", backend=backend)
 
+        plt.close("all")
+
     def test_plot_ectopic(self):
         """Test plot_ectopic function"""
         rr = import_rr().rr
         for backend in ["matplotlib", "bokeh"]:
             plot_ectopic(rr, backend=backend)
+
+        plt.close("all")
 
     def test_plot_evoked(self):
         """Test plot_evoked function"""
@@ -113,6 +118,8 @@ class TestPlots(TestCase):
                 palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
             )
 
+        plt.close("all")
+
     def test_plot_events(self):
         """Test plot_events function"""
         # Import ECG recording and Stim channel
@@ -132,17 +139,23 @@ class TestPlots(TestCase):
                 tmax=10.0,
             )
 
+        plt.close("all")
+
     def test_plot_frequency(self):
         """Test plot_frequency function"""
         rr = import_rr().rr
         for backend in ["matplotlib", "bokeh"]:
             plot_frequency(rr, backend=backend, input_type="rr_ms")
 
+        plt.close("all")
+
     def test_plot_poincare(self):
         """Test plot_poincare function"""
         rr = import_rr().rr
         for backend in ["matplotlib", "bokeh"]:
             plot_poincare(rr, backend=backend, input_type="rr_ms")
+
+        plt.close("all")
 
     def test_plot_raw(self):
         """Test plot_raw function"""
@@ -170,6 +183,8 @@ class TestPlots(TestCase):
                 sfreq=1000,
             )
 
+        plt.close("all")
+
     def test_plot_rsp(self):
         """Test plot_rsp function"""
         for backend in ["matplotlib", "bokeh"]:
@@ -180,6 +195,8 @@ class TestPlots(TestCase):
                 backend=backend,
                 sfreq=1000,
             )
+
+        plt.close("all")
 
     def test_plot_rr(self):
         """Test plot_rr function"""
@@ -195,11 +212,15 @@ class TestPlots(TestCase):
             plot_rr(rr, backend=backend, input_type="rr_ms", points=False)
             plot_rr(rr, backend=backend, input_type="rr_ms", line=False)
 
+        plt.close("all")
+
     def test_plot_shortlong(self):
         """Test plot_shortlong function"""
         rr = import_rr().rr
         for backend in ["matplotlib", "bokeh"]:
             plot_shortlong(rr, backend=backend, input_type="rr_ms")
+
+        plt.close("all")
 
     def test_plot_subspaces(self):
         """Test plot_subspaces function"""
@@ -214,6 +235,8 @@ class TestPlots(TestCase):
 
         with self.assertRaises(ValueError):
             plot_subspaces(rr=None, artefacts=None)
+
+        plt.close("all")
 
     def test_time_table(self):
         """Test the time_table function"""
@@ -237,6 +260,8 @@ class TestPlots(TestCase):
         # Check for consistency between methods
         assert table_rr == table_df
 
+        plt.close("all")
+
     def test_frequency_table(self):
         """Test plot_subspaces function"""
         rr = import_rr().rr
@@ -259,6 +284,8 @@ class TestPlots(TestCase):
         # Check for consistency between methods
         assert table_rr == table_df
 
+        plt.close("all")
+
     def test_nonlinear_table(self):
         """Test plot_subspaces function"""
         rr = import_rr().rr
@@ -280,6 +307,8 @@ class TestPlots(TestCase):
 
         # Check for consistency between methods
         assert table_rr == table_df
+
+        plt.close("all")
 
 
 if __name__ == "__main__":
