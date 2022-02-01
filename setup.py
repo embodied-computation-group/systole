@@ -39,4 +39,7 @@ if __name__ == "__main__":
         install_requires=get_requirements(),
         include_package_data=True,
         packages=find_packages(),
+        entry_points = {
+        'console_scripts': ['systole=systole.reports.command_line:main'],
+    }
     )

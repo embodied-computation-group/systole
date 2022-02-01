@@ -4,10 +4,9 @@ from .group_level import (
     time_domain_group_level,
 )
 from .subject_level import subject_level_report
-from .utils import create_reports, import_data, wrapper
+from .utils import create_reports, import_data
 
 __all__ = [
-    "wrapper",
     "import_data",
     "create_reports",
     "time_domain_group_level",
