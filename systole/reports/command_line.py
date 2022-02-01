@@ -164,6 +164,12 @@ def main():
     )
     args = parser.parse_args()
 
+    # If no participants ID provided, load the participants' IDs from the BIDS directory
+    if args.participants_id is None:
+        args.participants_id = pd.read_csv(
+            f"{args.bids_folder}/participants.tsv", sep="\t"
+        )["participant_id"].to_list()
+
     wrapper(
         tasks=args.tasks,
         result_folder=args.result_folder,

@@ -73,10 +73,6 @@ def import_data(
     physio_file = f"{bids_folder}{participant_id}/ses-session1/beh/{participant_id}_ses-{session}_task-{task}_physio.tsv.gz"
     json_file = f"{bids_folder}{participant_id}/ses-session1/beh/{participant_id}_ses-{session}_task-{task}_physio.json"
 
-    # Opening JSON file
-    f = open(json_file)
-    sfreq = json.load(f)["SamplingFrequency"]
-
     # Verify that the file exists, otherwise, return None
     if not os.path.exists(physio_file):
         print(
@@ -87,6 +83,10 @@ def import_data(
             (ppg, ppg_sfreq, ppg_events_idx),
             (resp, resp_sfreq, resp_events_idx),
         )
+
+    # Opening JSON file
+    f = open(json_file)
+    sfreq = json.load(f)["SamplingFrequency"]
 
     # Gather physiological signal in the BIDS folder for this participant_id / task
     physio_df = pd.read_csv(physio_file, sep="\t", compression="gzip")
