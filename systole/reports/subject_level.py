@@ -32,6 +32,7 @@ def subject_level_report(
     ppg_events_idx: Optional[Union[List, np.ndarray]] = None,
     resp_events_idx: Optional[Union[List, np.ndarray]] = None,
     ecg_method: str = "pan-tompkins",
+    show_raw: bool = False,
     template_file=pkg_resources.resource_filename(__name__, "subject_level.html"),
 ):
     """Analyse physiological signals for one participant / task, create HTML report
@@ -307,6 +308,7 @@ def subject_level_report(
         show_ecg=show_ecg,
         show_ppg=show_ppg,
         show_respiration=show_respiration,
+        show_raw=show_raw,
     )
 
     # Save the HTML file locally

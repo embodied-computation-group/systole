@@ -59,6 +59,13 @@ def wrapper(
     else:
         raise ValueError("Invalid sessions parameter.")
 
+    if isinstance(participants_id, str):
+        participants_id = [participants_id]
+    elif isinstance(participants_id, list):
+        pass
+    else:
+        raise ValueError("Invalid participants_id parameter.")
+
     if isinstance(tasks, str):
         tasks = [tasks]
     elif isinstance(tasks, list):

@@ -11,7 +11,10 @@ from systole.reports.subject_level import subject_level_report
 
 
 def import_data(
-    participant_id: str, bids_folder: str, task: str
+    participant_id: str,
+    task: str,
+    bids_folder: str,
+    session: str = "session1",
 ) -> Union[
     Tuple[
         Tuple[np.ndarray, int, Optional[Union[np.ndarray, List[int]]]],
@@ -20,21 +23,24 @@ def import_data(
     ],
     Tuple[Tuple[None, None, None], Tuple[None, None, None], Tuple[None, None, None]],
 ]:
-    """Load ECG, PPG and RESPIRataion dataframes from BIDS folder given participant_id
-    and task names.
+    """Load ECG, PPG and respiration dataframes from BIDS folder given participant_id,
+    session and task names.
 
     Parameters
     ----------
     participant_id : str
         The participant ID. The string should match with one participant in the BIDS
-        folder.
+        folder provided as `"bids_folder"`.
+    task : str
+        The task name. The string should match with a task in the BIDS folder provided
+        as `"bids_folder"`.
+    session : str
+        The session name. The string should match with a session in the BIDS folder
+        provided as `"bids_folder"`. Defaults to `"session1"`.
     bids_folder : str
         The path to the BIDS folder. This folder should containt the participant
         `participant_id` and have a task `task` with at least one of the possible
         physiological recordings (ECG, PPG, RESPIRATION).
-    task : str
-        The task name. The string should match with a task in the BIDS folder provided
-        as `bids_folder`.
 
     Returns
     -------
@@ -64,8 +70,8 @@ def import_data(
         (resp, resp_sfreq, resp_events_idx),
     ) = ((None, None, None), (None, None, None), (None, None, None))
 
-    physio_file = f"{bids_folder}{participant_id}/ses-session1/beh/{participant_id}_ses-session1_task-{task}_physio.tsv.gz"
-    json_file = f"{bids_folder}{participant_id}/ses-session1/beh/{participant_id}_ses-session1_task-{task}_physio.json"
+    physio_file = f"{bids_folder}{participant_id}/ses-session1/beh/{participant_id}_ses-{session}_task-{task}_physio.tsv.gz"
+    json_file = f"{bids_folder}{participant_id}/ses-session1/beh/{participant_id}_ses-{session}_task-{task}_physio.json"
 
     # Opening JSON file
     f = open(json_file)
@@ -153,21 +159,17 @@ def create_reports(
 
     if isinstance(participants_id, str):
         participants_id = [participants_id]
-    else:
+    if not isinstance(participants_id, list):
         raise ValueError("Invalid participants_id parameter.")
 
     if isinstance(tasks, str):
         tasks = [tasks]
-    elif isinstance(tasks, list):
-        pass
-    else:
+    if not isinstance(tasks, list):
         raise ValueError("Invalid tasks parameter.")
 
     if isinstance(sessions, str):
         sessions = [sessions]
-    elif isinstance(sessions, list):
-        pass
-    else:
+    if not isinstance(sessions, list):
         raise ValueError("Invalid sessions parameter.")
 
     for session in sessions:
@@ -182,7 +184,10 @@ def create_reports(
                     (ppg, ppg_sfreq, ppg_events_idx),
                     (resp, resp_sfreq, resp_events_idx),
                 ) = import_data(
-                    participant_id=participant_id, bids_folder=bids_folder, task=task
+                    participant_id=participant_id,
+                    bids_folder=bids_folder,
+                    task=task,
+                    session=session,
                 )
 
                 # End here if no signal was found

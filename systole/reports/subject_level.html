@@ -65,14 +65,18 @@
 
         {% if show_ecg %}
 
-            <div class="row">
-                <div class="col-12">
-                    <h3>Raw signal</h3>
+            {% if show_raw %}
+
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Raw signal</h3>
+                    </div>
+                    <div class="embed-wrapper">
+                        {{ div["ecg_raw"] }}
+                    </div>
                 </div>
-                <div class="embed-wrapper">
-                    {{ div["ecg_raw"] }}
-                </div>
-            </div>
+
+            {% endif %}
             
             <div class="row">
                 <div class="col-12">
@@ -153,16 +157,21 @@
 
 
         {% if show_ppg %}
-            
-            <div class="row">
-                <div class="col-12">
-                    <h3>Raw signal</h3>
+
+            {% if show_raw %}
+
+                
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Raw signal</h3>
+                    </div>
+                    <div class="embed-wrapper">
+                        {{ div["ppg_raw"] }}
+                    </div>
                 </div>
-                <div class="embed-wrapper">
-                    {{ div["ppg_raw"] }}
-                </div>
-            </div>
             
+            {% endif %}
+                
             <div class="row">
                 <div class="col-12">
                     <h3>Artefacts detection</h3>
@@ -192,15 +201,19 @@
         </div>
 
         {% if show_respiration %}
+
+            {% if show_raw %}
             
-            <div class="row">
-                <div class="col-12">
-                    <h3>Raw signal</h3>
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Raw signal</h3>
+                    </div>
+                    <div class="embed-wrapper">
+                        {{ div["respiration_raw"] }}
+                    </div>
                 </div>
-                <div class="embed-wrapper">
-                    {{ div["respiration_raw"] }}
-                </div>
-            </div>
+
+            {% endif %}
             
             <div class="row">
                 <div class="col-12">
