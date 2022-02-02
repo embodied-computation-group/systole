@@ -12,6 +12,7 @@ from systole.detection import ppg_peaks
 from systole.utils import (
     heart_rate,
     input_conversion,
+    nan_cleaning,
     norm_triggers,
     simulate_rr,
     time_shift,
@@ -161,6 +162,11 @@ class TestUtils(TestCase):
         peaks_idx = input_conversion(rr_s, input_type="rr_s", output_type="peaks_idx")
         assert np.diff(np.where(pks)[0]).mean() == rr_ms.mean()
         assert rr_ms.mean() == np.diff(peaks_idx).mean()
+
+    def test_nan_cleaning(self):
+        ppg = import_ppg().ppg.to_list()
+        ppg[30] = np.nan
+        nan_cleaning(signal=np.array(ppg), verbose=True)
 
 
 if __name__ == "__main__":

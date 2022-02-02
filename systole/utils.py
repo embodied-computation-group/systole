@@ -658,3 +658,34 @@ def input_conversion(
         raise ValueError("Invalid input type.")
 
     return output
+
+
+@jit(nopython=True)
+def nan_cleaning(signal: np.ndarray, verbose=True) -> np.ndarray:
+    """Interpolate NaNs values.
+
+    Parameters
+    ----------
+    signal : np.ndarray
+        The physiological signal.
+    verbose : bool
+        Control function verbosity. Defaults to `True` (print)
+
+    Returns
+    -------
+    clean_signal : np.ndarray
+
+    """
+
+    arg_nans = np.where(np.isnan(signal))[0]
+    if len(arg_nans) > 0:
+        if verbose:
+            print(
+                f"... NaNs cleaning : interpolating {len(arg_nans)} NaN values found in the signal {int(100 * len(arg_nans)/len(signal))} %."
+            )
+        arg_float = np.where(~np.isnan(signal))[0]
+        xp = np.arange(0, len(signal))[arg_float]
+        fp = signal[arg_float]
+        signal[arg_nans] = np.interp(arg_nans, xp=xp, fp=fp)
+
+    return signal

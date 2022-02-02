@@ -80,6 +80,7 @@ Plots
     plot_frequency
     plot_poincare
     plot_raw
+    plot_rsp
     plot_rr
     plot_shortlong
     plot_subspaces
@@ -116,3 +117,4 @@ Utils
     simulate_rr
     to_neighbour
     input_conversion
+    nan_cleaning

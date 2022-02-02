@@ -14,7 +14,7 @@ from systole.detectors import (
     moving_average,
     pan_tompkins,
 )
-from systole.utils import input_conversion, to_neighbour
+from systole.utils import input_conversion, nan_cleaning, to_neighbour
 
 
 def ppg_peaks(
@@ -27,6 +27,8 @@ def ppg_peaks(
     peak_enhancement: bool = True,
     distance: float = 0.3,
     clean_extra: bool = False,
+    clean_nan: bool = False,
+    verbose: bool = False,
 ) -> Tuple[np.ndarray, np.ndarray]:
     """A simple systolic peak finder for PPG signals.
 
@@ -45,6 +47,9 @@ def ppg_peaks(
         rolling mean + standard deviation).
     new_sfreq : int
         If resample is *True*, the new sampling frequency.
+    clipping : boolean
+        If `True`, will apply the clipping artefact correction described in [1]_.
+        Defaults to `True`.
     resample : boolean
         If `True` (default), will resample the signal at *new_sfreq*. Default
         value is 1000 Hz.
@@ -55,6 +60,11 @@ def ppg_peaks(
     clean_extra : bool
         If `True`, use `:py:func:systole.detection.rr_artefacts()` to find and
         remove extra peaks. Default is `False`.
+    clean_nan : bool
+        If `True`, will interpolate NaNs values if any before any other operation.
+        Defaults to `False`.
+    verbose : bool
+        Control function verbosity. Defaults to `False` (do not print processing steps).
 
     Returns
     -------
@@ -92,6 +102,11 @@ def ppg_peaks(
     """
 
     x = np.asarray(x)
+
+    # Interpolate NaNs values if any and if requested
+    if clean_nan is True:
+        if np.isnan(x).any():
+            x = nan_cleaning(signal=x, verbose=verbose)
 
     # Interpolate
     time = np.arange(0, len(x) / sfreq, 1 / sfreq)
@@ -157,6 +172,8 @@ def ecg_peaks(
     method: str = "pan-tompkins",
     find_local: bool = True,
     win_size: float = 0.1,
+    clean_nan: bool = False,
+    verbose: bool = False,
 ) -> Tuple[np.ndarray, np.ndarray]:
     """A simple wrapper for many popular R peaks detectors algorithms.
 
@@ -178,6 +195,11 @@ def ecg_peaks(
     win_size : int
         Size of the time window used by :py:func:`systole.utils.to_neighbour()`
         expressed in seconds. Defaut set to `0.1`.
+    clean_nan : bool
+        If `True`, will interpolate NaNs values if any before any other operation.
+        Defaults to `False`.
+    verbose : bool
+        Control function verbosity. Defaults to `False` (do not print processing steps).
 
     Returns
     -------
@@ -208,6 +230,11 @@ def ecg_peaks(
     """
 
     x = np.asarray(x)
+
+    # Interpolate NaNs values if any and if requested
+    if clean_nan is True:
+        if np.isnan(x).any():
+            x = nan_cleaning(signal=x, verbose=verbose)
 
     # Interpolate
     time = np.arange(0, len(x) / sfreq, 1 / sfreq)
@@ -247,6 +274,8 @@ def res_peaks(
     sfreq: int = 1000,
     win: float = 0.025,
     kind: str = "peaks-trough",
+    clean_nan: bool = False,
+    verbose: bool = False,
 ) -> Union[np.ndarray, Tuple[np.ndarray, np.ndarray]]:
     """Identify peaks and/or troughs in respiratory signal.
 
@@ -263,6 +292,11 @@ def res_peaks(
     kind : str
         What kind of detection to perform. Peak detection (`"peaks"`), trough detection
         (`"troughs"`) or both (`"peaks-troughs"`, default).
+    clean_nan : bool
+        If `True`, will interpolate NaNs values if any before any other operation.
+        Defaults to `False`.
+    verbose : bool
+        Control function verbosity. Defaults to `False` (do not print processing steps).
 
     Returns
     -------
@@ -274,7 +308,7 @@ def res_peaks(
 
     Notes
     -----
-    Inspired by [1]_.
+    The processing steps are largely inspired by the method described in [1]_.
 
     References
     ----------
@@ -290,6 +324,11 @@ def res_peaks(
         )
 
     x = np.asarray(resp)
+
+    # Interpolate NaNs values if any and if requested
+    if clean_nan is True:
+        if np.isnan(x).any():
+            x = nan_cleaning(signal=x, verbose=verbose)
 
     # Soothing using rolling mean
     x = (
