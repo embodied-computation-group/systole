@@ -10,6 +10,7 @@ from numba.core.errors import TypingError
 from systole import import_dataset1, import_ppg, import_rr
 from systole.detection import ppg_peaks
 from systole.utils import (
+    find_clipping,
     heart_rate,
     input_conversion,
     nan_cleaning,
@@ -167,6 +168,23 @@ class TestUtils(TestCase):
         ppg = import_ppg().ppg.to_list()
         ppg[30] = np.nan
         nan_cleaning(signal=np.array(ppg), verbose=True)
+
+    def test_find_clipping(self):
+
+        ppg = import_ppg().ppg.to_numpy()
+
+        lower, upper = find_clipping(signal=ppg)
+        assert (lower, upper) == (0, 255)
+
+        # Create lower and upper clipping artefacts
+        ppg[ppg <= 50] = 50
+        ppg[ppg >= 230] = 230
+
+        lower, upper = find_clipping(signal=ppg)
+        assert (lower, upper) == (50, 230)
+
+        lower, upper = find_clipping(signal=ppg[:100])
+        assert (lower, upper) == (None, None)
 
 
 if __name__ == "__main__":

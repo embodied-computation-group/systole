@@ -661,7 +661,7 @@ def input_conversion(
 
 
 @jit(nopython=True)
-def nan_cleaning(signal: np.ndarray, verbose=True) -> np.ndarray:
+def nan_cleaning(signal: np.ndarray, verbose: bool = True) -> np.ndarray:
     """Interpolate NaNs values.
 
     Parameters
@@ -689,3 +689,55 @@ def nan_cleaning(signal: np.ndarray, verbose=True) -> np.ndarray:
         signal[arg_nans] = np.interp(arg_nans, xp=xp, fp=fp)
 
     return signal
+
+
+def find_clipping(signal: np.ndarray) -> Tuple[Optional[float], Optional[float]]:
+    """Automatically find the max and/or min threshold value of clipping artefacts.
+
+    Parameters
+    ----------
+    signal : np.ndarray
+        The physiological signal.
+
+    Returns
+    -------
+    min_threshold, max_threshold : float | None
+        The minimum and maximum threshold corresponding to the clipping artefact. If no
+        threshold is found, returns `None`.
+
+    """
+    min_threshold, max_threshold = None, None
+
+    signal_max = np.max(signal)
+    signal_min = np.min(signal)
+
+    if (len(np.where(signal == signal_max)[0]) == 0) & (
+        len(np.where(signal == signal_min)[0]) == 0
+    ):
+        return min_threshold, max_threshold
+
+    signal_diff = np.diff(signal)
+
+    # If max is not unique
+    if len(np.where(signal == signal_max)[0]) > 1:
+
+        # Count the number of occurence of max values with derivative = 0
+        n_clip = np.isin(
+            np.where(signal_diff == 0)[0] + 1, np.where(signal == signal_max)[0]
+        ).sum()
+
+        if n_clip > 2:
+            max_threshold = signal_max
+
+    # If min is not unique
+    if len(np.where(signal == signal_min)[0]) > 1:
+
+        # Count the number of occurence of min values with derivative = 0
+        n_clip = np.isin(
+            np.where(signal_diff == 0)[0] + 1, np.where(signal == signal_min)[0]
+        ).sum()
+
+        if n_clip > 2:
+            min_threshold = signal_min
+
+    return min_threshold, max_threshold

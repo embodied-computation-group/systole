@@ -17,6 +17,8 @@ class TestDetection(TestCase):
         assert len(signal) == len(peaks)
         assert np.all(np.unique(peaks) == [0, 1])
         assert np.mean(np.where(peaks)[0]) == 165778.0
+        signal2, _ = ppg_peaks(df.ppg.to_numpy(), clipping_thresholds=(0, 255))
+        assert (signal == signal2).all()
 
     def test_rr_artefacts(self):
         ppg = import_ppg().ppg.to_numpy()
