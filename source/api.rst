@@ -37,7 +37,7 @@ Detection
 
     ppg_peaks
     ecg_peaks
-    res_peaks
+    rsp_peaks
     rr_artefacts
     interpolate_clipping
 
@@ -118,3 +118,4 @@ Utils
     to_neighbour
     input_conversion
     nan_cleaning
+    find_clipping

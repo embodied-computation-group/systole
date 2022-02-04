@@ -11,7 +11,7 @@ Changes
 
 - |Feature| Plots module: Add a function py:func:`systole.plots.plot_rsp()` to plot respiratory signal.
 - |Feature| Utils : Add a function py:func:`systole.utils.nan_cleaning()` to automatically interpolate NaN values in a given signal. This function can be called automatically (if required) and the begining of `ppg_peaks`, `ecg_peaks` or `rsp_peaks` by setting the parameter `clean_nan` to `True`. The default is `False`.
-
+- Remove the default sampling frequencies for `ecg_peaks`, `ppg_peaks` and `rsp_peaks`. Do not resample if `sfreq` and `new_sfreq` are identicals.
 
 Contributors
 ++++++++++++

@@ -14,7 +14,7 @@ Changes
 - |Feature| |Enhancement| HRV module: The time domain function (py:func:`systole.hrv.time_domain()`) also reports the SDSD by default.
 - |Feature| |Enhancement| HRV module: The frequency domain function (py:func:`systole.hrv.frequency_domain()`) now returns the total power and LF/HF ratio by default.
 - |Feature| Plotting module: Add nicer rendering for table output for time_domain, frequency_domain and nonlinear_domain functions, working either with Tabulate or Bokeh.
-- |Feature| Add a respiratory peaks detection function (py:func:`systole.detection.res_peaks()`). VEry simple for now, will be improved in the future.
+- |Feature| Add a respiratory peaks detection function (py:func:`systole.detection.rsp_peaks()`). Very simple for now, will be improved in the future.
 - |Docs| |Enhancement| Improve tutorial notebook on HRV.
 
 Contributors
