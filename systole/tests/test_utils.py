@@ -19,13 +19,24 @@ from systole.utils import (
     time_shift,
     to_angles,
     to_epochs,
+    to_neighbour,
 )
 
 
 class TestUtils(TestCase):
+    def test_to_neighbour(sef):
+        ppg = import_ppg().ppg.to_numpy()[:200]  # Import PPG recording
+        peaks = np.zeros(len(ppg), dtype=bool)
+        peaks[50] = True
+
+        new_peaks = to_neighbour(signal=ppg, peaks=peaks)
+        assert np.where(new_peaks)[0] == 51
+        new_peaks = to_neighbour(signal=ppg, peaks=peaks, kind="min")
+        assert np.where(new_peaks)[0] == 1
+
     def test_norm_triggers(self):
         ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
-        _, peaks = ppg_peaks(ppg)
+        _, peaks = ppg_peaks(ppg, sfreq=75)
         peaks[np.where(peaks)[0] + 1] = 1
         peaks[np.where(peaks)[0] + 2] = 1
         peaks[-1:] = 1
@@ -42,7 +53,7 @@ class TestUtils(TestCase):
     def test_heart_rate(self):
         """Test heart_rate function"""
         ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
-        _, peaks = ppg_peaks(ppg)
+        _, peaks = ppg_peaks(ppg, sfreq=75)
         heartrate, time = heart_rate(peaks)
         assert len(heartrate) == len(time)
         np.testing.assert_almost_equal(np.nanmean(heartrate), 884.92526408453)
@@ -77,7 +88,7 @@ class TestUtils(TestCase):
         assert ~np.any(np.asarray(ang) < 0)
         assert ~np.any(np.asarray(ang) > np.pi * 2)
         ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
-        signal, peaks = ppg_peaks(ppg)
+        signal, peaks = ppg_peaks(ppg, sfreq=75)
         ang = to_angles(peaks, peaks)
 
     def test_to_epochs(self):
@@ -131,7 +142,7 @@ class TestUtils(TestCase):
         """Test the input_conversion function"""
         # Load example PPG signal
         ppg = import_ppg().ppg.to_numpy()
-        _, peaks = ppg_peaks(ppg)
+        _, peaks = ppg_peaks(ppg, sfreq=75)
 
         # input_type = "peaks"
         rr_ms = input_conversion(peaks, input_type="peaks", output_type="rr_ms")

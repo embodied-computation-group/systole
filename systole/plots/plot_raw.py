@@ -133,10 +133,12 @@ def plot_raw(
     if isinstance(signal, pd.DataFrame):
         # Find peaks - Remove learning phase
         if modality == "ppg":
-            signal, peaks = ppg_peaks(signal.ppg, noise_removal=False, **kwargs)
+            signal, peaks = ppg_peaks(
+                signal.ppg, noise_removal=False, sfreq=sfreq, **kwargs
+            )
         elif modality == "ecg":
             signal, peaks = ecg_peaks(
-                signal.ecg, method=ecg_method, find_local=True, **kwargs
+                signal.ecg, method=ecg_method, find_local=True, sfreq=sfreq, **kwargs
             )
     else:
         if modality == "ppg":

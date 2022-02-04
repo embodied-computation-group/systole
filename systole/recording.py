@@ -308,7 +308,9 @@ class Oximeter:
         **kwargs : py:func:`systole.detection.ppg_peaks` properties.
         """
         # Peak detection
-        resampled_signal, peaks = ppg_peaks(self.recording, new_sfreq=75, **kwargs)
+        resampled_signal, peaks = ppg_peaks(
+            self.recording, sfreq=75, new_sfreq=75, **kwargs
+        )
 
         # R-R intervals (in miliseconds)
         self.rr = (np.diff(np.where(peaks)[0]) / self.sfreq) * 1000

@@ -19,7 +19,7 @@ from systole.utils import find_clipping, input_conversion, nan_cleaning, to_neig
 
 def ppg_peaks(
     signal: Union[List, np.ndarray, pd.Series],
-    sfreq: int = 75,
+    sfreq: int,
     win: float = 0.75,
     new_sfreq: int = 1000,
     clipping: bool = True,
@@ -42,12 +42,12 @@ def ppg_peaks(
     signal : np.ndarray | list | pd.Series
         The pulse oximeter time series.
     sfreq : int
-        The sampling frequency. Default is set to 75 Hz.
+        The sampling frequency.
     win : int
         Window size (in seconds) used to compute the threshold (i.e.
         rolling mean + standard deviation).
     new_sfreq : int
-        If resample is *True*, the new sampling frequency.
+        If resample is `True`, the new sampling frequency. Defaults to `1000`.
     clipping : boolean
         If `True`, will apply the clipping artefact correction described in [1]_.
         Defaults to `True`.
@@ -74,10 +74,10 @@ def ppg_peaks(
 
     Returns
     -------
-    peaks : np.ndarray
-        Numpy array containing R peak timing, in sfreq.
     resampled_signal : np.ndarray
         Signal resampled to the `new_sfreq` frequency.
+    peaks : np.ndarray
+        Boolean array of systolic peaks detection.
 
     Raises
     ------
@@ -119,10 +119,11 @@ def ppg_peaks(
         if np.isnan(x).any():
             x = nan_cleaning(signal=x, verbose=verbose)
 
-    # Interpolate
-    time = np.arange(0, len(x) / sfreq, 1 / sfreq)
-    new_time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
-    x = np.interp(new_time, time, x)
+    # Resample signal to the new frequnecy if required
+    if sfreq != new_sfreq:
+        time = np.arange(0, len(x) / sfreq, 1 / sfreq)
+        new_time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
+        x = np.interp(new_time, time, x)
 
     # Copy resampled signal for output
     resampled_signal = np.copy(x)
@@ -210,7 +211,9 @@ def ecg_peaks(
     signal : np.ndarray | list | pd.Series
         The ECG signal.
     sfreq : int
-        The sampling frequency. Default is set to 75 Hz.
+        The sampling frequency. Default is set to `75` Hz.
+    new_sfreq : int
+        If resample is `True`, the new sampling frequency. Defaults to `1000` Hz.
     method : str
         The method used. Can be one of the following: `'hamilton'`,
         `'christov'`, `'engelse-zeelenberg'`, `'pan-tompkins'`,
@@ -229,10 +232,10 @@ def ecg_peaks(
 
     Returns
     -------
-    peaks : np.ndarray
-        Numpy array containing peaks index.
     resampled_signal : np.ndarray
         Signal resampled to the `new_sfreq` frequency.
+    peaks : np.ndarray
+        Boolean array containing of R peaks detection.
 
     Raises
     ------
@@ -269,10 +272,11 @@ def ecg_peaks(
         if np.isnan(x).any():
             x = nan_cleaning(signal=x, verbose=verbose)
 
-    # Interpolate
-    time = np.arange(0, len(x) / sfreq, 1 / sfreq)
-    new_time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
-    x = np.interp(new_time, time, x)
+    # Resample signal to the new frequnecy if required
+    if sfreq != new_sfreq:
+        time = np.arange(0, len(x) / sfreq, 1 / sfreq)
+        new_time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
+        x = np.interp(new_time, time, x)
 
     # Copy resampled signal for output
     resampled_signal = np.copy(x)
@@ -302,14 +306,15 @@ def ecg_peaks(
     return resampled_signal, peaks
 
 
-def res_peaks(
+def rsp_peaks(
     signal: Union[List, np.ndarray, pd.Series],
-    sfreq: int = 1000,
+    sfreq: int,
+    new_sfreq: int = 1000,
     win: float = 0.025,
-    kind: str = "peaks-trough",
+    kind: str = "peaks-troughs",
     clean_nan: bool = False,
     verbose: bool = False,
-) -> Union[np.ndarray, Tuple[np.ndarray, np.ndarray]]:
+) -> Tuple[np.ndarray, Union[np.ndarray, Tuple[np.ndarray, np.ndarray]]]:
     """Identify peaks and/or troughs in respiratory signal.
 
     Parameters
@@ -318,7 +323,9 @@ def res_peaks(
         The respiratory signal. Peaks are considered to represent end of inspiration,
         trough represent end of expiration.
     sfreq : int
-        The sampling frequency. Default is set to 1000 Hz.
+        The sampling frequency.
+    new_sfreq : int
+        If resample is `True`, the new sampling frequency. Defaults to `1000` Hz.
     win : int
         Window size (in seconds). Default is set to 25ms, following recommandation
         from [1]_.
@@ -333,8 +340,10 @@ def res_peaks(
 
     Returns
     -------
+    resampled_signal : np.ndarray
+        Signal resampled to the `new_sfreq` frequency.
     peaks | trough | (peaks, trough) : np.ndarray | np.ndarray | (np.ndarray, np.ndarray)
-        The peaks and / or troughs indexes vectors.
+        Boolean arrays of peaks and / or troughs in the respiratory signal.
 
     Raises
     ------
@@ -369,6 +378,15 @@ def res_peaks(
         if np.isnan(x).any():
             x = nan_cleaning(signal=x, verbose=verbose)
 
+    # Resample signal to the new frequnecy if required
+    if sfreq != new_sfreq:
+        time = np.arange(0, len(x) / sfreq, 1 / sfreq)
+        new_time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
+        x = np.interp(new_time, time, x)
+
+    # Copy resampled signal for output
+    resampled_signal = np.copy(x)
+
     # Soothing using rolling mean
     x = (
         pd.DataFrame({"signal": x})
@@ -387,18 +405,20 @@ def res_peaks(
 
     # Find peaks and trough in preprocessed signal
     if "peaks" in kind:
-        peaks = find_peaks(x, height=0, distance=int(2 * sfreq))[0]
+        peaks_idx = find_peaks(x, height=0, distance=int(2 * sfreq))[0]
+        peaks = np.zeros(len(resampled_signal), dtype=bool)
+        peaks[peaks_idx] = True
     if "troughs" in kind:
-        troughs = find_peaks(-x, height=0, distance=int(2 * sfreq))[0]
+        troughs_idx = find_peaks(-x, height=0, distance=int(2 * sfreq))[0]
+        troughs = np.zeros(len(resampled_signal), dtype=bool)
+        troughs[troughs_idx] = True
 
-    if kind == "peaks-troughs":
-        out = peaks, troughs
-    elif kind == "peaks":
-        out = peaks
+    if kind == "peaks":
+        return resampled_signal, peaks
     elif kind == "trough":
-        out = troughs
-
-    return out
+        return resampled_signal, troughs
+    else:
+        return resampled_signal, (peaks, troughs)
 
 
 def rr_artefacts(
