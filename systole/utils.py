@@ -528,18 +528,24 @@ def to_neighbour(
     Parameters
     ----------
     signal : np.ndarray
-        Signal used to maximize/minimize peaks.
+        Signal used to maximize/minimize peaks values.
     peaks: np.ndarray
         Boolean vector of peaks position.
     kind : str
         Can be 'max' or 'min'.
     size : int
-        Size of the time window used to find max/min (samples).
+        Size of the time window used to find max/min (samples). Defaults to `50`.
 
     Returns
     -------
     new_peaks: np.ndarray
         Boolean vector of peaks position.
+
+    Raises
+    ------
+    ValueError
+        If `kind` is not `"max"` or `"min"`.
+
     """
     new_peaks = peaks.copy()
     for pk in np.where(peaks)[0]:
@@ -593,6 +599,7 @@ def input_conversion(
     -------
     output : np.ndarray
         The time series converted to the desired format.
+
     """
 
     if output_type not in ["peaks", "peaks_idx", "rr_ms", "rr_s"]:

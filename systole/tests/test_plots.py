@@ -187,9 +187,8 @@ class TestPlots(TestCase):
 
     def test_plot_rsp(self):
         """Test plot_rsp function"""
+        rsp = import_dataset1(modalities=["Respiration"])
         for backend in ["matplotlib", "bokeh"]:
-
-            rsp = import_dataset1(modalities=["Respiration"])
             plot_rsp(
                 rsp.respiration,
                 backend=backend,
