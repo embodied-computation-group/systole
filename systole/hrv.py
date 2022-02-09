@@ -410,14 +410,15 @@ def frequency_domain(
 
         # Peaks (Hz)
         peak = round(this_freq[np.argmax(this_psd)], 6)
-        stats = stats.append(
-            {"Values": peak, "Metric": band + "_peak"}, ignore_index=True
+        stats = pd.concat(
+            [stats, {"Values": peak, "Metric": band + "_peak"}], ignore_index=True
         )
 
         # Power (ms**2)
         this_power = np.trapz(x=this_freq, y=this_psd) * 1000000
-        stats = stats.append(
-            {"Values": this_power, "Metric": band + "_power"}, ignore_index=True
+        stats = pd.concat(
+            [stats, {"Values": this_power, "Metric": band + "_power"}],
+            ignore_index=True,
         )
 
     # Power (ms**2)
@@ -456,9 +457,7 @@ def frequency_domain(
         "lf_hf_ratio",
     ]
 
-    stats = stats.append(
-        pd.DataFrame({"Values": values, "Metric": metrics}), ignore_index=True
-    )
+    stats = pd.concat([stats, {"Values": values, "Metric": metrics}], ignore_index=True)
 
     return stats
 
