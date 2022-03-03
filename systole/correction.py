@@ -1,9 +1,10 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import Dict, List, Union
+from typing import Dict, List, Optional, Union
 
 import numpy as np
 from scipy.interpolate import interp1d
+from scipy.stats import norm
 
 from systole.detection import rr_artefacts
 from systole.utils import input_conversion
@@ -14,7 +15,7 @@ def correct_extra(rr: Union[List, np.ndarray], idx: int) -> np.ndarray:
 
     Parameters
     ----------
-    rr : np.ndarray or list
+    rr : np.ndarray | list
         RR intervals.
     idx : int
         Index of the extra RR interval.
@@ -23,18 +24,20 @@ def correct_extra(rr: Union[List, np.ndarray], idx: int) -> np.ndarray:
     -------
     clean_rr : np.ndarray
         Corrected RR intervals.
+
     """
-    if isinstance(rr, list):
-        rr = np.asarray(rr)
+
+    rr = np.asarray(rr)
 
     clean_rr = rr
 
+    # If this is the last interval in the time series
     if idx == len(clean_rr):
         clean_rr = np.delete(clean_rr, idx - 1)
     else:
-        # Add the extra interval to the next one
+        # Transfer the extra time to the next interval
         clean_rr[idx + 1] = clean_rr[idx + 1] + clean_rr[idx]
-        # Remove current interval
+        # Remove the extra interval
         clean_rr = np.delete(clean_rr, idx)
 
     return clean_rr
@@ -45,7 +48,7 @@ def correct_missed(rr: Union[List, np.ndarray], idx: int) -> np.ndarray:
 
     Parameters
     ----------
-    rr : np.ndarray or list
+    rr : np.ndarray | list
         RR intervals.
     idx : int
         Index of the missed RR interval.
@@ -55,8 +58,8 @@ def correct_missed(rr: Union[List, np.ndarray], idx: int) -> np.ndarray:
     clean_rr : np.ndarray
         Corrected RR intervals.
     """
-    if isinstance(rr, list):
-        rr = np.asarray(rr)
+
+    rr = np.asarray(rr)
 
     clean_rr = rr
 
@@ -394,8 +397,8 @@ def correct_missed_peaks(peaks: Union[List, np.ndarray], idx: int) -> np.ndarray
 
     Parameters
     ----------
-    peaks : np.ndarray
-        Boolean vector of peaks.
+    peaks : np.ndarray | list
+        Boolean vector of peaks detection.
     idx : int
         Index of the peaks corresponding to the missed RR interval. The new peaks will
         be placed between this one and the previous one.
@@ -420,5 +423,90 @@ def correct_missed_peaks(peaks: Union[List, np.ndarray], idx: int) -> np.ndarray
 
     # Add peak in vector
     clean_peaks[previous_idx + interval] = True
+
+    return clean_peaks
+
+
+def correct_ectopic_peaks(
+    peaks: Union[List, np.ndarray],
+    idx: int,
+    signal: Optional[Union[List, np.ndarray]] = None,
+) -> np.ndarray:
+    """Correct pseudo ectopic heartbeat in boolean peak vector.
+
+    Parameters
+    ----------
+    peaks : np.ndarray | list
+        Boolean vector of peaks detection.
+    idx : int
+        Index (sample number) of the peaks corresponding to the etopic interval
+        (i.e. the long interval following the short interval).
+    signal : np.ndarray | list | None
+        (Optional) The raw ECG or PPG signal. If provided, the pseudo-ectopic
+        interval is re-estimated using this signal.
+
+    Returns
+    -------
+    clean_peaks : np.ndarray
+        Corrected boolean vector of peaks.
+
+    Notes
+    -----
+    This function aims to correct misdetection or R wave (e.g. in the T wave) that
+    are labelled as ectopic beats by the artefact detection algorithm, in the form
+    of a short interval followed by a long interval. If the raw (ECG or PPG) signal
+    is provided, the most probable real peak location will be re-estimated using this
+    signal.
+
+    Raises
+    ------
+    ValueError
+        If the artefact index is outside the range of the peaks vector.
+
+    """
+
+    peaks = np.asarray(peaks, dtype=bool)
+    clean_peaks = peaks.copy()
+
+    if not peaks[idx]:
+        raise (ValueError("The index provided does not match with a peaks."))
+
+    # Position of artefact in the peaks time series
+    n = len(np.where(peaks[:idx])[0])
+
+    idx_1 = np.where(peaks)[0][n - 1]
+    idx_2 = np.where(peaks)[0][n - 2]
+
+    # Remove the intermediate peak
+    clean_peaks[idx_1] = False
+
+    if signal is not None:
+
+        signal = np.asarray(signal)
+
+        # Extract the signal of interest (n-2 -> n)
+        sub_signal = signal[idx_2:idx]
+
+        # Evidence for amplitude
+        amp = sub_signal - sub_signal.min()
+        amp = amp / amp.max()
+
+        # Evidence for centrality
+        cntr = norm.pdf(
+            np.arange(0, len(sub_signal)),
+            loc=len(sub_signal) / 2,
+            scale=len(sub_signal) / 6,
+        )
+
+        new_idx = idx_2 + np.argmax(amp * cntr)
+        clean_peaks[new_idx] = True
+
+    else:
+
+        # Estimate new interval
+        interval = int((idx - idx_2) / 2)
+
+        # Add peak in vector
+        clean_peaks[idx_2 + interval] = True
 
     return clean_peaks
