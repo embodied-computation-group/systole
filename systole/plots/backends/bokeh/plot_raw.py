@@ -1,13 +1,10 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import List, Optional, Union
-
 import numpy as np
 from bokeh.layouts import column
 from bokeh.models import ColumnDataSource, RangeTool
 from bokeh.plotting import figure
 from bokeh.plotting.figure import Figure
-from matplotlib.axes import Axes
 from pandas.core.indexes.datetimes import DatetimeIndex
 
 from systole.plots import plot_rr
@@ -20,7 +17,7 @@ def plot_raw(
     modality: str = "ppg",
     show_heart_rate: bool = True,
     show_artefacts: bool = False,
-    ax: Optional[Union[List, Axes]] = None,
+    decim: int = 10,
     slider: bool = True,
     figsize: int = 300,
     **kwargs
@@ -47,11 +44,10 @@ def plot_raw(
         If `True`, the function will call
         py:func:`systole.detection.rr_artefacts` to detect outliers intervalin the time
         serie and outline them using different colors.
-    ax : :class:`matplotlib.axes.Axes` list or None
-        Where to draw the plot. Default is *None* (create a new figure). Only
-        applies when `backend="matplotlib"`. If `show_heart_rate is True`, a list
-        of axes can be provided to plot the signal and instantaneous heart rate
-        separately.
+    decim : int
+        Factor by which to subsample the raw signal. Selects every Nth sample (where N
+        is the value passed to decim). Default set to `10` (considering that the imput
+        signal has a sampling frequency of 1000 Hz) to save memory.
     slider : bool
         If `True`, add a slider to zoom in/out in the signal (only working with
         bokeh backend).
@@ -67,10 +63,11 @@ def plot_raw(
     -------
     raw : :class:`bokeh.plotting.figure.Figure`
         The bokeh figure containing the plot.
+
     """
 
     source = ColumnDataSource(
-        data={"time": time[::10], "signal": signal[::10], "peaks": peaks[::10]}
+        data={"time": time[::decim], "signal": signal[::decim], "peaks": peaks[::decim]}
     )
 
     if modality == "ppg":

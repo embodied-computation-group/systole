@@ -13,12 +13,14 @@ from systole.plots.utils import get_plotting_function
 
 def plot_raw(
     signal: Union[pd.DataFrame, np.ndarray, List],
+    peaks: Optional[np.ndarray] = None,
     sfreq: int = 1000,
     modality: str = "ppg",
     ecg_method: str = "pan-tompkins",
     show_heart_rate: bool = False,
     show_artefacts: bool = False,
     slider: bool = True,
+    decim: Optional[int] = 10,
     ax: Optional[Axes] = None,
     figsize: Optional[Union[int, List[int], Tuple[int, int]]] = None,
     backend: str = "matplotlib",
@@ -36,6 +38,10 @@ def plot_raw(
         signal(either ``'ppg'`` or ``'ecg'``). If an array is provided, it will
         automatically create a DataFrame using the array as signal and
         ``sfreq`` as sampling frequency.
+    peaks : np.ndarray | None
+        (Optional) A boolean vetor of peaks detection (should have same length than
+        `signal`). If `peaks` is provided, the peaks detection part is skipped and this
+        vector is used instead.
     sfreq : int
         Signal sampling frequency. Default is set to 1000 Hz.
     modality : str
@@ -58,6 +64,10 @@ def plot_raw(
     slider : bool
         If `True`, will add a slider to select the time window to plot
         (requires bokeh backend).
+    decim : int
+        Factor by which to subsample the raw signal. Selects every Nth sample (where N
+        is the value passed to decim). Default set to `10` (considering that the imput
+        signal has a sampling frequency of 1000 Hz) to save memory.
     ax : :class:`matplotlib.axes.Axes` | None
         Where to draw the plot. Default is *None* (create a new figure). Only
         applies when `backend="matplotlib"`.
@@ -130,25 +140,31 @@ def plot_raw(
         elif backend == "bokeh":
             figsize = 300
 
-    if isinstance(signal, pd.DataFrame):
-        # Find peaks - Remove learning phase
-        if modality == "ppg":
-            signal, peaks = ppg_peaks(
-                signal.ppg, noise_removal=False, sfreq=sfreq, **kwargs
-            )
-        elif modality == "ecg":
-            signal, peaks = ecg_peaks(
-                signal.ecg, method=ecg_method, find_local=True, sfreq=sfreq, **kwargs
-            )
-    else:
-        if modality == "ppg":
-            signal, peaks = ppg_peaks(
-                signal, noise_removal=False, sfreq=sfreq, **kwargs
-            )
-        elif modality == "ecg":
-            signal, peaks = ecg_peaks(
-                signal, method=ecg_method, sfreq=sfreq, find_local=True, **kwargs
-            )
+    if peaks is None:
+
+        if isinstance(signal, pd.DataFrame):
+            # Find peaks - Remove learning phase
+            if modality == "ppg":
+                signal, peaks = ppg_peaks(
+                    signal.ppg, noise_removal=False, sfreq=sfreq, **kwargs
+                )
+            elif modality == "ecg":
+                signal, peaks = ecg_peaks(
+                    signal.ecg,
+                    method=ecg_method,
+                    find_local=True,
+                    sfreq=sfreq,
+                    **kwargs
+                )
+        else:
+            if modality == "ppg":
+                signal, peaks = ppg_peaks(
+                    signal, noise_removal=False, sfreq=sfreq, **kwargs
+                )
+            elif modality == "ecg":
+                signal, peaks = ecg_peaks(
+                    signal, method=ecg_method, sfreq=sfreq, find_local=True, **kwargs
+                )
 
     time = pd.to_datetime(np.arange(0, len(signal)), unit="ms", origin="unix")
 
@@ -162,6 +178,7 @@ def plot_raw(
         "ax": ax,
         "figsize": figsize,
         "slider": slider,
+        "decim": decim,
     }
 
     plotting_function = get_plotting_function("plot_raw", "plot_raw", backend)

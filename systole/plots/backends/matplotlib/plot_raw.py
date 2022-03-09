@@ -17,6 +17,7 @@ def plot_raw(
     modality: str = "ppg",
     show_heart_rate: bool = True,
     show_artefacts: bool = False,
+    decim: int = 10,
     ax: Optional[Union[List, Axes]] = None,
     slider: bool = True,
     figsize: int = 300,
@@ -41,6 +42,14 @@ def plot_raw(
         derived from the physiological signal
         (calls :py:func:`systole.plots.plot_rr` internally). Defaults to
         `False`.
+    show_artefacts : bool
+        If `True`, the function will call
+        py:func:`systole.detection.rr_artefacts` to detect outliers intervalin the time
+        serie and outline them using different colors.
+    decim : int
+        Factor by which to subsample the raw signal. Selects every Nth sample (where N
+        is the value passed to decim). Default set to `10` (considering that the imput
+        signal has a sampling frequency of 1000 Hz) to save memory.
     ax : :class:`matplotlib.axes.Axes` list or None
         Where to draw the plot. Default is *None* (create a new figure). Only
         applies when `backend="matplotlib"`. If `show_heart_rate is True`, a
@@ -88,7 +97,9 @@ def plot_raw(
         signal_ax = ax
 
     # Signal
-    signal_ax.plot(time, signal, label="PPG signal", linewidth=1, color="#c44e52")
+    signal_ax.plot(
+        time[::decim], signal[::decim], label="PPG signal", linewidth=1, color="#c44e52"
+    )
 
     # Peaks
     signal_ax.scatter(
