@@ -180,16 +180,19 @@ def plot_events(
             this_tmin = (event / sfreq) + tmin
             this_trigger = event / sfreq
             this_tmax = (event / sfreq) + tmax
-            df = df.append(
-                pd.DataFrame(
-                    {
-                        "tmin": this_tmin,
-                        "trigger": this_trigger,
-                        "tmax": this_tmax,
-                        "label": events_labels[str(i + 1)],
-                        "color": [col],
-                    }
-                ),
+            df = pd.concat(
+                [
+                    df,
+                    pd.DataFrame(
+                        {
+                            "tmin": this_tmin,
+                            "trigger": this_trigger,
+                            "tmax": this_tmax,
+                            "label": events_labels[str(i + 1)],
+                            "color": [col],
+                        }
+                    ),
+                ],
                 ignore_index=True,
             )
 
