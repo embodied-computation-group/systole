@@ -99,6 +99,20 @@ Recording
     BrainVisionExG
     findOximeter
 
+Reports
+-------
+
+.. currentmodule:: systole.reports
+
+.. _reports:
+
+.. autosummary::
+   :toctree: generated/reports
+
+    time_table
+    frequency_table
+    nonlinear_table
+
 Utils
 -----
 

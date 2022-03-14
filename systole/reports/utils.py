@@ -40,26 +40,26 @@ def import_data(
     bids_folder : str
         The path to the BIDS folder. This folder should containt the participant
         `participant_id` and have a task `task` with at least one of the possible
-        physiological recordings (ECG, PPG, RESPIRATION).
+        physiological recordings (ECG, PPG, respiration).
 
     Returns
     -------
     (
         (ecg, ecg_sfreq, ecg_events_idx),
         (ppg, ppg_sfreq, ppg_events_idx),
-        (resp, resp_sfreq, resp_events_idx)
+        (rsp, rsp_sfreq, rsp_events_idx)
         ) : tuples
         Tuples of signal, sampling frequency and events indexs for ECG, PPG and
-        RESPIRATION.
+        respiration.
 
-    ecg, ppg, resp : np.ndarray | None
-        The ECG, PPG and RESPIRATION signals as Numpy arrays (when available). Otherwise
+    ecg, ppg, rsp : np.ndarray | None
+        The ECG, PPG and respiration signals as Numpy arrays (when available). Otherwise
         returns `None`.
-    ecg_sfreq, ppg_sfreq, resp_sfreq: int | None
-        The ECG, PPG and RESPIRATION sampling frequency (when the signal is available).
+    ecg_sfreq, ppg_sfreq, rsp_sfreq: int | None
+        The ECG, PPG and respiration sampling frequency (when the signal is available).
         Otherwise returns `None`.
-    ecg_events_idx, ppg_events_idx, resp_events_idx : list | np.ndarray | None
-        The ECG, PPG and RESPIRATION events associated with the signals (when available).
+    ecg_events_idx, ppg_events_idx, rsp_events_idx : list | np.ndarray | None
+        The ECG, PPG and respiration events associated with the signals (when available).
         Otherwise returns `None`.
 
     """
@@ -67,21 +67,21 @@ def import_data(
     (
         (ecg, ecg_sfreq, ecg_events_idx),
         (ppg, ppg_sfreq, ppg_events_idx),
-        (resp, resp_sfreq, resp_events_idx),
+        (rsp, rsp_sfreq, rsp_events_idx),
     ) = ((None, None, None), (None, None, None), (None, None, None))
 
-    physio_file = f"{bids_folder}{participant_id}/ses-session1/beh/{participant_id}_ses-{session}_task-{task}_physio.tsv.gz"
-    json_file = f"{bids_folder}{participant_id}/ses-session1/beh/{participant_id}_ses-{session}_task-{task}_physio.json"
+    physio_file = f"{bids_folder}{participant_id}/ses-{session}/beh/{participant_id}_ses-{session}_task-{task}_physio.tsv.gz"
+    json_file = f"{bids_folder}{participant_id}/ses-{session}/beh/{participant_id}_ses-{session}_task-{task}_physio.json"
 
     # Verify that the file exists, otherwise, return None
     if not os.path.exists(physio_file):
         print(
-            f"No physiological recording was found for participant {participant_id} - task: {task}"
+            f"No physiological recording was found for participant {participant_id} - session: {session} - task: {task}"
         )
         return (
             (ecg, ecg_sfreq, ecg_events_idx),
             (ppg, ppg_sfreq, ppg_events_idx),
-            (resp, resp_sfreq, resp_events_idx),
+            (rsp, rsp_sfreq, rsp_events_idx),
         )
 
     # Opening JSON file
@@ -110,34 +110,37 @@ def import_data(
         ppg = physio_df[ppg_col].to_numpy()
         ppg_sfreq = sfreq
 
-    # Find RESPIRATION recording if any
-    resp_names = ["res", "resp", "respiration"]
-    resp_col = [col for col in physio_df.columns if col in resp_names]
-    resp_col = resp_col[0] if len(resp_col) > 0 else None
+    # Find respiration recording if any
+    rsp_names = ["res", "rsp", "respiration"]
+    rsp_col = [col for col in physio_df.columns if col in rsp_names]
+    rsp_col = rsp_col[0] if len(rsp_col) > 0 else None
 
-    if resp_col:
-        resp = physio_df[resp_col].to_numpy()
-        resp_sfreq = sfreq
+    if rsp_col:
+        rsp = physio_df[rsp_col].to_numpy()
+        rsp_sfreq = sfreq
 
     return (
         (ecg, ecg_sfreq, ecg_events_idx),
         (ppg, ppg_sfreq, ppg_events_idx),
-        (resp, resp_sfreq, resp_events_idx),
+        (rsp, rsp_sfreq, rsp_events_idx),
     )
 
 
 def create_reports(
+    participants_id: Union[str, List[str]],
     bids_folder: str,
     result_folder: str,
-    sessions: Union[str, List[str]],
-    tasks: Union[str, List[str]] = None,
-    participants_id: Union[str, List[str]] = None,
+    tasks: Union[str, List[str]],
+    sessions: Union[str, List[str]] = "session1",
 ):
     """Create individual HTML and summary results from BIDS folder and generate a group
     level overview of the results.
 
     Parameters
     ----------
+    participants_id : str | list
+        List of participants ID that will be processed. If `None`, all the participants
+        listed in the folder will be processed.
     bids_folder : str
         Path to the main folder organized according to BIDS standards. The folder must
         contain a task matching with the `task` parameter (if provided) and the
@@ -146,14 +149,12 @@ def create_reports(
         Path to the main output folder. A report folder will be created for each
         participant, containing the summary statistics and HTML reports for each task
         provided in the `task` parameter.
+    tasks : str | list
+        The task(s) that should be analyzed. Should match a task reference in the BIDS
+        folder.
     sessions : str | list
         The session reference that should be analyzed. Should match a session number in
         the BIDS folder. Defaults to `"session1"`.
-    tasks : str | list
-        The task(s) that should be analyzed.
-    participants_id : list | None
-        List of participants ID that will be processed. If `None`, all the participants
-        listed in the folder will be processed.
 
     """
 
@@ -182,13 +183,26 @@ def create_reports(
                 (
                     (ecg, ecg_sfreq, ecg_events_idx),
                     (ppg, ppg_sfreq, ppg_events_idx),
-                    (resp, resp_sfreq, resp_events_idx),
+                    (rsp, rsp_sfreq, rsp_events_idx),
                 ) = import_data(
                     participant_id=participant_id,
                     bids_folder=bids_folder,
                     task=task,
                     session=session,
                 )
+
+                #######################
+                # Detect bad channels #
+                #######################
+                if ecg is not None:
+                    if (ecg == ecg[0]).all():
+                        ecg, ecg_sfreq, ecg_events_idx = None, None, None
+                if ppg is not None:
+                    if (ppg == ppg[0]).all():
+                        ppg, ppg_sfreq, ppg_events_idx = None, None, None
+                if rsp is not None:
+                    if (rsp == rsp[0]).all():
+                        rsp, rsp_sfreq, rsp_events_idx = None, None, None
 
                 # End here if no signal was found
                 if np.all(
@@ -201,9 +215,9 @@ def create_reports(
                             ppg,
                             ppg_sfreq,
                             ppg_events_idx,
-                            resp,
-                            resp_sfreq,
-                            resp_events_idx,
+                            rsp,
+                            rsp_sfreq,
+                            rsp_events_idx,
                         ]
                     ]
                 ):
@@ -224,7 +238,7 @@ def create_reports(
                     ppg=ppg,
                     ppg_sfreq=ppg_sfreq,
                     ppg_events_idx=ppg_events_idx,
-                    resp=resp,
-                    resp_sfreq=resp_sfreq,
-                    resp_events_idx=resp_events_idx,
+                    rsp=rsp,
+                    rsp_sfreq=rsp_sfreq,
+                    rsp_events_idx=rsp_events_idx,
                 )

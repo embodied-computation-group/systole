@@ -4,6 +4,7 @@ from .group_level import (
     time_domain_group_level,
 )
 from .subject_level import subject_level_report
+from .tables import frequency_table, nonlinear_table, time_table
 from .utils import create_reports, import_data
 
 __all__ = [
@@ -13,4 +14,7 @@ __all__ = [
     "frequency_domain_group_level",
     "nonlinear_domain_group_level",
     "subject_level_report",
+    "time_table",
+    "frequency_table",
+    "nonlinear_table",
 ]

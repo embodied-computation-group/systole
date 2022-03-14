@@ -1,7 +1,9 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import argparse
+import multiprocessing as mp
 import os
+from itertools import repeat
 from typing import List, Optional, Union
 
 import pandas as pd
@@ -26,7 +28,8 @@ def wrapper(
     sessions: Union[str, List[str]] = "session1",
     result_folder: Optional[str] = None,
     template_file=pkg_resources.resource_filename(__name__, "./group_level.html"),
-    overwrite=True,
+    overwrite=False,
+    n_jobs: int = 1,
 ):
     """Create group-level interactive report. Will preprocesses subject level data and
     create reports if requested.
@@ -49,6 +52,8 @@ def wrapper(
         The template file for group-level report.
     overwrite : bool
         Create new individual reports if `True` (default).
+    n_jobs : int
+        Number of processes to run in parallel.
 
     """
 
@@ -85,6 +90,31 @@ def wrapper(
     with open(template_file, "r", encoding="utf-8") as f:
         html_template = f.read()
 
+    ######################
+    # Individual reports #
+    ######################
+    if overwrite is True:
+
+        for session in sessions:
+
+            for task in tasks:
+
+                # Create individual reports
+                pool = mp.Pool(processes=n_jobs)
+                pool.starmap(
+                    create_reports,
+                    zip(
+                        participants_id,
+                        repeat(bids_folder),
+                        repeat(result_folder),
+                        repeat(task),
+                        repeat(session),
+                    ),
+                )
+
+    #######################
+    # Group level reports #
+    #######################
     for session in sessions:
 
         for task in tasks:
@@ -94,20 +124,11 @@ def wrapper(
                 f"{result_folder}/group_level_ses-{session}_task-{task}.html"
             )
 
-            # Create individual reports
-            if overwrite:
-                create_reports(
-                    tasks=tasks,
-                    sessions=session,
-                    result_folder=derivatives,
-                    participants_id=participants_id,
-                    bids_folder=bids_folder,
-                )
-
             # Gather individual metrics
             summary_df = pd.DataFrame([])
             for sub in participants_id:
-                summary_file = f"{result_folder}/{sub}/{session}/{sub}_ses-{session}_task-{task}_features.tsv"
+                summary_file = f"{result_folder}/{sub}/ses-{session}/{sub}_ses-{session}_task-{task}_features.tsv"
+                print(summary_file)
                 if os.path.isfile(summary_file):
                     summary_df = summary_df.append(
                         pd.read_csv(summary_file, sep="\t"),
@@ -156,11 +177,21 @@ def main():
         "-i", "--bids_folder", action="store", help="Provides entry BIDS folder."
     )
     parser.add_argument(
-        "-p", "--participants_id", action="store", help="Provides participants IDs."
+        "-p",
+        "--participants_id",
+        action="store",
+        help="Provides participants IDs.",
+        nargs="+",
     )
     parser.add_argument("-t", "--tasks", action="store", help="Provides tasks.")
     parser.add_argument(
         "-o", "--result_folder", action="store", help="Provides the result folder."
+    )
+    parser.add_argument(
+        "-n", "--n_jobs", action="store", help="Number of processes to run."
+    )
+    parser.add_argument(
+        "-w", "--overwrite", action="store", help="Number of processes to run."
     )
     args = parser.parse_args()
 
@@ -170,9 +201,24 @@ def main():
             f"{args.bids_folder}/participants.tsv", sep="\t"
         )["participant_id"].to_list()
 
+    # Define and create result folder automatically
+    if args.result_folder is None:
+        args.result_folder = f"{args.bids_folder}/derivatives/systole/"
+    if not os.path.exists(args.result_folder):
+        os.mkdir(args.result_folder)
+
+    if args.overwrite is None:
+        args.overwrite = False
+    elif args.overwrite == "True":
+        args.overwrite = True
+    elif args.overwrite == "False":
+        args.overwrite = False
+
     wrapper(
         tasks=args.tasks,
         result_folder=args.result_folder,
         participants_id=args.participants_id,
         bids_folder=args.bids_folder,
+        n_jobs=int(args.n_jobs),
+        overwrite=args.overwrite,
     )

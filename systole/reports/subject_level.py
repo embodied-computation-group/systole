@@ -11,10 +11,16 @@ from bokeh.resources import INLINE
 from jinja2 import Template
 
 from systole import __version__ as version
-from systole.detection import ecg_peaks, ppg_peaks
+from systole.detection import ecg_peaks, ppg_peaks, rsp_peaks
 from systole.hrv import frequency_domain, nonlinear_domain, time_domain
-from systole.plots import plot_frequency, plot_poincare, plot_raw, plot_subspaces
-from systole.plots.utils import frequency_table, nonlinear_table, time_table
+from systole.plots import (
+    plot_frequency,
+    plot_poincare,
+    plot_raw,
+    plot_rsp,
+    plot_subspaces,
+)
+from systole.reports import frequency_table, nonlinear_table, time_table
 
 
 def subject_level_report(
@@ -24,13 +30,13 @@ def subject_level_report(
     session: str,
     ecg: Optional[np.ndarray] = None,
     ppg: Optional[np.ndarray] = None,
-    resp: Optional[np.ndarray] = None,
+    rsp: Optional[np.ndarray] = None,
     ecg_sfreq: Optional[int] = None,
     ppg_sfreq: Optional[int] = None,
-    resp_sfreq: Optional[int] = None,
+    rsp_sfreq: Optional[int] = None,
     ecg_events_idx: Optional[Union[List, np.ndarray]] = None,
     ppg_events_idx: Optional[Union[List, np.ndarray]] = None,
-    resp_events_idx: Optional[Union[List, np.ndarray]] = None,
+    rsp_events_idx: Optional[Union[List, np.ndarray]] = None,
     ecg_method: str = "pan-tompkins",
     show_raw: bool = False,
     template_file=pkg_resources.resource_filename(__name__, "subject_level.html"),
@@ -52,7 +58,21 @@ def subject_level_report(
     session : str | list
         The session reference that should be analyzed. Should match a session number in
         the BIDS folder. Defaults to `"session1"`.
-    ecg, ppg, resp :
+    ecg, ppg, rsp : np.ndarray | None
+        The physiological signal that will be analyzed. If `None`, no analyse are
+        performed.
+    ecg_sfreq, ppg_sfreq, rsp_sfreq : int | None
+        The sampling frequencies of the signal of interest.
+    ecg_events_idx, ppg_events_idx, rsp_events_idx : np.ndarray | list | None
+        The sample indexes of events of interest associated with the recordings.
+    ecg_method : str
+        The peak detection algorithm used for the ECG signal. DEfaults to
+        `"pan-tompkins"`.
+    show_raw : bool
+        If `False` (default), the individual report shows the instantaneous heart rate
+        without the raw signal to save memory, otherwise will show both.
+    template_file : str
+        Path to the HTML template to use for individual reports.
 
     Returns
     -------
@@ -66,6 +86,12 @@ def subject_level_report(
         Interactive report of the processing pipeline. Save the HTML file in the
         `result_folder`.
 
+    Raises
+    ------
+    ValueError
+        If ecg, ppg or rsp are provided but ecg_sfreq, ppg_sfreq or rsp_sfreq are set to
+        `None` (respectively).
+
     """
 
     print(
@@ -77,13 +103,13 @@ def subject_level_report(
     #######################
 
     # Create participant folder if does not exit
-    participant_path = os.path.join(result_folder, participant_id, session)
+    participant_path = os.path.join(result_folder, participant_id, f"ses-{session}")
     if not os.path.exists(participant_path):
         os.makedirs(participant_path)
 
     # The participant's summary dataframe
     tsv_physio_filename = (
-        f"{participant_path}/{participant_id}_ses-{session}_task-{task}_physio.tsv"
+        f"{participant_path}/{participant_id}_ses-{session}_task-{task}_physio.tsv.gz"
     )
 
     # The participant's summary dataframe
@@ -92,7 +118,9 @@ def subject_level_report(
     )
 
     # The participant's HTML report
-    html_filename = f"{result_folder}/{participant_id}_ses-{session}_task-{task}.html"
+    html_filename = (
+        f"{participant_path}/{participant_id}_ses-{session}_task-{task}.html"
+    )
 
     # Load HTML template
     with open(template_file, "r", encoding="utf-8") as f:
@@ -104,6 +132,21 @@ def subject_level_report(
     # Embed plots in a dictionary
     plots: Dict[str, Any] = {}
 
+    #####################
+    # Drop bad channels #
+    #####################
+
+    # Flat signal
+    if ecg is not None:
+        if np.all(ecg == ecg[0]):
+            ecg, ecg_events_idx, ecg_sfreq = None, None, None
+    if rsp is not None:
+        if np.all(rsp == rsp[0]):
+            rsp, rsp_events_idx, rsp_sfreq = None, None, None
+    if ppg is not None:
+        if np.all(ppg == ppg[0]):
+            ppg, ppg_events_idx, ppg_sfreq = None, None, None
+
     #######
     # ECG #
     #######
@@ -114,12 +157,10 @@ def subject_level_report(
 
         print("... Processing ECG recording.")
 
-        new_signal, peaks = ecg_peaks(ecg, sfreq=ecg_sfreq, method=ecg_method)
+        _, peaks = ecg_peaks(ecg, sfreq=ecg_sfreq, method=ecg_method, clean_nan=True)
 
-        physio_df = physio_df.append(
-            {"ecg_raw": ecg, "ecg_processed": new_signal, "ecg_peaks": peaks},
-            ignore_index=True,
-        )
+        physio_df["ecg_raw"] = ecg
+        physio_df["ecg_peaks"] = peaks
 
         ecg_raw = plot_raw(
             signal=ecg,
@@ -157,7 +198,7 @@ def subject_level_report(
         ecg_time_domain["participant_id"] = participant_id
         ecg_time_domain["task"] = task
         ecg_time_domain["modality"] = "ecg"
-        summary_df = summary_df.append(ecg_time_domain, ignore_index=True)
+        summary_df = pd.concat([summary_df, ecg_time_domain], ignore_index=True)
 
         # HRV - Frequency domain
         ecg_frequency_domain = frequency_domain(peaks, input_type="peaks")
@@ -165,7 +206,7 @@ def subject_level_report(
         ecg_frequency_domain["participant_id"] = participant_id
         ecg_frequency_domain["task"] = task
         ecg_frequency_domain["modality"] = "ecg"
-        summary_df = summary_df.append(ecg_frequency_domain, ignore_index=True)
+        summary_df = pd.concat([summary_df, ecg_frequency_domain], ignore_index=True)
 
         # HRV - Nonlinear domain
         ecg_nonlinear_domain = nonlinear_domain(peaks, input_type="peaks")
@@ -173,7 +214,13 @@ def subject_level_report(
         ecg_nonlinear_domain["participant_id"] = participant_id
         ecg_nonlinear_domain["task"] = task
         ecg_nonlinear_domain["modality"] = "ecg"
-        summary_df = summary_df.append(ecg_nonlinear_domain, ignore_index=True)
+        summary_df = pd.concat([summary_df, ecg_nonlinear_domain], ignore_index=True)
+
+        ############################
+        # Instantaneous heart rate #
+        ############################
+        if ecg_events_idx is not None:
+            pass
 
         plots = {
             **plots,
@@ -198,12 +245,10 @@ def subject_level_report(
 
         print("... Processing PPG recording")
 
-        new_signal, peaks = ppg_peaks(ppg, sfreq=ppg_sfreq)
+        _, peaks = ppg_peaks(ppg, sfreq=ppg_sfreq, clean_nan=True)
 
-        physio_df = physio_df.append(
-            {"ppg_raw": ppg, "ppg_processed": new_signal, "ppg_peaks": peaks},
-            ignore_index=True,
-        )
+        physio_df["ppg_raw"] = ppg
+        physio_df["ppg_peaks"] = peaks
 
         ppg_raw = plot_raw(
             signal=ppg,
@@ -240,7 +285,7 @@ def subject_level_report(
         ppg_time_domain["participant_id"] = participant_id
         ppg_time_domain["task"] = task
         ppg_time_domain["modality"] = "ppg"
-        summary_df = summary_df.append(ppg_time_domain, ignore_index=True)
+        summary_df = pd.concat([summary_df, ppg_time_domain], ignore_index=True)
 
         # HRV - Frequency domain
         ppg_frequency_domain = frequency_domain(peaks, input_type="peaks")
@@ -248,7 +293,7 @@ def subject_level_report(
         ppg_frequency_domain["participant_id"] = participant_id
         ppg_frequency_domain["task"] = task
         ppg_frequency_domain["modality"] = "ppg"
-        summary_df = summary_df.append(ppg_frequency_domain, ignore_index=True)
+        summary_df = pd.concat([summary_df, ppg_frequency_domain], ignore_index=True)
 
         # HRV - Nonlinear domain
         ppg_nonlinear_domain = nonlinear_domain(peaks, input_type="peaks")
@@ -256,7 +301,13 @@ def subject_level_report(
         ppg_nonlinear_domain["participant_id"] = participant_id
         ppg_nonlinear_domain["task"] = task
         ppg_nonlinear_domain["modality"] = "ppg"
-        summary_df = summary_df.append(ppg_nonlinear_domain, ignore_index=True)
+        summary_df = pd.concat([summary_df, ppg_nonlinear_domain], ignore_index=True)
+
+        ############################
+        # Instantaneous heart rate #
+        ############################
+        if ppg_events_idx is not None:
+            pass
 
         plots = {
             **plots,
@@ -272,14 +323,40 @@ def subject_level_report(
         }
 
     ###############
-    # RESPIRATION #
+    # Respiration #
     ###############
-    if resp is not None:
+    if rsp is not None:
 
-        if resp_sfreq is None:
-            raise ValueError("The Respiration sampling frequency should be provided")
+        if rsp_sfreq is None:
+            raise ValueError("The respiration sampling frequency should be provided")
 
-        print("... Processing Respiration recording")
+        print("... Processing respiration recording")
+
+        _, out = rsp_peaks(rsp, sfreq=rsp_sfreq, clean_nan=True)
+        peaks, troughs = out
+
+        physio_df["rsp_raw"] = rsp
+        physio_df["rsp_peaks"] = peaks
+        physio_df["rsp_troughs"] = troughs
+
+        rsp_raw = plot_rsp(
+            signal=rsp,
+            sfreq=rsp_sfreq,
+            backend="bokeh",
+        )
+
+        ############################
+        # Instantaneous heart rate #
+        ############################
+        if rsp_events_idx is not None:
+            pass
+
+        plots = {
+            **plots,
+            **dict(
+                rsp_raw=rsp_raw,
+            ),
+        }
 
     ##################
     # Saving as HTML #
@@ -298,7 +375,7 @@ def subject_level_report(
     show_ecg, show_ppg, show_respiration = (
         (ecg is not None),
         (ppg is not None),
-        (resp is not None),
+        (rsp is not None),
     )
     html = template.render(
         resources=resources,
@@ -321,7 +398,8 @@ def subject_level_report(
     print(
         f"... Saving the summary result as .tsv file - filename: {tsv_physio_filename}."
     )
-    physio_df.to_csv(tsv_physio_filename, sep="\t", index=False)
+    if len(physio_df) > 0:
+        physio_df.to_csv(tsv_physio_filename, sep="\t", index=False, compression="gzip")
 
     ##############################
     # Save the summary dataframe #
@@ -329,4 +407,5 @@ def subject_level_report(
     print(
         f"... Saving the summary result as .tsv file - filename: {tsv_features_filename}."
     )
-    summary_df.to_csv(tsv_features_filename, sep="\t", index=False)
+    if len(summary_df):
+        summary_df.to_csv(tsv_features_filename, sep="\t", index=False)
