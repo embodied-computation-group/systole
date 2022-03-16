@@ -14,7 +14,7 @@ def plot_evoked(
     time: np.ndarray,
     palette: Iterable,
     figsize: Tuple[float, float],
-    labels: str,
+    labels: Union[str, List[str]],
     unit: str,
     ax=None,
     ci: Union[int, str] = "sd",
@@ -34,7 +34,7 @@ def plot_evoked(
         The sampling frequency of the epoched data.
     figsize : str
         The lines color.
-    labels : str
+    labels : str | list
         The condition label.
     unit : str
         The heart rate unit. Can be `'rr'` (R-R intervals, in ms) or `'bpm'` (beats
@@ -51,16 +51,19 @@ def plot_evoked(
     -------
     ax : :class:`matplotlib.axes.Axes`
         The matplotlib axes containing the plot.
+
     """
 
     if ax is None:
         _, ax = plt.subplots(figsize=figsize)
+    if isinstance(labels, str):
+        labels = [labels]
 
     ax.axvline(x=0, linestyle="--", color="gray")
     ax.axhline(y=0, color="black", linewidth=1)
 
     # Loop across condition
-    for ep, lab, col in zip(epochs, labels, palette):
+    for ep, col in zip(epochs, palette):
 
         # Create a dataframe for seaborn
         df = pd.DataFrame(ep.T)
@@ -70,13 +73,11 @@ def plot_evoked(
         for i in range(ep.shape[0]):
             ax.plot(time, ep[i], color=col, alpha=0.2, linewidth=1)
 
-        sns.lineplot(
-            data=df, x="Time", y="value", label=lab, color=col, ax=ax, ci=ci, **kwargs
-        )
+        sns.lineplot(data=df, x="Time", y="value", color=col, ax=ax, ci=ci, **kwargs)
 
+    plt.legend(labels=labels)
     ax.set_xlabel("Time (s)")
     ylabel = "R-R interval (ms)" if unit == "rr" else "Beats per minute (bpm)"
     ax.set_ylabel(ylabel)
-    ax.minorticks_on()
 
     return ax

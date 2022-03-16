@@ -10,6 +10,8 @@ from bokeh.models.tools import HoverTool, RangeTool
 from bokeh.plotting import ColumnDataSource, figure
 from bokeh.plotting.figure import Figure
 
+from systole.plots import plot_events
+
 
 def plot_rr(
     rr: np.ndarray,
@@ -23,6 +25,7 @@ def plot_rr(
     slider: bool = True,
     ax=None,
     figsize: int = 200,
+    events_params: Optional[Dict] = None,
 ) -> Figure:
     """Plot continuous or discontinuous RR intervals time series.
 
@@ -58,6 +61,9 @@ def plot_rr(
         Only relevant when using `backend="matplotlib"`.
     figsize : int
         The height of the figure. Default is `200`.
+    events_params : dict | None
+        (Optional) Additional parameters that will be passed to
+        py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
 
     Returns
     -------
@@ -259,6 +265,10 @@ def plot_rr(
         p1.add_layout(upper_bound)
         lower_bound = BoxAnnotation(top=low, fill_alpha=0.1, fill_color="red")
         p1.add_layout(lower_bound)
+
+    # Plot the events in the background if required
+    if events_params is not None:
+        plot_events(**events_params, ax=p1, backend="bokeh")
 
     cols = (p1,)
 

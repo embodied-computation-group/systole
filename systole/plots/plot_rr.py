@@ -22,6 +22,7 @@ def plot_rr(
     ax: Optional[Axes] = None,
     figsize: Optional[Union[Tuple[float, float], int]] = None,
     backend: str = "matplotlib",
+    events_params: Optional[Dict] = None,
 ) -> Axes:
     """Plot RR intervals time series.
 
@@ -61,9 +62,12 @@ def plot_rr(
         Where to draw the plot. Default is *None* (create a new figure).
     figsize : tuple | int | None
         Figure size. Default is `(13, 5)`.
-    backend: str
+    backend : str
         Select plotting backend {"matplotlib", "bokeh"}. Defaults to
         "matplotlib".
+    events_params : dict | None
+        (Optional) Additional parameters that will be passed to
+        py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
 
     Returns
     -------
@@ -138,7 +142,7 @@ def plot_rr(
         if backend == "matplotlib":
             figsize = (13, 5)
         elif backend == "bokeh":
-            figsize = 200
+            figsize = 400
 
     if input_type not in ["peaks", "rr_ms", "rr_s", "peaks_idx"]:
         raise ValueError("Invalid input type")
@@ -162,6 +166,7 @@ def plot_rr(
         "slider": slider,
         "ax": ax,
         "figsize": figsize,
+        "events_params": events_params,
     }
 
     plotting_function = get_plotting_function("plot_rr", "plot_rr", backend)

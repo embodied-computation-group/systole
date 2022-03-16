@@ -1,6 +1,6 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import Optional
+from typing import List, Optional
 
 import pandas as pd
 from bokeh.models import BoxAnnotation, Span
@@ -12,8 +12,9 @@ def plot_events(
     df: pd.DataFrame,
     figsize: int = 400,
     ax: Optional[Figure] = None,
+    behavior: Optional[List[pd.DataFrame]] = None,
 ) -> Figure:
-    """Plot events occurence across recording.
+    """Plot events to get a visual display of the paradigm (Bokeh).
 
     Parameters
     ----------
@@ -23,6 +24,9 @@ def plot_events(
         Figure size. Default is `(13, 5)`.
     ax : :class:`bokeh.plotting.figure.Figure` or None
         Where to draw the plot. Default is `None` (create a new figure).
+    behavior : list | None
+        (Optional) Additional information about trials that will appear when hovering
+        on the area (`bokeh` version only).
 
     Returns
     -------
@@ -71,6 +75,7 @@ def plot_events(
         event_range = BoxAnnotation(
             left=tmin, right=tmax, fill_alpha=0.2, fill_color=color
         )
+        event_range.level = "underlay"
         event_plot.add_layout(event_range)
 
         # Plot trigger
@@ -81,6 +86,7 @@ def plot_events(
             line_dash="dashed",
             line_width=1,
         )
+        event_trigger.level = "underlay"
         event_plot.add_layout(event_trigger)
 
     return event_plot

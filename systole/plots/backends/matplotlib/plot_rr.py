@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 from matplotlib.axes import Axes
 
+from systole.plots import plot_events
 from systole.utils import heart_rate
 
 
@@ -22,6 +23,7 @@ def plot_rr(
     show_limits: bool = True,
     slider=None,
     figsize: Tuple[float, float] = (13, 5),
+    events_params: Optional[Dict] = None,
 ) -> Axes:
     """Plot continuous or discontinuous RR intervals time series.
 
@@ -40,8 +42,7 @@ def plot_rr(
     line : bool
         If `True`, plot the interpolated instantaneous heart rate.
     points : bool
-        If `True`, plot each peaks (R wave or systolic peaks) as separated
-        points.
+        If `True`, plot each peaks (R wave or systolic peaks) as separated points.
     artefacts : dict
         Dictionnary storing the parameters of RR artefacts rejection.
     input_type : str
@@ -57,6 +58,9 @@ def plot_rr(
         bokeh backend).
     figsize : tuple
         Figure size. Default is `(13, 5)`.
+    events_params : dict | None
+        (Optional) Additional parameters that will be passed to
+        py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
 
     Returns
     -------
@@ -69,6 +73,10 @@ def plot_rr(
 
     if ax is None:
         _, ax = plt.subplots(figsize=figsize)
+
+    # Plot the events in the background if required
+    if events_params is not None:
+        plot_events(**events_params, ax=ax)
 
     if line is True:
 
@@ -122,8 +130,8 @@ def plot_rr(
             marker="o",
             label="R-R intervals",
             s=20,
-            color="white",
-            edgecolors="DarkSlateGrey",
+            color="lightgray",
+            edgecolors="gray",
             zorder=2,
         )
 
