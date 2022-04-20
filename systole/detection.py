@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 from scipy.interpolate import interp1d
 from scipy.signal import find_peaks
+from sleepecg import detect_heartbeats
 
 from systole.detectors import (
     christov,
@@ -196,8 +197,8 @@ def ecg_peaks(
     signal: Union[List, np.ndarray, pd.Series],
     sfreq: int = 1000,
     new_sfreq: int = 1000,
-    method: str = "pan-tompkins",
-    find_local: bool = True,
+    method: str = "sleepecg",
+    find_local: bool = False,
     win_size: float = 0.1,
     clean_nan: bool = False,
     verbose: bool = False,
@@ -209,15 +210,14 @@ def ecg_peaks(
     Parameters
     ----------
     signal : np.ndarray | list | pd.Series
-        The ECG signal.
+        The raw ECG signal.
     sfreq : int
-        The sampling frequency. Default is set to `75` Hz.
+        The sampling frequency. Default is set to `1000` Hz.
     new_sfreq : int
-        If resample is `True`, the new sampling frequency. Defaults to `1000` Hz.
+        The new sampling frequency. Defaults to `1000` Hz.
     method : str
-        The method used. Can be one of the following: `'hamilton'`,
-        `'christov'`, `'engelse-zeelenberg'`, `'pan-tompkins'`,
-        `'wavelet-transform'`, `'moving-average'`.
+        The method used. Can be one of the following: `'sleepecg'`, `'hamilton'`,
+        `'christov'`, `'engelse-zeelenberg'`, `'pan-tompkins'`, `'moving-average'`.
     find_local : bool
         If *True*, will use peaks indexs to search for local peaks given the
         window size (win_size).
@@ -235,14 +235,13 @@ def ecg_peaks(
     resampled_signal : np.ndarray
         Signal resampled to the `new_sfreq` frequency.
     peaks : np.ndarray
-        Boolean array containing of R peaks detection.
+        Boolean array corresponding to the R peaks detection.
 
     Raises
     ------
     ValueError
         If `method` is not one of the following: `'hamilton'`, `'christov'`,
-            `'engelse-zeelenberg'`, `'pan-tompkins'`, `'wavelet-transform'`,
-            `'moving-average'`
+            `'engelse-zeelenberg'`, `'pan-tompkins'`, `'moving-average'`
 
     Notes
     -----
@@ -281,7 +280,9 @@ def ecg_peaks(
     # Copy resampled signal for output
     resampled_signal = np.copy(x)
 
-    if method == "hamilton":
+    if method == "sleepecg":
+        peaks_idx = detect_heartbeats(resampled_signal, fs=new_sfreq)
+    elif method == "hamilton":
         peaks_idx = hamilton(resampled_signal, sfreq=new_sfreq)
     elif method == "christov":
         peaks_idx = christov(resampled_signal, sfreq=new_sfreq)
@@ -293,7 +294,7 @@ def ecg_peaks(
         peaks_idx = moving_average(resampled_signal, sfreq=new_sfreq)
     else:
         raise ValueError(
-            "Invalid method provided, should be: hamilton, "
+            "Invalid method provided, should be: sleepecg, hamilton, "
             "christov, engelse-zeelenberg, pan-tompkins, wavelet-transform, "
             "moving-average"
         )

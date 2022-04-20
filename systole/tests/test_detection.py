@@ -48,6 +48,7 @@ class TestDetection(TestCase):
     def test_ecg_peaks(self):
         signal_df = import_dataset1()[: 20 * 2000]
         for method in [
+            "sleepecg",
             "christov",
             "engelse-zeelenberg",
             "hamilton",
