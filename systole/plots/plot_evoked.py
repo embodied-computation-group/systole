@@ -1,10 +1,8 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-import itertools
 from typing import List, Optional, Tuple, Union
 
 import numpy as np
-import seaborn as sns
 from bokeh.plotting.figure import Figure
 from matplotlib.axes import Axes
 
@@ -30,11 +28,9 @@ def plot_evoked(
     labels: Optional[Union[str, List[str]]] = None,
     unit: str = "bpm",
     kind: str = "cubic",
-    ci: Union[int, str] = "sd",
     ax: Optional[Axes] = None,
     figsize: Optional[Tuple[float, float]] = None,
     backend: str = "matplotlib",
-    palette: Optional[List[str]] = None,
     **kwargs,
 ) -> Union[Figure, Axes]:
     """Plot evoked heart rate across trials.
@@ -86,10 +82,6 @@ def plot_evoked(
         the type of interpolation between instantaneous heart rate estimates.
         This is then the method used by `scipy.interpolate.interp1d`). Can be `'cubic'`
         (defalut), `'linear'`, `'previous'` or `'next'`.
-    ci : int | str
-        The confidence interval around the mean estimate. If `backend="matplotlib"`,
-        this value will be passed to py:func:`seaborn.lineplot`. If `backend="bokeh"`,
-        only `"sd"` (standard deviation) is currently supported. Default set to `"sd"`.
     ax : :class:`matplotlib.axes.Axes` | None
         Where to draw the plot. Default is *None* (create a new figure).
     figsize : tuple, int or None
@@ -98,10 +90,9 @@ def plot_evoked(
     backend: str
         Select plotting backend (`"matplotlib"`, `"bokeh"`). Default sets to
         `"matplotlib"`.
-    palette : list | None
-        Color palette. Default sets to Seaborn `"deep"`.
     kwargs: key, value mappings
-        Other keyword arguments are passed down to py:`func:seaborn.lineplot()`.
+        Other keyword arguments are passed down to py:`func:seaborn.lineplot()` if
+        `backend` is `"matplotlib"`.
 
     Returns
     -------
@@ -222,13 +213,6 @@ def plot_evoked(
        show(row(raw_plot, peaks_plot, epochs_plots))
 
     """
-    # Define color palette
-    if palette is None:
-        this_palette = itertools.cycle(sns.color_palette("deep", as_cmap=True))
-    elif isinstance(palette, list):
-        this_palette = itertools.cycle(palette)
-    else:
-        raise ValueError("Invalid palette provided.")
 
     # Define figure size
     if figsize is None:
@@ -295,12 +279,11 @@ def plot_evoked(
     plot_evoked_args = {
         "epochs": epochs,
         "time": time,
-        "palette": this_palette,
         "ax": ax,
         "figsize": figsize,
         "labels": labels,
         "unit": unit,
-        "ci": ci,
+        **kwargs,
     }
 
     plotting_function = get_plotting_function("plot_evoked", "plot_evoked", backend)

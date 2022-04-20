@@ -60,6 +60,7 @@ class TestPlots(TestCase):
 
     def test_plot_evoked(self):
         """Test plot_evoked function"""
+
         # Import ECG recording and Stim channel
         ecg_df = import_dataset1(modalities=["ECG", "Stim"])
 
@@ -82,6 +83,17 @@ class TestPlots(TestCase):
             apply_baseline=(-1.0, 0.0),
         )
 
+        plots_params = {
+            "tmin": -1.0,
+            "tmax": 10.0,
+            "apply_baseline": (-1, 0),
+            "ci": 68,
+            "decim": 500,
+            "markers": True,
+            "dashes": False,
+            "style": "Label",
+        }
+
         for backend in ["matplotlib", "bokeh"]:
 
             # Using raw ECG signal as input
@@ -89,11 +101,10 @@ class TestPlots(TestCase):
                 signal=ecg_df.ecg.to_numpy(),
                 triggers_idx=triggers_idx,
                 modality="ecg",
-                tmin=-1.0,
-                tmax=10.0,
-                apply_baseline=(-1.0, 0.0),
                 backend=backend,
+                labels=["Neutral", "Emotion"],
                 palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+                **plots_params
             )
 
             # Using instantaneous heart rate as input
@@ -101,18 +112,19 @@ class TestPlots(TestCase):
                 rr=peaks,
                 triggers_idx=triggers_idx,
                 input_type="peaks",
-                tmin=-1.0,
-                tmax=10.0,
-                apply_baseline=(-1.0, 0.0),
                 backend=backend,
+                labels=["Neutral", "Emotion"],
                 palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+                **plots_params
             )
 
             # Using evoked array as input
             plot_evoked(
                 epochs=epochs,
                 backend=backend,
+                labels=["Neutral", "Emotion"],
                 palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+                **plots_params
             )
 
         plt.close("all")
@@ -131,7 +143,7 @@ class TestPlots(TestCase):
             plot_events(
                 triggers_idx=triggers_idx,
                 backend=backend,
-                events_labels=["Disgust", "Neutral"],
+                labels=["Disgust", "Neutral"],
                 tmin=-0.5,
                 tmax=10.0,
             )
