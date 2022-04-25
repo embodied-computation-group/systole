@@ -1,17 +1,37 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+import shutil
 import unittest
 from unittest import TestCase
 
 import matplotlib.pyplot as plt
 from bokeh.models import Column
 
-from systole import import_rr
+from systole import import_dataset1, import_rr
 from systole.hrv import frequency_domain, nonlinear_domain, time_domain
 from systole.reports import frequency_table, nonlinear_table, time_table
+from systole.reports.subject_level import subject_level_report
 
 
 class TestReports(TestCase):
+    def test_subject_level(self):
+
+        #######
+        # ECG #
+        #######
+        ecg = import_dataset1(modalities=["ECG"]).ecg.to_numpy()
+
+        subject_level_report(
+            participant_id="participant_test",
+            task="task_test",
+            result_folder="./",
+            session="session_test",
+            ecg=ecg,
+            ecg_sfreq=1000,
+        )
+
+        shutil.rmtree("./participant_test")
+
     def test_time_table(self):
         """Test the time_table function"""
         rr = import_rr().rr

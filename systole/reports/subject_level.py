@@ -11,7 +11,7 @@ from bokeh.resources import INLINE
 from jinja2 import Template
 
 from systole import __version__ as version
-from systole.detection import ecg_peaks, ppg_peaks, rsp_peaks
+from systole.detection import ecg_peaks, ppg_peaks, rr_artefacts, rsp_peaks
 from systole.hrv import frequency_domain, nonlinear_domain, time_domain
 from systole.plots import (
     plot_frequency,
@@ -20,7 +20,7 @@ from systole.plots import (
     plot_rsp,
     plot_subspaces,
 )
-from systole.reports import frequency_table, nonlinear_table, time_table
+from systole.reports.tables import frequency_table, nonlinear_table, time_table
 
 
 def subject_level_report(
@@ -37,12 +37,12 @@ def subject_level_report(
     ecg_events_idx: Optional[Union[List, np.ndarray]] = None,
     ppg_events_idx: Optional[Union[List, np.ndarray]] = None,
     rsp_events_idx: Optional[Union[List, np.ndarray]] = None,
-    ecg_method: str = "pan-tompkins",
+    ecg_method: str = "sleepecg",
     show_raw: bool = False,
     template_file=pkg_resources.resource_filename(__name__, "subject_level.html"),
 ):
     """Analyse physiological signals for one participant / task, create HTML report
-    and return summary dataframe.
+    and save a summary dataframe.
 
     Parameters
     ----------
@@ -66,8 +66,7 @@ def subject_level_report(
     ecg_events_idx, ppg_events_idx, rsp_events_idx : np.ndarray | list | None
         The sample indexes of events of interest associated with the recordings.
     ecg_method : str
-        The peak detection algorithm used for the ECG signal. DEfaults to
-        `"pan-tompkins"`.
+        The peak detection algorithm used for the ECG signal. Defaults to `"sleepecg"`.
     show_raw : bool
         If `False` (default), the individual report shows the instantaneous heart rate
         without the raw signal to save memory, otherwise will show both.
@@ -157,13 +156,70 @@ def subject_level_report(
 
         print("... Processing ECG recording.")
 
+        # R wave detection
         _, peaks = ecg_peaks(ecg, sfreq=ecg_sfreq, method=ecg_method, clean_nan=True)
-
-        physio_df["ecg_raw"] = ecg
         physio_df["ecg_peaks"] = peaks
+
+        # Artefacts detection
+        artefacts = rr_artefacts(peaks, input_type="peaks")
+
+        # Extract some metrics of interest from the artefacts detection and create a
+        # data frame that will be added to the summary
+        n_beats = sum(peaks)
+        values = [
+            n_beats,
+            sum(artefacts["missed"]),
+            (sum(artefacts["missed"]) / n_beats) * 100,
+            sum(artefacts["long"]),
+            (sum(artefacts["long"]) / n_beats) * 100,
+            sum(artefacts["extra"]),
+            (sum(artefacts["extra"]) / n_beats) * 100,
+            sum(artefacts["short"]),
+            (sum(artefacts["short"]) / n_beats) * 100,
+            sum(artefacts["ectopic"]),
+            (sum(artefacts["ectopic"]) / n_beats) * 100,
+            sum(artefacts["ectopic"])
+            + sum(artefacts["missed"])
+            + sum(artefacts["long"])
+            + sum(artefacts["extra"])
+            + sum(artefacts["short"]),
+            (
+                (
+                    sum(artefacts["ectopic"])
+                    + sum(artefacts["missed"])
+                    + sum(artefacts["long"])
+                    + sum(artefacts["extra"])
+                    + sum(artefacts["short"])
+                )
+                / n_beats
+            )
+            * 100,
+        ]
+        metrics = [
+            "n_beats",
+            "n_missed",
+            "per_miseed",
+            "n_long",
+            "per_long",
+            "n_extra",
+            "per_extra",
+            "n_short",
+            "per_short",
+            "n_ectopics",
+            "per_ectopics",
+            "n_total",
+            "per_ectopics",
+        ]
+        ecg_artefacts_df = pd.DataFrame({"Values": values, "Metric": metrics})
+        ecg_artefacts_df["participant_id"] = participant_id
+        ecg_artefacts_df["task"] = task
+        ecg_artefacts_df["modality"] = "ecg"
+        ecg_artefacts_df["hrv_domain"] = "artefacts"
+        summary_df = pd.concat([summary_df, ecg_artefacts_df], ignore_index=True)
 
         ecg_raw = plot_raw(
             signal=ecg,
+            peaks=peaks,
             sfreq=ecg_sfreq,
             modality="ecg",
             ecg_method=ecg_method,
@@ -172,7 +228,7 @@ def subject_level_report(
         )
 
         ecg_artefacts = plot_subspaces(
-            rr=peaks, input_type="peaks", backend="bokeh", figsize=500
+            artefacts=artefacts, backend="bokeh", figsize=500
         )
 
         ecg_time_table = time_table(rr=peaks, input_type="peaks", backend="bokeh")
@@ -247,7 +303,6 @@ def subject_level_report(
 
         _, peaks = ppg_peaks(ppg, sfreq=ppg_sfreq, clean_nan=True)
 
-        physio_df["ppg_raw"] = ppg
         physio_df["ppg_peaks"] = peaks
 
         ppg_raw = plot_raw(
@@ -335,7 +390,6 @@ def subject_level_report(
         _, out = rsp_peaks(rsp, sfreq=rsp_sfreq, clean_nan=True)
         peaks, troughs = out
 
-        physio_df["rsp_raw"] = rsp
         physio_df["rsp_peaks"] = peaks
         physio_df["rsp_troughs"] = troughs
 
