@@ -11,3 +11,4 @@ numba>=0.51.2
 tqdm
 requests>=2.26.0
 tabulate>=0.8.9
+sleepecg>=0.5.0
