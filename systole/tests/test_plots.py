@@ -182,7 +182,22 @@ class TestPlots(TestCase):
             )
 
             # Using ecg signal
-            ecg_df = import_dataset1(modalities=["ECG"])
+            ecg_df = import_dataset1(modalities=["ECG", "Stim"])
+
+            triggers_idx = [
+                np.where(ecg_df.stim.to_numpy() == 2)[0],
+                np.where(ecg_df.stim.to_numpy() == 1)[0],
+            ]
+
+            # Define the events parameters for plotting
+            events_params = {
+                "triggers_idx": triggers_idx,
+                "labels": ["Disgust", "Neutral"],
+                "tmin": -0.5,
+                "tmax": 10.0,
+                "palette": [sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+            }
+
             plot_raw(
                 ecg_df.ecg,
                 backend=backend,
@@ -190,6 +205,7 @@ class TestPlots(TestCase):
                 show_artefacts=True,
                 modality="ecg",
                 sfreq=1000,
+                events_params=events_params,
             )
 
         plt.close("all")
@@ -208,17 +224,41 @@ class TestPlots(TestCase):
 
     def test_plot_rr(self):
         """Test plot_rr function"""
-        rr = import_rr().rr
+
+        # Using ecg signal
+        ecg_df = import_dataset1(modalities=["ECG", "Stim"])
+
+        # Peak detection in the ECG signal using the Pan-Tompkins method
+        _, peaks = ecg_peaks(ecg_df.ecg, method="pan-tompkins", sfreq=1000)
+
+        triggers_idx = [
+            np.where(ecg_df.stim.to_numpy() == 2)[0],
+            np.where(ecg_df.stim.to_numpy() == 1)[0],
+        ]
+
+        # Define the events parameters for plotting
+        events_params = {
+            "triggers_idx": triggers_idx,
+            "labels": ["Disgust", "Neutral"],
+            "tmin": -0.5,
+            "tmax": 10.0,
+            "palette": [sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+        }
+        rr_ms = np.diff(np.where(peaks)[0])
+        rr_s = np.diff(np.where(peaks)[0]) / 1000
+
         for backend in ["matplotlib", "bokeh"]:
             plot_rr(
-                rr,
+                rr_s,
                 backend=backend,
-                input_type="rr_ms",
+                input_type="rr_s",
                 show_artefacts=True,
                 slider=True,
+                events_params=events_params,
             )
-            plot_rr(rr, backend=backend, input_type="rr_ms", points=False)
-            plot_rr(rr, backend=backend, input_type="rr_ms", line=False)
+            plot_rr(rr_ms, backend=backend, input_type="rr_ms", points=False)
+            plot_rr(rr_ms, backend=backend, input_type="rr_ms", line=False)
+            plot_rr(peaks, backend=backend, input_type="peaks")
 
         plt.close("all")
 

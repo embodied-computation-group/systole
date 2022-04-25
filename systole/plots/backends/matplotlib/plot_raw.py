@@ -1,6 +1,6 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import List, Optional, Union
+from typing import Dict, List, Optional, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -21,7 +21,7 @@ def plot_raw(
     ax: Optional[Union[List, Axes]] = None,
     slider: bool = True,
     figsize: int = 300,
-    **kwargs
+    events_params: Optional[Dict] = None,
 ) -> Axes:
     """Visualization of PPG or ECG signal with systolic peaks/R wave detection.
 
@@ -60,16 +60,15 @@ def plot_raw(
         bokeh backend).
     figsize : int
         Figure heights. Default is `300`.
-    **kwargs : keyword arguments
-        Additional arguments will be passed to
-        `:py:func:systole.detection.ppg_peaks()` or
-        `:py:func:systole.detection.ecg_peaks()`, depending on the type
-        of data.
+    events_params : dict | None
+        (Optional) Additional parameters that will be passed to
+        py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
 
     Returns
     -------
     ax : :class:`matplotlib.axes.Axes` | tuple
         The matplotlib axes containing the plot.
+
     """
 
     if modality == "ppg":
@@ -133,6 +132,7 @@ def plot_raw(
             figsize=figsize,
             show_artefacts=show_artefacts,
             ax=hr_ax,
+            events_params=events_params,
         )
 
         plt.tight_layout()

@@ -1,6 +1,6 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
 import pandas as pd
@@ -24,6 +24,7 @@ def plot_raw(
     ax: Optional[Axes] = None,
     figsize: Optional[Union[int, List[int], Tuple[int, int]]] = None,
     backend: str = "matplotlib",
+    events_params: Optional[Dict] = None,
     **kwargs
 ) -> Union[Axes, Figure]:
     """Visualization of PPG or ECG signal with systolic peaks or R wave detection.
@@ -77,6 +78,9 @@ def plot_raw(
     backend: str
         Select plotting backend {"matplotlib", "bokeh"}. Defaults to
         "matplotlib".
+    events_params : dict | None
+        (Optional) Additional parameters that will be passed to
+        py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
     **kwargs : keyword arguments
         Additional arguments will be passed to
         `:py:func:systole.detection.ppg_peaks()` or
@@ -179,6 +183,7 @@ def plot_raw(
         "figsize": figsize,
         "slider": slider,
         "decim": decim,
+        "events_params": events_params,
     }
 
     plotting_function = get_plotting_function("plot_raw", "plot_raw", backend)

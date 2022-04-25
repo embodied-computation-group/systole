@@ -1,5 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+from typing import Dict, Optional
+
 import numpy as np
 from bokeh.layouts import column
 from bokeh.models import ColumnDataSource, RangeTool
@@ -20,7 +22,7 @@ def plot_raw(
     decim: int = 10,
     slider: bool = True,
     figsize: int = 300,
-    **kwargs
+    events_params: Optional[Dict] = None,
 ) -> Figure:
     """Visualization of PPG or ECG signal with systolic peaks/R wave detection.
 
@@ -53,11 +55,9 @@ def plot_raw(
         bokeh backend).
     figsize : int
         Figure heights. Default is `300`.
-    **kwargs : keyword arguments
-        Additional arguments will be passed to
-        `:py:func:systole.detection.ppg_peaks()` or
-        `:py:func:systole.detection.ecg_peaks()`, depending on the type
-        of data.
+    events_params : dict | None
+        (Optional) Additional parameters that will be passed to
+        py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
 
     Returns
     -------
@@ -126,6 +126,7 @@ def plot_raw(
             slider=False,
             line=True,
             show_artefacts=show_artefacts,
+            events_params=events_params,
         )
         instantaneous_hr.x_range = raw.x_range
 
