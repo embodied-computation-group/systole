@@ -23,6 +23,7 @@ def plot_raw(
     slider: bool = True,
     figsize: int = 300,
     events_params: Optional[Dict] = None,
+    **kwargs
 ) -> Figure:
     """Visualization of PPG or ECG signal with systolic peaks/R wave detection.
 
@@ -58,6 +59,8 @@ def plot_raw(
     events_params : dict | None
         (Optional) Additional parameters that will be passed to
         py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
+    kwargs: key, value mappings
+        Other keyword arguments passed to the function but unused by the Bokeh backend.
 
     Returns
     -------
