@@ -24,7 +24,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements-tests.txt
-        pip install isort flake8 black==21.12b0 mypy
+        pip install isort flake8 black mypy
         pip install types-setuptools
     - name: Run tests and coverage
       run: |
