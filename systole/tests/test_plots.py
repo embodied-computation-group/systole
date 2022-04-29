@@ -65,17 +65,17 @@ class TestPlots(TestCase):
         ecg_df = import_dataset1(modalities=["ECG", "Stim"])
 
         # Peak detection in the ECG signal using the Pan-Tompkins method
-        _, peaks = ecg_peaks(ecg_df.ecg, method="pan-tompkins", sfreq=1000)
+        _, peaks = ecg_peaks(ecg_df.ecg, sfreq=1000)
 
         # Triggers timimng
         triggers_idx = [
-            np.where(ecg_df.stim.to_numpy() == 2)[0],
             np.where(ecg_df.stim.to_numpy() == 1)[0],
+            np.where(ecg_df.stim.to_numpy() == 2)[0],
         ]
 
         # Epochs array
         rr, _ = heart_rate(peaks, kind="cubic", unit="bpm", input_type="peaks")
-        epochs, _ = to_epochs(
+        epochs_test, _ = to_epochs(
             signal=rr,
             triggers_idx=triggers_idx,
             tmin=-1.0,
@@ -120,7 +120,7 @@ class TestPlots(TestCase):
 
             # Using evoked array as input
             plot_evoked(
-                epochs=epochs,
+                epochs=epochs_test.copy(),
                 backend=backend,
                 labels=["Neutral", "Emotion"],
                 palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],

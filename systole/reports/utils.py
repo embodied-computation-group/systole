@@ -76,7 +76,12 @@ def import_data(
     # Verify that the file exists, otherwise, return None
     if not os.path.exists(physio_file):
         print(
-            f"No physiological recording was found for participant {participant_id} - session: {session} - task: {task}"
+            (
+                f"No physiological recording was found for participant {participant_id}",
+                f" - session: {session} - task: {task}.",
+                "\n",
+                f"Trying to load recording from: {physio_file}",
+            )
         )
         return (
             (ecg, ecg_sfreq, ecg_events_idx),

@@ -55,6 +55,11 @@ def wrapper(
     n_jobs : int
         Number of processes to run in parallel.
 
+    Raises
+    ------
+    ValueError:
+        If invalid session, task or participant parameters are provided.
+
     """
 
     if isinstance(sessions, str):
@@ -93,6 +98,7 @@ def wrapper(
     ######################
     # Individual reports #
     ######################
+    print("Create individual reports.")
     if overwrite is True:
 
         for session in sessions:
@@ -115,6 +121,7 @@ def wrapper(
     #######################
     # Group level reports #
     #######################
+    print("Create group-level report.")
     for session in sessions:
 
         for task in tasks:
@@ -168,7 +175,7 @@ def wrapper(
             # Save the HTML file locally
             with open(html_filename, mode="w", encoding="utf-8") as f:
                 f.write(html)
-            print(f"Group-level report saved as {html_filename}")
+            print(f"Group-level report saved as {html_filename}.")
 
 
 def main():

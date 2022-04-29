@@ -29,7 +29,8 @@ def plot_raw(
 ) -> Union[Axes, Figure]:
     """Visualization of PPG or ECG signal with systolic peaks or R wave detection.
 
-    The instantaneous heart rate can be derived in a second row.
+    The instantaneous heart rate can be derived in a second row, as well as the events
+    temporal distribution.
 
     Parameters
     ----------

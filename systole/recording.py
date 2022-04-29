@@ -73,7 +73,7 @@ class Oximeter:
     This instance is then used to create an :py:func:`Oximeter` instance that
     will be used for the recording.
 
-    >>> from ecg.recording import Oximeter
+    >>> from systole.recording import Oximeter
     >>> oximeter = Oximeter(serial=ser, sfreq=75)
 
     Use the :py:func:`setup` method to initialize the recording. This will find

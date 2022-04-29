@@ -16,7 +16,7 @@ from systole.hrv import frequency_domain, nonlinear_domain, time_domain
 from systole.plots import (
     plot_frequency,
     plot_poincare,
-    plot_raw,
+    plot_rr,
     plot_rsp,
     plot_subspaces,
 )
@@ -217,13 +217,10 @@ def subject_level_report(
         ecg_artefacts_df["hrv_domain"] = "artefacts"
         summary_df = pd.concat([summary_df, ecg_artefacts_df], ignore_index=True)
 
-        ecg_raw = plot_raw(
-            signal=ecg,
-            peaks=peaks,
-            sfreq=ecg_sfreq,
-            modality="ecg",
-            ecg_method=ecg_method,
-            show_heart_rate=True,
+        ecg_rr = plot_rr(
+            rr=peaks,
+            input_type="peaks",
+            show_artefacts=True,
             backend="bokeh",
         )
 
@@ -281,7 +278,7 @@ def subject_level_report(
         plots = {
             **plots,
             **dict(
-                ecg_raw=ecg_raw,
+                ecg_rr=ecg_rr,
                 ecg_artefacts=ecg_artefacts,
                 ecg_time_table=ecg_time_table,
                 ecg_frequency_table=ecg_frequency_table,
@@ -305,11 +302,10 @@ def subject_level_report(
 
         physio_df["ppg_peaks"] = peaks
 
-        ppg_raw = plot_raw(
-            signal=ppg,
-            sfreq=ppg_sfreq,
-            modality="ppg",
-            show_heart_rate=True,
+        ppg_rr = plot_rr(
+            rr=peaks,
+            input_type="peaks",
+            show_artefacts=True,
             backend="bokeh",
         )
 
@@ -367,7 +363,7 @@ def subject_level_report(
         plots = {
             **plots,
             **dict(
-                ppg_raw=ppg_raw,
+                ppg_rr=ppg_rr,
                 ppg_artefacts=ppg_artefacts,
                 ppg_time_table=ppg_time_table,
                 ppg_frequency_table=ppg_frequency_table,

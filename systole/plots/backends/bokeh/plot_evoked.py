@@ -1,5 +1,6 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+import warnings
 from typing import Iterable, List, Tuple
 
 import numpy as np
@@ -16,8 +17,8 @@ def plot_evoked(
     figsize: Tuple[float, float],
     labels: str,
     unit: str,
-    ax=None,
     ci: str = "sd",
+    **kwargs
 ) -> Figure:
     """Plot continuous or discontinuous RR intervals time series.
 
@@ -43,6 +44,9 @@ def plot_evoked(
     ci : int | str
         The confidence interval around the point estimates. Only `"sd"` is currently
         implemented.
+    kwargs : key, value mappings
+        Other keyword arguments are passed down to py:`func:seaborn.lineplot()` (only
+        relevant if `backend` is `"matplotlib"`).
 
     Returns
     -------
@@ -51,8 +55,13 @@ def plot_evoked(
 
     """
 
-    if ci not in ["sd"]:
-        raise ValueError("This method is not yet implemented.")
+    if kwargs is not None:
+        warnings.warn(
+            (
+                "Keywords arguments are being passed to the function that cannot"
+                " be used with the Bokeh backend and will be ignored."
+            )
+        )
 
     ylabel = "R-R interval (ms)" if unit == "rr" else "Beats per minute (bpm)"
 
