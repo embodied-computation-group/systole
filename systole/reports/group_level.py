@@ -2,7 +2,7 @@
 
 import pandas as pd
 from bokeh.layouts import row
-from bokeh.models import BoxAnnotation, ColumnDataSource
+from bokeh.models import BoxAnnotation, Column, ColumnDataSource, DataTable, TableColumn
 from bokeh.plotting import figure
 from bokeh.transform import jitter
 
@@ -279,3 +279,87 @@ def nonlinear_domain_group_level(summary_df: pd.DataFrame):
         td += (p,)  # type: ignore
 
     return row(*td)
+
+
+def artefacts_group_level(summary_df: pd.DataFrame):
+    """Create striplot and table visualization for artefacts detected in the RR time
+    series.
+
+    Parameters
+    ----------
+    summary_df : pd.DataFrame
+        Group-level summary of HRV metrics.
+
+    Returns
+    -------
+    row : bokeh.models.layouts.Row
+
+    """
+
+    # Create a dataframe summarizing the artefacts metrics
+    summary_df = summary_df[summary_df.hrv_domain == "artefacts"]
+    summary_df = summary_df[["Values", "Metric", "participant_id"]]
+
+    ################################################
+    # Creat stripplot for the percent of artefacts #
+    ################################################
+    n_metrics = [
+        "per_artefacts",
+        "per_ectopics",
+        "per_extra",
+        "per_long",
+        "per_missed",
+        "per_short",
+    ]
+    source = ColumnDataSource(summary_df[summary_df.Metric.isin(n_metrics)])
+
+    TOOLTIPS = [
+        ("Participant", "@participant_id"),
+    ]
+
+    per_figure = figure(
+        height=300,
+        x_range=n_metrics,
+        tooltips=TOOLTIPS,
+        y_axis_label="n artefacts",
+        sizing_mode="stretch_width",
+        title="Absolute number of artefacts",
+    )
+    per_figure.circle(
+        x=jitter("Metric", width=0.4, range=per_figure.x_range),
+        y="Values",
+        source=source,
+    )
+
+    ####################################
+    # Creat table for artefacts report #
+    ####################################
+    data = summary_df.pivot(index="participant_id", columns="Metric", values="Values")
+    source = ColumnDataSource(data)
+
+    columns = [
+        TableColumn(field="SubjectID", title="participant_d"),
+        TableColumn(field="n_artefacts", title="Number of artefacts"),
+        TableColumn(field="n_beats", title="Number of heart beats"),
+        TableColumn(field="n_ectopics", title="Number of ectopic beats"),
+        TableColumn(field="n_extra", title="Number of extra beats"),
+        TableColumn(field="n_long", title="Number of long beats"),
+        TableColumn(field="n_missed", title="Number of missed beats"),
+        TableColumn(field="n_short", title="Number of shorts beats"),
+        TableColumn(field="per_artefacts", title="Percent of artefacts"),
+        TableColumn(field="per_ectopics", title="Percent of ectopic beats"),
+        TableColumn(field="per_extra", title="Percent of extra beats"),
+        TableColumn(field="per_long", title="Percent of long beats"),
+        TableColumn(field="per_miseed", title="Percent of missed beats"),
+        TableColumn(field="per_short", title="Percent of short beats"),
+    ]
+
+    artefacts_table = DataTable(
+        source=source,
+        columns=columns,
+        index_position=None,
+    )
+
+    table = Column(artefacts_table)
+
+    return row(per_figure, table)

@@ -5,16 +5,24 @@ import unittest
 from unittest import TestCase
 
 import matplotlib.pyplot as plt
+import pandas as pd
 from bokeh.models import Column
 
 from systole import import_dataset1, import_rr
 from systole.hrv import frequency_domain, nonlinear_domain, time_domain
 from systole.reports import frequency_table, nonlinear_table, time_table
+from systole.reports.group_level import (
+    artefacts_group_level,
+    frequency_domain_group_level,
+    nonlinear_domain_group_level,
+    time_domain_group_level,
+)
 from systole.reports.subject_level import subject_level_report
 
 
 class TestReports(TestCase):
     def test_subject_level(self):
+        """Test the subject-level reports"""
 
         #######
         # ECG #
@@ -31,6 +39,15 @@ class TestReports(TestCase):
         )
 
         shutil.rmtree("./participant_test")
+
+    def test_group_level(self):
+        """Test the group-level reports"""
+        summary_df = pd.read_csv("./group_level_ses-session1_task-hrd.tsv", sep="\t")
+
+        time_domain_group_level(summary_df)
+        frequency_domain_group_level(summary_df)
+        nonlinear_domain_group_level(summary_df)
+        artefacts_group_level(summary_df)
 
     def test_time_table(self):
         """Test the time_table function"""

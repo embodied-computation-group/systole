@@ -14,6 +14,7 @@ from jinja2 import Template
 
 from systole import __version__ as version
 from systole.reports.group_level import (
+    artefacts_group_level,
     frequency_domain_group_level,
     nonlinear_domain_group_level,
     time_domain_group_level,
@@ -85,11 +86,10 @@ def wrapper(
 
     # Result folder
     if result_folder is None:
-        derivatives = bids_folder + "/derivatives/systole/"
-    else:
-        derivatives = result_folder
-    if not os.path.exists(derivatives):
-        os.makedirs(derivatives)
+        result_folder = bids_folder + "/derivatives/systole/"
+
+    if not os.path.exists(result_folder):
+        os.makedirs(result_folder)
 
     # Load HTML template
     with open(template_file, "r", encoding="utf-8") as f:
@@ -117,6 +117,8 @@ def wrapper(
                         repeat(session),
                     ),
                 )
+                pool.close()
+                pool.join()
 
     #######################
     # Group level reports #
@@ -131,11 +133,13 @@ def wrapper(
                 f"{result_folder}/group_level_ses-{session}_task-{task}.html"
             )
 
+            # Output file name
+            df_filename = f"{result_folder}/group_level_ses-{session}_task-{task}.tsv"
+
             # Gather individual metrics
             summary_df = pd.DataFrame([])
             for sub in participants_id:
                 summary_file = f"{result_folder}/{sub}/ses-{session}/{sub}_ses-{session}_task-{task}_features.tsv"
-                print(summary_file)
                 if os.path.isfile(summary_file):
                     summary_df = summary_df.append(
                         pd.read_csv(summary_file, sep="\t"),
@@ -145,12 +149,14 @@ def wrapper(
             time_domain = time_domain_group_level(summary_df)
             frequency_domain = frequency_domain_group_level(summary_df)
             nonlinear_domain = nonlinear_domain_group_level(summary_df)
+            artefacts = artefacts_group_level(summary_df)
 
             # Embed plots in a dictionary
             plots = dict(
                 time_domain=time_domain,
                 frequency_domain=frequency_domain,
                 nonlinear_domain=nonlinear_domain,
+                artefacts=artefacts,
             )
 
             # Create script and div variables that will be passed to the template
@@ -172,10 +178,14 @@ def wrapper(
                 show_respiration=show_respiration,
             )
 
-            # Save the HTML file locally
+            # Save the group-level reports HTML file locally
             with open(html_filename, mode="w", encoding="utf-8") as f:
                 f.write(html)
-            print(f"Group-level report saved as {html_filename}.")
+            print(f"Group-level HTML report saved as {html_filename}.")
+
+            # Save the group-level reports HTML file locally
+            summary_df.to_csv(df_filename, sep="\t", index=False)
+            print(f"Group-level data frame summary report saved as {df_filename}.")
 
 
 def main():
@@ -210,7 +220,7 @@ def main():
 
     # Define and create result folder automatically
     if args.result_folder is None:
-        args.result_folder = f"{args.bids_folder}/derivatives/systole/"
+        args.result_folder = f"{args.bids_folder}derivatives/systole/"
     if not os.path.exists(args.result_folder):
         os.mkdir(args.result_folder)
 

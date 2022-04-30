@@ -207,8 +207,8 @@ def subject_level_report(
             "per_short",
             "n_ectopics",
             "per_ectopics",
-            "n_total",
-            "per_ectopics",
+            "n_artefacts",
+            "per_artefacts",
         ]
         ecg_artefacts_df = pd.DataFrame({"Values": values, "Metric": metrics})
         ecg_artefacts_df["participant_id"] = participant_id
@@ -411,51 +411,55 @@ def subject_level_report(
     ##################
     # Saving as HTML #
     ##################
+    if (ppg is None) & (ecg is None) & (rsp is None):
+        return
+    else:
+        print(f"... Saving the report as HTML - filename: {html_filename}")
 
-    print(f"... Saving the report as HTML - filename: {html_filename}")
+        # Create script and div variables that will be passed to the template
+        script, div = components(plots)
 
-    # Create script and div variables that will be passed to the template
-    script, div = components(plots)
+        # Load HTML template in memory
+        template = Template(html_template)
+        resources = INLINE.render()
 
-    # Load HTML template in memory
-    template = Template(html_template)
-    resources = INLINE.render()
+        # Generate HTML txt variables
+        show_ecg, show_ppg, show_respiration = (
+            (ecg is not None),
+            (ppg is not None),
+            (rsp is not None),
+        )
+        html = template.render(
+            resources=resources,
+            script=script,
+            div=div,
+            systole_version=version,
+            show_ecg=show_ecg,
+            show_ppg=show_ppg,
+            show_respiration=show_respiration,
+            show_raw=show_raw,
+        )
 
-    # Generate HTML txt variables
-    show_ecg, show_ppg, show_respiration = (
-        (ecg is not None),
-        (ppg is not None),
-        (rsp is not None),
-    )
-    html = template.render(
-        resources=resources,
-        script=script,
-        div=div,
-        systole_version=version,
-        show_ecg=show_ecg,
-        show_ppg=show_ppg,
-        show_respiration=show_respiration,
-        show_raw=show_raw,
-    )
+        # Save the HTML file locally
+        with open(html_filename, mode="w", encoding="utf-8") as f:
+            f.write(html)
 
-    # Save the HTML file locally
-    with open(html_filename, mode="w", encoding="utf-8") as f:
-        f.write(html)
+        #############################
+        # Save the physio dataframe #
+        #############################
+        print(
+            f"... Saving the summary result as .tsv file - filename: {tsv_physio_filename}."
+        )
+        if len(physio_df) > 0:
+            physio_df.to_csv(
+                tsv_physio_filename, sep="\t", index=False, compression="gzip"
+            )
 
-    #############################
-    # Save the physio dataframe #
-    #############################
-    print(
-        f"... Saving the summary result as .tsv file - filename: {tsv_physio_filename}."
-    )
-    if len(physio_df) > 0:
-        physio_df.to_csv(tsv_physio_filename, sep="\t", index=False, compression="gzip")
-
-    ##############################
-    # Save the summary dataframe #
-    ##############################
-    print(
-        f"... Saving the summary result as .tsv file - filename: {tsv_features_filename}."
-    )
-    if len(summary_df):
-        summary_df.to_csv(tsv_features_filename, sep="\t", index=False)
+        ##############################
+        # Save the summary dataframe #
+        ##############################
+        print(
+            f"... Saving the summary result as .tsv file - filename: {tsv_features_filename}."
+        )
+        if len(summary_df):
+            summary_df.to_csv(tsv_features_filename, sep="\t", index=False)

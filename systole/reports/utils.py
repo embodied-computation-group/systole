@@ -76,20 +76,16 @@ def import_data(
     # Verify that the file exists, otherwise, return None
     if not os.path.exists(physio_file):
         print(
-            (
-                f"No physiological recording was found for participant {participant_id}",
-                f" - session: {session} - task: {task}.",
-                "\n",
-                f"Trying to load recording from: {physio_file}",
-            )
+            f"... No physiological recording was found for participant {participant_id}"
         )
+        print(f"... Trying to load recording from: {physio_file}.")
         return (
             (ecg, ecg_sfreq, ecg_events_idx),
             (ppg, ppg_sfreq, ppg_events_idx),
             (rsp, rsp_sfreq, rsp_events_idx),
         )
 
-    # Opening JSON file
+    # Opening JSON file to find the sampling frequency
     f = open(json_file)
     sfreq = json.load(f)["SamplingFrequency"]
 
@@ -132,18 +128,18 @@ def import_data(
 
 
 def create_reports(
-    participants_id: Union[str, List[str]],
+    participant_id: str,
     bids_folder: str,
     result_folder: str,
-    tasks: Union[str, List[str]],
-    sessions: Union[str, List[str]] = "session1",
+    task: str,
+    session: str = "session1",
 ):
-    """Create individual HTML and summary results from BIDS folder and generate a group
-    level overview of the results.
+    """Create individual HTML and summary results from one participant in the BIDS
+    folder.
 
     Parameters
     ----------
-    participants_id : str | list
+    participant_id : str | list
         List of participants ID that will be processed. If `None`, all the participants
         listed in the folder will be processed.
     bids_folder : str
@@ -154,96 +150,74 @@ def create_reports(
         Path to the main output folder. A report folder will be created for each
         participant, containing the summary statistics and HTML reports for each task
         provided in the `task` parameter.
-    tasks : str | list
+    task : str | list
         The task(s) that should be analyzed. Should match a task reference in the BIDS
         folder.
-    sessions : str | list
+    session : str | list
         The session reference that should be analyzed. Should match a session number in
         the BIDS folder. Defaults to `"session1"`.
 
     """
+    # Import ECG, PPG and RESPIRATION recording from the BIDS folder
+    (
+        (ecg, ecg_sfreq, ecg_events_idx),
+        (ppg, ppg_sfreq, ppg_events_idx),
+        (rsp, rsp_sfreq, rsp_events_idx),
+    ) = import_data(
+        participant_id=participant_id,
+        bids_folder=bids_folder,
+        task=task,
+        session=session,
+    )
 
-    if isinstance(participants_id, str):
-        participants_id = [participants_id]
-    if not isinstance(participants_id, list):
-        raise ValueError("Invalid participants_id parameter.")
+    #######################
+    # Detect bad channels #
+    #######################
+    if ecg is not None:
+        if (ecg == ecg[0]).all():
+            ecg, ecg_sfreq, ecg_events_idx = None, None, None
+    if ppg is not None:
+        if (ppg == ppg[0]).all():
+            ppg, ppg_sfreq, ppg_events_idx = None, None, None
+    if rsp is not None:
+        if (rsp == rsp[0]).all():
+            rsp, rsp_sfreq, rsp_events_idx = None, None, None
 
-    if isinstance(tasks, str):
-        tasks = [tasks]
-    if not isinstance(tasks, list):
-        raise ValueError("Invalid tasks parameter.")
+    # End here if no signal was found
+    if np.all(
+        [
+            i is None
+            for i in [
+                ecg,
+                ecg_sfreq,
+                ecg_events_idx,
+                ppg,
+                ppg_sfreq,
+                ppg_events_idx,
+                rsp,
+                rsp_sfreq,
+                rsp_events_idx,
+            ]
+        ]
+    ):
 
-    if isinstance(sessions, str):
-        sessions = [sessions]
-    if not isinstance(sessions, list):
-        raise ValueError("Invalid sessions parameter.")
+        return
 
-    for session in sessions:
-
-        for task in tasks:
-
-            for participant_id in participants_id:
-
-                # Import data
-                (
-                    (ecg, ecg_sfreq, ecg_events_idx),
-                    (ppg, ppg_sfreq, ppg_events_idx),
-                    (rsp, rsp_sfreq, rsp_events_idx),
-                ) = import_data(
-                    participant_id=participant_id,
-                    bids_folder=bids_folder,
-                    task=task,
-                    session=session,
-                )
-
-                #######################
-                # Detect bad channels #
-                #######################
-                if ecg is not None:
-                    if (ecg == ecg[0]).all():
-                        ecg, ecg_sfreq, ecg_events_idx = None, None, None
-                if ppg is not None:
-                    if (ppg == ppg[0]).all():
-                        ppg, ppg_sfreq, ppg_events_idx = None, None, None
-                if rsp is not None:
-                    if (rsp == rsp[0]).all():
-                        rsp, rsp_sfreq, rsp_events_idx = None, None, None
-
-                # End here if no signal was found
-                if np.all(
-                    [
-                        i is None
-                        for i in [
-                            ecg,
-                            ecg_sfreq,
-                            ecg_events_idx,
-                            ppg,
-                            ppg_sfreq,
-                            ppg_events_idx,
-                            rsp,
-                            rsp_sfreq,
-                            rsp_events_idx,
-                        ]
-                    ]
-                ):
-
-                    continue
-
-                #########################################
-                # Create reports and summary dataframes #
-                #########################################
-                subject_level_report(
-                    participant_id=participant_id,
-                    task=task,
-                    session=session,
-                    result_folder=result_folder,
-                    ecg=ecg,
-                    ecg_sfreq=ecg_sfreq,
-                    ecg_events_idx=ecg_events_idx,
-                    ppg=ppg,
-                    ppg_sfreq=ppg_sfreq,
-                    ppg_events_idx=ppg_events_idx,
-                    rsp=rsp,
-                    rsp_sfreq=rsp_sfreq,
-                    rsp_events_idx=rsp_events_idx,
-                )
+    #########################################
+    # Create reports and summary dataframes #
+    #########################################
+    subject_level_report(
+        participant_id=participant_id,
+        task=task,
+        session=session,
+        result_folder=result_folder,
+        ecg=ecg,
+        ecg_sfreq=ecg_sfreq,
+        ecg_events_idx=ecg_events_idx,
+        ppg=ppg,
+        ppg_sfreq=ppg_sfreq,
+        ppg_events_idx=ppg_events_idx,
+        rsp=rsp,
+        rsp_sfreq=rsp_sfreq,
+        rsp_events_idx=rsp_events_idx,
+    )
