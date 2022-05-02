@@ -198,7 +198,7 @@ def subject_level_report(
         metrics = [
             "n_beats",
             "n_missed",
-            "per_miseed",
+            "per_missed",
             "n_long",
             "per_long",
             "n_extra",

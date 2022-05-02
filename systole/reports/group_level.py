@@ -1,7 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import pandas as pd
-from bokeh.layouts import row
+from bokeh.layouts import column, row
 from bokeh.models import BoxAnnotation, Column, ColumnDataSource, DataTable, TableColumn
 from bokeh.plotting import figure
 from bokeh.transform import jitter
@@ -321,9 +321,9 @@ def artefacts_group_level(summary_df: pd.DataFrame):
         height=300,
         x_range=n_metrics,
         tooltips=TOOLTIPS,
-        y_axis_label="n artefacts",
+        y_axis_label="% artefacts",
         sizing_mode="stretch_width",
-        title="Absolute number of artefacts",
+        title="Percentage of artefacts",
     )
     per_figure.circle(
         x=jitter("Metric", width=0.4, range=per_figure.x_range),
@@ -338,7 +338,7 @@ def artefacts_group_level(summary_df: pd.DataFrame):
     source = ColumnDataSource(data)
 
     columns = [
-        TableColumn(field="SubjectID", title="participant_d"),
+        TableColumn(field="participant_id", title="participant_id"),
         TableColumn(field="n_artefacts", title="Number of artefacts"),
         TableColumn(field="n_beats", title="Number of heart beats"),
         TableColumn(field="n_ectopics", title="Number of ectopic beats"),
@@ -362,4 +362,4 @@ def artefacts_group_level(summary_df: pd.DataFrame):
 
     table = Column(artefacts_table)
 
-    return row(per_figure, table)
+    return column(per_figure, table)

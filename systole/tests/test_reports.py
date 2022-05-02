@@ -1,5 +1,6 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+import os
 import shutil
 import unittest
 from unittest import TestCase
@@ -42,7 +43,11 @@ class TestReports(TestCase):
 
     def test_group_level(self):
         """Test the group-level reports"""
-        summary_df = pd.read_csv("./group_level_ses-session1_task-hrd.tsv", sep="\t")
+
+        summary_df = pd.read_csv(
+            os.path.dirname(__file__) + "/group_level_ses-session1_task-hrd.tsv",
+            sep="\t",
+        )
 
         time_domain_group_level(summary_df)
         frequency_domain_group_level(summary_df)

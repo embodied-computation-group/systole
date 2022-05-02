@@ -1,9 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import argparse
-import multiprocessing as mp
 import os
-from itertools import repeat
 from typing import List, Optional, Union
 
 import pandas as pd
@@ -11,6 +9,7 @@ import pkg_resources
 from bokeh.embed import components
 from bokeh.resources import INLINE
 from jinja2 import Template
+from joblib import Parallel, delayed
 
 from systole import __version__ as version
 from systole.reports.group_level import (
@@ -105,20 +104,16 @@ def wrapper(
 
             for task in tasks:
 
-                # Create individual reports
-                pool = mp.Pool(processes=n_jobs)
-                pool.starmap(
-                    create_reports,
-                    zip(
-                        participants_id,
-                        repeat(bids_folder),
-                        repeat(result_folder),
-                        repeat(task),
-                        repeat(session),
-                    ),
+                Parallel(n_jobs=n_jobs)(
+                    delayed(create_reports)(
+                        participant_id=participant,
+                        bids_folder=bids_folder,
+                        result_folder=result_folder,
+                        task=task,
+                        session=session,
+                    )
+                    for participant in participants_id
                 )
-                pool.close()
-                pool.join()
 
     #######################
     # Group level reports #
