@@ -158,6 +158,7 @@ def create_reports(
         the BIDS folder. Defaults to `"session1"`.
 
     """
+
     # Import ECG, PPG and RESPIRATION recording from the BIDS folder
     (
         (ecg, ecg_sfreq, ecg_events_idx),

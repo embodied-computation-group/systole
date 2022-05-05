@@ -35,11 +35,10 @@ def plot_raw(
     Parameters
     ----------
     signal : :py:class:`pandas.DataFrame` | :py:class:`numpy.ndarray` | list
-        Dataframe of PPG or ECG signal in the long format. If a data frame is
-        provided, it should contain at least one ``'time'`` and one colum for
-        signal(either ``'ppg'`` or ``'ecg'``). If an array is provided, it will
-        automatically create a DataFrame using the array as signal and
-        ``sfreq`` as sampling frequency.
+        Dataframe of PPG or ECG signal in the long format. If a data frame is provided,
+        it should contain at least one `'time'` and one colum for signal (either `'ppg'`
+        or `'ecg'`). If an array is provided, it will automatically create a DataFrame
+        using the array as signal and `sfreq` as sampling frequency.
     peaks : np.ndarray | None
         (Optional) A boolean vetor of peaks detection (should have same length than
         `signal`). If `peaks` is provided, the peaks detection part is skipped and this
@@ -47,25 +46,24 @@ def plot_raw(
     sfreq : int
         Signal sampling frequency. Default is set to 1000 Hz.
     modality : str
-        The type of signal provided. Can be ``'ppg'`` (pulse oximeter) or
-        ``'ecg'`` (electrocardiography). The peak detection algorithm used
-        depend on the type of signal provided.
+        The type of signal provided. Can be ``'ppg'`` (pulse oximeter) or `'ecg'`
+        (electrocardiography). The peak detection algorithm used depend on the type of
+        signal provided.
     ecg_method : str
         Peak detection algorithm used by the
-        :py:func:`systole.detection.ecg_peaks` function. Can be one of the
-        following: `'hamilton'`, `'christov'`, `'engelse-zeelenberg'`,
-        `'pan-tompkins'`, `'wavelet-transform'`, `'moving-average'`. The
-        default is `'pan-tompkins'`.
+        :py:func:`systole.detection.ecg_peaks` function. Can be one of the following:
+        `'hamilton'`, `'christov'`, `'engelse-zeelenberg'`, `'pan-tompkins'`,
+        `'wavelet-transform'`, `'moving-average'`. The default is `'pan-tompkins'`.
     show_heart_rate : bool
-        If `True`, show the instnataneous heart rate below the raw signal.
-        Defaults to `False`.
+        If `True`, show the instnataneous heart rate below the raw signal. Defaults to
+        `False`.
     show_artefacts : bool
-        If `True`, the function will call
-        py:func:`systole.detection.rr_artefacts` to detect outliers intervalin the time
-        serie and outline them using different colors.
+        If `True`, the function will call py:func:`systole.detection.rr_artefacts` to
+        detect outliers intervalin the time serie and outline them using different
+        colors.
     slider : bool
-        If `True`, will add a slider to select the time window to plot
-        (requires bokeh backend).
+        If `True`, will add a slider to select the time window to plot (requires bokeh
+        backend).
     decim : int
         Factor by which to subsample the raw signal. Selects every Nth sample (where N
         is the value passed to decim). Default set to `10` (considering that the imput
@@ -74,8 +72,8 @@ def plot_raw(
         Where to draw the plot. Default is *None* (create a new figure). Only
         applies when `backend="matplotlib"`.
     figsize : tuple, int or None
-        Figure size. Default is `(13, 5)` for matplotlib backend, and the
-        height is `300` when using bokeh backend.
+        Figure size. Default is `(13, 5)` for matplotlib backend, and the height is
+        `300` when using bokeh backend.
     backend: str
         Select plotting backend {"matplotlib", "bokeh"}. Defaults to
         "matplotlib".
@@ -151,7 +149,7 @@ def plot_raw(
             # Find peaks - Remove learning phase
             if modality == "ppg":
                 signal, peaks = ppg_peaks(
-                    signal.ppg, noise_removal=False, sfreq=sfreq, **kwargs
+                    signal.ppg, moving_average=False, sfreq=sfreq, **kwargs
                 )
             elif modality == "ecg":
                 signal, peaks = ecg_peaks(
@@ -164,7 +162,7 @@ def plot_raw(
         else:
             if modality == "ppg":
                 signal, peaks = ppg_peaks(
-                    signal, noise_removal=False, sfreq=sfreq, **kwargs
+                    signal, moving_average=False, sfreq=sfreq, **kwargs
                 )
             elif modality == "ecg":
                 signal, peaks = ecg_peaks(

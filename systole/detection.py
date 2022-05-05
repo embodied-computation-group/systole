@@ -25,7 +25,8 @@ def ppg_peaks(
     new_sfreq: int = 1000,
     clipping: bool = True,
     clipping_thresholds: Union[Tuple, List, str] = "auto",
-    noise_removal: bool = True,
+    moving_average: bool = True,
+    moving_average_length: float = 0.05,
     peak_enhancement: bool = True,
     distance: float = 0.3,
     clean_extra: bool = False,
@@ -41,14 +42,14 @@ def ppg_peaks(
     Parameters
     ----------
     signal : np.ndarray | list | pd.Series
-        The pulse oximeter time series.
+        The raw signal recorded from the pulse oximeter time series.
     sfreq : int
-        The sampling frequency.
+        The sampling frequency (Hz).
     win : int
-        Window size (in seconds) used to compute the threshold (i.e.
-        rolling mean + standard deviation).
+        Window size (in seconds) used to compute the threshold (i.e. rolling mean +
+        standard deviation).
     new_sfreq : int
-        If resample is `True`, the new sampling frequency. Defaults to `1000`.
+        If resample is `True`, the new sampling frequency (Hz). Defaults to `1000`.
     clipping : boolean
         If `True`, will apply the clipping artefact correction described in [1]_.
         Defaults to `True`.
@@ -57,6 +58,11 @@ def ppg_peaks(
         `None`. If `None`, no correction is applied. If "auto" is provided, will use
         py:func:`systole.utils.find_clipping` to find the values. Defaults to `"auto"`.
         This parameter is only relevant if `cliping` is `True`.
+    moving_average : bool
+        Apply mooving average to remove high frequency noise before peaks detection. The
+        length of the time windows can be controlled with `moving_average_length`.
+    moving_average_length : float
+        The length of the window used for moveing average (seconds). Default to `0.05`.
     resample : boolean
         If `True` (default), will resample the signal at *new_sfreq*. Default
         value is 1000 Hz.
@@ -148,9 +154,9 @@ def ppg_peaks(
             signal=x, min_threshold=min_threshold, max_threshold=max_threshold
         )
 
-    if noise_removal is True:
-        # Moving average (high frequency noise + clipping)
-        rollingNoise = max(int(new_sfreq * 0.05), 1)  # 0.05 second window
+    if moving_average is True:
+        # Moving average (high frequency noise)
+        rollingNoise = max(int(new_sfreq * moving_average_length), 1)  # 0.05 second
         x = (
             pd.DataFrame({"signal": x})
             .rolling(rollingNoise, center=True)
@@ -402,7 +408,7 @@ def rsp_peaks(
     x = (x - x.mean()) / x.std()  # type: ignore
 
     # Peak enhancement
-    x = x ** 3
+    x = x**3
 
     # Find peaks and trough in preprocessed signal
     if "peaks" in kind:
@@ -699,8 +705,8 @@ def interpolate_clipping(
 
         # Interpolate
         f = interp1d(
-            time[np.where(clean_signal != max_threshold)[0]],
-            clean_signal[np.where(clean_signal != max_threshold)[0]],
+            time[np.where(clean_signal < max_threshold)[0]],
+            clean_signal[np.where(clean_signal < max_threshold)[0]],
             kind=kind,
         )
 
@@ -717,8 +723,8 @@ def interpolate_clipping(
 
         # Interpolate
         f = interp1d(
-            time[np.where(clean_signal != min_threshold)[0]],
-            clean_signal[np.where(clean_signal != min_threshold)[0]],
+            time[np.where(clean_signal > min_threshold)[0]],
+            clean_signal[np.where(clean_signal > min_threshold)[0]],
             kind=kind,
         )
 
