@@ -25,14 +25,15 @@ def wrapper(
     bids_folder: str,
     participants_id: Union[str, List],
     tasks: Union[str, List],
-    sessions: Union[str, List[str]] = "session1",
+    sessions: Union[str, List[str]] = "ses-session1",
+    data_type: str = "beh",
     result_folder: Optional[str] = None,
     template_file=pkg_resources.resource_filename(__name__, "./group_level.html"),
     overwrite=False,
     n_jobs: int = 1,
 ):
-    """Create group-level interactive report. Will preprocesses subject level data and
-    create reports if requested.
+    """Preprocesses subject level data and create reports (both  subject-level and
+    group-level).
 
     Parameters
     ----------
@@ -46,6 +47,9 @@ def wrapper(
     sessions : str | list
         The session reference that should be analyzed. Should match a session number in
         the BIDS folder. Defaults to `"session1"`.
+    data_type : str
+        The type of data (e.g. `"beh"`, `"func"`...) where the physiological recording
+        is stored. Defaults to `"beh"`.
     result_folder : str
         The result folder.
     template_file : str
@@ -111,6 +115,7 @@ def wrapper(
                         result_folder=result_folder,
                         task=task,
                         session=session,
+                        data_type=data_type,
                     )
                     for participant in participants_id
                 )
@@ -203,6 +208,9 @@ def main():
         "-n", "--n_jobs", action="store", help="Number of processes to run."
     )
     parser.add_argument(
+        "-d", "--data_type", action="store", help="Data type (eg. 'beh')."
+    )
+    parser.add_argument(
         "-w", "--overwrite", action="store", help="Number of processes to run."
     )
     args = parser.parse_args()
@@ -230,6 +238,7 @@ def main():
         tasks=args.tasks,
         result_folder=args.result_folder,
         participants_id=args.participants_id,
+        data_type=args.data_type,
         bids_folder=args.bids_folder,
         n_jobs=int(args.n_jobs),
         overwrite=args.overwrite,

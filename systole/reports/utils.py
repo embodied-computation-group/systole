@@ -1,7 +1,8 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import json
-import os
+from os import PathLike
+from pathlib import Path
 from typing import List, Optional, Tuple, Union
 
 import numpy as np
@@ -11,10 +12,11 @@ from systole.reports.subject_level import subject_level_report
 
 
 def import_data(
-    participant_id: str,
-    task: str,
-    bids_folder: str,
-    session: str = "session1",
+    bids_folder: Union[str, PathLike[str]],
+    participant_id: Union[str, PathLike[str]],
+    task: str = "",
+    data_type: Union[str, PathLike[str]] = "beh",
+    session: Union[str, PathLike[str]] = "ses-session1",
 ) -> Union[
     Tuple[
         Tuple[np.ndarray, int, Optional[Union[np.ndarray, List[int]]]],
@@ -28,19 +30,22 @@ def import_data(
 
     Parameters
     ----------
+    bids_folder : str
+        The path to the BIDS folder. This folder should containt the participant
+        `participant_id` and have a task `task` with at least one of the possible
+        physiological recordings (ECG, PPG, respiration).
     participant_id : str
         The participant ID. The string should match with one participant in the BIDS
         folder provided as `"bids_folder"`.
     task : str
         The task name. The string should match with a task in the BIDS folder provided
         as `"bids_folder"`.
-    session : str
+    data_type : str
+        The type of data (e.g. `"beh"`, `"func"`...) where the physiological recording
+        is stored. Defaults to `"beh"`.
+    session : str | None
         The session name. The string should match with a session in the BIDS folder
         provided as `"bids_folder"`. Defaults to `"session1"`.
-    bids_folder : str
-        The path to the BIDS folder. This folder should containt the participant
-        `participant_id` and have a task `task` with at least one of the possible
-        physiological recordings (ECG, PPG, respiration).
 
     Returns
     -------
@@ -70,24 +75,54 @@ def import_data(
         (rsp, rsp_sfreq, rsp_events_idx),
     ) = ((None, None, None), (None, None, None), (None, None, None))
 
-    physio_file = f"{bids_folder}{participant_id}/ses-{session}/beh/{participant_id}_ses-{session}_task-{task}_physio.tsv.gz"
-    json_file = f"{bids_folder}{participant_id}/ses-{session}/beh/{participant_id}_ses-{session}_task-{task}_physio.json"
-
-    # Verify that the file exists, otherwise, return None
-    if not os.path.exists(physio_file):
-        print(
-            f"... No physiological recording was found for participant {participant_id}"
+    # Try to find a uniqe file corresponding to the info provided, otherwise print an
+    # error message and return None
+    physio_files = list(
+        Path(bids_folder, participant_id, session, data_type).glob(
+            f"**/*task-{task}*_physio.tsv.gz"
         )
-        print(f"... Trying to load recording from: {physio_file}.")
+    )
+    if len(physio_files) == 0:
+        print(
+            f"... No physiological recording was found for participant: {participant_id}"
+        )
+        return (
+            (ecg, ecg_sfreq, ecg_events_idx),
+            (ppg, ppg_sfreq, ppg_events_idx),
+            (rsp, rsp_sfreq, rsp_events_idx),
+        )
+    elif len(physio_files) > 1:
+        print(
+            f"... More than one physiological recording was found for participant: {participant_id}"
+        )
         return (
             (ecg, ecg_sfreq, ecg_events_idx),
             (ppg, ppg_sfreq, ppg_events_idx),
             (rsp, rsp_sfreq, rsp_events_idx),
         )
 
+    json_files = list(
+        Path(bids_folder, participant_id, session, data_type).glob(
+            f"**/*task-{task}*_physio.json"
+        )
+    )
+
+    # Get the unique path for this recording
+    json_file = json_files[0]
+    physio_file = physio_files[0]
+
     # Opening JSON file to find the sampling frequency
     f = open(json_file)
-    sfreq = json.load(f)["SamplingFrequency"]
+    json_data = json.load(f)
+
+    sfreq = json_data["SamplingFrequency"]
+    try:
+        start_time = json_data["StartTime"]
+        end_time = json_data["EndTime"]
+    except KeyError:
+        start_time, end_time = None, None
+
+    f.close()
 
     # Gather physiological signal in the BIDS folder for this participant_id / task
     physio_df = pd.read_csv(physio_file, sep="\t", compression="gzip")
@@ -103,7 +138,7 @@ def import_data(
         ecg_sfreq = sfreq
 
     # Find PPG recording if any
-    ppgg_names = ["ppg", "photoplethysmography", "pulse"]
+    ppgg_names = ["ppg", "photoplethysmography", "pulse", "PLETH"]
     ppg_col = [col for col in physio_df.columns if col in ppgg_names]
     ppg_col = ppg_col[0] if len(ppg_col) > 0 else None
 
@@ -120,6 +155,27 @@ def import_data(
         rsp = physio_df[rsp_col].to_numpy()
         rsp_sfreq = sfreq
 
+    # If start_time and end_time are provided, trim the signal accordingly and correct
+    # the event indexes.
+    if start_time is not None:
+        start_time_idx = int(start_time * sfreq)
+        end_time_idx = int(end_time * sfreq)
+
+        if ecg is not None:
+            ecg = ecg[start_time_idx:end_time_idx]
+            if ecg_events_idx is not None:
+                ecg_events_idx -= start_time_idx
+
+        if ppg is not None:
+            ppg = ppg[start_time_idx:end_time_idx]
+            if ppg_events_idx is not None:
+                ppg_events_idx -= start_time_idx
+
+        if rsp is not None:
+            rsp = rsp[start_time_idx:end_time_idx]
+            if rsp_events_idx is not None:
+                rsp_events_idx -= start_time_idx
+
     return (
         (ecg, ecg_sfreq, ecg_events_idx),
         (ppg, ppg_sfreq, ppg_events_idx),
@@ -132,7 +188,8 @@ def create_reports(
     bids_folder: str,
     result_folder: str,
     task: str,
-    session: str = "session1",
+    data_type: str = "beh",
+    session: str = "ses-session1",
 ):
     """Create individual HTML and summary results from one participant in the BIDS
     folder.
@@ -153,6 +210,9 @@ def create_reports(
     task : str | list
         The task(s) that should be analyzed. Should match a task reference in the BIDS
         folder.
+    data_type : str
+        The type of data (e.g. `"beh"`, `"func"`...) where the physiological recording
+        is stored. Defaults to `"beh"`.
     session : str | list
         The session reference that should be analyzed. Should match a session number in
         the BIDS folder. Defaults to `"session1"`.
@@ -167,6 +227,7 @@ def create_reports(
     ) = import_data(
         participant_id=participant_id,
         bids_folder=bids_folder,
+        data_type=data_type,
         task=task,
         session=session,
     )
