@@ -461,7 +461,7 @@ def rr_artefacts(
     Returns
     -------
     artefacts : dict
-        Dictionnary storing the parameters of RR artefacts rejection. All the vectors
+        Dictionary storing the parameters of RR artefacts rejection. All the vectors
         outputed have the same length as the provided RR time serie:
 
         * subspace1 : np.ndarray

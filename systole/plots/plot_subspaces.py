@@ -29,7 +29,7 @@ def plot_subspaces(
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
     artefacts : dict | None
-        A dictionnary containing the infos abount the artefacts detected using the
+        A dictionary containing the infos abount the artefacts detected using the
         :py:func:`systole.detection.rr_artefacts()` function. This parameter is
         optional, but if provided the data provided in `rr` will be ignored.
     input_type : str

@@ -71,7 +71,7 @@ def plot_evoked(
     sns.lineplot(data=epoch_df, x="Time", y="heart_rate", hue="Label", ax=ax, **kwargs)
 
     ax.set_xlabel("Time (s)")
-    ylabel = "R-R interval (ms)" if unit == "rr" else "Beats per minute (bpm)"
+    ylabel = "R-R interval change (ms)" if unit == "rr" else "Heart rate change (bpm)"
     ax.set_ylabel(ylabel)
 
     return ax

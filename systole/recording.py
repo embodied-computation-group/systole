@@ -549,7 +549,7 @@ class BrainVisionExG:
     >>> exg = BrainVisionExG(ip='xxx.xxx.xx', sfreq=1000).read(30)
 
     Use the :py:func:`read` method to record some signal and save it in the
-    `exg` dictionnary.
+    `exg` dictionary.
 
     .. warning:: The signals received fom the host are appened to a list. This
        process can require more time at each iteration as the signal length
@@ -678,7 +678,7 @@ class BrainVisionExG:
         Returns
         -------
         recording : dict
-            Dictionnary with channel name as key.
+            Dictionary with channel name as key.
 
         Notes
         -----

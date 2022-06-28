@@ -140,7 +140,7 @@ def correct_rr(
 
     Returns
     -------
-    correction : dictionnary
+    correction : dictionary
         The corrected RR time series and the number of artefacts corrected:
 
         * clean_rr: np.ndarray
@@ -272,7 +272,7 @@ def correct_peaks(
     input_type: str = "peaks",
     extra_correction: bool = True,
     missed_correction: bool = True,
-    n_iterations: int = 2,
+    n_iterations: int = 1,
     verbose: bool = True,
 ) -> Dict[str, Union[int, np.ndarray]]:
     """Correct long, short, extra, missed and ectopic beats in peaks vector.
@@ -292,13 +292,13 @@ def correct_peaks(
     missed_correction : bool
       If `True` (default), correct missed peaks in the peaks time series.
     n_iterations : int
-        How many time to repeat the detection-correction process. Defaults to `2`.
+        How many time to repeat the detection-correction process. Defaults to `1`.
     verbose : bool
         Control the verbosity of the function. Defaults to `True`.
 
     Returns
     -------
-    correction : dictionnary
+    correction : dictionary
         The corrected RR time series and the number of artefacts corrected:
 
         * clean_peaks: np.ndarray

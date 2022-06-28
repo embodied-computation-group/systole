@@ -171,7 +171,7 @@ def plot_events(
                     "The length of triggers indexes and behavior data does not match"
                 )
 
-    # Create the event dictionnary if not already provided
+    # Create the event dictionary if not already provided
     if labels is None:
         labels = {}
         for i in range(len(triggers_idx)):

@@ -44,7 +44,7 @@ def plot_rr(
     points : bool
         If `True`, plot each peaks (R wave or systolic peaks) as separated points.
     artefacts : dict
-        Dictionnary storing the parameters of RR artefacts rejection.
+        Dictionary storing the parameters of RR artefacts rejection.
     input_type : str
         The type of input vector. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"`, or
         `"rr_s"`. Default to `"peaks"`.
