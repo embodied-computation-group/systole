@@ -12,11 +12,11 @@ from systole.reports.subject_level import subject_level_report
 
 
 def import_data(
-    bids_folder: Union[str, PathLike[str]],
-    participant_id: Union[str, PathLike[str]],
+    bids_folder: Union[str, PathLike],
+    participant_id: Union[str, PathLike],
     task: str = "",
-    data_type: Union[str, PathLike[str]] = "beh",
-    session: Union[str, PathLike[str]] = "ses-session1",
+    data_type: Union[str, PathLike] = "beh",
+    session: Union[str, PathLike] = "ses-session1",
 ) -> Union[
     Tuple[
         Tuple[np.ndarray, int, Optional[Union[np.ndarray, List[int]]]],

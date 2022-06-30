@@ -42,7 +42,11 @@ class TestDetection(TestCase):
         clean_signal = interpolate_clipping(list(df.ppg.to_numpy()))
         assert clean_signal.mean().round() == 100
         clean_signal = interpolate_clipping(df.ppg.to_numpy())
+
+        # Test with out of bound values as first and last
         df.ppg.iloc[0], df.ppg.iloc[-1] = 255, 255
+        clean_signal = interpolate_clipping(df.ppg.to_numpy())
+        df.ppg.iloc[0], df.ppg.iloc[-1] = 0, 0
         clean_signal = interpolate_clipping(df.ppg.to_numpy())
 
     def test_ecg_peaks(self):

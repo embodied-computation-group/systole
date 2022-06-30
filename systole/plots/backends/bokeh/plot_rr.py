@@ -123,38 +123,21 @@ def plot_rr(
     if line is True:
 
         # Instantaneous Heart Rate - Lines
-        linePlot = Line(
-            x="time",
-            y=unit,
-            line_color="#4c72b0",
-        )
+        linePlot = Line(x="time", y=unit, line_color="#4c72b0",)
         p1.add_glyph(
-            points_source,
-            linePlot,
+            points_source, linePlot,
         )
 
     if points is True:
 
         # Normal RR intervals
         circlePlot = Circle(
-            x="time",
-            y=unit,
-            size=6,
-            fill_color="lightgrey",
-            line_color="grey",
+            x="time", y=unit, size=6, fill_color="lightgrey", line_color="grey",
         )
         circlePlot_selected = Circle(
-            x="time",
-            y=unit,
-            size=6,
-            fill_color="firebrick",
-            line_color="grey",
+            x="time", y=unit, size=6, fill_color="firebrick", line_color="grey",
         )
-        g1 = p1.add_glyph(
-            points_source,
-            circlePlot,
-            hover_glyph=circlePlot_selected,
-        )
+        g1 = p1.add_glyph(points_source, circlePlot, hover_glyph=circlePlot_selected,)
 
         hover = HoverTool(
             renderers=[g1],

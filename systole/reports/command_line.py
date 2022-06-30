@@ -142,8 +142,7 @@ def wrapper(
                 summary_file = f"{result_folder}/{sub}/ses-{session}/{sub}_ses-{session}_task-{task}_features.tsv"
                 if os.path.isfile(summary_file):
                     summary_df = summary_df.append(
-                        pd.read_csv(summary_file, sep="\t"),
-                        ignore_index=True,
+                        pd.read_csv(summary_file, sep="\t"), ignore_index=True,
                     )
 
             time_domain = time_domain_group_level(summary_df)

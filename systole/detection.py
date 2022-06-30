@@ -408,7 +408,7 @@ def rsp_peaks(
     x = (x - x.mean()) / x.std()  # type: ignore
 
     # Peak enhancement
-    x = x**3
+    x = x ** 3
 
     # Find peaks and trough in preprocessed signal
     if "peaks" in kind:
@@ -717,9 +717,9 @@ def interpolate_clipping(
 
         # Security check for clipping at signal edge
         if clean_signal[0] == min_threshold:
-            clean_signal[0] = min_threshold - 1
+            clean_signal[0] = min_threshold + 1
         if clean_signal[-1] == min_threshold:
-            clean_signal[-1] = min_threshold - 1
+            clean_signal[-1] = min_threshold + 1
 
         # Interpolate
         f = interp1d(
