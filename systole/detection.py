@@ -634,8 +634,9 @@ def interpolate_clipping(
 ) -> np.ndarray:
     """Interoplate clipping artefacts.
 
-    This function removes all data points equalling the provided threshold
-    and re-creates the missing segments using cubic spline interpolation.
+    This function removes all data points greather/lower or equalling the provided
+    thresholds and re-creates the missing segments using interpolation (default is
+    `"cubic"`).
 
     Parameters
     ----------
@@ -681,11 +682,14 @@ def interpolate_clipping(
 
     Notes
     -----
-    Correct signal segment reaching recording threshold using a cubic spline
-    interpolation. Adapted from [1]_.
+    Correct signal segment greather/smaller or equalling the recording threshold using
+    cubic spline interpolation. Adapted from [1]_.
 
     .. Warning:: If clipping artefact is found at the edge of the signal, this
         function will decrement/increment the first/last value to allow interpolation.
+
+    The first and last values are corrected for interpolation by adding/substracting
+    the median step observed in the time series.
 
     References
     ----------
@@ -695,13 +699,17 @@ def interpolate_clipping(
     clean_signal = np.asarray(signal)
     time = np.arange(0, len(signal))
 
+    # What is the median step in the time serie?
+    # Use that to correct first and last values if required
+    step = np.median(np.diff(np.sort(np.unique(clean_signal))))
+
     if max_threshold is not None:
 
         # Security check for clipping at signal edge
-        if clean_signal[0] == max_threshold:
-            clean_signal[0] = max_threshold - 1
-        if clean_signal[-1] == max_threshold:
-            clean_signal[-1] = max_threshold - 1
+        if clean_signal[0] >= max_threshold:
+            clean_signal[0] = max_threshold - step
+        if clean_signal[-1] >= max_threshold:
+            clean_signal[-1] = max_threshold - step
 
         # Interpolate
         f = interp1d(
@@ -716,10 +724,10 @@ def interpolate_clipping(
     if min_threshold is not None:
 
         # Security check for clipping at signal edge
-        if clean_signal[0] == min_threshold:
-            clean_signal[0] = min_threshold + 1
-        if clean_signal[-1] == min_threshold:
-            clean_signal[-1] = min_threshold + 1
+        if clean_signal[0] <= min_threshold:
+            clean_signal[0] = min_threshold + step
+        if clean_signal[-1] <= min_threshold:
+            clean_signal[-1] = min_threshold + step
 
         # Interpolate
         f = interp1d(
