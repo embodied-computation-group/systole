@@ -18,16 +18,16 @@ recommended to use it in the context of "bloc design" study or heart rate variab
 # Licence: GPL v3
 
 #%%
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from systole import import_dataset1
-from systole.detection import ecg_peaks
-from systole.correction import correct_rr
-from systole.utils import input_conversion
-from systole.plots import plot_rr, plot_frequency
-from systole.hrv import frequency_domain
-import matplotlib.pyplot as plt
 import seaborn as sns
+from systole import import_dataset1
+from systole.correction import correct_rr
+from systole.detection import ecg_peaks
+from systole.hrv import frequency_domain
+from systole.plots import plot_frequency, plot_rr
+from systole.utils import input_conversion
 
 #%% Import ECG recording and events triggers
 ecg_df = import_dataset1(modalities=['ECG', 'Stim'])
@@ -106,21 +106,26 @@ for i in range(20):
     corrupted_rr[np.random.choice(len(corrupted_rr), 50)] *= 2
     corrupted_rr[np.random.choice(len(corrupted_rr), 50)] /= 3
     corrupted_hrv = frequency_domain(corrupted_rr, input_type="rr_ms")
-    corrupted_hf = corrupted_hrv[corrupted_hrv.Metric == "power_hf_nu"].Values.iloc[0]
+    corrupted_hf = corrupted_hrv[corrupted_hrv.Metric == "hf_power_nu"].Values.iloc[0]
     
     # Measure HF-HRV for corrected RR intervals time series
     corrected = correct_rr(corrupted_rr, n_iterations=2, verbose=False)["clean_rr"]
     corrected_hrv = frequency_domain(corrected, input_type="rr_ms")
-    corrected_hf = corrected_hrv[corrected_hrv.Metric == "power_hf_nu"].Values.iloc[0]
+    corrected_hf = corrected_hrv[corrected_hrv.Metric == "hf_power_nu"].Values.iloc[0]
 
-    simulation_df = simulation_df.append(
-        pd.DataFrame({"HF-HRV (n.u.)": [corrupted_hf, corrected_hf],
-                      "Data Quality": ["Corrupted", "Corrected"]
-                      })
-        )
+    simulation_df = pd.concat(
+        [
+            simulation_df, 
+            pd.DataFrame(
+                {"HF-HRV (n.u.)": [corrupted_hf, corrected_hf],
+                 "Data Quality": ["Corrupted", "Corrected"]
+                }
+                )
+        ]
+    )
 
 initial_hrv = frequency_domain(initial_rr, input_type="rr_ms")
-initial_hf = initial_hrv[initial_hrv.Metric == "power_hf_nu"].Values.iloc[0]
+initial_hf = initial_hrv[initial_hrv.Metric == "hf_power_nu"].Values.iloc[0]
 
 #%% Simulation results
 plt.figure(figsize=(5, 8))

@@ -13,13 +13,12 @@ plotted.
 # Licence: GPL v3
 
 import matplotlib.pyplot as plt
-import pandas as pd
 import numpy as np
+import pandas as pd
 from systole import serialSim
-from systole.recording import Oximeter
 from systole.detection import ppg_peaks
 from systole.plots import plot_raw, plot_rr
-
+from systole.recording import Oximeter
 
 #%%
 # Recording
@@ -40,7 +39,7 @@ ser = serialSim()
 #   import serial
 #   ser = serial.Serial('COM4')  # Change this value according to your setup
 
-# Create an Oxymeter instance, initialize recording and record for 10 seconds
+# Create an Oxymeter instance, initialize recording and record for 30 seconds
 oxi = Oximeter(serial=ser, sfreq=75).setup()
 oxi.read(30)
 
@@ -48,7 +47,7 @@ oxi.read(30)
 # Plotting
 # --------
 
-signal, peaks = ppg_peaks(x=oxi.recording, sfreq=75)
+signal, peaks = ppg_peaks(signal=oxi.recording, sfreq=75)
 
 fig, ax = plt.subplots(3, 1, figsize=(13, 8), sharex=True)
 
