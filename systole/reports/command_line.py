@@ -5,7 +5,7 @@ import os
 from typing import List, Optional, Union
 
 import pandas as pd
-import pkg_resources
+import pkg_resources  # type:ignore
 from bokeh.embed import components
 from bokeh.resources import INLINE
 from jinja2 import Template
@@ -142,7 +142,8 @@ def wrapper(
                 summary_file = f"{result_folder}/{sub}/ses-{session}/{sub}_ses-{session}_task-{task}_features.tsv"
                 if os.path.isfile(summary_file):
                     summary_df = summary_df.append(
-                        pd.read_csv(summary_file, sep="\t"), ignore_index=True,
+                        pd.read_csv(summary_file, sep="\t"),
+                        ignore_index=True,
                     )
 
             time_domain = time_domain_group_level(summary_df)

@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Optional, Union
 
 import numpy as np
 import pandas as pd
-import pkg_resources
+import pkg_resources  # type: ignore
 from bokeh.embed import components
 from bokeh.resources import INLINE
 from jinja2 import Template
@@ -218,7 +218,10 @@ def subject_level_report(
         summary_df = pd.concat([summary_df, ecg_artefacts_df], ignore_index=True)
 
         ecg_rr = plot_rr(
-            rr=peaks, input_type="peaks", show_artefacts=True, backend="bokeh",
+            rr=peaks,
+            input_type="peaks",
+            show_artefacts=True,
+            backend="bokeh",
         )
 
         ecg_artefacts = plot_subspaces(
@@ -300,7 +303,10 @@ def subject_level_report(
         physio_df["ppg_peaks"] = peaks
 
         ppg_rr = plot_rr(
-            rr=peaks, input_type="peaks", show_artefacts=True, backend="bokeh",
+            rr=peaks,
+            input_type="peaks",
+            show_artefacts=True,
+            backend="bokeh",
         )
 
         ppg_artefacts = plot_subspaces(
@@ -383,7 +389,11 @@ def subject_level_report(
         physio_df["rsp_peaks"] = peaks
         physio_df["rsp_troughs"] = troughs
 
-        rsp_raw = plot_rsp(signal=rsp, sfreq=rsp_sfreq, backend="bokeh",)
+        rsp_raw = plot_rsp(
+            signal=rsp,
+            sfreq=rsp_sfreq,
+            backend="bokeh",
+        )
 
         ############################
         # Instantaneous heart rate #
@@ -393,7 +403,9 @@ def subject_level_report(
 
         plots = {
             **plots,
-            **dict(rsp_raw=rsp_raw,),
+            **dict(
+                rsp_raw=rsp_raw,
+            ),
         }
 
     ##################

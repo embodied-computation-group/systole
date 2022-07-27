@@ -90,7 +90,10 @@ def plot_evoked(
 
         for i in range(ep.shape[0]):
             evoked_plot.line(
-                x=time, y=ep[i], alpha=0.2, line_color=col,
+                x=time,
+                y=ep[i],
+                alpha=0.2,
+                line_color=col,
             )
 
         df_source = pd.DataFrame(

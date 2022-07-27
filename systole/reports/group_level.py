@@ -354,7 +354,11 @@ def artefacts_group_level(summary_df: pd.DataFrame):
         TableColumn(field="per_short", title="Percent of short beats"),
     ]
 
-    artefacts_table = DataTable(source=source, columns=columns, index_position=None,)
+    artefacts_table = DataTable(
+        source=source,
+        columns=columns,
+        index_position=None,
+    )
 
     table = Column(artefacts_table)
 

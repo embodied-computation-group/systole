@@ -408,7 +408,7 @@ def rsp_peaks(
     x = (x - x.mean()) / x.std()  # type: ignore
 
     # Peak enhancement
-    x = x ** 3
+    x = x**3
 
     # Find peaks and trough in preprocessed signal
     if "peaks" in kind:

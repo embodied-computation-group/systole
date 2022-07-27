@@ -9,7 +9,10 @@ from bokeh.models.layouts import Row
 from systole.plots import plot_ectopic, plot_shortlong
 
 
-def plot_subspaces(artefacts: Dict[str, np.ndarray], figsize: int = 600,) -> Row:
+def plot_subspaces(
+    artefacts: Dict[str, np.ndarray],
+    figsize: int = 600,
+) -> Row:
     """Plot hrv subspace as described by Lipponen & Tarvainen (2019) [#]_.
 
     Parameters

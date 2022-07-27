@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.axes import Axes
 from pandas.core.indexes.datetimes import DatetimeIndex
+
 from systole.plots import plot_rr
 
 
@@ -96,8 +97,13 @@ def plot_raw(
 
     # Signal
     signal_ax.plot(
-        time[::decim], signal[::decim], label="PPG signal", linewidth=.5,
-        color="#c44e52", alpha=.5, zorder=-1
+        time[::decim],
+        signal[::decim],
+        label="PPG signal",
+        linewidth=0.5,
+        color="#c44e52",
+        alpha=0.5,
+        zorder=-1,
     )
 
     # Peaks

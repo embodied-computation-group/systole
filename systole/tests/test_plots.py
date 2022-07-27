@@ -215,7 +215,9 @@ class TestPlots(TestCase):
         rsp = import_dataset1(modalities=["Respiration"])
         for backend in ["matplotlib", "bokeh"]:
             plot_rsp(
-                rsp.respiration, backend=backend, sfreq=1000,
+                rsp.respiration,
+                backend=backend,
+                sfreq=1000,
             )
 
         plt.close("all")

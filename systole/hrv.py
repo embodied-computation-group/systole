@@ -701,7 +701,7 @@ def _recurrence(
 
     # Compute the recurrence rate - Exclude the main identity line
     j = rc.shape[0]
-    recurrence_rate = np.triu(rc).sum() / ((j ** 2 - j) / 2) * 100
+    recurrence_rate = np.triu(rc).sum() / ((j**2 - j) / 2) * 100
 
     # Find diagonale lines
     total_lines = []

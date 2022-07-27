@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from matplotlib.axes import Axes
+
 from systole.plots import plot_events
 from systole.utils import heart_rate
 

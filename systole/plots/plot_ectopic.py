@@ -13,14 +13,18 @@ from systole.utils import input_conversion
 
 @overload
 def plot_ectopic(
-    rr: None, artefacts: Dict[str, np.ndarray], input_type: str = "rr_ms",
+    rr: None,
+    artefacts: Dict[str, np.ndarray],
+    input_type: str = "rr_ms",
 ) -> Union[Figure, Axes]:
     ...
 
 
 @overload
 def plot_ectopic(
-    rr: Union[List[float], np.ndarray], artefacts: None, input_type: str = "rr_ms",
+    rr: Union[List[float], np.ndarray],
+    artefacts: None,
+    input_type: str = "rr_ms",
 ) -> Union[Figure, Axes]:
     ...
 
