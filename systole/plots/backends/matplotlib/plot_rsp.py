@@ -56,6 +56,5 @@ def plot_rsp(
 
     signal_ax.set_title(title)
     signal_ax.set_ylabel(ylabel)
-    signal_ax.grid(True)
 
     return signal_ax

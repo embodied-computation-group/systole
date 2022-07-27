@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from matplotlib.axes import Axes
-
 from systole.plots import plot_events
 from systole.utils import heart_rate
 
@@ -214,7 +213,6 @@ def plot_rr(
     ax.set_title("Instantaneous heart rate")
     ax.set_xlabel("Time")
     ax.set_ylabel(ylabel)
-    ax.grid(True)
     ax.legend()
 
     return ax

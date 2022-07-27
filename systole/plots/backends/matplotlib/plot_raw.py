@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.axes import Axes
 from pandas.core.indexes.datetimes import DatetimeIndex
-
 from systole.plots import plot_rr
 
 
@@ -97,7 +96,8 @@ def plot_raw(
 
     # Signal
     signal_ax.plot(
-        time[::decim], signal[::decim], label="PPG signal", linewidth=1, color="#c44e52"
+        time[::decim], signal[::decim], label="PPG signal", linewidth=.5,
+        color="#c44e52", alpha=.5, zorder=-1
     )
 
     # Peaks
@@ -106,8 +106,8 @@ def plot_raw(
         y=signal[peaks],
         marker="o",
         label=peaks_label,
-        s=30,
-        color="white",
+        s=20,
+        color="grey",
         edgecolors="DarkSlateGrey",
     )
     if modality == "ppg":
@@ -116,7 +116,6 @@ def plot_raw(
     elif modality == "ecg":
         signal_ax.set_title(title)
         signal_ax.set_ylabel(ylabel)
-    signal_ax.grid(True)
 
     #############
     # Lower panel
