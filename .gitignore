@@ -9,4 +9,5 @@ htmlcov/
 .vscode/
 source/auto_examples
 source/generated
+source/api
 coverage.xml
