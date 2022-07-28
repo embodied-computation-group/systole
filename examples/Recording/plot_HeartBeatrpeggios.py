@@ -3,16 +3,15 @@ Heartbeat Evoked Arpeggios (cardiac-contingent stimuli)
 =======================================================
 
 This tutorial illustrates how to use the ``Oximeter`` class to trigger stimuli
-at different phases of the cardiac cycle using the [Psychopy](https://www.psychopy.org/)
-toolbox. The PPG signal is recorded for 30 seconds and peaks are detected
-online. Four notes ('C', 'E', 'G', 'Bfl') are played in synch with peak
-detection with various delays: no delay,  1/4, 2/4 or 3/4 of the previous
+at different phases of the cardiac cycle. The PPG signal is recorded for 30 seconds
+and peaks are detected online. Four notes ('C', 'E', 'G', 'Bfl') are played in synch
+with peak detection with various delays: no delay,  1/4, 2/4 or 3/4 of the previous
 cardiac cycle length. While R-R intervals are prone to large changes over longer
 timescales, such changes are physiologically limited from one heartbeat to the next,
 limiting variance in the onset synchrony between the tones and the cardiac cycle.
 On this basis, each presentation time is calibrated based on the previous RR-interval.
-This procedure can easily be adapted to create a standard interoception task, e.g. by either presenting
-tones at no delay (systole, s+) or a fixed offset (diastole, s-).
+This procedure can easily be adapted to create a standard interoception task, e.g. by
+either presenting tones at no delay (systole, s+) or a fixed offset (diastole, s-).
 
 """
 
@@ -24,7 +23,6 @@ import time
 
 import matplotlib.pyplot as plt
 import numpy as np
-from psychopy.sound import Sound
 import seaborn as sns
 from systole import serialSim
 from systole.plots import plot_circular, plot_events
@@ -56,21 +54,19 @@ ser = serialSim()
 oxi = Oximeter(serial=ser, sfreq=75, add_channels=4).setup()
 
 #%%
-# Create an Oxymeter instance, initialize recording and record for 10 seconds
-
-beat = Sound("C", secs=0.1)
-diastole1 = Sound("E", secs=0.1)
-diastole2 = Sound("G", secs=0.1)
-diastole3 = Sound("Bfl", secs=0.1)
+# Play the different tones at different intervals following the detection of the
+# systolic peaks, using the length of the previous RR interval as reference. To kee the
+# execution of the example simple we do no pla atual sounds (e.g. using Psychopy) but
+# this step can easily be added by adding new lines for each time window.
 
 systoleTime1, systoleTime2, systoleTime3 = None, None, None
 tstart = time.time()
 while time.time() - tstart < 20:
 
     # Check if there are new data to read
-    while oxi.serial.inWaiting() >= 5:
+    if oxi.serial.inWaiting() >= 5:
 
-        # Convert bytes into list of int
+        # Read one incoming data point - Convert bytes into list of int
         paquet = list(oxi.serial.read(5))
 
         if oxi.check(paquet):  # Data consistency
@@ -78,8 +74,7 @@ while time.time() - tstart < 20:
 
         # T + 0
         if oxi.peaks[-1] == 1:
-            beat = Sound("C", secs=0.1)
-            beat.play()
+            oxi.channels["Channel_0"][-1] = 1
             systoleTime1 = time.time()
             systoleTime2 = time.time()
             systoleTime3 = time.time()
@@ -87,29 +82,20 @@ while time.time() - tstart < 20:
         # T + 1/4
         if systoleTime1 is not None:
             if time.time() - systoleTime1 >= ((oxi.instant_rr[-1] / 4) / 1000):
-                diastole1 = Sound("E", secs=0.1)
-                diastole1.play()
+                oxi.channels["Channel_1"][-1] = 1
                 systoleTime1 = None
 
         # T + 2/4
         if systoleTime2 is not None:
             if time.time() - systoleTime2 >= (((oxi.instant_rr[-1] / 4) * 2) / 1000):
-                diastole2 = Sound("G", secs=0.1)
-                diastole2.play()
+                oxi.channels["Channel_2"][-1] = 1
                 systoleTime2 = None
 
         # T + 3/4
         if systoleTime3 is not None:
             if time.time() - systoleTime3 >= (((oxi.instant_rr[-1] / 4) * 3) / 1000):
-                diastole3 = Sound("A", secs=0.1)
-                diastole3.play()
+                oxi.channels["Channel_3"][-1] = 1
                 systoleTime3 = None
-
-        # Track the note status
-        oxi.channels["Channel_0"][-1] = beat.status
-        oxi.channels["Channel_1"][-1] = diastole1.status
-        oxi.channels["Channel_2"][-1] = diastole2.status
-        oxi.channels["Channel_3"][-1] = diastole3.status
 
 #%%
 # Events
@@ -135,7 +121,7 @@ for i in np.arange(3, -1, -1):
     # Plot the event according to its duration (0.1 second)
     plot_events(
         triggers=triggers, tmin=0.0, tmax=0.1, sfreq=75, 
-        events_labels=events_labels[i], ax=axs[0], palette=[next(palette)])
+        labels=events_labels[i], ax=axs[0], palette=[next(palette)])
     axs[0].set_xlabel("")
 
 oxi.plot_raw(ax=axs[1])
@@ -164,3 +150,5 @@ _, axs = plt.subplots(1, 3, figsize=(13, 5), subplot_kw=dict(projection="polar")
 for i, density in enumerate(["height", "area", "alpha"]):
     plot_circular(angles, density=density, ax=axs[i])
     axs[i].set_title(f"Density method = {density}")
+
+# %%
