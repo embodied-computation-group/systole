@@ -24,7 +24,7 @@ def plot_events(
     backend: str = "matplotlib",
     palette: Optional[List[str]] = None,
 ) -> Axes:
-    """Plot events to get a visual display of the paradigm.
+    """Plot events from a trigger channel.
 
     Parameters
     ----------
@@ -43,7 +43,7 @@ def plot_events(
         conditions `{"n": "Event - n"}`.
     tmin, tmax : float
         Start and end time of the epochs in seconds, relative to the time-locked event.
-        Defaults to -1.0 and 10.0, respectively.
+        Defaults to `-1.0` and `10.0`, respectively.
     sfreq : int
         Signal sampling frequency. Default is set to 1000 Hz.
     behavior : list | py:class:`pandas.DataFrame` | None

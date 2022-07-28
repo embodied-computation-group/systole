@@ -6,7 +6,7 @@ The py:class:`systole.recording.Oximeter` class can be used to read incoming PPG
 from `Nonin 3012LP Xpod USB pulse oximeter
 <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' 
 fingertip sensors <https://www.nonin.com/products/8000s/>`_. This function can easily 
-be integrated with other stimulus presentation software lie `PsychoPy
+be integrated with other stimulus presentation software like `PsychoPy
 <https://www.psychopy.org/>`_ to record cardiac activity during psychological 
 experiments, or to synchronize stimulus delivery around cardiac phases (e.g. systole or
 diastole).
