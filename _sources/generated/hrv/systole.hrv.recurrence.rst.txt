@@ -1,0 +1,6 @@
+﻿systole.hrv.recurrence
+======================
+
+.. currentmodule:: systole.hrv
+
+.. autofunction:: recurrence

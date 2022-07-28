@@ -1,0 +1,6 @@
+﻿systole.hrv.all\_domain
+=======================
+
+.. currentmodule:: systole.hrv
+
+.. autofunction:: all_domain

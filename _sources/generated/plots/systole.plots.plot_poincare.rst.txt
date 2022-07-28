@@ -1,0 +1,6 @@
+﻿systole.plots.plot\_poincare
+============================
+
+.. currentmodule:: systole.plots
+
+.. autofunction:: plot_poincare

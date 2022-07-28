@@ -1,0 +1,6 @@
+﻿systole.detection.rsp\_peaks
+============================
+
+.. currentmodule:: systole.detection
+
+.. autofunction:: rsp_peaks

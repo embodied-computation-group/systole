@@ -1,0 +1,76 @@
+
+
+.. _sphx_glr_auto_examples_Artefacts:
+
+Artefacts
++++++++++
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to detect ectopic, missed, extra, slow and long long from RR or pulse ra...">
+
+.. only:: html
+
+  .. image:: /auto_examples/Artefacts/images/thumb/sphx_glr_plot_ArtefactsDetection_thumb.png
+    :alt: Outliers and artefacts detection
+
+  :ref:`sphx_glr_auto_examples_Artefacts_plot_ArtefactsDetection.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Outliers and artefacts detection</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example describes artefacts correction peaks vectors.">
+
+.. only:: html
+
+  .. image:: /auto_examples/Artefacts/images/thumb/sphx_glr_plot_PeaksCorrection_thumb.png
+    :alt: Detecting and correcting artefacts in peaks vector
+
+  :ref:`sphx_glr_auto_examples_Artefacts_plot_PeaksCorrection.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Detecting and correcting artefacts in peaks vector</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example describes artefacts correction in RR time series.">
+
+.. only:: html
+
+  .. image:: /auto_examples/Artefacts/images/thumb/sphx_glr_plot_RRCorrection_thumb.png
+    :alt: Detecting and correcting artefacts in RR time series
+
+  :ref:`sphx_glr_auto_examples_Artefacts_plot_RRCorrection.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Detecting and correcting artefacts in RR time series</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/Artefacts/plot_ArtefactsDetection
+   /auto_examples/Artefacts/plot_PeaksCorrection
+   /auto_examples/Artefacts/plot_RRCorrection
+

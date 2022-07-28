@@ -1,0 +1,987 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>systole.detection &#8212; systole 0.2.3 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/thebelab-helper.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="None">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../getting_started.html">
+  Installation
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../auto_examples/index.html">
+  Gallery
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../tutorials.html">
+  Tutorials
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../api.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../changelog.html">
+  Release notes
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/embodied-computation-group/systole" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/visceral_mind" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://pypi.org/project/systole/" rel="noopener" target="_blank" title="Pypi"><span><i class="fas fa-box"></i></span>
+            <label class="sr-only">Pypi</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <h1>Source code for systole.detection</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Author: Nicolas Legrand &lt;nicolas.legrand@cfin.au.dk&gt;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">interp1d</span>
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">find_peaks</span>
+<span class="kn">from</span> <span class="nn">sleepecg</span> <span class="kn">import</span> <span class="n">detect_heartbeats</span>
+
+<span class="kn">from</span> <span class="nn">systole.detectors</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">christov</span><span class="p">,</span>
+    <span class="n">engelse_zeelenberg</span><span class="p">,</span>
+    <span class="n">hamilton</span><span class="p">,</span>
+    <span class="n">moving_average</span><span class="p">,</span>
+    <span class="n">pan_tompkins</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">systole.utils</span> <span class="kn">import</span> <span class="n">find_clipping</span><span class="p">,</span> <span class="n">input_conversion</span><span class="p">,</span> <span class="n">nan_cleaning</span><span class="p">,</span> <span class="n">to_neighbour</span>
+
+
+<div class="viewcode-block" id="ppg_peaks"><a class="viewcode-back" href="../../generated/detection/systole.detection.ppg_peaks.html#systole.detection.ppg_peaks">[docs]</a><span class="k">def</span> <span class="nf">ppg_peaks</span><span class="p">(</span>
+    <span class="n">signal</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">],</span>
+    <span class="n">sfreq</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">win</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">,</span>
+    <span class="n">new_sfreq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="n">clipping</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">clipping_thresholds</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+    <span class="n">moving_average</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">moving_average_length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="n">peak_enhancement</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">distance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
+    <span class="n">clean_extra</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">clean_nan</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;A simple systolic peak finder for PPG signals.</span>
+
+<span class="sd">    This method uses a rolling average + standard deviation approach to update a</span>
+<span class="sd">    detection threshold. All the peaks found above this threshold are potential</span>
+<span class="sd">    systolic peaks.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    signal : np.ndarray | list | pd.Series</span>
+<span class="sd">        The raw signal recorded from the pulse oximeter time series.</span>
+<span class="sd">    sfreq : int</span>
+<span class="sd">        The sampling frequency (Hz).</span>
+<span class="sd">    win : int</span>
+<span class="sd">        Window size (in seconds) used to compute the threshold (i.e. rolling mean +</span>
+<span class="sd">        standard deviation).</span>
+<span class="sd">    new_sfreq : int</span>
+<span class="sd">        If resample is `True`, the new sampling frequency (Hz). Defaults to `1000`.</span>
+<span class="sd">    clipping : boolean</span>
+<span class="sd">        If `True`, will apply the clipping artefact correction described in [1]_.</span>
+<span class="sd">        Defaults to `True`.</span>
+<span class="sd">    clipping_thresholds : tuple | list | str</span>
+<span class="sd">        The values of the minumum and maximum clipping thresholds. Can be a float or</span>
+<span class="sd">        `None`. If `None`, no correction is applied. If &quot;auto&quot; is provided, will use</span>
+<span class="sd">        py:func:`systole.utils.find_clipping` to find the values. Defaults to `&quot;auto&quot;`.</span>
+<span class="sd">        This parameter is only relevant if `cliping` is `True`.</span>
+<span class="sd">    moving_average : bool</span>
+<span class="sd">        Apply mooving average to remove high frequency noise before peaks detection. The</span>
+<span class="sd">        length of the time windows can be controlled with `moving_average_length`.</span>
+<span class="sd">    moving_average_length : float</span>
+<span class="sd">        The length of the window used for moveing average (seconds). Default to `0.05`.</span>
+<span class="sd">    resample : boolean</span>
+<span class="sd">        If `True` (default), will resample the signal at *new_sfreq*. Default</span>
+<span class="sd">        value is 1000 Hz.</span>
+<span class="sd">    peak_enhancement : boolean</span>
+<span class="sd">        If `True` (default), the ppg signal is squared before peaks detection.</span>
+<span class="sd">    distance : float</span>
+<span class="sd">        The minimum interval between two peaks (seconds).</span>
+<span class="sd">    clean_extra : bool</span>
+<span class="sd">        If `True`, use `:py:func:systole.detection.rr_artefacts()` to find and</span>
+<span class="sd">        remove extra peaks. Default is `False`.</span>
+<span class="sd">    clean_nan : bool</span>
+<span class="sd">        If `True`, will interpolate NaNs values if any before any other operation.</span>
+<span class="sd">        Defaults to `False`.</span>
+<span class="sd">    verbose : bool</span>
+<span class="sd">        Control function verbosity. Defaults to `False` (do not print processing steps).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    resampled_signal : np.ndarray</span>
+<span class="sd">        Signal resampled to the `new_sfreq` frequency.</span>
+<span class="sd">    peaks : np.ndarray</span>
+<span class="sd">        Boolean array of systolic peaks detection.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If `clipping_thresholds` is not a tuple, a list or `&quot;auto&quot;`.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This algorithm use a simple rolling average to detect peaks. The signal is</span>
+<span class="sd">    first resampled and a rolling average is applyed to correct high frequency</span>
+<span class="sd">    noise and clipping, using method detailled in [1]_. The signal is then</span>
+<span class="sd">    squared and detection of peaks is performed using threshold corresponding</span>
+<span class="sd">    to the moving averagte + stadard deviation.</span>
+
+<span class="sd">    .. warning :: This function will resample the signal to 1000 Hz by default.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from systole import import_ppg</span>
+<span class="sd">    &gt;&gt;&gt; from systole.detection import ppg_peaks</span>
+<span class="sd">    &gt;&gt;&gt; df = import_ppg()  # Import PPG recording</span>
+<span class="sd">    &gt;&gt;&gt; signal, peaks = ppg_peaks(signal=df.ppg.to_numpy())</span>
+<span class="sd">    &gt;&gt;&gt; print(f&#39;{sum(peaks)} peaks detected.&#39;)</span>
+<span class="sd">    378 peaks detected.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] van Gent, P., Farah, H., van Nes, N. and van Arem, B., 2019.</span>
+<span class="sd">       Analysing Noisy Driver Physiology Real-Time Using Off-the-Shelf Sensors:</span>
+<span class="sd">       Heart Rate Analysis Software from the Taking the Fast Lane Project. Journal</span>
+<span class="sd">       of Open Research Software, 7(1), p.32. DOI: http://doi.org/10.5334/jors.241</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+
+    <span class="c1"># Interpolate NaNs values if any and if requested</span>
+    <span class="k">if</span> <span class="n">clean_nan</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">nan_cleaning</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+    <span class="c1"># Resample signal to the new frequnecy if required</span>
+    <span class="k">if</span> <span class="n">sfreq</span> <span class="o">!=</span> <span class="n">new_sfreq</span><span class="p">:</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">sfreq</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">sfreq</span><span class="p">)</span>
+        <span class="n">new_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">sfreq</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">new_sfreq</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">new_time</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Copy resampled signal for output</span>
+    <span class="n">resampled_signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Remove clipping artefacts with cubic interpolation</span>
+    <span class="k">if</span> <span class="n">clipping</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">clipping_thresholds</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+            <span class="n">min_threshold</span><span class="p">,</span> <span class="n">max_threshold</span> <span class="o">=</span> <span class="n">find_clipping</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">clipping_thresholds</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="o">|</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">clipping_thresholds</span><span class="p">,</span> <span class="nb">tuple</span>
+        <span class="p">):</span>
+            <span class="n">min_threshold</span><span class="p">,</span> <span class="n">max_threshold</span> <span class="o">=</span> <span class="n">clipping_thresholds</span>  <span class="c1"># type: ignore</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;The variable clipping_thresholds should be a list&quot;</span>
+                    <span class="s2">&quot;or a tuple with length 2 or &#39;auto&#39;.&quot;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">interpolate_clipping</span><span class="p">(</span>
+            <span class="n">signal</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">min_threshold</span><span class="o">=</span><span class="n">min_threshold</span><span class="p">,</span> <span class="n">max_threshold</span><span class="o">=</span><span class="n">max_threshold</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">moving_average</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="c1"># Moving average (high frequency noise)</span>
+        <span class="n">rollingNoise</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">new_sfreq</span> <span class="o">*</span> <span class="n">moving_average_length</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># 0.05 second</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;signal&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">})</span>
+            <span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">rollingNoise</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">peak_enhancement</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="c1"># Square signal (peak enhancement)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Compute moving average and standard deviation</span>
+    <span class="n">signal</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;signal&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">})</span>
+    <span class="n">mean_signal</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">signal</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">new_sfreq</span> <span class="o">*</span> <span class="n">win</span><span class="p">),</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="n">std_signal</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">signal</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">new_sfreq</span> <span class="o">*</span> <span class="n">win</span><span class="p">),</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Substract moving average + standard deviation</span>
+    <span class="n">x</span> <span class="o">-=</span> <span class="n">mean_signal</span> <span class="o">+</span> <span class="n">std_signal</span>
+
+    <span class="c1"># Find positive peaks</span>
+    <span class="n">peaks_idx</span> <span class="o">=</span> <span class="n">find_peaks</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">new_sfreq</span> <span class="o">*</span> <span class="n">distance</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Create boolean vector</span>
+    <span class="n">peaks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="n">peaks</span><span class="p">[</span><span class="n">peaks_idx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># Remove extra peaks</span>
+    <span class="k">if</span> <span class="n">clean_extra</span><span class="p">:</span>
+
+        <span class="c1"># Search artefacts</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">peaks</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># Convert to RR time series</span>
+        <span class="n">artefacts</span> <span class="o">=</span> <span class="n">rr_artefacts</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
+
+        <span class="c1"># Clean peak vector</span>
+        <span class="n">peaks</span><span class="p">[</span><span class="n">peaks_idx</span><span class="p">[</span><span class="mi">1</span><span class="p">:][</span><span class="n">artefacts</span><span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">]]]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">return</span> <span class="n">resampled_signal</span><span class="p">,</span> <span class="n">peaks</span></div>
+
+
+<div class="viewcode-block" id="ecg_peaks"><a class="viewcode-back" href="../../generated/detection/systole.detection.ecg_peaks.html#systole.detection.ecg_peaks">[docs]</a><span class="k">def</span> <span class="nf">ecg_peaks</span><span class="p">(</span>
+    <span class="n">signal</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">],</span>
+    <span class="n">sfreq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="n">new_sfreq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;sleepecg&quot;</span><span class="p">,</span>
+    <span class="n">find_local</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">win_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">clean_nan</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;A simple wrapper for many popular R peaks detectors algorithms.</span>
+
+<span class="sd">    This function calls methods from `py-ecg-detectors` [1]_.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    signal : np.ndarray | list | pd.Series</span>
+<span class="sd">        The raw ECG signal.</span>
+<span class="sd">    sfreq : int</span>
+<span class="sd">        The sampling frequency. Default is set to `1000` Hz.</span>
+<span class="sd">    new_sfreq : int</span>
+<span class="sd">        The new sampling frequency. Defaults to `1000` Hz.</span>
+<span class="sd">    method : str</span>
+<span class="sd">        The method used. Can be one of the following: `&#39;sleepecg&#39;`, `&#39;hamilton&#39;`,</span>
+<span class="sd">        `&#39;christov&#39;`, `&#39;engelse-zeelenberg&#39;`, `&#39;pan-tompkins&#39;`, `&#39;moving-average&#39;`.</span>
+<span class="sd">    find_local : bool</span>
+<span class="sd">        If *True*, will use peaks indexs to search for local peaks given the</span>
+<span class="sd">        window size (win_size).</span>
+<span class="sd">    win_size : int</span>
+<span class="sd">        Size of the time window used by :py:func:`systole.utils.to_neighbour()`</span>
+<span class="sd">        expressed in seconds. Defaut set to `0.1`.</span>
+<span class="sd">    clean_nan : bool</span>
+<span class="sd">        If `True`, will interpolate NaNs values if any before any other operation.</span>
+<span class="sd">        Defaults to `False`.</span>
+<span class="sd">    verbose : bool</span>
+<span class="sd">        Control function verbosity. Defaults to `False` (do not print processing steps).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    resampled_signal : np.ndarray</span>
+<span class="sd">        Signal resampled to the `new_sfreq` frequency.</span>
+<span class="sd">    peaks : np.ndarray</span>
+<span class="sd">        Boolean array corresponding to the R peaks detection.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If `method` is not one of the following: `&#39;hamilton&#39;`, `&#39;christov&#39;`,</span>
+<span class="sd">            `&#39;engelse-zeelenberg&#39;`, `&#39;pan-tompkins&#39;`, `&#39;moving-average&#39;`</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    .. warning :: This function will resample the signal to 1000 Hz.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from systole import import_dataset</span>
+<span class="sd">    &gt;&gt;&gt; from systole.detection import ecg_peaks</span>
+<span class="sd">    &gt;&gt;&gt; signal_df = import_dataset()[:20*2000]</span>
+<span class="sd">    &gt;&gt;&gt; signal, peaks = ecg_peaks(signal_df.ecg.to_numpy(), method=&#39;hamilton&#39;,</span>
+<span class="sd">    &gt;&gt;&gt;                           sfreq=2000, find_local=True)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&#39;{sum(peaks)} peaks detected.&#39;)</span>
+<span class="sd">    24 peaks detected.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Howell, L., Porr, B. Popular ECG R peak detectors written in</span>
+<span class="sd">       python. DOI: 10.5281/zenodo.3353396</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+
+    <span class="c1"># Interpolate NaNs values if any and if requested</span>
+    <span class="k">if</span> <span class="n">clean_nan</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">nan_cleaning</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+    <span class="c1"># Resample signal to the new frequnecy if required</span>
+    <span class="k">if</span> <span class="n">sfreq</span> <span class="o">!=</span> <span class="n">new_sfreq</span><span class="p">:</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">sfreq</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">sfreq</span><span class="p">)</span>
+        <span class="n">new_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">sfreq</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">new_sfreq</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">new_time</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Copy resampled signal for output</span>
+    <span class="n">resampled_signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;sleepecg&quot;</span><span class="p">:</span>
+        <span class="n">peaks_idx</span> <span class="o">=</span> <span class="n">detect_heartbeats</span><span class="p">(</span><span class="n">resampled_signal</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="n">new_sfreq</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;hamilton&quot;</span><span class="p">:</span>
+        <span class="n">peaks_idx</span> <span class="o">=</span> <span class="n">hamilton</span><span class="p">(</span><span class="n">resampled_signal</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">new_sfreq</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;christov&quot;</span><span class="p">:</span>
+        <span class="n">peaks_idx</span> <span class="o">=</span> <span class="n">christov</span><span class="p">(</span><span class="n">resampled_signal</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">new_sfreq</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;engelse-zeelenberg&quot;</span><span class="p">:</span>
+        <span class="n">peaks_idx</span> <span class="o">=</span> <span class="n">engelse_zeelenberg</span><span class="p">(</span><span class="n">resampled_signal</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">new_sfreq</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;pan-tompkins&quot;</span><span class="p">:</span>
+        <span class="n">peaks_idx</span> <span class="o">=</span> <span class="n">pan_tompkins</span><span class="p">(</span><span class="n">resampled_signal</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">new_sfreq</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;moving-average&quot;</span><span class="p">:</span>
+        <span class="n">peaks_idx</span> <span class="o">=</span> <span class="n">moving_average</span><span class="p">(</span><span class="n">resampled_signal</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">new_sfreq</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Invalid method provided, should be: sleepecg, hamilton, &quot;</span>
+            <span class="s2">&quot;christov, engelse-zeelenberg, pan-tompkins, wavelet-transform, &quot;</span>
+            <span class="s2">&quot;moving-average&quot;</span>
+        <span class="p">)</span>
+    <span class="n">peaks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">resampled_signal</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="n">peaks</span><span class="p">[</span><span class="n">peaks_idx</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="n">find_local</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">peaks</span> <span class="o">=</span> <span class="n">to_neighbour</span><span class="p">(</span><span class="n">resampled_signal</span><span class="p">,</span> <span class="n">peaks</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">win_size</span> <span class="o">*</span> <span class="n">new_sfreq</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">resampled_signal</span><span class="p">,</span> <span class="n">peaks</span></div>
+
+
+<div class="viewcode-block" id="rsp_peaks"><a class="viewcode-back" href="../../generated/detection/systole.detection.rsp_peaks.html#systole.detection.rsp_peaks">[docs]</a><span class="k">def</span> <span class="nf">rsp_peaks</span><span class="p">(</span>
+    <span class="n">signal</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">],</span>
+    <span class="n">sfreq</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">new_sfreq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="n">win</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.025</span><span class="p">,</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;peaks-troughs&quot;</span><span class="p">,</span>
+    <span class="n">clean_nan</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]]:</span>
+    <span class="sd">&quot;&quot;&quot;Identify peaks and/or troughs in respiratory signal.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    signal : np.ndarray | list | pd.Series</span>
+<span class="sd">        The respiratory signal. Peaks are considered to represent end of inspiration,</span>
+<span class="sd">        trough represent end of expiration.</span>
+<span class="sd">    sfreq : int</span>
+<span class="sd">        The sampling frequency.</span>
+<span class="sd">    new_sfreq : int</span>
+<span class="sd">        If resample is `True`, the new sampling frequency. Defaults to `1000` Hz.</span>
+<span class="sd">    win : int</span>
+<span class="sd">        Window size (in seconds). Default is set to 25ms, following recommandation</span>
+<span class="sd">        from [1]_.</span>
+<span class="sd">    kind : str</span>
+<span class="sd">        What kind of detection to perform. Peak detection (`&quot;peaks&quot;`), trough detection</span>
+<span class="sd">        (`&quot;troughs&quot;`) or both (`&quot;peaks-troughs&quot;`, default).</span>
+<span class="sd">    clean_nan : bool</span>
+<span class="sd">        If `True`, will interpolate NaNs values if any before any other operation.</span>
+<span class="sd">        Defaults to `False`.</span>
+<span class="sd">    verbose : bool</span>
+<span class="sd">        Control function verbosity. Defaults to `False` (do not print processing steps).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    resampled_signal : np.ndarray</span>
+<span class="sd">        Signal resampled to the `new_sfreq` frequency.</span>
+<span class="sd">    peaks | trough | (peaks, trough) : np.ndarray | np.ndarray | (np.ndarray, np.ndarray)</span>
+<span class="sd">        Boolean arrays of peaks and / or troughs in the respiratory signal.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If `kind` is not one of the following: `&quot;peaks&quot;`, `&quot;troughs&quot;` or</span>
+<span class="sd">        `&quot;peaks-troughs&quot;`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The processing steps are largely inspired by the method described in [1]_.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Torben Noto, Guangyu Zhou, Stephan Schuele, Jessica Templer, Christina</span>
+<span class="sd">       Zelano,Automated analysis of breathing waveforms using BreathMetrics: a</span>
+<span class="sd">       respiratory signal processing toolbox, Chemical Senses, Volume 43, Issue 8,</span>
+<span class="sd">       October 2018, Pages 583-597, https://doi.org/10.1093/chemse/bjy045</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">kind</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;peaks&quot;</span><span class="p">,</span> <span class="s2">&quot;troughs&quot;</span><span class="p">,</span> <span class="s2">&quot;peaks-troughs&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Invalid kind parameter. Should be &#39;peaks&#39;, &#39;troughs&#39; or &#39;peaks-troughs&#39;&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+
+    <span class="c1"># Interpolate NaNs values if any and if requested</span>
+    <span class="k">if</span> <span class="n">clean_nan</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">nan_cleaning</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+    <span class="c1"># Resample signal to the new frequnecy if required</span>
+    <span class="k">if</span> <span class="n">sfreq</span> <span class="o">!=</span> <span class="n">new_sfreq</span><span class="p">:</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">sfreq</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">sfreq</span><span class="p">)</span>
+        <span class="n">new_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">sfreq</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">new_sfreq</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">new_time</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Copy resampled signal for output</span>
+    <span class="n">resampled_signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Soothing using rolling mean</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;signal&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">})</span>
+        <span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">sfreq</span> <span class="o">*</span> <span class="n">win</span><span class="p">),</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;bfill&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;ffill&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Normalize (z-score) the respiration signal</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
+
+    <span class="c1"># Peak enhancement</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span>
+
+    <span class="c1"># Find peaks and trough in preprocessed signal</span>
+    <span class="k">if</span> <span class="s2">&quot;peaks&quot;</span> <span class="ow">in</span> <span class="n">kind</span><span class="p">:</span>
+        <span class="n">peaks_idx</span> <span class="o">=</span> <span class="n">find_peaks</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sfreq</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">peaks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">resampled_signal</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="n">peaks</span><span class="p">[</span><span class="n">peaks_idx</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="s2">&quot;troughs&quot;</span> <span class="ow">in</span> <span class="n">kind</span><span class="p">:</span>
+        <span class="n">troughs_idx</span> <span class="o">=</span> <span class="n">find_peaks</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sfreq</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">troughs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">resampled_signal</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="n">troughs</span><span class="p">[</span><span class="n">troughs_idx</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;peaks&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">resampled_signal</span><span class="p">,</span> <span class="n">peaks</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;trough&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">resampled_signal</span><span class="p">,</span> <span class="n">troughs</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">resampled_signal</span><span class="p">,</span> <span class="p">(</span><span class="n">peaks</span><span class="p">,</span> <span class="n">troughs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="rr_artefacts"><a class="viewcode-back" href="../../generated/detection/systole.detection.rr_artefacts.html#systole.detection.rr_artefacts">[docs]</a><span class="k">def</span> <span class="nf">rr_artefacts</span><span class="p">(</span>
+    <span class="n">rr</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+    <span class="n">c1</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.13</span><span class="p">,</span>
+    <span class="n">c2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.17</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.2</span><span class="p">,</span>
+    <span class="n">input_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;rr_ms&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Artefacts detection from RR time series using the subspaces approach</span>
+<span class="sd">    proposed by Lipponen &amp; Tarvainen (2019).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rr : np.ndarray or list</span>
+<span class="sd">        1d numpy array of RR intervals (in seconds or miliseconds) or peaks</span>
+<span class="sd">        vector (boolean array).</span>
+<span class="sd">    c1 : float</span>
+<span class="sd">        Fixed variable controling the slope of the threshold lines. Default is</span>
+<span class="sd">        `0.13`.</span>
+<span class="sd">    c2 : float</span>
+<span class="sd">        Fixed variable controling the intersect of the threshold lines. Default</span>
+<span class="sd">        is `0.17`.</span>
+<span class="sd">    alpha : float</span>
+<span class="sd">        Scaling factor used to normalize the RR intervals first deviation.</span>
+<span class="sd">    input_type : str</span>
+<span class="sd">        The type of input vector. Defaults to `&quot;rr_ms&quot;` for vectors of RR</span>
+<span class="sd">        intervals, or  interbeat intervals (IBI), expressed in milliseconds.</span>
+<span class="sd">        Can also be a boolean vector where `1` represents the occurrence of</span>
+<span class="sd">        R waves or systolic peakspeaks vector `&quot;rr_s&quot;` or IBI expressed in</span>
+<span class="sd">        seconds.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    artefacts : dict</span>
+<span class="sd">        Dictionary storing the parameters of RR artefacts rejection. All the vectors</span>
+<span class="sd">        outputed have the same length as the provided RR time serie:</span>
+
+<span class="sd">        * subspace1 : np.ndarray</span>
+<span class="sd">            The first dimension. First derivative of R-R interval time serie.</span>
+<span class="sd">        * subspace2 : np.ndarray</span>
+<span class="sd">            The second dimension (1st plot).</span>
+<span class="sd">        * subspace3 : np.ndarray</span>
+<span class="sd">            The third dimension (2nd plot).</span>
+<span class="sd">        * mRR : np.ndarray</span>
+<span class="sd">            The mRR time serie.</span>
+<span class="sd">        * ectopic : np.ndarray</span>
+<span class="sd">            Boolean array indexing probable ectopic beats.</span>
+<span class="sd">        * long : np.ndarray</span>
+<span class="sd">            Boolean array indexing long RR intervals.</span>
+<span class="sd">        * short : np.ndarray</span>
+<span class="sd">            Boolean array indexing short RR intervals.</span>
+<span class="sd">        * missed : np.ndarray</span>
+<span class="sd">            Boolean array indexing missed RR intervals.</span>
+<span class="sd">        * extra : np.ndarray</span>
+<span class="sd">            Boolean array indexing extra RR intervals.</span>
+<span class="sd">        * threshold1 : np.ndarray</span>
+<span class="sd">            Threshold 1.</span>
+<span class="sd">        * threshold2 : np.ndarray</span>
+<span class="sd">            Threshold 2.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This function will use the method proposed by [1]_ to detect ectopic beats, long,</span>
+<span class="sd">    shorts, missed and extra RR intervals.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from systole import simulate_rr</span>
+<span class="sd">    &gt;&gt;&gt; from systole.detection import rr_artefacts</span>
+<span class="sd">    &gt;&gt;&gt; rr = simulate_rr()  # Simulate RR time series</span>
+<span class="sd">    &gt;&gt;&gt; artefacts = rr_artefacts(rr)</span>
+<span class="sd">    &gt;&gt;&gt; print(artefacts.keys())</span>
+<span class="sd">    dict_keys([&#39;subspace1&#39;, &#39;subspace2&#39;, &#39;subspace3&#39;, &#39;mRR&#39;, &#39;ectopic&#39;, &#39;long&#39;,</span>
+<span class="sd">    &#39;short&#39;, &#39;missed&#39;, &#39;extra&#39;, &#39;threshold1&#39;, &#39;threshold2&#39;])</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Lipponen, J. A., &amp; Tarvainen, M. P. (2019). A robust algorithm for</span>
+<span class="sd">        heart rate variability time series artefact correction using novel</span>
+<span class="sd">        beat classification. Journal of Medical Engineering &amp; Technology,</span>
+<span class="sd">        43(3), 173-181. https://doi.org/10.1080/03091902.2019.1640306</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">input_type</span> <span class="o">!=</span> <span class="s2">&quot;rr_ms&quot;</span><span class="p">:</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">input_conversion</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="n">input_type</span><span class="p">,</span> <span class="n">output_type</span><span class="o">=</span><span class="s2">&quot;rr_ms&quot;</span><span class="p">)</span>
+
+    <span class="c1">###########</span>
+    <span class="c1"># Detection</span>
+    <span class="c1">###########</span>
+
+    <span class="c1"># Subspace 1 (dRRs time serie)</span>
+    <span class="n">dRR</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">dRR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">dRR</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>  <span class="c1"># Set first item to a realistic value</span>
+
+    <span class="n">dRR_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;signal&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">dRR</span><span class="p">)})</span>
+    <span class="n">q1</span> <span class="o">=</span> <span class="n">dRR_df</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">91</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="n">q3</span> <span class="o">=</span> <span class="n">dRR_df</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">91</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+    <span class="n">th1</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">((</span><span class="n">q3</span> <span class="o">-</span> <span class="n">q1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">dRR</span> <span class="o">=</span> <span class="n">dRR</span> <span class="o">/</span> <span class="n">th1</span>
+    <span class="n">s11</span> <span class="o">=</span> <span class="n">dRR</span>
+
+    <span class="c1"># mRRs time serie</span>
+    <span class="n">medRR</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;signal&quot;</span><span class="p">:</span> <span class="n">rr</span><span class="p">})</span>
+        <span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">median</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="n">mRR</span> <span class="o">=</span> <span class="n">rr</span> <span class="o">-</span> <span class="n">medRR</span>
+    <span class="n">mRR</span><span class="p">[</span><span class="n">mRR</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">mRR</span><span class="p">[</span><span class="n">mRR</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">mRR_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;signal&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mRR</span><span class="p">)})</span>
+    <span class="n">q1</span> <span class="o">=</span> <span class="n">mRR_df</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">91</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="n">q3</span> <span class="o">=</span> <span class="n">mRR_df</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">91</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+    <span class="n">th2</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">((</span><span class="n">q3</span> <span class="o">-</span> <span class="n">q1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">mRR</span> <span class="o">/=</span> <span class="n">th2</span>
+
+    <span class="c1"># Subspace 2</span>
+    <span class="n">ma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">dRR</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dRR</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dRR</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)],</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">mi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">dRR</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dRR</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dRR</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)],</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">s12</span> <span class="o">=</span> <span class="n">ma</span>
+    <span class="n">s12</span><span class="p">[</span><span class="n">dRR</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">mi</span><span class="p">[</span><span class="n">dRR</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Subspace 3</span>
+    <span class="n">ma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
+        <span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">dRR</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dRR</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dRR</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">mi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
+        <span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">dRR</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dRR</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dRR</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">s22</span> <span class="o">=</span> <span class="n">ma</span>
+    <span class="n">s22</span><span class="p">[</span><span class="n">dRR</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">mi</span><span class="p">[</span><span class="n">dRR</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1">##########</span>
+    <span class="c1"># Decision</span>
+    <span class="c1">##########</span>
+
+    <span class="c1"># Find ectobeats</span>
+    <span class="n">cond1</span> <span class="o">=</span> <span class="p">(</span><span class="n">s11</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">s12</span> <span class="o">&lt;</span> <span class="p">(</span><span class="o">-</span><span class="n">c1</span> <span class="o">*</span> <span class="n">s11</span> <span class="o">-</span> <span class="n">c2</span><span class="p">))</span>
+    <span class="n">cond2</span> <span class="o">=</span> <span class="p">(</span><span class="n">s11</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">s12</span> <span class="o">&gt;</span> <span class="p">(</span><span class="o">-</span><span class="n">c1</span> <span class="o">*</span> <span class="n">s11</span> <span class="o">+</span> <span class="n">c2</span><span class="p">))</span>
+    <span class="n">ectopic</span> <span class="o">=</span> <span class="n">cond1</span> <span class="o">|</span> <span class="n">cond2</span>
+    <span class="c1"># No ectopic detection and correction at time serie edges</span>
+    <span class="n">ectopic</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">ectopic</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Find long or shorts</span>
+    <span class="n">longBeats</span> <span class="o">=</span> <span class="p">((</span><span class="n">s11</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">s22</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">|</span> <span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mRR</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">rr</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">rr</span><span class="p">)))</span>
+    <span class="n">shortBeats</span> <span class="o">=</span> <span class="p">((</span><span class="n">s11</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">s22</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">))</span> <span class="o">|</span> <span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mRR</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">rr</span> <span class="o">&lt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">rr</span><span class="p">)))</span>
+
+    <span class="c1"># Test if next interval is also outlier</span>
+    <span class="k">for</span> <span class="n">cond</span> <span class="ow">in</span> <span class="p">[</span><span class="n">longBeats</span><span class="p">,</span> <span class="n">shortBeats</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">cond</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">s11</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">s11</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]):</span>
+                    <span class="n">cond</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Ectopic beats are not considered as short or long</span>
+    <span class="n">shortBeats</span><span class="p">[</span><span class="n">ectopic</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">longBeats</span><span class="p">[</span><span class="n">ectopic</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Missed vector</span>
+    <span class="n">missed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="n">rr</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">medRR</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">th2</span>
+    <span class="n">missed</span> <span class="o">=</span> <span class="n">missed</span> <span class="o">&amp;</span> <span class="n">longBeats</span>
+    <span class="n">longBeats</span><span class="p">[</span><span class="n">missed</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Missed beats are not considered as long</span>
+
+    <span class="c1"># Etra vector</span>
+    <span class="n">extra</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rr</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rr</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">medRR</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">th2</span>
+    <span class="n">extra</span> <span class="o">=</span> <span class="n">extra</span> <span class="o">&amp;</span> <span class="n">shortBeats</span>
+    <span class="n">shortBeats</span><span class="p">[</span><span class="n">extra</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Extra beats are not considered as short</span>
+
+    <span class="c1"># No short or long intervals at time serie edges</span>
+    <span class="n">shortBeats</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">shortBeats</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span>
+    <span class="n">longBeats</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">longBeats</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span>
+
+    <span class="n">artefacts</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;subspace1&quot;</span><span class="p">:</span> <span class="n">s11</span><span class="p">,</span>
+        <span class="s2">&quot;subspace2&quot;</span><span class="p">:</span> <span class="n">s12</span><span class="p">,</span>
+        <span class="s2">&quot;subspace3&quot;</span><span class="p">:</span> <span class="n">s22</span><span class="p">,</span>
+        <span class="s2">&quot;mRR&quot;</span><span class="p">:</span> <span class="n">mRR</span><span class="p">,</span>
+        <span class="s2">&quot;ectopic&quot;</span><span class="p">:</span> <span class="n">ectopic</span><span class="p">,</span>
+        <span class="s2">&quot;long&quot;</span><span class="p">:</span> <span class="n">longBeats</span><span class="p">,</span>
+        <span class="s2">&quot;short&quot;</span><span class="p">:</span> <span class="n">shortBeats</span><span class="p">,</span>
+        <span class="s2">&quot;missed&quot;</span><span class="p">:</span> <span class="n">missed</span><span class="p">,</span>
+        <span class="s2">&quot;extra&quot;</span><span class="p">:</span> <span class="n">extra</span><span class="p">,</span>
+        <span class="s2">&quot;threshold1&quot;</span><span class="p">:</span> <span class="n">th1</span><span class="p">,</span>
+        <span class="s2">&quot;threshold2&quot;</span><span class="p">:</span> <span class="n">th2</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">artefacts</span></div>
+
+
+<div class="viewcode-block" id="interpolate_clipping"><a class="viewcode-back" href="../../generated/detection/systole.detection.interpolate_clipping.html#systole.detection.interpolate_clipping">[docs]</a><span class="k">def</span> <span class="nf">interpolate_clipping</span><span class="p">(</span>
+    <span class="n">signal</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+    <span class="n">min_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">max_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">255.0</span><span class="p">,</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cubic&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Interoplate clipping artefacts.</span>
+
+<span class="sd">    This function removes all data points greather/lower or equalling the provided</span>
+<span class="sd">    thresholds and re-creates the missing segments using interpolation (default is</span>
+<span class="sd">    `&quot;cubic&quot;`).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    signal : np.ndarray or list</span>
+<span class="sd">        The PPG signal.</span>
+<span class="sd">    min_threshold, max_threshold : float | None</span>
+<span class="sd">        Minimum and maximum thresholds for clipping artefacts. If `None`, no correction</span>
+<span class="sd">        os provided for the given threshold. Defaults to `min_threshold=0.0` and</span>
+<span class="sd">        `max_threshold=255.0`, which corresponds to the expected values when reading</span>
+<span class="sd">        data from the Nonin 3012LP Xpod USB pulse oximeter together with Nonin 8000SM</span>
+<span class="sd">        &#39;soft-clip&#39; fingertip sensors.</span>
+<span class="sd">    kind : str</span>
+<span class="sd">        Specifies the kind of interpolation to perform(see</span>
+<span class="sd">        py:func:`scipy.interpolate.interp1d`).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    clean_signal : np.ndarray</span>
+<span class="sd">        Interpolated signal.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">        &gt;&gt;&gt; from systole import import_ppg</span>
+<span class="sd">        &gt;&gt;&gt; from systole.detection import interpolate_clipping</span>
+<span class="sd">        &gt;&gt;&gt; df = import_ppg()</span>
+<span class="sd">        &gt;&gt;&gt; # Create lower and upper clipping artefacts</span>
+<span class="sd">        &gt;&gt;&gt; df.ppg.loc[df.ppg&lt;=50] = 50</span>
+<span class="sd">        &gt;&gt;&gt; df.ppg.loc[df.ppg&gt;=230] = 230</span>
+<span class="sd">        &gt;&gt;&gt; # Correct clipping artefacts</span>
+<span class="sd">        &gt;&gt;&gt; clean_signal = interpolate_clipping(df.ppg.to_numpy(), min_threshold=50, max_threshold=230)</span>
+<span class="sd">        &gt;&gt;&gt; # Plot</span>
+<span class="sd">        &gt;&gt;&gt; plt.plot(df.time, clean_signal, color=&#39;#F15854&#39;, label=&quot;Corrected signal&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; plt.plot(df.time, df.ppg, color=&#39;#5DA5DA&#39;, label=&quot;Clipping artefacts&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; plt.axhline(y=50, linestyle=&#39;--&#39;, color=&#39;k&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; plt.axhline(y=230, linestyle=&#39;--&#39;, color=&#39;k&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; plt.xlabel(&#39;Time (s)&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; plt.ylabel(&#39;PPG level (a.u)&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; plt.xlim(10, 40)</span>
+<span class="sd">        &gt;&gt;&gt; plt.legend()</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Correct signal segment greather/smaller or equalling the recording threshold using</span>
+<span class="sd">    cubic spline interpolation. Adapted from [1]_.</span>
+
+<span class="sd">    .. Warning:: If clipping artefact is found at the edge of the signal, this</span>
+<span class="sd">        function will decrement/increment the first/last value to allow interpolation.</span>
+
+<span class="sd">    The first and last values are corrected for interpolation by adding/substracting</span>
+<span class="sd">    the median step observed in the time series.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">clean_signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">))</span>
+
+    <span class="c1"># What is the median step in the time serie?</span>
+    <span class="c1"># Use that to correct first and last values if required</span>
+    <span class="n">step</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">clean_signal</span><span class="p">))))</span>
+
+    <span class="k">if</span> <span class="n">max_threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="c1"># Security check for clipping at signal edge</span>
+        <span class="k">if</span> <span class="n">clean_signal</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">max_threshold</span><span class="p">:</span>
+            <span class="n">clean_signal</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_threshold</span> <span class="o">-</span> <span class="n">step</span>
+        <span class="k">if</span> <span class="n">clean_signal</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">max_threshold</span><span class="p">:</span>
+            <span class="n">clean_signal</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_threshold</span> <span class="o">-</span> <span class="n">step</span>
+
+        <span class="c1"># Interpolate</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span>
+            <span class="n">time</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">clean_signal</span> <span class="o">&lt;</span> <span class="n">max_threshold</span><span class="p">)[</span><span class="mi">0</span><span class="p">]],</span>
+            <span class="n">clean_signal</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">clean_signal</span> <span class="o">&lt;</span> <span class="n">max_threshold</span><span class="p">)[</span><span class="mi">0</span><span class="p">]],</span>
+            <span class="n">kind</span><span class="o">=</span><span class="n">kind</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Use the peaks vector as time input</span>
+        <span class="n">clean_signal</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">min_threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="c1"># Security check for clipping at signal edge</span>
+        <span class="k">if</span> <span class="n">clean_signal</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">min_threshold</span><span class="p">:</span>
+            <span class="n">clean_signal</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">min_threshold</span> <span class="o">+</span> <span class="n">step</span>
+        <span class="k">if</span> <span class="n">clean_signal</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">min_threshold</span><span class="p">:</span>
+            <span class="n">clean_signal</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">min_threshold</span> <span class="o">+</span> <span class="n">step</span>
+
+        <span class="c1"># Interpolate</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span>
+            <span class="n">time</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">clean_signal</span> <span class="o">&gt;</span> <span class="n">min_threshold</span><span class="p">)[</span><span class="mi">0</span><span class="p">]],</span>
+            <span class="n">clean_signal</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">clean_signal</span> <span class="o">&gt;</span> <span class="n">min_threshold</span><span class="p">)[</span><span class="mi">0</span><span class="p">]],</span>
+            <span class="n">kind</span><span class="o">=</span><span class="n">kind</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Use the peaks vector as time input</span>
+        <span class="n">clean_signal</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">clean_signal</span></div>
+</pre></div>
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2020-2022, Nicolas Legrand.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

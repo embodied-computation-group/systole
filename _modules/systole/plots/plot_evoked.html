@@ -1,0 +1,537 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>systole.plots.plot_evoked &#8212; systole 0.2.3 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/thebelab-helper.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="None">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../_static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../getting_started.html">
+  Installation
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../auto_examples/index.html">
+  Gallery
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../tutorials.html">
+  Tutorials
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../api.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../changelog.html">
+  Release notes
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/embodied-computation-group/systole" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/visceral_mind" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://pypi.org/project/systole/" rel="noopener" target="_blank" title="Pypi"><span><i class="fas fa-box"></i></span>
+            <label class="sr-only">Pypi</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <h1>Source code for systole.plots.plot_evoked</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Author: Nicolas Legrand &lt;nicolas.legrand@cfin.au.dk&gt;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">bokeh.plotting.figure</span> <span class="kn">import</span> <span class="n">Figure</span>
+<span class="kn">from</span> <span class="nn">matplotlib.axes</span> <span class="kn">import</span> <span class="n">Axes</span>
+
+<span class="kn">from</span> <span class="nn">systole.detection</span> <span class="kn">import</span> <span class="n">ecg_peaks</span><span class="p">,</span> <span class="n">ppg_peaks</span>
+<span class="kn">from</span> <span class="nn">systole.plots.utils</span> <span class="kn">import</span> <span class="n">get_plotting_function</span>
+<span class="kn">from</span> <span class="nn">systole.utils</span> <span class="kn">import</span> <span class="n">heart_rate</span><span class="p">,</span> <span class="n">to_epochs</span>
+
+
+<div class="viewcode-block" id="plot_evoked"><a class="viewcode-back" href="../../../generated/plots/systole.plots.plot_evoked.html#systole.plots.plot_evoked">[docs]</a><span class="k">def</span> <span class="nf">plot_evoked</span><span class="p">(</span>
+    <span class="n">epochs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">signal</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">triggers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">triggers_idx</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">rr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">input_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;peaks&quot;</span><span class="p">,</span>
+    <span class="n">reject</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">modality</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ppg&quot;</span><span class="p">,</span>
+    <span class="n">tmin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">tmax</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span>
+    <span class="n">sfreq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="n">apply_baseline</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">decim</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bpm&quot;</span><span class="p">,</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cubic&quot;</span><span class="p">,</span>
+    <span class="n">ax</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Axes</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">backend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;matplotlib&quot;</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Figure</span><span class="p">,</span> <span class="n">Axes</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Plot evoked heart rate across trials.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    epochs : list of np.ndarray</span>
+<span class="sd">        A list of 2d (trial * time) numpy array containing the time series of the</span>
+<span class="sd">        epoched signal. When multiple arrays are provided, will be plotted separately</span>
+<span class="sd">        as different conditions.</span>
+<span class="sd">    signal : np.ndarray | list</span>
+<span class="sd">        A 1d numpy array containing the physiological signal (can be PPG or</span>
+<span class="sd">        ECG). The modality of the signal is parametrized using the `modality`</span>
+<span class="sd">        parameter.</span>
+<span class="sd">    triggers : np.ndarray | list</span>
+<span class="sd">        The boolean indices of the events, shape=(times*sfreq, 1).</span>
+<span class="sd">    triggers_idx : np.ndarray or list</span>
+<span class="sd">        Trigger indexes. Each value encode the sample where an event occured (see</span>
+<span class="sd">        also `sfreq`). Different conditions should be provided separately as list of</span>
+<span class="sd">        arrays (can have different lenght).</span>
+<span class="sd">    rr : np.ndarray | list</span>
+<span class="sd">        Boolean vector of peaks detection or peaks indexs. See `input_type`.</span>
+<span class="sd">    input_type : str</span>
+<span class="sd">        The type of input vector. Can be `&quot;peaks&quot;`, `&quot;peaks_idx&quot;`, `&quot;rr_ms&quot;`,</span>
+<span class="sd">        or `&quot;rr_s&quot;`. Default to `&quot;peaks&quot;`.</span>
+<span class="sd">    reject : np.ndarray | None</span>
+<span class="sd">        Segments of the signal that should be rejected.</span>
+<span class="sd">    modality : str</span>
+<span class="sd">        The recording modality (can be `&quot;ppg&quot;` or `&quot;ecg&quot;`). Only required when using</span>
+<span class="sd">        `signal`. The modality will determine the peaks detection method.</span>
+<span class="sd">    tmin, tmax : float</span>
+<span class="sd">        Start and end time of the epochs in seconds, relative to the</span>
+<span class="sd">        time-locked event. Defaults to -1.0 and 10.0, respectively.</span>
+<span class="sd">    sfreq : int</span>
+<span class="sd">        The sampling frequency of the input signal and triggers. Default set to `1000`.</span>
+<span class="sd">    apply_baseline : float | tuple | None</span>
+<span class="sd">        If int or tuple, use the point or interval to apply a baseline</span>
+<span class="sd">        (method: mean). If `None`, no baseline is applied. Default is set to `0`.</span>
+<span class="sd">    decim : int | None</span>
+<span class="sd">        Factor by which to subsample the data. Selects every Nth sample (where N is the</span>
+<span class="sd">        value passed to decim). Default set to `None` (no decim).</span>
+<span class="sd">    labels : str | list</span>
+<span class="sd">        The condition labels.</span>
+<span class="sd">    unit : str</span>
+<span class="sd">        The heart rate unit. Can be `&#39;rr&#39;` (R-R intervals, in ms) or `&#39;bpm&#39;` (beats</span>
+<span class="sd">        per minutes). Default is `&#39;bpm&#39;`.</span>
+<span class="sd">    kind : str</span>
+<span class="sd">        This argument will be passed too py:func:`systole.utils.heart_rate` and control</span>
+<span class="sd">        the type of interpolation between instantaneous heart rate estimates.</span>
+<span class="sd">        This is then the method used by `scipy.interpolate.interp1d`). Can be `&#39;cubic&#39;`</span>
+<span class="sd">        (defalut), `&#39;linear&#39;`, `&#39;previous&#39;` or `&#39;next&#39;`.</span>
+<span class="sd">    ax : :class:`matplotlib.axes.Axes` | None</span>
+<span class="sd">        Where to draw the plot. Default is *None* (create a new figure).</span>
+<span class="sd">    figsize : tuple, int or None</span>
+<span class="sd">        Figure size. Default is set to `(13, 5)` if `backend==&quot;matplotlib&quot;` and</span>
+<span class="sd">        `(400, 400)` if `backend==&quot;bokeh&quot;`.</span>
+<span class="sd">    backend: str</span>
+<span class="sd">        Select plotting backend (`&quot;matplotlib&quot;`, `&quot;bokeh&quot;`). Default sets to</span>
+<span class="sd">        `&quot;matplotlib&quot;`.</span>
+<span class="sd">    kwargs: key, value mappings</span>
+<span class="sd">        Other keyword arguments are passed down to py:`func:seaborn.lineplot()` if</span>
+<span class="sd">        `backend` is `&quot;matplotlib&quot;`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    plot : :class:`matplotlib.axes.Axes` or :class:`bokeh.plotting.figure.Figure`</span>
+<span class="sd">        The matplotlib axes, or the boken figure containing the plot.</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    plot_events</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Plot evoked heart rate across two conditions using the Matplotlib backend. Here,</span>
+<span class="sd">    for the sake of example, we are going to create the same plot three time using</span>
+<span class="sd">    three kind of input data:</span>
+
+<span class="sd">    * The raw signal + the triggers timing (or a list of in case of multiple conditions).</span>
+<span class="sd">    * The peaks detection + the triggers timing (or a list of in case of multiple conditions)</span>
+<span class="sd">    * The epoched signal as a 2d NumPy array (or a list of in case of multiple conditions)</span>
+
+<span class="sd">    .. jupyter-execute::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       import seaborn as sns</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       from systole.detection import ecg_peaks</span>
+<span class="sd">       from systole.plots import plot_evoked</span>
+<span class="sd">       from systole import import_dataset1</span>
+<span class="sd">       from systole.utils import heart_rate, to_epochs</span>
+
+<span class="sd">       ecg_df = import_dataset1(modalities=[&#39;ECG&#39;, &quot;Stim&quot;])</span>
+
+<span class="sd">       # Get events triggers</span>
+<span class="sd">       triggers_idx = [</span>
+<span class="sd">            np.where(ecg_df.stim.to_numpy() == 2)[0],</span>
+<span class="sd">            np.where(ecg_df.stim.to_numpy() == 1)[0]</span>
+<span class="sd">       ]</span>
+
+<span class="sd">       # Peak detection in the ECG signal using the Pan-Tompkins method</span>
+<span class="sd">       signal, peaks = ecg_peaks(ecg_df.ecg, method=&#39;pan-tompkins&#39;, sfreq=1000)</span>
+
+<span class="sd">       # Convert to instantaneous heart rate</span>
+<span class="sd">       rr, _ = heart_rate(peaks, kind=&quot;cubic&quot;, unit=&quot;bpm&quot;, input_type=&quot;peaks&quot;)</span>
+
+<span class="sd">       # Create list epochs arrays for each condition</span>
+<span class="sd">       epochs, _ = to_epochs(</span>
+<span class="sd">           signal=rr, triggers_idx=triggers_idx, tmin=-1.0, tmax=10.0,</span>
+<span class="sd">           apply_baseline=(-1.0, 0.0)</span>
+<span class="sd">           )</span>
+
+<span class="sd">       fig, axs = plt.subplots(ncols=3, figsize=(15, 5), sharey=True)</span>
+
+<span class="sd">       # Using the raw signal and events triggers</span>
+<span class="sd">       plot_evoked(</span>
+<span class="sd">            signal=ecg_df.ecg.to_numpy(), triggers_idx=triggers_idx, modality=&quot;ecg&quot;,</span>
+<span class="sd">            tmin=-1.0, tmax=10.0, apply_baseline=(-1.0, 0.0), backend=&quot;matplotlib&quot;,</span>
+<span class="sd">            palette=[sns.xkcd_rgb[&quot;denim blue&quot;], sns.xkcd_rgb[&quot;pale red&quot;]],</span>
+<span class="sd">            ax=axs[0]</span>
+<span class="sd">            )</span>
+
+<span class="sd">       # Using the detected peaks and events triggers</span>
+<span class="sd">       plot_evoked(</span>
+<span class="sd">           rr=peaks, triggers_idx=triggers_idx, input_type=&quot;peaks&quot;, tmin=-1.0,</span>
+<span class="sd">           tmax=10.0, apply_baseline=(-1.0, 0.0), backend=&quot;matplotlib&quot;,</span>
+<span class="sd">           palette=[sns.xkcd_rgb[&quot;denim blue&quot;], sns.xkcd_rgb[&quot;pale red&quot;]],</span>
+<span class="sd">           ax=axs[1]</span>
+<span class="sd">           )</span>
+
+<span class="sd">       # Using the list of epochs arrays</span>
+<span class="sd">       plot_evoked(</span>
+<span class="sd">           epochs=epochs,</span>
+<span class="sd">           palette=[sns.xkcd_rgb[&quot;denim blue&quot;], sns.xkcd_rgb[&quot;pale red&quot;]],</span>
+<span class="sd">           backend=&quot;matplotlib&quot;,</span>
+<span class="sd">           ax=axs[2]</span>
+<span class="sd">           )</span>
+
+<span class="sd">    Plot evoked heart rate across two conditions using the Bokeh backend. Here,</span>
+<span class="sd">    for the sake of example, we are going to create the same plot three times using</span>
+<span class="sd">    three kind of input data:</span>
+
+<span class="sd">    * The raw signal + the triggers timing (or a list of in case of multiple conditions).</span>
+<span class="sd">    * The peaks detection + the triggers timing (or a list of in case of multiple conditions)</span>
+<span class="sd">    * The epoched signal as a 2d NumPy array (or a list of in case of multiple conditions)</span>
+
+<span class="sd">    .. jupyter-execute::</span>
+
+<span class="sd">       from bokeh.io import output_notebook</span>
+<span class="sd">       from bokeh.plotting import show</span>
+<span class="sd">       from bokeh.layouts import row</span>
+<span class="sd">       output_notebook()</span>
+
+<span class="sd">       # Using the raw signal and events triggers</span>
+<span class="sd">       raw_plot = plot_evoked(</span>
+<span class="sd">            signal=ecg_df.ecg.to_numpy(), triggers_idx=triggers_idx, modality=&quot;ecg&quot;,</span>
+<span class="sd">            tmin=-1.0, tmax=10.0, apply_baseline=(-1.0, 0.0), backend=&quot;bokeh&quot;,</span>
+<span class="sd">            palette=[sns.xkcd_rgb[&quot;denim blue&quot;], sns.xkcd_rgb[&quot;pale red&quot;]],</span>
+<span class="sd">            figsize=(400, 400)</span>
+<span class="sd">            )</span>
+
+<span class="sd">       # Using the detected peaks and events triggers</span>
+<span class="sd">       peaks_plot = plot_evoked(</span>
+<span class="sd">           rr=peaks, triggers_idx=triggers_idx, input_type=&quot;peaks&quot;, tmin=-1.0,</span>
+<span class="sd">           tmax=10.0, apply_baseline=(-1.0, 0.0), backend=&quot;bokeh&quot;,</span>
+<span class="sd">           palette=[sns.xkcd_rgb[&quot;denim blue&quot;], sns.xkcd_rgb[&quot;pale red&quot;]],</span>
+<span class="sd">           figsize=(400, 400)</span>
+<span class="sd">           )</span>
+
+<span class="sd">       # Using the list of epochs arrays</span>
+<span class="sd">       epochs_plots = plot_evoked(</span>
+<span class="sd">           epochs=epochs,</span>
+<span class="sd">           palette=[sns.xkcd_rgb[&quot;denim blue&quot;], sns.xkcd_rgb[&quot;pale red&quot;]],</span>
+<span class="sd">           backend=&quot;bokeh&quot;,</span>
+<span class="sd">           figsize=(400, 400)</span>
+<span class="sd">           )</span>
+
+<span class="sd">       # Create a Bokeh layout and plot the figures side by side</span>
+<span class="sd">       show(row(raw_plot, peaks_plot, epochs_plots))</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Define figure size</span>
+    <span class="k">if</span> <span class="n">figsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">backend</span> <span class="o">==</span> <span class="s2">&quot;matplotlib&quot;</span><span class="p">:</span>
+            <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">backend</span> <span class="o">==</span> <span class="s2">&quot;bokeh&quot;</span><span class="p">:</span>
+            <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+
+    <span class="c1"># Extract instantaneous heart rate from raw signal</span>
+    <span class="k">if</span> <span class="n">signal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">signal</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The signal should be a 1d array, list or pandas serie&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">modality</span> <span class="o">==</span> <span class="s2">&quot;ppg&quot;</span><span class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">peaks</span> <span class="o">=</span> <span class="n">ppg_peaks</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">modality</span> <span class="o">==</span> <span class="s2">&quot;ecg&quot;</span><span class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">peaks</span> <span class="o">=</span> <span class="n">ecg_peaks</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">)</span>
+        <span class="n">rr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">heart_rate</span><span class="p">(</span><span class="n">peaks</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">kind</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="s2">&quot;peaks&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Extract instantaneous heart rate from peaks detection vector</span>
+    <span class="k">elif</span> <span class="n">rr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The RR intervals (rr) should be a 1d array, list or pandas serie&quot;</span>
+            <span class="p">)</span>
+        <span class="n">rr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">heart_rate</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">kind</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="n">input_type</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">)</span>
+
+    <span class="c1"># Epoching instantaneous heart rate</span>
+    <span class="k">if</span> <span class="n">epochs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">epochs</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">to_epochs</span><span class="p">(</span>
+            <span class="n">signal</span><span class="o">=</span><span class="n">rr</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+            <span class="n">triggers</span><span class="o">=</span><span class="n">triggers</span><span class="p">,</span>
+            <span class="n">triggers_idx</span><span class="o">=</span><span class="n">triggers_idx</span><span class="p">,</span>
+            <span class="n">reject</span><span class="o">=</span><span class="n">reject</span><span class="p">,</span>
+            <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span>
+            <span class="n">apply_baseline</span><span class="o">=</span><span class="n">apply_baseline</span><span class="p">,</span>
+            <span class="n">tmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span>
+            <span class="n">tmax</span><span class="o">=</span><span class="n">tmax</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Format epochs if already provided</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">epochs</span> <span class="o">=</span> <span class="p">[</span><span class="n">epochs</span><span class="p">]</span>
+
+    <span class="c1"># Define labels</span>
+    <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">epochs</span><span class="p">)):</span>
+            <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Condition </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">labels</span><span class="p">]</span>
+
+    <span class="c1"># Define time vector according to times range and sampling frequency</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+        <span class="nb">round</span><span class="p">(</span><span class="n">tmin</span> <span class="o">*</span> <span class="n">sfreq</span><span class="p">)</span> <span class="o">/</span> <span class="n">sfreq</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">tmax</span> <span class="o">*</span> <span class="n">sfreq</span><span class="p">)</span> <span class="o">/</span> <span class="n">sfreq</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">sfreq</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">decim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">epochs</span><span class="p">)):</span>
+            <span class="n">epochs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">epochs</span><span class="p">[</span><span class="n">i</span><span class="p">][:,</span> <span class="p">::</span><span class="n">decim</span><span class="p">]</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">time</span><span class="p">[::</span><span class="n">decim</span><span class="p">]</span>
+
+    <span class="n">plot_evoked_args</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;epochs&quot;</span><span class="p">:</span> <span class="n">epochs</span><span class="p">,</span>
+        <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">time</span><span class="p">,</span>
+        <span class="s2">&quot;ax&quot;</span><span class="p">:</span> <span class="n">ax</span><span class="p">,</span>
+        <span class="s2">&quot;figsize&quot;</span><span class="p">:</span> <span class="n">figsize</span><span class="p">,</span>
+        <span class="s2">&quot;labels&quot;</span><span class="p">:</span> <span class="n">labels</span><span class="p">,</span>
+        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="n">unit</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">plotting_function</span> <span class="o">=</span> <span class="n">get_plotting_function</span><span class="p">(</span><span class="s2">&quot;plot_evoked&quot;</span><span class="p">,</span> <span class="s2">&quot;plot_evoked&quot;</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span>
+    <span class="n">plot</span> <span class="o">=</span> <span class="n">plotting_function</span><span class="p">(</span><span class="o">**</span><span class="n">plot_evoked_args</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">plot</span></div>
+</pre></div>
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2020-2022, Nicolas Legrand.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

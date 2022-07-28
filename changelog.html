@@ -1,0 +1,608 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>What’s new in each version &#8212; systole 0.2.3 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/thebelab-helper.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="systole.utils.find_clipping" href="generated/utils/systole.utils.find_clipping.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="None">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="_static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="getting_started.html">
+  Installation
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="auto_examples/index.html">
+  Gallery
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="tutorials.html">
+  Tutorials
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="api.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="current reference internal nav-link" href="#">
+  Release notes
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/embodied-computation-group/systole" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/visceral_mind" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://pypi.org/project/systole/" rel="noopener" target="_blank" title="Pypi"><span><i class="fas fa-box"></i></span>
+            <label class="sr-only">Pypi</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<div class="sidebar-primary col-12 col-md-1 col-xl-2 bd-sidebar no-sidebar"></div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-md-block col-md-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#v0-2-3-december-2021">
+   v0.2.3 (December 2021)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#highlights">
+     Highlights
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#changes">
+     Changes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#contributors">
+     Contributors
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#v0-2-2-december-2021">
+   v0.2.2 (December 2021)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Highlights
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Changes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     Contributors
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#v0-2-1-december-2021">
+   v0.2.1 - December 2021
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     Highlights
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     Changes
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#v0-2-0-october-2021">
+   v0.2.0 (October 2021)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     Highlights
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     Changes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     Contributors
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#v0-1-3-april-2021">
+   v0.1.3 (April 2021)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#v0-1-2-september-2020">
+   v0.1.2 (September 2020)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#v0-1-1-june-2020">
+   v0.1.1 (June 2020)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#v0-1-0-january-2020">
+   v0.1.0 (January 2020)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#v0-0-1-january-2020">
+   v0.0.1 (January 2020)
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-8">
+              
+              <article class="bd-article" role="main">
+                
+  <span class="target" id="whatsnew"></span><section id="what-s-new-in-each-version">
+<h1>What’s new in each version<a class="headerlink" href="#what-s-new-in-each-version" title="Permalink to this headline">#</a></h1>
+<p>This page contains information about what has changed in each new version of <code class="docutils literal notranslate"><span class="pre">systole</span></code>.</p>
+<div class="col-md-9"><section id="v0-2-3-december-2021">
+<h2>v0.2.3 (December 2021)<a class="headerlink" href="#v0-2-3-december-2021" title="Permalink to this headline">#</a></h2>
+<section id="highlights">
+<h3>Highlights<a class="headerlink" href="#highlights" title="Permalink to this headline">#</a></h3>
+<p>This release seeks to improve the heart rate variability module and will be the reference version for the JOSS publication.</p>
+</section>
+<section id="changes">
+<h3>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  <span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Add a py:<cite>systole.utils.find_clipping</cite> function to automatically find clipping threshold. This function is called by ppg_peaks when clipping=True and clipping_threshold=”auto”.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Plots module: Add a function py:func:<cite>systole.plots.plot_rsp()</cite> to plot respiratory signal.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Utils : Add a function py:func:<cite>systole.utils.nan_cleaning()</cite> to automatically interpolate NaN values in a given signal. This function can be called automatically (if required) and the begining of <cite>ppg_peaks</cite>, <cite>ecg_peaks</cite> or <cite>rsp_peaks</cite> by setting the parameter <cite>clean_nan</cite> to <cite>True</cite>. The default is <cite>False</cite>.</p></li>
+<li><p>Remove the default sampling frequencies for <cite>ecg_peaks</cite>, <cite>ppg_peaks</cite> and <cite>rsp_peaks</cite>. Do not resample if <cite>sfreq</cite> and <cite>new_sfreq</cite> are identicals.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  py:func:<cite>systole.plots.plot_raw()</cite> and py:func:<cite>systole.plots.plot_r()</cite> now accept an <cite>events_params</cite> parameter to plot events together with the instantaneous heart rate.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  py:func:<cite>systole.detection.ppg_peaks()</cite>: change <cite>noise_removal</cite> to moving_average and add a <cite>moving_average_length</cite> parameter to control the window length.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  py:func:<cite>systole.detection.interpolate_clipping()</cite> was not handling thresholds correctly if the provided threshold is not the max/min of the time series.</p></li>
+</ul>
+</section>
+<section id="contributors">
+<h3>Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>Alex Vasilichi (<a class="reference external" href="https://github.com/alexvasilichi">https://github.com/alexvasilichi</a>)</p></li>
+</ul>
+</section>
+</section>
+<section id="v0-2-2-december-2021">
+<h2>v0.2.2 (December 2021)<a class="headerlink" href="#v0-2-2-december-2021" title="Permalink to this headline">#</a></h2>
+<section id="id1">
+<h3>Highlights<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
+<p>This release seeks to improve the heart rate variability module and will be the reference version for the JOSS publication.</p>
+</section>
+<section id="id2">
+<h3>Changes<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  HRV module: Add a function py:func:<cite>systole.hrv.all_domain()</cite> to easily compute all possible HRV indices.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  HRV module: Add recurence plot analysis and fast recurrence matrix computation (thanks to Dominique Makowski), and basic quantitative metrics (recurrence rate, l_max, l_mean, determinism rate, Shannon entropy). These metrics are now part of the nonlinear reports (py:func:<cite>systole.hrv.nonlinear_domain()</cite>) or can be called separately (py:func:<cite>systole.hrv.recurrence()</cite>).</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  <span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  HRV module: The time domain function (py:func:<cite>systole.hrv.time_domain()</cite>) also reports the SDSD by default.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  <span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  HRV module: The frequency domain function (py:func:<cite>systole.hrv.frequency_domain()</cite>) now returns the total power and LF/HF ratio by default.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Plotting module: Add nicer rendering for table output for time_domain, frequency_domain and nonlinear_domain functions, working either with Tabulate or Bokeh.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Add a respiratory peaks detection function (py:func:<cite>systole.detection.rsp_peaks()</cite>). Very simple for now, will be improved in the future.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-docs">Docs</span></span>  <span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Improve tutorial notebook on HRV.</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>Contributors<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>Dominique Makowski (<a class="reference external" href="https://github.com/DominiqueMakowski">https://github.com/DominiqueMakowski</a>)</p></li>
+<li><p>Bertrand Hermann (<a class="reference external" href="mailto:bertrand&#46;hermann&#37;&#52;&#48;ghu-paris&#46;fr">bertrand<span>&#46;</span>hermann<span>&#64;</span>ghu-paris<span>&#46;</span>fr</a>)</p></li>
+</ul>
+</section>
+</section>
+<section id="v0-2-1-december-2021">
+<h2>v0.2.1 - December 2021<a class="headerlink" href="#v0-2-1-december-2021" title="Permalink to this headline">#</a></h2>
+<section id="id4">
+<h3>Highlights<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h3>
+<p>This release fixes dependencies and import errors pointed during the review of the JOSS Systole paper and add the paper to the main repository. It also adds several bug fixes and functionality improvements.</p>
+<p>We recommend all users upgrade to this new version.</p>
+</section>
+<section id="id5">
+<h3>Changes<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  Important BUGFIX: <a class="reference internal" href="generated/hrv/systole.hrv.frequency_domain.html#systole.hrv.frequency_domain" title="systole.hrv.frequency_domain"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.hrv.frequency_domain()</span></code></a> switched the variables <cite>“power_hf_nu”</cite> and <cite>“power_lf_nu”</cite> before returning.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  Important BUGFIX: <a class="reference internal" href="generated/hrv/systole.hrv.frequency_domain.html#systole.hrv.frequency_domain" title="systole.hrv.frequency_domain"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.hrv.frequency_domain()</span></code></a> the variables <cite>“power_hf_nu”</cite> and <cite>“power_lf_nu”</cite> were not properly scalled (x100) before returning.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  <span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Fix <a class="reference internal" href="generated/plots/systole.plots.plot_evoked.html#systole.plots.plot_evoked" title="systole.plots.plot_evoked"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plots.plot_evoked()</span></code></a> so it works with the three inputs types and improve documentation.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Fix <a class="reference internal" href="generated/utils/systole.utils.norm_triggers.html#systole.utils.norm_triggers" title="systole.utils.norm_triggers"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.utils.norm_triggers()</span></code></a> is now using Numba’s jit by default.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  <span class="raw-html"><span class="badge badge-defaults">Defaults</span></span>  The <a class="reference internal" href="generated/plots/systole.plots.plot_frequency.html#systole.plots.plot_frequency" title="systole.plots.plot_frequency"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plots.plot_frequency()</span></code></a> function clip power to be &gt;= 0 by default.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-defaults">Defaults</span></span>  The <a class="reference internal" href="generated/hrv/systole.hrv.frequency_domain.html#systole.hrv.frequency_domain" title="systole.hrv.frequency_domain"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.hrv.frequency_domain()</span></code></a> <a class="reference internal" href="generated/hrv/systole.hrv.time_domain.html#systole.hrv.time_domain" title="systole.hrv.time_domain"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.hrv.time_domain()</span></code></a> functions rounds with the same parameter (<cite>6</cite>).</p></li>
+</ul>
+</section>
+</section>
+<section id="v0-2-0-october-2021">
+<h2>v0.2.0 (October 2021)<a class="headerlink" href="#v0-2-0-october-2021" title="Permalink to this headline">#</a></h2>
+<section id="id6">
+<h3>Highlights<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h3>
+<p>This is a major release that introduces a new plotting backend using Bokeh instead of Plotly, several API changes and performance improvement (Numba).</p>
+<p>The <cite>plots</cite> submodule now includes the following functions:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="generated/plots/systole.plots.plot_circular.html#systole.plots.plot_circular" title="systole.plots.plot_circular"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plots.plot_circular()</span></code></a></p></li>
+<li><p><a class="reference internal" href="generated/plots/systole.plots.plot_ectopic.html#systole.plots.plot_ectopic" title="systole.plots.plot_ectopic"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plots.plot_ectopic()</span></code></a></p></li>
+<li><p><a class="reference internal" href="generated/plots/systole.plots.plot_events.html#systole.plots.plot_events" title="systole.plots.plot_events"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plots.plot_events()</span></code></a></p></li>
+<li><p><a class="reference internal" href="generated/plots/systole.plots.plot_evoked.html#systole.plots.plot_evoked" title="systole.plots.plot_evoked"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plots.plot_evoked()</span></code></a></p></li>
+<li><p><a class="reference internal" href="generated/plots/systole.plots.plot_frequency.html#systole.plots.plot_frequency" title="systole.plots.plot_frequency"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plots.plot_frequency()</span></code></a></p></li>
+<li><p><a class="reference internal" href="generated/plots/systole.plots.plot_poincare.html#systole.plots.plot_poincare" title="systole.plots.plot_poincare"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plots.plot_poincare()</span></code></a></p></li>
+<li><p><a class="reference internal" href="generated/plots/systole.plots.plot_raw.html#systole.plots.plot_raw" title="systole.plots.plot_raw"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plots.plot_raw()</span></code></a></p></li>
+<li><p><a class="reference internal" href="generated/plots/systole.plots.plot_rr.html#systole.plots.plot_rr" title="systole.plots.plot_rr"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plots.plot_rr()</span></code></a></p></li>
+<li><p><a class="reference internal" href="generated/plots/systole.plots.plot_shortlong.html#systole.plots.plot_shortlong" title="systole.plots.plot_shortlong"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plots.plot_shortlong()</span></code></a></p></li>
+<li><p><a class="reference internal" href="generated/plots/systole.plots.plot_subspaces.html#systole.plots.plot_subspaces" title="systole.plots.plot_subspaces"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plots.plot_subspaces()</span></code></a></p></li>
+</ul>
+<p>These functions can be called using Bokeh or Matplotlib as backend (<cite>plot_circular</cite> only accepts Matplotlib for now).</p>
+<p>All the methods available in <a class="reference internal" href="generated/detection/systole.detection.ecg_peaks.html#systole.detection.ecg_peaks" title="systole.detection.ecg_peaks"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.detection.ecg_peaks()</span></code></a> are now accelerated with Numba.</p>
+<ul class="simple">
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Add Numba support for <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.detectors.pan_tompkins()</span></code> (~7x faster)</p></li>
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Add Numba support for <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.detectors.hamilton()</span></code> (~10x faster)</p></li>
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Add Numba support for <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.detectors.christov()</span></code> (~30x faster)</p></li>
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Add Numba support for <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.detectors.engelse_zeelenberg()</span></code> (~20x faster)</p></li>
+</ul>
+<p>This also drops py-ecg-detectors dependency, and the refactored code is now included in Systole.</p>
+<p>This release also includes some API changes and renaming for consistency (<cite>oxi_peaks</cite> -&gt; <cite>ppg_peaks</cite>).</p>
+</section>
+<section id="id7">
+<h3>Changes<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><span class="raw-html"><span class="badge badge-api">API</span></span>  Remove support for Plotly. Add support for Bokeh. Merge interactive and non interactive modules into a unique <code class="xref py py-func docutils literal notranslate"><span class="pre">plots()</span></code> module.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-docs">Docs</span></span>  Use PyData Sphinx theme.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-docs">Docs</span></span>  Several additions to the tutorials pages, now divided into 5 Chapters:</p></li>
+</ul>
+<ol class="arabic simple">
+<li><p>Physiological signal analysis</p></li>
+<li><p>Detecting cycles</p></li>
+<li><p>Detecting and correcting artefacts</p></li>
+<li><p>Heart rate variability</p></li>
+<li><p>Instantaneous heart rate and evoked heart rate</p></li>
+</ol>
+<ul class="simple">
+<li><p><span class="raw-html"><span class="badge badge-docs">Docs</span></span>  Add examples for <a class="reference internal" href="generated/correction/systole.correction.correct_peaks.html#systole.correction.correct_peaks" title="systole.correction.correct_peaks"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.correction.correct_peaks()</span></code></a> and <a class="reference internal" href="generated/correction/systole.correction.correct_rr.html#systole.correction.correct_rr" title="systole.correction.correct_rr"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.correction.correct_rr()</span></code></a> in the gallery.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  <span class="raw-html"><span class="badge badge-feature">Feature</span></span>  <span class="raw-html"><span class="badge badge-api">API</span></span>  Most of the functions now accept inputs as <cite>peaks</cite> (boolean vector), <cite>peaks_idx</cite> (int indexes vector), <cite>rr_ms</cite> (floats RR intervals in miliseconds) or <cite>rr_s</cite> (floats RR intervals in seconds). <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.utils.to_rr()</span></code> has been renamed to <a class="reference internal" href="generated/utils/systole.utils.input_conversion.html#systole.utils.input_conversion" title="systole.utils.input_conversion"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.utils.input_conversion()</span></code></a> and support the conversion between data types.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  <span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  <a class="reference internal" href="generated/detection/systole.detection.ppg_peaks.html#systole.detection.ppg_peaks" title="systole.detection.ppg_peaks"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.detection.ppg_peaks()</span></code></a> now handles negative values/ low sampling rate.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  <a class="reference internal" href="generated/correction/systole.correction.correct_peaks.html#systole.correction.correct_peaks" title="systole.correction.correct_peaks"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.correction.correct_peaks()</span></code></a> and <a class="reference internal" href="generated/correction/systole.correction.correct_rr.html#systole.correction.correct_rr" title="systole.correction.correct_rr"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.correction.correct_rr()</span></code></a> have been improved for performances, allows <cite>n</cite> iterations and print results.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  utils.to_epochs() now accept multiple condition (as list) and returns rejection vectors for each one. The code has also been simplified and runs faster.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  Remove use of <cite>outdated</cite>.</p></li>
+</ul>
+</section>
+<section id="id8">
+<h3>Contributors<a class="headerlink" href="#id8" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>Gidon Levakov (<a class="reference external" href="mailto:gidonlevakov&#37;&#52;&#48;gmail&#46;com">gidonlevakov<span>&#64;</span>gmail<span>&#46;</span>com</a>)</p></li>
+<li><p>Peter Doggart (<a class="reference external" href="mailto:peter&#46;doggart&#37;&#52;&#48;pulseai&#46;io">peter<span>&#46;</span>doggart<span>&#64;</span>pulseai<span>&#46;</span>io</a>)</p></li>
+</ul>
+</section>
+</section>
+<section id="v0-1-3-april-2021">
+<h2>v0.1.3 (April 2021)<a class="headerlink" href="#v0-1-3-april-2021" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_raw()</span></code>: add <cite>ecg_method</cite> parameter to control the ECG peak detection method used.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Download dataset directly from GitHub instead of copying the files at install.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Harmonization of <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotting.plot_raw()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotting.plot_raw()</span></code> (replace the <cite>plot_hr()</cite> function), and <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_subspaces()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_subspaces()</span></code>.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  The <a class="reference internal" href="generated/recording/systole.recording.Oximeter.html#systole.recording.Oximeter" title="systole.recording.Oximeter"><code class="xref py py-class docutils literal notranslate"><span class="pre">systole.recording.Oximeter()</span></code></a> class has been improved:</p></li>
+</ul>
+<ul class="simple">
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.recording.Oximeter.setup()</span></code> has an <cite>nAttempts</cite> argument so it will not run forever if no valid signal is recordedfor a given number of attempts (default is 100).</p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.recording.Oximeter.check()</span></code> has been updated and accept data format #7 from Xpods, allowing more flexibility.</p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.recording.Oximeter.save()</span></code> will now save additional channels and support <cite>.txt</cite> and <cite>.npy</cite> file extensions.</p></li>
+</ul>
+<ul class="simple">
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Create a <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.recording.Oximeter.reset()</span></code> method to avoid improper use of <cite>__init__()</cite>.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Add pre-commit hooks, flake8, black and isort CI tests.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Add type hints and CI testing with mypy.</p></li>
+</ul>
+</section>
+<section id="v0-1-2-september-2020">
+<h2>v0.1.2 (September 2020)<a class="headerlink" href="#v0-1-2-september-2020" title="Permalink to this headline">#</a></h2>
+<blockquote>
+<div><p><strong>New functions</strong></p>
+</div></blockquote>
+<ul class="simple">
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Add <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.utils.to_rr()</span></code>. for peaks or index vectors convertion to RR intervals</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Add <a class="reference internal" href="generated/recording/systole.recording.BrainVisionExG.html#systole.recording.BrainVisionExG" title="systole.recording.BrainVisionExG"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.recording.BrainVisionExG()</span></code></a>, a class to read physio recording from BrainVision ExG products via TCP/IP connection.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Add <a class="reference internal" href="generated/recording/systole.recording.findOximeter.html#systole.recording.findOximeter" title="systole.recording.findOximeter"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.recording.findOximeter()</span></code></a>, find the USB port where Nonin Oximeter is plugged by looping through the USB port and checking the input.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Add <a class="reference internal" href="generated/detection/systole.detection.ecg_peaks.html#systole.detection.ecg_peaks" title="systole.detection.ecg_peaks"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.detection.ecg_peaks()</span></code></a>. A wrapper around py-ecg-detectors for basic ECG peaks detection.</p></li>
+</ul>
+<p><strong>Enhancements</strong>
+- <span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Improved documentation and examples.
+- <span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Simplification of PPG example data import.
+- <span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Improved interactive plotting functions.</p>
+</section>
+<section id="v0-1-1-june-2020">
+<h2>v0.1.1 (June 2020)<a class="headerlink" href="#v0-1-1-june-2020" title="Permalink to this headline">#</a></h2>
+<p><strong>New functions</strong></p>
+<ul class="simple">
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Add the <strong>plotly</strong> sub-module, a set of Plotly functions comprising <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_raw()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_subspaces()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_ectopic()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_shortlong()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_frequency()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_nonlinear()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_timedomain()</span></code>.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Add <a class="reference internal" href="generated/utils/systole.utils.simulate_rr.html#systole.utils.simulate_rr" title="systole.utils.simulate_rr"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.utils.simulate_rr()</span></code></a>, for random RR interval simulation with different kind of artefacts. Can also return peak vector.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  The <strong>correction</strong> sub-module has been largely rewritten and now include <a class="reference internal" href="generated/correction/systole.correction.correct_extra.html#systole.correction.correct_extra" title="systole.correction.correct_extra"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.correction.correct_extra()</span></code></a>, <a class="reference internal" href="generated/correction/systole.correction.correct_missed.html#systole.correction.correct_missed" title="systole.correction.correct_missed"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.correction.correct_missed()</span></code></a>, <a class="reference internal" href="generated/correction/systole.correction.interpolate_bads.html#systole.correction.interpolate_bads" title="systole.correction.interpolate_bads"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.correction.interpolate_bads()</span></code></a>, <a class="reference internal" href="generated/correction/systole.correction.correct_rr.html#systole.correction.correct_rr" title="systole.correction.correct_rr"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.correction.correct_rr()</span></code></a>, <a class="reference internal" href="generated/correction/systole.correction.correct_peaks.html#systole.correction.correct_peaks" title="systole.correction.correct_peaks"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.correction.correct_peaks()</span></code></a>, <a class="reference internal" href="generated/correction/systole.correction.correct_missed_peaks.html#systole.correction.correct_missed_peaks" title="systole.correction.correct_missed_peaks"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.correction.correct_missed_peaks()</span></code></a>, <cite>systole.correction.correct_extra_peaks</cite>. These function can correct artefacts either using peaks addition/removal or by interpolation of the RR time series.</p></li>
+</ul>
+<p><strong>Enhancements</strong></p>
+<ul class="simple">
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  The <strong>detection</strong> sub-module has been improved. It is now about 10x faster and returns more information. The main function has been renamed to <a class="reference internal" href="generated/detection/systole.detection.rr_artefacts.html#systole.detection.rr_artefacts" title="systole.detection.rr_artefacts"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.detection.rr_artefacts()</span></code></a>.</p></li>
+</ul>
+<p><strong>Bugfixes</strong></p>
+<ul class="simple">
+<li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.correction.interpolate_clipping()</span></code>: add exception in case of clipping artefacts at the edge of the signal segment. This can cause cash during recording. The default behavior is now to decrement the last/first item in case of threshold value. The threshold can be changed manually. This procedure can result in slightly inaccurate interpolation, using a longer recording should always be preferred when possible.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  The PPG signal simulator used for testing can now run infinitely.</p></li>
+</ul>
+<p><strong>Contributors</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="mailto:jan&#46;c&#46;brammer&#37;&#52;&#48;gmail&#46;com">Jan C<span>&#46;</span> Brammer</a></p></li>
+</ul>
+</section>
+<section id="v0-1-0-january-2020">
+<h2>v0.1.0 (January 2020)<a class="headerlink" href="#v0-1-0-january-2020" title="Permalink to this headline">#</a></h2>
+<p>Initial release.</p>
+<p><strong>Detection</strong></p>
+<ol class="loweralpha simple">
+<li><p>ppg_peaks()</p></li>
+<li><p>hr_subspaces()</p></li>
+<li><p>interpolate_clipping()</p></li>
+<li><p>rr_outliers()</p></li>
+</ol>
+<p><strong>HRV</strong></p>
+<ol class="loweralpha simple">
+<li><p>nnX()</p></li>
+<li><p>pnX()</p></li>
+<li><p>rmssd()</p></li>
+<li><p>time_domain()</p></li>
+<li><p>frequency_domain()</p></li>
+<li><p>nonlinear()</p></li>
+</ol>
+<p><strong>Plotting</strong></p>
+<ol class="loweralpha simple">
+<li><p>plot_hr()</p></li>
+<li><p>plot_events()</p></li>
+<li><p>plot_oximeter()</p></li>
+<li><p>plot_subspaces()</p></li>
+<li><p>plot_psd()</p></li>
+<li><p>circular()</p></li>
+<li><p>plot_circular()</p></li>
+</ol>
+<p><strong>Recording</strong></p>
+<ol class="loweralpha simple">
+<li><p>Oximeter()</p></li>
+</ol>
+<p><strong>Report</strong></p>
+<ol class="loweralpha simple">
+<li><p>report_oxi()</p></li>
+</ol>
+<p><strong>Utils</strong></p>
+<ol class="loweralpha simple">
+<li><p>norm_triggers()</p></li>
+<li><p>time_shift()</p></li>
+<li><p>heart_rate()</p></li>
+<li><p>to_angles()</p></li>
+<li><p>to_epochs()</p></li>
+</ol>
+</section>
+<section id="v0-0-1-january-2020">
+<h2>v0.0.1 (January 2020)<a class="headerlink" href="#v0-0-1-january-2020" title="Permalink to this headline">#</a></h2>
+<p>Alpha release.</p>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="generated/utils/systole.utils.find_clipping.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">systole.utils.find_clipping</p>
+      </div>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2020-2022, Nicolas Legrand.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,709 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>systole.recording.Oximeter &#8212; systole 0.2.3 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/thebelab-helper.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="systole.recording.BrainVisionExG" href="systole.recording.BrainVisionExG.html" />
+    <link rel="prev" title="systole.plots.plot_subspaces" href="../plots/systole.plots.plot_subspaces.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="None">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../getting_started.html">
+  Installation
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../auto_examples/index.html">
+  Gallery
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../tutorials.html">
+  Tutorials
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../../api.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../changelog.html">
+  Release notes
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/embodied-computation-group/systole" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/visceral_mind" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://pypi.org/project/systole/" rel="noopener" target="_blank" title="Pypi"><span><i class="fas fa-box"></i></span>
+            <label class="sr-only">Pypi</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../correction/systole.correction.correct_extra.html">
+   systole.correction.correct_extra
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../correction/systole.correction.correct_missed.html">
+   systole.correction.correct_missed
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../correction/systole.correction.interpolate_bads.html">
+   systole.correction.interpolate_bads
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../correction/systole.correction.correct_rr.html">
+   systole.correction.correct_rr
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../correction/systole.correction.correct_peaks.html">
+   systole.correction.correct_peaks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../correction/systole.correction.correct_missed_peaks.html">
+   systole.correction.correct_missed_peaks
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../detection/systole.detection.ppg_peaks.html">
+   systole.detection.ppg_peaks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../detection/systole.detection.ecg_peaks.html">
+   systole.detection.ecg_peaks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../detection/systole.detection.rsp_peaks.html">
+   systole.detection.rsp_peaks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../detection/systole.detection.rr_artefacts.html">
+   systole.detection.rr_artefacts
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../detection/systole.detection.interpolate_clipping.html">
+   systole.detection.interpolate_clipping
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.nnX.html">
+   systole.hrv.nnX
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.pnnX.html">
+   systole.hrv.pnnX
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.rmssd.html">
+   systole.hrv.rmssd
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.time_domain.html">
+   systole.hrv.time_domain
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.psd.html">
+   systole.hrv.psd
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.frequency_domain.html">
+   systole.hrv.frequency_domain
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.nonlinear_domain.html">
+   systole.hrv.nonlinear_domain
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.poincare.html">
+   systole.hrv.poincare
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.recurrence.html">
+   systole.hrv.recurrence
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.recurrence_matrix.html">
+   systole.hrv.recurrence_matrix
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.all_domain.html">
+   systole.hrv.all_domain
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_circular.html">
+   systole.plots.plot_circular
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_ectopic.html">
+   systole.plots.plot_ectopic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_events.html">
+   systole.plots.plot_events
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_evoked.html">
+   systole.plots.plot_evoked
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_frequency.html">
+   systole.plots.plot_frequency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_poincare.html">
+   systole.plots.plot_poincare
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_raw.html">
+   systole.plots.plot_raw
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_rsp.html">
+   systole.plots.plot_rsp
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_rr.html">
+   systole.plots.plot_rr
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_shortlong.html">
+   systole.plots.plot_shortlong
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_subspaces.html">
+   systole.plots.plot_subspaces
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   systole.recording.Oximeter
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="systole.recording.BrainVisionExG.html">
+   systole.recording.BrainVisionExG
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="systole.recording.findOximeter.html">
+   systole.recording.findOximeter
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../reports/systole.reports.time_table.html">
+   systole.reports.time_table
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../reports/systole.reports.frequency_table.html">
+   systole.reports.frequency_table
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../reports/systole.reports.nonlinear_table.html">
+   systole.reports.nonlinear_table
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.norm_triggers.html">
+   systole.utils.norm_triggers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.time_shift.html">
+   systole.utils.time_shift
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.heart_rate.html">
+   systole.utils.heart_rate
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.to_angles.html">
+   systole.utils.to_angles
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.to_epochs.html">
+   systole.utils.to_epochs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.simulate_rr.html">
+   systole.utils.simulate_rr
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.to_neighbour.html">
+   systole.utils.to_neighbour
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.input_conversion.html">
+   systole.utils.input_conversion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.nan_cleaning.html">
+   systole.utils.nan_cleaning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.find_clipping.html">
+   systole.utils.find_clipping
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+
+<nav id="bd-toc-nav">
+    
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="systole-recording-oximeter">
+<h1>systole.recording.Oximeter<a class="headerlink" href="#systole-recording-oximeter" title="Permalink to this headline">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="systole.recording.Oximeter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">systole.recording.</span></span><span class="sig-name descname"><span class="pre">Oximeter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sfreq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'2'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/systole/recording.html#Oximeter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#systole.recording.Oximeter" title="Permalink to this definition">#</a></dt>
+<dd><p>Recording PPG signal with Nonin pulse oximeter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>serial</strong><span class="classifier">pySerial object</span></dt><dd><p>The <cite>serial</cite> instance interfacing with the USB port.</p>
+</dd>
+<dt><strong>sfreq</strong><span class="classifier">int</span></dt><dd><p>The sampling frequency of the recording. Defautl is 75 Hz.</p>
+</dd>
+<dt><strong>add_channels</strong><span class="classifier">int</span></dt><dd><p>If int, will create as many additionnal channels. If None, no
+additional channels created.</p>
+</dd>
+<dt><strong>data_format</strong><span class="classifier">str</span></dt><dd><p>Data format returned by the USB dongle (“2” or “7”). See
+<a class="reference external" href="https://www.nonin.com/wp-content/uploads/6000-7000-CP-7602-000-11_ENG.pdf">https://www.nonin.com/wp-content/uploads/6000-7000-CP-7602-000-11_ENG.pdf</a>
+for details. The pulse waveform value is automatically normalized and
+range between 0 and 255 both for data format “2” and “7”.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>First, you will need to define a <code class="xref py py-func docutils literal notranslate"><span class="pre">serial()</span></code> instance, indexing the
+USB port where the Nonin Pulse Oximeter is plugged.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">serial</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ser</span> <span class="o">=</span> <span class="n">serial</span><span class="o">.</span><span class="n">Serial</span><span class="p">(</span><span class="s1">&#39;COM4&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This instance is then used to create an <a class="reference internal" href="#systole.recording.Oximeter" title="systole.recording.Oximeter"><code class="xref py py-func docutils literal notranslate"><span class="pre">Oximeter()</span></code></a> instance that
+will be used for the recording.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">systole.recording</span> <span class="kn">import</span> <span class="n">Oximeter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">oximeter</span> <span class="o">=</span> <span class="n">Oximeter</span><span class="p">(</span><span class="n">serial</span><span class="o">=</span><span class="n">ser</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="mi">75</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Use the <code class="xref py py-func docutils literal notranslate"><span class="pre">setup()</span></code> method to initialize the recording. This will find
+the start byte to ensure that all the forthcoming data is in Synch. You
+should not wait more than ~10s between the setup and the recording,
+otherwise the buffer will start to overwrite the data.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oximeter</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Two methods are availlable to record PPG signal:</p>
+<ol class="arabic simple">
+<li><p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">read()</span></code> function.</p></li>
+</ol>
+<p>Will continuously record for certain amount of time (specified by the
+<em>duration</em> parameter, in seconds). This is the easiest and most robust
+method, but it is not possible to run instructions in the meantime.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oximeter</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">duration</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">readInWaiting()</span></code> function.</p></li>
+</ol>
+<p>Will read all the availlable bytes (up to 10 seconds of recording). When
+inserted into a while loop, it allows to record PPG signal together with
+other scripts.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">time</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tstart</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">tstart</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">oximeter</span><span class="o">.</span><span class="n">readInWaiting</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1"># Insert code here</span>
+</pre></div>
+</div>
+<p>The recorded signal can latter be inspected using the <code class="xref py py-func docutils literal notranslate"><span class="pre">plot()</span></code>
+method.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">oximeter</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Data read from the serial port are appended to list and
+processed for pulse detection and instantaneous heart rate estimation.
+The time required to append new data to the recording will increase as
+its size increase. You should beware that this processing time does not
+exceed the sampling frequency (i.e. 75Hz or 0.013 seconds per sample for
+Nonin pulse oximeters) to allow continuous recording and fast processing
+of in waiting samples. We recommend storing regularly 5 minutes recording
+as .npy file using the :py:func:save() function.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>instant_rr</strong><span class="classifier">list</span></dt><dd><p>Time serie of instantaneous heartrate.</p>
+</dd>
+<dt><strong>n_channels</strong><span class="classifier">int | None</span></dt><dd><p>Number of additional channels.</p>
+</dd>
+<dt><strong>recording</strong><span class="classifier">list</span></dt><dd><p>Time serie of PPG signal.</p>
+</dd>
+<dt><strong>sfreq</strong><span class="classifier">int</span></dt><dd><p>Sampling frequnecy. Default value is 75 Hz.</p>
+</dd>
+<dt><strong>threshold</strong><span class="classifier">list</span></dt><dd><p>The threshold used to detect beat peaks. Will use the average +
+standars deviation.</p>
+</dd>
+<dt><strong>times</strong><span class="classifier">list</span></dt><dd><p>Time vector (in seconds).</p>
+</dd>
+<dt><strong>diff</strong><span class="classifier">list</span></dt><dd><p>Records the differential of the PPG signal. Used to detect heartbeat
+peaks.</p>
+</dd>
+<dt><strong>peaks</strong><span class="classifier">list</span></dt><dd><p>List of 0 and 1. 1 index detected peaks.</p>
+</dd>
+<dt><strong>channels</strong><span class="classifier">list | dict</span></dt><dd><p>Additional channels to record. Will continuously record <em>n_channels</em>
+additional channels in parallel of <cite>recording</cite> with default <cite>0</cite> as
+defalut value.</p>
+</dd>
+<dt><strong>serial</strong><span class="classifier">PySerial instance</span></dt><dd><p>PySerial object indexing the USB port to read.</p>
+</dd>
+<dt><strong>rr</strong><span class="classifier">list or None</span></dt><dd><p>RR intervals time course. The time course will be generated if
+<code class="xref py py-func docutils literal notranslate"><span class="pre">self.find_peaks()</span></code> is used.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="systole.recording.Oximeter.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sfreq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'2'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/systole/recording.html#Oximeter.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#systole.recording.Oximeter.__init__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#systole.recording.Oximeter.__init__" title="systole.recording.Oximeter.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(serial[, sfreq, add_channels, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_paquet</span></code>(value[, window])</p></td>
+<td><p>Read a portion of data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">check</span></code>(paquet)</p></td>
+<td><p>Check if the provided paquet is correct</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_format2</span></code>(paquet)</p></td>
+<td><p>Extract pulse waveform value for data format 2.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_format7</span></code>(paquet)</p></td>
+<td><p>Extract pulse waveform value for data format 7.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_peaks</span></code>(**kwargs)</p></td>
+<td><p>Find peaks in recorded signal.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_events</span></code>([n_channel])</p></td>
+<td><p>Visualize the distribution of events stored in additional channels.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_raw</span></code>(**kwargs)</p></td>
+<td><p>Plot the raw PPG signal.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code>(duration)</p></td>
+<td><p>Read PPG signal for some amount of time.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">readInWaiting</span></code>([stop])</p></td>
+<td><p>Read in wainting oxi data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code>(serial[, sfreq, add_channels, data_format])</p></td>
+<td><p>Initialize/restart the recording instance.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code>(fname)</p></td>
+<td><p>Save the recording instance.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setup</span></code>([read_duration, clear_peaks, nAttempts])</p></td>
+<td><p>Find start byte and read a portion of signal.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">waitBeat</span></code>()</p></td>
+<td><p>Read Oximeter until a heartbeat is detected.</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="../plots/systole.plots.plot_subspaces.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">systole.plots.plot_subspaces</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="systole.recording.BrainVisionExG.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">systole.recording.BrainVisionExG</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2020-2022, Nicolas Legrand.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,962 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>systole.plots.plot_shortlong &#8212; systole 0.2.3 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/thebelab-helper.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="systole.plots.plot_subspaces" href="systole.plots.plot_subspaces.html" />
+    <link rel="prev" title="systole.plots.plot_rr" href="systole.plots.plot_rr.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="None">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../getting_started.html">
+  Installation
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../auto_examples/index.html">
+  Gallery
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../tutorials.html">
+  Tutorials
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../../api.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../changelog.html">
+  Release notes
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/embodied-computation-group/systole" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/visceral_mind" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://pypi.org/project/systole/" rel="noopener" target="_blank" title="Pypi"><span><i class="fas fa-box"></i></span>
+            <label class="sr-only">Pypi</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../correction/systole.correction.correct_extra.html">
+   systole.correction.correct_extra
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../correction/systole.correction.correct_missed.html">
+   systole.correction.correct_missed
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../correction/systole.correction.interpolate_bads.html">
+   systole.correction.interpolate_bads
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../correction/systole.correction.correct_rr.html">
+   systole.correction.correct_rr
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../correction/systole.correction.correct_peaks.html">
+   systole.correction.correct_peaks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../correction/systole.correction.correct_missed_peaks.html">
+   systole.correction.correct_missed_peaks
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../detection/systole.detection.ppg_peaks.html">
+   systole.detection.ppg_peaks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../detection/systole.detection.ecg_peaks.html">
+   systole.detection.ecg_peaks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../detection/systole.detection.rsp_peaks.html">
+   systole.detection.rsp_peaks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../detection/systole.detection.rr_artefacts.html">
+   systole.detection.rr_artefacts
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../detection/systole.detection.interpolate_clipping.html">
+   systole.detection.interpolate_clipping
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.nnX.html">
+   systole.hrv.nnX
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.pnnX.html">
+   systole.hrv.pnnX
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.rmssd.html">
+   systole.hrv.rmssd
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.time_domain.html">
+   systole.hrv.time_domain
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.psd.html">
+   systole.hrv.psd
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.frequency_domain.html">
+   systole.hrv.frequency_domain
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.nonlinear_domain.html">
+   systole.hrv.nonlinear_domain
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.poincare.html">
+   systole.hrv.poincare
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.recurrence.html">
+   systole.hrv.recurrence
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.recurrence_matrix.html">
+   systole.hrv.recurrence_matrix
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.all_domain.html">
+   systole.hrv.all_domain
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="systole.plots.plot_circular.html">
+   systole.plots.plot_circular
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="systole.plots.plot_ectopic.html">
+   systole.plots.plot_ectopic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="systole.plots.plot_events.html">
+   systole.plots.plot_events
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="systole.plots.plot_evoked.html">
+   systole.plots.plot_evoked
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="systole.plots.plot_frequency.html">
+   systole.plots.plot_frequency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="systole.plots.plot_poincare.html">
+   systole.plots.plot_poincare
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="systole.plots.plot_raw.html">
+   systole.plots.plot_raw
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="systole.plots.plot_rsp.html">
+   systole.plots.plot_rsp
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="systole.plots.plot_rr.html">
+   systole.plots.plot_rr
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   systole.plots.plot_shortlong
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="systole.plots.plot_subspaces.html">
+   systole.plots.plot_subspaces
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../recording/systole.recording.Oximeter.html">
+   systole.recording.Oximeter
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../recording/systole.recording.BrainVisionExG.html">
+   systole.recording.BrainVisionExG
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../recording/systole.recording.findOximeter.html">
+   systole.recording.findOximeter
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../reports/systole.reports.time_table.html">
+   systole.reports.time_table
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../reports/systole.reports.frequency_table.html">
+   systole.reports.frequency_table
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../reports/systole.reports.nonlinear_table.html">
+   systole.reports.nonlinear_table
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.norm_triggers.html">
+   systole.utils.norm_triggers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.time_shift.html">
+   systole.utils.time_shift
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.heart_rate.html">
+   systole.utils.heart_rate
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.to_angles.html">
+   systole.utils.to_angles
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.to_epochs.html">
+   systole.utils.to_epochs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.simulate_rr.html">
+   systole.utils.simulate_rr
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.to_neighbour.html">
+   systole.utils.to_neighbour
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.input_conversion.html">
+   systole.utils.input_conversion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.nan_cleaning.html">
+   systole.utils.nan_cleaning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.find_clipping.html">
+   systole.utils.find_clipping
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+
+<nav id="bd-toc-nav">
+    
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="systole-plots-plot-shortlong">
+<h1>systole.plots.plot_shortlong<a class="headerlink" href="#systole-plots-plot-shortlong" title="Permalink to this headline">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="systole.plots.plot_shortlong">
+<span class="sig-prename descclassname"><span class="pre">systole.plots.</span></span><span class="sig-name descname"><span class="pre">plot_shortlong</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artefacts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'rr_ms'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="http://docs.bokeh.org/en/latest/docs/reference/plotting/figure.html#bokeh.plotting.Figure" title="(in Bokeh v2.4.3)"><span class="pre">bokeh.plotting.figure.Figure</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://matplotlib.org/stable/api/axes_api.html#matplotlib.axes.Axes" title="(in Matplotlib v3.5.2)"><span class="pre">matplotlib.axes._axes.Axes</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/systole/plots/plot_shortlong.html#plot_shortlong"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#systole.plots.plot_shortlong" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">systole.plots.</span></span><span class="sig-name descname"><span class="pre">plot_shortlong</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artefacts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'rr_ms'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="http://docs.bokeh.org/en/latest/docs/reference/plotting/figure.html#bokeh.plotting.Figure" title="(in Bokeh v2.4.3)"><span class="pre">bokeh.plotting.figure.Figure</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://matplotlib.org/stable/api/axes_api.html#matplotlib.axes.Axes" title="(in Matplotlib v3.5.2)"><span class="pre">matplotlib.axes._axes.Axes</span></a><span class="p"><span class="pre">]</span></span></span></span></dt>
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">systole.plots.</span></span><span class="sig-name descname"><span class="pre">plot_shortlong</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artefacts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'rr_ms'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="http://docs.bokeh.org/en/latest/docs/reference/plotting/figure.html#bokeh.plotting.Figure" title="(in Bokeh v2.4.3)"><span class="pre">bokeh.plotting.figure.Figure</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://matplotlib.org/stable/api/axes_api.html#matplotlib.axes.Axes" title="(in Matplotlib v3.5.2)"><span class="pre">matplotlib.axes._axes.Axes</span></a><span class="p"><span class="pre">]</span></span></span></span></dt>
+<dd><p>Visualization of short, long, extra and missed intervals detection.</p>
+<p>The artefact detection is based on the method described in <a class="reference internal" href="#r5f950e3b3235-1" id="id1">[1]</a>.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>rr</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> | None</span></dt><dd><p>Interval time-series (R-R, beat-to-beat…), in seconds or in
+miliseconds.</p>
+</dd>
+<dt><strong>artefacts</strong><span class="classifier">dict | None</span></dt><dd><p>The artefacts detected using
+<a class="reference internal" href="../detection/systole.detection.rr_artefacts.html#systole.detection.rr_artefacts" title="systole.detection.rr_artefacts"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.detection.rr_artefacts()</span></code></a>.</p>
+</dd>
+<dt><strong>input_type</strong><span class="classifier">str</span></dt><dd><p>The type of input vector. Default is <cite>“peaks”</cite> (a boolean vector where
+<cite>1</cite> represents the occurrence of R waves or systolic peaks).
+Can also be <cite>“rr_s”</cite> or <cite>“rr_ms”</cite> for vectors of RR intervals, or
+interbeat intervals (IBI), expressed in seconds or milliseconds
+(respectively).</p>
+</dd>
+<dt><strong>ax</strong><span class="classifier"><a class="reference external" href="https://matplotlib.org/stable/api/axes_api.html#matplotlib.axes.Axes" title="(in Matplotlib v3.5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></a> | None</span></dt><dd><p>Where to draw the plot. Default is <em>None</em> (create a new figure). Only
+applies when <cite>backend=”matplotlib”</cite>.</p>
+</dd>
+<dt><strong>backend: str</strong></dt><dd><p>Select plotting backend {“matplotlib”, “bokeh”}. Defaults to
+“matplotlib”.</p>
+</dd>
+<dt><strong>figsize</strong><span class="classifier">tuple | int | None</span></dt><dd><p>Figure size. Default is <cite>(6, 6)</cite> for matplotlib backend, and the height
+is <cite>600</cite> when using bokeh backend.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl>
+<dt><strong>plot</strong><span class="classifier"><a class="reference external" href="https://matplotlib.org/stable/api/axes_api.html#matplotlib.axes.Axes" title="(in Matplotlib v3.5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></a> | <a class="reference external" href="http://docs.bokeh.org/en/latest/docs/reference/plotting/figure.html#bokeh.plotting.Figure" title="(in Bokeh v2.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bokeh.plotting.figure.Figure</span></code></a></span></dt><dd><p>The matplotlib axes, or the boken figure containing the plot.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="systole.plots.plot_ectopic.html#systole.plots.plot_ectopic" title="systole.plots.plot_ectopic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_ectopic</span></code></a>, <a class="reference internal" href="systole.plots.plot_subspaces.html#systole.plots.plot_subspaces" title="systole.plots.plot_subspaces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_subspaces</span></code></a></dt><dd></dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>If both <cite>rr</cite> and <cite>artefacts</cite> are provided, the function will drop <cite>artefacts</cite>
+and re-evaluate given the current RR time-series.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r5f950e3b3235-1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Lipponen, J. A., &amp; Tarvainen, M. P. (2019). A robust algorithm for
+heart rate variability time series artefact correction using novel beat
+classification. Journal of Medical Engineering &amp; Technology, 43(3),
+173–181. <a class="reference external" href="https://doi.org/10.1080/03091902.2019.1640306">https://doi.org/10.1080/03091902.2019.1640306</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Visualizing short/long and missed/extra intervals from RR time series.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">systole</span> <span class="kn">import</span> <span class="n">import_rr</span>
+<span class="kn">from</span> <span class="nn">systole.plots</span> <span class="kn">import</span> <span class="n">plot_shortlong</span>
+
+<span class="c1"># Import PPG recording as numpy array</span>
+<span class="n">rr</span> <span class="o">=</span> <span class="n">import_rr</span><span class="p">()</span><span class="o">.</span><span class="n">rr</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+<span class="n">plot_shortlong</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:title={&#39;center&#39;:&#39;Subspace 2 \n (long and short beats detection)&#39;}, xlabel=&#39;Subspace $S_{21}$&#39;, ylabel=&#39;Subspace $S_{22}$&#39;&gt;
+</pre></div>
+</div>
+<img alt="../../_images/systole.plots.plot_shortlong_0_1.png" src="../../_images/systole.plots.plot_shortlong_0_1.png" />
+</div>
+</div>
+<p>Visualizing ectopic subspace from the <cite>artefact</cite> dictionary.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">systole.detection</span> <span class="kn">import</span> <span class="n">rr_artefacts</span>
+
+<span class="c1"># Use the rr_artefacts function to short/long and extra/missed intervals</span>
+<span class="n">artefacts</span> <span class="o">=</span> <span class="n">rr_artefacts</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
+
+<span class="n">plot_shortlong</span><span class="p">(</span><span class="n">artefacts</span><span class="o">=</span><span class="n">artefacts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:title={&#39;center&#39;:&#39;Subspace 2 \n (long and short beats detection)&#39;}, xlabel=&#39;Subspace $S_{21}$&#39;, ylabel=&#39;Subspace $S_{22}$&#39;&gt;
+</pre></div>
+</div>
+<img alt="../../_images/systole.plots.plot_shortlong_1_1.png" src="../../_images/systole.plots.plot_shortlong_1_1.png" />
+</div>
+</div>
+<p>Using the Bokeh backend.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bokeh.io</span> <span class="kn">import</span> <span class="n">output_notebook</span>
+<span class="kn">from</span> <span class="nn">bokeh.plotting</span> <span class="kn">import</span> <span class="n">show</span>
+<span class="kn">from</span> <span class="nn">systole.detection</span> <span class="kn">import</span> <span class="n">rr_artefacts</span>
+<span class="n">output_notebook</span><span class="p">()</span>
+
+<span class="n">show</span><span class="p">(</span>
+   <span class="n">plot_shortlong</span><span class="p">(</span><span class="n">artefacts</span><span class="o">=</span><span class="n">artefacts</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;bokeh&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div class="bk-root">
+        <a href="https://bokeh.org" target="_blank" class="bk-logo bk-logo-small bk-logo-notebook"></a>
+        <span id="1002">Loading BokehJS ...</span>
+    </div>
+</div><script type="application/javascript">(function(root) {
+  function now() {
+    return new Date();
+  }
+
+  const force = true;
+
+  if (typeof root._bokeh_onload_callbacks === "undefined" || force === true) {
+    root._bokeh_onload_callbacks = [];
+    root._bokeh_is_loading = undefined;
+  }
+
+const JS_MIME_TYPE = 'application/javascript';
+  const HTML_MIME_TYPE = 'text/html';
+  const EXEC_MIME_TYPE = 'application/vnd.bokehjs_exec.v0+json';
+  const CLASS_NAME = 'output_bokeh rendered_html';
+
+  /**
+   * Render data to the DOM node
+   */
+  function render(props, node) {
+    const script = document.createElement("script");
+    node.appendChild(script);
+  }
+
+  /**
+   * Handle when an output is cleared or removed
+   */
+  function handleClearOutput(event, handle) {
+    const cell = handle.cell;
+
+    const id = cell.output_area._bokeh_element_id;
+    const server_id = cell.output_area._bokeh_server_id;
+    // Clean up Bokeh references
+    if (id != null && id in Bokeh.index) {
+      Bokeh.index[id].model.document.clear();
+      delete Bokeh.index[id];
+    }
+
+    if (server_id !== undefined) {
+      // Clean up Bokeh references
+      const cmd_clean = "from bokeh.io.state import curstate; print(curstate().uuid_to_server['" + server_id + "'].get_sessions()[0].document.roots[0]._id)";
+      cell.notebook.kernel.execute(cmd_clean, {
+        iopub: {
+          output: function(msg) {
+            const id = msg.content.text.trim();
+            if (id in Bokeh.index) {
+              Bokeh.index[id].model.document.clear();
+              delete Bokeh.index[id];
+            }
+          }
+        }
+      });
+      // Destroy server and session
+      const cmd_destroy = "import bokeh.io.notebook as ion; ion.destroy_server('" + server_id + "')";
+      cell.notebook.kernel.execute(cmd_destroy);
+    }
+  }
+
+  /**
+   * Handle when a new output is added
+   */
+  function handleAddOutput(event, handle) {
+    const output_area = handle.output_area;
+    const output = handle.output;
+
+    // limit handleAddOutput to display_data with EXEC_MIME_TYPE content only
+    if ((output.output_type != "display_data") || (!Object.prototype.hasOwnProperty.call(output.data, EXEC_MIME_TYPE))) {
+      return
+    }
+
+    const toinsert = output_area.element.find("." + CLASS_NAME.split(' ')[0]);
+
+    if (output.metadata[EXEC_MIME_TYPE]["id"] !== undefined) {
+      toinsert[toinsert.length - 1].firstChild.textContent = output.data[JS_MIME_TYPE];
+      // store reference to embed id on output_area
+      output_area._bokeh_element_id = output.metadata[EXEC_MIME_TYPE]["id"];
+    }
+    if (output.metadata[EXEC_MIME_TYPE]["server_id"] !== undefined) {
+      const bk_div = document.createElement("div");
+      bk_div.innerHTML = output.data[HTML_MIME_TYPE];
+      const script_attrs = bk_div.children[0].attributes;
+      for (let i = 0; i < script_attrs.length; i++) {
+        toinsert[toinsert.length - 1].firstChild.setAttribute(script_attrs[i].name, script_attrs[i].value);
+        toinsert[toinsert.length - 1].firstChild.textContent = bk_div.children[0].textContent
+      }
+      // store reference to server id on output_area
+      output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE]["server_id"];
+    }
+  }
+
+  function register_renderer(events, OutputArea) {
+
+    function append_mime(data, metadata, element) {
+      // create a DOM node to render to
+      const toinsert = this.create_output_subarea(
+        metadata,
+        CLASS_NAME,
+        EXEC_MIME_TYPE
+      );
+      this.keyboard_manager.register_events(toinsert);
+      // Render to node
+      const props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};
+      render(props, toinsert[toinsert.length - 1]);
+      element.append(toinsert);
+      return toinsert
+    }
+
+    /* Handle when an output is cleared or removed */
+    events.on('clear_output.CodeCell', handleClearOutput);
+    events.on('delete.Cell', handleClearOutput);
+
+    /* Handle when a new output is added */
+    events.on('output_added.OutputArea', handleAddOutput);
+
+    /**
+     * Register the mime type and append_mime function with output_area
+     */
+    OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {
+      /* Is output safe? */
+      safe: true,
+      /* Index of renderer in `output_area.display_order` */
+      index: 0
+    });
+  }
+
+  // register the mime type if in Jupyter Notebook environment and previously unregistered
+  if (root.Jupyter !== undefined) {
+    const events = require('base/js/events');
+    const OutputArea = require('notebook/js/outputarea').OutputArea;
+
+    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {
+      register_renderer(events, OutputArea);
+    }
+  }
+  if (typeof (root._bokeh_timeout) === "undefined" || force === true) {
+    root._bokeh_timeout = Date.now() + 5000;
+    root._bokeh_failed_load = false;
+  }
+
+  const NB_LOAD_WARNING = {'data': {'text/html':
+     "<div style='background-color: #fdd'>\n"+
+     "<p>\n"+
+     "BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \n"+
+     "may be due to a slow or bad network connection. Possible fixes:\n"+
+     "</p>\n"+
+     "<ul>\n"+
+     "<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\n"+
+     "<li>use INLINE resources instead, as so:</li>\n"+
+     "</ul>\n"+
+     "<code>\n"+
+     "from bokeh.resources import INLINE\n"+
+     "output_notebook(resources=INLINE)\n"+
+     "</code>\n"+
+     "</div>"}};
+
+  function display_loaded() {
+    const el = document.getElementById("1002");
+    if (el != null) {
+      el.textContent = "BokehJS is loading...";
+    }
+    if (root.Bokeh !== undefined) {
+      if (el != null) {
+        el.textContent = "BokehJS " + root.Bokeh.version + " successfully loaded.";
+      }
+    } else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(display_loaded, 100)
+    }
+  }
+
+  function run_callbacks() {
+    try {
+      root._bokeh_onload_callbacks.forEach(function(callback) {
+        if (callback != null)
+          callback();
+      });
+    } finally {
+      delete root._bokeh_onload_callbacks
+    }
+    console.debug("Bokeh: all callbacks have finished");
+  }
+
+  function load_libs(css_urls, js_urls, callback) {
+    if (css_urls == null) css_urls = [];
+    if (js_urls == null) js_urls = [];
+
+    root._bokeh_onload_callbacks.push(callback);
+    if (root._bokeh_is_loading > 0) {
+      console.debug("Bokeh: BokehJS is being loaded, scheduling callback at", now());
+      return null;
+    }
+    if (js_urls == null || js_urls.length === 0) {
+      run_callbacks();
+      return null;
+    }
+    console.debug("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
+    root._bokeh_is_loading = css_urls.length + js_urls.length;
+
+    function on_load() {
+      root._bokeh_is_loading--;
+      if (root._bokeh_is_loading === 0) {
+        console.debug("Bokeh: all BokehJS libraries/stylesheets loaded");
+        run_callbacks()
+      }
+    }
+
+    function on_error(url) {
+      console.error("failed to load " + url);
+    }
+
+    for (let i = 0; i < css_urls.length; i++) {
+      const url = css_urls[i];
+      const element = document.createElement("link");
+      element.onload = on_load;
+      element.onerror = on_error.bind(null, url);
+      element.rel = "stylesheet";
+      element.type = "text/css";
+      element.href = url;
+      console.debug("Bokeh: injecting link tag for BokehJS stylesheet: ", url);
+      document.body.appendChild(element);
+    }
+
+    for (let i = 0; i < js_urls.length; i++) {
+      const url = js_urls[i];
+      const element = document.createElement('script');
+      element.onload = on_load;
+      element.onerror = on_error.bind(null, url);
+      element.async = false;
+      element.src = url;
+      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
+      document.head.appendChild(element);
+    }
+  };
+
+  function inject_raw_css(css) {
+    const element = document.createElement("style");
+    element.appendChild(document.createTextNode(css));
+    document.body.appendChild(element);
+  }
+
+  const js_urls = ["https://cdn.bokeh.org/bokeh/release/bokeh-2.4.3.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-gl-2.4.3.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.4.3.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.4.3.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-2.4.3.min.js"];
+  const css_urls = [];
+
+  const inline_js = [    function(Bokeh) {
+      Bokeh.set_log_level("info");
+    },
+function(Bokeh) {
+    }
+  ];
+
+  function run_inline_js() {
+    if (root.Bokeh !== undefined || force === true) {
+          for (let i = 0; i < inline_js.length; i++) {
+      inline_js[i].call(root, root.Bokeh);
+    }
+if (force === true) {
+        display_loaded();
+      }} else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(run_inline_js, 100);
+    } else if (!root._bokeh_failed_load) {
+      console.log("Bokeh: BokehJS failed to load within specified timeout.");
+      root._bokeh_failed_load = true;
+    } else if (force !== true) {
+      const cell = $(document.getElementById("1002")).parents('.cell').data().cell;
+      cell.output_area.append_execute_result(NB_LOAD_WARNING)
+    }
+  }
+
+  if (root._bokeh_is_loading === 0) {
+    console.debug("Bokeh: BokehJS loaded, going straight to plotting");
+    run_inline_js();
+  } else {
+    load_libs(css_urls, js_urls, function() {
+      console.debug("Bokeh: BokehJS plotting callback run at", now());
+      run_inline_js();
+    });
+  }
+}(window));</script><div class="output text_html">
+<div class="bk-root" id="d836b7c4-8642-42e4-ab3d-03d2d185ffe5" data-root-id="1003"></div>
+</div><script type="application/javascript">(function(root) {
+  function embed_document(root) {
+  const docs_json = {"995adde7-a8b3-46d5-b95f-ed683f2d2da1":{"defs":[],"roots":{"references":[{"attributes":{"below":[{"id":"1014"}],"center":[{"id":"1017"},{"id":"1021"},{"id":"1068"}],"left":[{"id":"1018"}],"output_backend":"webgl","renderers":[{"id":"1040"},{"id":"1046"},{"id":"1052"},{"id":"1074"},{"id":"1097"}],"title":{"id":"1004"},"toolbar":{"id":"1029"},"x_range":{"id":"1006"},"x_scale":{"id":"1010"},"y_range":{"id":"1008"},"y_scale":{"id":"1012"}},"id":"1003","subtype":"Figure","type":"Plot"},{"attributes":{},"id":"1066","type":"Selection"},{"attributes":{},"id":"1115","type":"Selection"},{"attributes":{"label":{"value":"Standard IBI"},"renderers":[{"id":"1052"}]},"id":"1069","type":"LegendItem"},{"attributes":{},"id":"1064","type":"Selection"},{"attributes":{"data":{"x":[-10,-10,-1,-1],"y":[1,10,10,1]},"selected":{"id":"1062"},"selection_policy":{"id":"1061"}},"id":"1036","type":"ColumnDataSource"},{"attributes":{"data":{"x":[1,1,10,10],"y":[-1,-10,-10,-1]},"selected":{"id":"1064"},"selection_policy":{"id":"1063"}},"id":"1042","type":"ColumnDataSource"},{"attributes":{"fill_alpha":{"value":0.2},"hatch_alpha":{"value":0.2},"hatch_color":{"value":"gray"},"line_alpha":{"value":0.2},"line_color":{"value":"gray"},"size":{"value":8},"x":{"field":"x"},"y":{"field":"y"}},"id":"1049","type":"Circle"},{"attributes":{"fill_alpha":{"value":0.2},"fill_color":{"value":"#6c0073"},"hatch_alpha":{"value":0.2},"hatch_color":{"value":"#6c0073"},"line_alpha":{"value":0.2},"line_color":{"value":"#6c0073"},"marker":{"value":"triangle"},"size":{"value":8},"x":{"field":"x"},"y":{"field":"y"}},"id":"1073","type":"Scatter"},{"attributes":{"fill_alpha":0.2,"fill_color":"grey","hatch_alpha":0.2,"hatch_color":"grey","line_alpha":0.2,"line_color":"grey","x":{"field":"x"},"y":{"field":"y"}},"id":"1037","type":"Patch"},{"attributes":{"coordinates":null,"data_source":{"id":"1036"},"glyph":{"id":"1037"},"group":null,"hover_glyph":null,"muted_glyph":{"id":"1039"},"nonselection_glyph":{"id":"1038"},"view":{"id":"1041"}},"id":"1040","type":"GlyphRenderer"},{"attributes":{},"id":"1012","type":"LinearScale"},{"attributes":{"fill_alpha":0.2,"fill_color":"grey","hatch_alpha":0.2,"hatch_color":"grey","line_alpha":0.2,"line_color":"grey","x":{"field":"x"},"y":{"field":"y"}},"id":"1043","type":"Patch"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#9ac1d4"},"hatch_alpha":{"value":0.1},"hatch_color":{"value":"#9ac1d4"},"line_alpha":{"value":0.1},"line_color":{"value":"#9ac1d4"},"size":{"value":8},"x":{"field":"x"},"y":{"field":"y"}},"id":"1095","type":"Circle"},{"attributes":{"source":{"id":"1036"}},"id":"1041","type":"CDSView"},{"attributes":{"axis":{"id":"1014"},"coordinates":null,"group":null,"ticker":null},"id":"1017","type":"Grid"},{"attributes":{"fill_alpha":0.1,"fill_color":"grey","hatch_alpha":0.1,"hatch_color":"grey","line_alpha":0.1,"line_color":"grey","x":{"field":"x"},"y":{"field":"y"}},"id":"1038","type":"Patch"},{"attributes":{"coordinates":null,"data_source":{"id":"1070"},"glyph":{"id":"1071"},"group":null,"hover_glyph":null,"muted_glyph":{"id":"1073"},"nonselection_glyph":{"id":"1072"},"view":{"id":"1075"}},"id":"1074","type":"GlyphRenderer"},{"attributes":{},"id":"1089","type":"UnionRenderers"},{"attributes":{},"id":"1010","type":"LinearScale"},{"attributes":{"end":10,"start":-10},"id":"1006","type":"Range1d"},{"attributes":{"coordinates":null,"group":null,"text":"Short and long intervals"},"id":"1004","type":"Title"},{"attributes":{"tools":[{"id":"1022"},{"id":"1023"},{"id":"1024"},{"id":"1025"},{"id":"1026"},{"id":"1027"}]},"id":"1029","type":"Toolbar"},{"attributes":{"source":{"id":"1070"}},"id":"1075","type":"CDSView"},{"attributes":{},"id":"1114","type":"UnionRenderers"},{"attributes":{"source":{"id":"1048"}},"id":"1053","type":"CDSView"},{"attributes":{"data":{"x":{"__ndarray__":"Yn/w1rXa8r8=","dtype":"float64","order":"little","shape":[1]},"y":{"__ndarray__":"qvToHMlg4z8=","dtype":"float64","order":"little","shape":[1]}},"selected":{"id":"1090"},"selection_policy":{"id":"1089"}},"id":"1070","type":"ColumnDataSource"},{"attributes":{"end":10,"start":-10},"id":"1008","type":"Range1d"},{"attributes":{"fill_alpha":0.2,"fill_color":"grey","hatch_alpha":0.2,"hatch_color":"grey","line_alpha":0.2,"line_color":"grey","x":{"field":"x"},"y":{"field":"y"}},"id":"1039","type":"Patch"},{"attributes":{"coordinates":null,"data_source":{"id":"1093"},"glyph":{"id":"1094"},"group":null,"hover_glyph":null,"muted_glyph":{"id":"1096"},"nonselection_glyph":{"id":"1095"},"view":{"id":"1098"}},"id":"1097","type":"GlyphRenderer"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#6c0073"},"hatch_alpha":{"value":0.1},"hatch_color":{"value":"#6c0073"},"line_alpha":{"value":0.1},"line_color":{"value":"#6c0073"},"marker":{"value":"triangle"},"size":{"value":8},"x":{"field":"x"},"y":{"field":"y"}},"id":"1072","type":"Scatter"},{"attributes":{},"id":"1023","type":"WheelZoomTool"},{"attributes":{"axis_label":"Subspace 3","coordinates":null,"formatter":{"id":"1056"},"group":null,"major_label_policy":{"id":"1057"},"ticker":{"id":"1019"}},"id":"1018","type":"LinearAxis"},{"attributes":{"coordinates":null,"group":null,"items":[{"id":"1069"},{"id":"1092"},{"id":"1117"}]},"id":"1068","type":"Legend"},{"attributes":{"axis":{"id":"1018"},"coordinates":null,"dimension":1,"group":null,"ticker":null},"id":"1021","type":"Grid"},{"attributes":{"source":{"id":"1093"}},"id":"1098","type":"CDSView"},{"attributes":{},"id":"1063","type":"UnionRenderers"},{"attributes":{},"id":"1019","type":"BasicTicker"},{"attributes":{},"id":"1065","type":"UnionRenderers"},{"attributes":{"data":{"x":{"__ndarray__":"hZsBrOST8D8=","dtype":"float64","order":"little","shape":[1]},"y":{"__ndarray__":"Yn/w1rXa8r8=","dtype":"float64","order":"little","shape":[1]}},"selected":{"id":"1115"},"selection_policy":{"id":"1114"}},"id":"1093","type":"ColumnDataSource"},{"attributes":{},"id":"1027","type":"HelpTool"},{"attributes":{"fill_alpha":{"value":0.1},"hatch_alpha":{"value":0.1},"hatch_color":{"value":"gray"},"line_alpha":{"value":0.1},"line_color":{"value":"gray"},"size":{"value":8},"x":{"field":"x"},"y":{"field":"y"}},"id":"1050","type":"Circle"},{"attributes":{"fill_alpha":{"value":0.2},"fill_color":{"value":"#9ac1d4"},"hatch_alpha":{"value":0.2},"hatch_color":{"value":"#9ac1d4"},"line_alpha":{"value":0.2},"line_color":{"value":"#9ac1d4"},"size":{"value":8},"x":{"field":"x"},"y":{"field":"y"}},"id":"1096","type":"Circle"},{"attributes":{},"id":"1022","type":"PanTool"},{"attributes":{},"id":"1056","type":"BasicTickFormatter"},{"attributes":{"overlay":{"id":"1028"}},"id":"1024","type":"BoxZoomTool"},{"attributes":{},"id":"1090","type":"Selection"},{"attributes":{"fill_alpha":{"value":0.2},"hatch_alpha":{"value":0.2},"hatch_color":{"value":"gray"},"line_alpha":{"value":0.2},"line_color":{"value":"gray"},"size":{"value":8},"x":{"field":"x"},"y":{"field":"y"}},"id":"1051","type":"Circle"},{"attributes":{},"id":"1025","type":"SaveTool"},{"attributes":{"label":{"value":"Long beats"},"renderers":[{"id":"1097"}]},"id":"1117","type":"LegendItem"},{"attributes":{},"id":"1061","type":"UnionRenderers"},{"attributes":{},"id":"1026","type":"ResetTool"},{"attributes":{"label":{"value":"Ectopic beats"},"renderers":[{"id":"1074"}]},"id":"1092","type":"LegendItem"},{"attributes":{},"id":"1059","type":"BasicTickFormatter"},{"attributes":{"source":{"id":"1042"}},"id":"1047","type":"CDSView"},{"attributes":{"fill_alpha":{"value":0.8},"fill_color":{"value":"#9ac1d4"},"hatch_alpha":{"value":0.8},"hatch_color":{"value":"#9ac1d4"},"line_alpha":{"value":0.8},"line_color":{"value":"#9ac1d4"},"size":{"value":8},"x":{"field":"x"},"y":{"field":"y"}},"id":"1094","type":"Circle"},{"attributes":{"bottom_units":"screen","coordinates":null,"fill_alpha":0.5,"fill_color":"lightgrey","group":null,"left_units":"screen","level":"overlay","line_alpha":1.0,"line_color":"black","line_dash":[4,4],"line_width":2,"right_units":"screen","syncable":false,"top_units":"screen"},"id":"1028","type":"BoxAnnotation"},{"attributes":{"fill_alpha":{"value":0.8},"fill_color":{"value":"#6c0073"},"hatch_alpha":{"value":0.8},"hatch_color":{"value":"#6c0073"},"line_alpha":{"value":0.8},"line_color":{"value":"#6c0073"},"marker":{"value":"triangle"},"size":{"value":8},"x":{"field":"x"},"y":{"field":"y"}},"id":"1071","type":"Scatter"},{"attributes":{},"id":"1057","type":"AllLabels"},{"attributes":{},"id":"1062","type":"Selection"},{"attributes":{"coordinates":null,"data_source":{"id":"1048"},"glyph":{"id":"1049"},"group":null,"hover_glyph":null,"muted_glyph":{"id":"1051"},"nonselection_glyph":{"id":"1050"},"view":{"id":"1053"}},"id":"1052","type":"GlyphRenderer"},{"attributes":{"data":{"x":{"__ndarray__":"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","dtype":"float64","order":"little","shape":[243]},"y":{"__ndarray__":"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","dtype":"float64","order":"little","shape":[243]}},"selected":{"id":"1066"},"selection_policy":{"id":"1065"}},"id":"1048","type":"ColumnDataSource"},{"attributes":{},"id":"1015","type":"BasicTicker"},{"attributes":{"fill_alpha":0.1,"fill_color":"grey","hatch_alpha":0.1,"hatch_color":"grey","line_alpha":0.1,"line_color":"grey","x":{"field":"x"},"y":{"field":"y"}},"id":"1044","type":"Patch"},{"attributes":{},"id":"1060","type":"AllLabels"},{"attributes":{"coordinates":null,"data_source":{"id":"1042"},"glyph":{"id":"1043"},"group":null,"hover_glyph":null,"muted_glyph":{"id":"1045"},"nonselection_glyph":{"id":"1044"},"view":{"id":"1047"}},"id":"1046","type":"GlyphRenderer"},{"attributes":{"fill_alpha":0.2,"fill_color":"grey","hatch_alpha":0.2,"hatch_color":"grey","line_alpha":0.2,"line_color":"grey","x":{"field":"x"},"y":{"field":"y"}},"id":"1045","type":"Patch"},{"attributes":{"axis_label":"Subspace 1","coordinates":null,"formatter":{"id":"1059"},"group":null,"major_label_policy":{"id":"1060"},"ticker":{"id":"1015"}},"id":"1014","type":"LinearAxis"}],"root_ids":["1003"]},"title":"Bokeh Application","version":"2.4.3"}};
+  const render_items = [{"docid":"995adde7-a8b3-46d5-b95f-ed683f2d2da1","root_ids":["1003"],"roots":{"1003":"d836b7c4-8642-42e4-ab3d-03d2d185ffe5"}}];
+  root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
+  }
+  if (root.Bokeh !== undefined) {
+    embed_document(root);
+  } else {
+    let attempts = 0;
+    const timer = setInterval(function(root) {
+      if (root.Bokeh !== undefined) {
+        clearInterval(timer);
+        embed_document(root);
+      } else {
+        attempts++;
+        if (attempts > 100) {
+          clearInterval(timer);
+          console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+        }
+      }
+    }, 10, root)
+  }
+})(window);</script></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="systole.plots.plot_rr.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">systole.plots.plot_rr</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="systole.plots.plot_subspaces.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">systole.plots.plot_subspaces</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2020-2022, Nicolas Legrand.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>
