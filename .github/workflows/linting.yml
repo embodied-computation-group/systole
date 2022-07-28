@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8]
+        python-version: [3.9]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -24,7 +24,8 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements-tests.txt
-        pip install isort flake8 black mypy
+        pip install isort flake8 black
+        pip install mypy==0.961
         pip install types-setuptools
     - name: Run tests and coverage
       run: |

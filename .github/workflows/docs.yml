@@ -32,5 +32,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: source/build/html
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages

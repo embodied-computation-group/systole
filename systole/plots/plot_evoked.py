@@ -150,7 +150,7 @@ def plot_evoked(
        plot_evoked(
             signal=ecg_df.ecg.to_numpy(), triggers_idx=triggers_idx, modality="ecg",
             tmin=-1.0, tmax=10.0, apply_baseline=(-1.0, 0.0), backend="matplotlib",
-            palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+            palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]], decim=100,
             ax=axs[0]
             )
 
@@ -158,7 +158,7 @@ def plot_evoked(
        plot_evoked(
            rr=peaks, triggers_idx=triggers_idx, input_type="peaks", tmin=-1.0,
            tmax=10.0, apply_baseline=(-1.0, 0.0), backend="matplotlib",
-           palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+           palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]], decim=100,
            ax=axs[1]
            )
 
@@ -166,8 +166,7 @@ def plot_evoked(
        plot_evoked(
            epochs=epochs,
            palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
-           backend="matplotlib",
-           ax=axs[2]
+           backend="matplotlib", decim=100, ax=axs[2]
            )
 
     Plot evoked heart rate across two conditions using the Bokeh backend. Here,
@@ -189,7 +188,7 @@ def plot_evoked(
        raw_plot = plot_evoked(
             signal=ecg_df.ecg.to_numpy(), triggers_idx=triggers_idx, modality="ecg",
             tmin=-1.0, tmax=10.0, apply_baseline=(-1.0, 0.0), backend="bokeh",
-            palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+            palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]], decim=100,
             figsize=(400, 400)
             )
 
@@ -197,7 +196,7 @@ def plot_evoked(
        peaks_plot = plot_evoked(
            rr=peaks, triggers_idx=triggers_idx, input_type="peaks", tmin=-1.0,
            tmax=10.0, apply_baseline=(-1.0, 0.0), backend="bokeh",
-           palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+           palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]], decim=100,
            figsize=(400, 400)
            )
 
@@ -205,8 +204,7 @@ def plot_evoked(
        epochs_plots = plot_evoked(
            epochs=epochs,
            palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
-           backend="bokeh",
-           figsize=(400, 400)
+           backend="bokeh", decim=100, figsize=(400, 400)
            )
 
        # Create a Bokeh layout and plot the figures side by side
