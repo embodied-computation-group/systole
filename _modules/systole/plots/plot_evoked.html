@@ -338,41 +338,41 @@
 <span class="sd">       ]</span>
 
 <span class="sd">       # Peak detection in the ECG signal using the Pan-Tompkins method</span>
-<span class="sd">       signal, peaks = ecg_peaks(ecg_df.ecg, method=&#39;pan-tompkins&#39;, sfreq=1000)</span>
+<span class="sd">       signal, peaks = ecg_peaks(ecg_df.ecg, method=&#39;sleepecg&#39;, sfreq=1000)</span>
 
 <span class="sd">       # Convert to instantaneous heart rate</span>
 <span class="sd">       rr, _ = heart_rate(peaks, kind=&quot;cubic&quot;, unit=&quot;bpm&quot;, input_type=&quot;peaks&quot;)</span>
 
 <span class="sd">       # Create list epochs arrays for each condition</span>
-<span class="sd">       epochs, _ = to_epochs(</span>
+<span class="sd">       hr_epochs, _ = to_epochs(</span>
 <span class="sd">           signal=rr, triggers_idx=triggers_idx, tmin=-1.0, tmax=10.0,</span>
 <span class="sd">           apply_baseline=(-1.0, 0.0)</span>
 <span class="sd">           )</span>
 
 <span class="sd">       fig, axs = plt.subplots(ncols=3, figsize=(15, 5), sharey=True)</span>
 
+<span class="sd">       # We define a common set of plotting arguments here</span>
+<span class="sd">       plot_args = {</span>
+<span class="sd">            &quot;backend&quot;: &quot;matplotlib&quot;, &quot;figsize&quot;: (400, 400),</span>
+<span class="sd">            &quot;palette&quot;: [sns.xkcd_rgb[&quot;denim blue&quot;], sns.xkcd_rgb[&quot;pale red&quot;]],</span>
+<span class="sd">            &quot;tmin&quot;: -1.0, &quot;tmax&quot;: 10.0, &quot;apply_baseline&quot;: (-1.0, 0.0), &quot;decim&quot;: 100</span>
+<span class="sd">        }</span>
+
 <span class="sd">       # Using the raw signal and events triggers</span>
 <span class="sd">       plot_evoked(</span>
 <span class="sd">            signal=ecg_df.ecg.to_numpy(), triggers_idx=triggers_idx, modality=&quot;ecg&quot;,</span>
-<span class="sd">            tmin=-1.0, tmax=10.0, apply_baseline=(-1.0, 0.0), backend=&quot;matplotlib&quot;,</span>
-<span class="sd">            palette=[sns.xkcd_rgb[&quot;denim blue&quot;], sns.xkcd_rgb[&quot;pale red&quot;]],</span>
-<span class="sd">            ax=axs[0]</span>
+<span class="sd">            ax=axs[0], **plot_args</span>
 <span class="sd">            )</span>
 
 <span class="sd">       # Using the detected peaks and events triggers</span>
 <span class="sd">       plot_evoked(</span>
-<span class="sd">           rr=peaks, triggers_idx=triggers_idx, input_type=&quot;peaks&quot;, tmin=-1.0,</span>
-<span class="sd">           tmax=10.0, apply_baseline=(-1.0, 0.0), backend=&quot;matplotlib&quot;,</span>
-<span class="sd">           palette=[sns.xkcd_rgb[&quot;denim blue&quot;], sns.xkcd_rgb[&quot;pale red&quot;]],</span>
-<span class="sd">           ax=axs[1]</span>
+<span class="sd">           rr=peaks, triggers_idx=triggers_idx, input_type=&quot;peaks&quot;, ax=axs[1],</span>
+<span class="sd">           **plot_args</span>
 <span class="sd">           )</span>
 
 <span class="sd">       # Using the list of epochs arrays</span>
 <span class="sd">       plot_evoked(</span>
-<span class="sd">           epochs=epochs,</span>
-<span class="sd">           palette=[sns.xkcd_rgb[&quot;denim blue&quot;], sns.xkcd_rgb[&quot;pale red&quot;]],</span>
-<span class="sd">           backend=&quot;matplotlib&quot;,</span>
-<span class="sd">           ax=axs[2]</span>
+<span class="sd">           epochs=hr_epochs, ax=axs[2], **plot_args</span>
 <span class="sd">           )</span>
 
 <span class="sd">    Plot evoked heart rate across two conditions using the Bokeh backend. Here,</span>
@@ -390,29 +390,26 @@
 <span class="sd">       from bokeh.layouts import row</span>
 <span class="sd">       output_notebook()</span>
 
+<span class="sd">       # We define a common set of plotting arguments here</span>
+<span class="sd">       plot_args = {</span>
+<span class="sd">            &quot;backend&quot;: &quot;bokeh&quot;, &quot;figsize&quot;: (400, 400),</span>
+<span class="sd">            &quot;palette&quot;: [sns.xkcd_rgb[&quot;denim blue&quot;], sns.xkcd_rgb[&quot;pale red&quot;]],</span>
+<span class="sd">            &quot;tmin&quot;: -1.0, &quot;tmax&quot;: 10.0, &quot;apply_baseline&quot;: (-1.0, 0.0), &quot;decim&quot;: 100</span>
+<span class="sd">        }</span>
+
 <span class="sd">       # Using the raw signal and events triggers</span>
 <span class="sd">       raw_plot = plot_evoked(</span>
 <span class="sd">            signal=ecg_df.ecg.to_numpy(), triggers_idx=triggers_idx, modality=&quot;ecg&quot;,</span>
-<span class="sd">            tmin=-1.0, tmax=10.0, apply_baseline=(-1.0, 0.0), backend=&quot;bokeh&quot;,</span>
-<span class="sd">            palette=[sns.xkcd_rgb[&quot;denim blue&quot;], sns.xkcd_rgb[&quot;pale red&quot;]],</span>
-<span class="sd">            figsize=(400, 400)</span>
+<span class="sd">            **plot_args</span>
 <span class="sd">            )</span>
 
 <span class="sd">       # Using the detected peaks and events triggers</span>
 <span class="sd">       peaks_plot = plot_evoked(</span>
-<span class="sd">           rr=peaks, triggers_idx=triggers_idx, input_type=&quot;peaks&quot;, tmin=-1.0,</span>
-<span class="sd">           tmax=10.0, apply_baseline=(-1.0, 0.0), backend=&quot;bokeh&quot;,</span>
-<span class="sd">           palette=[sns.xkcd_rgb[&quot;denim blue&quot;], sns.xkcd_rgb[&quot;pale red&quot;]],</span>
-<span class="sd">           figsize=(400, 400)</span>
+<span class="sd">           rr=peaks, triggers_idx=triggers_idx, input_type=&quot;peaks&quot;, **plot_args</span>
 <span class="sd">           )</span>
 
 <span class="sd">       # Using the list of epochs arrays</span>
-<span class="sd">       epochs_plots = plot_evoked(</span>
-<span class="sd">           epochs=epochs,</span>
-<span class="sd">           palette=[sns.xkcd_rgb[&quot;denim blue&quot;], sns.xkcd_rgb[&quot;pale red&quot;]],</span>
-<span class="sd">           backend=&quot;bokeh&quot;,</span>
-<span class="sd">           figsize=(400, 400)</span>
-<span class="sd">           )</span>
+<span class="sd">       epochs_plots = plot_evoked(epochs=hr_epochs, **plot_args)</span>
 
 <span class="sd">       # Create a Bokeh layout and plot the figures side by side</span>
 <span class="sd">       show(row(raw_plot, peaks_plot, epochs_plots))</span>
@@ -477,8 +474,10 @@
     <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">decim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">new_epoch</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">epochs</span><span class="p">)):</span>
-            <span class="n">epochs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">epochs</span><span class="p">[</span><span class="n">i</span><span class="p">][:,</span> <span class="p">::</span><span class="n">decim</span><span class="p">]</span>
+            <span class="n">new_epoch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">epochs</span><span class="p">[</span><span class="n">i</span><span class="p">][:,</span> <span class="p">::</span><span class="n">decim</span><span class="p">])</span>
+        <span class="n">epochs</span> <span class="o">=</span> <span class="n">new_epoch</span>
         <span class="n">time</span> <span class="o">=</span> <span class="n">time</span><span class="p">[::</span><span class="n">decim</span><span class="p">]</span>
 
     <span class="n">plot_evoked_args</span> <span class="o">=</span> <span class="p">{</span>

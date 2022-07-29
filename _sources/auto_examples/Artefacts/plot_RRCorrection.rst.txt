@@ -82,7 +82,7 @@ recommended to use it in the context of "bloc design" study or heart rate variab
 
  .. code-block:: none
 
-      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|#####     | 1/2 [00:00<00:00,  2.87it/s]    Downloading Stim channel:  50%|#####     | 1/2 [00:00<00:00,  2.87it/s]    Downloading Stim channel: 100%|##########| 2/2 [00:00<00:00,  2.83it/s]    Downloading Stim channel: 100%|##########| 2/2 [00:00<00:00,  2.83it/s]
+      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|#####     | 1/2 [00:00<00:00,  7.13it/s]    Downloading Stim channel:  50%|#####     | 1/2 [00:00<00:00,  7.13it/s]    Downloading Stim channel: 100%|##########| 2/2 [00:00<00:00,  6.88it/s]    Downloading Stim channel: 100%|##########| 2/2 [00:00<00:00,  6.91it/s]
 
 
 
@@ -390,7 +390,7 @@ References
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  14.036 seconds)
+   **Total running time of the script:** ( 0 minutes  11.211 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Artefacts_plot_RRCorrection.py:

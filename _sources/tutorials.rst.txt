@@ -21,7 +21,7 @@ are largely derived from the cognitive science approach and interest, but it can
 of interest to anyone willing to use Systole or learn about cardiac signal analysis
 in general.
 
-.. _Systole: https://systole-docs.github.io/
+.. _Systole: https://embodied-computation-group.github.io/systole/#
 
 .. panels::
 

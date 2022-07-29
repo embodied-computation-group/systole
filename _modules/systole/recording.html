@@ -212,8 +212,6 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">serial</span>
-<span class="kn">from</span> <span class="nn">serial.tools</span> <span class="kn">import</span> <span class="n">list_ports</span>
 
 <span class="kn">from</span> <span class="nn">systole.detection</span> <span class="kn">import</span> <span class="n">ppg_peaks</span>
 <span class="kn">from</span> <span class="nn">systole.plots</span> <span class="kn">import</span> <span class="n">plot_events</span><span class="p">,</span> <span class="n">plot_raw</span>
@@ -966,33 +964,6 @@
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Close TCPIP connections&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="findOximeter"><a class="viewcode-back" href="../../generated/recording/systole.recording.findOximeter.html#systole.recording.findOximeter">[docs]</a><span class="k">def</span> <span class="nf">findOximeter</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Find USB port where Nonin Pulse Oximeter is plugged.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    port : str or None</span>
-<span class="sd">        The port reference or None if no device found.</span>
-
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    This function is only compatible with Windows 10.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">port</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">usbList</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">list_ports</span><span class="o">.</span><span class="n">comports</span><span class="p">())</span>
-
-    <span class="k">for</span> <span class="n">usb</span> <span class="ow">in</span> <span class="n">usbList</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Connecting on device found in USB port &quot;</span> <span class="o">+</span> <span class="n">usb</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
-
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">Oximeter</span><span class="p">(</span><span class="n">serial</span><span class="o">=</span><span class="n">serial</span><span class="o">.</span><span class="n">Serial</span><span class="p">(</span><span class="n">usb</span><span class="o">.</span><span class="n">device</span><span class="p">))</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
-            <span class="n">port</span> <span class="o">=</span> <span class="n">usb</span><span class="o">.</span><span class="n">device</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Invalid signal.&quot;</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">port</span></div>
 </pre></div>
 
               </article>
