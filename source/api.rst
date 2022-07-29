@@ -97,7 +97,6 @@ Recording
 
     Oximeter
     BrainVisionExG
-    findOximeter
 
 Reports
 -------

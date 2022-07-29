@@ -7,8 +7,6 @@ from typing import Dict, List, Optional
 
 import numpy as np
 import pandas as pd
-import serial
-from serial.tools import list_ports
 
 from systole.detection import ppg_peaks
 from systole.plots import plot_events, plot_raw
@@ -761,30 +759,3 @@ class BrainVisionExG:
     def close(self):
         """Close TCPIP connections"""
         self.con.close()
-
-
-def findOximeter():
-    """Find USB port where Nonin Pulse Oximeter is plugged.
-
-    Returns
-    -------
-    port : str or None
-        The port reference or None if no device found.
-
-    Notes
-    -----
-    This function is only compatible with Windows 10.
-    """
-    port = None
-    usbList = list(list_ports.comports())
-
-    for usb in usbList:
-        print("Connecting on device found in USB port " + usb.device)
-
-        try:
-            Oximeter(serial=serial.Serial(usb.device)).setup().read(0.2)
-            port = usb.device
-        except:
-            print("Invalid signal.")
-
-    return port
