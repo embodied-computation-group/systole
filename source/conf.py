@@ -103,7 +103,7 @@ html_theme_options = {
             icon="fas fa-box",
         ),
     ],
-    "logo_link": "https://systole-docs.github.io/",
+    "logo_link": "https://embodied-computation-group.github.io/systole/#",
 }
 
 html_sidebars = {

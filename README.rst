@@ -38,7 +38,7 @@ This includes tools for data epoching, artefact detection, artefact correction, 
 variability analyses, circular statistical approaches to analysing cardiac cycles, and synchronising stimulus 
 presentation with different cardiac phases via Psychopy.
 
-The documentation can be found under the following `link <https://systole-docs.github.io/>`_.
+The documentation can be found under the following `link <https://embodied-computation-group.github.io/systole/#>`_.
 
 If you have questions, you can ask them in the `Gitter chat <https://gitter.im/ecg-systole/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge>`_.
 
