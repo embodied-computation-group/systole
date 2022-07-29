@@ -1,6 +1,5 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-import warnings
 from typing import Iterable, List, Tuple
 
 import numpy as np
@@ -15,7 +14,7 @@ def plot_evoked(
     time: np.ndarray,
     palette: Iterable,
     figsize: Tuple[float, float],
-    labels: str,
+    labels: List[str],
     unit: str,
     ci: str = "sd",
     **kwargs
@@ -30,18 +29,16 @@ def plot_evoked(
     time : float
         Start and end time of the epochs in seconds, relative to the
         time-locked event. Defaults to -1 and 10, respectively.
-    palette : int
-        The sampling frequency of the epoched data.
-    figsize : str
-        The lines color.
-    labels : str
+    palette : Iterable
+        The color palette.
+    figsize : tuple
+        The figure size.
+    labels : list
         The condition label.
     unit : str
         The heart rate unit. Can be `'rr'` (R-R intervals, in ms) or `'bpm'` (beats
         per minutes). Default is `'bpm'`.
-    ax : tuple
-        Figure size. Default is `(400, 400)`.
-    ci : int | str
+    ci : str
         The confidence interval around the point estimates. Only `"sd"` is currently
         implemented.
     kwargs : key, value mappings
@@ -54,14 +51,6 @@ def plot_evoked(
         The bokeh figure containing the plot.
 
     """
-
-    if kwargs is not None:
-        warnings.warn(
-            (
-                "Keywords arguments are being passed to the function that cannot"
-                " be used with the Bokeh backend and will be ignored."
-            )
-        )
 
     ylabel = "R-R interval (ms)" if unit == "rr" else "Beats per minute (bpm)"
 

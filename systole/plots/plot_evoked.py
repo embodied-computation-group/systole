@@ -133,40 +133,41 @@ def plot_evoked(
        ]
 
        # Peak detection in the ECG signal using the Pan-Tompkins method
-       signal, peaks = ecg_peaks(ecg_df.ecg, method='pan-tompkins', sfreq=1000)
+       signal, peaks = ecg_peaks(ecg_df.ecg, method='sleepecg', sfreq=1000)
 
        # Convert to instantaneous heart rate
        rr, _ = heart_rate(peaks, kind="cubic", unit="bpm", input_type="peaks")
 
        # Create list epochs arrays for each condition
-       epochs, _ = to_epochs(
+       hr_epochs, _ = to_epochs(
            signal=rr, triggers_idx=triggers_idx, tmin=-1.0, tmax=10.0,
            apply_baseline=(-1.0, 0.0)
            )
 
        fig, axs = plt.subplots(ncols=3, figsize=(15, 5), sharey=True)
 
+       # We define a common set of plotting arguments here
+       plot_args = {
+            "backend": "matplotlib", "figsize": (400, 400),
+            "palette": [sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+            "tmin": -1.0, "tmax": 10.0, "apply_baseline": (-1.0, 0.0), "decim": 100
+        }
+
        # Using the raw signal and events triggers
        plot_evoked(
             signal=ecg_df.ecg.to_numpy(), triggers_idx=triggers_idx, modality="ecg",
-            tmin=-1.0, tmax=10.0, apply_baseline=(-1.0, 0.0), backend="matplotlib",
-            palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]], decim=100,
-            ax=axs[0]
+            ax=axs[0], **plot_args
             )
 
        # Using the detected peaks and events triggers
        plot_evoked(
-           rr=peaks, triggers_idx=triggers_idx, input_type="peaks", tmin=-1.0,
-           tmax=10.0, apply_baseline=(-1.0, 0.0), backend="matplotlib",
-           palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]], decim=100,
-           ax=axs[1]
+           rr=peaks, triggers_idx=triggers_idx, input_type="peaks", ax=axs[1],
+           **plot_args
            )
 
        # Using the list of epochs arrays
        plot_evoked(
-           epochs=epochs,
-           palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
-           backend="matplotlib", decim=100, ax=axs[2]
+           epochs=hr_epochs, ax=axs[2], **plot_args
            )
 
     Plot evoked heart rate across two conditions using the Bokeh backend. Here,
@@ -184,28 +185,26 @@ def plot_evoked(
        from bokeh.layouts import row
        output_notebook()
 
+       # We define a common set of plotting arguments here
+       plot_args = {
+            "backend": "bokeh", "figsize": (400, 400),
+            "palette": [sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+            "tmin": -1.0, "tmax": 10.0, "apply_baseline": (-1.0, 0.0), "decim": 100
+        }
+
        # Using the raw signal and events triggers
        raw_plot = plot_evoked(
             signal=ecg_df.ecg.to_numpy(), triggers_idx=triggers_idx, modality="ecg",
-            tmin=-1.0, tmax=10.0, apply_baseline=(-1.0, 0.0), backend="bokeh",
-            palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]], decim=100,
-            figsize=(400, 400)
+            **plot_args
             )
 
        # Using the detected peaks and events triggers
        peaks_plot = plot_evoked(
-           rr=peaks, triggers_idx=triggers_idx, input_type="peaks", tmin=-1.0,
-           tmax=10.0, apply_baseline=(-1.0, 0.0), backend="bokeh",
-           palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]], decim=100,
-           figsize=(400, 400)
+           rr=peaks, triggers_idx=triggers_idx, input_type="peaks", **plot_args
            )
 
        # Using the list of epochs arrays
-       epochs_plots = plot_evoked(
-           epochs=epochs,
-           palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
-           backend="bokeh", decim=100, figsize=(400, 400)
-           )
+       epochs_plots = plot_evoked(epochs=hr_epochs, **plot_args)
 
        # Create a Bokeh layout and plot the figures side by side
        show(row(raw_plot, peaks_plot, epochs_plots))
@@ -270,8 +269,10 @@ def plot_evoked(
     )
 
     if decim is not None:
+        new_epoch = []
         for i in range(len(epochs)):
-            epochs[i] = epochs[i][:, ::decim]
+            new_epoch.append(epochs[i][:, ::decim])
+        epochs = new_epoch
         time = time[::decim]
 
     plot_evoked_args = {
