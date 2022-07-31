@@ -1,10 +1,8 @@
-v0.2.3 (December 2021)
+v0.2.3 (August 2022)
 ----------------------
 
 Highlights
 ++++++++++
-
-This release seeks to improve the heart rate variability module and will be the reference version for the JOSS publication.
 
 Changes
 +++++++
