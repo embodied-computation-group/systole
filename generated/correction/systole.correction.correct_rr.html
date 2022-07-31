@@ -58,7 +58,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="systole.correction.correct_peaks" href="systole.correction.correct_peaks.html" />
-    <link rel="prev" title="systole.correction.interpolate_bads" href="systole.correction.interpolate_bads.html" />
+    <link rel="prev" title="Functions" href="../../api.html" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="docsearch:language" content="None">
   </head>
@@ -183,21 +183,6 @@
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <div class="bd-toc-item active">
     <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="systole.correction.correct_extra.html">
-   systole.correction.correct_extra
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="systole.correction.correct_missed.html">
-   systole.correction.correct_missed
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="systole.correction.interpolate_bads.html">
-   systole.correction.interpolate_bads
-  </a>
- </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    systole.correction.correct_rr
@@ -477,12 +462,14 @@
 <h1>systole.correction.correct_rr<a class="headerlink" href="#systole-correction-correct-rr" title="Permalink to this headline">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="systole.correction.correct_rr">
-<span class="sig-prename descclassname"><span class="pre">systole.correction.</span></span><span class="sig-name descname"><span class="pre">correct_rr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_correction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">missed_correction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">short_correction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long_correction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ectopic_correction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'rr_ms'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/systole/correction.html#correct_rr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#systole.correction.correct_rr" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">systole.correction.</span></span><span class="sig-name descname"><span class="pre">correct_rr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_correction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">missed_correction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">short_correction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long_correction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ectopic_correction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'rr_ms'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/systole/correction.html#correct_rr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#systole.correction.correct_rr" title="Permalink to this definition">#</a></dt>
 <dd><p>Correct long and short beats using interpolation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>rr</strong><span class="classifier">np.ndarray</span></dt><dd><p>RR intervals (ms).</p>
+<dt><strong>rr</strong><span class="classifier">np.ndarray</span></dt><dd><p>RR intervals (expressed in seconds or miliseconds), boolean peaks vector or
+peaks indexes. The function will automatically convert the input into RR
+intervals (ms).</p>
 </dd>
 <dt><strong>extra_correction</strong><span class="classifier">bool</span></dt><dd><p>If <cite>True</cite> (deault), correct extra beats in the RR time series.</p>
 </dd>
@@ -494,7 +481,8 @@
 </dd>
 <dt><strong>ectopic_correction</strong><span class="classifier">bool</span></dt><dd><p>If <cite>True</cite> (deault), correct ectopic beats in the RR time series.</p>
 </dd>
-<dt><strong>n_iterations</strong><span class="classifier">int</span></dt><dd><p>How many time to repeat the detection-correction process. Defaults to <cite>2</cite>.</p>
+<dt><strong>n_iterations</strong><span class="classifier">int</span></dt><dd><p>Number of iterations (artifacts detection and artifacts correction). Defaults
+to <cite>1</cite>.</p>
 </dd>
 <dt><strong>input_type</strong><span class="classifier">str</span></dt><dd><p>The type of input vector. Default is <cite>“rr_ms”</cite> (a boolean vector where
 <cite>1</cite> represents the occurrence of R waves or systolic peaks).
@@ -507,39 +495,7 @@ Can also be <cite>“peaks_idx”</cite>, the idexs of samples where a peaks is 
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>correction</strong><span class="classifier">dictionary</span></dt><dd><p>The corrected RR time series and the number of artefacts corrected:</p>
-<ul class="simple">
-<li><dl class="simple">
-<dt>clean_rr: np.ndarray</dt><dd><p>The corrected RR time-serie.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>ectopic: int</dt><dd><p>The number of ectopic beats corrected.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>short: int</dt><dd><p>The number of short beats corrected.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>long: int</dt><dd><p>The number of long beats corrcted.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>extra: int</dt><dd><p>The number of extra beats corrected.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>missed: int</dt><dd><p>The number of missed beats corrected.</p>
-</dd>
-</dl>
-</li>
-</ul>
+<dt><strong>clean_rr, (nMissed, nExtra, nEctopic, nShort, nLong)</strong><span class="classifier">np.ndarray</span></dt><dd><p>The corrected RR time series and the number of artefacts corrected.</p>
 </dd>
 </dl>
 </dd>
@@ -550,6 +506,28 @@ Can also be <cite>“peaks_idx”</cite>, the idexs of samples where a peaks is 
 <dt><a class="reference internal" href="systole.correction.correct_peaks.html#systole.correction.correct_peaks" title="systole.correction.correct_peaks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_peaks</span></code></a></dt><dd></dd>
 </dl>
 </div>
+<p class="rubric">Notes</p>
+<p>This function will correct artifacts in RR intervals time series (ms) following the
+method presented in <a class="reference internal" href="#r5f0966f8069a-1" id="id1">[1]</a>. First, artifacts are labelled using
+py:<cite>func:systole.detection.rr_artefacts()</cite>. Then, artifacts are corrected in the
+following order:
+1. Missed heartbeats (add one heartbeat).
+2. Extra heartbeats (remove one heartbeat).
+3. Ectopic heartbeats (interpolate the values of the two heartbeats).
+4. Short heartbeats (interpolate the value of the heartbeat).
+5. Long heartbeats (interpolate the value of the heartbeat).
+These steps can be repeated by changing the <cite>n_iterations</cite> parameter.</p>
+<p>When adding or removing an RR interval (missed and extra artefacts), the <cite>artefacts</cite>
+arrays are updated accordingly.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r5f0966f8069a-1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Lipponen, J. A., &amp; Tarvainen, M. P. (2019). A robust algorithm for heart
+rate variability time series artefact correction using novel beat
+classification. Journal of Medical Engineering &amp; Technology, 43(3), 173-181.
+<a class="reference external" href="https://doi.org/10.1080/03091902.2019.1640306">https://doi.org/10.1080/03091902.2019.1640306</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -562,11 +540,11 @@ Can also be <cite>“peaks_idx”</cite>, the idexs of samples where a peaks is 
               <footer class="bd-footer-article">
                   <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="systole.correction.interpolate_bads.html" title="previous page">
+  <a class='left-prev' id="prev-link" href="../../api.html" title="previous page">
       <i class="fas fa-angle-left"></i>
       <div class="prev-next-info">
           <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">systole.correction.interpolate_bads</p>
+          <p class="prev-next-title">Functions</p>
       </div>
   </a>
   <a class='right-next' id="next-link" href="systole.correction.correct_peaks.html" title="next page">

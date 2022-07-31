@@ -768,7 +768,7 @@
 
 
 <div class="viewcode-block" id="input_conversion"><a class="viewcode-back" href="../../generated/utils/systole.utils.input_conversion.html#systole.utils.input_conversion">[docs]</a><span class="k">def</span> <span class="nf">input_conversion</span><span class="p">(</span>
-    <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
     <span class="n">input_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">output_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">sfreq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
@@ -822,7 +822,7 @@
             <span class="k">elif</span> <span class="n">output_type</span> <span class="o">==</span> <span class="s2">&quot;rr_s&quot;</span><span class="p">:</span>
                 <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">sfreq</span>
             <span class="k">elif</span> <span class="n">output_type</span> <span class="o">==</span> <span class="s2">&quot;peaks_idx&quot;</span><span class="p">:</span>
-                <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The peaks vector should only contain boolean values.&quot;</span><span class="p">)</span>
 
@@ -855,7 +855,7 @@
     <span class="k">elif</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;rr_s&quot;</span><span class="p">:</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">output_type</span> <span class="o">==</span> <span class="s2">&quot;rr_ms&quot;</span><span class="p">:</span>
-                <span class="n">output</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">1000</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">1000</span>  <span class="c1"># type: ignore</span>
             <span class="k">elif</span> <span class="n">output_type</span> <span class="o">==</span> <span class="s2">&quot;peaks&quot;</span><span class="p">:</span>
                 <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
                 <span class="n">output</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">True</span>

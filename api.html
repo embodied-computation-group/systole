@@ -57,7 +57,7 @@
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="systole.correction.correct_extra" href="generated/correction/systole.correction.correct_extra.html" />
+    <link rel="next" title="systole.correction.correct_rr" href="generated/correction/systole.correction.correct_rr.html" />
     <link rel="prev" title="Instantaneous and evoked heart rate" href="notebooks/5-InstantaneousHeartRate.html" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="docsearch:language" content="None">
@@ -272,22 +272,13 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/correction/systole.correction.correct_extra.html#systole.correction.correct_extra" title="systole.correction.correct_extra"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_extra</span></code></a>(rr, idx)</p></td>
-<td><p>Correct extra beats by removing the RR interval.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/correction/systole.correction.correct_missed.html#systole.correction.correct_missed" title="systole.correction.correct_missed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_missed</span></code></a>(rr, idx)</p></td>
-<td><p>Correct missed beats by adding a new RR interval.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/correction/systole.correction.interpolate_bads.html#systole.correction.interpolate_bads" title="systole.correction.interpolate_bads"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interpolate_bads</span></code></a>(rr, idx)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/correction/systole.correction.correct_rr.html#systole.correction.correct_rr" title="systole.correction.correct_rr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_rr</span></code></a>(rr[, extra_correction, ...])</p></td>
 <td><p>Correct long and short beats using interpolation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/correction/systole.correction.correct_rr.html#systole.correction.correct_rr" title="systole.correction.correct_rr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_rr</span></code></a>(rr[, extra_correction, ...])</p></td>
-<td><p>Correct long and short beats using interpolation.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/correction/systole.correction.correct_peaks.html#systole.correction.correct_peaks" title="systole.correction.correct_peaks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_peaks</span></code></a>(peaks[, input_type, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/correction/systole.correction.correct_peaks.html#systole.correction.correct_peaks" title="systole.correction.correct_peaks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_peaks</span></code></a>(peaks[, input_type, ...])</p></td>
 <td><p>Correct long, short, extra, missed and ectopic beats in peaks vector.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/correction/systole.correction.correct_missed_peaks.html#systole.correction.correct_missed_peaks" title="systole.correction.correct_missed_peaks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_missed_peaks</span></code></a>(peaks, idx)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/correction/systole.correction.correct_missed_peaks.html#systole.correction.correct_missed_peaks" title="systole.correction.correct_missed_peaks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_missed_peaks</span></code></a>(peaks, idx)</p></td>
 <td><p>Correct missed peaks in boolean peak vector.</p></td>
 </tr>
 </tbody>
@@ -502,10 +493,10 @@
           <p class="prev-next-title">Instantaneous and evoked heart rate</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="generated/correction/systole.correction.correct_extra.html" title="next page">
+  <a class='right-next' id="next-link" href="generated/correction/systole.correction.correct_rr.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">systole.correction.correct_extra</p>
+      <p class="prev-next-title">systole.correction.correct_rr</p>
   </div>
   <i class="fas fa-angle-right"></i>
   </a>

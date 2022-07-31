@@ -24,14 +24,16 @@ Detecting and correcting artefacts in RR time series
 This example describes artefacts correction in RR time series.
 
 The function `correct_rr()` automatically detect artefacts using the method proposed
-by Lipponen & Tarvainen (2019) [#]_. At each iteration, shorts, extra, long, missed 
-and ectopic beats are corrected using interpolation of the RR time series, and the
+by Lipponen & Tarvainen (2019) [#]_. Shorts, extra, long, missed 
+and ectopic beats are corrected using either inserion/delection of RR intervals or 
+interpolation of the RR time series, and the
 detection procedure is run again using cleaned intervals. Importantly, when using 
 this method the signal length can be altered after the interpolation, introducing 
 misalignement with eg. triggers from the experiment. For this reason, it is only 
-recommended to use it in the context of "bloc design" study or heart rate variability.
+recommended to use it in the context of "bloc design" study, when heart rate
+variability is measured for a given time interval (usually > 5 minutes).
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-20
+.. GENERATED FROM PYTHON SOURCE LINES 18-22
 
 .. code-block:: default
 
@@ -46,7 +48,7 @@ recommended to use it in the context of "bloc design" study or heart rate variab
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-32
+.. GENERATED FROM PYTHON SOURCE LINES 23-35
 
 .. code-block:: default
 
@@ -54,6 +56,7 @@ recommended to use it in the context of "bloc design" study or heart rate variab
     import numpy as np
     import pandas as pd
     import seaborn as sns
+
     from systole import import_dataset1
     from systole.correction import correct_rr
     from systole.detection import ecg_peaks
@@ -68,7 +71,7 @@ recommended to use it in the context of "bloc design" study or heart rate variab
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-35
+.. GENERATED FROM PYTHON SOURCE LINES 36-38
 
 .. code-block:: default
 
@@ -82,12 +85,12 @@ recommended to use it in the context of "bloc design" study or heart rate variab
 
  .. code-block:: none
 
-      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|#####     | 1/2 [00:00<00:00,  7.13it/s]    Downloading Stim channel:  50%|#####     | 1/2 [00:00<00:00,  7.13it/s]    Downloading Stim channel: 100%|##########| 2/2 [00:00<00:00,  6.88it/s]    Downloading Stim channel: 100%|##########| 2/2 [00:00<00:00,  6.91it/s]
+      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|#####     | 1/2 [00:00<00:00,  2.93it/s]    Downloading Stim channel:  50%|#####     | 1/2 [00:00<00:00,  2.93it/s]    Downloading Stim channel: 100%|##########| 2/2 [00:00<00:00,  2.81it/s]    Downloading Stim channel: 100%|##########| 2/2 [00:00<00:00,  2.83it/s]
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-38
+.. GENERATED FROM PYTHON SOURCE LINES 39-41
 
 .. code-block:: default
 
@@ -100,7 +103,7 @@ recommended to use it in the context of "bloc design" study or heart rate variab
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-41
+.. GENERATED FROM PYTHON SOURCE LINES 42-44
 
 .. code-block:: default
 
@@ -113,11 +116,11 @@ recommended to use it in the context of "bloc design" study or heart rate variab
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
+.. GENERATED FROM PYTHON SOURCE LINES 45-46
 
 are using Matplotlib as plotting backend.
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-45
+.. GENERATED FROM PYTHON SOURCE LINES 46-48
 
 .. code-block:: default
 
@@ -141,12 +144,12 @@ are using Matplotlib as plotting backend.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-48
+.. GENERATED FROM PYTHON SOURCE LINES 49-51
 
 peaks and extra peaks by manually increasing or decreasing the length of some RR 
 intervals.
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-59
+.. GENERATED FROM PYTHON SOURCE LINES 51-62
 
 .. code-block:: default
 
@@ -168,12 +171,12 @@ intervals.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-62
+.. GENERATED FROM PYTHON SOURCE LINES 63-65
 
 using `show_artefacts=True` so the artefacts detection runs automatically and shows
 in the plot.
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-66
+.. GENERATED FROM PYTHON SOURCE LINES 65-69
 
 .. code-block:: default
 
@@ -193,7 +196,7 @@ in the plot.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-72
+.. GENERATED FROM PYTHON SOURCE LINES 70-75
 
 and short RR intervals and they are later correctly detected. We can now apply the RR
 time series correction method. This function will automatically detect possible
@@ -201,11 +204,11 @@ artefacts in the RR intervals and reconstruct the most probable value using time
 series interpolation. The number of iteration is set to `2` by default, we add it 
 here for clarity.
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-74
+.. GENERATED FROM PYTHON SOURCE LINES 75-77
 
 .. code-block:: default
 
-    rr_correction = correct_rr(corrupted_rr, n_iterations=2)
+    corrected_rr, _ = correct_rr(corrupted_rr)
 
 
 
@@ -215,26 +218,20 @@ here for clarity.
 
  .. code-block:: none
 
-    Cleaning the RR interval time series using 2 iterations.
-     - Iteration 1 - 
+    Cleaning the RR interval time series.
     ... correcting 43 missed interval(s).
-    ... correcting 74 ectopic interval(s).
-    ... correcting 50 short interval(s).
-    ... correcting 7 long interval(s).
-     - Iteration 2 - 
-    ... correcting 1 missed interval(s).
-    ... correcting 74 ectopic interval(s).
-    ... correcting 8 short interval(s).
-    ... correcting 4 long interval(s).
+    ... correcting 34 ectopic interval(s).
+    ... correcting 47 short interval(s).
+    ... correcting 3 long interval(s).
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 75-78
+.. GENERATED FROM PYTHON SOURCE LINES 78-81
 
 .. code-block:: default
 
-    plot_rr(rr_correction["clean_rr"], input_type='rr_ms', show_artefacts=True,
+    plot_rr(corrected_rr, input_type='rr_ms', show_artefacts=True,
             line=False, figsize=(13, 5))
     plt.show()
 
@@ -249,7 +246,7 @@ here for clarity.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-85
+.. GENERATED FROM PYTHON SOURCE LINES 82-88
 
 This does not means that the new values match exactly the RR intervals, and the new 
 corrected time series will always slightly differs from the original one. However, we
@@ -258,13 +255,13 @@ corrected time series a posteriori. Here, instead of comparing the time series s
 by side, we can have a look at some HRV metrics that are known to be affected by RR
 artefacts, like the high frequency HRV.
 
-.. GENERATED FROM PYTHON SOURCE LINES 85-93
+.. GENERATED FROM PYTHON SOURCE LINES 88-96
 
 .. code-block:: default
 
     _, axs = plt.subplots(1, 3, figsize=(13, 5), sharey=True)
     for i, rr, lab in zip(range(3), 
-                     [rr_ms, corrupted_rr, rr_correction["clean_rr"]],
+                     [rr_ms, corrupted_rr, corrected_rr],
                      ["Original", "Corrupted", "Corrected"]):
         plot_frequency(rr, input_type="rr_ms", ax=axs[i])
         axs[i].set_title(lab)
@@ -282,32 +279,32 @@ artefacts, like the high frequency HRV.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 94-97
+.. GENERATED FROM PYTHON SOURCE LINES 97-100
 
 similar frequency dynamic. To get a more quantitative view of this resultm e can
 simply repeat this process of RR corruption-correction many time and check the HF-HRV
 parameters estimated at each steps.
 
-.. GENERATED FROM PYTHON SOURCE LINES 97-130
+.. GENERATED FROM PYTHON SOURCE LINES 100-133
 
 .. code-block:: default
 
 
     # Clean the RR time series before simulation
-    initial_rr = correct_rr(rr_ms.copy())["clean_rr"]
+    corrected_rr, _ = correct_rr(rr_ms.copy())
 
     simulation_df = pd.DataFrame([])
     for i in range(20):
     
         # Measure HF-HRV for corrupted RR intervals time series
-        corrupted_rr = initial_rr.copy()
+        corrupted_rr = corrected_rr.copy()
         corrupted_rr[np.random.choice(len(corrupted_rr), 50)] *= 2
         corrupted_rr[np.random.choice(len(corrupted_rr), 50)] /= 3
         corrupted_hrv = frequency_domain(corrupted_rr, input_type="rr_ms")
         corrupted_hf = corrupted_hrv[corrupted_hrv.Metric == "hf_power_nu"].Values.iloc[0]
     
         # Measure HF-HRV for corrected RR intervals time series
-        corrected = correct_rr(corrupted_rr, n_iterations=2, verbose=False)["clean_rr"]
+        corrected, _ = correct_rr(corrupted_rr, verbose=False)
         corrected_hrv = frequency_domain(corrected, input_type="rr_ms")
         corrected_hf = corrected_hrv[corrected_hrv.Metric == "hf_power_nu"].Values.iloc[0]
 
@@ -322,7 +319,7 @@ parameters estimated at each steps.
             ]
         )
 
-    initial_hrv = frequency_domain(initial_rr, input_type="rr_ms")
+    initial_hrv = frequency_domain(corrected_rr, input_type="rr_ms")
     initial_hf = initial_hrv[initial_hrv.Metric == "hf_power_nu"].Values.iloc[0]
 
 
@@ -333,20 +330,15 @@ parameters estimated at each steps.
 
  .. code-block:: none
 
-    Cleaning the RR interval time series using 2 iterations.
-     - Iteration 1 - 
-    ... correcting 117 ectopic interval(s).
-    ... correcting 7 short interval(s).
-    ... correcting 5 long interval(s).
-     - Iteration 2 - 
-    ... correcting 44 ectopic interval(s).
-    ... correcting 3 short interval(s).
-    ... correcting 2 long interval(s).
+    Cleaning the RR interval time series.
+    ... correcting 65 ectopic interval(s).
+    ... correcting 4 short interval(s).
+    ... correcting 4 long interval(s).
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 131-142
+.. GENERATED FROM PYTHON SOURCE LINES 134-145
 
 .. code-block:: default
 
@@ -373,12 +365,12 @@ parameters estimated at each steps.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 143-145
+.. GENERATED FROM PYTHON SOURCE LINES 146-148
 
 affected by the presence of simulated artefacts, the proposed correction methods
 allows to recover the true parameter with some precision.
 
-.. GENERATED FROM PYTHON SOURCE LINES 147-153
+.. GENERATED FROM PYTHON SOURCE LINES 150-156
 
 References
 ----------
@@ -390,7 +382,7 @@ References
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  11.211 seconds)
+   **Total running time of the script:** ( 0 minutes  15.755 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Artefacts_plot_RRCorrection.py:
