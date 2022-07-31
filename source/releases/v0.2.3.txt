@@ -9,6 +9,8 @@ This release seeks to improve the heart rate variability module and will be the 
 Changes
 +++++++
 
+- |Enhancement| |Fix| Rewrite py:`systole.correction.correct_missed` (now py:`systole.correction.correct_missed_rr`), py:`systole.correction.correct_extra` (now py:`systole.correction.correct_extra_rr`) and py:`systole.correction.correct_rr` to fix the index overflows caused by the insertion or deletion of intervals. All function are now jited, which should also provided performance improvements.
+- |Fix| py:func:`systole.detection.interpolate_clipping()` was not handling thresholds correctly if the provided threshold is not the max/min of the time series.
 - |Enhancement| |Feature| Add a py:`systole.utils.find_clipping` function to automatically find clipping threshold. This function is called by ppg_peaks when clipping=True and clipping_threshold="auto".
 - |Feature| Plots module: Add a function py:func:`systole.plots.plot_rsp()` to plot respiratory signal.
 - |Feature| Utils : Add a function py:func:`systole.utils.nan_cleaning()` to automatically interpolate NaN values in a given signal. This function can be called automatically (if required) and the begining of `ppg_peaks`, `ecg_peaks` or `rsp_peaks` by setting the parameter `clean_nan` to `True`. The default is `False`.
@@ -16,7 +18,6 @@ Changes
 - Remove py:`systole.recording.findOximeter`.
 - |Feature| py:func:`systole.plots.plot_raw()` and py:func:`systole.plots.plot_r()` now accept an `events_params` parameter to plot events together with the instantaneous heart rate.
 - |Enhancement| py:func:`systole.detection.ppg_peaks()`: change `noise_removal` to moving_average and add a `moving_average_length` parameter to control the window length.
-- |Fix| py:func:`systole.detection.interpolate_clipping()` was not handling thresholds correctly if the provided threshold is not the max/min of the time series.
 
 Contributors
 ++++++++++++

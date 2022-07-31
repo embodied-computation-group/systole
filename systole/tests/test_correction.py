@@ -42,6 +42,7 @@ class TestDetection(TestCase):
         clean_rr, _ = correct_extra_rr(rr, extra_idx=np.array([10, 20]))
         assert clean_rr[10] == rr[11] + rr[10]
         assert clean_rr[19] == rr[21] + rr[20]
+        assert len(clean_rr) == len(rr) - 2
 
         # With the artefact array provided
         rr = import_rr().rr.values  # Import RR time series
@@ -71,7 +72,8 @@ class TestDetection(TestCase):
         assert clean_rr[30] > 100
         assert clean_rr[49] > 100
         assert clean_artefacts.shape[0] == artefacts.shape[0]
-        assert clean_artefacts.shape[1] == artefacts.shape[1] - 1
+        assert clean_artefacts.shape[1] == artefacts.shape[1] - 2
+        assert len(clean_rr) == clean_artefacts.shape[1]
 
     def test_correct_missed_rr(self):
         """Test correct_missed_rr function"""
@@ -95,6 +97,7 @@ class TestDetection(TestCase):
         clean_rr, _ = correct_missed_rr(rr, missed_idx=np.array([10, 20]))
         assert clean_rr[10] == clean_rr[10] == rr[10] / 2
         assert clean_rr[21] == clean_rr[22] == rr[20] / 2
+        assert len(clean_rr) == len(rr) + 2
 
         # With the artefact array provided
         rr = import_rr().rr.values  # Import RR time series
@@ -120,6 +123,7 @@ class TestDetection(TestCase):
         assert clean_rr[100] == clean_rr[101] == rr[100] / 2
         assert clean_artefacts.shape[0] == artefacts.shape[0]
         assert clean_artefacts.shape[1] == artefacts.shape[1] + 1
+        assert len(clean_rr) == clean_artefacts.shape[1]
 
     def test_interpolate_rr(self):
         """Test interpolate_rr function"""
@@ -147,15 +151,16 @@ class TestDetection(TestCase):
 
     def test_correct_rr(self):
         """Test correct_rr function"""
+
         rr = simulate_rr()  # Import RR time series
         corrected_rr, (nMissed, nExtra, nEctopic, nShort, nLong) = correct_rr(rr)
 
-        assert len(corrected_rr) == 349
+        assert len(corrected_rr) == 350
         assert nMissed == 1
-        assert nExtra == 2
-        assert nEctopic == 4
-        assert nShort == 2
-        assert nLong == 2
+        assert nExtra == 1
+        assert nEctopic == 3
+        assert nShort == 1
+        assert nLong == 1
 
     def test_correct_peaks(self):
         """Test correct_peaks function"""

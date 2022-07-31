@@ -14,7 +14,7 @@ from systole.utils import input_conversion
 def correct_extra_rr(
     rr: np.ndarray,
     extra_idx: np.ndarray,
-    artefacts: np.ndarray = np.array([[], []], dtype=np.bool),
+    artefacts: np.ndarray = np.array([[], []], dtype=np.bool_),
 ) -> Union[np.ndarray, Tuple[np.ndarray, Dict[str, np.ndarray]]]:
     """Correct extra heartbeat(s) by removing the RR interval(s). Will also update the
     artefacts array accordingly if this one is provided.
@@ -40,7 +40,8 @@ def correct_extra_rr(
 
     """
 
-    clean_rr = rr.copy()
+    # Set defaults values for the outputs
+    clean_rr, new_artefacts = rr.copy(), artefacts.copy()
 
     for i in range(len(extra_idx)):
 
@@ -53,10 +54,6 @@ def correct_extra_rr(
             # Transfer the extra time to the next interval
             clean_rr[idx + 1] = clean_rr[idx + 1] + clean_rr[idx]
 
-            # Update the artifacts indexes accordingly
-            # Here we have removed a RR interval
-            extra_idx = extra_idx - 1
-
         # Remove the extra interval
         clean_rr = np.delete(clean_rr, idx)
 
@@ -65,18 +62,20 @@ def correct_extra_rr(
             new_artefacts = np.zeros(shape=(5, artefacts.shape[1] - 1), dtype=np.bool_)
             for i in range(5):
                 new_artefacts[i, :] = np.delete(artefacts[i, :], idx)
+            artefacts = new_artefacts.copy()
 
-    if artefacts.any():
-        return clean_rr, new_artefacts
-    else:
-        return clean_rr, artefacts
+        # Update the artifacts indexes accordingly
+        # Here we have removed a RR interval
+        extra_idx = extra_idx - 1
+
+    return clean_rr, new_artefacts
 
 
 @jit(nopython=True)
 def correct_missed_rr(
     rr: np.ndarray,
     missed_idx: np.ndarray,
-    artefacts: np.ndarray = np.array([[], []], dtype=np.bool),
+    artefacts: np.ndarray = np.array([[], []], dtype=np.bool_),
 ) -> Union[np.ndarray, Tuple[np.ndarray, Dict]]:
     """Correct missed heartbeat(s) by adding new RR intervals. Will also update the
     artefacts array accordingly if this one is provided.
@@ -102,7 +101,8 @@ def correct_missed_rr(
 
     """
 
-    clean_rr = rr.copy()
+    # Set defaults values for the outputs
+    clean_rr, new_artefacts = rr.copy(), artefacts.copy()
 
     for i in range(len(missed_idx)):
 
@@ -117,22 +117,24 @@ def correct_missed_rr(
             (clean_rr[:idx], np.array([clean_rr[idx]]), clean_rr[idx:])
         )
 
-        # Update the artifacts indexes accordingly
-        # Here we have added a new RR interval
-        missed_idx = missed_idx + 1
-
         # If the artefact array was provided, update it accordingly by adding a col.
         if artefacts.any():
             new_artefacts = np.zeros(shape=(5, artefacts.shape[1] + 1), dtype=np.bool_)
             for i in range(5):
                 new_artefacts[i, :] = np.concatenate(
-                    (artefacts[i, :][:idx], np.array([np.nan]), artefacts[i, :][idx:])
+                    (
+                        artefacts[i, :][:idx],
+                        np.array([False], dtype=np.bool_),
+                        artefacts[i, :][idx:],
+                    )
                 )
+            artefacts = new_artefacts.copy()
 
-    if artefacts.any():
-        return clean_rr, new_artefacts
-    else:
-        return clean_rr, artefacts
+        # Update the artifacts indexes accordingly
+        # Here we have added a new RR interval
+        missed_idx = missed_idx + 1
+
+    return clean_rr, new_artefacts
 
 
 @jit(nopython=True)
@@ -175,7 +177,7 @@ def _correct_rr(
 ) -> Tuple[
     np.ndarray, Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]
 ]:
-    """Internal function to correct RR artefacts from artefacts dictionary."""
+    """Internal jited function to correct RR artefacts from artefacts dictionary."""
 
     if verbose:
         print("Cleaning the RR interval time series.")
@@ -191,7 +193,7 @@ def _correct_rr(
             clean_rr, artefacts = correct_missed_rr(
                 rr=clean_rr,
                 missed_idx=np.where(artefacts[0, :])[0],
-                artefacts=artefacts,
+                artefacts=artefacts.copy(),
             )
 
             if verbose:
@@ -205,8 +207,8 @@ def _correct_rr(
             # Correct the extra artefacts and update the artefacts dictonary
             clean_rr, artefacts = correct_extra_rr(
                 rr=clean_rr,
-                artefacts=artefacts.copy(),
                 extra_idx=np.where(artefacts[1, :])[0],
+                artefacts=artefacts.copy(),
             )
 
             if verbose:
@@ -215,7 +217,7 @@ def _correct_rr(
     # Correct for ectopic, short and long heartbeats beats - If multiple corrections
     # are required, interpolate everything in a single pass to avoid interpolating from
     # corrupted RR intervals.
-    if sum([ectopic_correction, short_correction, long_correction]) == 3:
+    if sum([ectopic_correction, short_correction, long_correction]) > 0:
 
         # Create a boolean vector of correction that will be updated accordingly
         correction_vector = np.zeros(artefacts.shape[1], dtype=np.bool_)
@@ -260,7 +262,8 @@ def _correct_rr(
                     print(f"... correcting {nLong} long interval(s).")
 
         # Interpolate the interval marked as incorrect (short, long and/or ectopic)
-        interpolate_rr(rr=clean_rr, idx=np.where(correction_vector)[0])
+        assert len(correction_vector) == len(clean_rr)
+        clean_rr = interpolate_rr(rr=clean_rr, idx=np.where(correction_vector)[0])
 
     return clean_rr, (nMissed, nExtra, nEctopic, nShort, nLong)
 
@@ -363,11 +366,11 @@ def correct_rr(
     return _correct_rr(
         rr=rr,
         artefacts=artefacts,
-        extra_correction=extra_correction,
         missed_correction=missed_correction,
+        extra_correction=extra_correction,
+        ectopic_correction=ectopic_correction,
         short_correction=short_correction,
         long_correction=long_correction,
-        ectopic_correction=ectopic_correction,
         verbose=verbose,
     )
 
