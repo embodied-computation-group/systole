@@ -15,7 +15,7 @@ def correct_extra_rr(
     rr: np.ndarray,
     extra_idx: np.ndarray,
     artefacts: np.ndarray = np.array([[], []], dtype=np.bool_),
-) -> Union[np.ndarray, Tuple[np.ndarray, Dict[str, np.ndarray]]]:
+) -> Tuple[np.ndarray, np.ndarray]:
     """Correct extra heartbeat(s) by removing the RR interval(s). Will also update the
     artefacts array accordingly if this one is provided.
 
@@ -76,7 +76,7 @@ def correct_missed_rr(
     rr: np.ndarray,
     missed_idx: np.ndarray,
     artefacts: np.ndarray = np.array([[], []], dtype=np.bool_),
-) -> Union[np.ndarray, Tuple[np.ndarray, Dict]]:
+) -> Tuple[np.ndarray, np.ndarray]:
     """Correct missed heartbeat(s) by adding new RR intervals. Will also update the
     artefacts array accordingly if this one is provided.
 
@@ -349,16 +349,16 @@ def correct_rr(
             rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
 
     # Artefacts detection
-    artefacts = rr_artefacts(rr)
+    artefacts_dict = rr_artefacts(rr)
 
     # Create the array from dict
     artefacts = np.array(
         [
-            artefacts["missed"],
-            artefacts["extra"],
-            artefacts["ectopic"],
-            artefacts["short"],
-            artefacts["long"],
+            artefacts_dict["missed"],
+            artefacts_dict["extra"],
+            artefacts_dict["ectopic"],
+            artefacts_dict["short"],
+            artefacts_dict["long"],
         ],
         dtype=bool,
     )

@@ -563,7 +563,7 @@ def to_neighbour(
 
 
 def input_conversion(
-    x: Union[List[float], np.ndarray],
+    x: Union[List, np.ndarray],
     input_type: str,
     output_type: str,
     sfreq: int = 1000,
@@ -617,7 +617,7 @@ def input_conversion(
             elif output_type == "rr_s":
                 output = np.diff(np.where(x)[0]) / sfreq
             elif output_type == "peaks_idx":
-                output = np.where(x)[0]
+                output = np.where(x)[0]  # type: ignore
         else:
             raise ValueError("The peaks vector should only contain boolean values.")
 
@@ -650,7 +650,7 @@ def input_conversion(
     elif input_type == "rr_s":
         if (x > 0).all():
             if output_type == "rr_ms":
-                output = x * 1000
+                output = x * 1000  # type: ignore
             elif output_type == "peaks":
                 output = np.zeros(np.sum(x * 1000).astype(int) + 1, dtype=bool)
                 output[np.cumsum(x * 1000).astype(int)] = True

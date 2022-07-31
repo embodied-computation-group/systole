@@ -78,12 +78,12 @@ def plot_circular(
             area = count / angles.size
             # Calculate corresponding bin radius
             radius = (area / np.pi) ** 0.5
-            alpha = (count * 0) + 1
+            alpha = (count * 0) + 1.0
         elif density == "height":  # Using height (can be misleading)
             radius = count / angles.size
-            alpha = (count * 0) + 1
+            alpha = (count * 0) + 1.0
         elif density == "alpha":  # Using transparency
-            radius = (count * 0) + 1
+            radius = (count * 0) + 1.0
             # Alpha level to each bin
             alpha = count / angles.size
             alpha = alpha / alpha.max()

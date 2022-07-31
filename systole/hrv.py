@@ -704,7 +704,7 @@ def _recurrence(
     recurrence_rate = np.triu(rc).sum() / ((j**2 - j) / 2) * 100
 
     # Find diagonale lines
-    total_lines = []
+    total_lines: List[int] = []
     for i in range(1, rc.shape[0] // 2):
 
         # All diagonals except the main one
