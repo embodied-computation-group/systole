@@ -5,12 +5,14 @@ Detecting and correcting artefacts in RR time series
 This example describes artefacts correction in RR time series.
 
 The function `correct_rr()` automatically detect artefacts using the method proposed
-by Lipponen & Tarvainen (2019) [#]_. At each iteration, shorts, extra, long, missed 
-and ectopic beats are corrected using interpolation of the RR time series, and the
+by Lipponen & Tarvainen (2019) [#]_. Shorts, extra, long, missed 
+and ectopic beats are corrected using either inserion/delection of RR intervals or 
+interpolation of the RR time series, and the
 detection procedure is run again using cleaned intervals. Importantly, when using 
 this method the signal length can be altered after the interpolation, introducing 
 misalignement with eg. triggers from the experiment. For this reason, it is only 
-recommended to use it in the context of "bloc design" study or heart rate variability.
+recommended to use it in the context of "bloc design" study, when heart rate
+variability is measured for a given time interval (usually > 5 minutes).
 
 """
 
@@ -22,6 +24,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+
 from systole import import_dataset1
 from systole.correction import correct_rr
 from systole.detection import ecg_peaks
@@ -69,13 +72,13 @@ plt.show()
 # artefacts in the RR intervals and reconstruct the most probable value using time
 # series interpolation. The number of iteration is set to `2` by default, we add it 
 # here for clarity.
-rr_correction = correct_rr(corrupted_rr, n_iterations=2)
+corrected_rr, _ = correct_rr(corrupted_rr)
 
 #%% The num
-plot_rr(rr_correction["clean_rr"], input_type='rr_ms', show_artefacts=True,
+plot_rr(corrected_rr, input_type='rr_ms', show_artefacts=True,
         line=False, figsize=(13, 5))
 plt.show()
-#%% We can see that after two iterations, most/all of the artefacts have been corrected.
+#%% We can see that most/all of the artefacts have been corrected.
 # This does not means that the new values match exactly the RR intervals, and the new 
 # corrected time series will always slightly differs from the original one. However, we
 # can estimate how large this difference is by comparing the true, corrupted and 
@@ -84,7 +87,7 @@ plt.show()
 # artefacts, like the high frequency HRV.
 _, axs = plt.subplots(1, 3, figsize=(13, 5), sharey=True)
 for i, rr, lab in zip(range(3), 
-                 [rr_ms, corrupted_rr, rr_correction["clean_rr"]],
+                 [rr_ms, corrupted_rr, corrected_rr],
                  ["Original", "Corrupted", "Corrected"]):
     plot_frequency(rr, input_type="rr_ms", ax=axs[i])
     axs[i].set_title(lab)
@@ -96,20 +99,20 @@ for i, rr, lab in zip(range(3),
 # parameters estimated at each steps.
 
 # Clean the RR time series before simulation
-initial_rr = correct_rr(rr_ms.copy())["clean_rr"]
+corrected_rr, _ = correct_rr(rr_ms.copy())
 
 simulation_df = pd.DataFrame([])
 for i in range(20):
     
     # Measure HF-HRV for corrupted RR intervals time series
-    corrupted_rr = initial_rr.copy()
+    corrupted_rr = corrected_rr.copy()
     corrupted_rr[np.random.choice(len(corrupted_rr), 50)] *= 2
     corrupted_rr[np.random.choice(len(corrupted_rr), 50)] /= 3
     corrupted_hrv = frequency_domain(corrupted_rr, input_type="rr_ms")
     corrupted_hf = corrupted_hrv[corrupted_hrv.Metric == "hf_power_nu"].Values.iloc[0]
     
     # Measure HF-HRV for corrected RR intervals time series
-    corrected = correct_rr(corrupted_rr, n_iterations=2, verbose=False)["clean_rr"]
+    corrected, _ = correct_rr(corrupted_rr, verbose=False)
     corrected_hrv = frequency_domain(corrected, input_type="rr_ms")
     corrected_hf = corrected_hrv[corrected_hrv.Metric == "hf_power_nu"].Values.iloc[0]
 
@@ -124,7 +127,7 @@ for i in range(20):
         ]
     )
 
-initial_hrv = frequency_domain(initial_rr, input_type="rr_ms")
+initial_hrv = frequency_domain(corrected_rr, input_type="rr_ms")
 initial_hf = initial_hrv[initial_hrv.Metric == "hf_power_nu"].Values.iloc[0]
 
 #%% Simulation results

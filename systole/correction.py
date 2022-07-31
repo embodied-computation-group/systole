@@ -277,7 +277,9 @@ def correct_rr(
     ectopic_correction: bool = True,
     input_type: str = "rr_ms",
     verbose: bool = True,
-) -> Dict[str, Union[int, np.ndarray]]:
+) -> Tuple[
+    np.ndarray, Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]
+]:
     """Correct long and short beats using interpolation.
 
     Parameters
