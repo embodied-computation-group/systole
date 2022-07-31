@@ -10,8 +10,8 @@ repos:
     - id: black
       language_version: python3
       files: ^systole/
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.3.0
+-   repo: https://github.com/pycqa/flake8
+    rev: 5.0.0
     hooks:
     - id: flake8
       files: ^systole/
