@@ -2,11 +2,17 @@
 Installation
 ++++++++++++
 
-Systole can be installed using pip:
+The last stable version of Systole can be installed using pip:
 
 .. code-block:: shell
 
   pip install systole
+
+If you want to download the `dev` branch instead and try the last features that are currently under development (and probably a bit unstable), use:
+
+.. code-block:: shell
+
+  pip install “git+https://github.com/embodied-computation-group/systole.git@dev”
 
 The following packages are required to use Systole:
 
