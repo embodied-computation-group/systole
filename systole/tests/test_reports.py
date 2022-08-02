@@ -32,7 +32,7 @@ class TestReports(TestCase):
 
         subject_level_report(
             participant_id="participant_test",
-            task="task_test",
+            pattern="task_test",
             result_folder="./",
             session="session_test",
             ecg=ecg,
@@ -79,7 +79,7 @@ class TestReports(TestCase):
         plt.close("all")
 
     def test_frequency_table(self):
-        """Test plot_subspaces function"""
+        """Test frequency_table function"""
         rr = import_rr().rr
         frequency_df = frequency_domain(rr, input_type="rr_ms")
 
@@ -103,7 +103,7 @@ class TestReports(TestCase):
         plt.close("all")
 
     def test_nonlinear_table(self):
-        """Test plot_subspaces function"""
+        """Test nonlinear_table function"""
         rr = import_rr().rr
         nonlinear_df = nonlinear_domain(rr, input_type="rr_ms")
 

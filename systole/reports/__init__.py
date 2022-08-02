@@ -1,3 +1,4 @@
+from .command_line import wrapper
 from .group_level import (
     frequency_domain_group_level,
     nonlinear_domain_group_level,
@@ -8,6 +9,7 @@ from .tables import frequency_table, nonlinear_table, time_table
 from .utils import create_reports, import_data
 
 __all__ = [
+    "wrapper",
     "import_data",
     "create_reports",
     "time_domain_group_level",

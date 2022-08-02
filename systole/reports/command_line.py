@@ -1,7 +1,8 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import argparse
-import os
+from os import PathLike
+from pathlib import Path
 from typing import List, Optional, Union
 
 import pandas as pd
@@ -22,12 +23,12 @@ from systole.reports.utils import create_reports
 
 
 def wrapper(
-    bids_folder: str,
+    bids_folder: Union[str, PathLike],
     participants_id: Union[str, List],
-    tasks: Union[str, List],
+    patterns: Union[str, List],
     sessions: Union[str, List[str]] = "ses-session1",
-    data_type: str = "beh",
-    result_folder: Optional[str] = None,
+    modality: str = "beh",
+    result_folder: Optional[Union[str, PathLike]] = None,
     template_file=pkg_resources.resource_filename(__name__, "./group_level.html"),
     overwrite=False,
     n_jobs: int = 1,
@@ -42,12 +43,15 @@ def wrapper(
     participants_id : str | list
         String or list of strings defining the participant(s) ID that should be
         processed.
-    tasks : str | list
-        The task(s) that will be analyzed. Should match with a task in the BIDS folder.
+    patterns : str | list
+        The string pattern(s) that will be looked for in the subject files. This pattern
+        can help to identify a given pattern (e.g. `"pattern-mypattern"`) or more complexe
+        recording IDs. This string should match with a file name pattern in the subject
+        folder. If it is matching with more than one file, the operatio is aborted.
     sessions : str | list
         The session reference that should be analyzed. Should match a session number in
         the BIDS folder. Defaults to `"session1"`.
-    data_type : str
+    modality : str
         The type of data (e.g. `"beh"`, `"func"`...) where the physiological recording
         is stored. Defaults to `"beh"`.
     result_folder : str
@@ -62,7 +66,7 @@ def wrapper(
     Raises
     ------
     ValueError:
-        If invalid session, task or participant parameters are provided.
+        If invalid session, pattern or participant parameters are provided.
 
     """
 
@@ -80,19 +84,22 @@ def wrapper(
     else:
         raise ValueError("Invalid participants_id parameter.")
 
-    if isinstance(tasks, str):
-        tasks = [tasks]
-    elif isinstance(tasks, list):
+    if isinstance(patterns, str):
+        patterns = [patterns]
+    elif isinstance(patterns, list):
         pass
     else:
-        raise ValueError("Invalid tasks parameter.")
+        raise ValueError("Invalid patterns parameter.")
 
     # Result folder
+    if isinstance(bids_folder, str):
+        bids_folder = Path(bids_folder)
+    if isinstance(result_folder, str):
+        result_folder = Path(result_folder)
     if result_folder is None:
-        result_folder = bids_folder + "/derivatives/systole/"
-
-    if not os.path.exists(result_folder):
-        os.makedirs(result_folder)
+        result_folder = Path(bids_folder, "derivatives", "systole")
+    if not result_folder.exists():  # type: ignore
+        result_folder.mkdir(parents=True)  # type: ignore
 
     # Load HTML template
     with open(template_file, "r", encoding="utf-8") as f:
@@ -106,16 +113,16 @@ def wrapper(
 
         for session in sessions:
 
-            for task in tasks:
+            for pattern in patterns:
 
                 Parallel(n_jobs=n_jobs)(
                     delayed(create_reports)(
                         participant_id=participant,
                         bids_folder=bids_folder,
                         result_folder=result_folder,
-                        task=task,
+                        pattern=pattern,
                         session=session,
-                        data_type=data_type,
+                        modality=modality,
                     )
                     for participant in participants_id
                 )
@@ -126,23 +133,34 @@ def wrapper(
     print("Create group-level report.")
     for session in sessions:
 
-        for task in tasks:
+        for pattern in patterns:
 
             # Output file name
-            html_filename = (
-                f"{result_folder}/group_level_ses-{session}_task-{task}.html"
+            html_filename = Path(
+                result_folder,
+                f"group_level_{session}_modality-{modality}_{pattern}.html",
             )
 
             # Output file name
-            df_filename = f"{result_folder}/group_level_ses-{session}_task-{task}.tsv"
+            df_filename = Path(
+                result_folder,
+                f"group_level_{session}_modality-{modality}_{pattern}.tsv",
+            )
 
             # Gather individual metrics
             summary_df = pd.DataFrame([])
             for sub in participants_id:
-                summary_file = f"{result_folder}/{sub}/ses-{session}/{sub}_ses-{session}_task-{task}_features.tsv"
-                if os.path.isfile(summary_file):
-                    summary_df = summary_df.append(
-                        pd.read_csv(summary_file, sep="\t"),
+                summary_file = Path(
+                    result_folder,
+                    sub,
+                    session,
+                    modality,
+                    f"{sub}_{session}_{pattern}_features.tsv",
+                )
+
+                if summary_file.exists():
+                    summary_df = pd.concat(
+                        [summary_df, pd.read_csv(summary_file, sep="\t")],
                         ignore_index=True,
                     )
 
@@ -200,7 +218,7 @@ def main():
         help="Provides participants IDs.",
         nargs="+",
     )
-    parser.add_argument("-t", "--tasks", action="store", help="Provides tasks.")
+    parser.add_argument("-t", "--patterns", action="store", help="Provides patterns.")
     parser.add_argument(
         "-o", "--result_folder", action="store", help="Provides the result folder."
     )
@@ -208,7 +226,7 @@ def main():
         "-n", "--n_jobs", action="store", help="Number of processes to run."
     )
     parser.add_argument(
-        "-d", "--data_type", action="store", help="Data type (eg. 'beh')."
+        "-d", "--modality", action="store", help="Data type (eg. 'beh')."
     )
     parser.add_argument(
         "-w", "--overwrite", action="store", help="Number of processes to run."
@@ -223,9 +241,11 @@ def main():
 
     # Define and create result folder automatically
     if args.result_folder is None:
-        args.result_folder = f"{args.bids_folder}derivatives/systole/"
-    if not os.path.exists(args.result_folder):
-        os.mkdir(args.result_folder)
+        args.result_folder = Path(args.bids_folder, "derivatives", "systole/")
+    if isinstance(args.result_folder, str):
+        args.result_folder = Path(args.result_folder)
+    if not args.result_folder.exists():
+        args.result_folder.mkdir(parents=True)
 
     if args.overwrite is None:
         args.overwrite = False
@@ -235,10 +255,10 @@ def main():
         args.overwrite = False
 
     wrapper(
-        tasks=args.tasks,
+        patterns=args.patterns,
         result_folder=args.result_folder,
         participants_id=args.participants_id,
-        data_type=args.data_type,
+        modality=args.modality,
         bids_folder=args.bids_folder,
         n_jobs=int(args.n_jobs),
         overwrite=args.overwrite,

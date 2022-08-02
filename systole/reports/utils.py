@@ -14,8 +14,8 @@ from systole.reports.subject_level import subject_level_report
 def import_data(
     bids_folder: Union[str, PathLike],
     participant_id: Union[str, PathLike],
-    task: str = "",
-    data_type: Union[str, PathLike] = "beh",
+    pattern: str = "",
+    modality: Union[str, PathLike] = "beh",
     session: Union[str, PathLike] = "ses-session1",
 ) -> Union[
     Tuple[
@@ -26,24 +26,24 @@ def import_data(
     Tuple[Tuple[None, None, None], Tuple[None, None, None], Tuple[None, None, None]],
 ]:
     """Load ECG, PPG and respiration dataframes from BIDS folder given participant_id,
-    session and task names.
+    session and pattern names.
 
     Parameters
     ----------
-    bids_folder : str
+    bids_folder : str | PathLike
         The path to the BIDS folder. This folder should containt the participant
-        `participant_id` and have a task `task` with at least one of the possible
+        `participant_id` and have a pattern `pattern` with at least one of the possible
         physiological recordings (ECG, PPG, respiration).
-    participant_id : str
+    participant_id : str | PathLike
         The participant ID. The string should match with one participant in the BIDS
         folder provided as `"bids_folder"`.
-    task : str
-        The task name. The string should match with a task in the BIDS folder provided
+    pattern : str | PathLike
+        The pattern name. The string should match with a pattern in the BIDS folder provided
         as `"bids_folder"`.
-    data_type : str
+    modality : str | PathLike
         The type of data (e.g. `"beh"`, `"func"`...) where the physiological recording
         is stored. Defaults to `"beh"`.
-    session : str | None
+    session : str | PathLike
         The session name. The string should match with a session in the BIDS folder
         provided as `"bids_folder"`. Defaults to `"session1"`.
 
@@ -78,8 +78,8 @@ def import_data(
     # Try to find a uniqe file corresponding to the info provided, otherwise print an
     # error message and return None
     physio_files = list(
-        Path(bids_folder, participant_id, session, data_type).glob(
-            f"**/*task-{task}*_physio.tsv.gz"
+        Path(bids_folder, participant_id, session, modality).glob(
+            f"**/*{pattern}*_physio.tsv.gz"
         )
     )
     if len(physio_files) == 0:
@@ -102,8 +102,8 @@ def import_data(
         )
 
     json_files = list(
-        Path(bids_folder, participant_id, session, data_type).glob(
-            f"**/*task-{task}*_physio.json"
+        Path(bids_folder, participant_id, session, modality).glob(
+            f"**/*{pattern}*_physio.json"
         )
     )
 
@@ -124,7 +124,7 @@ def import_data(
 
     f.close()
 
-    # Gather physiological signal in the BIDS folder for this participant_id / task
+    # Gather physiological signal in the BIDS folder for this participant_id / pattern
     physio_df = pd.read_csv(physio_file, sep="\t", compression="gzip")
     physio_df.columns = physio_df.columns.str.lower()
 
@@ -187,8 +187,8 @@ def create_reports(
     participant_id: str,
     bids_folder: str,
     result_folder: str,
-    task: str,
-    data_type: str = "beh",
+    pattern: str,
+    modality: str = "beh",
     session: str = "ses-session1",
 ):
     """Create individual HTML and summary results from one participant in the BIDS
@@ -201,16 +201,16 @@ def create_reports(
         listed in the folder will be processed.
     bids_folder : str
         Path to the main folder organized according to BIDS standards. The folder must
-        contain a task matching with the `task` parameter (if provided) and the
+        contain a pattern matching with the `pattern` parameter (if provided) and the
         participants listed in `participants_id` (if provided).
     result_folder : str
         Path to the main output folder. A report folder will be created for each
-        participant, containing the summary statistics and HTML reports for each task
-        provided in the `task` parameter.
-    task : str | list
-        The task(s) that should be analyzed. Should match a task reference in the BIDS
+        participant, containing the summary statistics and HTML reports for each pattern
+        provided in the `pattern` parameter.
+    pattern : str | list
+        The pattern(s) that should be analyzed. Should match a pattern reference in the BIDS
         folder.
-    data_type : str
+    modality : str
         The type of data (e.g. `"beh"`, `"func"`...) where the physiological recording
         is stored. Defaults to `"beh"`.
     session : str | list
@@ -227,8 +227,8 @@ def create_reports(
     ) = import_data(
         participant_id=participant_id,
         bids_folder=bids_folder,
-        data_type=data_type,
-        task=task,
+        modality=modality,
+        pattern=pattern,
         session=session,
     )
 
@@ -270,8 +270,9 @@ def create_reports(
     #########################################
     subject_level_report(
         participant_id=participant_id,
-        task=task,
+        pattern=pattern,
         session=session,
+        modality=modality,
         result_folder=result_folder,
         ecg=ecg,
         ecg_sfreq=ecg_sfreq,

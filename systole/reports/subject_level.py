@@ -1,6 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-import os
+from os import PathLike
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 
 import numpy as np
@@ -25,8 +26,9 @@ from systole.reports.tables import frequency_table, nonlinear_table, time_table
 
 def subject_level_report(
     participant_id: str,
-    task: str,
-    result_folder: str,
+    pattern: str,
+    modality: str,
+    result_folder: Union[str, PathLike],
     session: str,
     ecg: Optional[np.ndarray] = None,
     ppg: Optional[np.ndarray] = None,
@@ -39,9 +41,10 @@ def subject_level_report(
     rsp_events_idx: Optional[Union[List, np.ndarray]] = None,
     ecg_method: str = "sleepecg",
     show_raw: bool = False,
+    file_name: Optional[Union[str, PathLike]] = None,
     template_file=pkg_resources.resource_filename(__name__, "subject_level.html"),
 ):
-    """Analyse physiological signals for one participant / task, create HTML report
+    """Analyse physiological signals for one participant / pattern, create HTML report
     and save a summary dataframe.
 
     Parameters
@@ -49,15 +52,15 @@ def subject_level_report(
     participant_id : str
         The participant ID. The string should match with one participant in the BIDS
         folder.
-    task : str
-        The task name. The string should match with a task in the BIDS folder provided
+    pattern : str
+        The pattern name. The string should match with a pattern in the BIDS folder provided
         as `bids_folder`.
-    result_folder : str
+    result_folder : str | PathLike
         The result folder where the individual HTML reports, the group level reports
         the summary dataframes will be stored.
     session : str | list
         The session reference that should be analyzed. Should match a session number in
-        the BIDS folder. Defaults to `"session1"`.
+        the BIDS folder. Defaults to `"ses-session1"`.
     ecg, ppg, rsp : np.ndarray | None
         The physiological signal that will be analyzed. If `None`, no analyse are
         performed.
@@ -70,20 +73,21 @@ def subject_level_report(
     show_raw : bool
         If `False` (default), the individual report shows the instantaneous heart rate
         without the raw signal to save memory, otherwise will show both.
+    file_name : path-like
+        File name used to save derivatives.
     template_file : str
         Path to the HTML template to use for individual reports.
 
     Returns
     -------
 
-    This function will save the following files in the report folder.
-
-    summary_df : pd.DataFrame
-        Summary HRV statistics (time, frequency and nonlinear domain). Save the
-        dataframe as a `.tsv` file in the `result_folder`.
-    report_html : html file
-        Interactive report of the processing pipeline. Save the HTML file in the
-        `result_folder`.
+    This function will save the following files in the report folder::
+        summary_df : pd.DataFrame
+            Summary HRV statistics (time, frequency and nonlinear domain). Save the
+            dataframe as a `.tsv` file in the `result_folder`.
+        report_html : html file
+            Interactive report of the processing pipeline. Save the HTML file in the
+            `result_folder`.
 
     Raises
     ------
@@ -94,32 +98,31 @@ def subject_level_report(
     """
 
     print(
-        f"Creating report for participant {participant_id} - session: {session} - task : {task}. Systole v{version}"
+        (
+            f"Creating report for participant {participant_id} - session: {session}"
+            f" - pattern : {pattern}. Using Systole v{version}"
+        )
     )
 
     #######################
     # Paths and filenames #
     #######################
+    if file_name is None:
+        file_name = f"{participant_id}_{session}_{pattern}"
 
     # Create participant folder if does not exit
-    participant_path = os.path.join(result_folder, participant_id, f"ses-{session}")
-    if not os.path.exists(participant_path):
-        os.makedirs(participant_path)
+    participant_folder = Path(result_folder, participant_id, session, modality)
+    if not participant_folder.exists():
+        participant_folder.mkdir(parents=True)
 
     # The participant's summary dataframe
-    tsv_physio_filename = (
-        f"{participant_path}/{participant_id}_ses-{session}_task-{task}_physio.tsv.gz"
-    )
+    tsv_physio_filename = Path(participant_folder, f"{file_name}_physio.tsv.gz")
 
     # The participant's summary dataframe
-    tsv_features_filename = (
-        f"{participant_path}/{participant_id}_ses-{session}_task-{task}_features.tsv"
-    )
+    tsv_features_filename = Path(participant_folder, f"{file_name}_features.tsv")
 
     # The participant's HTML report
-    html_filename = (
-        f"{participant_path}/{participant_id}_ses-{session}_task-{task}.html"
-    )
+    html_filename = Path(participant_folder, f"{file_name}_report.html")
 
     # Load HTML template
     with open(template_file, "r", encoding="utf-8") as f:
@@ -212,7 +215,7 @@ def subject_level_report(
         ]
         ecg_artefacts_df = pd.DataFrame({"Values": values, "Metric": metrics})
         ecg_artefacts_df["participant_id"] = participant_id
-        ecg_artefacts_df["task"] = task
+        ecg_artefacts_df["pattern"] = pattern
         ecg_artefacts_df["modality"] = "ecg"
         ecg_artefacts_df["hrv_domain"] = "artefacts"
         summary_df = pd.concat([summary_df, ecg_artefacts_df], ignore_index=True)
@@ -249,7 +252,7 @@ def subject_level_report(
         ecg_time_domain = time_domain(peaks, input_type="peaks")
         ecg_time_domain["hrv_domain"] = "time_domain"
         ecg_time_domain["participant_id"] = participant_id
-        ecg_time_domain["task"] = task
+        ecg_time_domain["pattern"] = pattern
         ecg_time_domain["modality"] = "ecg"
         summary_df = pd.concat([summary_df, ecg_time_domain], ignore_index=True)
 
@@ -257,7 +260,7 @@ def subject_level_report(
         ecg_frequency_domain = frequency_domain(peaks, input_type="peaks")
         ecg_frequency_domain["hrv_domain"] = "frequency_domain"
         ecg_frequency_domain["participant_id"] = participant_id
-        ecg_frequency_domain["task"] = task
+        ecg_frequency_domain["pattern"] = pattern
         ecg_frequency_domain["modality"] = "ecg"
         summary_df = pd.concat([summary_df, ecg_frequency_domain], ignore_index=True)
 
@@ -265,7 +268,7 @@ def subject_level_report(
         ecg_nonlinear_domain = nonlinear_domain(peaks, input_type="peaks")
         ecg_nonlinear_domain["hrv_domain"] = "nonlinear_domain"
         ecg_nonlinear_domain["participant_id"] = participant_id
-        ecg_nonlinear_domain["task"] = task
+        ecg_nonlinear_domain["pattern"] = pattern
         ecg_nonlinear_domain["modality"] = "ecg"
         summary_df = pd.concat([summary_df, ecg_nonlinear_domain], ignore_index=True)
 
@@ -334,7 +337,7 @@ def subject_level_report(
         ppg_time_domain = time_domain(peaks, input_type="peaks")
         ppg_time_domain["hrv_domain"] = "time_domain"
         ppg_time_domain["participant_id"] = participant_id
-        ppg_time_domain["task"] = task
+        ppg_time_domain["pattern"] = pattern
         ppg_time_domain["modality"] = "ppg"
         summary_df = pd.concat([summary_df, ppg_time_domain], ignore_index=True)
 
@@ -342,7 +345,7 @@ def subject_level_report(
         ppg_frequency_domain = frequency_domain(peaks, input_type="peaks")
         ppg_frequency_domain["hrv_domain"] = "frequency_domain"
         ppg_frequency_domain["participant_id"] = participant_id
-        ppg_frequency_domain["task"] = task
+        ppg_frequency_domain["pattern"] = pattern
         ppg_frequency_domain["modality"] = "ppg"
         summary_df = pd.concat([summary_df, ppg_frequency_domain], ignore_index=True)
 
@@ -350,7 +353,7 @@ def subject_level_report(
         ppg_nonlinear_domain = nonlinear_domain(peaks, input_type="peaks")
         ppg_nonlinear_domain["hrv_domain"] = "nonlinear_domain"
         ppg_nonlinear_domain["participant_id"] = participant_id
-        ppg_nonlinear_domain["task"] = task
+        ppg_nonlinear_domain["pattern"] = pattern
         ppg_nonlinear_domain["modality"] = "ppg"
         summary_df = pd.concat([summary_df, ppg_nonlinear_domain], ignore_index=True)
 
