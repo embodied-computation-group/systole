@@ -1,6 +1,0 @@
-﻿systole.reports.nonlinear\_table
-================================
-
-.. currentmodule:: systole.reports
-
-.. autofunction:: nonlinear_table
