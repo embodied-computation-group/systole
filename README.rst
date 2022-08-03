@@ -96,6 +96,8 @@ For an introduction to Systole and cardiac signal analysis, you can refer to the
      - |Colab badge 4|
    * - Instantaneous and evoked heart rate 
      - |Colab badge 5|
+   * - Working with BIDS folders
+     - |Colab badge 6|
 
 .. |Colab badge 1| image:: https://colab.research.google.com/assets/colab-badge.svg
   :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/1-PhysiologicalSignals.ipynb
@@ -111,6 +113,9 @@ For an introduction to Systole and cardiac signal analysis, you can refer to the
 
 .. |Colab badge 5| image:: https://colab.research.google.com/assets/colab-badge.svg
   :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/5-InstantaneousHeartRate.ipynb
+
+.. |Colab badge 6| image:: https://colab.research.google.com/assets/colab-badge.svg
+  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/6-WorkingWithBIDSFolders.ipynb
 
 
 Getting started

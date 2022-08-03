@@ -97,3 +97,20 @@ in general.
    .. image:: https://colab.research.google.com/assets/colab-badge.svg
       :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/5-InstantaneousHeartRate.ipynb
       :align: center
+
+   ---
+
+   - 6 - Working with BIDS folders
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+   .. toctree::
+      :maxdepth: 4
+
+      notebooks/6-WorkingWithBIDSFolders.ipynb
+
+   +++
+   .. image:: https://colab.research.google.com/assets/colab-badge.svg
+      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/6-WorkingWithBIDSFolders.ipynb
+      :align: center
+   
+   ---
