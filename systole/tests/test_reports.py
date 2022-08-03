@@ -33,6 +33,7 @@ class TestReports(TestCase):
         subject_level_report(
             participant_id="participant_test",
             pattern="task_test",
+            modality="beh",
             result_folder="./",
             session="session_test",
             ecg=ecg,
