@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Working with BIDS folders &#8212; systole 0.2.3 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/thebelab-helper.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Functions" href="../api.html" />
+    <link rel="prev" title="Instantaneous and evoked heart rate" href="5-InstantaneousHeartRate.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="None">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../getting_started.html">
+  Installation
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../auto_examples/index.html">
+  Gallery
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../tutorials.html">
+  Tutorials
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../api.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../changelog.html">
+  Release notes
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/embodied-computation-group/systole" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/visceral_mind" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://pypi.org/project/systole/" rel="noopener" target="_blank" title="Pypi"><span><i class="fas fa-box"></i></span>
+            <label class="sr-only">Pypi</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<div class="sidebar-primary col-12 col-md-1 col-xl-2 bd-sidebar no-sidebar"></div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-md-block col-md-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#signal-preprocessing-and-creation-of-subject-and-group-level-reports">
+   Signal preprocessing and creation of subject and group-level reports
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#preprocessing-the-physiological-recording-from-one-participant">
+     Preprocessing the physiological recording from one participant
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#preprocessing-the-entire-bids-folder">
+     Preprocessing the entire BIDS folder
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#manual-edition-of-peaks-vector">
+   Manual edition of peaks vector
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-8">
+              
+              <article class="bd-article" role="main">
+                
+  <p>Author: Nicolas Legrand <a class="reference external" href="mailto:nicolas&#46;legrand&#37;&#52;&#48;cfin&#46;au&#46;dk">nicolas<span>&#46;</span>legrand<span>&#64;</span>cfin<span>&#46;</span>au<span>&#46;</span>dk</a></p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%capture
+import sys
+if &#39;google.colab&#39; in sys.modules:
+    ! pip install systole
+</pre></div>
+</div>
+</div>
+</div>
+<section id="working-with-bids-folders">
+<h1>Working with BIDS folders<a class="headerlink" href="#working-with-bids-folders" title="Permalink to this headline">#</a></h1>
+<p>Starting in version <code class="docutils literal notranslate"><span class="pre">0.2.3</span></code>, Systole provides tools to interact efficiently with large datasets containing physiological recordings. Most of the functionalities interface with folders structured following the <a class="reference external" href="https://bids-specification.readthedocs.io/en/stable/">BIDS standards</a> and this is the format we recommend using if you are following this tutorial.</p>
+<p>Under BIDS standards, physiological recordings, sometimes associated with behavioural tasks or neural recordings, are stored with a filename ending with <code class="docutils literal notranslate"><span class="pre">*_physio.tsv.gz</span></code> and are always accompanied with sidecar a <code class="docutils literal notranslate"><span class="pre">*_physio.json</span></code> file containing metadata like the recording modality or the sampling frequency. Accessing both the times series and its accompanying metadata will help Systole automate the preprocessing by finding the correct parameters for peaks detection and reports.</p>
+<p>Once you have organized your folder, you should have a structure resembling this one:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>└─ BIDS/
+   ├─ sub-0001/
+   │  └─ ses-session1/
+   │     └─ beh/
+   │        ├─ sub-0001_ses_session1_task-mytask_physio.tsv.gz
+   │        └─ sub-0001_ses_session1_task-mytask_physio.json
+   │
+   ├─ sub-0002/
+   ├─ sub-0003/
+   └─ ... 
+</pre></div>
+</div>
+<p>Here, we have physiological recordings associated with a behavioural task for <code class="docutils literal notranslate"><span class="pre">n</span></code> participants in the folder.</p>
+<section id="signal-preprocessing-and-creation-of-subject-and-group-level-reports">
+<h2>Signal preprocessing and creation of subject and group-level reports<a class="headerlink" href="#signal-preprocessing-and-creation-of-subject-and-group-level-reports" title="Permalink to this headline">#</a></h2>
+<p>The first step will be to extract peaks from the physiological signal and generate individual reports for each participant, so we can visualize the signal quality and peaks detection.</p>
+<section id="preprocessing-the-physiological-recording-from-one-participant">
+<h3>Preprocessing the physiological recording from one participant<a class="headerlink" href="#preprocessing-the-physiological-recording-from-one-participant" title="Permalink to this headline">#</a></h3>
+<p>The py:func:<code class="docutils literal notranslate"><span class="pre">systole.reports</span></code> sub-module contains tools to directly interact with BIDS formatted folders, preprocess and save individual reports in a BIDS consistent way. Those functionalities are built on the top of the py:func:<code class="docutils literal notranslate"><span class="pre">systole.reports.subject_level_report</span></code> function. This function will simply take a signal as input and will save as output the preprocessed signal with peaks detection (<code class="docutils literal notranslate"><span class="pre">_physio.tsv.gz</span></code> with the <code class="docutils literal notranslate"><span class="pre">_physio.json</span></code>), an <code class="docutils literal notranslate"><span class="pre">.html</span></code> reports adapted to the kind of signal that was provided, and a <code class="docutils literal notranslate"><span class="pre">features.tsv</span></code> file containing heart rate or respiratory rate variability features.</p>
+<p>For example, running the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">systole</span> <span class="kn">import</span> <span class="n">import_dataset1</span>
+<span class="kn">from</span> <span class="nn">systole.reports</span> <span class="kn">import</span> <span class="n">subject_level_report</span>
+
+<span class="n">ecg</span> <span class="o">=</span> <span class="n">import_dataset1</span><span class="p">(</span><span class="n">modalities</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ECG&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">ecg</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+<span class="n">subject_level_report</span><span class="p">(</span>
+    <span class="n">participant_id</span><span class="o">=</span><span class="s2">&quot;participant_test&quot;</span><span class="p">,</span>
+    <span class="n">pattern</span><span class="o">=</span><span class="s2">&quot;task_test&quot;</span><span class="p">,</span>
+    <span class="n">result_folder</span><span class="o">=</span><span class="s2">&quot;./&quot;</span><span class="p">,</span>
+    <span class="n">session</span><span class="o">=</span><span class="s2">&quot;session_test&quot;</span><span class="p">,</span>
+    <span class="n">ecg</span><span class="o">=</span><span class="n">ecg</span><span class="p">,</span>
+    <span class="n">ecg_sfreq</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>will save these four new files in the file folder.</p>
+<ol class="arabic simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">.html</span></code> file is a standalone document that can be visualized in the browser.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">features.tsv</span></code> contains heart rate and/or respiration rate variability metrics.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">_physio.tsv.gz</span></code> and the <code class="docutils literal notranslate"><span class="pre">_physio.json</span></code> files contain the preprocessed signal with new columns <code class="docutils literal notranslate"><span class="pre">peaks</span></code> for peaks detection.</p></li>
+</ol>
+</section>
+<section id="preprocessing-the-entire-bids-folder">
+<h3>Preprocessing the entire BIDS folder<a class="headerlink" href="#preprocessing-the-entire-bids-folder" title="Permalink to this headline">#</a></h3>
+<p>The previous function call can be automated for each participant and each file of a given BIDS folder and to extract the physiological features using the information provided in the <code class="docutils literal notranslate"><span class="pre">json</span></code> metadata automatically. This can be done using the py:func:<code class="docutils literal notranslate"><span class="pre">systole.reports.wrapper</span></code> function, or directly from the command line. For example, the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>systole --bids_folder<span class="o">=</span><span class="s2">&quot;/mnt/scratch/BIDS/&quot;</span> <span class="se">\</span>
+        --patterns<span class="o">=</span><span class="s2">&quot;task-mytask&quot;</span> <span class="se">\</span>
+        --modality<span class="o">=</span><span class="s2">&quot;beh&quot;</span> <span class="se">\</span>
+        --n_jobs<span class="o">=</span><span class="m">10</span> <span class="se">\</span>
+        --overwrite<span class="o">=</span>True
+</pre></div>
+</div>
+<p>will preprocess the data for all participants with a physiological recording in the session <code class="docutils literal notranslate"><span class="pre">ses-session1</span></code> (default), for the behavioural modality (<code class="docutils literal notranslate"><span class="pre">beh</span></code>) and the task <code class="docutils literal notranslate"><span class="pre">mytask</span></code>. We set <code class="docutils literal notranslate"><span class="pre">n_jobs=10</span></code>, meaning that we will run 40 processes in parallel, and <code class="docutils literal notranslate"><span class="pre">overwrite=True</span></code> to overwrite previous data with the same ID in the derivative folder.</p>
+<p>:::{note}
+When setting <code class="docutils literal notranslate"><span class="pre">overwrite=True</span></code>, only the preprocessed derivatives can be overwritten, but not the edited files located in <code class="docutils literal notranslate"><span class="pre">BIDS/systole/derivatives/corrected/*</span></code>. This means that it is possible to re-run the preprocessing event after working on the manual artefacts edition (see below).
+:::</p>
+<p>:::{warning}
+The number of processes to run in parallel (<code class="docutils literal notranslate"><span class="pre">n_jobs</span></code>) should be adapted to your hardware capabilities.
+:::</p>
+<p>Once the preprocessing is completed, the structure of the BIDS repository should now include a new <code class="docutils literal notranslate"><span class="pre">systole</span></code> folder in the derivatives:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>└─ BIDS/
+   ├─ derivatives/
+   │  └─ systole/
+   │     └─ sub-0001/
+   │         └─ ses-session1/
+   │            └─ beh/
+   │               ├─ sub-0001_ses_session1_task-mytask_features.tsv
+   │               ├─ sub-0001_ses_session1_task-mytask_report.html
+   │               ├─ sub-0001_ses_session1_task-mytask_physio.tsv.gz
+   │               └─ sub-0001_ses_session1_task-mytask_physio.json
+   ├─ sub-0001/
+   │  └─ ses-session1/
+   │     └─ beh/
+   │        ├─ sub-0001_ses_session1_task-mytask_physio.tsv.gz
+   │        └─ sub-0001_ses_session1_task-mytask_physio.json
+   │
+   ├─ sub-0002/
+   ├─ sub-0003/
+   └─ ... 
+</pre></div>
+</div>
+</section>
+</section>
+<section id="manual-edition-of-peaks-vector">
+<h2>Manual edition of peaks vector<a class="headerlink" href="#manual-edition-of-peaks-vector" title="Permalink to this headline">#</a></h2>
+<p>While we hope that the peaks detection function used by <a class="reference external" href="https://embodied-computation-group.github.io/systole/#">Systole</a> is sufficiently robust to extract peak vectors without errors for most of the uses cases, you might still encounter noisy or invalid recording that you will want to manually inspect and sometimes edit.</p>
+<p>The py:func:<code class="docutils literal notranslate"><span class="pre">systole.viewer</span></code> sub-module contains handy functions to interactively inspect and edit the preprocessed folders and save the modified information accordingly.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using Systole&#39;s viewer</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>After peaks correction, a new <code class="docutils literal notranslate"><span class="pre">corrected</span></code> subfolder will be appended to the systole derivatives:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>└─ BIDS/
+   ├─ derivatives/
+   │  └─ systole/
+   │     ├─ corrected/
+   │        └─ sub-0001/
+   │           └─ ses-session1/
+   │              └─ beh/
+   │                 ├─ sub-0001_ses_session1_task-mytask_physio.tsv.gz
+   │                 └─ sub-0001_ses_session1_task-mytask_physio.json
+   │     └─ sub-0001/
+   │         └─ ses-session1/
+   │            └─ beh/
+   │               ├─ sub-0001_ses_session1_task-mytask_features.tsv
+   │               ├─ sub-0001_ses_session1_task-mytask_report.html
+   │               ├─ sub-0001_ses_session1_task-mytask_physio.tsv.gz
+   │               └─ sub-0001_ses_session1_task-mytask_physio.json
+   ├─ sub-0001/
+   │  └─ ses-session1/
+   │     └─ beh/
+   │        ├─ sub-0001_ses_session1_task-mytask_physio.tsv.gz
+   │        └─ sub-0001_ses_session1_task-mytask_physio.json
+   │
+   ├─ sub-0002/
+   ├─ sub-0003/
+   └─ ... 
+</pre></div>
+</div>
+<p>The new <code class="docutils literal notranslate"><span class="pre">_physio.tsv.gz</span></code> will only contain the corrected peaks, as the rest of the data will stay the same. The accompagning <code class="docutils literal notranslate"><span class="pre">.json</span></code> file will contain all information about bad segments labelling, peaks deletion and peaks insertion.</p>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="5-InstantaneousHeartRate.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Instantaneous and evoked heart rate</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="../api.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Functions</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2020-2022, Nicolas Legrand.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

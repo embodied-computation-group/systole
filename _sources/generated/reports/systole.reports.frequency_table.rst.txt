@@ -1,0 +1,6 @@
+﻿systole.reports.frequency\_table
+================================
+
+.. currentmodule:: systole.reports
+
+.. autofunction:: frequency_table

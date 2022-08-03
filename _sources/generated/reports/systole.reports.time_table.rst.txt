@@ -1,0 +1,6 @@
+﻿systole.reports.time\_table
+===========================
+
+.. currentmodule:: systole.reports
+
+.. autofunction:: time_table

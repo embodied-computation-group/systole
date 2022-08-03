@@ -1,0 +1,548 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>systole.reports.nonlinear_table &#8212; systole 0.2.3 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/thebelab-helper.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="systole.utils.norm_triggers" href="../utils/systole.utils.norm_triggers.html" />
+    <link rel="prev" title="systole.reports.frequency_table" href="systole.reports.frequency_table.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="None">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../getting_started.html">
+  Installation
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../auto_examples/index.html">
+  Gallery
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../tutorials.html">
+  Tutorials
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../../api.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../changelog.html">
+  Release notes
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/embodied-computation-group/systole" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/visceral_mind" rel="noopener" target="_blank" title="Twitter"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://pypi.org/project/systole/" rel="noopener" target="_blank" title="Pypi"><span><i class="fas fa-box"></i></span>
+            <label class="sr-only">Pypi</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../correction/systole.correction.correct_rr.html">
+   systole.correction.correct_rr
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../correction/systole.correction.correct_peaks.html">
+   systole.correction.correct_peaks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../correction/systole.correction.correct_missed_peaks.html">
+   systole.correction.correct_missed_peaks
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../detection/systole.detection.ppg_peaks.html">
+   systole.detection.ppg_peaks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../detection/systole.detection.ecg_peaks.html">
+   systole.detection.ecg_peaks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../detection/systole.detection.rsp_peaks.html">
+   systole.detection.rsp_peaks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../detection/systole.detection.rr_artefacts.html">
+   systole.detection.rr_artefacts
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../detection/systole.detection.interpolate_clipping.html">
+   systole.detection.interpolate_clipping
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.nnX.html">
+   systole.hrv.nnX
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.pnnX.html">
+   systole.hrv.pnnX
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.rmssd.html">
+   systole.hrv.rmssd
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.time_domain.html">
+   systole.hrv.time_domain
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.psd.html">
+   systole.hrv.psd
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.frequency_domain.html">
+   systole.hrv.frequency_domain
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.nonlinear_domain.html">
+   systole.hrv.nonlinear_domain
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.poincare.html">
+   systole.hrv.poincare
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.recurrence.html">
+   systole.hrv.recurrence
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.recurrence_matrix.html">
+   systole.hrv.recurrence_matrix
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../hrv/systole.hrv.all_domain.html">
+   systole.hrv.all_domain
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_circular.html">
+   systole.plots.plot_circular
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_ectopic.html">
+   systole.plots.plot_ectopic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_events.html">
+   systole.plots.plot_events
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_evoked.html">
+   systole.plots.plot_evoked
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_frequency.html">
+   systole.plots.plot_frequency
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_poincare.html">
+   systole.plots.plot_poincare
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_raw.html">
+   systole.plots.plot_raw
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_rsp.html">
+   systole.plots.plot_rsp
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_rr.html">
+   systole.plots.plot_rr
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_shortlong.html">
+   systole.plots.plot_shortlong
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../plots/systole.plots.plot_subspaces.html">
+   systole.plots.plot_subspaces
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../recording/systole.recording.Oximeter.html">
+   systole.recording.Oximeter
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../recording/systole.recording.BrainVisionExG.html">
+   systole.recording.BrainVisionExG
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="systole.reports.time_table.html">
+   systole.reports.time_table
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="systole.reports.frequency_table.html">
+   systole.reports.frequency_table
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   systole.reports.nonlinear_table
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.norm_triggers.html">
+   systole.utils.norm_triggers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.time_shift.html">
+   systole.utils.time_shift
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.heart_rate.html">
+   systole.utils.heart_rate
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.to_angles.html">
+   systole.utils.to_angles
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.to_epochs.html">
+   systole.utils.to_epochs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.simulate_rr.html">
+   systole.utils.simulate_rr
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.to_neighbour.html">
+   systole.utils.to_neighbour
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.input_conversion.html">
+   systole.utils.input_conversion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.nan_cleaning.html">
+   systole.utils.nan_cleaning
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.find_clipping.html">
+   systole.utils.find_clipping
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+
+<nav id="bd-toc-nav">
+    
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="systole-reports-nonlinear-table">
+<h1>systole.reports.nonlinear_table<a class="headerlink" href="#systole-reports-nonlinear-table" title="Permalink to this headline">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="systole.reports.nonlinear_table">
+<span class="sig-prename descclassname"><span class="pre">systole.reports.</span></span><span class="sig-name descname"><span class="pre">nonlinear_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonlinear_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><span class="pre">pandas.core.frame.DataFrame</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rr_ms'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tabulate'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">300</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="http://docs.bokeh.org/en/latest/docs/reference/models/layouts.html#bokeh.models.Column" title="(in Bokeh v2.4.3)"><span class="pre">bokeh.models.layouts.Column</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/systole/reports/tables.html#nonlinear_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#systole.reports.nonlinear_table" title="Permalink to this definition">#</a></dt>
+<dd><p>Format nonlinear domain results for nice rendering.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rr</strong><span class="classifier">np.ndarray | list</span></dt><dd><p>R-R interval time-series, peaks or peaks index vectors. The default expected
+vector is R-R intervals in milliseconds. Other data format can be provided by
+specifying the <cite>“input_type”</cite> (can be <cite>“rr_s”</cite>, <cite>“peaks”</cite> or <cite>“peaks_idx”</cite>).</p>
+</dd>
+<dt><strong>nonlinear_df</strong><span class="classifier">pd.DataFrame | None</span></dt><dd><p>The time domain results obtained from py:func:<cite>systole.hrv.nonlinear_domain</cite>.</p>
+</dd>
+<dt><strong>input_type</strong><span class="classifier">str</span></dt><dd><p>The type of input provided. Can be <cite>“peaks”</cite>, <cite>“peaks_idx”</cite>, <cite>“rr_ms”</cite> or
+<cite>“rr_s”</cite>. Defaults to <cite>“rr_ms”</cite>.</p>
+</dd>
+<dt><strong>bakend</strong><span class="classifier">str</span></dt><dd><p>Which backend to use. Can be <cite>“bokeh”</cite> or <cite>“tabulate”</cite>. Defaults to <cite>“tabulate”</cite>.</p>
+</dd>
+<dt><strong>width, height</strong><span class="classifier">int</span></dt><dd><p>The table width and height (only for <cite>“bokeh”</cite> backend).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl>
+<dt><strong>table</strong><span class="classifier"><cite>bokeh.models.Column</cite> | str</span></dt><dd><p>The formatted nonlinear domain table, either as a string or as a Bokeh Columns.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="systole.reports.frequency_table.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">systole.reports.frequency_table</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="../utils/systole.utils.norm_triggers.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">systole.utils.norm_triggers</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2020-2022, Nicolas Legrand.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>
