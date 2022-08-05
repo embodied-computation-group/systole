@@ -35,7 +35,10 @@ class Viewer:
     """
 
     def __init__(
-        self, figsize: Tuple[int, int] = (15, 7), output_folder: str = ""
+        self,
+        figsize: Tuple[int, int] = (15, 7),
+        input_folder: Union[str, PathLike] = "",
+        output_folder: Union[str, PathLike] = "",
     ) -> None:
 
         self.figsize = figsize
@@ -45,7 +48,7 @@ class Viewer:
         ##################
 
         self.bids_path = widgets.Textarea(
-            value="/mnt/scratch/BIDS/",
+            value=input_folder,
             placeholder="Type something",
             description="BIDS folders:",
             disabled=False,
@@ -59,14 +62,14 @@ class Viewer:
             layout=widgets.Layout(width="200px"),
         )
         self.modality_ = widgets.Textarea(
-            value="func",
+            value="beh",
             placeholder="Type something",
             description="Modality:",
             disabled=False,
             layout=widgets.Layout(width="200px"),
         )
         self.pattern_ = widgets.Textarea(
-            value="recording-cardiac",
+            value="task-",
             placeholder="Type something",
             description="Pattern:",
             disabled=False,
@@ -96,23 +99,28 @@ class Viewer:
         )
 
         # Update the participant list from the BIDS parameters
-        self.participants_list = (
-            pd.read_csv(Path(self.bids_path.value, "participants.tsv"), sep="\t")
-            .participant_id.sort_values()
-            .to_list()
-        )
-        self.participants_list = [
-            part
-            for part in self.participants_list
-            if any(
-                Path(
-                    self.bids_path.value,
-                    part,
-                    self.session_.value,
-                    self.modality_.value,
-                ).glob(f"*{self.pattern_.value}*_physio.tsv.gz")
+        try:
+            # Find the list of all participant from the BIDS logs
+            self.participants_list = (
+                pd.read_csv(Path(self.bids_path.value, "participants.tsv"), sep="\t")
+                .participant_id.sort_values()
+                .to_list()
             )
-        ]
+            # Filter participants that have no physio recording
+            self.participants_list = [
+                part
+                for part in self.participants_list
+                if any(
+                    Path(
+                        self.bids_path.value,
+                        part,
+                        self.session_.value,
+                        self.modality_.value,
+                    ).glob(f"*{self.pattern_.value}*_physio.tsv.gz")
+                )
+            ]
+        except FileNotFoundError:
+            self.participants_list = ["sub-"]
         self.participants_ = widgets.Dropdown(
             options=self.participants_list,
             value=self.participants_list[0],
