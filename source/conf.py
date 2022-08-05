@@ -11,8 +11,9 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import time
-import systole
+
 import sphinx_bootstrap_theme
+import systole
 
 # -- Project information -----------------------------------------------------
 

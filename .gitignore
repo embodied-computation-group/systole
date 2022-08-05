@@ -1,5 +1,6 @@
 *.pyc
 *-checkpoint.ipynb
+*-checkpoint.md
 mypyreports/
 build/
 dist/
