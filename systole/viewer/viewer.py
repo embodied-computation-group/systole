@@ -26,10 +26,29 @@ class Viewer:
     figsize : tuple
         The size of the interactive Matplotlib figure for peaks edition. Defaults to
         `(15, 7)`.
+    input_folder : str | PathLike
+        Path to the input BIDS folder.
+    output_folder : str | PathLike
+        Path to the output folder. This is where the JSON files containing peaks
+        correction logs will be saved. If an empty strimg is provided (default), the
+        results will be saved in `BIDS/derivative/systole/corrected/`.
+    session : str | PathLike
+        The BIDS sub-session where the pysio files are stored. Defaults to
+        `"ses-session1"`.
+    modality : str | PathLike
+        The BIDS sub-modality where the pysio files are stored (e.g. `"func"` or
+        `"beh"`).
+    pattern : str | PathLike
+        The string pattern that the pysio files should contain. This allows to refine
+        the selection of possible physio files, in case the folders contains many
+        `_physio-gz.tsv`.
+    signal_type : str | PathLike
+       The type of signal that are being analyzed. Can be `"PPG"`, `"ECG"` or `"RESP"`.
+       Defaults to `"PPG"`.
 
     Notes
     -----
-    This module is largely ispired by the peakdet toolbox
+    This module was largely ispired by the peakdet toolbox
     (https://github.com/physiopy/peakdet).
 
     """
@@ -39,6 +58,10 @@ class Viewer:
         figsize: Tuple[int, int] = (15, 7),
         input_folder: Union[str, PathLike] = "",
         output_folder: Union[str, PathLike] = "",
+        session: Union[str, PathLike] = "ses-session1",
+        modality: Union[str, PathLike] = "beh",
+        pattern: Union[str, PathLike] = "task-",
+        signal_type: Union[str, PathLike] = "PPG",
     ) -> None:
 
         self.figsize = figsize
@@ -52,50 +75,50 @@ class Viewer:
             placeholder="Type something",
             description="BIDS folders:",
             disabled=False,
-            layout=widgets.Layout(width="200px"),
+            layout=widgets.Layout(width="250px"),
         )
         self.session_ = widgets.Textarea(
-            value="ses-session1",
+            value=session,
             placeholder="Type something",
             description="Session:",
             disabled=False,
-            layout=widgets.Layout(width="200px"),
+            layout=widgets.Layout(width="250px"),
         )
         self.modality_ = widgets.Textarea(
-            value="beh",
+            value=modality,
             placeholder="Type something",
             description="Modality:",
             disabled=False,
-            layout=widgets.Layout(width="200px"),
+            layout=widgets.Layout(width="250px"),
         )
         self.pattern_ = widgets.Textarea(
-            value="task-",
+            value=pattern,
             placeholder="Type something",
             description="Pattern:",
             disabled=False,
-            layout=widgets.Layout(width="200px"),
+            layout=widgets.Layout(width="250px"),
         )
         self.signal_type_ = widgets.Dropdown(
             options=["PPG", "ECG", "RESP"],
-            value="PPG",
+            value=signal_type,
             description="Signal:",
-            layout=widgets.Layout(width="200px"),
+            layout=widgets.Layout(width="250px"),
         )
-        self.save_button_ = widgets.ToggleButton(
+        self.save_button_ = widgets.Button(
             value=False,
             description="Save modifications",
             disabled=False,
-            button_style="",  # 'success', 'info', 'warning', 'danger' or ''
+            button_style="",
             tooltip="Description",
-            icon="check",
-            layout=widgets.Layout(width="200px"),
+            icon="save",
+            layout=widgets.Layout(width="250px"),
         )
         self.output_folder_ = widgets.Textarea(
             value=output_folder,
             placeholder="Type something",
             description="Output folder:",
             disabled=False,
-            layout=widgets.Layout(width="200px"),
+            layout=widgets.Layout(width="250px"),
         )
 
         # Update the participant list from the BIDS parameters
@@ -155,6 +178,9 @@ class Viewer:
             ]
         )
 
+        # Plot the first pysio file if any
+        self.plot_signal(change=None)
+
     def update_list(self, change):
         """Updating the input files when the dropdown menues are used."""
         self.participants_list = (
@@ -184,10 +210,10 @@ class Viewer:
 
             # Start the interactive editor for peaks correction
             self.editor = Editor(
-                bids_folder=self.bids_path.value,
+                input_folder=self.bids_path.value,
                 participant_id=self.participants_.value,
-                patterns=self.pattern_.value,
-                sessions=self.session_.value,
+                pattern=self.pattern_.value,
+                session=self.session_.value,
                 modality=self.modality_.value,
                 figsize=self.figsize,
             )
@@ -196,7 +222,14 @@ class Viewer:
     def save(self, change):
         """Save the JSON file logging the peaks correction into the BIDS derivatives
         folder."""
+        # Save the new JSON file
         self.editor.save(output_folder=self.output_folder_.value)
+
+        # Printing saving message
+        with self.output:
+            print(
+                f"Saving participant {self.participants_.value} in {self.output_folder_.value} completed."
+            )
 
 
 class Editor:
@@ -205,16 +238,32 @@ class Editor:
 
     Parameters
     ----------
+    input_folder : str | PathLike
+        Path to the input BIDS folder.
+    participant_id : str | list
+        The participant ID, following BIDS standards.
+    pattern : str | PathLike
+        The string pattern that the pysio files should contain. This allows to refine
+        the selection of possible physio files, in case the folders contains many
+        `_physio-gz.tsv`.
+    session : str | PathLike
+        The BIDS sub-session where the pysio files are stored.
+    modality : str | PathLike
+        The BIDS sub-modality where the pysio files are stored (e.g. `"func"` or
+        `"beh"`).
     physio_file : str | PathLike
         Path to the physiological recording.
     json_file : str | PathLike
         Path to the JSON metadata of the physiological recording.
+    figsize : tuple
+        The size of the interactive Matplotlib figure for peaks edition. Defaults to
+        `(15, 7)`.
 
     """
 
     def __init__(
         self,
-        bids_folder: Optional[Union[str, PathLike]],
+        input_folder: Optional[Union[str, PathLike]],
         participant_id: Optional[Union[str, List]],
         pattern: Optional[Union[str, List]],
         session: Optional[Union[str, List[str]]] = "ses-session1",
@@ -224,8 +273,8 @@ class Editor:
         figsize: Tuple[int, int] = (15, 7),
     ) -> None:
 
-        if bids_folder is not None:
-            self.bids_folder = bids_folder
+        if input_folder is not None:
+            self.input_folder = input_folder
         if participant_id is not None:
             self.participant_id = participant_id
         if pattern is not None:
@@ -241,7 +290,7 @@ class Editor:
         else:
             self.physio_file = list(
                 Path(
-                    self.bids_folder,
+                    self.input_folder,
                     str(self.participant_id),
                     str(self.session),
                     self.modality,
@@ -249,7 +298,7 @@ class Editor:
             )[0]
             self.json_file = list(
                 Path(
-                    self.bids_folder,
+                    self.input_folder,
                     str(self.participant_id),
                     str(self.session),
                     self.modality,
@@ -341,7 +390,6 @@ class Editor:
     def on_key(self, event):
         """Undoes last span select or quits peak editor"""
         # accept both control or Mac command key as selector
-        self.event = event.key
         if event.key in ["ctrl+q", "super+d"]:
             self.quit()
         elif event.key in ["left"]:
@@ -407,7 +455,7 @@ class Editor:
         """Save the corrected peaks in the derivatives folder."""
 
         if not output_folder:
-            output_folder = self.bids_folder
+            output_folder = self.input_folder
 
         # Path to the corrected signal and JSON files
         self.corrected_json_file = Path(

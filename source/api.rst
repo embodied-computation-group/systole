@@ -112,6 +112,19 @@ Reports
     frequency_table
     nonlinear_table
 
+Viewer
+-------
+
+.. currentmodule:: systole.viewer
+
+.. _reports:
+
+.. autosummary::
+   :toctree: generated/viewer
+
+    Viewer
+    Editor
+
 Utils
 -----
 
