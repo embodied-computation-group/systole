@@ -1,0 +1,25 @@
+﻿systole.viewer.Viewer
+=====================
+
+.. currentmodule:: systole.viewer
+
+.. autoclass:: Viewer
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Viewer.__init__
+      ~Viewer.plot_signal
+      ~Viewer.save
+      ~Viewer.update_list
+   
+   
+
+   
+   
+   
