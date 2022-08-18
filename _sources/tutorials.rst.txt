@@ -35,7 +35,7 @@ in general.
 
    +++
    .. image:: https://colab.research.google.com/assets/colab-badge.svg
-      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/1-PhysiologicalSignals.ipynb
+      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/docs/source/notebooks/1-PhysiologicalSignals.ipynb
       :align: center
 
    ---
@@ -50,7 +50,7 @@ in general.
 
    +++
    .. image:: https://colab.research.google.com/assets/colab-badge.svg
-      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/2-DetectingCycles.ipynb
+      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/docs/source/notebooks/2-DetectingCycles.ipynb
       :align: center
 
    ---
@@ -65,7 +65,7 @@ in general.
 
    +++
    .. image:: https://colab.research.google.com/assets/colab-badge.svg
-      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/3-DetectingAndCorrectingArtefacts.ipynb
+      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/docs/source/notebooks/3-DetectingAndCorrectingArtefacts.ipynb
       :align: center
       
    ---
@@ -80,7 +80,7 @@ in general.
 
    +++
    .. image:: https://colab.research.google.com/assets/colab-badge.svg
-      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/4-HeartRateVariability.ipynb
+      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/docs/source/notebooks/4-HeartRateVariability.ipynb
       :align: center
 
    ---
@@ -95,7 +95,7 @@ in general.
 
    +++
    .. image:: https://colab.research.google.com/assets/colab-badge.svg
-      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/5-InstantaneousHeartRate.ipynb
+      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/docs/source/notebooks/5-InstantaneousHeartRate.ipynb
       :align: center
 
    ---
@@ -110,5 +110,5 @@ in general.
 
    +++
    .. image:: https://colab.research.google.com/assets/colab-badge.svg
-      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/6-WorkingWithBIDSFolders.ipynb
+      :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/docs/source/notebooks/6-WorkingWithBIDSFolders.ipynb
       :align: center

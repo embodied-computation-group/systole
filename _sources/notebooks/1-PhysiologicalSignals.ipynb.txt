@@ -103,7 +103,7 @@
     ]
    },
    "source": [
-    "<p align='center'><img src='https://github.com/embodied-computation-group/systole/raw/dev/source/images/ecg.png'/></p>"
+    "<p align='center'><img src='https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/ecg.png'/></p>"
    ]
   },
   {
@@ -585,7 +585,7 @@
     ]
    },
    "source": [
-    "<p align='center'><img src='https://github.com/embodied-computation-group/systole/raw/dev/source/images/pulseOximeter.png'/></p>"
+    "<p align='center'><img src='https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/pulseOximeter.png'/></p>"
    ]
   },
   {
