@@ -16,6 +16,7 @@ def plot_subspaces(
     artefacts: Optional[Dict[str, np.ndarray]] = None,
     input_type: str = "rr_s",
     figsize: Optional[Union[Tuple[float, float], int]] = None,
+    ax: Optional[Union[Tuple, List]] = None,
     backend: str = "matplotlib",
 ) -> Union[Figure, Axes]:
     """Visualization of short, long, extra, missed and ectopic beats detection.
@@ -38,11 +39,15 @@ def plot_subspaces(
         Can also be `"rr_s"` or `"rr_ms"` for vectors of RR intervals, or
         interbeat intervals (IBI), expressed in seconds or milliseconds
         (respectively).
-    backend: str
-        Select plotting backend {"matplotlib", "bokeh"}. Defaults to "matplotlib".
     figsize : tuple | int | None
         Figure size. Default is `(12, 6)` for matplotlib backend, and the height is
         `600` when using bokeh backend.
+    ax : :class:`matplotlib.axes.Axes` | None
+        Where to draw the plot. Default is `None` (create a new figure). Otherwise, a
+        tuple of list of Matplotlib axes should be provided. Only applies if
+        `backend="matplotlib"`.
+    backend: str
+        Select plotting backend {"matplotlib", "bokeh"}. Defaults to "matplotlib".
 
     Returns
     -------
@@ -117,10 +122,7 @@ def plot_subspaces(
                 rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
             artefacts = rr_artefacts(rr)
 
-    plot_subspaces_args = {
-        "artefacts": artefacts,
-        "figsize": figsize,
-    }
+    plot_subspaces_args = {"artefacts": artefacts, "figsize": figsize, "ax": ax}
 
     plotting_function = get_plotting_function(
         "plot_subspaces", "plot_subspaces", backend

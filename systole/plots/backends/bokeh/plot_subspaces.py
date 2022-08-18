@@ -10,8 +10,7 @@ from systole.plots import plot_ectopic, plot_shortlong
 
 
 def plot_subspaces(
-    artefacts: Dict[str, np.ndarray],
-    figsize: int = 600,
+    artefacts: Dict[str, np.ndarray], figsize: int = 600, **kwargs
 ) -> Row:
     """Plot hrv subspace as described by Lipponen & Tarvainen (2019) [#]_.
 
