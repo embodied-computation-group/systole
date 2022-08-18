@@ -26,10 +26,10 @@ jobs:
         run: |
           pip install .
           pip install -r requirements-docs.txt
-          sphinx-build -b html source source/build/html
+          sphinx-build -b html docs/source docs/build/html
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: source/build/html
+          folder: docs/build/html
           BRANCH: gh-pages
