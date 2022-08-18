@@ -26,7 +26,7 @@ release = systole.__version__
 image_scrapers = ("matplotlib",)
 
 sphinx_gallery_conf = {
-    "examples_dirs": "../examples/",
+    "examples_dirs": "./examples/",
     "backreferences_dir": "api",
     "image_scrapers": image_scrapers,
 }
