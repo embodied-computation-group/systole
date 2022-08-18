@@ -151,7 +151,7 @@ view = Viewer()
 ```
 
 ```{code-cell} ipython3
-display(view.box, view.output)
+display(view.box, view.output);
 ```
 
 * Left mouse button : remove all the peaks in the selected interval.

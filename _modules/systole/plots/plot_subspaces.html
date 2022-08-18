@@ -221,6 +221,7 @@
     <span class="n">artefacts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">input_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;rr_s&quot;</span><span class="p">,</span>
     <span class="n">figsize</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">ax</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">backend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;matplotlib&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Figure</span><span class="p">,</span> <span class="n">Axes</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Visualization of short, long, extra, missed and ectopic beats detection.</span>
@@ -243,11 +244,15 @@
 <span class="sd">        Can also be `&quot;rr_s&quot;` or `&quot;rr_ms&quot;` for vectors of RR intervals, or</span>
 <span class="sd">        interbeat intervals (IBI), expressed in seconds or milliseconds</span>
 <span class="sd">        (respectively).</span>
-<span class="sd">    backend: str</span>
-<span class="sd">        Select plotting backend {&quot;matplotlib&quot;, &quot;bokeh&quot;}. Defaults to &quot;matplotlib&quot;.</span>
 <span class="sd">    figsize : tuple | int | None</span>
 <span class="sd">        Figure size. Default is `(12, 6)` for matplotlib backend, and the height is</span>
 <span class="sd">        `600` when using bokeh backend.</span>
+<span class="sd">    ax : :class:`matplotlib.axes.Axes` | None</span>
+<span class="sd">        Where to draw the plot. Default is `None` (create a new figure). Otherwise, a</span>
+<span class="sd">        tuple of list of Matplotlib axes should be provided. Only applies if</span>
+<span class="sd">        `backend=&quot;matplotlib&quot;`.</span>
+<span class="sd">    backend: str</span>
+<span class="sd">        Select plotting backend {&quot;matplotlib&quot;, &quot;bokeh&quot;}. Defaults to &quot;matplotlib&quot;.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -322,10 +327,7 @@
                 <span class="n">rr</span> <span class="o">=</span> <span class="n">input_conversion</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="n">input_type</span><span class="p">,</span> <span class="n">output_type</span><span class="o">=</span><span class="s2">&quot;rr_ms&quot;</span><span class="p">)</span>
             <span class="n">artefacts</span> <span class="o">=</span> <span class="n">rr_artefacts</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
 
-    <span class="n">plot_subspaces_args</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;artefacts&quot;</span><span class="p">:</span> <span class="n">artefacts</span><span class="p">,</span>
-        <span class="s2">&quot;figsize&quot;</span><span class="p">:</span> <span class="n">figsize</span><span class="p">,</span>
-    <span class="p">}</span>
+    <span class="n">plot_subspaces_args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;artefacts&quot;</span><span class="p">:</span> <span class="n">artefacts</span><span class="p">,</span> <span class="s2">&quot;figsize&quot;</span><span class="p">:</span> <span class="n">figsize</span><span class="p">,</span> <span class="s2">&quot;ax&quot;</span><span class="p">:</span> <span class="n">ax</span><span class="p">}</span>
 
     <span class="n">plotting_function</span> <span class="o">=</span> <span class="n">get_plotting_function</span><span class="p">(</span>
         <span class="s2">&quot;plot_subspaces&quot;</span><span class="p">,</span> <span class="s2">&quot;plot_subspaces&quot;</span><span class="p">,</span> <span class="n">backend</span>
