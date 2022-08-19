@@ -3,7 +3,7 @@
 import json
 from os import PathLike
 from pathlib import Path
-from typing import List, Optional, Tuple, Union
+from typing import Optional, Tuple, Union
 
 import numpy as np
 import pandas as pd
@@ -17,13 +17,11 @@ def import_data(
     pattern: str = "",
     modality: Union[str, PathLike] = "beh",
     session: Union[str, PathLike] = "ses-session1",
-) -> Union[
-    Tuple[
-        Tuple[np.ndarray, int, Optional[Union[np.ndarray, List[int]]]],
-        Tuple[np.ndarray, int, Optional[Union[np.ndarray, List[int]]]],
-        Tuple[np.ndarray, int, Optional[Union[np.ndarray, List[int]]]],
-    ],
-    Tuple[Tuple[None, None, None], Tuple[None, None, None], Tuple[None, None, None]],
+) -> Tuple[
+    Tuple[Optional[np.ndarray], Optional[int], Optional[np.ndarray]],
+    Tuple[Optional[np.ndarray], Optional[int], Optional[np.ndarray]],
+    Tuple[Optional[np.ndarray], Optional[int], Optional[np.ndarray]],
+    Optional[str],
 ]:
     """Load ECG, PPG and respiration dataframes from BIDS folder given participant_id,
     session and pattern names.
@@ -52,10 +50,11 @@ def import_data(
     (
         (ecg, ecg_sfreq, ecg_events_idx),
         (ppg, ppg_sfreq, ppg_events_idx),
-        (rsp, rsp_sfreq, rsp_events_idx)
-        ) : tuples
+        (rsp, rsp_sfreq, rsp_events_idx),
+        file_name
+        ) : tuple
         Tuples of signal, sampling frequency and events indexs for ECG, PPG and
-        respiration.
+        respiration with the file name from the BIDS folder.
 
     ecg, ppg, rsp : np.ndarray | None
         The ECG, PPG and respiration signals as Numpy arrays (when available). Otherwise
@@ -66,6 +65,9 @@ def import_data(
     ecg_events_idx, ppg_events_idx, rsp_events_idx : list | np.ndarray | None
         The ECG, PPG and respiration events associated with the signals (when available).
         Otherwise returns `None`.
+    file_name : str | None
+        File name that will be used to save the results in the corresponding derivative
+        folder.
 
     """
     # Initialize default results
@@ -90,6 +92,7 @@ def import_data(
             (ecg, ecg_sfreq, ecg_events_idx),
             (ppg, ppg_sfreq, ppg_events_idx),
             (rsp, rsp_sfreq, rsp_events_idx),
+            None,
         )
     elif len(physio_files) > 1:
         print(
@@ -99,6 +102,7 @@ def import_data(
             (ecg, ecg_sfreq, ecg_events_idx),
             (ppg, ppg_sfreq, ppg_events_idx),
             (rsp, rsp_sfreq, rsp_events_idx),
+            None,
         )
 
     json_files = list(
@@ -110,6 +114,9 @@ def import_data(
     # Get the unique path for this recording
     json_file = json_files[0]
     physio_file = physio_files[0]
+
+    # Extract the file name (remove the "physio.tsv.gz" suffix)
+    file_name = physio_file.name[:-14]
 
     # Opening JSON file to find the sampling frequency
     f = open(json_file)
@@ -180,6 +187,7 @@ def import_data(
         (ecg, ecg_sfreq, ecg_events_idx),
         (ppg, ppg_sfreq, ppg_events_idx),
         (rsp, rsp_sfreq, rsp_events_idx),
+        file_name,
     )
 
 
@@ -224,6 +232,7 @@ def create_reports(
         (ecg, ecg_sfreq, ecg_events_idx),
         (ppg, ppg_sfreq, ppg_events_idx),
         (rsp, rsp_sfreq, rsp_events_idx),
+        file_name,
     ) = import_data(
         participant_id=participant_id,
         bids_folder=bids_folder,
@@ -283,4 +292,5 @@ def create_reports(
         rsp=rsp,
         rsp_sfreq=rsp_sfreq,
         rsp_events_idx=rsp_events_idx,
+        file_name=file_name,
     )

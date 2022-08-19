@@ -74,14 +74,19 @@ def subject_level_report(
         If `False` (default), the individual report shows the instantaneous heart rate
         without the raw signal to save memory, otherwise will show both.
     file_name : path-like
-        File name used to save derivatives.
+        File name used to save derivatives. By default (e.g. using the command line
+        tool), the name will be the same than the input files found in the BIDS folder.
+        If `None` is provided, a custom file name will be created using the following:
+
+        .. code:: python
+          f"{participant_id}_{session}_{pattern}"
+
     template_file : str
         Path to the HTML template to use for individual reports.
 
     Returns
     -------
-
-    This function will save the following files in the report folder::
+    This function will save the following files in the report folder:
         summary_df : pd.DataFrame
             Summary HRV statistics (time, frequency and nonlinear domain). Save the
             dataframe as a `.tsv` file in the `result_folder`.
