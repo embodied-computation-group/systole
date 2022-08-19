@@ -28,7 +28,7 @@
 
 ================
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/logo.png
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/logo.png
    :align: center
 
 ================
