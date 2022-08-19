@@ -135,27 +135,51 @@ def wrapper(
 
         for pattern in patterns:
 
+            # Extract the file name pattern used to save the individual reports
+            # Loop through all participants and try to find the corresponding file
+            for participant in participants_id:
+                physio_files = list(
+                    Path(bids_folder, participant, session, modality).glob(
+                        f"**/*{pattern}*_physio.tsv.gz"
+                    )
+                )
+                if len(physio_files) > 0:
+                    break
+
+            if len(physio_files) == 0:
+                print(
+                    (
+                        f"No individual reports found for session: {session}"
+                        f" with pattern: {pattern}"
+                    )
+                )
+                continue
+
+            physio_file = physio_files[0]
+            file_name = physio_file.name[:-14]
+            file_name = f"ses-{file_name.split('ses-', 1)[1]}"
+
             # Output file name
             html_filename = Path(
                 result_folder,
-                f"group_level_{session}_modality-{modality}_{pattern}.html",
+                f"group_level_{file_name}.html",
             )
 
             # Output file name
             df_filename = Path(
                 result_folder,
-                f"group_level_{session}_modality-{modality}_{pattern}.tsv",
+                f"group_level_{file_name}.tsv",
             )
 
             # Gather individual metrics
             summary_df = pd.DataFrame([])
-            for sub in participants_id:
+            for participant in participants_id:
                 summary_file = Path(
                     result_folder,
-                    sub,
+                    participant,
                     session,
                     modality,
-                    f"{sub}_{session}_{pattern}_features.tsv",
+                    f"{participant}_{file_name}_features.tsv",
                 )
 
                 if summary_file.exists():
