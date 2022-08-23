@@ -289,46 +289,13 @@ class Editor:
         if viewer is not None:
             self.viewer = viewer
 
-        if physio_file:
-            self.physio_file = Path(physio_file)
-            self.json_file = Path(json_file)
-        else:
-            self.physio_file = list(
-                Path(
-                    self.input_folder,
-                    str(self.participant_id),
-                    str(self.session),
-                    self.modality,
-                ).glob(f"*{self.pattern}*_physio.tsv.gz")
-            )[0]
-            self.json_file = list(
-                Path(
-                    self.input_folder,
-                    str(self.participant_id),
-                    str(self.session),
-                    self.modality,
-                ).glob(f"*{self.pattern}*.json")
-            )[0]
+        self.figsize = figsize
 
-        print(f"Loading {self.physio_file}")
-
-        # Opening JSON file and extract metadata
-        f = open(self.json_file)
-        json_data = json.load(f)
-
-        self.sfreq = json_data["SamplingFrequency"]
-        self.input_columns_names = json_data["Columns"]
-
-        try:
-            self.recording_start_time = json_data["StartTime"]
-            self.recording_end_time = json_data["EndTime"]
-        except KeyError:
-            self.recording_start_time, self.recording_end_time = None, None
-
-        f.close()
-
-        # Load the signal and perform peaks detection
-        self.load_signal()
+        # Load the physio files and store parameters, then load the signal from the
+        # physio file and perform peaks detection
+        self = self.load_file(
+            physio_file=physio_file, json_file=json_file
+        ).load_signal()
 
         # Create a time vector from signal length and convert it to Matplotlib ax values
         self.time = pd.to_datetime(
@@ -336,39 +303,45 @@ class Editor:
         )
         self.x_vec = date2num(self.time)
 
-        # Create the main plot_raw instance
-        self.fig, self.ax = plt.subplots(nrows=2, figsize=figsize, sharex=True)
-        plot_raw(
-            signal=self.signal,
-            peaks=self.peaks,
-            modality="ppg",
-            backend="matplotlib",
-            show_heart_rate=True,
-            show_artefacts=True,
-            sfreq=1000,
-            ax=[self.ax[0], self.ax[1]],
-        )
-        self.fig.canvas.mpl_connect("key_press_event", self.on_key)
+        # If a signal is available, call the main plotting method
+        if self.initial_peaks is not None:
 
-        # two selectors for rejection (left mouse) and deletion (right mouse)
-        self.delete = functools.partial(self.on_remove)
-        self.span1 = SpanSelector(
-            self.ax[0],
-            self.delete,
-            "horizontal",
-            button=1,
-            props=dict(facecolor="red", alpha=0.2),
-            useblit=True,
-        )
-        self.add = functools.partial(self.on_add)
-        self.span2 = SpanSelector(
-            self.ax[0],
-            self.add,
-            "horizontal",
-            button=3,
-            props=dict(facecolor="green", alpha=0.2),
-            useblit=True,
-        )
+            # Create the main plot_raw instance
+            self.fig, self.ax = plt.subplots(nrows=2, figsize=self.figsize, sharex=True)
+
+            plot_raw(
+                signal=self.signal,
+                peaks=self.peaks,
+                modality="ppg",
+                backend="matplotlib",
+                show_heart_rate=True,
+                show_artefacts=True,
+                sfreq=1000,
+                ax=[self.ax[0], self.ax[1]],
+            )
+
+            self = self.plot_signals()
+            self.fig.canvas.mpl_connect("key_press_event", self.on_key)
+
+            # two selectors for rejection (left mouse) and deletion (right mouse)
+            self.delete = functools.partial(self.on_remove)
+            self.span1 = SpanSelector(
+                self.ax[0],
+                self.delete,
+                "horizontal",
+                button=1,
+                props=dict(facecolor="red", alpha=0.2),
+                useblit=True,
+            )
+            self.add = functools.partial(self.on_add)
+            self.span2 = SpanSelector(
+                self.ax[0],
+                self.add,
+                "horizontal",
+                button=3,
+                props=dict(facecolor="green", alpha=0.2),
+                useblit=True,
+            )
 
     def on_remove(self, xmin, xmax):
         """Removes specified peaks by either rejection / deletion"""
@@ -400,7 +373,7 @@ class Editor:
             self.ax[0].set_xlim(xlo + step, xhi + step)
             self.fig.canvas.draw()
 
-    def plot_signals(self, plot=True):
+    def plot_signals(self):
         """Clears axes and plots data / peaks / troughs."""
 
         # Clear axes and redraw, retaining x-/y-axis zooms
@@ -442,7 +415,26 @@ class Editor:
             useblit=True,
         )
 
+        # Customize the plot a bit
+        for ax in self.ax:
+            ax.spines.right.set_visible(False)
+            ax.spines.top.set_visible(False)
+            ax.tick_params(
+                direction="in",
+                width=1.5,
+                which="major",
+                size=8,
+            )
+            ax.tick_params(direction="in", width=1, which="minor", size=4)
+            ax.grid(which="major", alpha=0.5, linewidth=0.5)
+        # self.fig.set_tight_layout()
+        # plt.margins(x=0, y=0)
+        # plt.minorticks_on()
+        # plt.subplots_adjust(left=0.1, bottom=0.1, right=0.1, top=0.1)
+
         self.fig.canvas.draw()
+
+        return self
 
     def quit(self):
         """Quits editor"""
@@ -486,6 +478,7 @@ class Editor:
     def load_signal(self):
         """Load the correct signal and perform peaks detection given the modality."""
 
+        self.initial_peaks = None
         self.data = pd.read_csv(
             self.physio_file,
             sep="\t",
@@ -529,3 +522,50 @@ class Editor:
                 signal=self.input_signal, sfreq=self.sfreq
             )
             self.initial_peaks = self.peaks.copy()
+
+        return self
+
+    def load_file(
+        self, physio_file: Union[str, PathLike], json_file: Union[str, PathLike]
+    ):
+        """Load the physio files."""
+
+        if physio_file:
+            self.physio_file = Path(physio_file)
+            self.json_file = Path(json_file)
+        else:
+            self.physio_file = list(
+                Path(
+                    self.input_folder,
+                    str(self.participant_id),
+                    str(self.session),
+                    self.modality,
+                ).glob(f"*{self.pattern}*_physio.tsv.gz")
+            )[0]
+            self.json_file = list(
+                Path(
+                    self.input_folder,
+                    str(self.participant_id),
+                    str(self.session),
+                    self.modality,
+                ).glob(f"*{self.pattern}*.json")
+            )[0]
+
+        print(f"Loading {self.physio_file}")
+
+        # Opening JSON file and extract metadata
+        f = open(self.json_file)
+        json_data = json.load(f)
+
+        self.sfreq = json_data["SamplingFrequency"]
+        self.input_columns_names = json_data["Columns"]
+
+        try:
+            self.recording_start_time = json_data["StartTime"]
+            self.recording_end_time = json_data["EndTime"]
+        except KeyError:
+            self.recording_start_time, self.recording_end_time = None, None
+
+        f.close()
+
+        return self
