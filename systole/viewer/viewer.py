@@ -13,7 +13,7 @@ import pandas as pd
 from matplotlib.dates import date2num
 from matplotlib.widgets import SpanSelector
 
-from systole.detection import ppg_peaks
+from systole.detection import ecg_peaks, ppg_peaks, rsp_peaks
 from systole.plots import plot_raw
 
 
@@ -216,6 +216,7 @@ class Viewer:
                 session=self.session_.value,
                 modality=self.modality_.value,
                 figsize=self.figsize,
+                viewer=self,
             )
             plt.show()
 
@@ -233,8 +234,7 @@ class Viewer:
 
 
 class Editor:
-    """Class for creating a plot of signal and instantaneous frequency for manually
-    editing peaks vectors.
+    """Class for visualization and manual edition of peaks vectors.
 
     Parameters
     ----------
@@ -258,6 +258,8 @@ class Editor:
     figsize : tuple
         The size of the interactive Matplotlib figure for peaks edition. Defaults to
         `(15, 7)`.
+    viewer : :py:class`systole.viewer.Viewer` instance | None
+        The viewer instance from which the editor is called.
 
     """
 
@@ -271,6 +273,7 @@ class Editor:
         physio_file: Union[str, PathLike] = "",
         json_file: Union[str, PathLike] = "",
         figsize: Tuple[int, int] = (15, 7),
+        viewer: Optional[Viewer] = None,
     ) -> None:
 
         if input_folder is not None:
@@ -283,6 +286,8 @@ class Editor:
             self.session = session
         if modality is not None:
             self.modality = modality
+        if viewer is not None:
+            self.viewer = viewer
 
         if physio_file:
             self.physio_file = Path(physio_file)
@@ -322,16 +327,8 @@ class Editor:
 
         f.close()
 
-        self.input_signal = pd.read_csv(
-            self.physio_file,
-            sep="\t",
-            compression="gzip",
-            names=self.input_columns_names,
-        )["cardiac"]
-
-        # Peaks detection on the input signal
-        self.signal, self.peaks = ppg_peaks(signal=self.input_signal, sfreq=self.sfreq)
-        self.initial_peaks = self.peaks.copy()
+        # Load the signal and perform peaks detection
+        self.load_signal()
 
         # Create a time vector from signal length and convert it to Matplotlib ax values
         self.time = pd.to_datetime(
@@ -485,3 +482,50 @@ class Editor:
 
         with open(self.corrected_json_file, "w") as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
+
+    def load_signal(self):
+        """Load the correct signal and perform peaks detection given the modality."""
+
+        self.data = pd.read_csv(
+            self.physio_file,
+            sep="\t",
+            compression="gzip",
+            names=self.input_columns_names,
+        )
+
+        if self.viewer.signal_type_.value == "ECG":
+            ecg_names = ["ecg", "ekg", "cardiac"]
+            ecg_col = [col for col in self.data.columns if col in ecg_names]
+            ecg_col = ecg_col[0] if len(ecg_col) > 0 else None
+
+            self.input_signal = self.data[ecg_col].to_numpy()
+
+            # Peaks detection on the input signal
+            self.signal, self.peaks = ecg_peaks(
+                signal=self.input_signal, sfreq=self.sfreq
+            )
+            self.initial_peaks = self.peaks.copy()
+        elif self.viewer.signal_type_.value == "PPG":
+            ppg_names = ["ppg", "photoplethysmography", "pulse", "PLETH"]
+            ppg_col = [col for col in self.data.columns if col in ppg_names]
+            ppg_col = ppg_col[0] if len(ppg_col) > 0 else None
+
+            self.input_signal = self.data[ppg_col].to_numpy()
+
+            # Peaks detection on the input signal
+            self.signal, self.peaks = ppg_peaks(
+                signal=self.input_signal, sfreq=self.sfreq
+            )
+            self.initial_peaks = self.peaks.copy()
+        elif self.viewer.signal_type_.value == "RESP":
+            res_names = ["res", "rsp", "respiration", "resp"]
+            res_col = [col for col in self.data.columns if col in res_names]
+            res_col = res_col[0] if len(res_col) > 0 else None
+
+            self.input_signal = self.data[res_col].to_numpy()
+
+            # Peaks detection on the input signal
+            self.signal, self.peaks = rsp_peaks(
+                signal=self.input_signal, sfreq=self.sfreq
+            )
+            self.initial_peaks = self.peaks.copy()
