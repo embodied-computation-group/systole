@@ -14,6 +14,8 @@
    .. autosummary::
    
       ~Editor.__init__
+      ~Editor.load_file
+      ~Editor.load_signal
       ~Editor.on_add
       ~Editor.on_key
       ~Editor.on_remove
