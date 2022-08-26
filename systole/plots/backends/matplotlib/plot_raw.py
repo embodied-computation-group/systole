@@ -36,7 +36,7 @@ def plot_raw(
     peaks : :py:class:`numpy.ndarray`
         The peaks or R wave detection (1d boolean array).
     modality : str
-        The recording modality. Can be `"ppg"` or `"ecg"`.
+        The recording modality. Can be `"ppg"`, `"ecg"` or `"resp"`.
     show_heart_rate : bool
         If `True`, create a second row and plot the instantanesou heart rate
         derived from the physiological signal
@@ -139,8 +139,6 @@ def plot_raw(
             ax=hr_ax,
             events_params=events_params,
         )
-
-        plt.tight_layout()
 
         return signal_ax, hr_ax
 

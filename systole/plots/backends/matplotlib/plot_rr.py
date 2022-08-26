@@ -214,6 +214,6 @@ def plot_rr(
     ax.set_title("Instantaneous heart rate")
     ax.set_xlabel("Time")
     ax.set_ylabel(ylabel)
-    ax.legend()
+    ax.legend(loc="upper right")
 
     return ax

@@ -7,7 +7,7 @@ import pandas as pd
 from bokeh.plotting.figure import Figure
 from matplotlib.axes import Axes
 
-from systole.detection import ecg_peaks, ppg_peaks
+from systole.detection import ecg_peaks, ppg_peaks, rsp_peaks
 from systole.plots.utils import get_plotting_function
 
 
@@ -46,9 +46,9 @@ def plot_raw(
     sfreq : int
         Signal sampling frequency. Default is set to 1000 Hz.
     modality : str
-        The type of signal provided. Can be ``'ppg'`` (pulse oximeter) or `'ecg'`
-        (electrocardiography). The peak detection algorithm used depend on the type of
-        signal provided.
+        The type of signal provided. Can be `'ppg'` (pulse oximeter), `'ecg'`
+        (electrocardiography) or `'resp'`. This parameter will control the type of
+        peak detection algorithm to use. Only relevant if `peaks` is not provided.
     ecg_method : str
         Peak detection algorithm used by the
         :py:func:`systole.detection.ecg_peaks` function. Can be one of the following:
@@ -146,28 +146,48 @@ def plot_raw(
     if peaks is None:
 
         if isinstance(signal, pd.DataFrame):
+
             # Find peaks - Remove learning phase
             if modality == "ppg":
                 signal, peaks = ppg_peaks(
-                    signal.ppg, moving_average=False, sfreq=sfreq, **kwargs
+                    signal=signal.ppg, moving_average=False, sfreq=sfreq, **kwargs
+                )
+            elif modality == "resp":
+                signal, (peaks, troughs) = rsp_peaks(
+                    signal=signal.resp, sfreq=sfreq, **kwargs
                 )
             elif modality == "ecg":
                 signal, peaks = ecg_peaks(
-                    signal.ecg,
+                    signal=signal.ecg,
                     method=ecg_method,
                     find_local=True,
                     sfreq=sfreq,
                     **kwargs
                 )
+            else:
+                raise ValueError(
+                    "Invalid modality parameter. Should be 'ecg', 'ppg' or 'resp'."
+                )
         else:
             if modality == "ppg":
                 signal, peaks = ppg_peaks(
-                    signal, moving_average=False, sfreq=sfreq, **kwargs
+                    signal=signal, moving_average=False, sfreq=sfreq, **kwargs
+                )
+            elif modality == "resp":
+                signal, (peaks, troughs) = rsp_peaks(
+                    signal=signal, sfreq=sfreq, **kwargs
                 )
             elif modality == "ecg":
                 signal, peaks = ecg_peaks(
-                    signal, method=ecg_method, sfreq=sfreq, find_local=True, **kwargs
+                    signal=signal,
+                    method=ecg_method,
+                    sfreq=sfreq,
+                    find_local=True,
+                    **kwargs
                 )
+            raise ValueError(
+                "Invalid modality parameter. Should be 'ecg', 'ppg' or 'resp'."
+            )
 
     time = pd.to_datetime(np.arange(0, len(signal)), unit="ms", origin="unix")
 
