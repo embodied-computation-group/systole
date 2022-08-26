@@ -123,6 +123,12 @@ class Viewer:
             disabled=False,
             layout=widgets.Layout(width="250px"),
         )
+        self.edition_ = widgets.ToggleButtons(
+            options=["Correction", "Rejection"], diabled=False
+        )
+        self.rejection_ = widgets.Checkbox(
+            value=True, descrition="Valid recording", disabled=False, indent=True
+        )
 
         # Update the participant list from the BIDS parameters
         try:
@@ -180,7 +186,9 @@ class Viewer:
             ]
         )
 
-        self.commands_box = widgets.HBox([self.save_button_])
+        self.commands_box = widgets.HBox(
+            [self.edition_, self.rejection_, self.save_button_]
+        )
 
         self.output = widgets.Output()
 
@@ -231,12 +239,11 @@ class Viewer:
         folder."""
         # Save the new JSON file
         self.editor.save(output_folder=self.output_folder_.value)
-
+        self.output.clear_output()
         # Printing saving message
-        with self.output:
-            print(
-                f"Saving participant {self.participants_.value} in {self.output_folder_.value} completed."
-            )
+        print(
+            f"Saving participant {self.participants_.value} in {self.output_folder_.value} completed."
+        )
 
 
 class Editor:
@@ -360,11 +367,19 @@ class Editor:
             )
 
     def on_remove(self, xmin, xmax):
-        """Removes specified peaks by either rejection / deletion"""
+        """Removes specified peaks by either rejection / deletion, or mark bad
+        segments."""
+
         # Get the interval in sample idexes
-        tmin, tmax = np.searchsorted(self.x_vec, (xmin, xmax))
-        self.peaks[tmin:tmax] = False
-        self.plot_signals()
+        if self.viewer.edition_.value == "Correction":
+
+            tmin, tmax = np.searchsorted(self.x_vec, (xmin, xmax))
+            self.peaks[tmin:tmax] = False
+            self.plot_signals()
+
+        elif self.viewer.edition_.value == "Rejection":
+            tmin, tmax = np.searchsorted(self.x_vec, (xmin, xmax))
+            self.bad_segments.append((tmin, tmax))
 
     def on_add(self, xmin, xmax):
         """Add a new peak on the maximum signal value from the selected range."""
@@ -402,7 +417,7 @@ class Editor:
             plot_raw(
                 signal=self.signal,
                 peaks=self.peaks,
-                modality="ppg",
+                modality=self.viewer.signal_type_.value.lower(),
                 backend="matplotlib",
                 show_heart_rate=True,
                 show_artefacts=True,
@@ -445,10 +460,10 @@ class Editor:
                 )
                 ax.tick_params(direction="in", width=1, which="minor", size=4)
                 ax.grid(which="major", alpha=0.5, linewidth=0.5)
-            # self.fig.set_tight_layout()
-            # plt.margins(x=0, y=0)
-            # plt.minorticks_on()
-            # plt.subplots_adjust(left=0.1, bottom=0.1, right=0.1, top=0.1)
+            self.fig.set_tight_layout()
+            plt.margins(x=0, y=0)
+            plt.minorticks_on()
+            plt.subplots_adjust(left=0.1, bottom=0.1, right=0.1, top=0.1)
 
             self.fig.canvas.draw()
 
@@ -491,14 +506,14 @@ class Editor:
 
         # Create the JSON metadata and save it in the corrected derivative folder
         corrected_info = {
+            "valid": self.viewer.rejection_.value,
             "add_idx": add_idx,
             "remove_idx": remove_idx,
-            "bads": {"start": None, "end": None},
+            "bad_segments": self.bad_segments,
         }
         metadata[self.viewer.signal_type_.value] = corrected_info
 
-        with open(self.corrected_json_file, "w") as f:
-            json.dump(metadata, f, ensure_ascii=False, indent=4)
+        json.dump(metadata, f, ensure_ascii=False, indent=4)
 
     def load_signal(self):
         """Find the signal in the physiological recording and perform peaks detection
@@ -507,6 +522,7 @@ class Editor:
         """
         self.data = None
         self.peaks = None
+        self.bad_segments = []
         self.signal = None
         self.input_signal = None
         self.initial_peaks = None
@@ -527,7 +543,7 @@ class Editor:
             ecg_col = ecg_col[0] if len(ecg_col) > 0 else None
 
             self.input_signal = self.data[ecg_col].to_numpy()
-            print(self.input_signal)
+
             # Peaks detection on the input signal
             self.signal, self.peaks = ecg_peaks(
                 signal=self.input_signal, sfreq=self.sfreq
@@ -602,17 +618,30 @@ class Editor:
                 self.physio_file, self.json_file = None, None
             elif len(physio_files) > 1:
                 self.physio_file, self.json_file = None, None
-                print("More than one recording match the string pattern.")
+                print(
+                    "More than one recording match the provided string pattern."
+                    "Use a more explicit/longer string pattern to find your recording."
+                )
             else:
                 self.physio_file = physio_files[0]
-                self.json_file = list(
+                json_files = list(
                     Path(
                         self.input_folder,
                         str(self.participant_id),
                         str(self.session),
                         self.modality,
-                    ).glob(f"*{self.pattern}*.json")
-                )[0]
+                    ).glob(f"*{self.pattern}*_physio.json")
+                )
+                if len(json_files) == 0:
+                    self.physio_file, self.json_file = None, None
+                elif len(json_files) > 1:
+                    self.physio_file, self.json_file = None, None
+                    print(
+                        "More than one JSON file match the provided string pattern."
+                        "Use a more explicit/longer string pattern to find your recording."
+                    )
+                else:
+                    self.json_file = json_files[0]
 
         if self.json_file is not None:
 
@@ -633,6 +662,8 @@ class Editor:
 
         if physio_file is None:
             print("No physiological recording found for this participant.")
+        elif json_file is None:
+            print("No JSON file found for this participant.")
         else:
             print(f"Loading {self.physio_file}")
 
