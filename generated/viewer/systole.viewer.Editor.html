@@ -503,6 +503,18 @@ the selection of possible physio files, in case the folders contains many
 </dd>
 </dl>
 </dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>initial_peaks</strong><span class="classifier">np.ndarray</span></dt><dd><p>The peaks vector as detected using the default peaks detection algorithm.</p>
+</dd>
+<dt><strong>peaks</strong><span class="classifier">np.ndarray</span></dt><dd><p>The corrected peaks vector after manual insertion/deletion.</p>
+</dd>
+<dt><strong>physio_file</strong><span class="classifier">PathLike | None</span></dt><dd><p>Path to the physiological recording.</p>
+</dd>
+<dt><strong>json_file</strong><span class="classifier">PathLike | None</span></dt><dd><p>Path to the sidecar JSON file.</p>
+</dd>
+</dl>
+</dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="systole.viewer.Editor.__init__">
@@ -523,7 +535,7 @@ the selection of possible physio files, in case the folders contains many
 <td><p>Load the physio files.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_signal</span></code>()</p></td>
-<td><p>Load the correct signal and perform peaks detection given the modality.</p></td>
+<td><p>Find the signal in the physiological recording and perform peaks detection given the modality.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">on_add</span></code>(xmin, xmax)</p></td>
 <td><p>Add a new peak on the maximum signal value from the selected range.</p></td>

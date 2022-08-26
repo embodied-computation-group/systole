@@ -250,6 +250,8 @@
 <span class="sd">    signal_type : str | PathLike</span>
 <span class="sd">       The type of signal that are being analyzed. Can be `&quot;PPG&quot;`, `&quot;ECG&quot;` or `&quot;RESP&quot;`.</span>
 <span class="sd">       Defaults to `&quot;PPG&quot;`.</span>
+<span class="sd">    participant_id : str | None</span>
+<span class="sd">        The participant ID as registered in the BIDS folder.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -267,6 +269,7 @@
         <span class="n">modality</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PathLike</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;beh&quot;</span><span class="p">,</span>
         <span class="n">pattern</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PathLike</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;task-&quot;</span><span class="p">,</span>
         <span class="n">signal_type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PathLike</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;PPG&quot;</span><span class="p">,</span>
+        <span class="n">participant_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">figsize</span> <span class="o">=</span> <span class="n">figsize</span>
@@ -278,7 +281,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">bids_path</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Textarea</span><span class="p">(</span>
             <span class="n">value</span><span class="o">=</span><span class="n">input_folder</span><span class="p">,</span>
             <span class="n">placeholder</span><span class="o">=</span><span class="s2">&quot;Type something&quot;</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;BIDS folders:&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Input:&quot;</span><span class="p">,</span>
             <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;250px&quot;</span><span class="p">),</span>
         <span class="p">)</span>
@@ -321,7 +324,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">output_folder_</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Textarea</span><span class="p">(</span>
             <span class="n">value</span><span class="o">=</span><span class="n">output_folder</span><span class="p">,</span>
             <span class="n">placeholder</span><span class="o">=</span><span class="s2">&quot;Type something&quot;</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Output folder:&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Output:&quot;</span><span class="p">,</span>
             <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;250px&quot;</span><span class="p">),</span>
         <span class="p">)</span>
@@ -349,9 +352,11 @@
             <span class="p">]</span>
         <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;sub-&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">participant_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">participant_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">participants_</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
             <span class="n">options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span><span class="p">,</span>
-            <span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">value</span><span class="o">=</span><span class="n">participant_id</span><span class="p">,</span>
             <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Participant ID&quot;</span><span class="p">,</span>
             <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;200px&quot;</span><span class="p">),</span>
         <span class="p">)</span>
@@ -361,14 +366,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">session_</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update_list</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">modality_</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update_list</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pattern_</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update_list</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">signal_type_</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plot_signal</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">participants_</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plot_signal</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">save_button_</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
 
         <span class="c1"># Show the navigator and main plot</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Output</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">io_box</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">(</span>
             <span class="p">[</span>
                 <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">(</span>
                     <span class="p">[</span>
@@ -376,18 +379,21 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">session_</span><span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">participants_</span><span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">modality_</span><span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">pattern_</span><span class="p">,</span>
                     <span class="p">]</span>
                 <span class="p">),</span>
-                <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">save_button_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_folder_</span><span class="p">]),</span>
+                <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal_type_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_folder_</span><span class="p">]),</span>
             <span class="p">]</span>
         <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">commands_box</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">save_button_</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Output</span><span class="p">()</span>
 
         <span class="c1"># Plot the first pysio file if any</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">plot_signal</span><span class="p">(</span><span class="n">change</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">update_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">change</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Updating the input files when the dropdown menues are used.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Updating the list of participants when the text boxes are used.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bids_path</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;participants.tsv&quot;</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="o">.</span><span class="n">participant_id</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
@@ -466,6 +472,17 @@
 <span class="sd">    viewer : :py:class`systole.viewer.Viewer` instance | None</span>
 <span class="sd">        The viewer instance from which the editor is called.</span>
 
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    initial_peaks : np.ndarray</span>
+<span class="sd">        The peaks vector as detected using the default peaks detection algorithm.</span>
+<span class="sd">    peaks : np.ndarray</span>
+<span class="sd">        The corrected peaks vector after manual insertion/deletion.</span>
+<span class="sd">    physio_file : PathLike | None</span>
+<span class="sd">        Path to the physiological recording.</span>
+<span class="sd">    json_file : PathLike | None</span>
+<span class="sd">        Path to the sidecar JSON file.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Editor.__init__"><a class="viewcode-back" href="../../../generated/viewer/systole.viewer.Editor.html#systole.viewer.Editor.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -502,21 +519,21 @@
             <span class="n">physio_file</span><span class="o">=</span><span class="n">physio_file</span><span class="p">,</span> <span class="n">json_file</span><span class="o">=</span><span class="n">json_file</span>
         <span class="p">)</span><span class="o">.</span><span class="n">load_signal</span><span class="p">()</span>
 
-        <span class="c1"># Create a time vector from signal length and convert it to Matplotlib ax values</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="p">)),</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;ms&quot;</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s2">&quot;unix&quot;</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">x_vec</span> <span class="o">=</span> <span class="n">date2num</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
-
         <span class="c1"># If a signal is available, call the main plotting method</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_peaks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="c1"># Create a time vector from signal length and convert it to Matplotlib ax values</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="p">)),</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;ms&quot;</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s2">&quot;unix&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x_vec</span> <span class="o">=</span> <span class="n">date2num</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
 
             <span class="c1"># Create the main plot_raw instance</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">figsize</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
             <span class="n">plot_raw</span><span class="p">(</span>
                 <span class="n">signal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="p">,</span>
-                <span class="n">peaks</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="p">,</span>
+                <span class="n">peaks</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_peaks</span><span class="p">,</span>
                 <span class="n">modality</span><span class="o">=</span><span class="s2">&quot;ppg&quot;</span><span class="p">,</span>
                 <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;matplotlib&quot;</span><span class="p">,</span>
                 <span class="n">show_heart_rate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -525,7 +542,6 @@
                 <span class="n">ax</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
             <span class="p">)</span>
 
-            <span class="bp">self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_signals</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">mpl_connect</span><span class="p">(</span><span class="s2">&quot;key_press_event&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_key</span><span class="p">)</span>
 
             <span class="c1"># two selectors for rejection (left mouse) and deletion (right mouse)</span>
@@ -581,65 +597,67 @@
     <span class="k">def</span> <span class="nf">plot_signals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Clears axes and plots data / peaks / troughs.&quot;&quot;&quot;</span>
 
-        <span class="c1"># Clear axes and redraw, retaining x-/y-axis zooms</span>
-        <span class="n">xlim</span><span class="p">,</span> <span class="n">ylim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
-        <span class="n">xlim2</span><span class="p">,</span> <span class="n">ylim2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-        <span class="n">plot_raw</span><span class="p">(</span>
-            <span class="n">signal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="p">,</span>
-            <span class="n">peaks</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="p">,</span>
-            <span class="n">modality</span><span class="o">=</span><span class="s2">&quot;ppg&quot;</span><span class="p">,</span>
-            <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;matplotlib&quot;</span><span class="p">,</span>
-            <span class="n">show_heart_rate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">show_artefacts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">sfreq</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-            <span class="n">ax</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">xlim2</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">ylim2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 
-        <span class="c1"># Show span selectors</span>
-        <span class="c1"># two selectors for rejection (left mouse) and deletion (right mouse)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delete</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">on_remove</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">span1</span> <span class="o">=</span> <span class="n">SpanSelector</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">delete</span><span class="p">,</span>
-            <span class="s2">&quot;horizontal&quot;</span><span class="p">,</span>
-            <span class="n">button</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="n">props</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
-            <span class="n">useblit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">on_add</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">span2</span> <span class="o">=</span> <span class="n">SpanSelector</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">,</span>
-            <span class="s2">&quot;horizontal&quot;</span><span class="p">,</span>
-            <span class="n">button</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-            <span class="n">props</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
-            <span class="n">useblit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="c1"># Customize the plot a bit</span>
-        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span>
-                <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;in&quot;</span><span class="p">,</span>
-                <span class="n">width</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
-                <span class="n">which</span><span class="o">=</span><span class="s2">&quot;major&quot;</span><span class="p">,</span>
-                <span class="n">size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="c1"># Clear axes and redraw, retaining x-/y-axis zooms</span>
+            <span class="n">xlim</span><span class="p">,</span> <span class="n">ylim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+            <span class="n">xlim2</span><span class="p">,</span> <span class="n">ylim2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="n">plot_raw</span><span class="p">(</span>
+                <span class="n">signal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="p">,</span>
+                <span class="n">peaks</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="p">,</span>
+                <span class="n">modality</span><span class="o">=</span><span class="s2">&quot;ppg&quot;</span><span class="p">,</span>
+                <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;matplotlib&quot;</span><span class="p">,</span>
+                <span class="n">show_heart_rate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">show_artefacts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">sfreq</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+                <span class="n">ax</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
             <span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;minor&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s2">&quot;major&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-        <span class="c1"># self.fig.set_tight_layout()</span>
-        <span class="c1"># plt.margins(x=0, y=0)</span>
-        <span class="c1"># plt.minorticks_on()</span>
-        <span class="c1"># plt.subplots_adjust(left=0.1, bottom=0.1, right=0.1, top=0.1)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">xlim2</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">ylim2</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+            <span class="c1"># Show span selectors</span>
+            <span class="c1"># two selectors for rejection (left mouse) and deletion (right mouse)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">delete</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">on_remove</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">span1</span> <span class="o">=</span> <span class="n">SpanSelector</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">delete</span><span class="p">,</span>
+                <span class="s2">&quot;horizontal&quot;</span><span class="p">,</span>
+                <span class="n">button</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">props</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
+                <span class="n">useblit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">on_add</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">span2</span> <span class="o">=</span> <span class="n">SpanSelector</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">,</span>
+                <span class="s2">&quot;horizontal&quot;</span><span class="p">,</span>
+                <span class="n">button</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="n">props</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
+                <span class="n">useblit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span>
+            <span class="c1"># Customize the plot a bit</span>
+            <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span>
+                    <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;in&quot;</span><span class="p">,</span>
+                    <span class="n">width</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+                    <span class="n">which</span><span class="o">=</span><span class="s2">&quot;major&quot;</span><span class="p">,</span>
+                    <span class="n">size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;minor&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s2">&quot;major&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+            <span class="c1"># self.fig.set_tight_layout()</span>
+            <span class="c1"># plt.margins(x=0, y=0)</span>
+            <span class="c1"># plt.minorticks_on()</span>
+            <span class="c1"># plt.subplots_adjust(left=0.1, bottom=0.1, right=0.1, top=0.1)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+
+            <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">quit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Quits editor&quot;&quot;&quot;</span>
@@ -665,31 +683,48 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">corrected_json_file</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">corrected_json_file</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">corrected_json_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="c1"># Load the existing corrected JSON data</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">corrected_json_file</span><span class="p">)</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
+
         <span class="n">add_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">peaks</span> <span class="o">&amp;</span> <span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_peaks</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
         <span class="n">remove_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">peaks</span> <span class="o">&amp;</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_peaks</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 
         <span class="c1"># Create the JSON metadata and save it in the corrected derivative folder</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;ppg&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;add_idx&quot;</span><span class="p">:</span> <span class="n">add_idx</span><span class="p">,</span>
-                <span class="s2">&quot;remove_idx&quot;</span><span class="p">:</span> <span class="n">remove_idx</span><span class="p">,</span>
-                <span class="s2">&quot;bads&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
-            <span class="p">},</span>
+        <span class="n">corrected_info</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;add_idx&quot;</span><span class="p">:</span> <span class="n">add_idx</span><span class="p">,</span>
+            <span class="s2">&quot;remove_idx&quot;</span><span class="p">:</span> <span class="n">remove_idx</span><span class="p">,</span>
+            <span class="s2">&quot;bads&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
         <span class="p">}</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">signal_type_</span><span class="o">.</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">corrected_info</span>
 
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">corrected_json_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">load_signal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Load the correct signal and perform peaks detection given the modality.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Find the signal in the physiological recording and perform peaks detection</span>
+<span class="sd">        given the modality.</span>
 
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">signal</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_signal</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">initial_peaks</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">physio_file</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">physio_file</span><span class="p">,</span>
             <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">,</span>
             <span class="n">names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">input_columns_names</span><span class="p">,</span>
         <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">signal_type_</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;ECG&quot;</span><span class="p">:</span>
             <span class="n">ecg_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ecg&quot;</span><span class="p">,</span> <span class="s2">&quot;ekg&quot;</span><span class="p">,</span> <span class="s2">&quot;cardiac&quot;</span><span class="p">]</span>
@@ -697,14 +732,16 @@
             <span class="n">ecg_col</span> <span class="o">=</span> <span class="n">ecg_col</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ecg_col</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">input_signal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ecg_col</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_signal</span><span class="p">)</span>
             <span class="c1"># Peaks detection on the input signal</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span> <span class="o">=</span> <span class="n">ecg_peaks</span><span class="p">(</span>
                 <span class="n">signal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">input_signal</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sfreq</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">initial_peaks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading electrocardiogram - sfreq=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sfreq</span><span class="si">}</span><span class="s2"> Hz.&quot;</span><span class="p">)</span>
+
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">signal_type_</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;PPG&quot;</span><span class="p">:</span>
-            <span class="n">ppg_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ppg&quot;</span><span class="p">,</span> <span class="s2">&quot;photoplethysmography&quot;</span><span class="p">,</span> <span class="s2">&quot;pulse&quot;</span><span class="p">,</span> <span class="s2">&quot;PLETH&quot;</span><span class="p">]</span>
+            <span class="n">ppg_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ppg&quot;</span><span class="p">,</span> <span class="s2">&quot;photoplethysmography&quot;</span><span class="p">,</span> <span class="s2">&quot;pulse&quot;</span><span class="p">,</span> <span class="s2">&quot;pleth&quot;</span><span class="p">,</span> <span class="s2">&quot;cardiac&quot;</span><span class="p">]</span>
             <span class="n">ppg_col</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">ppg_names</span><span class="p">]</span>
             <span class="n">ppg_col</span> <span class="o">=</span> <span class="n">ppg_col</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ppg_col</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
 
@@ -715,6 +752,8 @@
                 <span class="n">signal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">input_signal</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sfreq</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">initial_peaks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading photoplethysmogram - sfreq=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sfreq</span><span class="si">}</span><span class="s2"> Hz.&quot;</span><span class="p">)</span>
+
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">signal_type_</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;RESP&quot;</span><span class="p">:</span>
             <span class="n">res_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;res&quot;</span><span class="p">,</span> <span class="s2">&quot;rsp&quot;</span><span class="p">,</span> <span class="s2">&quot;respiration&quot;</span><span class="p">,</span> <span class="s2">&quot;resp&quot;</span><span class="p">]</span>
             <span class="n">res_col</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">res_names</span><span class="p">]</span>
@@ -723,10 +762,19 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">input_signal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">res_col</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 
             <span class="c1"># Peaks detection on the input signal</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span> <span class="o">=</span> <span class="n">rsp_peaks</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">rsp_peaks</span><span class="p">(</span>
                 <span class="n">signal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">input_signal</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sfreq</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">initial_peaks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading respiratory signal - sfreq=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sfreq</span><span class="si">}</span><span class="s2"> Hz.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># If the signal is invalid, set it to None</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_signal</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Empty signal, settings everything to None.&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">signal</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_signal</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial_peaks</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">return</span> <span class="bp">self</span>
 
@@ -735,43 +783,63 @@
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Load the physio files.&quot;&quot;&quot;</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">recording_start_time</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recording_end_time</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sfreq</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_columns_names</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">json_file</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">physio_file</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># If a path to a physio file is provided, otherwise search in the BIDS folder</span>
         <span class="k">if</span> <span class="n">physio_file</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">physio_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">physio_file</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">json_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">physio_file</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="n">physio_files</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
                 <span class="n">Path</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">input_folder</span><span class="p">,</span>
                     <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">participant_id</span><span class="p">),</span>
                     <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">),</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">modality</span><span class="p">,</span>
                 <span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;*</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="si">}</span><span class="s2">*_physio.tsv.gz&quot;</span><span class="p">)</span>
-            <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">json_file</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
-                <span class="n">Path</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">input_folder</span><span class="p">,</span>
-                    <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">participant_id</span><span class="p">),</span>
-                    <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">),</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">modality</span><span class="p">,</span>
-                <span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;*</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="si">}</span><span class="s2">*.json&quot;</span><span class="p">)</span>
-            <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">physio_files</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">physio_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_file</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">physio_files</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">physio_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_file</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;More than one recording match the string pattern.&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">physio_file</span> <span class="o">=</span> <span class="n">physio_files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">json_file</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                    <span class="n">Path</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">input_folder</span><span class="p">,</span>
+                        <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">participant_id</span><span class="p">),</span>
+                        <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">),</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">modality</span><span class="p">,</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;*</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="si">}</span><span class="s2">*.json&quot;</span><span class="p">)</span>
+                <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">physio_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 
-        <span class="c1"># Opening JSON file and extract metadata</span>
-        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">json_file</span><span class="p">)</span>
-        <span class="n">json_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="c1"># Opening JSON file and extract metadata</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">json_file</span><span class="p">)</span>
+            <span class="n">json_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">sfreq</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;SamplingFrequency&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_columns_names</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;Columns&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sfreq</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;SamplingFrequency&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_columns_names</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;Columns&quot;</span><span class="p">]</span>
 
-        <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">recording_start_time</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;StartTime&quot;</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">recording_end_time</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;EndTime&quot;</span><span class="p">]</span>
-        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">recording_start_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">recording_end_time</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">recording_start_time</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;StartTime&quot;</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">recording_end_time</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;EndTime&quot;</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">pass</span>
 
-        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">physio_file</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No physiological recording found for this participant.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">physio_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span></div>
 </pre></div>
