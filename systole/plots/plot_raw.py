@@ -185,9 +185,10 @@ def plot_raw(
                     find_local=True,
                     **kwargs
                 )
-            raise ValueError(
-                "Invalid modality parameter. Should be 'ecg', 'ppg' or 'resp'."
-            )
+            else:
+                raise ValueError(
+                    "Invalid modality parameter. Should be 'ecg', 'ppg' or 'resp'."
+                )
 
     time = pd.to_datetime(np.arange(0, len(signal)), unit="ms", origin="unix")
 
