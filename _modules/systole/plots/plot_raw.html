@@ -212,7 +212,7 @@
 <span class="kn">from</span> <span class="nn">bokeh.plotting.figure</span> <span class="kn">import</span> <span class="n">Figure</span>
 <span class="kn">from</span> <span class="nn">matplotlib.axes</span> <span class="kn">import</span> <span class="n">Axes</span>
 
-<span class="kn">from</span> <span class="nn">systole.detection</span> <span class="kn">import</span> <span class="n">ecg_peaks</span><span class="p">,</span> <span class="n">ppg_peaks</span>
+<span class="kn">from</span> <span class="nn">systole.detection</span> <span class="kn">import</span> <span class="n">ecg_peaks</span><span class="p">,</span> <span class="n">ppg_peaks</span><span class="p">,</span> <span class="n">rsp_peaks</span>
 <span class="kn">from</span> <span class="nn">systole.plots.utils</span> <span class="kn">import</span> <span class="n">get_plotting_function</span>
 
 
@@ -251,9 +251,9 @@
 <span class="sd">    sfreq : int</span>
 <span class="sd">        Signal sampling frequency. Default is set to 1000 Hz.</span>
 <span class="sd">    modality : str</span>
-<span class="sd">        The type of signal provided. Can be ``&#39;ppg&#39;`` (pulse oximeter) or `&#39;ecg&#39;`</span>
-<span class="sd">        (electrocardiography). The peak detection algorithm used depend on the type of</span>
-<span class="sd">        signal provided.</span>
+<span class="sd">        The type of signal provided. Can be `&#39;ppg&#39;` (pulse oximeter), `&#39;ecg&#39;`</span>
+<span class="sd">        (electrocardiography) or `&#39;resp&#39;`. This parameter will control the type of</span>
+<span class="sd">        peak detection algorithm to use. Only relevant if `peaks` is not provided.</span>
 <span class="sd">    ecg_method : str</span>
 <span class="sd">        Peak detection algorithm used by the</span>
 <span class="sd">        :py:func:`systole.detection.ecg_peaks` function. Can be one of the following:</span>
@@ -351,27 +351,48 @@
     <span class="k">if</span> <span class="n">peaks</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+
             <span class="c1"># Find peaks - Remove learning phase</span>
             <span class="k">if</span> <span class="n">modality</span> <span class="o">==</span> <span class="s2">&quot;ppg&quot;</span><span class="p">:</span>
                 <span class="n">signal</span><span class="p">,</span> <span class="n">peaks</span> <span class="o">=</span> <span class="n">ppg_peaks</span><span class="p">(</span>
-                    <span class="n">signal</span><span class="o">.</span><span class="n">ppg</span><span class="p">,</span> <span class="n">moving_average</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                    <span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="o">.</span><span class="n">ppg</span><span class="p">,</span> <span class="n">moving_average</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">modality</span> <span class="o">==</span> <span class="s2">&quot;resp&quot;</span><span class="p">:</span>
+                <span class="n">signal</span><span class="p">,</span> <span class="p">(</span><span class="n">peaks</span><span class="p">,</span> <span class="n">troughs</span><span class="p">)</span> <span class="o">=</span> <span class="n">rsp_peaks</span><span class="p">(</span>
+                    <span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="o">.</span><span class="n">resp</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
                 <span class="p">)</span>
             <span class="k">elif</span> <span class="n">modality</span> <span class="o">==</span> <span class="s2">&quot;ecg&quot;</span><span class="p">:</span>
                 <span class="n">signal</span><span class="p">,</span> <span class="n">peaks</span> <span class="o">=</span> <span class="n">ecg_peaks</span><span class="p">(</span>
-                    <span class="n">signal</span><span class="o">.</span><span class="n">ecg</span><span class="p">,</span>
+                    <span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="o">.</span><span class="n">ecg</span><span class="p">,</span>
                     <span class="n">method</span><span class="o">=</span><span class="n">ecg_method</span><span class="p">,</span>
                     <span class="n">find_local</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                     <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span>
                     <span class="o">**</span><span class="n">kwargs</span>
                 <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Invalid modality parameter. Should be &#39;ecg&#39;, &#39;ppg&#39; or &#39;resp&#39;.&quot;</span>
+                <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">modality</span> <span class="o">==</span> <span class="s2">&quot;ppg&quot;</span><span class="p">:</span>
                 <span class="n">signal</span><span class="p">,</span> <span class="n">peaks</span> <span class="o">=</span> <span class="n">ppg_peaks</span><span class="p">(</span>
-                    <span class="n">signal</span><span class="p">,</span> <span class="n">moving_average</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                    <span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">moving_average</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">modality</span> <span class="o">==</span> <span class="s2">&quot;resp&quot;</span><span class="p">:</span>
+                <span class="n">signal</span><span class="p">,</span> <span class="p">(</span><span class="n">peaks</span><span class="p">,</span> <span class="n">troughs</span><span class="p">)</span> <span class="o">=</span> <span class="n">rsp_peaks</span><span class="p">(</span>
+                    <span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
                 <span class="p">)</span>
             <span class="k">elif</span> <span class="n">modality</span> <span class="o">==</span> <span class="s2">&quot;ecg&quot;</span><span class="p">:</span>
                 <span class="n">signal</span><span class="p">,</span> <span class="n">peaks</span> <span class="o">=</span> <span class="n">ecg_peaks</span><span class="p">(</span>
-                    <span class="n">signal</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">ecg_method</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span> <span class="n">find_local</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                    <span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span>
+                    <span class="n">method</span><span class="o">=</span><span class="n">ecg_method</span><span class="p">,</span>
+                    <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span>
+                    <span class="n">find_local</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Invalid modality parameter. Should be &#39;ecg&#39;, &#39;ppg&#39; or &#39;resp&#39;.&quot;</span>
                 <span class="p">)</span>
 
     <span class="n">time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">)),</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;ms&quot;</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s2">&quot;unix&quot;</span><span class="p">)</span>
