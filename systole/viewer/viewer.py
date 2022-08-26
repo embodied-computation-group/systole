@@ -45,6 +45,8 @@ class Viewer:
     signal_type : str | PathLike
        The type of signal that are being analyzed. Can be `"PPG"`, `"ECG"` or `"RESP"`.
        Defaults to `"PPG"`.
+    participant_id : str | None
+        The participant ID as registered in the BIDS folder.
 
     Notes
     -----
@@ -62,6 +64,7 @@ class Viewer:
         modality: Union[str, PathLike] = "beh",
         pattern: Union[str, PathLike] = "task-",
         signal_type: Union[str, PathLike] = "PPG",
+        participant_id: Optional[str] = None,
     ) -> None:
 
         self.figsize = figsize
@@ -73,7 +76,7 @@ class Viewer:
         self.bids_path = widgets.Textarea(
             value=input_folder,
             placeholder="Type something",
-            description="BIDS folders:",
+            description="Input:",
             disabled=False,
             layout=widgets.Layout(width="250px"),
         )
@@ -116,7 +119,7 @@ class Viewer:
         self.output_folder_ = widgets.Textarea(
             value=output_folder,
             placeholder="Type something",
-            description="Output folder:",
+            description="Output:",
             disabled=False,
             layout=widgets.Layout(width="250px"),
         )
@@ -144,9 +147,11 @@ class Viewer:
             ]
         except FileNotFoundError:
             self.participants_list = ["sub-"]
+        if participant_id is None:
+            participant_id = self.participants_list[0]
         self.participants_ = widgets.Dropdown(
             options=self.participants_list,
-            value=self.participants_list[0],
+            value=participant_id,
             description="Participant ID",
             layout=widgets.Layout(width="200px"),
         )
@@ -156,14 +161,12 @@ class Viewer:
         self.session_.observe(self.update_list, names="value")
         self.modality_.observe(self.update_list, names="value")
         self.pattern_.observe(self.update_list, names="value")
-
+        self.signal_type_.observe(self.plot_signal, names="value")
         self.participants_.observe(self.plot_signal, names="value")
-
         self.save_button_.observe(self.save, names="value")
 
         # Show the navigator and main plot
-        self.output = widgets.Output()
-        self.box = widgets.VBox(
+        self.io_box = widgets.VBox(
             [
                 widgets.HBox(
                     [
@@ -171,18 +174,21 @@ class Viewer:
                         self.session_,
                         self.participants_,
                         self.modality_,
-                        self.pattern_,
                     ]
                 ),
-                widgets.HBox([self.save_button_, self.output_folder_]),
+                widgets.HBox([self.pattern_, self.signal_type_, self.output_folder_]),
             ]
         )
+
+        self.commands_box = widgets.HBox([self.save_button_])
+
+        self.output = widgets.Output()
 
         # Plot the first pysio file if any
         self.plot_signal(change=None)
 
     def update_list(self, change):
-        """Updating the input files when the dropdown menues are used."""
+        """Updating the list of participants when the text boxes are used."""
         self.participants_list = (
             pd.read_csv(Path(self.bids_path.value, "participants.tsv"), sep="\t")
             .participant_id.sort_values()
@@ -261,6 +267,17 @@ class Editor:
     viewer : :py:class`systole.viewer.Viewer` instance | None
         The viewer instance from which the editor is called.
 
+    Attributes
+    ----------
+    initial_peaks : np.ndarray
+        The peaks vector as detected using the default peaks detection algorithm.
+    peaks : np.ndarray
+        The corrected peaks vector after manual insertion/deletion.
+    physio_file : PathLike | None
+        Path to the physiological recording.
+    json_file : PathLike | None
+        Path to the sidecar JSON file.
+
     """
 
     def __init__(
@@ -297,21 +314,21 @@ class Editor:
             physio_file=physio_file, json_file=json_file
         ).load_signal()
 
-        # Create a time vector from signal length and convert it to Matplotlib ax values
-        self.time = pd.to_datetime(
-            np.arange(0, len(self.signal)), unit="ms", origin="unix"
-        )
-        self.x_vec = date2num(self.time)
-
         # If a signal is available, call the main plotting method
-        if self.initial_peaks is not None:
+        if self.signal is not None:
+
+            # Create a time vector from signal length and convert it to Matplotlib ax values
+            self.time = pd.to_datetime(
+                np.arange(0, len(self.signal)), unit="ms", origin="unix"
+            )
+            self.x_vec = date2num(self.time)
 
             # Create the main plot_raw instance
             self.fig, self.ax = plt.subplots(nrows=2, figsize=self.figsize, sharex=True)
 
             plot_raw(
                 signal=self.signal,
-                peaks=self.peaks,
+                peaks=self.initial_peaks,
                 modality="ppg",
                 backend="matplotlib",
                 show_heart_rate=True,
@@ -320,7 +337,6 @@ class Editor:
                 ax=[self.ax[0], self.ax[1]],
             )
 
-            self = self.plot_signals()
             self.fig.canvas.mpl_connect("key_press_event", self.on_key)
 
             # two selectors for rejection (left mouse) and deletion (right mouse)
@@ -376,65 +392,67 @@ class Editor:
     def plot_signals(self):
         """Clears axes and plots data / peaks / troughs."""
 
-        # Clear axes and redraw, retaining x-/y-axis zooms
-        xlim, ylim = self.ax[0].get_xlim(), self.ax[0].get_ylim()
-        xlim2, ylim2 = self.ax[1].get_xlim(), self.ax[1].get_ylim()
-        self.ax[0].clear()
-        self.ax[1].clear()
-        plot_raw(
-            signal=self.signal,
-            peaks=self.peaks,
-            modality="ppg",
-            backend="matplotlib",
-            show_heart_rate=True,
-            show_artefacts=True,
-            sfreq=1000,
-            ax=[self.ax[0], self.ax[1]],
-        )
-        self.ax[0].set(xlim=xlim, ylim=ylim)
-        self.ax[1].set(xlim=xlim2, ylim=ylim2)
+        if self.signal is not None:
 
-        # Show span selectors
-        # two selectors for rejection (left mouse) and deletion (right mouse)
-        self.delete = functools.partial(self.on_remove)
-        self.span1 = SpanSelector(
-            self.ax[0],
-            self.delete,
-            "horizontal",
-            button=1,
-            props=dict(facecolor="red", alpha=0.2),
-            useblit=True,
-        )
-        self.add = functools.partial(self.on_add)
-        self.span2 = SpanSelector(
-            self.ax[0],
-            self.add,
-            "horizontal",
-            button=3,
-            props=dict(facecolor="green", alpha=0.2),
-            useblit=True,
-        )
-
-        # Customize the plot a bit
-        for ax in self.ax:
-            ax.spines.right.set_visible(False)
-            ax.spines.top.set_visible(False)
-            ax.tick_params(
-                direction="in",
-                width=1.5,
-                which="major",
-                size=8,
+            # Clear axes and redraw, retaining x-/y-axis zooms
+            xlim, ylim = self.ax[0].get_xlim(), self.ax[0].get_ylim()
+            xlim2, ylim2 = self.ax[1].get_xlim(), self.ax[1].get_ylim()
+            self.ax[0].clear()
+            self.ax[1].clear()
+            plot_raw(
+                signal=self.signal,
+                peaks=self.peaks,
+                modality="ppg",
+                backend="matplotlib",
+                show_heart_rate=True,
+                show_artefacts=True,
+                sfreq=1000,
+                ax=[self.ax[0], self.ax[1]],
             )
-            ax.tick_params(direction="in", width=1, which="minor", size=4)
-            ax.grid(which="major", alpha=0.5, linewidth=0.5)
-        # self.fig.set_tight_layout()
-        # plt.margins(x=0, y=0)
-        # plt.minorticks_on()
-        # plt.subplots_adjust(left=0.1, bottom=0.1, right=0.1, top=0.1)
+            self.ax[0].set(xlim=xlim, ylim=ylim)
+            self.ax[1].set(xlim=xlim2, ylim=ylim2)
 
-        self.fig.canvas.draw()
+            # Show span selectors
+            # two selectors for rejection (left mouse) and deletion (right mouse)
+            self.delete = functools.partial(self.on_remove)
+            self.span1 = SpanSelector(
+                self.ax[0],
+                self.delete,
+                "horizontal",
+                button=1,
+                props=dict(facecolor="red", alpha=0.2),
+                useblit=True,
+            )
+            self.add = functools.partial(self.on_add)
+            self.span2 = SpanSelector(
+                self.ax[0],
+                self.add,
+                "horizontal",
+                button=3,
+                props=dict(facecolor="green", alpha=0.2),
+                useblit=True,
+            )
 
-        return self
+            # Customize the plot a bit
+            for ax in self.ax:
+                ax.spines.right.set_visible(False)
+                ax.spines.top.set_visible(False)
+                ax.tick_params(
+                    direction="in",
+                    width=1.5,
+                    which="major",
+                    size=8,
+                )
+                ax.tick_params(direction="in", width=1, which="minor", size=4)
+                ax.grid(which="major", alpha=0.5, linewidth=0.5)
+            # self.fig.set_tight_layout()
+            # plt.margins(x=0, y=0)
+            # plt.minorticks_on()
+            # plt.subplots_adjust(left=0.1, bottom=0.1, right=0.1, top=0.1)
+
+            self.fig.canvas.draw()
+
+            return self
 
     def quit(self):
         """Quits editor"""
@@ -460,31 +478,48 @@ class Editor:
         if not self.corrected_json_file.parent.exists():
             self.corrected_json_file.parent.mkdir(parents=True)
 
+        if self.corrected_json_file.exists():
+            # Load the existing corrected JSON data
+            f = open(self.corrected_json_file)
+            metadata = json.load(f)
+            f.close()
+        else:
+            metadata = {}
+
         add_idx = np.where(self.peaks & ~self.initial_peaks)[0].tolist()
         remove_idx = np.where(~self.peaks & self.initial_peaks)[0].tolist()
 
         # Create the JSON metadata and save it in the corrected derivative folder
-        data = {
-            "ppg": {
-                "add_idx": add_idx,
-                "remove_idx": remove_idx,
-                "bads": {"start": None, "end": None},
-            },
+        corrected_info = {
+            "add_idx": add_idx,
+            "remove_idx": remove_idx,
+            "bads": {"start": None, "end": None},
         }
+        metadata[self.viewer.signal_type_.value] = corrected_info
 
         with open(self.corrected_json_file, "w") as f:
-            json.dump(data, f, ensure_ascii=False, indent=4)
+            json.dump(metadata, f, ensure_ascii=False, indent=4)
 
     def load_signal(self):
-        """Load the correct signal and perform peaks detection given the modality."""
+        """Find the signal in the physiological recording and perform peaks detection
+        given the modality.
 
+        """
+        self.data = None
+        self.peaks = None
+        self.signal = None
+        self.input_signal = None
         self.initial_peaks = None
+        if self.physio_file is None:
+            return self
+
         self.data = pd.read_csv(
             self.physio_file,
             sep="\t",
             compression="gzip",
             names=self.input_columns_names,
         )
+        self.data.columns = self.data.columns.str.lower()
 
         if self.viewer.signal_type_.value == "ECG":
             ecg_names = ["ecg", "ekg", "cardiac"]
@@ -492,14 +527,16 @@ class Editor:
             ecg_col = ecg_col[0] if len(ecg_col) > 0 else None
 
             self.input_signal = self.data[ecg_col].to_numpy()
-
+            print(self.input_signal)
             # Peaks detection on the input signal
             self.signal, self.peaks = ecg_peaks(
                 signal=self.input_signal, sfreq=self.sfreq
             )
             self.initial_peaks = self.peaks.copy()
+            print(f"Loading electrocardiogram - sfreq={self.sfreq} Hz.")
+
         elif self.viewer.signal_type_.value == "PPG":
-            ppg_names = ["ppg", "photoplethysmography", "pulse", "PLETH"]
+            ppg_names = ["ppg", "photoplethysmography", "pulse", "pleth", "cardiac"]
             ppg_col = [col for col in self.data.columns if col in ppg_names]
             ppg_col = ppg_col[0] if len(ppg_col) > 0 else None
 
@@ -510,6 +547,8 @@ class Editor:
                 signal=self.input_signal, sfreq=self.sfreq
             )
             self.initial_peaks = self.peaks.copy()
+            print(f"Loading photoplethysmogram - sfreq={self.sfreq} Hz.")
+
         elif self.viewer.signal_type_.value == "RESP":
             res_names = ["res", "rsp", "respiration", "resp"]
             res_col = [col for col in self.data.columns if col in res_names]
@@ -518,10 +557,19 @@ class Editor:
             self.input_signal = self.data[res_col].to_numpy()
 
             # Peaks detection on the input signal
-            self.signal, self.peaks = rsp_peaks(
+            self.signal, (self.peaks, _) = rsp_peaks(
                 signal=self.input_signal, sfreq=self.sfreq
             )
             self.initial_peaks = self.peaks.copy()
+            print(f"Loading respiratory signal - sfreq={self.sfreq} Hz.")
+
+        # If the signal is invalid, set it to None
+        if np.isnan(self.input_signal).all():
+            print("Empty signal, settings everything to None.")
+            self.signal = None
+            self.input_signal = None
+            self.peaks = None
+            self.initial_peaks = None
 
         return self
 
@@ -530,42 +578,62 @@ class Editor:
     ):
         """Load the physio files."""
 
+        self.recording_start_time = None
+        self.recording_end_time = None
+        self.sfreq = None
+        self.input_columns_names = None
+        self.json_file = None
+        self.physio_file = None
+
+        # If a path to a physio file is provided, otherwise search in the BIDS folder
         if physio_file:
             self.physio_file = Path(physio_file)
             self.json_file = Path(json_file)
         else:
-            self.physio_file = list(
+            physio_files = list(
                 Path(
                     self.input_folder,
                     str(self.participant_id),
                     str(self.session),
                     self.modality,
                 ).glob(f"*{self.pattern}*_physio.tsv.gz")
-            )[0]
-            self.json_file = list(
-                Path(
-                    self.input_folder,
-                    str(self.participant_id),
-                    str(self.session),
-                    self.modality,
-                ).glob(f"*{self.pattern}*.json")
-            )[0]
+            )
+            if len(physio_files) == 0:
+                self.physio_file, self.json_file = None, None
+            elif len(physio_files) > 1:
+                self.physio_file, self.json_file = None, None
+                print("More than one recording match the string pattern.")
+            else:
+                self.physio_file = physio_files[0]
+                self.json_file = list(
+                    Path(
+                        self.input_folder,
+                        str(self.participant_id),
+                        str(self.session),
+                        self.modality,
+                    ).glob(f"*{self.pattern}*.json")
+                )[0]
 
-        print(f"Loading {self.physio_file}")
+        if self.json_file is not None:
 
-        # Opening JSON file and extract metadata
-        f = open(self.json_file)
-        json_data = json.load(f)
+            # Opening JSON file and extract metadata
+            f = open(self.json_file)
+            json_data = json.load(f)
 
-        self.sfreq = json_data["SamplingFrequency"]
-        self.input_columns_names = json_data["Columns"]
+            self.sfreq = json_data["SamplingFrequency"]
+            self.input_columns_names = json_data["Columns"]
 
-        try:
-            self.recording_start_time = json_data["StartTime"]
-            self.recording_end_time = json_data["EndTime"]
-        except KeyError:
-            self.recording_start_time, self.recording_end_time = None, None
+            try:
+                self.recording_start_time = json_data["StartTime"]
+                self.recording_end_time = json_data["EndTime"]
+            except KeyError:
+                pass
 
-        f.close()
+            f.close()
+
+        if physio_file is None:
+            print("No physiological recording found for this participant.")
+        else:
+            print(f"Loading {self.physio_file}")
 
         return self
