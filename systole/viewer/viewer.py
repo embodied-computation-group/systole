@@ -327,6 +327,7 @@ class Editor:
             self.viewer = viewer
 
         self.figsize = figsize
+        self.bad_segments: List[int] = []
 
         # Load the physio files and store parameters, then load the signal from the
         # physio file and perform peaks detection
@@ -385,14 +386,14 @@ class Editor:
 
         # Get the interval in sample idexes
         if self.viewer.edition_.value == "Correction":
-
             tmin, tmax = np.searchsorted(self.x_vec, (xmin, xmax))
             self.peaks[tmin:tmax] = False
             self.plot_signals()
 
         elif self.viewer.edition_.value == "Rejection":
             tmin, tmax = np.searchsorted(self.x_vec, (xmin, xmax))
-            self.bad_segments.append((tmin, tmax))
+            self.bad_segments.append(int(tmin))
+            self.bad_segments.append(int(tmax))
 
     def on_add(self, xmin, xmax):
         """Add a new peak on the maximum signal value from the selected range."""
