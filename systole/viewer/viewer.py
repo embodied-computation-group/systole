@@ -347,6 +347,11 @@ class Editor:
             # Create the main plot_raw instance
             self.fig, self.ax = plt.subplots(nrows=2, figsize=self.figsize, sharex=True)
 
+            bad_segments = [
+                (self.bad_segments[i], self.bad_segments[i + 1])
+                for i in range(0, len(self.bad_segments), 2)
+            ]
+
             plot_raw(
                 signal=self.signal,
                 peaks=self.initial_peaks,
@@ -354,6 +359,7 @@ class Editor:
                 backend="matplotlib",
                 show_heart_rate=True,
                 show_artefacts=True,
+                bad_segments=bad_segments,
                 sfreq=1000,
                 ax=[self.ax[0], self.ax[1]],
             )
@@ -394,6 +400,7 @@ class Editor:
             tmin, tmax = np.searchsorted(self.x_vec, (xmin, xmax))
             self.bad_segments.append(int(tmin))
             self.bad_segments.append(int(tmax))
+            self.plot_signals()
 
     def on_add(self, xmin, xmax):
         """Add a new peak on the maximum signal value from the selected range."""
@@ -423,6 +430,11 @@ class Editor:
 
         if self.signal is not None:
 
+            bad_segments = [
+                (self.bad_segments[i], self.bad_segments[i + 1])
+                for i in range(0, len(self.bad_segments), 2)
+            ]
+
             # Clear axes and redraw, retaining x-/y-axis zooms
             xlim, ylim = self.ax[0].get_xlim(), self.ax[0].get_ylim()
             xlim2, ylim2 = self.ax[1].get_xlim(), self.ax[1].get_ylim()
@@ -435,6 +447,7 @@ class Editor:
                 backend="matplotlib",
                 show_heart_rate=True,
                 show_artefacts=True,
+                bad_segments=bad_segments,
                 sfreq=1000,
                 ax=[self.ax[0], self.ax[1]],
             )

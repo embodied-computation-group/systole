@@ -1,10 +1,10 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import Dict, Optional
+from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 from bokeh.layouts import column
-from bokeh.models import ColumnDataSource, RangeTool
+from bokeh.models import BoxAnnotation, ColumnDataSource, RangeTool
 from bokeh.plotting import figure
 from bokeh.plotting.figure import Figure
 from pandas.core.indexes.datetimes import DatetimeIndex
@@ -19,6 +19,7 @@ def plot_raw(
     modality: str = "ppg",
     show_heart_rate: bool = True,
     show_artefacts: bool = False,
+    bad_segments: Optional[List[Tuple[int, int]]] = None,
     decim: int = 10,
     slider: bool = True,
     figsize: int = 300,
@@ -47,6 +48,11 @@ def plot_raw(
         If `True`, the function will call
         py:func:`systole.detection.rr_artefacts` to detect outliers intervalin the time
         serie and outline them using different colors.
+    bad_segments : np.ndarray | list | None
+        Mark some portion of the recording as bad. Grey areas are displayed on the top
+        of the signal to help visualization (this is not correcting or transforming the
+        post-processed signals). Should be a list of tuples shuch as (start_idx,
+        end_idx) for each segment.
     decim : int
         Factor by which to subsample the raw signal. Selects every Nth sample (where N
         is the value passed to decim). Default set to `10` (considering that the imput
@@ -117,6 +123,19 @@ def plot_raw(
     raw.legend.title = "Raw signal"
 
     cols = (raw,)
+
+    # Highlight bad segments if provided
+    if bad_segments is not None:
+        for bads in bad_segments:
+            # Plot time range
+            event_range = BoxAnnotation(
+                left=time[bads[0]],
+                right=time[bads[1]],
+                fill_alpha=0.2,
+                fill_color="grey",
+            )
+            event_range.level = "underlay"
+            raw.add_layout(event_range)
 
     # Instantaneous heart rate
     ##########################

@@ -1,6 +1,6 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import Dict, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -18,6 +18,7 @@ def plot_rr(
     line: bool = True,
     points: bool = True,
     artefacts: Optional[Dict[str, np.ndarray]] = None,
+    bad_segments: Optional[List[Tuple[int, int]]] = None,
     input_type: str = "peaks",
     ax: Optional[Axes] = None,
     show_limits: bool = True,
@@ -45,6 +46,11 @@ def plot_rr(
         If `True`, plot each peaks (R wave or systolic peaks) as separated points.
     artefacts : dict
         Dictionary storing the parameters of RR artefacts rejection.
+    bad_segments : np.ndarray | list | None
+        Mark some portion of the recording as bad. Grey areas are displayed on the top
+        of the signal to help visualization (this is not correcting or transforming the
+        post-processed signals). Should be a list of tuples shuch as (start_idx,
+        end_idx) for each segment.
     input_type : str
         The type of input vector. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"`, or
         `"rr_s"`. Default to `"peaks"`.
@@ -210,6 +216,16 @@ def plot_rr(
                 ax.axhspan(ymin=ylim_low, ymax=low, color="r", alpha=0.1)
                 ax.axhspan(ymin=high, ymax=ylim_high, color="r", alpha=0.1)
                 ax.set_ylim(ylim_low, ylim_high)
+
+    # Show bad segments if any
+    if bad_segments is not None:
+        if line is False:
+            # Create the time vector
+            hr, time = heart_rate(rr, unit=unit, kind=kind, input_type=input_type)
+            time = pd.to_datetime(time, unit="s", origin="unix")
+
+        for bads in bad_segments:
+            ax.axvspan(xmin=time[bads[0]], xmax=time[bads[1]], color="grey", alpha=0.2)
 
     ax.set_title("Instantaneous heart rate")
     ax.set_xlabel("Time")

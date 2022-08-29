@@ -17,6 +17,7 @@ def plot_rr(
     points: bool = True,
     input_type: str = "peaks",
     show_artefacts: bool = False,
+    bad_segments: Optional[Union[np.ndarray, List[int]]] = None,
     show_limits: bool = True,
     slider: bool = True,
     ax: Optional[Axes] = None,
@@ -52,6 +53,17 @@ def plot_rr(
         If `True`, the function will call
         py:func:`systole.detection.rr_artefacts` to detect outliers interval
         in the time serie and outline them using different colors.
+    bad_segments : np.ndarray | list | None
+        Mark some portion of the recording as bad. Grey areas are displayed on the top
+        of the signal to help visualization (this is not correcting or transforming the
+        post-processed signals). If a np.ndarray is provided, it should be a boolean
+        of same length than `signal` where `False` indicates a bad segment. If a list
+        is provided, it should be a list of tuples shuch as (start_idx, end_idx) for
+        each bad segment.
+
+        .. note::
+          The start and end points should be expressed as peaks indexes.
+
     show_limits : bool
         Use shaded areas to represent the range of physiologically impossible R-R
         intervals. Defaults to `True`.
@@ -101,7 +113,7 @@ def plot_rr(
 
        plot_rr(rr=rr, input_type="rr_ms", unit="bpm")
 
-    Only plot time points.
+    Only use a scatter plot and add a bad segment.
 
     .. jupyter-execute::
 
@@ -154,6 +166,26 @@ def plot_rr(
             raise Warning("show_artefacts is True but points is set to False")
         artefacts = rr_artefacts(rr, input_type=input_type)
 
+    if bad_segments is not None:
+        if isinstance(bad_segments, np.ndarray):
+            assert len(bad_segments) == len(rr)
+
+            # Find the start and end of each bad segments
+            bad_segments = [
+                idx
+                for idx in range(len(bad_segments))
+                if (bad_segments[idx] == 1) & (bad_segments[idx - 1] == 0)
+                | (bad_segments[idx] == 0) & (bad_segments[idx - 1] == 1)
+                | (bad_segments[idx] == 0) & (idx == 0)
+                | (bad_segments[idx] == 0) & (idx == len(bad_segments) - 1)
+            ]
+
+            # Make it a list of tuples (start, end)
+            bad_segments = [
+                (bad_segments[i], bad_segments[i + 1])
+                for i in range(0, len(bad_segments), 2)
+            ]
+
     plot_rr_args = {
         "rr": rr,
         "unit": unit,
@@ -161,6 +193,7 @@ def plot_rr(
         "line": line,
         "points": points,
         "artefacts": artefacts,
+        "bad_segments": bad_segments,
         "input_type": input_type,
         "show_limits": show_limits,
         "slider": slider,

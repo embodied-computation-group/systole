@@ -69,7 +69,7 @@ def plot_events(
         event_plot = ax
 
     # Loop across events df
-    for i, tmin, trigger, tmax, label, color in df.itertuples():
+    for _, tmin, trigger, tmax, _, color in df.itertuples():
 
         # Plot time range
         event_range = BoxAnnotation(

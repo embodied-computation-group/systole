@@ -19,6 +19,7 @@ def plot_raw(
     ecg_method: str = "pan-tompkins",
     show_heart_rate: bool = False,
     show_artefacts: bool = False,
+    bad_segments: Optional[Union[np.ndarray, List[int]]] = None,
     slider: bool = True,
     decim: Optional[int] = 10,
     ax: Optional[Axes] = None,
@@ -61,6 +62,13 @@ def plot_raw(
         If `True`, the function will call py:func:`systole.detection.rr_artefacts` to
         detect outliers intervalin the time serie and outline them using different
         colors.
+    bad_segments : np.ndarray | list | None
+        Mark some portion of the recording as bad. Grey areas are displayed on the top
+        of the signal to help visualization (this is not correcting or transforming the
+        post-processed signals). If a np.ndarray is provided, it should be a boolean
+        of same length than `signal` where `False` indicates a bad segment. If a list
+        is provided, it should be a list of tuples shuch as (start_idx, end_idx) for
+        each bad segment.
     slider : bool
         If `True`, will add a slider to select the time window to plot (requires bokeh
         backend).
@@ -122,7 +130,21 @@ def plot_raw(
        ppg = import_ppg()
 
        # Only use the first 60 seconds for demonstration
-       plot_raw(ppg[ppg.time<60])
+       plot_raw(ppg[ppg.time<60], sfreq=75)
+
+    Highlighting a bad segment in the recording.
+
+    .. jupyter-execute::
+
+       from systole import import_ppg
+       from systole.plots import plot_raw
+
+       # Import PPG recording as pandas data frame
+       ppg = import_ppg()
+
+       # Only use the first 60 seconds for demonstration
+       # The bad segments are annotated using a tuple (start, end) in miliseconds
+       plot_raw(ppg[ppg.time<60], sfreq=75, bad_segments=[(15000, 17000)])
 
     Using Bokeh backend, with instantaneous heart rate and artefacts.
 
@@ -190,6 +212,26 @@ def plot_raw(
                     "Invalid modality parameter. Should be 'ecg', 'ppg' or 'resp'."
                 )
 
+    if bad_segments is not None:
+        if isinstance(bad_segments, np.ndarray):
+            assert len(bad_segments) == len(signal)
+
+            # Find the start and end of each bad segments
+            bad_segments = [
+                idx
+                for idx in range(len(bad_segments))
+                if (bad_segments[idx] == 1) & (bad_segments[idx - 1] == 0)
+                | (bad_segments[idx] == 0) & (bad_segments[idx - 1] == 1)
+                | (bad_segments[idx] == 0) & (idx == 0)
+                | (bad_segments[idx] == 0) & (idx == len(bad_segments) - 1)
+            ]
+
+            # Make it a list of tuples (start, end)
+            bad_segments = [
+                (bad_segments[i], bad_segments[i + 1])
+                for i in range(0, len(bad_segments), 2)
+            ]
+
     time = pd.to_datetime(np.arange(0, len(signal)), unit="ms", origin="unix")
 
     plot_raw_args = {
@@ -199,6 +241,7 @@ def plot_raw(
         "modality": modality,
         "show_heart_rate": show_heart_rate,
         "show_artefacts": show_artefacts,
+        "bad_segments": bad_segments,
         "ax": ax,
         "figsize": figsize,
         "slider": slider,

@@ -205,6 +205,7 @@ class TestPlots(TestCase):
                 show_artefacts=True,
                 modality="ecg",
                 sfreq=1000,
+                bad_segments=[(10000, 15000), (17000, 20000)],
                 events_params=events_params,
             )
 
@@ -256,9 +257,26 @@ class TestPlots(TestCase):
                 slider=True,
                 events_params=events_params,
             )
-            plot_rr(rr_ms, backend=backend, input_type="rr_ms", points=False)
-            plot_rr(rr_ms, backend=backend, input_type="rr_ms", line=False)
-            plot_rr(peaks, backend=backend, input_type="peaks")
+            plot_rr(
+                rr_ms,
+                backend=backend,
+                input_type="rr_ms",
+                points=False,
+                bad_segments=[(10000, 15000), (17000, 20000)],
+            )
+            plot_rr(
+                rr_ms,
+                backend=backend,
+                input_type="rr_ms",
+                line=False,
+                bad_segments=[(10000, 15000), (17000, 20000)],
+            )
+            plot_rr(
+                peaks,
+                backend=backend,
+                input_type="peaks",
+                bad_segments=[(10000, 15000), (17000, 20000)],
+            )
 
         plt.close("all")
 

@@ -1,6 +1,6 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -17,6 +17,7 @@ def plot_raw(
     modality: str = "ppg",
     show_heart_rate: bool = True,
     show_artefacts: bool = False,
+    bad_segments: Optional[List[Tuple[int, int]]] = None,
     decim: int = 10,
     ax: Optional[Union[List, Axes]] = None,
     slider: bool = True,
@@ -46,6 +47,11 @@ def plot_raw(
         If `True`, the function will call
         py:func:`systole.detection.rr_artefacts` to detect outliers intervalin the time
         serie and outline them using different colors.
+    bad_segments : np.ndarray | list | None
+        Mark some portion of the recording as bad. Grey areas are displayed on the top
+        of the signal to help visualization (this is not correcting or transforming the
+        post-processed signals). Should be a list of tuples shuch as (start_idx,
+        end_idx) for each segment.
     decim : int
         Factor by which to subsample the raw signal. Selects every Nth sample (where N
         is the value passed to decim). Default set to `10` (considering that the imput
@@ -123,6 +129,12 @@ def plot_raw(
         signal_ax.set_title(title)
         signal_ax.set_ylabel(ylabel)
 
+    if bad_segments is not None:
+        for bads in bad_segments:
+            signal_ax.axvspan(
+                xmin=time[bads[0]], xmax=time[bads[1]], color="grey", alpha=0.2
+            )
+
     #############
     # Lower panel
     #############
@@ -136,6 +148,7 @@ def plot_raw(
             backend="matplotlib",
             figsize=figsize,
             show_artefacts=show_artefacts,
+            bad_segments=bad_segments,
             ax=hr_ax,
             events_params=events_params,
         )
