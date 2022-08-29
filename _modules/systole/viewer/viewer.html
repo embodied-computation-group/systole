@@ -312,7 +312,7 @@
             <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Signal:&quot;</span><span class="p">,</span>
             <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;250px&quot;</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">save_button_</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Buttondd</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_button_</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
             <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Save modifications&quot;</span><span class="p">,</span>
             <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">button_style</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
@@ -343,7 +343,7 @@
                 <span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
             <span class="p">)</span>
             <span class="c1"># Filter participants that have no physio recording</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">filter_participants_list</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="n">part</span>
                 <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span>
                 <span class="k">if</span> <span class="nb">any</span><span class="p">(</span>
@@ -355,13 +355,27 @@
                     <span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;*</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">*_physio.tsv.gz&quot;</span><span class="p">)</span>
                 <span class="p">)</span>
             <span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">filter_participants_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="s2">&quot;Found no file matching the given paterns.&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;... Participant: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;... Input: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">bids_path</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;... Session: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">session_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;... Modality: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">modality_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;... Pattern: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;sub-&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span> <span class="o">=</span> <span class="n">filter_participants_list</span>
         <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Directory not found.&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;sub-&quot;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">participant_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">participant_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">participant_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">participants_</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
             <span class="n">options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span><span class="p">,</span>
-            <span class="n">value</span><span class="o">=</span><span class="n">participant_id</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">participant_id</span><span class="p">,</span>
             <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Participant ID&quot;</span><span class="p">,</span>
             <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;200px&quot;</span><span class="p">),</span>
         <span class="p">)</span>
