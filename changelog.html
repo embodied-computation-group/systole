@@ -192,8 +192,8 @@
 <nav id="bd-toc-nav">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#v0-2-3-august-2022">
-   v0.2.3 (August 2022)
+  <a class="reference internal nav-link" href="#v0-2-3-september-2022">
+   v0.2.3 (September 2022)
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -321,8 +321,9 @@
   <span class="target" id="whatsnew"></span><section id="what-s-new-in-each-version">
 <h1>What’s new in each version<a class="headerlink" href="#what-s-new-in-each-version" title="Permalink to this headline">#</a></h1>
 <p>This page contains information about what has changed in each new version of <code class="docutils literal notranslate"><span class="pre">systole</span></code>.</p>
-<div class="col-md-9"><section id="v0-2-3-august-2022">
-<h2>v0.2.3 (August 2022)<a class="headerlink" href="#v0-2-3-august-2022" title="Permalink to this headline">#</a></h2>
+<div class="col-md-9"><section id="v0-2-3-september-2022">
+<h2>v0.2.3 (September 2022)<a class="headerlink" href="#v0-2-3-september-2022" title="Permalink to this headline">#</a></h2>
+<p>This release introduce two new components to Systole: the report module for fast preprocessing of ECG/PPG/Respiration dataset with interactive reports, and the Editor/Viewer for manual peaks correction and segments annotation. Both module integrate tightly with BIDS structured folders, but can also be used separately.</p>
 <section id="highlights">
 <h3>Highlights<a class="headerlink" href="#highlights" title="Permalink to this headline">#</a></h3>
 </section>
@@ -338,6 +339,7 @@
 <li><p>Remove py:<cite>systole.recording.findOximeter</cite>.</p></li>
 <li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  py:func:<cite>systole.plots.plot_raw()</cite> and py:func:<cite>systole.plots.plot_r()</cite> now accept an <cite>events_params</cite> parameter to plot events together with the instantaneous heart rate.</p></li>
 <li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  py:func:<cite>systole.detection.ppg_peaks()</cite>: change <cite>noise_removal</cite> to moving_average and add a <cite>moving_average_length</cite> parameter to control the window length.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  <span class="raw-html"><span class="badge badge-feature">Feature</span></span>  py:func:<cite>systole.plots.plot_raw()</cite> and py:func:<cite>systole.plots.plot_r()</cite> now accept a <cite>bad_segments</cite> parameter to help visualize annotated bad segments from the Editor/Viewer.</p></li>
 </ul>
 </section>
 <section id="contributors">

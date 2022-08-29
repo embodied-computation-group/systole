@@ -222,6 +222,7 @@
     <span class="n">points</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">input_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;peaks&quot;</span><span class="p">,</span>
     <span class="n">show_artefacts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">bad_segments</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">show_limits</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">slider</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">ax</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Axes</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -257,6 +258,17 @@
 <span class="sd">        If `True`, the function will call</span>
 <span class="sd">        py:func:`systole.detection.rr_artefacts` to detect outliers interval</span>
 <span class="sd">        in the time serie and outline them using different colors.</span>
+<span class="sd">    bad_segments : np.ndarray | list | None</span>
+<span class="sd">        Mark some portion of the recording as bad. Grey areas are displayed on the top</span>
+<span class="sd">        of the signal to help visualization (this is not correcting or transforming the</span>
+<span class="sd">        post-processed signals). If a np.ndarray is provided, it should be a boolean</span>
+<span class="sd">        of same length than `signal` where `False` indicates a bad segment. If a list</span>
+<span class="sd">        is provided, it should be a list of tuples shuch as (start_idx, end_idx) for</span>
+<span class="sd">        each bad segment.</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">          The start and end points should be expressed as peaks indexes.</span>
+
 <span class="sd">    show_limits : bool</span>
 <span class="sd">        Use shaded areas to represent the range of physiologically impossible R-R</span>
 <span class="sd">        intervals. Defaults to `True`.</span>
@@ -306,7 +318,7 @@
 
 <span class="sd">       plot_rr(rr=rr, input_type=&quot;rr_ms&quot;, unit=&quot;bpm&quot;)</span>
 
-<span class="sd">    Only plot time points.</span>
+<span class="sd">    Only use a scatter plot and add a bad segment.</span>
 
 <span class="sd">    .. jupyter-execute::</span>
 
@@ -359,6 +371,26 @@
             <span class="k">raise</span> <span class="ne">Warning</span><span class="p">(</span><span class="s2">&quot;show_artefacts is True but points is set to False&quot;</span><span class="p">)</span>
         <span class="n">artefacts</span> <span class="o">=</span> <span class="n">rr_artefacts</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="n">input_type</span><span class="p">)</span>
 
+    <span class="k">if</span> <span class="n">bad_segments</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
+
+            <span class="c1"># Find the start and end of each bad segments</span>
+            <span class="n">bad_segments</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">idx</span>
+                <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">))</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">bad_segments</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">bad_segments</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="o">|</span> <span class="p">(</span><span class="n">bad_segments</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">bad_segments</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="o">|</span> <span class="p">(</span><span class="n">bad_segments</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="o">|</span> <span class="p">(</span><span class="n">bad_segments</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">idx</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">]</span>
+
+            <span class="c1"># Make it a list of tuples (start, end)</span>
+            <span class="n">bad_segments</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">bad_segments</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">bad_segments</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="p">]</span>
+
     <span class="n">plot_rr_args</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;rr&quot;</span><span class="p">:</span> <span class="n">rr</span><span class="p">,</span>
         <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="n">unit</span><span class="p">,</span>
@@ -366,6 +398,7 @@
         <span class="s2">&quot;line&quot;</span><span class="p">:</span> <span class="n">line</span><span class="p">,</span>
         <span class="s2">&quot;points&quot;</span><span class="p">:</span> <span class="n">points</span><span class="p">,</span>
         <span class="s2">&quot;artefacts&quot;</span><span class="p">:</span> <span class="n">artefacts</span><span class="p">,</span>
+        <span class="s2">&quot;bad_segments&quot;</span><span class="p">:</span> <span class="n">bad_segments</span><span class="p">,</span>
         <span class="s2">&quot;input_type&quot;</span><span class="p">:</span> <span class="n">input_type</span><span class="p">,</span>
         <span class="s2">&quot;show_limits&quot;</span><span class="p">:</span> <span class="n">show_limits</span><span class="p">,</span>
         <span class="s2">&quot;slider&quot;</span><span class="p">:</span> <span class="n">slider</span><span class="p">,</span>
