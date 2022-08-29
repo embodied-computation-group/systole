@@ -107,8 +107,7 @@ class Viewer:
             description="Signal:",
             layout=widgets.Layout(width="250px"),
         )
-        self.save_button_ = widgets.Button(
-            value=False,
+        self.save_button_ = widgets.Buttondd(
             description="Save modifications",
             disabled=False,
             button_style="",
@@ -336,7 +335,7 @@ class Editor:
             plot_raw(
                 signal=self.signal,
                 peaks=self.initial_peaks,
-                modality="ppg",
+                modality=self.viewer.signal_type_.value.lower(),
                 backend="matplotlib",
                 show_heart_rate=True,
                 show_artefacts=True,
@@ -513,7 +512,8 @@ class Editor:
         }
         metadata[self.viewer.signal_type_.value] = corrected_info
 
-        json.dump(metadata, f, ensure_ascii=False, indent=4)
+        with open(self.corrected_json_file, "w") as f:
+            json.dump(metadata, f, ensure_ascii=False, indent=4)
 
     def load_signal(self):
         """Find the signal in the physiological recording and perform peaks detection
