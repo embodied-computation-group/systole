@@ -107,7 +107,7 @@ class Viewer:
             description="Signal:",
             layout=widgets.Layout(width="250px"),
         )
-        self.save_button_ = widgets.Buttondd(
+        self.save_button_ = widgets.Button(
             description="Save modifications",
             disabled=False,
             button_style="",
@@ -138,7 +138,7 @@ class Viewer:
                 .to_list()
             )
             # Filter participants that have no physio recording
-            self.participants_list = [
+            filter_participants_list = [
                 part
                 for part in self.participants_list
                 if any(
@@ -150,13 +150,27 @@ class Viewer:
                     ).glob(f"*{self.pattern_.value}*_physio.tsv.gz")
                 )
             ]
+            if len(filter_participants_list) == 0:
+                print(
+                    "Found no file matching the given paterns."
+                    f"... Participant: {self.participants_list[0]}"
+                    f"... Input: {self.bids_path.value}"
+                    f"... Session: {self.session_.value}"
+                    f"... Modality: {self.modality_.value}"
+                    f"... Pattern: {self.pattern_.value}"
+                )
+                self.participants_list = ["sub-"]
+            else:
+                self.participants_list = filter_participants_list
         except FileNotFoundError:
+            print("Directory not found.")
             self.participants_list = ["sub-"]
-        if participant_id is None:
-            participant_id = self.participants_list[0]
+
+        self.participant_id = self.participants_list[0]
+
         self.participants_ = widgets.Dropdown(
             options=self.participants_list,
-            value=participant_id,
+            value=self.participant_id,
             description="Participant ID",
             layout=widgets.Layout(width="200px"),
         )
