@@ -350,20 +350,51 @@ if &#39;google.colab&#39; in sys.modules:
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="nn">Input In [3],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">view</span> <span class="o">=</span> <span class="n">Viewer</span><span class="p">()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.13/x64/lib/python3.9/site-packages/systole/viewer/viewer.py:110,</span> in <span class="ni">Viewer.__init__</span><span class="nt">(self, figsize, input_folder, output_folder, session, modality, pattern, signal_type, participant_id)</span>
+<span class="g g-Whitespace">     </span><span class="mi">97</span> <span class="bp">self</span><span class="o">.</span><span class="n">pattern_</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Textarea</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">98</span>     <span class="n">value</span><span class="o">=</span><span class="n">pattern</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">99</span>     <span class="n">placeholder</span><span class="o">=</span><span class="s2">&quot;Type something&quot;</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">102</span>     <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;250px&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">103</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">104</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal_type_</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">105</span>     <span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;PPG&quot;</span><span class="p">,</span> <span class="s2">&quot;ECG&quot;</span><span class="p">,</span> <span class="s2">&quot;RESP&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">106</span>     <span class="n">value</span><span class="o">=</span><span class="n">signal_type</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">107</span>     <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Signal:&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">108</span>     <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;250px&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">109</span> <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">110</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_button_</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Buttondd</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">111</span>     <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Save modifications&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">112</span>     <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">113</span>     <span class="n">button_style</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">114</span>     <span class="n">tooltip</span><span class="o">=</span><span class="s2">&quot;Description&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">115</span>     <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;save&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">116</span>     <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;250px&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">117</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">118</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_folder_</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Textarea</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">119</span>     <span class="n">value</span><span class="o">=</span><span class="n">output_folder</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">120</span>     <span class="n">placeholder</span><span class="o">=</span><span class="s2">&quot;Type something&quot;</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">123</span>     <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;250px&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">124</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">125</span> <span class="bp">self</span><span class="o">.</span><span class="n">edition_</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">ToggleButtons</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">126</span>     <span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Correction&quot;</span><span class="p">,</span> <span class="s2">&quot;Rejection&quot;</span><span class="p">],</span> <span class="n">diabled</span><span class="o">=</span><span class="kc">False</span>
+<span class="g g-Whitespace">    </span><span class="mi">127</span> <span class="p">)</span>
+
+<span class="ne">AttributeError</span>: module &#39;ipywidgets&#39; has no attribute &#39;Buttondd&#39;
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">view</span><span class="o">.</span><span class="n">box</span><span class="p">,</span> <span class="n">view</span><span class="o">.</span><span class="n">output</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="nn">Input In [4],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">display</span><span class="p">(</span><span class="n">view</span><span class="o">.</span><span class="n">box</span><span class="p">,</span> <span class="n">view</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
-
-<span class="ne">AttributeError</span>: &#39;Viewer&#39; object has no attribute &#39;box&#39;
 </pre></div>
 </div>
 </div>
