@@ -17,8 +17,8 @@ from systole.hrv import frequency_domain, nonlinear_domain, time_domain
 from systole.plots import (
     plot_frequency,
     plot_poincare,
+    plot_raw,
     plot_rr,
-    plot_rsp,
     plot_subspaces,
 )
 from systole.reports.tables import frequency_table, nonlinear_table, time_table
@@ -397,10 +397,8 @@ def subject_level_report(
         physio_df["rsp_peaks"] = peaks
         physio_df["rsp_troughs"] = troughs
 
-        rsp_raw = plot_rsp(
-            signal=rsp,
-            sfreq=rsp_sfreq,
-            backend="bokeh",
+        rsp_raw = plot_raw(
+            signal=rsp, sfreq=rsp_sfreq, backend="bokeh", modality="resp"
         )
 
         ############################

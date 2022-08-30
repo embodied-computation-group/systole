@@ -8,6 +8,7 @@ from matplotlib.axes import Axes
 from pandas.core.indexes.datetimes import DatetimeIndex
 
 from systole.plots import plot_rr
+from systole.utils import ecg_strings, ppg_strings, resp_strings
 
 
 def plot_raw(
@@ -37,7 +38,9 @@ def plot_raw(
     peaks : :py:class:`numpy.ndarray`
         The peaks or R wave detection (1d boolean array).
     modality : str
-        The recording modality. Can be `"ppg"`, `"ecg"` or `"resp"`.
+        The recording modality. Can be one of the modality strings defined in
+        `systole.utils.ppg_string`, `systole.utils.ecg_string` or
+        `systole.utils.resp_string`.
     show_heart_rate : bool
         If `True`, create a second row and plot the instantanesou heart rate
         derived from the physiological signal
@@ -77,14 +80,24 @@ def plot_raw(
 
     """
 
-    if modality == "ppg":
+    if modality in ppg_strings:
         title = "PPG recording"
         ylabel = "PPG level (a.u.)"
         peaks_label = "Systolic peaks"
-    elif modality == "ecg":
+    elif modality in ecg_strings:
         title = "ECG recording"
         ylabel = "ECG (mV)"
         peaks_label = "R wave"
+    elif modality in resp_strings:
+        title = "Respiration"
+        ylabel = "Respiratory signal"
+        peaks_label = "End of inspiration"
+    else:
+        raise ValueError(
+            "Invalid modality parameter. See systole.utils.ecg_strings, "
+            "systole.utils.ppg_strings or systole.utils.resp_strings "
+            "for valid parameters."
+        )
 
     #############
     # Upper panel
@@ -105,7 +118,7 @@ def plot_raw(
     signal_ax.plot(
         time[::decim],
         signal[::decim],
-        label="PPG signal",
+        label=ylabel,
         linewidth=0.5,
         color="#c44e52",
         alpha=0.5,
@@ -122,12 +135,8 @@ def plot_raw(
         color="grey",
         edgecolors="DarkSlateGrey",
     )
-    if modality == "ppg":
-        signal_ax.set_title(title)
-        signal_ax.set_ylabel(ylabel)
-    elif modality == "ecg":
-        signal_ax.set_title(title)
-        signal_ax.set_ylabel(ylabel)
+    signal_ax.set_title(title)
+    signal_ax.set_ylabel(ylabel)
 
     if bad_segments is not None:
         for bads in bad_segments:
@@ -138,7 +147,6 @@ def plot_raw(
     #############
     # Lower panel
     #############
-
     if show_heart_rate is True:
 
         # Instantaneous Heart Rate - Peaks

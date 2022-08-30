@@ -9,6 +9,7 @@ from matplotlib.axes import Axes
 
 from systole.detection import ecg_peaks, ppg_peaks, rsp_peaks
 from systole.plots.utils import get_plotting_function
+from systole.utils import ecg_strings, ppg_strings, resp_strings
 
 
 def plot_raw(
@@ -38,8 +39,8 @@ def plot_raw(
     signal : :py:class:`pandas.DataFrame` | :py:class:`numpy.ndarray` | list
         Dataframe of PPG or ECG signal in the long format. If a data frame is provided,
         it should contain at least one `'time'` and one colum for signal (either `'ppg'`
-        or `'ecg'`). If an array is provided, it will automatically create a DataFrame
-        using the array as signal and `sfreq` as sampling frequency.
+        `'ecg'`, `'respiration'`). If an array is provided, it will automatically create
+        a DataFrame using the array as signal and `sfreq` as sampling frequency.
     peaks : np.ndarray | None
         (Optional) A boolean vetor of peaks detection (should have same length than
         `signal`). If `peaks` is provided, the peaks detection part is skipped and this
@@ -120,6 +121,20 @@ def plot_raw(
        ecg = ecg[ecg.time.between(60, 90)]
        plot_raw(ecg, modality='ecg', sfreq=1000, ecg_method='pan-tompkins')
 
+    Plotting raw Respiration recording.
+
+    .. jupyter-execute::
+
+       from systole import import_dataset1
+       from systole.plots import plot_raw
+
+       # Import Respiration recording as pandas data frame
+       rsp = import_dataset1(modalities=['Respiration'])
+
+       # Only use the first 90 seconds for demonstration
+       rsp = rsp[rsp.time.between(0, 90)]
+       plot_raw(rsp, sfreq=1000)
+
     Plotting raw PPG recording.
 
     .. jupyter-execute::
@@ -170,17 +185,17 @@ def plot_raw(
         if isinstance(signal, pd.DataFrame):
 
             # Find peaks - Remove learning phase
-            if modality == "ppg":
+            if modality.lower() in ppg_strings:
                 signal, peaks = ppg_peaks(
-                    signal=signal.ppg, moving_average=False, sfreq=sfreq, **kwargs
+                    signal=signal[modality], moving_average=False, sfreq=sfreq, **kwargs
                 )
-            elif modality == "resp":
+            elif modality.lower() in resp_strings:
                 signal, (peaks, troughs) = rsp_peaks(
-                    signal=signal.resp, sfreq=sfreq, **kwargs
+                    signal=signal[modality], sfreq=sfreq, **kwargs
                 )
-            elif modality == "ecg":
+            elif modality.lower() in ecg_strings:
                 signal, peaks = ecg_peaks(
-                    signal=signal.ecg,
+                    signal=signal[modality],
                     method=ecg_method,
                     find_local=True,
                     sfreq=sfreq,
@@ -188,18 +203,20 @@ def plot_raw(
                 )
             else:
                 raise ValueError(
-                    "Invalid modality parameter. Should be 'ecg', 'ppg' or 'resp'."
+                    "Invalid modality parameter. See systole.utils.ecg_strings, "
+                    "systole.utils.ppg_strings or systole.utils.resp_strings "
+                    "for valid parameters."
                 )
         else:
-            if modality == "ppg":
+            if modality in ppg_strings:
                 signal, peaks = ppg_peaks(
                     signal=signal, moving_average=False, sfreq=sfreq, **kwargs
                 )
-            elif modality == "resp":
+            elif modality in resp_strings:
                 signal, (peaks, troughs) = rsp_peaks(
                     signal=signal, sfreq=sfreq, **kwargs
                 )
-            elif modality == "ecg":
+            elif modality in ecg_strings:
                 signal, peaks = ecg_peaks(
                     signal=signal,
                     method=ecg_method,
@@ -209,7 +226,9 @@ def plot_raw(
                 )
             else:
                 raise ValueError(
-                    "Invalid modality parameter. Should be 'ecg', 'ppg' or 'resp'."
+                    "Invalid modality parameter. See systole.utils.ecg_strings, "
+                    "systole.utils.ppg_strings or systole.utils.resp_strings "
+                    "for valid parameters."
                 )
 
     if bad_segments is not None:

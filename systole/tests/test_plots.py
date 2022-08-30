@@ -19,7 +19,6 @@ from systole.plots import (
     plot_poincare,
     plot_raw,
     plot_rr,
-    plot_rsp,
     plot_shortlong,
     plot_subspaces,
 )
@@ -168,10 +167,18 @@ class TestPlots(TestCase):
 
     def test_plot_raw(self):
         """Test plot_raw function"""
+
+        # Using ppg signal
+        ppg = import_ppg().ppg.to_numpy()
+
+        # Import respiratory signal
+        rsp = import_dataset1(modalities=["Respiration"])
+
+        # Import ecg signal
+        ecg_df = import_dataset1(modalities=["ECG", "Stim"])
+
         for backend in ["matplotlib", "bokeh"]:
 
-            # Using ppg signal
-            ppg = import_ppg().ppg.to_numpy()
             plot_raw(
                 ppg,
                 backend=backend,
@@ -180,9 +187,6 @@ class TestPlots(TestCase):
                 modality="ppg",
                 sfreq=75,
             )
-
-            # Using ecg signal
-            ecg_df = import_dataset1(modalities=["ECG", "Stim"])
 
             triggers_idx = [
                 np.where(ecg_df.stim.to_numpy() == 2)[0],
@@ -209,16 +213,15 @@ class TestPlots(TestCase):
                 events_params=events_params,
             )
 
-        plt.close("all")
-
-    def test_plot_rsp(self):
-        """Test plot_rsp function"""
-        rsp = import_dataset1(modalities=["Respiration"])
-        for backend in ["matplotlib", "bokeh"]:
-            plot_rsp(
-                rsp.respiration,
+            ###############
+            # Respiration #
+            ###############
+            plot_raw(
+                rsp,
                 backend=backend,
+                modality="respiration",
                 sfreq=1000,
+                bad_segments=[(10000, 15000), (17000, 20000)],
             )
 
         plt.close("all")

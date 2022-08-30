@@ -6,6 +6,10 @@ import numpy as np
 from numba import jit
 from scipy.interpolate import interp1d
 
+ppg_strings = ["ppg", "pleth", "photoplethysmogram", "cardiac"]
+ecg_strings = ["ecg", "electrocardiogram", "ekg", "cardiac"]
+resp_strings = ["resp", "rsp", "res", "respiration", "breath"]
+
 
 @jit(nopython=True)
 def norm_triggers(

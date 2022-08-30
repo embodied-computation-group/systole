@@ -10,6 +10,7 @@ from bokeh.plotting.figure import Figure
 from pandas.core.indexes.datetimes import DatetimeIndex
 
 from systole.plots import plot_rr
+from systole.utils import ecg_strings, ppg_strings, resp_strings
 
 
 def plot_raw(
@@ -79,19 +80,25 @@ def plot_raw(
         data={"time": time[::decim], "signal": signal[::decim], "peaks": peaks[::decim]}
     )
 
-    if modality == "ppg":
+    if modality in ppg_strings:
         title = "PPG recording"
         ylabel = "PPG level (a.u.)"
         peaks_label = "Systolic peaks"
         signal_label = "PPG signal"
-    elif modality == "ecg":
+    elif modality in ecg_strings:
         title = "ECG recording"
         ylabel = "ECG (mV)"
         peaks_label = "R wave"
         signal_label = "ECG signal"
+    elif modality in resp_strings:
+        title = "Respiration"
+        ylabel = "Respiratory signal"
+        peaks_label = "End of inspiration"
+        signal_label = "Respiratory signal"
 
-    # Raw plot
-    ##########
+    ############
+    # Raw plot #
+    ############
 
     raw = figure(
         title=title,

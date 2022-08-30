@@ -15,6 +15,7 @@ from matplotlib.widgets import SpanSelector
 
 from systole.detection import ecg_peaks, ppg_peaks, rsp_peaks
 from systole.plots import plot_raw
+from systole.utils import ecg_strings, ppg_strings, resp_strings
 
 
 class Viewer:
@@ -147,7 +148,7 @@ class Viewer:
                         part,
                         self.session_.value,
                         self.modality_.value,
-                    ).glob(f"*{self.pattern_.value}*_physio.tsv.gz")
+                    ).glob(f"*{self.pattern_.value}*.tsv.gz")
                 )
             ]
             if len(filter_participants_list) == 0:
@@ -224,7 +225,7 @@ class Viewer:
                     self.participants_.value,
                     self.session_.value,
                     self.modality_.value,
-                ).glob(f"*{self.pattern_.value}*_physio.tsv.gz")
+                ).glob(f"*{self.pattern_.value}*.tsv.gz")
             )
         ]
 
@@ -566,8 +567,7 @@ class Editor:
         self.data.columns = self.data.columns.str.lower()
 
         if self.viewer.signal_type_.value == "ECG":
-            ecg_names = ["ecg", "ekg", "cardiac"]
-            ecg_col = [col for col in self.data.columns if col in ecg_names]
+            ecg_col = [col for col in self.data.columns if col in ecg_strings]
             ecg_col = ecg_col[0] if len(ecg_col) > 0 else None
 
             self.input_signal = self.data[ecg_col].to_numpy()
@@ -580,8 +580,7 @@ class Editor:
             print(f"Loading electrocardiogram - sfreq={self.sfreq} Hz.")
 
         elif self.viewer.signal_type_.value == "PPG":
-            ppg_names = ["ppg", "photoplethysmography", "pulse", "pleth", "cardiac"]
-            ppg_col = [col for col in self.data.columns if col in ppg_names]
+            ppg_col = [col for col in self.data.columns if col in ppg_strings]
             ppg_col = ppg_col[0] if len(ppg_col) > 0 else None
 
             self.input_signal = self.data[ppg_col].to_numpy()
@@ -594,8 +593,7 @@ class Editor:
             print(f"Loading photoplethysmogram - sfreq={self.sfreq} Hz.")
 
         elif self.viewer.signal_type_.value == "RESP":
-            res_names = ["res", "rsp", "respiration", "resp"]
-            res_col = [col for col in self.data.columns if col in res_names]
+            res_col = [col for col in self.data.columns if col in resp_strings]
             res_col = res_col[0] if len(res_col) > 0 else None
 
             self.input_signal = self.data[res_col].to_numpy()
@@ -640,7 +638,7 @@ class Editor:
                     str(self.participant_id),
                     str(self.session),
                     self.modality,
-                ).glob(f"*{self.pattern}*_physio.tsv.gz")
+                ).glob(f"*{self.pattern}*.tsv.gz")
             )
             if len(physio_files) == 0:
                 self.physio_file, self.json_file = None, None
@@ -658,7 +656,7 @@ class Editor:
                         str(self.participant_id),
                         str(self.session),
                         self.modality,
-                    ).glob(f"*{self.pattern}*_physio.json")
+                    ).glob(f"*{self.pattern}*.json")
                 )
                 if len(json_files) == 0:
                     self.physio_file, self.json_file = None, None

@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 
 from systole.reports.subject_level import subject_level_report
+from systole.utils import ecg_strings, ppg_strings, resp_strings
 
 
 def import_data(
@@ -136,8 +137,7 @@ def import_data(
     physio_df.columns = physio_df.columns.str.lower()
 
     # Find ECG recording if any
-    ecg_names = ["ecg", "ekg", "cardiac"]
-    ecg_col = [col for col in physio_df.columns if col in ecg_names]
+    ecg_col = [col for col in physio_df.columns if col in ecg_strings]
     ecg_col = ecg_col[0] if len(ecg_col) > 0 else None
 
     if ecg_col:
@@ -145,8 +145,7 @@ def import_data(
         ecg_sfreq = sfreq
 
     # Find PPG recording if any
-    ppgg_names = ["ppg", "photoplethysmography", "pulse", "PLETH"]
-    ppg_col = [col for col in physio_df.columns if col in ppgg_names]
+    ppg_col = [col for col in physio_df.columns if col in ppg_strings]
     ppg_col = ppg_col[0] if len(ppg_col) > 0 else None
 
     if ppg_col:
@@ -154,8 +153,7 @@ def import_data(
         ppg_sfreq = sfreq
 
     # Find respiration recording if any
-    rsp_names = ["res", "rsp", "respiration"]
-    rsp_col = [col for col in physio_df.columns if col in rsp_names]
+    rsp_col = [col for col in physio_df.columns if col in resp_strings]
     rsp_col = rsp_col[0] if len(rsp_col) > 0 else None
 
     if rsp_col:

@@ -17,7 +17,7 @@ def plot_rr(
     points: bool = True,
     input_type: str = "peaks",
     show_artefacts: bool = False,
-    bad_segments: Optional[Union[np.ndarray, List[int]]] = None,
+    bad_segments: Optional[Union[np.ndarray, List[Tuple[int, int]]]] = None,
     show_limits: bool = True,
     slider: bool = True,
     ax: Optional[Axes] = None,
@@ -166,12 +166,14 @@ def plot_rr(
             raise Warning("show_artefacts is True but points is set to False")
         artefacts = rr_artefacts(rr, input_type=input_type)
 
-    if bad_segments is not None:
+    if bad_segments is None:
+        bad_segments_tuples = None
+    else:
         if isinstance(bad_segments, np.ndarray):
             assert len(bad_segments) == len(rr)
 
             # Find the start and end of each bad segments
-            bad_segments = [
+            bad_segments_list: List[int] = [
                 idx
                 for idx in range(len(bad_segments))
                 if (bad_segments[idx] == 1) & (bad_segments[idx - 1] == 0)
@@ -181,10 +183,12 @@ def plot_rr(
             ]
 
             # Make it a list of tuples (start, end)
-            bad_segments = [
-                (bad_segments[i], bad_segments[i + 1])
-                for i in range(0, len(bad_segments), 2)
+            bad_segments_tuples = [
+                (bad_segments_list[i], bad_segments_list[i + 1])
+                for i in range(0, len(bad_segments_list), 2)
             ]
+        else:
+            bad_segments_tuples = bad_segments
 
     plot_rr_args = {
         "rr": rr,
@@ -193,7 +197,7 @@ def plot_rr(
         "line": line,
         "points": points,
         "artefacts": artefacts,
-        "bad_segments": bad_segments,
+        "bad_segments": bad_segments_tuples,
         "input_type": input_type,
         "show_limits": show_limits,
         "slider": slider,
