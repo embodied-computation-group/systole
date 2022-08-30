@@ -133,7 +133,7 @@ def plot_raw(
 
        # Only use the first 90 seconds for demonstration
        rsp = rsp[rsp.time.between(0, 90)]
-       plot_raw(rsp, sfreq=1000)
+       plot_raw(rsp, sfreq=1000, modality="respiration")
 
     Plotting raw PPG recording.
 
