@@ -20,7 +20,7 @@ def plot_raw(
     ecg_method: str = "pan-tompkins",
     show_heart_rate: bool = False,
     show_artefacts: bool = False,
-    bad_segments: Optional[Union[np.ndarray, List[int]]] = None,
+    bad_segments: Optional[Union[np.ndarray, List[Tuple[int, int]]]] = None,
     slider: bool = True,
     decim: Optional[int] = 10,
     ax: Optional[Axes] = None,
@@ -231,12 +231,14 @@ def plot_raw(
                     "for valid parameters."
                 )
 
-    if bad_segments is not None:
+    if bad_segments is None:
+        bad_segments_tuples = None
+    else:
         if isinstance(bad_segments, np.ndarray):
             assert len(bad_segments) == len(signal)
 
             # Find the start and end of each bad segments
-            bad_segments = [
+            bad_segments_list = [
                 idx
                 for idx in range(len(bad_segments))
                 if (bad_segments[idx] == 1) & (bad_segments[idx - 1] == 0)
@@ -246,10 +248,12 @@ def plot_raw(
             ]
 
             # Make it a list of tuples (start, end)
-            bad_segments = [
-                (bad_segments[i], bad_segments[i + 1])
-                for i in range(0, len(bad_segments), 2)
+            bad_segments_tuples = [
+                (bad_segments_list[i], bad_segments_list[i + 1])
+                for i in range(0, len(bad_segments_list), 2)
             ]
+        else:
+            bad_segments_tuples = bad_segments
 
     time = pd.to_datetime(np.arange(0, len(signal)), unit="ms", origin="unix")
 
@@ -260,7 +264,7 @@ def plot_raw(
         "modality": modality,
         "show_heart_rate": show_heart_rate,
         "show_artefacts": show_artefacts,
-        "bad_segments": bad_segments,
+        "bad_segments": bad_segments_tuples,
         "ax": ax,
         "figsize": figsize,
         "slider": slider,
