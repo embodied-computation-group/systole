@@ -784,19 +784,11 @@ def get_valid_segments(
 
     >>> import numpy as np
     >>> from systole.utils import get_valid_segments
-
     >>> signal = np.random.normal(size=1000)
     >>> bad_segments = [(500, 550), (700, 800)]
     >>> valids = get_valid_segments(signal=signal, bad_segments=bad_segments)
-
-    >>> len(valids[0])
-    `500`
-
-    >>> len(valids[1])
-    `200`
-
-    >>> len(valids[2])
-    `150`
+    >>> [len(sig) for sig in valids]
+    `[500, 200, 150]`
 
     """
 
@@ -860,6 +852,7 @@ def norm_bad_segments(bad_segments) -> List[Tuple[int, int]]:
     From a list of tuples such as `[(start_idx, end_idx)]`, where some intervals are
     overlapping, get a clean version of these bad segments by merging the overlapping
     intervals.
+
     >>> bad_segments = [(100, 200), (150, 250)]
     >>> new_segments = norm_bad_segments(bad_segments)
     >>> assert new_segments
@@ -870,14 +863,14 @@ def norm_bad_segments(bad_segments) -> List[Tuple[int, int]]:
 
         # Create boolean representation
         t_max = np.array(bad_segments).max()
-        boolean_segments = np.zeros(t_max, dtype=bool)
+        boolean_segments = np.zeros(t_max, dtype=int)
 
         for bads in bad_segments:
-            boolean_segments[bads[0] : bads[1]] = True
+            boolean_segments[bads[0] : bads[1]] = 1
 
     elif isinstance(bad_segments, np.ndarray):
 
-        boolean_segments = bad_segments.astype(bool)
+        boolean_segments = bad_segments.astype(int)
 
     else:
         raise ValueError(
@@ -886,17 +879,17 @@ def norm_bad_segments(bad_segments) -> List[Tuple[int, int]]:
         )
 
     # Find the start and end of each bad segments
-    bad_segments_list = [0] if boolean_segments[0] is True else []
+    bad_segments_list = [0] if boolean_segments[0] == 1 else []
 
     bad_segments_list.extend(
         [
             idx
             for idx in range(1, len(boolean_segments) - 1)
-            if (boolean_segments[idx] is True) & (boolean_segments[idx - 1] is False)
-            | (boolean_segments[idx] is False) & (boolean_segments[idx - 1] is True)
+            if (boolean_segments[idx] == 1) & (boolean_segments[idx - 1] == 0)
+            | (boolean_segments[idx] == 0) & (boolean_segments[idx - 1] == 1)
         ]
     )
-    if boolean_segments[-1] is True:
+    if boolean_segments[-1] == 1:
         bad_segments_list.append(len(boolean_segments))
 
     # Make it a list of tuples (start, end)
