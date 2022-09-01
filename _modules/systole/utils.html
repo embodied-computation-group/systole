@@ -1157,19 +1157,11 @@
 
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
 <span class="sd">    &gt;&gt;&gt; from systole.utils import get_valid_segments</span>
-
 <span class="sd">    &gt;&gt;&gt; signal = np.random.normal(size=1000)</span>
 <span class="sd">    &gt;&gt;&gt; bad_segments = [(500, 550), (700, 800)]</span>
 <span class="sd">    &gt;&gt;&gt; valids = get_valid_segments(signal=signal, bad_segments=bad_segments)</span>
-
-<span class="sd">    &gt;&gt;&gt; len(valids[0])</span>
-<span class="sd">    `500`</span>
-
-<span class="sd">    &gt;&gt;&gt; len(valids[1])</span>
-<span class="sd">    `200`</span>
-
-<span class="sd">    &gt;&gt;&gt; len(valids[2])</span>
-<span class="sd">    `150`</span>
+<span class="sd">    &gt;&gt;&gt; [len(sig) for sig in valids]</span>
+<span class="sd">    `[500, 200, 150]`</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1233,6 +1225,7 @@
 <span class="sd">    From a list of tuples such as `[(start_idx, end_idx)]`, where some intervals are</span>
 <span class="sd">    overlapping, get a clean version of these bad segments by merging the overlapping</span>
 <span class="sd">    intervals.</span>
+
 <span class="sd">    &gt;&gt;&gt; bad_segments = [(100, 200), (150, 250)]</span>
 <span class="sd">    &gt;&gt;&gt; new_segments = norm_bad_segments(bad_segments)</span>
 <span class="sd">    &gt;&gt;&gt; assert new_segments</span>
@@ -1243,14 +1236,14 @@
 
         <span class="c1"># Create boolean representation</span>
         <span class="n">t_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-        <span class="n">boolean_segments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">t_max</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="n">boolean_segments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">t_max</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">bads</span> <span class="ow">in</span> <span class="n">bad_segments</span><span class="p">:</span>
-            <span class="n">boolean_segments</span><span class="p">[</span><span class="n">bads</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="n">bads</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">boolean_segments</span><span class="p">[</span><span class="n">bads</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="n">bads</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
 
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
 
-        <span class="n">boolean_segments</span> <span class="o">=</span> <span class="n">bad_segments</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="n">boolean_segments</span> <span class="o">=</span> <span class="n">bad_segments</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -1259,17 +1252,17 @@
         <span class="p">)</span>
 
     <span class="c1"># Find the start and end of each bad segments</span>
-    <span class="n">bad_segments_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">boolean_segments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span> <span class="k">else</span> <span class="p">[]</span>
+    <span class="n">bad_segments_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">boolean_segments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="p">[]</span>
 
     <span class="n">bad_segments_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
         <span class="p">[</span>
             <span class="n">idx</span>
             <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">boolean_segments</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">boolean_segments</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">boolean_segments</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">)</span>
-            <span class="o">|</span> <span class="p">(</span><span class="n">boolean_segments</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">boolean_segments</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">boolean_segments</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">boolean_segments</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="o">|</span> <span class="p">(</span><span class="n">boolean_segments</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">boolean_segments</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
         <span class="p">]</span>
     <span class="p">)</span>
-    <span class="k">if</span> <span class="n">boolean_segments</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">boolean_segments</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">bad_segments_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">boolean_segments</span><span class="p">))</span>
 
     <span class="c1"># Make it a list of tuples (start, end)</span>

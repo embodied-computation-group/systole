@@ -687,11 +687,13 @@ segment/sample.</p>
 </div>
 <p>From a list of tuples such as <cite>[(start_idx, end_idx)]</cite>, where some intervals are
 overlapping, get a clean version of these bad segments by merging the overlapping
-intervals.
-&gt;&gt;&gt; bad_segments = [(100, 200), (150, 250)]
-&gt;&gt;&gt; new_segments = norm_bad_segments(bad_segments)
-&gt;&gt;&gt; assert new_segments
-<cite>[(100, 250)]</cite></p>
+intervals.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bad_segments</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span> <span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">250</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_segments</span> <span class="o">=</span> <span class="n">norm_bad_segments</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">new_segments</span>
+<span class="go">`[(100, 250)]`</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
