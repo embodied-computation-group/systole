@@ -17,7 +17,7 @@ def plot_raw(
     peaks: Optional[np.ndarray] = None,
     sfreq: int = 1000,
     modality: str = "ppg",
-    ecg_method: str = "pan-tompkins",
+    ecg_method: str = "sleepecg",
     show_heart_rate: bool = False,
     show_artefacts: bool = False,
     bad_segments: Optional[Union[np.ndarray, List[Tuple[int, int]]]] = None,
@@ -55,7 +55,8 @@ def plot_raw(
         Peak detection algorithm used by the
         :py:func:`systole.detection.ecg_peaks` function. Can be one of the following:
         `'hamilton'`, `'christov'`, `'engelse-zeelenberg'`, `'pan-tompkins'`,
-        `'wavelet-transform'`, `'moving-average'`. The default is `'pan-tompkins'`.
+        `'wavelet-transform'`, `'moving-average'` or `'sleepecg'`. The default is
+        `'sleepecg'`.
     show_heart_rate : bool
         If `True`, show the instnataneous heart rate below the raw signal. Defaults to
         `False`.
