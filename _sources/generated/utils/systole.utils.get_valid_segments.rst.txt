@@ -1,0 +1,6 @@
+﻿systole.utils.get\_valid\_segments
+==================================
+
+.. currentmodule:: systole.utils
+
+.. autofunction:: get_valid_segments

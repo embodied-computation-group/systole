@@ -145,3 +145,5 @@ Utils
     input_conversion
     nan_cleaning
     find_clipping
+    get_valid_segments
+    norm_bad_segments

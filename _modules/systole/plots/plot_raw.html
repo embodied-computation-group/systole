@@ -382,7 +382,7 @@
 
 <span class="kn">from</span> <span class="nn">systole.detection</span> <span class="kn">import</span> <span class="n">ecg_peaks</span><span class="p">,</span> <span class="n">ppg_peaks</span><span class="p">,</span> <span class="n">rsp_peaks</span>
 <span class="kn">from</span> <span class="nn">systole.plots.utils</span> <span class="kn">import</span> <span class="n">get_plotting_function</span>
-<span class="kn">from</span> <span class="nn">systole.utils</span> <span class="kn">import</span> <span class="n">ecg_strings</span><span class="p">,</span> <span class="n">ppg_strings</span><span class="p">,</span> <span class="n">resp_strings</span>
+<span class="kn">from</span> <span class="nn">systole.utils</span> <span class="kn">import</span> <span class="n">ecg_strings</span><span class="p">,</span> <span class="n">norm_bad_segments</span><span class="p">,</span> <span class="n">ppg_strings</span><span class="p">,</span> <span class="n">resp_strings</span>
 
 
 <div class="viewcode-block" id="plot_raw"><a class="viewcode-back" href="../../../generated/plots/systole.plots.plot_raw.html#systole.plots.plot_raw">[docs]</a><span class="k">def</span> <span class="nf">plot_raw</span><span class="p">(</span>
@@ -609,24 +609,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
             <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
-
-            <span class="c1"># Find the start and end of each bad segments</span>
-            <span class="n">bad_segments_list</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">idx</span>
-                <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">))</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">bad_segments</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">bad_segments</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-                <span class="o">|</span> <span class="p">(</span><span class="n">bad_segments</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">bad_segments</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-                <span class="o">|</span> <span class="p">(</span><span class="n">bad_segments</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-                <span class="o">|</span> <span class="p">(</span><span class="n">bad_segments</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">idx</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="p">]</span>
-
-            <span class="c1"># Make it a list of tuples (start, end)</span>
-            <span class="n">bad_segments_tuples</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="p">(</span><span class="n">bad_segments_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">bad_segments_list</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">bad_segments_list</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
-            <span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">bad_segments_tuples</span> <span class="o">=</span> <span class="n">bad_segments</span>
+        <span class="n">bad_segments_tuples</span> <span class="o">=</span> <span class="n">norm_bad_segments</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">)</span>
 
     <span class="n">time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">)),</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;ms&quot;</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s2">&quot;unix&quot;</span><span class="p">)</span>
 

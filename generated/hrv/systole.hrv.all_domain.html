@@ -603,6 +603,16 @@
    systole.utils.find_clipping
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.get_valid_segments.html">
+   systole.utils.get_valid_segments
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../utils/systole.utils.norm_bad_segments.html">
+   systole.utils.norm_bad_segments
+  </a>
+ </li>
 </ul>
 
   </div>
@@ -635,7 +645,7 @@
 <h1>systole.hrv.all_domain<a class="headerlink" href="#systole-hrv-all-domain" title="Permalink to this headline">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="systole.hrv.all_domain">
-<span class="sig-prename descclassname"><span class="pre">systole.hrv.</span></span><span class="sig-name descname"><span class="pre">all_domain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'rr_ms'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><span class="pre">pandas.core.frame.DataFrame</span></a></span></span><a class="reference internal" href="../../_modules/systole/hrv.html#all_domain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#systole.hrv.all_domain" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">systole.hrv.</span></span><span class="sig-name descname"><span class="pre">all_domain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'rr_ms'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.4)"><span class="pre">pandas.core.frame.DataFrame</span></a></span></span><a class="reference internal" href="../../_modules/systole/hrv.html#all_domain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#systole.hrv.all_domain" title="Permalink to this definition">#</a></dt>
 <dd><p>Extract all the HRV indices implemented for the time domain, frequency domain
 and linear domain.</p>
 <dl class="field-list">
@@ -652,7 +662,7 @@ specifying the <cite>“input_type”</cite> (can be <cite>“rr_s”</cite>, <c
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl>
-<dt><strong>stats</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>Summary of the HRV indices extracted.
+<dt><strong>stats</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>Summary of the HRV indices extracted.
 * ‘MeanRR’ : Mean of R-R intervals (ms).
 * ‘MeanBPM’ : Mean of beats per minutes (bpm).
 * ‘MedianRR’ : Median of R-R intervals’ (ms).

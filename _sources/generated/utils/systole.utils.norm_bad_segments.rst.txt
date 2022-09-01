@@ -1,0 +1,6 @@
+﻿systole.utils.norm\_bad\_segments
+=================================
+
+.. currentmodule:: systole.utils
+
+.. autofunction:: norm_bad_segments

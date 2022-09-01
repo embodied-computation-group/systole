@@ -1125,6 +1125,160 @@
             <span class="n">min_threshold</span> <span class="o">=</span> <span class="n">signal_min</span>
 
     <span class="k">return</span> <span class="n">min_threshold</span><span class="p">,</span> <span class="n">max_threshold</span></div>
+
+
+<div class="viewcode-block" id="get_valid_segments"><a class="viewcode-back" href="../../generated/utils/systole.utils.get_valid_segments.html#systole.utils.get_valid_segments">[docs]</a><span class="k">def</span> <span class="nf">get_valid_segments</span><span class="p">(</span>
+    <span class="n">signal</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">bad_segments</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Return the longest signal or intervals time series after dropping segments marked</span>
+<span class="sd">    as bads.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    signal : np.ndarray</span>
+<span class="sd">        The physiological time serie that should be filtered.</span>
+<span class="sd">    bad_segments : np.ndarray | tuple</span>
+<span class="sd">        Bad segments in the signal where RR interval or peaks to peaks intervals could</span>
+<span class="sd">        not be accurately estimated. Intervals from these segments will be dropped and</span>
+<span class="sd">        the time domain parameters will be computed over the remaining intervals. A</span>
+<span class="sd">        warning is printed if the final intervals range is less than 2 minutes.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    valid : list of np.ndarray</span>
+<span class="sd">        The filtered signal / interval time serie given the bad segments, sorted</span>
+<span class="sd">        according to the signal length.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    From a given physiological signal, and a set of bad segments, return the list of</span>
+<span class="sd">    valid time series, sorted according to their length.</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from systole.utils import get_valid_segments</span>
+
+<span class="sd">    &gt;&gt;&gt; signal = np.random.normal(size=1000)</span>
+<span class="sd">    &gt;&gt;&gt; bad_segments = [(500, 550), (700, 800)]</span>
+<span class="sd">    &gt;&gt;&gt; valids = get_valid_segments(signal=signal, bad_segments=bad_segments)</span>
+
+<span class="sd">    &gt;&gt;&gt; len(valids[0])</span>
+<span class="sd">    `500`</span>
+
+<span class="sd">    &gt;&gt;&gt; len(valids[1])</span>
+<span class="sd">    `200`</span>
+
+<span class="sd">    &gt;&gt;&gt; len(valids[2])</span>
+<span class="sd">    `150`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Return a list of tuple and merge overlapping intervals</span>
+    <span class="n">bad_segments</span> <span class="o">=</span> <span class="n">norm_bad_segments</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">)</span>
+
+    <span class="c1"># Create a list of valid signal array</span>
+    <span class="n">valids</span><span class="p">,</span> <span class="n">start_valid</span> <span class="o">=</span> <span class="p">[],</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">bads</span> <span class="ow">in</span> <span class="n">bad_segments</span><span class="p">:</span>
+
+        <span class="n">valids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="n">start_valid</span> <span class="p">:</span> <span class="n">bads</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+
+        <span class="c1"># First bad segment at the beginning</span>
+        <span class="k">if</span> <span class="n">bads</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">start_valid</span> <span class="o">=</span> <span class="n">bads</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">bad_segments</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">):</span>
+        <span class="n">valids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="n">bad_segments</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="p">:])</span>
+
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">valids</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="norm_bad_segments"><a class="viewcode-back" href="../../generated/utils/systole.utils.norm_bad_segments.html#systole.utils.norm_bad_segments">[docs]</a><span class="k">def</span> <span class="nf">norm_bad_segments</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;Normalize bad segments. Return a list of tuples and merge overlapping intervals.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bad_segments : list | np.ndarray</span>
+<span class="sd">        The time stamps of the bad segments. Can be a boolean 1d numpy array where</span>
+<span class="sd">        `True` is a bad segment (will be rejected), or a list of tuples such as</span>
+<span class="sd">        (start_idx, end_idx) in signal samples or milliseconds when intervals are</span>
+<span class="sd">        provided.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bad_segments_tuples : tuple</span>
+<span class="sd">        The merged bad segments as tuples such as (start_idx, end_idx) indicate when</span>
+<span class="sd">        each bad segment starts and ends.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError :</span>
+<span class="sd">        If `bad_segments` is not a tuple or a np.ndarray.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Get a list of tuples such as `[(start_idx, end_idx)]` from a boolean vector that</span>
+<span class="sd">    is of the same length that the associated signal and where `True` is a bad</span>
+<span class="sd">    segment/sample.</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from systole.utils import norm_bad_segments</span>
+<span class="sd">    &gt;&gt;&gt; bool_bad_segments = np.zeros(100, dtype=bool)</span>
+<span class="sd">    &gt;&gt;&gt; bool_bad_segments[10:20] = True</span>
+<span class="sd">    &gt;&gt;&gt; bool_bad_segments[50:60] = True</span>
+<span class="sd">    &gt;&gt;&gt; new_segments = norm_bad_segments(bool_bad_segments)</span>
+<span class="sd">    &gt;&gt;&gt; new_segments</span>
+<span class="sd">    `[(10, 20), (50, 60)]`</span>
+
+<span class="sd">    From a list of tuples such as `[(start_idx, end_idx)]`, where some intervals are</span>
+<span class="sd">    overlapping, get a clean version of these bad segments by merging the overlapping</span>
+<span class="sd">    intervals.</span>
+<span class="sd">    &gt;&gt;&gt; bad_segments = [(100, 200), (150, 250)]</span>
+<span class="sd">    &gt;&gt;&gt; new_segments = norm_bad_segments(bad_segments)</span>
+<span class="sd">    &gt;&gt;&gt; assert new_segments</span>
+<span class="sd">    `[(100, 250)]`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+
+        <span class="c1"># Create boolean representation</span>
+        <span class="n">t_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">boolean_segments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">t_max</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">bads</span> <span class="ow">in</span> <span class="n">bad_segments</span><span class="p">:</span>
+            <span class="n">boolean_segments</span><span class="p">[</span><span class="n">bads</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="n">bads</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+
+        <span class="n">boolean_segments</span> <span class="o">=</span> <span class="n">bad_segments</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;bad_segments should be a list of tuples or a boolean 1d array.&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot; Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Find the start and end of each bad segments</span>
+    <span class="n">bad_segments_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">boolean_segments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span> <span class="k">else</span> <span class="p">[]</span>
+
+    <span class="n">bad_segments_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">idx</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">boolean_segments</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">boolean_segments</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">boolean_segments</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="o">|</span> <span class="p">(</span><span class="n">boolean_segments</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">boolean_segments</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">boolean_segments</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">bad_segments_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">boolean_segments</span><span class="p">))</span>
+
+    <span class="c1"># Make it a list of tuples (start, end)</span>
+    <span class="n">bad_segments_tuples</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">bad_segments_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">bad_segments_list</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">bad_segments_list</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">bad_segments_tuples</span></div>
 </pre></div>
 
             </article>
