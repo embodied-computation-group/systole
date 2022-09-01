@@ -8,3 +8,4 @@ sphinx==4.4.0
 numpydoc>=1.4.0
 ipympl
 myst-parser
+sphinxcontrib-bibtex>=2.4.2
