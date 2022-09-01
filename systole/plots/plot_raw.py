@@ -9,7 +9,7 @@ from matplotlib.axes import Axes
 
 from systole.detection import ecg_peaks, ppg_peaks, rsp_peaks
 from systole.plots.utils import get_plotting_function
-from systole.utils import ecg_strings, ppg_strings, resp_strings
+from systole.utils import ecg_strings, norm_bad_segments, ppg_strings, resp_strings
 
 
 def plot_raw(
@@ -236,24 +236,7 @@ def plot_raw(
     else:
         if isinstance(bad_segments, np.ndarray):
             assert len(bad_segments) == len(signal)
-
-            # Find the start and end of each bad segments
-            bad_segments_list = [
-                idx
-                for idx in range(len(bad_segments))
-                if (bad_segments[idx] == 1) & (bad_segments[idx - 1] == 0)
-                | (bad_segments[idx] == 0) & (bad_segments[idx - 1] == 1)
-                | (bad_segments[idx] == 0) & (idx == 0)
-                | (bad_segments[idx] == 0) & (idx == len(bad_segments) - 1)
-            ]
-
-            # Make it a list of tuples (start, end)
-            bad_segments_tuples = [
-                (bad_segments_list[i], bad_segments_list[i + 1])
-                for i in range(0, len(bad_segments_list), 2)
-            ]
-        else:
-            bad_segments_tuples = bad_segments
+        bad_segments_tuples = norm_bad_segments(bad_segments)
 
     time = pd.to_datetime(np.arange(0, len(signal)), unit="ms", origin="unix")
 

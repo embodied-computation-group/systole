@@ -19,6 +19,7 @@ Changes
 - |Feature| py:func:`systole.plots.plot_raw()` and py:func:`systole.plots.plot_r()` now accept an `events_params` parameter to plot events together with the instantaneous heart rate.
 - |Enhancement| py:func:`systole.detection.ppg_peaks()`: change `noise_removal` to moving_average and add a `moving_average_length` parameter to control the window length.
 - |Enhancement| |Feature| py:func:`systole.plots.plot_raw()` and py:func:`systole.plots.plot_r()` now accept a `bad_segments` parameter to help visualize annotated bad segments from the Editor/Viewer.
+- |Feature| Add py:func:`systole.utils.norm_bad_segments()` and py:func:`systole.utils.get_valid_segments()` to help filtering part of the signal that are marked as bad.
 
 Contributors
 ++++++++++++

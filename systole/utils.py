@@ -752,3 +752,157 @@ def find_clipping(signal: np.ndarray) -> Tuple[Optional[float], Optional[float]]
             min_threshold = signal_min
 
     return min_threshold, max_threshold
+
+
+def get_valid_segments(
+    signal: np.ndarray,
+    bad_segments: Union[np.ndarray, List[Tuple[int, int]]] = None,
+) -> List[np.ndarray]:
+    """Return the longest signal or intervals time series after dropping segments marked
+    as bads.
+
+    Parameters
+    ----------
+    signal : np.ndarray
+        The physiological time serie that should be filtered.
+    bad_segments : np.ndarray | tuple
+        Bad segments in the signal where RR interval or peaks to peaks intervals could
+        not be accurately estimated. Intervals from these segments will be dropped and
+        the time domain parameters will be computed over the remaining intervals. A
+        warning is printed if the final intervals range is less than 2 minutes.
+
+    Return
+    ------
+    valid : list of np.ndarray
+        The filtered signal / interval time serie given the bad segments, sorted
+        according to the signal length.
+
+    Examples
+    --------
+    From a given physiological signal, and a set of bad segments, return the list of
+    valid time series, sorted according to their length.
+
+    >>> import numpy as np
+    >>> from systole.utils import get_valid_segments
+
+    >>> signal = np.random.normal(size=1000)
+    >>> bad_segments = [(500, 550), (700, 800)]
+    >>> valids = get_valid_segments(signal=signal, bad_segments=bad_segments)
+
+    >>> len(valids[0])
+    `500`
+
+    >>> len(valids[1])
+    `200`
+
+    >>> len(valids[2])
+    `150`
+
+    """
+
+    # Return a list of tuple and merge overlapping intervals
+    bad_segments = norm_bad_segments(bad_segments)
+
+    # Create a list of valid signal array
+    valids, start_valid = [], 0
+    for bads in bad_segments:
+
+        valids.append(signal[start_valid : bads[0]])
+
+        # First bad segment at the beginning
+        if bads[0] != 0:
+            start_valid = bads[1]
+
+    if bad_segments[-1][1] < len(signal):
+        valids.append(signal[bad_segments[-1][1] :])
+
+    return sorted(valids, key=len, reverse=True)
+
+
+def norm_bad_segments(bad_segments) -> List[Tuple[int, int]]:
+    """Normalize bad segments. Return a list of tuples and merge overlapping intervals.
+
+    Parameters
+    ----------
+    bad_segments : list | np.ndarray
+        The time stamps of the bad segments. Can be a boolean 1d numpy array where
+        `True` is a bad segment (will be rejected), or a list of tuples such as
+        (start_idx, end_idx) in signal samples or milliseconds when intervals are
+        provided.
+
+    Returns
+    -------
+    bad_segments_tuples : tuple
+        The merged bad segments as tuples such as (start_idx, end_idx) indicate when
+        each bad segment starts and ends.
+
+    Raises
+    ------
+    ValueError :
+        If `bad_segments` is not a tuple or a np.ndarray.
+
+    Examples
+    --------
+
+    Get a list of tuples such as `[(start_idx, end_idx)]` from a boolean vector that
+    is of the same length that the associated signal and where `True` is a bad
+    segment/sample.
+
+    >>> import numpy as np
+    >>> from systole.utils import norm_bad_segments
+    >>> bool_bad_segments = np.zeros(100, dtype=bool)
+    >>> bool_bad_segments[10:20] = True
+    >>> bool_bad_segments[50:60] = True
+    >>> new_segments = norm_bad_segments(bool_bad_segments)
+    >>> new_segments
+    `[(10, 20), (50, 60)]`
+
+    From a list of tuples such as `[(start_idx, end_idx)]`, where some intervals are
+    overlapping, get a clean version of these bad segments by merging the overlapping
+    intervals.
+    >>> bad_segments = [(100, 200), (150, 250)]
+    >>> new_segments = norm_bad_segments(bad_segments)
+    >>> assert new_segments
+    `[(100, 250)]`
+
+    """
+    if isinstance(bad_segments, list):
+
+        # Create boolean representation
+        t_max = np.array(bad_segments).max()
+        boolean_segments = np.zeros(t_max, dtype=bool)
+
+        for bads in bad_segments:
+            boolean_segments[bads[0] : bads[1]] = True
+
+    elif isinstance(bad_segments, np.ndarray):
+
+        boolean_segments = bad_segments.astype(bool)
+
+    else:
+        raise ValueError(
+            "bad_segments should be a list of tuples or a boolean 1d array."
+            f" Got {type(bad_segments)}"
+        )
+
+    # Find the start and end of each bad segments
+    bad_segments_list = [0] if boolean_segments[0] is True else []
+
+    bad_segments_list.extend(
+        [
+            idx
+            for idx in range(1, len(boolean_segments) - 1)
+            if (boolean_segments[idx] is True) & (boolean_segments[idx - 1] is False)
+            | (boolean_segments[idx] is False) & (boolean_segments[idx - 1] is True)
+        ]
+    )
+    if boolean_segments[-1] is True:
+        bad_segments_list.append(len(boolean_segments))
+
+    # Make it a list of tuples (start, end)
+    bad_segments_tuples = [
+        (bad_segments_list[i], bad_segments_list[i + 1])
+        for i in range(0, len(bad_segments_list), 2)
+    ]
+
+    return bad_segments_tuples

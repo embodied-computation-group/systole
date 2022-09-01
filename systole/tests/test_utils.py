@@ -11,9 +11,11 @@ from systole import import_dataset1, import_ppg, import_rr
 from systole.detection import ppg_peaks
 from systole.utils import (
     find_clipping,
+    get_valid_segments,
     heart_rate,
     input_conversion,
     nan_cleaning,
+    norm_bad_segments,
     norm_triggers,
     simulate_rr,
     time_shift,
@@ -196,6 +198,31 @@ class TestUtils(TestCase):
 
         lower, upper = find_clipping(signal=ppg[:100])
         assert (lower, upper) == (None, None)
+
+    def test_norm_bad_segments(self):
+
+        # Overlapping intervals
+        bad_segments = [(100, 200), (150, 250)]
+        new_segments = norm_bad_segments(bad_segments)
+        assert new_segments == [(100, 250)]
+
+        # A boolean vector
+        bool_bad_segments = np.zeros(100, dtype=bool)
+        bool_bad_segments[10:20] = True
+        bool_bad_segments[50:60] = True
+        new_segments = norm_bad_segments(bool_bad_segments)
+        assert new_segments == [(10, 20), (50, 60)]
+
+    def test_get_valid_segments(self):
+
+        signal = np.random.normal(size=1000)
+
+        bad_segments = [(500, 550), (700, 800)]
+        valids = get_valid_segments(signal=signal, bad_segments=bad_segments)
+
+        assert len(valids[0]) == 500
+        assert len(valids[1]) == 200
+        assert len(valids[2]) == 150
 
 
 if __name__ == "__main__":
