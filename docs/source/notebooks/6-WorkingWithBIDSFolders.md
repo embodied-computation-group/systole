@@ -133,7 +133,8 @@ Once the preprocessing is completed, the structure of the BIDS repository should
 
 +++
 
-## Manual edition of peaks vector
+(viewer)=
+## Manual edition of peaks vector and labelling bad segments using the Viewer
 
 While we hope that the peaks detection function used by [Systole](https://embodied-computation-group.github.io/systole/#) is sufficiently robust to extract peak vectors without errors for most of the uses cases, you might still encounter noisy or invalid recording that you will want to manually inspect and sometimes edit.
 
