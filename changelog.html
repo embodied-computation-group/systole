@@ -56,8 +56,10 @@
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'changelog';</script>
+    <link rel="shortcut icon" href="_static/logo_small.svg"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="References" href="references.html" />
     <link rel="prev" title="systole.utils.norm_bad_segments" href="generated/utils/systole.utils.norm_bad_segments.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="None">
@@ -109,8 +111,8 @@
   
 
   
-    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image">
-    <img src="_static/logo.png" class="logo__image only-dark" alt="Logo image">
+    <img src="_static/logo_small.svg" class="logo__image only-light" alt="Logo image">
+    <img src="_static/logo_small.svg" class="logo__image only-dark" alt="Logo image">
   
   
 </a>
@@ -151,7 +153,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="api.html">
-                        Functions
+                        API
                     </a>
                 </li>
                 
@@ -162,6 +164,21 @@
                     </a>
                 </li>
                 
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                <li class="nav-item">
+                    <a class="nav-link" href="references.html">
+                        References
+                    </a>
+                </li>
+                
+                </div>
+            </div>
+            
     </ul>
 </nav>
       </div>
@@ -281,7 +298,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="api.html">
-                        Functions
+                        API
                     </a>
                 </li>
                 
@@ -292,6 +309,21 @@
                     </a>
                 </li>
                 
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                <li class="nav-item">
+                    <a class="nav-link" href="references.html">
+                        References
+                    </a>
+                </li>
+                
+                </div>
+            </div>
+            
     </ul>
 </nav>
       </div>
@@ -384,17 +416,17 @@
 <section id="changes">
 <h3>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
-<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  <span class="raw-html"><span class="badge badge-fix">Fix</span></span>  Rewrite py:<cite>systole.correction.correct_missed</cite> (now py:<cite>systole.correction.correct_missed_rr</cite>), py:<cite>systole.correction.correct_extra</cite> (now py:<cite>systole.correction.correct_extra_rr</cite>) and py:<cite>systole.correction.correct_rr</cite> to fix the index overflows caused by the insertion or deletion of intervals. All function are now jited, which should also provided performance improvements.</p></li>
-<li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  py:func:<cite>systole.detection.interpolate_clipping()</cite> was not handling thresholds correctly if the provided threshold is not the max/min of the time series.</p></li>
-<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  <span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Add a py:<cite>systole.utils.find_clipping</cite> function to automatically find clipping threshold. This function is called by ppg_peaks when clipping=True and clipping_threshold=”auto”.</p></li>
-<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Plots module: Add a function py:func:<cite>systole.plots.plot_rsp()</cite> to plot respiratory signal.</p></li>
-<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Utils : Add a function py:func:<cite>systole.utils.nan_cleaning()</cite> to automatically interpolate NaN values in a given signal. This function can be called automatically (if required) and the begining of <cite>ppg_peaks</cite>, <cite>ecg_peaks</cite> or <cite>rsp_peaks</cite> by setting the parameter <cite>clean_nan</cite> to <cite>True</cite>. The default is <cite>False</cite>.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  Rewrite func:<cite>systole.correction.correct_missed</cite> (now func:<cite>systole.correction.correct_missed_rr</cite>), func:<cite>systole.correction.correct_extra</cite> (now func:<cite>systole.correction.correct_extra_rr</cite>) and func:<cite>systole.correction.correct_rr</cite> to fix the index overflows caused by the insertion or deletion of intervals. All function are now jited, which should also provided performance improvements.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  func:<cite>systole.detection.interpolate_clipping()</cite> was not handling thresholds correctly if the provided threshold is not the max/min of the time series.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  <span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Add a func:<cite>systole.utils.find_clipping()</cite> function to automatically find clipping threshold. This function is called by ppg_peaks when clipping=True and clipping_threshold=”auto”.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Plots module: Add a function func:<cite>systole.plots.plot_raw()</cite> can now plot respiratory signal.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Utils : Add a function func:<cite>systole.utils.nan_cleaning()</cite> to automatically interpolate NaN values in a given signal. This function can be called automatically (if required) and the begining of <cite>ppg_peaks</cite>, <cite>ecg_peaks</cite> or <cite>rsp_peaks</cite> by setting the parameter <cite>clean_nan</cite> to <cite>True</cite>. The default is <cite>False</cite>.</p></li>
 <li><p>Remove the default sampling frequencies for <cite>ecg_peaks</cite>, <cite>ppg_peaks</cite> and <cite>rsp_peaks</cite>. Do not resample if <cite>sfreq</cite> and <cite>new_sfreq</cite> are identicals.</p></li>
-<li><p>Remove py:<cite>systole.recording.findOximeter</cite>.</p></li>
-<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  py:func:<cite>systole.plots.plot_raw()</cite> and py:func:<cite>systole.plots.plot_r()</cite> now accept an <cite>events_params</cite> parameter to plot events together with the instantaneous heart rate.</p></li>
-<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  py:func:<cite>systole.detection.ppg_peaks()</cite>: change <cite>noise_removal</cite> to moving_average and add a <cite>moving_average_length</cite> parameter to control the window length.</p></li>
-<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  <span class="raw-html"><span class="badge badge-feature">Feature</span></span>  py:func:<cite>systole.plots.plot_raw()</cite> and py:func:<cite>systole.plots.plot_r()</cite> now accept a <cite>bad_segments</cite> parameter to help visualize annotated bad segments from the Editor/Viewer.</p></li>
-<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Add py:func:<cite>systole.utils.norm_bad_segments()</cite> and py:func:<cite>systole.utils.get_valid_segments()</cite> to help filtering part of the signal that are marked as bad.</p></li>
+<li><p>Remove func:<cite>systole.recording.findOximeter()</cite>.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  func:<cite>systole.plots.plot_raw()</cite> and py:func:<cite>systole.plots.plot_r()</cite> now accept an <cite>events_params</cite> parameter to plot events together with the instantaneous heart rate.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  func:<cite>systole.detection.ppg_peaks()</cite>: change <cite>noise_removal</cite> to moving_average and add a <cite>moving_average_length</cite> parameter to control the window length.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  <span class="raw-html"><span class="badge badge-feature">Feature</span></span>  func:<cite>systole.plots.plot_raw()</cite> and func:<cite>systole.plots.plot_r()</cite> now accept a <cite>bad_segments</cite> parameter to help visualize annotated bad segments from the Editor/Viewer.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Add func:<cite>systole.utils.norm_bad_segments()</cite> and func:<cite>systole.utils.get_valid_segments()</cite> to help filtering part of the signal that are marked as bad.</p></li>
 </ul>
 </section>
 <section id="contributors">
@@ -413,12 +445,12 @@
 <section id="id2">
 <h3>Changes<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
-<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  HRV module: Add a function py:func:<cite>systole.hrv.all_domain()</cite> to easily compute all possible HRV indices.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  HRV module: Add a function func:<cite>systole.hrv.all_domain()</cite> to easily compute all possible HRV indices.</p></li>
 <li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  HRV module: Add recurence plot analysis and fast recurrence matrix computation (thanks to Dominique Makowski), and basic quantitative metrics (recurrence rate, l_max, l_mean, determinism rate, Shannon entropy). These metrics are now part of the nonlinear reports (py:func:<cite>systole.hrv.nonlinear_domain()</cite>) or can be called separately (py:func:<cite>systole.hrv.recurrence()</cite>).</p></li>
-<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  <span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  HRV module: The time domain function (py:func:<cite>systole.hrv.time_domain()</cite>) also reports the SDSD by default.</p></li>
-<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  <span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  HRV module: The frequency domain function (py:func:<cite>systole.hrv.frequency_domain()</cite>) now returns the total power and LF/HF ratio by default.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  <span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  HRV module: The time domain function (func:<cite>systole.hrv.time_domain()</cite>) also reports the SDSD by default.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  <span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  HRV module: The frequency domain function (func:<cite>systole.hrv.frequency_domain()</cite>) now returns the total power and LF/HF ratio by default.</p></li>
 <li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Plotting module: Add nicer rendering for table output for time_domain, frequency_domain and nonlinear_domain functions, working either with Tabulate or Bokeh.</p></li>
-<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Add a respiratory peaks detection function (py:func:<cite>systole.detection.rsp_peaks()</cite>). Very simple for now, will be improved in the future.</p></li>
+<li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Add a respiratory peaks detection function (func:<cite>systole.detection.rsp_peaks()</cite>). Very simple for now, will be improved in the future.</p></li>
 <li><p><span class="raw-html"><span class="badge badge-docs">Docs</span></span>  <span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Improve tutorial notebook on HRV.</p></li>
 </ul>
 </section>
@@ -632,6 +664,13 @@
           <p class="prev-next-subtitle">previous</p>
           <p class="prev-next-title">systole.utils.norm_bad_segments</p>
       </div>
+  </a>
+  <a class='right-next' id="next-link" href="references.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">References</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
   </a>
 </div>
             </footer>

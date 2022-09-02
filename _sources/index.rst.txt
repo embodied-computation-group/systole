@@ -193,5 +193,6 @@ Contributors
    Getting started <getting_started>
    Gallery <auto_examples/index.rst>
    Tutorials <tutorials.rst>
-   API reference <api.rst>
+   API <api.rst>
    Release notes <changelog.rst>
+   References <references.md>
