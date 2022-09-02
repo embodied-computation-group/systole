@@ -15,7 +15,7 @@ from matplotlib.widgets import SpanSelector
 
 from systole.detection import ecg_peaks, ppg_peaks, rsp_peaks
 from systole.plots import plot_raw
-from systole.utils import ecg_strings, ppg_strings, resp_strings
+from systole.utils import ecg_strings, norm_bad_segments, ppg_strings, resp_strings
 
 
 class Viewer:
@@ -348,10 +348,13 @@ class Editor:
             # Create the main plot_raw instance
             self.fig, self.ax = plt.subplots(nrows=2, figsize=self.figsize, sharex=True)
 
-            bad_segments = [
-                (self.bad_segments[i], self.bad_segments[i + 1])
-                for i in range(0, len(self.bad_segments), 2)
-            ]
+            if self.bad_segments:
+                bad_segments = [
+                    (self.bad_segments[i], self.bad_segments[i + 1])
+                    for i in range(0, len(self.bad_segments), 2)
+                ]
+            else:
+                bad_segments = None
 
             plot_raw(
                 signal=self.signal,
@@ -401,6 +404,17 @@ class Editor:
             tmin, tmax = np.searchsorted(self.x_vec, (xmin, xmax))
             self.bad_segments.append(int(tmin))
             self.bad_segments.append(int(tmax))
+
+            # Makes it a list of tuple
+            bad_segments = [
+                (self.bad_segments[i], self.bad_segments[i + 1])
+                for i in range(0, len(self.bad_segments), 2)
+            ]
+
+            # Merge overlapping segments if any
+            bad_segments = norm_bad_segments(bad_segments)
+            self.bad_segments = list(np.array(bad_segments).flatten())
+            print(self.bad_segments)
             self.plot_signals()
 
     def on_add(self, xmin, xmax):
@@ -431,16 +445,21 @@ class Editor:
 
         if self.signal is not None:
 
-            bad_segments = [
-                (self.bad_segments[i], self.bad_segments[i + 1])
-                for i in range(0, len(self.bad_segments), 2)
-            ]
-
             # Clear axes and redraw, retaining x-/y-axis zooms
             xlim, ylim = self.ax[0].get_xlim(), self.ax[0].get_ylim()
             xlim2, ylim2 = self.ax[1].get_xlim(), self.ax[1].get_ylim()
             self.ax[0].clear()
             self.ax[1].clear()
+
+            # Convert bad segments into list of tuple
+            if self.bad_segments:
+                bad_segments = [
+                    (self.bad_segments[i], self.bad_segments[i + 1])
+                    for i in range(0, len(self.bad_segments), 2)
+                ]
+            else:
+                bad_segments = None
+
             plot_raw(
                 signal=self.signal,
                 peaks=self.peaks,
@@ -529,15 +548,11 @@ class Editor:
         else:
             metadata = {}
 
-        add_idx = np.where(self.peaks & ~self.initial_peaks)[0].tolist()
-        remove_idx = np.where(~self.peaks & self.initial_peaks)[0].tolist()
-
         # Create the JSON metadata and save it in the corrected derivative folder
         corrected_info = {
             "valid": self.viewer.rejection_.value,
-            "add_idx": add_idx,
-            "remove_idx": remove_idx,
-            "bad_segments": self.bad_segments,
+            "corrected_peaks": np.where(self.peaks)[0].tolist(),
+            "bad_segments": [int(x) for x in self.bad_segments],
         }
         metadata[self.viewer.signal_type_.value] = corrected_info
 
@@ -545,19 +560,16 @@ class Editor:
             json.dump(metadata, f, ensure_ascii=False, indent=4)
 
     def load_signal(self):
-        """Find the signal in the physiological recording and perform peaks detection
-        given the modality.
-
-        """
+        """Find the signal in the physiological recording and perform peaks detection."""
         self.data = None
         self.peaks = None
-        self.bad_segments = []
         self.signal = None
         self.input_signal = None
         self.initial_peaks = None
         if self.physio_file is None:
             return self
 
+        # Load the physiological signal from the BIDS folder
         self.data = pd.read_csv(
             self.physio_file,
             sep="\t",
@@ -565,6 +577,31 @@ class Editor:
             names=self.input_columns_names,
         )
         self.data.columns = self.data.columns.str.lower()
+
+        # Path to the corrected JSON files (if the signal has already been checked)
+        self.corrected_json_file = Path(
+            self.viewer.output_folder_.value,
+            "systole",
+            "corrected",
+            str(self.participant_id),
+            str(self.session),
+            self.modality,
+            f"sub-{self.participant_id}_{self.session}_{self.pattern}_corrected.json",
+        )
+
+        # Load peaks, bad segments and reject signal from the JSON logs
+        if self.corrected_json_file.exists():
+
+            # Opening JSON file and extract metadata
+            f = open(self.corrected_json_file)
+            json_data = json.load(f)
+
+            self.bad_segments = json_data[self.viewer.signal_type_.value][
+                "bad_segments"
+            ]
+            self.peaks = json_data[self.viewer.signal_type_.value]["corrected_peaks"]
+
+            f.close()
 
         if self.viewer.signal_type_.value == "ECG":
             ecg_col = [col for col in self.data.columns if col in ecg_strings]
@@ -663,7 +700,7 @@ class Editor:
                 elif len(json_files) > 1:
                     self.physio_file, self.json_file = None, None
                     print(
-                        "More than one JSON file match the provided string pattern."
+                        "More than one JSON file match the provided string pattern. "
                         "Use a more explicit/longer string pattern to find your recording."
                     )
                 else:
