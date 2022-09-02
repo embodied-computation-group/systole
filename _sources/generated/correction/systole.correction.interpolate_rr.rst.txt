@@ -1,0 +1,6 @@
+﻿systole.correction.interpolate\_rr
+==================================
+
+.. currentmodule:: systole.correction
+
+.. autofunction:: interpolate_rr

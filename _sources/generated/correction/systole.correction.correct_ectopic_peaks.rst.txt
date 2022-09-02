@@ -1,0 +1,6 @@
+﻿systole.correction.correct\_ectopic\_peaks
+==========================================
+
+.. currentmodule:: systole.correction
+
+.. autofunction:: correct_ectopic_peaks

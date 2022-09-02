@@ -108,8 +108,8 @@
   
 
   
-    <img src="../../../_static/logo_small.svg" class="logo__image only-light" alt="Logo image">
-    <img src="../../../_static/logo_small.svg" class="logo__image only-dark" alt="Logo image">
+    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../../../_static/logo.svg" class="logo__image only-dark" alt="Logo image">
   
   
 </a>
@@ -150,7 +150,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="../../../api.html">
-                        API
+                        Functions
                     </a>
                 </li>
                 
@@ -295,7 +295,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="../../../api.html">
-                        API
+                        Functions
                     </a>
                 </li>
                 
@@ -430,7 +430,7 @@
     <span class="n">backend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;matplotlib&quot;</span><span class="p">,</span>
     <span class="n">events_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Axes</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Plot RR intervals time series.</span>
+    <span class="sd">&quot;&quot;&quot;Plot instantaneous heart rate time series.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -493,10 +493,12 @@
 
 <span class="sd">    See also</span>
 <span class="sd">    --------</span>
-<span class="sd">    plot_raw, plot_events</span>
+<span class="sd">    plot_raw, plot_events, plot_evoked</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
+
+<span class="sd">    Plot instantaneous heart rate from a RR interval time series (in milliseconds).</span>
 
 <span class="sd">    .. jupyter-execute::</span>
 
@@ -506,31 +508,17 @@
 <span class="sd">       # Import R-R intervals time series</span>
 <span class="sd">       rr = import_rr().rr.values</span>
 
-<span class="sd">    Using Matplotlib backend.</span>
+<span class="sd">       plot_rr(rr=rr, input_type=&quot;rr_ms&quot;);</span>
 
-<span class="sd">    .. jupyter-execute::</span>
-
-<span class="sd">       plot_rr(rr=rr, input_type=&quot;rr_ms&quot;)</span>
-
-<span class="sd">    Change the default unit to beats per minute (BPM).</span>
-
-<span class="sd">    .. jupyter-execute::</span>
-
-<span class="sd">       plot_rr(rr=rr, input_type=&quot;rr_ms&quot;, unit=&quot;bpm&quot;)</span>
-
-<span class="sd">    Only use a scatter plot and add a bad segment.</span>
-
-<span class="sd">    .. jupyter-execute::</span>
-
-<span class="sd">       plot_rr(rr=rr, input_type=&quot;rr_ms&quot;, unit=&quot;bpm&quot;, line=False);</span>
-
-<span class="sd">    Only plot the interpolated instantaneous heart rate variability.</span>
+<span class="sd">    Only show the interpolated instantaneous heart rate, add a bad segment and change</span>
+<span class="sd">    the default unit to beats per minute (BPM).</span>
 
 <span class="sd">    .. jupyter-execute::</span>
 
 <span class="sd">       plot_rr(rr=rr, input_type=&quot;rr_ms&quot;, unit=&quot;bpm&quot;, points=False);</span>
 
-<span class="sd">    Using the Bokeh backend.</span>
+<span class="sd">    Use Bokeh as a plotting backend, only show the scatterplt and highlight artefacts</span>
+<span class="sd">    in the RR intervals.</span>
 
 <span class="sd">    .. jupyter-execute::</span>
 
@@ -539,15 +527,10 @@
 <span class="sd">       output_notebook()</span>
 
 <span class="sd">       show(</span>
-<span class="sd">           plot_rr(rr=rr, input_type=&quot;rr_ms&quot;, backend=&quot;bokeh&quot;)</span>
-<span class="sd">       )</span>
-
-<span class="sd">    Highlight RR artefacts and outliers.</span>
-
-<span class="sd">    .. jupyter-execute::</span>
-
-<span class="sd">       show(</span>
-<span class="sd">           plot_rr(rr=rr, input_type=&quot;rr_ms&quot;, backend=&quot;bokeh&quot;, show_artefacts=True)</span>
+<span class="sd">           plot_rr(</span>
+<span class="sd">            rr=rr, input_type=&quot;rr_ms&quot;, backend=&quot;bokeh&quot;,</span>
+<span class="sd">            line=False, show_artefacts=True</span>
+<span class="sd">            )</span>
 <span class="sd">       )</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>

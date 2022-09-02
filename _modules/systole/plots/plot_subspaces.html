@@ -108,8 +108,8 @@
   
 
   
-    <img src="../../../_static/logo_small.svg" class="logo__image only-light" alt="Logo image">
-    <img src="../../../_static/logo_small.svg" class="logo__image only-dark" alt="Logo image">
+    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../../../_static/logo.svg" class="logo__image only-dark" alt="Logo image">
   
   
 </a>
@@ -150,7 +150,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="../../../api.html">
-                        API
+                        Functions
                     </a>
                 </li>
                 
@@ -295,7 +295,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="../../../api.html">
-                        API
+                        Functions
                     </a>
                 </li>
                 
@@ -479,12 +479,15 @@
 
 <span class="sd">       from systole import import_rr</span>
 <span class="sd">       from systole.plots import plot_subspaces</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
 
 <span class="sd">       # Import PPG recording as numpy array</span>
 <span class="sd">       rr = import_rr().rr.to_numpy()</span>
-<span class="sd">       plot_subspaces(rr)</span>
 
-<span class="sd">    Visualizing ectopic subspace from the `artefact` dictionary.</span>
+<span class="sd">       _, axs = plt.subplots(ncols=2, figsize=(12, 6))</span>
+<span class="sd">       plot_subspaces(rr, ax=axs)</span>
+
+<span class="sd">    Visualizing artefacts from the `artefact` dictionary.</span>
 
 <span class="sd">    .. jupyter-execute::</span>
 
@@ -493,9 +496,10 @@
 <span class="sd">       # Use the rr_artefacts function to short/long and extra/missed intervals</span>
 <span class="sd">       artefacts = rr_artefacts(rr)</span>
 
-<span class="sd">       plot_subspaces(artefacts=artefacts)</span>
+<span class="sd">       _, axs = plt.subplots(ncols=2, figsize=(12, 6))</span>
+<span class="sd">       plot_subspaces(artefacts=artefacts, ax=axs)</span>
 
-<span class="sd">    Using the Bokeh backend.</span>
+<span class="sd">    Using Bokeh as plotting backend.</span>
 
 <span class="sd">    .. jupyter-execute::</span>
 
@@ -505,7 +509,9 @@
 <span class="sd">       output_notebook()</span>
 
 <span class="sd">       show(</span>
-<span class="sd">          plot_subspaces(artefacts=artefacts, backend=&quot;bokeh&quot;, figsize=400)</span>
+<span class="sd">          plot_subspaces(</span>
+<span class="sd">            artefacts=artefacts, backend=&quot;bokeh&quot;, figsize=400</span>
+<span class="sd">            )</span>
 <span class="sd">       )</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>

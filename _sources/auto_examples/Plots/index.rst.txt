@@ -1,0 +1,202 @@
+
+
+.. _sphx_glr_auto_examples_Plots:
+
+Plotting
+++++++++
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Plot pointcare">
+
+.. only:: html
+
+  .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_pointcare_thumb.png
+    :alt: Plot pointcare
+
+  :ref:`sphx_glr_auto_examples_Plots_plot_pointcare.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plot pointcare</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Plot frequency">
+
+.. only:: html
+
+  .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_frequency_thumb.png
+    :alt: Plot frequency
+
+  :ref:`sphx_glr_auto_examples_Plots_plot_frequency.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plot frequency</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The circular mean was adapted from Pingouin&#x27;s implementation [#]_.">
+
+.. only:: html
+
+  .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_circular_thumb.png
+    :alt: Plot circular
+
+  :ref:`sphx_glr_auto_examples_Plots_plot_circular.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plot circular</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Plot instantaneous heart rate">
+
+.. only:: html
+
+  .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_rr_thumb.png
+    :alt: Plot instantaneous heart rate
+
+  :ref:`sphx_glr_auto_examples_Plots_plot_rr.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plot instantaneous heart rate</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Visualization of short, long, extra and missed intervals detection.">
+
+.. only:: html
+
+  .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_shortlong_thumb.png
+    :alt: Plot short and long invertvals
+
+  :ref:`sphx_glr_auto_examples_Plots_plot_shortlong.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plot short and long invertvals</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Plot ectopic beats">
+
+.. only:: html
+
+  .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_ectopic_thumb.png
+    :alt: Plot ectopic beats
+
+  :ref:`sphx_glr_auto_examples_Plots_plot_ectopic.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plot ectopic beats</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The artefact detection is based on the method described in [1]_.">
+
+.. only:: html
+
+  .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_subspace_thumb.png
+    :alt: Plot subspaces to vivualize short/long and ectopic beats
+
+  :ref:`sphx_glr_auto_examples_Plots_plot_subspace.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plot subspaces to vivualize short/long and ectopic beats</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Plot raw physiological signal">
+
+.. only:: html
+
+  .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_raw_thumb.png
+    :alt: Plot raw physiological signal
+
+  :ref:`sphx_glr_auto_examples_Plots_plot_raw.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plot raw physiological signal</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Plot events">
+
+.. only:: html
+
+  .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_events_thumb.png
+    :alt: Plot events
+
+  :ref:`sphx_glr_auto_examples_Plots_plot_events.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plot events</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Plot evoked">
+
+.. only:: html
+
+  .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_evoked_thumb.png
+    :alt: Plot evoked
+
+  :ref:`sphx_glr_auto_examples_Plots_plot_evoked.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plot evoked</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/Plots/plot_pointcare
+   /auto_examples/Plots/plot_frequency
+   /auto_examples/Plots/plot_circular
+   /auto_examples/Plots/plot_rr
+   /auto_examples/Plots/plot_shortlong
+   /auto_examples/Plots/plot_ectopic
+   /auto_examples/Plots/plot_subspace
+   /auto_examples/Plots/plot_raw
+   /auto_examples/Plots/plot_events
+   /auto_examples/Plots/plot_evoked
+

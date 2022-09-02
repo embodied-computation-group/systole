@@ -111,8 +111,8 @@
   
 
   
-    <img src="../../_static/logo_small.svg" class="logo__image only-light" alt="Logo image">
-    <img src="../../_static/logo_small.svg" class="logo__image only-dark" alt="Logo image">
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/logo.svg" class="logo__image only-dark" alt="Logo image">
   
   
 </a>
@@ -153,7 +153,7 @@
 
                 <li class="nav-item current active">
                     <a class="nav-link" href="../../api.html">
-                        API
+                        Functions
                     </a>
                 </li>
                 
@@ -298,7 +298,7 @@
 
                 <li class="nav-item current active">
                     <a class="nav-link" href="../../api.html">
-                        API
+                        Functions
                     </a>
                 </li>
                 
@@ -391,6 +391,21 @@
   <div class="bd-toc-item navbar-nav">
     <ul class="nav bd-sidenav">
  <li class="toctree-l1">
+  <a class="reference internal" href="../correction/systole.correction.correct_extra_rr.html">
+   systole.correction.correct_extra_rr
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../correction/systole.correction.correct_missed_rr.html">
+   systole.correction.correct_missed_rr
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../correction/systole.correction.interpolate_rr.html">
+   systole.correction.interpolate_rr
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="../correction/systole.correction.correct_rr.html">
    systole.correction.correct_rr
   </a>
@@ -403,6 +418,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../correction/systole.correction.correct_missed_peaks.html">
    systole.correction.correct_missed_peaks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../correction/systole.correction.correct_ectopic_peaks.html">
+   systole.correction.correct_ectopic_peaks
   </a>
  </li>
 </ul>
@@ -732,10 +752,9 @@ non linearly. The <cite>“area”</cite> method can control for this bias.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>The density function can be represented using the area of the bars, the
-height or the transparency (alpha). The default behaviour will use the
-area. Using the heigth can visually biase the importance of the largest
-values. Adapted from <a class="footnote-reference brackets" href="#id3" id="id1">1</a>.</p>
+<p>The density function can be represented using the area of the bars, the height or
+the transparency (alpha). The default behaviour will use the area. Using the heigth
+can visually biase the importance of the largest values. Adapted from <a class="footnote-reference brackets" href="#id3" id="id1">1</a>.</p>
 <p>The circular mean was adapted from Pingouin’s implementation <a class="footnote-reference brackets" href="#id4" id="id2">2</a>.</p>
 <p class="rubric">References</p>
 <dl class="footnote brackets">
