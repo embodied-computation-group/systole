@@ -133,7 +133,7 @@ def plot_raw(
        rsp = import_dataset1(modalities=['Respiration'])
 
        # Only use the first 90 seconds for demonstration
-       rsp = rsp[rsp.time.between(120, 210)]
+       rsp = rsp[rsp.time.between(500, 600)]
        plot_raw(rsp, sfreq=1000, modality="respiration")
 
     Plotting raw PPG recording with automatic labelling of the systolic peaks.
