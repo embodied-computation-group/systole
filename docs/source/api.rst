@@ -2,8 +2,8 @@
 
 .. currentmodule:: systole
 
-API
-===
+Functions
+=========
 
 .. contents:: Table of Contents
    :depth: 2
@@ -18,12 +18,13 @@ Correction
 .. autosummary::
    :toctree: generated/correction
 
-    correct_extra
-    correct_missed
-    interpolate_bads
+    correct_extra_rr
+    correct_missed_rr
+    interpolate_rr
     correct_rr
     correct_peaks
     correct_missed_peaks
+    correct_ectopic_peaks
 
 Detection
 ---------
@@ -80,7 +81,6 @@ Plots
     plot_frequency
     plot_poincare
     plot_raw
-    plot_rsp
     plot_rr
     plot_shortlong
     plot_subspaces

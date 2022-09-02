@@ -81,10 +81,9 @@ def plot_circular(
 
     Notes
     -----
-    The density function can be represented using the area of the bars, the
-    height or the transparency (alpha). The default behaviour will use the
-    area. Using the heigth can visually biase the importance of the largest
-    values. Adapted from [#]_.
+    The density function can be represented using the area of the bars, the height or
+    the transparency (alpha). The default behaviour will use the area. Using the heigth
+    can visually biase the importance of the largest values. Adapted from [#]_.
 
     The circular mean was adapted from Pingouin's implementation [#]_.
 
