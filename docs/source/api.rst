@@ -2,8 +2,8 @@
 
 .. currentmodule:: systole
 
-Functions
-=========
+API
+===
 
 .. contents:: Table of Contents
    :depth: 2

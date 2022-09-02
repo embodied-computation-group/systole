@@ -108,7 +108,7 @@ def plot_raw(
     Examples
     --------
 
-    Plotting raw ECG recording.
+    Plotting raw ECG recording with automatic R peaks labelling.
 
     .. jupyter-execute::
 
@@ -120,9 +120,9 @@ def plot_raw(
 
        # Only use the first 60 seconds for demonstration
        ecg = ecg[ecg.time.between(60, 90)]
-       plot_raw(ecg, modality='ecg', sfreq=1000, ecg_method='pan-tompkins')
+       plot_raw(ecg, modality='ecg', sfreq=1000, ecg_method='sleepecg')
 
-    Plotting raw Respiration recording.
+    Plotting raw respiration recording with automatic labelling of inspiratory peaks.
 
     .. jupyter-execute::
 
@@ -133,10 +133,10 @@ def plot_raw(
        rsp = import_dataset1(modalities=['Respiration'])
 
        # Only use the first 90 seconds for demonstration
-       rsp = rsp[rsp.time.between(0, 90)]
+       rsp = rsp[rsp.time.between(120, 210)]
        plot_raw(rsp, sfreq=1000, modality="respiration")
 
-    Plotting raw PPG recording.
+    Plotting raw PPG recording with automatic labelling of the systolic peaks.
 
     .. jupyter-execute::
 
@@ -146,7 +146,7 @@ def plot_raw(
        ppg = import_ppg()
 
        # Only use the first 60 seconds for demonstration
-       plot_raw(ppg[ppg.time<60], sfreq=75)
+       plot_raw(ppg[ppg.time<60], sfreq=75);
 
     Highlighting a bad segment in the recording.
 
@@ -155,14 +155,13 @@ def plot_raw(
        from systole import import_ppg
        from systole.plots import plot_raw
 
-       # Import PPG recording as pandas data frame
-       ppg = import_ppg()
-
        # Only use the first 60 seconds for demonstration
        # The bad segments are annotated using a tuple (start, end) in miliseconds
-       plot_raw(ppg[ppg.time<60], sfreq=75, bad_segments=[(15000, 17000)])
+       plot_raw(ppg[ppg.time<60], sfreq=75, bad_segments=[(15000, 17000)]);
 
-    Using Bokeh backend, with instantaneous heart rate and artefacts.
+    Using Bokeh as plotting backend, with automatic systolic peaks labelling and show
+    the instantaneous heart rate in a second panel with automated labelling of RR
+    interval artefacts.
 
     .. jupyter-execute::
 
@@ -171,7 +170,10 @@ def plot_raw(
        output_notebook()
 
        show(
-           plot_raw(ppg, backend="bokeh", show_heart_rate=True, show_artefacts=True)
+           plot_raw(
+            signal=ppg, backend="bokeh", sfreq=75,
+            show_heart_rate=True, show_artefacts=True
+            )
         )
 
     """
