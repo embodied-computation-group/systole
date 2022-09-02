@@ -24,7 +24,7 @@ def plot_events(
     backend: str = "matplotlib",
     palette: Optional[List[str]] = None,
 ) -> Axes:
-    """Plot events from a trigger channel.
+    """Visualize the occurence of events along the physiological recording.
 
     Parameters
     ----------
@@ -81,7 +81,7 @@ def plot_events(
     Examples
     --------
 
-    Plot events distributions using the Matplotlib backend.
+    Plot events distributions using Matplotlib as plotting backend.
 
     .. jupyter-execute::
 
@@ -104,7 +104,7 @@ def plot_events(
            palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
         )
 
-    Plot events distributions using the Bokeh backend and add RR time series.
+    Plot events distributions using Bokeh as plotting backend and add the RR time series.
 
     .. jupyter-execute::
 
@@ -120,11 +120,13 @@ def plot_events(
        # First, we create a RR interval plot
        rr_plot = plot_rr(peaks, input_type='peaks', backend='bokeh', figsize=250)
 
+       # Then we add events annotations to this plot using the plot_events function
        show(
-           # Then we add events annotations to this plot using the plot_events function
-           plot_events(triggers_idx=triggers_idx, backend="bokeh", labels=["Disgust", "Neutral"],
-                       tmin=-0.5, tmax=10.0, palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
-                       ax=rr_plot.children[0])
+            plot_events(
+                triggers_idx=triggers_idx, labels=["Disgust", "Neutral"],
+                tmin=-0.5, tmax=10.0, ax=rr_plot.children[0], backend="bokeh",
+                palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+            )
        )
 
     """

@@ -75,12 +75,15 @@ def plot_subspaces(
 
        from systole import import_rr
        from systole.plots import plot_subspaces
+       import matplotlib.pyplot as plt
 
        # Import PPG recording as numpy array
        rr = import_rr().rr.to_numpy()
-       plot_subspaces(rr)
 
-    Visualizing ectopic subspace from the `artefact` dictionary.
+       _, axs = plt.subplots(ncols=2, figsize=(12, 6))
+       plot_subspaces(rr, ax=axs)
+
+    Visualizing artefacts from the `artefact` dictionary.
 
     .. jupyter-execute::
 
@@ -89,9 +92,10 @@ def plot_subspaces(
        # Use the rr_artefacts function to short/long and extra/missed intervals
        artefacts = rr_artefacts(rr)
 
-       plot_subspaces(artefacts=artefacts)
+       _, axs = plt.subplots(ncols=2, figsize=(12, 6))
+       plot_subspaces(artefacts=artefacts, ax=axs)
 
-    Using the Bokeh backend.
+    Using Bokeh as plotting backend.
 
     .. jupyter-execute::
 
@@ -101,7 +105,9 @@ def plot_subspaces(
        output_notebook()
 
        show(
-          plot_subspaces(artefacts=artefacts, backend="bokeh", figsize=400)
+          plot_subspaces(
+            artefacts=artefacts, backend="bokeh", figsize=400
+            )
        )
 
     """

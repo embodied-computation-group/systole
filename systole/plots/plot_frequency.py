@@ -62,9 +62,8 @@ def plot_frequency(
     Examples
     --------
 
-    Visualizing HRV frequency domain from RR time series.
-
-    Using Matplotlib backend
+    Visualizing HRV frequency domain from RR time series using Matplotlib as plotting
+    backend.
 
     .. jupyter-execute::
 
@@ -74,7 +73,8 @@ def plot_frequency(
         rr = import_rr().rr.to_numpy()
         plot_frequency(rr, input_type="rr_ms")
 
-    Using Bokeh backend
+    Visualizing HRV frequency domain from RR time series using Bokeh as plotting
+    backend.
 
     .. jupyter-execute::
 

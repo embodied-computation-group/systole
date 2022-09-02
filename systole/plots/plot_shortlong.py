@@ -94,7 +94,7 @@ def plot_shortlong(
     Examples
     --------
 
-    Visualizing short/long and missed/extra intervals from RR time series.
+    Visualizing short/long and missed/extra intervals from a RR time series.
 
     .. jupyter-execute::
 
@@ -117,7 +117,7 @@ def plot_shortlong(
 
        plot_shortlong(artefacts=artefacts)
 
-    Using the Bokeh backend.
+    Using Bokeh as plotting backend.
 
     .. jupyter-execute::
 

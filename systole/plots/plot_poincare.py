@@ -48,9 +48,7 @@ def plot_poincare(
     Examples
     --------
 
-    Visualizing poincare plot from RR time series.
-
-    Using Matplotlib backend
+    Visualizing poincare plot from RR time series using Matplotlib as plotting backend.
 
     .. jupyter-execute::
 
