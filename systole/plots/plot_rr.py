@@ -26,7 +26,7 @@ def plot_rr(
     backend: str = "matplotlib",
     events_params: Optional[Dict] = None,
 ) -> Axes:
-    """Plot RR intervals time series.
+    """Plot instantaneous heart rate time series.
 
     Parameters
     ----------
@@ -89,10 +89,12 @@ def plot_rr(
 
     See also
     --------
-    plot_raw, plot_events
+    plot_raw, plot_events, plot_evoked
 
     Examples
     --------
+
+    Plot instantaneous heart rate from a RR interval time series (in milliseconds).
 
     .. jupyter-execute::
 
@@ -102,31 +104,17 @@ def plot_rr(
        # Import R-R intervals time series
        rr = import_rr().rr.values
 
-    Using Matplotlib backend.
+       plot_rr(rr=rr, input_type="rr_ms");
+
+    Only show the interpolated instantaneous heart rate, add a bad segment and change
+    the default unit to beats per minute (BPM).
 
     .. jupyter-execute::
 
-       plot_rr(rr=rr, input_type="rr_ms")
+       plot_rr(rr=rr, input_type="rr_ms", unit="bpm", points=False, unit="bpm");
 
-    Change the default unit to beats per minute (BPM).
-
-    .. jupyter-execute::
-
-       plot_rr(rr=rr, input_type="rr_ms", unit="bpm")
-
-    Only use a scatter plot and add a bad segment.
-
-    .. jupyter-execute::
-
-       plot_rr(rr=rr, input_type="rr_ms", unit="bpm", line=False);
-
-    Only plot the interpolated instantaneous heart rate variability.
-
-    .. jupyter-execute::
-
-       plot_rr(rr=rr, input_type="rr_ms", unit="bpm", points=False);
-
-    Using the Bokeh backend.
+    Use Bokeh as a plotting backend, only show the scatterplt and highlight artefacts
+    in the RR intervals.
 
     .. jupyter-execute::
 
@@ -135,15 +123,10 @@ def plot_rr(
        output_notebook()
 
        show(
-           plot_rr(rr=rr, input_type="rr_ms", backend="bokeh")
-       )
-
-    Highlight RR artefacts and outliers.
-
-    .. jupyter-execute::
-
-       show(
-           plot_rr(rr=rr, input_type="rr_ms", backend="bokeh", show_artefacts=True)
+           plot_rr(
+            rr=rr, input_type="rr_ms", backend="bokeh",
+            line=False, show_artefacts=True
+            )
        )
 
     """
