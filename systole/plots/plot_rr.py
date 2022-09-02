@@ -111,7 +111,7 @@ def plot_rr(
 
     .. jupyter-execute::
 
-       plot_rr(rr=rr, input_type="rr_ms", unit="bpm", points=False, unit="bpm");
+       plot_rr(rr=rr, input_type="rr_ms", unit="bpm", points=False);
 
     Use Bokeh as a plotting backend, only show the scatterplt and highlight artefacts
     in the RR intervals.

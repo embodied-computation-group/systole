@@ -25,7 +25,7 @@ plot_rr(rr=rr, input_type="rr_ms");
 #%%
 # Only show the interpolated instantaneous heart rate, add a bad segment and change the default unit to beats per minute (BPM).
 # -----------------------------------------------------------------------------------------------------------------------------
-plot_rr(rr=rr, input_type="rr_ms", unit="bpm", points=False, unit="bpm");
+plot_rr(rr=rr, input_type="rr_ms", unit="bpm", points=False);
 #%%
 # Use Bokeh as a plotting backend, only show the scatterplt and highlight artefacts in the RR intervals
 # -----------------------------------------------------------------------------------------------------
