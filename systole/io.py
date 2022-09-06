@@ -44,4 +44,4 @@ def import_manual_correction(
         # remove manually selected peaks
         peaks_ms[json_dict["ppg"]["remove_idx"]] = False
 
-        return
+    return
