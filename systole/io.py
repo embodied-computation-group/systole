@@ -1,8 +1,12 @@
 # Author:  Leah Banellis <leahbanellis@cfin.au.dk>
+import numpy as np
 
-def import_manual_correction(peaks_ms:np.ndarray, participant_id:str, session:str, modality:str, pattern:str) -> np.ndarray:
 
-    """ Correct extra and missed peaks identified via manual correction (i.e., using .json file via the systole viewer) 
+def import_manual_correction(
+    peaks_ms: np.ndarray, participant_id: str, session: str, modality: str, pattern: str
+) -> np.ndarray:
+
+    """Correct extra and missed peaks identified via manual correction (i.e., using .json file via the systole viewer)
 
     Parameters
     ----------
@@ -23,19 +27,19 @@ def import_manual_correction(peaks_ms:np.ndarray, participant_id:str, session:st
         The corrected RR time series
     """
 
+    import json
     from os.path import exists
-    import json 
 
     corrected_path = "/mnt/scratch/BIDS/derivatives/systole/corrected/"
     corrected_json = f"{corrected_path}{participant_id}/{session}/{modality}/sub-{participant_id}_{session}_{pattern}_corrected.json"
-    
+
     # if corrected peaks file exists
     if exists(corrected_json):
-        f = open(f'{corrected_json}')
+        f = open(f"{corrected_json}")
         json_dict = json.load(f)
-        
+
         # add manually selected peaks
-        peaks_ms[json_dict['ppg']['add_idx']] = True
-        
+        peaks_ms[json_dict["ppg"]["add_idx"]] = True
+
         # remove manually selected peaks
-        peaks_ms[json_dict['ppg']['remove_idx']] = False
+        peaks_ms[json_dict["ppg"]["remove_idx"]] = False
