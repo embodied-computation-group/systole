@@ -534,7 +534,7 @@ class Editor:
             str(self.participant_id),
             str(self.session),
             self.modality,
-            f"sub-{self.participant_id}_{self.session}_{self.pattern}_corrected.json",
+            f"{self.participant_id}_{self.session}_{self.pattern}_corrected.json",
         )
 
         if not self.corrected_json_file.parent.exists():
@@ -586,7 +586,7 @@ class Editor:
             str(self.participant_id),
             str(self.session),
             self.modality,
-            f"sub-{self.participant_id}_{self.session}_{self.pattern}_corrected.json",
+            f"{self.participant_id}_{self.session}_{self.pattern}_corrected.json",
         )
 
         # Load peaks, bad segments and reject signal from the JSON logs
