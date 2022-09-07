@@ -44,6 +44,10 @@ def import_manual_correction(
     -------
     ppg_df : pd.DataFrame
         DataFrame of preprocessed (resampled to 1000 Hz) cardiac signal, uncorrected peaks and corrected peaks.
+
+    Example
+    -------
+    signal_peaks = import_manual_correction("/mnt/scratch/BIDS", "sub-0001", "ses-session1", "func", "task-rest_run-001_recording-exg", "PPG", "PLETH", 1000)
     """
 
     # load preprocessed signal (if exists)
