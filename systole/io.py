@@ -2,7 +2,10 @@
 import json
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
+
+from systole.detection import ecg_peaks, ppg_peaks
 
 
 def import_manual_correction(
@@ -11,7 +14,9 @@ def import_manual_correction(
     session: str,
     modality: str,
     pattern: str,
+    signal_type: str,
     cardiac_name: str,
+    sfreq: int,
 ) -> pd.DataFrame:
 
     """Correct extra and missed peaks identified via manual correction (i.e., using saved .json file via the systole viewer)
@@ -28,13 +33,17 @@ def import_manual_correction(
         data recording modality (i.e., "func").
     pattern : str
         data file pattern (i.e., "task-rest_run-001_recording-exg").
+    signal_type: str
+        cardiac signal type (i.e., "ECG" or "PPG").
     cardiac_name : str
-        name of cardiac column in .json (i.e., "ECG", "PPG", "PLETH" etc)
+        name of cardiac column in .json (i.e., "ECG", "ecg", "PPG", "ppg", "PLETH", "cardiac" etc)
+    sfreq : int
+        sampling frequency.
 
     Returns
     -------
     ppg_df : pd.DataFrame
-        DataFrame of raw cardiac signal, preprocessed cardiac signal, uncorrected peaks and corrected peaks.
+        DataFrame of preprocessed (resampled to 1000 Hz) cardiac signal, uncorrected peaks and corrected peaks.
     """
 
     # load preprocessed signal (if exists)
@@ -64,6 +73,8 @@ def import_manual_correction(
         cardiac_idx = json_dict["Columns"].index(cardiac_name)
         signal = cardiac_df.iloc[:, cardiac_idx]
         signal = pd.Series.to_frame(signal).rename(columns={cardiac_name: "cardiac"})
+
+        peaks_uncorrected = cardiac_df.peaks
 
     else:
         # if no preproc file - load raw physio signal
@@ -96,8 +107,18 @@ def import_manual_correction(
                 columns={cardiac_name: "cardiac"}
             )
 
-            # # preprocess (resample at 1000 Hz)
-            #
+            # # preprocess raw cardiac data
+            if signal_type == "ECG":
+                # resample & peaks detection on raw cardiac signal
+                signal, peaks_uncorrected = ecg_peaks(
+                    signal.cardiac.to_numpy(), sfreq=sfreq
+                )
+            elif signal_type == "PPG":
+                # resample & peaks detection on raw cardiac signal
+                signal, peaks_uncorrected = ppg_peaks(
+                    signal.cardiac.to_numpy(), sfreq=sfreq
+                )
+
         else:
             print(f"{participant_id} - no raw or preproc cardiac file found")
             return
@@ -112,11 +133,17 @@ def import_manual_correction(
         f_corrected = open(f"{corrected_json_path}")
         json_dict_corrected = json.load(f_corrected)
 
-        peaks_corrected = json_dict_corrected["ppg"]["corrected_peaks"]
+        peaks_corrected = np.array(json_dict_corrected["ppg"]["corrected_peaks"])
 
         # add corrected peaks column to preprocessed cardiac signal DataFrame
+        signal = pd.DataFrame(signal, columns=["cardiac"])
         signal_peaks = pd.concat(
-            [signal, pd.DataFrame(peaks_corrected, columns=["peaks_corrected"])], axis=1
+            [
+                signal,
+                pd.DataFrame(peaks_uncorrected, columns=["peaks_uncorrected"]),
+                pd.DataFrame(peaks_corrected, columns=["peaks_corrected"]),
+            ],
+            axis=1,
         )
 
         # save all
@@ -124,7 +151,7 @@ def import_manual_correction(
             f"{bids_path}/derivatives/systole/corrected/{participant_id}/{session}/{modality}/{participant_id}_{session}_{pattern}_peakscorrected.tsv.gz",
             sep="\t",
             index=False,
-            header=None,
+            header=True,
             compression="gzip",
         )
 
