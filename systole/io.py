@@ -150,13 +150,4 @@ def import_manual_correction(
             axis=1,
         )
 
-        # save all
-        signal_peaks.to_csv(
-            f"{bids_path}/derivatives/systole/corrected/{participant_id}/{session}/{modality}/{participant_id}_{session}_{pattern}_peakscorrected.tsv.gz",
-            sep="\t",
-            index=False,
-            header=True,
-            compression="gzip",
-        )
-
-    return
+    return signal_peaks
