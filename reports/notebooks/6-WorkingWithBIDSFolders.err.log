@@ -22,7 +22,7 @@ display(view.box, view.output);
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mAttributeError[0m                            Traceback (most recent call last)
-Input [0;32mIn [4][0m, in [0;36m<cell line: 1>[0;34m()[0m
+Cell [0;32mIn [4], line 1[0m
 [0;32m----> 1[0m display([43mview[49m[38;5;241;43m.[39;49m[43mbox[49m, view[38;5;241m.[39moutput)
 
 [0;31mAttributeError[0m: 'Viewer' object has no attribute 'box'
