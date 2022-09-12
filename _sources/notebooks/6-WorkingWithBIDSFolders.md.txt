@@ -12,6 +12,8 @@ kernelspec:
   name: python3
 ---
 
+(bids_folders)=
+# Working with BIDS folders
 Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 ```{code-cell} ipython3
@@ -23,7 +25,6 @@ if 'google.colab' in sys.modules:
     ! pip install systole
 ```
 
-# Working with BIDS folders
 Starting in version `0.2.3`, Systole provides tools to interact efficiently with large datasets containing physiological recordings. Most of the functionalities interface with folders structured following the [BIDS standards](https://bids-specification.readthedocs.io/en/stable/) and this is the format we recommend using if you are following this tutorial.
 
 Under BIDS standards, physiological recordings, sometimes associated with behavioural tasks or neural recordings, are stored with a filename ending with `*_physio.tsv.gz` and are always accompanied with sidecar a `*_physio.json` file containing metadata like the recording modality or the sampling frequency. Accessing both the times series and its accompanying metadata will help Systole automate the preprocessing by finding the correct parameters for peaks detection and reports.
