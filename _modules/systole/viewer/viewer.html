@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>systole.viewer.viewer &#8212; systole 0.2.3dev documentation</title>
+    <title>systole.viewer.viewer &#8212; systole 0.2.3dev2 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
@@ -762,7 +762,7 @@
 
             <span class="n">plot_raw</span><span class="p">(</span>
                 <span class="n">signal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="p">,</span>
-                <span class="n">peaks</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_peaks</span><span class="p">,</span>
+                <span class="n">peaks</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="p">,</span>
                 <span class="n">modality</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">signal_type_</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
                 <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;matplotlib&quot;</span><span class="p">,</span>
                 <span class="n">show_heart_rate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -985,27 +985,14 @@
         <span class="c1"># Path to the corrected JSON files (if the signal has already been checked)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">corrected_json_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">output_folder_</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="s2">&quot;derivatives&quot;</span><span class="p">,</span>
             <span class="s2">&quot;systole&quot;</span><span class="p">,</span>
             <span class="s2">&quot;corrected&quot;</span><span class="p">,</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">participant_id</span><span class="p">),</span>
             <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">modality</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">participant_id</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="si">}</span><span class="s2">_corrected.json&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">physio_file</span><span class="o">.</span><span class="n">stem</span><span class="p">[:</span><span class="o">-</span><span class="mi">11</span><span class="p">]</span><span class="si">}</span><span class="s2">_corrected.json&quot;</span><span class="p">,</span>
         <span class="p">)</span>
-
-        <span class="c1"># Load peaks, bad segments and reject signal from the JSON logs</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">corrected_json_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-
-            <span class="c1"># Opening JSON file and extract metadata</span>
-            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">corrected_json_file</span><span class="p">)</span>
-            <span class="n">json_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-
-            <span class="bp">self</span><span class="o">.</span><span class="n">bad_segments</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">signal_type_</span><span class="o">.</span><span class="n">value</span><span class="p">][</span>
-                <span class="s2">&quot;bad_segments&quot;</span>
-            <span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">signal_type_</span><span class="o">.</span><span class="n">value</span><span class="p">][</span><span class="s2">&quot;corrected_peaks&quot;</span><span class="p">]</span>
-
-            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">signal_type_</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;ECG&quot;</span><span class="p">:</span>
             <span class="n">ecg_col</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">ecg_strings</span><span class="p">]</span>
@@ -1045,6 +1032,26 @@
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">initial_peaks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading respiratory signal - sfreq=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sfreq</span><span class="si">}</span><span class="s2"> Hz.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Load peaks, bad segments and reject signal from the JSON logs</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">corrected_json_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+
+            <span class="c1"># Opening JSON file and extract metadata</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">corrected_json_file</span><span class="p">)</span>
+            <span class="n">json_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">bad_segments</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">signal_type_</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()][</span>
+                <span class="s2">&quot;bad_segments&quot;</span>
+            <span class="p">]</span>
+
+            <span class="c1"># If corrected peaks already exist, load here and replace the revious ones</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                    <span class="n">json_data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">signal_type_</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()][</span><span class="s2">&quot;corrected_peaks&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
         <span class="c1"># If the signal is invalid, set it to None</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_signal</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
