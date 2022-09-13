@@ -358,7 +358,7 @@ class Editor:
 
             plot_raw(
                 signal=self.signal,
-                peaks=self.initial_peaks,
+                peaks=self.peaks,
                 modality=self.viewer.signal_type_.value.lower(),
                 backend="matplotlib",
                 show_heart_rate=True,
@@ -581,27 +581,14 @@ class Editor:
         # Path to the corrected JSON files (if the signal has already been checked)
         self.corrected_json_file = Path(
             self.viewer.output_folder_.value,
+            "derivatives",
             "systole",
             "corrected",
             str(self.participant_id),
             str(self.session),
             self.modality,
-            f"{self.participant_id}_{self.session}_{self.pattern}_corrected.json",
+            f"{self.physio_file.stem[:-11]}_corrected.json",
         )
-
-        # Load peaks, bad segments and reject signal from the JSON logs
-        if self.corrected_json_file.exists():
-
-            # Opening JSON file and extract metadata
-            f = open(self.corrected_json_file)
-            json_data = json.load(f)
-
-            self.bad_segments = json_data[self.viewer.signal_type_.value][
-                "bad_segments"
-            ]
-            self.peaks = json_data[self.viewer.signal_type_.value]["corrected_peaks"]
-
-            f.close()
 
         if self.viewer.signal_type_.value == "ECG":
             ecg_col = [col for col in self.data.columns if col in ecg_strings]
@@ -641,6 +628,26 @@ class Editor:
             )
             self.initial_peaks = self.peaks.copy()
             print(f"Loading respiratory signal - sfreq={self.sfreq} Hz.")
+
+        # Load peaks, bad segments and reject signal from the JSON logs
+        if self.corrected_json_file.exists():
+
+            # Opening JSON file and extract metadata
+            f = open(self.corrected_json_file)
+            json_data = json.load(f)
+
+            self.bad_segments = json_data[self.viewer.signal_type_.value.lower()][
+                "bad_segments"
+            ]
+
+            # If corrected peaks already exist, load here and replace the revious ones
+            self.peaks = np.zeros(len(self.signal), dtype=bool)
+            self.peaks[
+                np.array(
+                    json_data[self.viewer.signal_type_.value.lower()]["corrected_peaks"]
+                )
+            ] = True
+            f.close()
 
         # If the signal is invalid, set it to None
         if np.isnan(self.input_signal).all():
