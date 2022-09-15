@@ -42,7 +42,7 @@ output_notebook()
 sns.set_context('talk')
 ```
 
-This notebook focuses on the characterisation of cardiac cycles from the physiological signals we previously described (PPG and ECG). Here we only briefly mention different QRS-detection algorithms as related to the estimation of heart rate frequency, which is a commonly used measure in psychology and cognitive science. However, both the ECG and the PPG signals contain rich information beyond the beat to beat frequency that is relevant for cognitive and physiological modelling. All these approaches are not fully covered by [Systole](https://embodied-computation-group.github.io/systole/#), but are implemented in other software (e.g see **[1]** for ECG components delineation).
+This notebook focuses on the characterisation of cardiac cycles from the physiological signals we previously described (PPG and ECG). Here we only briefly mention different QRS-detection algorithms as related to the estimation of heart rate frequency, which is a commonly used measure in psychology and cognitive science. However, both the ECG and the PPG signals contain rich information beyond the beat to beat frequency that is relevant for cognitive and physiological modelling. All these approaches are not fully covered by [Systole](https://embodied-computation-group.github.io/systole/#), but are implemented in other software (e.g see {cite:p}`2021:makowski` for ECG components delineation).
 
 In this notebook, we are going to review the peak detection algorithm, which future tutorials covering, for example, heart-rate variability will build upon. Here our intention is to provide a better intuition of what is happening in our peak detection algorithms, the corrections that can be applied, and the possible bias and artefacts that can emerge. However, you do not need a perfect understanding of all these steps if you want to apply peak detection to youre data, and you might also consider skipping this part to proceed directly to the next tutorial focusing on artefact detection and correction.
 
@@ -52,7 +52,7 @@ In this notebook, we are going to review the peak detection algorithm, which fut
 
 +++
 
-Because we will ultimately be interested in heart rate and its variability, our first goal will be to detect the R peaks. We will use the `ecg_peaks()` function provided by Systole to perform R peak detection. This function is a simple wrapper for well-known peak detection algorithms that are implemented in the [py-ecg-detectors module](https://github.com/berndporr/py-ecg-detectors) **[2]**. The detection algorithm can be selected via the `ecg_method` parameter, it should be among the following: `hamilton`, `christov`, `engelse-zeelenberg`, `pan-tompkins`, `wavelet-transform`, `moving-average`. In this tutorial, we will use the [pan-tompkins algorithm](https://en.wikipedia.org/wiki/Pan%E2%80%93Tompkins_algorithm) **[3]** as it is a fast, well-perfoming, and commonly used algorithm for QRS detection.
+Because we will ultimately be interested in heart rate and its variability, our first goal will be to detect the R peaks. We will use the `ecg_peaks()` function provided by Systole to perform R peak detection. This function is a simple wrapper for well-known peak detection algorithms that are implemented in the [py-ecg-detectors module](https://github.com/berndporr/py-ecg-detectors) {cite:p}`2019:porr`. The detection algorithm can be selected via the `ecg_method` parameter, it should be among the following: `hamilton`, `christov`, `engelse-zeelenberg`, `pan-tompkins`, `wavelet-transform`, `moving-average`. In this tutorial, we will use the [pan-tompkins algorithm](https://en.wikipedia.org/wiki/Pan%E2%80%93Tompkins_algorithm) {cite:p}`1985:pan` as it is a fast, well-perfoming, and commonly used algorithm for QRS detection.
 
 +++
 
@@ -152,7 +152,7 @@ show(
 
 +++
 
-Let's first simulate some PPG recording. Here, we will use the `serialSim` class from Systole in conjunction with the `Oximeter` recording class. This will *simulate* the presence of a pulse oximeter on the computer and provide the information from a pre-recorded signal in real time. Simulating synthetic cardiac data in this way can be a great way to test your data analysis pipelines before collecting data - avoiding painful mistakes that can occur! 
+Let's first simulate some PPG recording. Here, we will use the `serialSim` class from Systole in conjunction with the `Oximeter` recording class. This will *simulate* the presence of a pulse oximeter on the computer and provide the information from a pre-recorded signal in real time. Simulating synthetic cardiac data in this way can be a great way to test your data analysis pipelines before collecting data - avoiding painful mistakes that can occur!
 
 ```{code-cell} ipython3
 # Pulse oximeter simulation
@@ -196,7 +196,7 @@ sns.despine()
 
 +++
 
-A simple online approach like the one we described is usually good enough to detect all the systolic peaks, provided that the subject is not moving too much. 
+A simple online approach like the one we described is usually good enough to detect all the systolic peaks, provided that the subject is not moving too much.
 
 ```{code-cell} ipython3
 ppg = import_ppg()
@@ -206,7 +206,7 @@ ppg = import_ppg()
 
 +++
 
-Clipping is a form of distortion that can limit signal when it exceeds a certain threshold [see the Wikipedia page](https://en.wikipedia.org/wiki/Clipping_(signal_processing)). Some PPG devices can produce clipping artefacts when recording the PPG signal, for example if a participant is pressing too hard on the fingerclip. Here, we can see that some clipping artefacts are found between 100 and 150 seconds in the previous recording. The threshold values (here `255`), is often set by the device and can easily be found depending on the manufacturer. These artefacts should be corrected before systolic peaks detection. One way to correct these artefacts is to remove the portion of the signal where clipping artefacts occurs and use cubic spline interpolation to reconstruct a plausible estimate of the *real* underlying signal. This is what the function `interpolate_clipping()` does **[4]**.
+Clipping is a form of distortion that can limit signal when it exceeds a certain threshold [see the Wikipedia page](https://en.wikipedia.org/wiki/Clipping_(signal_processing)). Some PPG devices can produce clipping artefacts when recording the PPG signal, for example if a participant is pressing too hard on the fingerclip. Here, we can see that some clipping artefacts are found between 100 and 150 seconds in the previous recording. The threshold values (here `255`), is often set by the device and can easily be found depending on the manufacturer. These artefacts should be corrected before systolic peaks detection. One way to correct these artefacts is to remove the portion of the signal where clipping artefacts occurs and use cubic spline interpolation to reconstruct a plausible estimate of the *real* underlying signal. This is what the function `interpolate_clipping()` does {cite:p}`2019:vanGent`.
 
 ```{code-cell} ipython3
 signal = ppg[ppg.time.between(110, 113)].ppg.to_numpy()  # Extract a portion of signal with clipping artefacts
@@ -224,19 +224,7 @@ sns.despine()
 plt.tight_layout()
 ```
 
-This concludes the tutorial on using Systole to detect individual heartbeats and to reject common ECG and PPG artefacts. The next tutorial will go further into more nuanced issues in artefact detection and correction. 
-
-+++
-
-**References**
-
-**[1]** Makowski, D., Pham, T., Lau, Z. J., Brammer, J. C., Lespinasse, F., Pham, H., Schölzel, C., & Chen, S. A. (2021). NeuroKit2: A Python toolbox for neurophysiological signal processing. Behavior Research Methods. https://doi.org/10.3758/s13428-020-01516-y **P, Q, S and T waves detection in the ECG signal. See also this tutorial:** https://neurokit2.readthedocs.io/en/latest/examples/ecg_delineate.html
-
-**[2]** Porr, B., & Howell, L. (2019). R-peak detector stress test with a new noisy ECG database reveals significant performance differences amongst popular detectors. Cold Spring Harbor Laboratory. https://doi.org/10.1101/722397 **Python implementation of famous R peak detection algorithms tested against large dataset**.
-
-**[3]** Pan, Jiapu; Tompkins, Willis J. (March 1985). "A Real-Time QRS Detection Algorithm". IEEE Transactions on Biomedical Engineering. BME-32 (3): 230–236. doi:10.1109/TBME.1985.325532 **This paper describes the first implementation of the Pan-Tompkins algorithm**
-
-**[4]** van Gent, P., Farah, H., van Nes, N., & van Arem, B. (2019). HeartPy: A novel heart rate algorithm for the analysis of noisy signals. *Transportation Research Part F: Traffic Psychology and Behaviour, 66, 368–378*. https://doi.org/10.1016/j.trf.2019.09.015 **This paper describes of a simple systolic peak detection algorithm and clipping artefacts correction**.
+This concludes the tutorial on using Systole to detect individual heartbeats and to reject common ECG and PPG artefacts. The next tutorial will go further into more nuanced issues in artefact detection and correction.
 
 ```{code-cell} ipython3
 

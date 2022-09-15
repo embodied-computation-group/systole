@@ -71,7 +71,7 @@ Using a numpy array of angular values as input
 
  .. code-block:: none
 
-    /opt/hostedtoolcache/Python/3.9.14/x64/lib/python3.9/site-packages/systole/plots/backends/matplotlib/plot_circular.py:134: UserWarning: FixedFormatter should only be used together with FixedLocator
+    /opt/hostedtoolcache/Python/3.9.13/x64/lib/python3.9/site-packages/systole/plots/backends/matplotlib/plot_circular.py:134: UserWarning: FixedFormatter should only be used together with FixedLocator
       ax.set_xticklabels(circle_label)
 
     <PolarAxesSubplot:>
@@ -109,7 +109,7 @@ Using a data frame as input
 
  .. code-block:: none
 
-    /opt/hostedtoolcache/Python/3.9.14/x64/lib/python3.9/site-packages/systole/plots/backends/matplotlib/plot_circular.py:134: UserWarning: FixedFormatter should only be used together with FixedLocator
+    /opt/hostedtoolcache/Python/3.9.13/x64/lib/python3.9/site-packages/systole/plots/backends/matplotlib/plot_circular.py:134: UserWarning: FixedFormatter should only be used together with FixedLocator
       ax.set_xticklabels(circle_label)
 
     <PolarAxesSubplot:>
@@ -119,7 +119,7 @@ Using a data frame as input
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.056 seconds)
+   **Total running time of the script:** ( 0 minutes  1.117 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Plots_plot_circular.py:

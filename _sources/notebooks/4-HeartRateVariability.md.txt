@@ -39,13 +39,13 @@ output_notebook()
 
 After having preprocessed the ECG or PPG signal, performed peaks detection and artefacts correction, we discuss here the extraction of heart rate variability (**HRV**) indices.
 
-A healthy heart, and a healthy brain-heart connection, does not result in a stable and never-changing cardiac activity. On the contrary, the heart rate variability (the amount of change from one RR interval to the next) can be largely different across individuals and across time for the same individual. A considerable literature has documented the robust relations between various HRV indices and both physical and mental health (see **[1]**). Extracting these indices can therefore be one of the first steps in the process of analysing and quantifying the cardiac signal. 
+A healthy heart, and a healthy brain-heart connection, does not result in a stable and never-changing cardiac activity. On the contrary, the heart rate variability (the amount of change from one RR interval to the next) can be largely different across individuals and across time for the same individual. A considerable literature has documented the robust relations between various HRV indices and both physical and mental health (see {cite:p}`2009:thayer`). Extracting these indices can therefore be one of the first steps in the process of analysing and quantifying the cardiac signal. 
 
-The heart rate variability indices are often split into three different sub-domain: *1.* the time domain, *2.* the frequency domain and *3.* the nonlinear domain (see **[2]** for review). The rationale of this repartition consist mostly in the nature of the statistical and mathematical operations performed to compute the indices, and the interpretation you can make of it. While the time domain looks at the distribution of the RR intervals as a whole and will examine different aspects of its spread and variance, the frequency domain interpolate the RR time-series and will extract the power of different frequency bands of interest. The nonlinear approach capitalizes on the notion that the variations found in RR time series can often be nonlinear and uses mathematical derivation from probability and chaos theories to quantify its chaotic/flatness dimension.
+The heart rate variability indices are often split into three different sub-domain: *1.* the time domain, *2.* the frequency domain and *3.* the nonlinear domain (see {cite:p}`2021:pham` for review). The rationale of this repartition consist mostly in the nature of the statistical and mathematical operations performed to compute the indices, and the interpretation you can make of it. While the time domain looks at the distribution of the RR intervals as a whole and will examine different aspects of its spread and variance, the frequency domain interpolate the RR time-series and will extract the power of different frequency bands of interest. The nonlinear approach capitalizes on the notion that the variations found in RR time series can often be nonlinear and uses mathematical derivation from probability and chaos theories to quantify its chaotic/flatness dimension.
 
-[Systole](https://embodied-computation-group.github.io/systole/#) only implement a small number of all the HRV indices that have been proposed in the literature. They are, however, the most widely used, the most often reported and, for the most part, the most interpretable ones. It is also worth noting that high colinearity exists among all the HRV variables, and they can often be reduced to a few significant dimensions **[3]**.
+[Systole](https://embodied-computation-group.github.io/systole/#) only implement a small number of all the HRV indices that have been proposed in the literature. They are, however, the most widely used, the most often reported and, for the most part, the most interpretable ones. It is also worth noting that high colinearity exists among all the HRV variables, and they can often be reduced to a few significant dimensions {cite:p}`2021:pham2021b`.
 
-HRV analysis quantifies the cardiac variability for a given recording taken as a whole. The recommendation for this kind of analysis is that the signal should be at least 5 minutes long ideally, and not shorter than 2 minutes (even if recording as short as 10 seconds, aka ultra short term HRV, can give reliable results for some domains (e.g. **[4]**). On the other side, some indices from the frequency domain focusing on very slow fluctuation can require recording of 24 hours or more to be estimated reliably. 
+HRV analysis quantifies the cardiac variability for a given recording taken as a whole. The recommendation for this kind of analysis is that the signal should be at least 5 minutes long ideally, and not shorter than 2 minutes (even if recording as short as 10 seconds, aka ultra short term HRV, can give reliable results for some domains (e.g. {cite:p}`2015:munoz`). On the other side, some indices from the frequency domain focusing on very slow fluctuation can require recording of 24 hours or more to be estimated reliably.
 
 ```{code-cell} ipython3
 :tags: [hide-output]
@@ -148,16 +148,6 @@ show(
     )
 )
 ```
-
-# References
-
-**[1]** Thayer, J. F., & Lane, R. D. (2009). Claude Bernard and the heart–brain connection: Further elaboration of a model of neurovisceral integration. In Neuroscience & Biobehavioral Reviews (Vol. 33, Issue 2, pp. 81–88). Elsevier BV. https://doi.org/10.1016/j.neubiorev.2008.08.004 
-
-**[2]** Pham T, Lau ZJ, Chen SHA, Makowski D. Heart Rate Variability in Psychology: A Review of HRV Indices and an Analysis Tutorial. Sensors. 2021; 21(12):3998. https://doi.org/10.3390/s21123998
-
-**[3]** Pham, T., Lau, Z., Chen, S. A., & Makowski, D. (2021, October 26). Unveiling the Structure of Heart Rate Variability (HRV) Indices: A Data-driven Meta-clustering Approach. https://doi.org/10.31234/osf.io/mwa6x
-
-**[4]** Munoz, M. L., van Roon, A., Riese, H., Thio, C., Oostenbroek, E., Westrik, I., de Geus, E. J. C., Gansevoort, R., Lefrandt, J., Nolte, I. M., & Snieder, H. (2015). Validity of (Ultra-)Short Recordings for Heart Rate Variability Measurements. In X. Chen (Ed.), PLOS ONE (Vol. 10, Issue 9, p. e0138921). Public Library of Science (PLoS). https://doi.org/10.1371/journal.pone.0138921 
 
 ```{code-cell} ipython3
 

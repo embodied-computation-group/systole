@@ -72,7 +72,7 @@ Plot raw ECG signal
 
  .. code-block:: none
 
-      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|#####     | 1/2 [00:00<00:00,  4.49it/s]    Downloading Respiration channel:  50%|#####     | 1/2 [00:00<00:00,  4.49it/s]    Downloading Respiration channel: 100%|##########| 2/2 [00:00<00:00,  3.22it/s]    Downloading Respiration channel: 100%|##########| 2/2 [00:00<00:00,  3.36it/s]
+      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|#####     | 1/2 [00:00<00:00,  3.12it/s]    Downloading Respiration channel:  50%|#####     | 1/2 [00:00<00:00,  3.12it/s]    Downloading Respiration channel: 100%|##########| 2/2 [00:01<00:00,  1.49it/s]    Downloading Respiration channel: 100%|##########| 2/2 [00:01<00:00,  1.62it/s]
 
     <AxesSubplot:title={'center':'ECG recording'}, ylabel='ECG (mV)'>
 
@@ -106,7 +106,7 @@ Import Respiration recording as pandas data frame
 
  .. code-block:: none
 
-      0%|          | 0/1 [00:00<?, ?it/s]    Downloading Respiration channel:   0%|          | 0/1 [00:00<?, ?it/s]    Downloading Respiration channel: 100%|##########| 1/1 [00:00<00:00,  7.69it/s]    Downloading Respiration channel: 100%|##########| 1/1 [00:00<00:00,  7.68it/s]
+      0%|          | 0/1 [00:00<?, ?it/s]    Downloading Respiration channel:   0%|          | 0/1 [00:00<?, ?it/s]    Downloading Respiration channel: 100%|##########| 1/1 [00:00<00:00,  2.76it/s]    Downloading Respiration channel: 100%|##########| 1/1 [00:00<00:00,  2.75it/s]
 
     <AxesSubplot:title={'center':'Respiration'}, ylabel='Respiratory signal'>
 
@@ -170,7 +170,7 @@ Using Bokeh as plotting backend
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.580 seconds)
+   **Total running time of the script:** ( 0 minutes  2.792 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Plots_plot_raw.py:

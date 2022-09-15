@@ -63,7 +63,7 @@ This tutorial notebook introduces two commonly used methods to record cardiac ac
 
 +++
 
-To illustrate the analysis of ECG signals, we will use a dataset containing ECG and respiratory recording from a healthy participant. These data were acquired concurrently with the paradigm described in Legrand et al. (2020), where subjects were asked to memorize and later inhibit/suppress images [1] and ECG was recorded using a standard 3-point electrode montage. You can load this data set with Systole directly using `systole.import_dataset1()`. As this dataset contains many modalities (ECG, respiration, EDA), you can decide to download only some of them to save time. This is what we are doing with the `modalities` argument.
+To illustrate the analysis of ECG signals, we will use a dataset containing ECG and respiratory recording from a healthy participant. These data were acquired concurrently with the paradigm described in {cite:p}`20202:legrand`, where subjects were asked to memorize and later inhibit/suppress images and ECG was recorded using a standard 3-point electrode montage. You can load this data set with Systole directly using `systole.import_dataset1()`. As this dataset contains many modalities (ECG, respiration, EDA), you can decide to download only some of them to save time. This is what we are doing with the `modalities` argument.
 
 ```{code-cell} ipython3
 :tags: [hide-output]
@@ -95,7 +95,7 @@ Plotting the raw ECG signal is an important step if we want to check the quality
 signal = ecg_df[ecg_df.time.between(500, 530)].ecg.to_numpy()  # Select only 30 seconds of recording
 ```
 
-Then, we use the `systole.detection.ecg_peaks()` function to this sample by providing the algorithm and method we want to use. Here, we are going to use the improved Pan-Tompkins algorithm fro the [sleepecg package](https://github.com/cbrnr/sleepecg), which is also the default for this function. 
+Then, we use the `systole.detection.ecg_peaks()` function to this sample by providing the algorithm and method we want to use. Here, we are going to use the improved Pan-Tompkins algorithm fro the [sleepecg package](https://github.com/cbrnr/sleepecg), which is also the default for this function.
 
 ```{code-cell} ipython3
 signal, peaks = ecg_peaks(signal=signal, method='sleepecg', sfreq=1000)
@@ -206,7 +206,7 @@ We can see that the Pan-Tompkins algorithm does a good job at detecting the QRS 
 
 +++
 
-[Photoplethysmography](https://en.wikipedia.org/wiki/Photoplethysmogram) is a non-invasive method used to measure the change of blood volume. This method can be used in addition to or as a replacement for electrocardiography, depending on the exact experimental design or research question. It can be more sensitive to movement, and - depending on the sampling rate - more or less suitable for studying heart rate variability. The PPG signal is characterized by a main **systolic peak**, often (but not always) followed by a smaller **diastolic peak** before the signal returns to origin. The lower point between the systolic and diastolic peak is the **dicrotic notch**. The systolic peaks correspond to the moment where the volume of blood in the blood vessel suddenly increases due to the pressure of the heart contraction. The blood volume measured at the periphery does not change immediately after the cardiac systole, but rather with a delay varying depending on physiological parameters. For this reason, the systolic peak and the R peak are not concomitant but rather delayed, the systolic peak often occurring after the T wave of the ECG. The delay between the R wave on the ECG and the systolic peak can vary between individuals and across time in the same individual according to a variety of physiological parameters.
+[Photoplethysmography](https://en.wikipedia.org/wiki/Photoplethysmogram) is a non-invasive method used to measure the change of blood volume. This method can be used in addition to or as a replacement for electrocardiography, depending on the exact experimental design or research question. It can be more sensitive to movement, and - depending on the sampling rate - more or less suitable for studying heart rate variability. The PPG signal is characterized by a main **systolic peak**, often (but not always) followed by a smaller **diastolic peak** before the signal returns to origin. The lower point between the systolic and diastolic peak is the **dicrotic notch** {cite:p}`2022:mejia`. The systolic peaks correspond to the moment where the volume of blood in the blood vessel suddenly increases due to the pressure of the heart contraction. The blood volume measured at the periphery does not change immediately after the cardiac systole, but rather with a delay varying depending on physiological parameters. For this reason, the systolic peak and the R peak are not concomitant but rather delayed, the systolic peak often occurring after the T wave of the ECG. The delay between the R wave on the ECG and the systolic peak can vary between individuals and across time in the same individual according to a variety of physiological parameters.
 
 +++ {"tags": ["hide-input"]}
 
@@ -236,17 +236,7 @@ show(
 )
 ```
 
-This concludes our introduction to the basic elements of cardiac signal processing using the Systole package. In the next tutorial, we will take a closer examination of how Systole can be used to extract different parameters relating to heart-rate variability. 
-
-+++
-
-**References**
-
-**[1]** Legrand, N., Etard, O., Vandevelde, A., Pierre, M., Viader, F., Clochon, P., Doidy, F., Peschanski, D., Eustache, F., & Gagnepain, P. (2020). Long-term modulation of cardiac activity induced by inhibitory control over emotional memories. Scientific Reports, 10(1). https://doi.org/10.1038/s41598-020-71858-2 **We will use one example recording throughout the tutorial that was acquired using this paradigm**.
-
-**Going further**
-
-Mejía-Mejía E., Allen J., Budidha K., El-Hajj C., Kyriacou P.A. and Charlton P.H., Photoplethysmography Signal Processing and Synthesis. In Photoplethysmography; Kyriacou, P.A., Allen, J., Eds.; Elsevier, 2021. **Book chapter providing an extensive review of photoplethysmogram signal processing methods.**
+This concludes our introduction to the basic elements of cardiac signal processing using the Systole package. In the next tutorial, we will take a closer examination of how Systole can be used to extract different parameters relating to heart-rate variability.
 
 ```{code-cell} ipython3
 
