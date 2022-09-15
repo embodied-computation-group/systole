@@ -132,12 +132,13 @@ class Viewer:
 
         # Update the participant list from the BIDS parameters
         try:
-            # Find the list of all participant from the BIDS logs
-            self.participants_list = (
-                pd.read_csv(Path(self.bids_path.value, "participants.tsv"), sep="\t")
-                .participant_id.sort_values()
-                .to_list()
-            )
+            # Get the list of all participant from the folders
+            self.participants_list = [
+                f.stem for f in list(Path(self.bids_path.value).glob("sub-*/"))
+            ]
+            if self.participants_list:
+                self.participants_list.sort()
+
             # Filter participants that have no physio recording
             filter_participants_list = [
                 part
@@ -153,11 +154,10 @@ class Viewer:
             ]
             if len(filter_participants_list) == 0:
                 print(
-                    "Found no file matching the given paterns."
-                    f"... Participant: {self.participants_list[0]}"
-                    f"... Input: {self.bids_path.value}"
-                    f"... Session: {self.session_.value}"
-                    f"... Modality: {self.modality_.value}"
+                    "No file is matching the given paterns.\n"
+                    f"... Input: {self.bids_path.value}\n"
+                    f"... Session: {self.session_.value}\n"
+                    f"... Modality: {self.modality_.value}\n"
                     f"... Pattern: {self.pattern_.value}"
                 )
                 self.participants_list = ["sub-"]
