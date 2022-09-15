@@ -140,7 +140,7 @@ The package integrates a set of functions for interactive or non interactive dat
   plot_raw(signal[60000 : 120000], modality="ecg", backend="bokeh", 
               show_heart_rate=True, show_artefacts=True, figsize=300)
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/raw.png
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/raw.png
    :align: center
 
 
@@ -158,7 +158,7 @@ Artefacts can be detected and corrected in the RR interval time series or the pe
 
   plot_subspaces(peaks, input_type="peaks", backend="bokeh")
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/subspaces.png
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/subspaces.png
    :align: center
 
 
@@ -176,7 +176,7 @@ Systole implements time-domain, frequency-domain and non-linear HRV indices, as 
       plot_poincare(peaks, input_type="peaks", backend="bokeh", figsize=(200, 200)),
       )
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/hrv.png
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/hrv.png
    :align: center
 
 
@@ -201,19 +201,19 @@ Interactive visualization of BIDS structured datasets
       signal_type="ECG"
   )
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/editor.gif
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/editor.gif
    :align: center
 
 Inserting and removing peaks
 ============================
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/peaks.gif
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/peaks.gif
    :align: center
 
 Annotating bad segments
 =======================
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/segments.gif
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/segments.gif
    :align: center
 
 Development
