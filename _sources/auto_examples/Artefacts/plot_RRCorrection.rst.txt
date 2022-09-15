@@ -85,7 +85,7 @@ variability is measured for a given time interval (usually > 5 minutes).
 
  .. code-block:: none
 
-      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|#####     | 1/2 [00:00<00:00,  6.66it/s]    Downloading Stim channel:  50%|#####     | 1/2 [00:00<00:00,  6.66it/s]    Downloading Stim channel: 100%|##########| 2/2 [00:00<00:00,  5.54it/s]    Downloading Stim channel: 100%|##########| 2/2 [00:00<00:00,  5.68it/s]
+      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|#####     | 1/2 [00:00<00:00,  2.86it/s]    Downloading Stim channel:  50%|#####     | 1/2 [00:00<00:00,  2.86it/s]    Downloading Stim channel: 100%|##########| 2/2 [00:00<00:00,  2.57it/s]    Downloading Stim channel: 100%|##########| 2/2 [00:00<00:00,  2.61it/s]
 
 
 
@@ -382,7 +382,7 @@ References
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  12.869 seconds)
+   **Total running time of the script:** ( 0 minutes  15.530 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Artefacts_plot_RRCorrection.py:

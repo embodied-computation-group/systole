@@ -455,7 +455,7 @@
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    This module was largely ispired by the peakdet toolbox</span>
+<span class="sd">    This module was largely inspired by the peakdet toolbox</span>
 <span class="sd">    (https://github.com/physiopy/peakdet).</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -536,12 +536,13 @@
 
         <span class="c1"># Update the participant list from the BIDS parameters</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># Find the list of all participant from the BIDS logs</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bids_path</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;participants.tsv&quot;</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="o">.</span><span class="n">participant_id</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
-                <span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
-            <span class="p">)</span>
+            <span class="c1"># Get the list of all participant from the folders</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">stem</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bids_path</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;sub-*/&quot;</span><span class="p">))</span>
+            <span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
             <span class="c1"># Filter participants that have no physio recording</span>
             <span class="n">filter_participants_list</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="n">part</span>
@@ -557,11 +558,10 @@
             <span class="p">]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">filter_participants_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span>
-                    <span class="s2">&quot;Found no file matching the given paterns.&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;... Participant: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;... Input: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">bids_path</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;... Session: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">session_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;... Modality: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">modality_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;No file is matching the given paterns.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;... Input: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">bids_path</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;... Session: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">session_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;... Modality: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">modality_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
                     <span class="sa">f</span><span class="s2">&quot;... Pattern: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">participants_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;sub-&quot;</span><span class="p">]</span>

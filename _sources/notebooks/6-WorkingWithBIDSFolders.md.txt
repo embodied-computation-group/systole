@@ -52,7 +52,7 @@ Here, we have physiological recordings associated with a behavioural task for `n
 
 +++
 
-The first step will be to extract peaks from the physiological signal and generate individual reports for each participant, so we can visualize the signal quality and peaks detection.
+The first step will be to preprocess the raw data and store the signal and peaks detection in a new derivative folder. During this step, we can also decide to create HTML reports for each participants, so we can visualize the signal quality and peaks detection.
 
 ### Preprocessing the physiological recording from one participant
 
@@ -91,24 +91,25 @@ will save these four new files in the file folder.
 The previous function call can be automated for each participant and each file of a given BIDS folder and to extract the physiological features using the information provided in the `json` metadata automatically. This can be done using the py:func:`systole.reports.wrapper` function, or directly from the command line. For example, the following command:
 
 ```bash
-systole --bids_folder="/mnt/scratch/BIDS/" \
+systole --bids_folder="/path/to/BIDS/folder/" \
         --patterns="task-mytask" \
         --modality="beh" \
         --n_jobs=10 \
-        --overwrite=True
+        --overwrite=True \
+        --html_reports==False
 ```
 
-will preprocess the data for all participants with a physiological recording in the session `ses-session1` (default), for the behavioural modality (`beh`) and the task `mytask`. We set `n_jobs=10`, meaning that we will run 40 processes in parallel, and `overwrite=True` to overwrite previous data with the same ID in the derivative folder.
+will preprocess the data for all participants with a physiological recording in the session `ses-session1` (default), for the behavioural modality (`beh`) and the task `mytask`. We set `n_jobs=10`, meaning that we will run 40 processes in parallel, and `overwrite=True` to overwrite previous data with the same ID in the derivative folder. Note that we also set `html_reports` to `False` as these files can be quite large, it is often preferable to only create it for the participant we want to review, or to use the {ref}`viewer`. 
 
 +++
 
 ```{note}
-When setting `overwrite=True`, only the preprocessed derivatives can be overwritten, but not the edited files located in `BIDS/systole/derivatives/corrected/*`. This means that it is possible to re-run the preprocessing event after working on the manual artefacts edition (see below).
+When setting `overwrite=True`, only the preprocessed derivatives will be overwritten, but not the edited files located in `BIDS/systole/derivatives/corrected/*`. This means that it is possible to re-run the preprocessing event after working on the manual artefacts edition (see below).
 ```
 
 +++
 
-Once the preprocessing is completed, the structure of the BIDS repository should now include a new `systole` folder in the derivatives:
+Once the preprocessing is completed, and if you did not asked for an external result folder, the structure of the BIDS repository should now include a new `systole` folder in the derivatives:
 
 ```
 └─ BIDS/
@@ -139,29 +140,57 @@ Once the preprocessing is completed, the structure of the BIDS repository should
 
 While we hope that the peaks detection function used by [Systole](https://embodied-computation-group.github.io/systole/#) is sufficiently robust to extract peak vectors without errors for most of the uses cases, you might still encounter noisy or invalid recording that you will want to manually inspect and sometimes edit.
 
-The py:func:`systole.viewer` sub-module contains handy functions to interactively inspect and edit the preprocessed folders and save the modified information accordingly.
+The py:func:`systole.viewer` sub-module is built on the top of Matplotlib widgets and can help for manual peaks edition or bad segments labelling. For example, running the following cells in a Jupyter notebook:
 
-```{code-cell} ipython3
+```python
 from IPython.display import display
 from systole.viewer import Viewer
 
 %matplotlib ipympl
 ```
 
-```{code-cell} ipython3
-view = Viewer()
+```python
+view = Viewer(
+    figsize=(15, 5),
+    input_folder="/BIDS_folder/derivatives/systole/",
+    pattern="task-hrd", # A string long enough to disambiguate in case of mmultiple recordings
+    modality="beh",
+    signal_type="ECG"
+)
 ```
 
-```{code-cell} ipython3
-display(view.box, view.output);
+```python
+display(view.io_box, view.commands_box, view.output)
 ```
+
+will create an interactive windows from which all the preprocessed recordings and peaks detection can be inspected.
+
+<p align='center'><img src='https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/editor.gif'/></p>
+
++++
+
+### Inserting / deleting peaks
+
+Peaks can be inserted (using the local maxima of the selected range) or deleted.
 
 * Left mouse button : remove all the peaks in the selected interval.
 * Right mouse button : add one new peaks where the signal local maximum is found.
 
+<p align='center'><img src='https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/editor_peaks.gif'/></p>
+
 +++
 
-After peaks correction, a new `corrected` subfolder will be appended to the systole derivatives:
+### Bad segments labelling
+
+In case a whole segment of the recording contain noise and should be entirely removed from future analysis, it can be labelled by swiching the edition mode from `Correction` to `Rejection`.
+
+<p align='center'><img src='https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/editor_peaks.gif'/></p>
+
++++
+
+### Working with corrected signals
+
+After manual peaks correction and segments labelling, a new `corrected` subfolder will be appended to the systole derivatives:
 
 ```
 └─ BIDS/
@@ -190,26 +219,8 @@ After peaks correction, a new `corrected` subfolder will be appended to the syst
    └─ ... 
 ```
 
-The logs of artefacts correction will be locted in the new `_physio.json` file and contains all information about bad segments labelling, peaks deletion and peaks insertion.
+The logs of artefacts correction are located in the new `_physio.json` file and contains all information about bad segments labelling, peaks deletion and peaks insertion. The JSON file contains the following entries for each modality (ECG, PPG and respiration)
 
-* `add_idx` logs the position of new peaks, in sample idex.
-* `remove_idx` logs the position of removed peaks, in sample idex.
-* The `bads` field logs the starting and ending points of bad segments in the recoring.
-
-
-```python
-{
-    "ppg": {
-        "add_idx": [
-            632675
-        ],
-        "remove_idx": [
-            630427,
-        ],
-        "bads": {
-            "start": null,
-            "end": null
-        }
-    }
-}
-```
+* `valid` : is the recording valid or should it be discared (`True` unless otherwise stated).
+* `corrected_peaks` : the peaks indexes after correction.
+* `bad_segments` : a list of `start` and `end` indexed of bad segments.

@@ -435,7 +435,7 @@ if &#39;google.colab&#39; in sys.modules:
 <p>Here, we have physiological recordings associated with a behavioural task for <code class="docutils literal notranslate"><span class="pre">n</span></code> participants in the folder.</p>
 <section id="signal-preprocessing-and-creation-of-subject-and-group-level-reports">
 <h2>Signal preprocessing and creation of subject and group-level reports<a class="headerlink" href="#signal-preprocessing-and-creation-of-subject-and-group-level-reports" title="Permalink to this headline">#</a></h2>
-<p>The first step will be to extract peaks from the physiological signal and generate individual reports for each participant, so we can visualize the signal quality and peaks detection.</p>
+<p>The first step will be to preprocess the raw data and store the signal and peaks detection in a new derivative folder. During this step, we can also decide to create HTML reports for each participants, so we can visualize the signal quality and peaks detection.</p>
 <section id="preprocessing-the-physiological-recording-from-one-participant">
 <h3>Preprocessing the physiological recording from one participant<a class="headerlink" href="#preprocessing-the-physiological-recording-from-one-participant" title="Permalink to this headline">#</a></h3>
 <p>The py:func:<code class="docutils literal notranslate"><span class="pre">systole.reports</span></code> sub-module contains tools to directly interact with BIDS formatted folders, preprocess and save individual reports in a BIDS consistent way. Those functionalities are built on the top of the py:func:<code class="docutils literal notranslate"><span class="pre">systole.reports.subject_level_report</span></code> function. This function will simply take a signal as input and will save as output the preprocessed signal with peaks detection (<code class="docutils literal notranslate"><span class="pre">_physio.tsv.gz</span></code> with the <code class="docutils literal notranslate"><span class="pre">_physio.json</span></code>), an <code class="docutils literal notranslate"><span class="pre">.html</span></code> reports adapted to the kind of signal that was provided, and a <code class="docutils literal notranslate"><span class="pre">features.tsv</span></code> file containing heart rate or respiratory rate variability features.</p>
@@ -465,19 +465,20 @@ if &#39;google.colab&#39; in sys.modules:
 <section id="preprocessing-the-entire-bids-folder">
 <h3>Preprocessing the entire BIDS folder<a class="headerlink" href="#preprocessing-the-entire-bids-folder" title="Permalink to this headline">#</a></h3>
 <p>The previous function call can be automated for each participant and each file of a given BIDS folder and to extract the physiological features using the information provided in the <code class="docutils literal notranslate"><span class="pre">json</span></code> metadata automatically. This can be done using the py:func:<code class="docutils literal notranslate"><span class="pre">systole.reports.wrapper</span></code> function, or directly from the command line. For example, the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>systole --bids_folder<span class="o">=</span><span class="s2">&quot;/mnt/scratch/BIDS/&quot;</span> <span class="se">\</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>systole --bids_folder<span class="o">=</span><span class="s2">&quot;/path/to/BIDS/folder/&quot;</span> <span class="se">\</span>
         --patterns<span class="o">=</span><span class="s2">&quot;task-mytask&quot;</span> <span class="se">\</span>
         --modality<span class="o">=</span><span class="s2">&quot;beh&quot;</span> <span class="se">\</span>
         --n_jobs<span class="o">=</span><span class="m">10</span> <span class="se">\</span>
-        --overwrite<span class="o">=</span>True
+        --overwrite<span class="o">=</span>True <span class="se">\</span>
+        --html_reports<span class="o">==</span>False
 </pre></div>
 </div>
-<p>will preprocess the data for all participants with a physiological recording in the session <code class="docutils literal notranslate"><span class="pre">ses-session1</span></code> (default), for the behavioural modality (<code class="docutils literal notranslate"><span class="pre">beh</span></code>) and the task <code class="docutils literal notranslate"><span class="pre">mytask</span></code>. We set <code class="docutils literal notranslate"><span class="pre">n_jobs=10</span></code>, meaning that we will run 40 processes in parallel, and <code class="docutils literal notranslate"><span class="pre">overwrite=True</span></code> to overwrite previous data with the same ID in the derivative folder.</p>
+<p>will preprocess the data for all participants with a physiological recording in the session <code class="docutils literal notranslate"><span class="pre">ses-session1</span></code> (default), for the behavioural modality (<code class="docutils literal notranslate"><span class="pre">beh</span></code>) and the task <code class="docutils literal notranslate"><span class="pre">mytask</span></code>. We set <code class="docutils literal notranslate"><span class="pre">n_jobs=10</span></code>, meaning that we will run 40 processes in parallel, and <code class="docutils literal notranslate"><span class="pre">overwrite=True</span></code> to overwrite previous data with the same ID in the derivative folder. Note that we also set <code class="docutils literal notranslate"><span class="pre">html_reports</span></code> to <code class="docutils literal notranslate"><span class="pre">False</span></code> as these files can be quite large, it is often preferable to only create it for the participant we want to review, or to use the <a class="reference internal" href="#viewer"><span class="std std-ref">Manual edition of peaks vector and labelling bad segments using the Viewer</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>When setting <code class="docutils literal notranslate"><span class="pre">overwrite=True</span></code>, only the preprocessed derivatives can be overwritten, but not the edited files located in <code class="docutils literal notranslate"><span class="pre">BIDS/systole/derivatives/corrected/*</span></code>. This means that it is possible to re-run the preprocessing event after working on the manual artefacts edition (see below).</p>
+<p>When setting <code class="docutils literal notranslate"><span class="pre">overwrite=True</span></code>, only the preprocessed derivatives will be overwritten, but not the edited files located in <code class="docutils literal notranslate"><span class="pre">BIDS/systole/derivatives/corrected/*</span></code>. This means that it is possible to re-run the preprocessing event after working on the manual artefacts edition (see below).</p>
 </div>
-<p>Once the preprocessing is completed, the structure of the BIDS repository should now include a new <code class="docutils literal notranslate"><span class="pre">systole</span></code> folder in the derivatives:</p>
+<p>Once the preprocessing is completed, and if you did not asked for an external result folder, the structure of the BIDS repository should now include a new <code class="docutils literal notranslate"><span class="pre">systole</span></code> folder in the derivatives:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>└─ BIDS/
    ├─ derivatives/
    │  └─ systole/
@@ -504,51 +505,41 @@ if &#39;google.colab&#39; in sys.modules:
 <section id="manual-edition-of-peaks-vector-and-labelling-bad-segments-using-the-viewer">
 <span id="viewer"></span><h2>Manual edition of peaks vector and labelling bad segments using the Viewer<a class="headerlink" href="#manual-edition-of-peaks-vector-and-labelling-bad-segments-using-the-viewer" title="Permalink to this headline">#</a></h2>
 <p>While we hope that the peaks detection function used by <a class="reference external" href="https://embodied-computation-group.github.io/systole/#">Systole</a> is sufficiently robust to extract peak vectors without errors for most of the uses cases, you might still encounter noisy or invalid recording that you will want to manually inspect and sometimes edit.</p>
-<p>The py:func:<code class="docutils literal notranslate"><span class="pre">systole.viewer</span></code> sub-module contains handy functions to interactively inspect and edit the preprocessed folders and save the modified information accordingly.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+<p>The py:func:<code class="docutils literal notranslate"><span class="pre">systole.viewer</span></code> sub-module is built on the top of Matplotlib widgets and can help for manual peaks edition or bad segments labelling. For example, running the following cells in a Jupyter notebook:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
 <span class="kn">from</span> <span class="nn">systole.viewer</span> <span class="kn">import</span> <span class="n">Viewer</span>
 
-<span class="o">%</span><span class="k">matplotlib</span> ipympl
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">ipympl</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">view</span> <span class="o">=</span> <span class="n">Viewer</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">view</span> <span class="o">=</span> <span class="n">Viewer</span><span class="p">(</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="n">input_folder</span><span class="o">=</span><span class="s2">&quot;/BIDS_folder/derivatives/systole/&quot;</span><span class="p">,</span>
+    <span class="n">pattern</span><span class="o">=</span><span class="s2">&quot;task-hrd&quot;</span><span class="p">,</span> <span class="c1"># A string long enough to disambiguate in case of mmultiple recordings</span>
+    <span class="n">modality</span><span class="o">=</span><span class="s2">&quot;beh&quot;</span><span class="p">,</span>
+    <span class="n">signal_type</span><span class="o">=</span><span class="s2">&quot;ECG&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Directory not found.
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">view</span><span class="o">.</span><span class="n">io_box</span><span class="p">,</span> <span class="n">view</span><span class="o">.</span><span class="n">commands_box</span><span class="p">,</span> <span class="n">view</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">view</span><span class="o">.</span><span class="n">box</span><span class="p">,</span> <span class="n">view</span><span class="o">.</span><span class="n">output</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">display</span><span class="p">(</span><span class="n">view</span><span class="o">.</span><span class="n">box</span><span class="p">,</span> <span class="n">view</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
-
-<span class="ne">AttributeError</span>: &#39;Viewer&#39; object has no attribute &#39;box&#39;
-</pre></div>
-</div>
-</div>
-</div>
+<p>will create an interactive windows from which all the preprocessed recordings and peaks detection can be inspected.</p>
+<p align='center'><img src='https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/editor.gif'/></p><section id="inserting-deleting-peaks">
+<h3>Inserting / deleting peaks<a class="headerlink" href="#inserting-deleting-peaks" title="Permalink to this headline">#</a></h3>
+<p>Peaks can be inserted (using the local maxima of the selected range) or deleted.</p>
 <ul class="simple">
 <li><p>Left mouse button : remove all the peaks in the selected interval.</p></li>
 <li><p>Right mouse button : add one new peaks where the signal local maximum is found.</p></li>
 </ul>
-<p>After peaks correction, a new <code class="docutils literal notranslate"><span class="pre">corrected</span></code> subfolder will be appended to the systole derivatives:</p>
+<p align='center'><img src='https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/editor_peaks.gif'/></p></section>
+<section id="bad-segments-labelling">
+<h3>Bad segments labelling<a class="headerlink" href="#bad-segments-labelling" title="Permalink to this headline">#</a></h3>
+<p>In case a whole segment of the recording contain noise and should be entirely removed from future analysis, it can be labelled by swiching the edition mode from <code class="docutils literal notranslate"><span class="pre">Correction</span></code> to <code class="docutils literal notranslate"><span class="pre">Rejection</span></code>.</p>
+<p align='center'><img src='https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/editor_peaks.gif'/></p></section>
+<section id="working-with-corrected-signals">
+<h3>Working with corrected signals<a class="headerlink" href="#working-with-corrected-signals" title="Permalink to this headline">#</a></h3>
+<p>After manual peaks correction and segments labelling, a new <code class="docutils literal notranslate"><span class="pre">corrected</span></code> subfolder will be appended to the systole derivatives:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>└─ BIDS/
    ├─ derivatives/
    │  └─ systole/
@@ -575,28 +566,13 @@ if &#39;google.colab&#39; in sys.modules:
    └─ ... 
 </pre></div>
 </div>
-<p>The logs of artefacts correction will be locted in the new <code class="docutils literal notranslate"><span class="pre">_physio.json</span></code> file and contains all information about bad segments labelling, peaks deletion and peaks insertion.</p>
+<p>The logs of artefacts correction are located in the new <code class="docutils literal notranslate"><span class="pre">_physio.json</span></code> file and contains all information about bad segments labelling, peaks deletion and peaks insertion. The JSON file contains the following entries for each modality (ECG, PPG and respiration)</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">add_idx</span></code> logs the position of new peaks, in sample idex.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">remove_idx</span></code> logs the position of removed peaks, in sample idex.</p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">bads</span></code> field logs the starting and ending points of bad segments in the recoring.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">valid</span></code> : is the recording valid or should it be discared (<code class="docutils literal notranslate"><span class="pre">True</span></code> unless otherwise stated).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">corrected_peaks</span></code> : the peaks indexes after correction.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bad_segments</span></code> : a list of <code class="docutils literal notranslate"><span class="pre">start</span></code> and <code class="docutils literal notranslate"><span class="pre">end</span></code> indexed of bad segments.</p></li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s2">&quot;ppg&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;add_idx&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="mi">632675</span>
-        <span class="p">],</span>
-        <span class="s2">&quot;remove_idx&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="mi">630427</span><span class="p">,</span>
-        <span class="p">],</span>
-        <span class="s2">&quot;bads&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span>
-            <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">null</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</div>
+</section>
 </section>
 </section>
 
@@ -659,6 +635,23 @@ if &#39;google.colab&#39; in sys.modules:
   <a class="reference internal nav-link" href="#manual-edition-of-peaks-vector-and-labelling-bad-segments-using-the-viewer">
    Manual edition of peaks vector and labelling bad segments using the Viewer
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#inserting-deleting-peaks">
+     Inserting / deleting peaks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bad-segments-labelling">
+     Bad segments labelling
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#working-with-corrected-signals">
+     Working with corrected signals
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
