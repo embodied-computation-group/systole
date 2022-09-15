@@ -1,10 +1,15 @@
 v0.2.3 (September 2022)
 -----------------------
 
-This release introduce two new components to Systole: the report module for fast preprocessing of ECG/PPG/Respiration dataset with interactive reports, and the Editor/Viewer for manual peaks correction and segments annotation. Both module integrate tightly with BIDS structured folders, but can also be used separately.
-
 Highlights
 ++++++++++
+
+This release introduce two new components: 
+
+* the report module for fast preprocessing of ECG/PPG/Respiration dataset with interactive reports
+* the Editor/Viewer for manual peaks correction and segments annotation.
+
+Both modules are intended to integrate tightly with BIDS structured folders, but can also be used separately. Some features are still missing (especially related to respiration), and will be covered in future releases.
 
 Changes
 +++++++
