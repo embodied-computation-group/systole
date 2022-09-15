@@ -32,6 +32,7 @@ def wrapper(
     template_file=pkg_resources.resource_filename(__name__, "./group_level.html"),
     overwrite=False,
     n_jobs: int = 1,
+    html_report: bool = False,
 ):
     """Preprocesses subject level data and create reports (both  subject-level and
     group-level).
@@ -62,6 +63,10 @@ def wrapper(
         Create new individual reports if `True` (default).
     n_jobs : int
         Number of processes to run in parallel.
+    html_report : bool
+        If `True`, save an html report. This file embeds the signal for
+        interactive visualization and can therefore be large, it is recommended to
+        generate HTML reports for review or problematic recordings only.
 
     Raises
     ------
@@ -108,13 +113,13 @@ def wrapper(
     ######################
     # Individual reports #
     ######################
-    print("Create individual reports.")
     if overwrite is True:
 
         for session in sessions:
 
             for pattern in patterns:
 
+                print(f"Preprocessing... Session: {session} - Modality: {modality}.")
                 Parallel(n_jobs=n_jobs)(
                     delayed(create_reports)(
                         participant_id=participant,
@@ -123,6 +128,7 @@ def wrapper(
                         pattern=pattern,
                         session=session,
                         modality=modality,
+                        html_report=html_report,
                     )
                     for participant in participants_id
                 )
@@ -244,6 +250,9 @@ def main():
     )
     parser.add_argument("-t", "--patterns", action="store", help="Provides patterns.")
     parser.add_argument(
+        "-r", "--html_reports", action="store", help="Save HTML reports is True."
+    )
+    parser.add_argument(
         "-o", "--result_folder", action="store", help="Provides the result folder."
     )
     parser.add_argument(
@@ -286,4 +295,5 @@ def main():
         bids_folder=args.bids_folder,
         n_jobs=int(args.n_jobs),
         overwrite=args.overwrite,
+        html_report=args.html_reports,
     )

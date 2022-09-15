@@ -71,6 +71,7 @@ def import_data(
         folder.
 
     """
+
     # Initialize default results
     (
         (ecg, ecg_sfreq, ecg_events_idx),
@@ -82,9 +83,10 @@ def import_data(
     # error message and return None
     physio_files = list(
         Path(bids_folder, participant_id, session, modality).glob(
-            f"**/*{pattern}*_physio.tsv.gz"
+            f"*{pattern}*_physio.tsv.gz"
         )
     )
+
     if len(physio_files) == 0:
         print(
             f"... No physiological recording was found for participant: {participant_id}"
@@ -108,7 +110,7 @@ def import_data(
 
     json_files = list(
         Path(bids_folder, participant_id, session, modality).glob(
-            f"**/*{pattern}*_physio.json"
+            f"*{pattern}*_physio.json"
         )
     )
 
@@ -133,7 +135,9 @@ def import_data(
     f.close()
 
     # Gather physiological signal in the BIDS folder for this participant_id / pattern
-    physio_df = pd.read_csv(physio_file, sep="\t", compression="gzip")
+    physio_df = pd.read_csv(
+        physio_file, sep="\t", compression="gzip", names=json_data["Columns"]
+    )
     physio_df.columns = physio_df.columns.str.lower()
 
     # Find ECG recording if any
@@ -196,6 +200,7 @@ def create_reports(
     pattern: str,
     modality: str = "beh",
     session: str = "ses-session1",
+    html_report: bool = False,
 ):
     """Create individual HTML and summary results from one participant in the BIDS
     folder.
@@ -222,6 +227,10 @@ def create_reports(
     session : str | list
         The session reference that should be analyzed. Should match a session number in
         the BIDS folder. Defaults to `"session1"`.
+    html_report : bool
+        If `True`, save an html report. This file embeds the signal for
+        interactive visualization and can therefore be large, it is recommended to
+        generate HTML reports for review or problematic recordings only.
 
     """
 
@@ -291,4 +300,5 @@ def create_reports(
         rsp_sfreq=rsp_sfreq,
         rsp_events_idx=rsp_events_idx,
         file_name=file_name,
+        html_report=html_report,
     )

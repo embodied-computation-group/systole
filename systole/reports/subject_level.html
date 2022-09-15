@@ -74,7 +74,9 @@
 
         <div class="row">
             <div class="col-12">
-                <h3>Artefacts detection</h3>
+                <h3>Artefact detection</h3>
+                <div>Artefact detection is performed using the method described in Lipponen & Tarvainen (2019). This method uses robust adaptative thresholds to classify RR intervals as Missed, Longs, Extra, Short or Ectopic. The left panel show the decision boundaries for ectopic beats. The right panel shows the decision boundaries for long/missed and short/extra beats.</div>
+                <div>Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for heart rate variability time series artefact correction using novel beat classification. Journal of Medical Engineering & Technology, 43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306</div>
             </div>
             <div class="embed-wrapper">
                 {{ div["ecg_artefacts"] }}
@@ -142,8 +144,6 @@
     {% endif %}
 
 
-
-
     {% if show_ppg %}
 
         <!-- Photoplethysmography -->
@@ -166,7 +166,9 @@
 
         <div class="row">
             <div class="col-12">
-                <h3>Artefacts detection</h3>
+                <h3>Artefact detection</h3>
+                <div>Artefact detection is performed using the method described in Lipponen & Tarvainen (2019). This method uses robust adaptative thresholds to classify RR intervals as Missed, Longs, Extra, Short or Ectopic. The left panel show the decision boundaries for ectopic beats. The right panel shows the decision boundaries for long/missed and short/extra beats.</div>
+                <div>Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for heart rate variability time series artefact correction using novel beat classification. Journal of Medical Engineering & Technology, 43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306</div>
             </div>
             <div class="embed-wrapper">
                 {{ div["ppg_artefacts"] }}
@@ -181,7 +183,7 @@
         </div>
 
     {% else %}
-        <div>No PPG signal was provided.</div>
+        <div>No PPG signal was found in the recording.</div>
     {% endif %}
 
 
@@ -197,14 +199,14 @@
         <div class="row">
             <div class="col-12">
                 <h3>Raw signal</h3>
-            </div>
-            <div class="embed-wrapper">
-                {{ div["rsp_raw"] }}
+                <div class="embed-wrapper">
+                    {{ div["rsp_raw"] }}
+                </div>
             </div>
         </div>
 
     {% else %}
-        <div>No respiration signal was provided.</div>
+        <div>No respiration signal was found in the recording.</div>
     {% endif %}
 
 </div>

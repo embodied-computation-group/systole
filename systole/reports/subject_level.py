@@ -40,7 +40,7 @@ def subject_level_report(
     ppg_events_idx: Optional[Union[List, np.ndarray]] = None,
     rsp_events_idx: Optional[Union[List, np.ndarray]] = None,
     ecg_method: str = "sleepecg",
-    show_raw: bool = False,
+    html_report: bool = True,
     file_name: Optional[Union[str, PathLike]] = None,
     template_file=pkg_resources.resource_filename(__name__, "subject_level.html"),
 ):
@@ -70,9 +70,11 @@ def subject_level_report(
         The sample indexes of events of interest associated with the recordings.
     ecg_method : str
         The peak detection algorithm used for the ECG signal. Defaults to `"sleepecg"`.
-    show_raw : bool
-        If `False` (default), the individual report shows the instantaneous heart rate
-        without the raw signal to save memory, otherwise will show both.
+    html_report : bool
+        If `True` (default), save an html report. This file embeds the signal for
+        interactive visualization and can therefore be large, it is recommended to
+        generate subject-level HTML reports for review or problematic recordings only.
+        Note that the group-level HTML report will still be created.
     file_name : path-like
         File name used to save derivatives. By default (e.g. using the command line
         tool), the name will be the same than the input files found in the BIDS folder.
@@ -419,36 +421,37 @@ def subject_level_report(
     ##################
     if (ppg is None) & (ecg is None) & (rsp is None):
         return
+        return
     else:
-        print(f"... Saving the report as HTML - filename: {html_filename}")
+        if html_report is True:
+            print(f"... Saving the report as HTML - filename: {html_filename}")
 
-        # Create script and div variables that will be passed to the template
-        script, div = components(plots)
+            # Create script and div variables that will be passed to the template
+            script, div = components(plots)
 
-        # Load HTML template in memory
-        template = Template(html_template)
-        resources = INLINE.render()
+            # Load HTML template in memory
+            template = Template(html_template)
+            resources = INLINE.render()
 
-        # Generate HTML txt variables
-        show_ecg, show_ppg, show_respiration = (
-            (ecg is not None),
-            (ppg is not None),
-            (rsp is not None),
-        )
-        html = template.render(
-            resources=resources,
-            script=script,
-            div=div,
-            systole_version=version,
-            show_ecg=show_ecg,
-            show_ppg=show_ppg,
-            show_respiration=show_respiration,
-            show_raw=show_raw,
-        )
+            # Generate HTML txt variables
+            show_ecg, show_ppg, show_respiration = (
+                (ecg is not None),
+                (ppg is not None),
+                (rsp is not None),
+            )
+            html = template.render(
+                resources=resources,
+                script=script,
+                div=div,
+                systole_version=version,
+                show_ecg=show_ecg,
+                show_ppg=show_ppg,
+                show_respiration=show_respiration,
+            )
 
-        # Save the HTML file locally
-        with open(html_filename, mode="w", encoding="utf-8") as f:
-            f.write(html)
+            # Save the HTML file locally
+            with open(html_filename, mode="w", encoding="utf-8") as f:
+                f.write(html)
 
         #############################
         # Save the physio dataframe #
