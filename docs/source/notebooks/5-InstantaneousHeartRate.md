@@ -45,7 +45,7 @@ This tutorial will cover instantaneous heart rate and evoked heart rate analysis
 
 However, psychophysiological interactions can appear at much shorter time scales (as fast as 1-2 seconds following stimulation), and these effects can be examined using evoked heart rate analysis. Evoked heart rate refers to the fluctuation of instantaneous heart rate following stimulation and could be described as the cardiac equivalent of event-related potentials [ERP](https://en.wikipedia.org/wiki/Event-related_potential). These fast fluctuations in heart-rate have many sources, for example changes in noradrenaline and/or autonomic factors, emotional states, and other cognitive variables. 
 
-To perform evoked heart rate analysis, we need an ECG recording and a trigger, or stim channel, that will encode the occurrence of the events we want to study. Here, we will use an example dataset included in Systole. The task itself has been described in **[1]**. During the recording, the participant has to rate the emotional valence of 36 neutral and 36 disgusting images (10 seconds max per image). The stim channel encodes the presentation of disgusting (`2`) and neutral (`1`) images.
+To perform evoked heart rate analysis, we need an ECG recording and a trigger, or stim channel, that will encode the occurrence of the events we want to study. Here, we will use an example dataset included in Systole. The task itself has been described in {cite:p}`2020:legrand`. During the recording, the participant has to rate the emotional valence of 36 neutral and 36 disgusting images (10 seconds max per image). The stim channel encodes the presentation of disgusting (`2`) and neutral (`1`) images.
 
 ```{code-cell} ipython3
 # Import ECG recording and Stim channel
@@ -56,7 +56,7 @@ ecg_df = import_dataset1(modalities=['ECG', 'Stim'], disable=True)
 
 ```{code-cell} ipython3
 # Peak detection in the ECG signal using the Pan-Tompkins method
-signal, peaks = ecg_peaks(signal=ecg_df.ecg, method='pan-tompkins', sfreq=1000)
+signal, peaks = ecg_peaks(signal=ecg_df.ecg, method='sleepecg', sfreq=1000)
 ```
 
 Because the heartbeats are discrete events interleaved by unequal intervals, the instantaneous heart rate time series is the results of the interpolation of the individual heart rate estimates.
@@ -93,7 +93,7 @@ ax.set_title("Interpolation of the instantaneous heart rate")
 sns.despine()
 ```
 
-Note that here the timing of the peaks detection matters. The artefact correction, if it is used, should take this into account and never interpolate RR times series directly but always try to infer the presence, or absence, of cardiac cycles. 
+Note that here the timing of the peaks detection matters. The artefact correction, if it is used, should take this into account and never interpolate RR times series directly but always try to infer the presence, or absence, of cardiac cycles.
 
 +++
 
@@ -135,7 +135,7 @@ plot_events(triggers_idx=triggers_idx, backend="matplotlib", labels=["Disgust", 
             figsize=(13, 3))
 ```
 
-This plot can be combined with other functionnalities of Systole, for example to wisualize the evolution of instantaneous heart rate across the different trials. 
+This plot can be combined with other functionnalities of Systole, for example to wisualize the evolution of instantaneous heart rate across the different trials.
 
 ```{code-cell} ipython3
 # First, we create a RR interval plot
@@ -148,7 +148,7 @@ show(
 )
 ```
 
-However, it is still difficult to see if a general tendency emerges from the time course of the heart rate following the stimulations, and if the two conditions differ from one another. 
+However, it is still difficult to see if a general tendency emerges from the time course of the heart rate following the stimulations, and if the two conditions differ from one another.
 
 +++
 
@@ -170,11 +170,11 @@ The function returns two objects:
 
 Trials can be rejected because
 1. They contain artefacts. The artefacted part of the recording can be indexed using the `reject` parameter.
-2. The time range of the trial lies outside the signal range. This can be the case for the first or the last trials 
+2. The time range of the trial lies outside the signal range. This can be the case for the first or the last trials
 
 +++
 
-Visualization of the event related instantaneous heart rate: 
+Visualization of the event related instantaneous heart rate:
 
 ```{code-cell} ipython3
 show(
@@ -196,13 +196,7 @@ for i, kind in enumerate(["cubic", "linear", "previous"]):
     )
 ```
 
-This concludes the tutorial on using systole for evoked HR analysis! 
-
-+++
-
-**References***
-
-**[1]** Legrand, N., Etard, O., Vandevelde, A., Pierre, M., Viader, F., Clochon, P., Doidy, F., Peschanski, D., Eustache, F., & Gagnepain, P. (2020). Long-term modulation of cardiac activity induced by inhibitory control over emotional memories. *Scientific Reports, 10(1)*. https://doi.org/10.1038/s41598-020-71858-2 
+This concludes the tutorial on using systole for evoked HR analysis!
 
 ```{code-cell} ipython3
 
