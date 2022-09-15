@@ -1,16 +1,16 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import List, Optional, Union
+from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 from bokeh.layouts import column
-from bokeh.models import ColumnDataSource, RangeTool
+from bokeh.models import BoxAnnotation, ColumnDataSource, RangeTool
 from bokeh.plotting import figure
 from bokeh.plotting.figure import Figure
-from matplotlib.axes import Axes
 from pandas.core.indexes.datetimes import DatetimeIndex
 
 from systole.plots import plot_rr
+from systole.utils import ecg_strings, ppg_strings, resp_strings
 
 
 def plot_raw(
@@ -20,9 +20,11 @@ def plot_raw(
     modality: str = "ppg",
     show_heart_rate: bool = True,
     show_artefacts: bool = False,
-    ax: Optional[Union[List, Axes]] = None,
+    bad_segments: Optional[List[Tuple[int, int]]] = None,
+    decim: int = 10,
     slider: bool = True,
     figsize: int = 300,
+    events_params: Optional[Dict] = None,
     **kwargs
 ) -> Figure:
     """Visualization of PPG or ECG signal with systolic peaks/R wave detection.
@@ -38,7 +40,7 @@ def plot_raw(
     peaks : :py:class:`numpy.ndarray`
         The peaks or R wave detection (1d boolean array).
     modality : str
-        The recording modality. Can be `"ppg"` or `"ecg"`.
+        The recording modality. Can be `"ppg"`, `"ecg"` or `"resp"`.
     show_heart_rate : bool
         If `True`, create a second row and plot the instantanesou heart rate
         derived from the physiological signal
@@ -47,45 +49,56 @@ def plot_raw(
         If `True`, the function will call
         py:func:`systole.detection.rr_artefacts` to detect outliers intervalin the time
         serie and outline them using different colors.
-    ax : :class:`matplotlib.axes.Axes` list or None
-        Where to draw the plot. Default is *None* (create a new figure). Only
-        applies when `backend="matplotlib"`. If `show_heart_rate is True`, a list
-        of axes can be provided to plot the signal and instantaneous heart rate
-        separately.
+    bad_segments : np.ndarray | list | None
+        Mark some portion of the recording as bad. Grey areas are displayed on the top
+        of the signal to help visualization (this is not correcting or transforming the
+        post-processed signals). Should be a list of tuples shuch as (start_idx,
+        end_idx) for each segment.
+    decim : int
+        Factor by which to subsample the raw signal. Selects every Nth sample (where N
+        is the value passed to decim). Default set to `10` (considering that the imput
+        signal has a sampling frequency of 1000 Hz) to save memory.
     slider : bool
         If `True`, add a slider to zoom in/out in the signal (only working with
         bokeh backend).
     figsize : int
         Figure heights. Default is `300`.
-    **kwargs : keyword arguments
-        Additional arguments will be passed to
-        `:py:func:systole.detection.ppg_peaks()` or
-        `:py:func:systole.detection.ecg_peaks()`, depending on the type
-        of data.
+    events_params : dict | None
+        (Optional) Additional parameters that will be passed to
+        py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
+    kwargs: key, value mappings
+        Other keyword arguments passed to the function but unused by the Bokeh backend.
 
     Returns
     -------
     raw : :class:`bokeh.plotting.figure.Figure`
         The bokeh figure containing the plot.
+
     """
 
     source = ColumnDataSource(
-        data={"time": time[::10], "signal": signal[::10], "peaks": peaks[::10]}
+        data={"time": time[::decim], "signal": signal[::decim], "peaks": peaks[::decim]}
     )
 
-    if modality == "ppg":
+    if modality in ppg_strings:
         title = "PPG recording"
         ylabel = "PPG level (a.u.)"
         peaks_label = "Systolic peaks"
         signal_label = "PPG signal"
-    elif modality == "ecg":
+    elif modality in ecg_strings:
         title = "ECG recording"
         ylabel = "ECG (mV)"
         peaks_label = "R wave"
         signal_label = "ECG signal"
+    elif modality in resp_strings:
+        title = "Respiration"
+        ylabel = "Respiratory signal"
+        peaks_label = "End of inspiration"
+        signal_label = "Respiratory signal"
 
-    # Raw plot
-    ##########
+    ############
+    # Raw plot #
+    ############
 
     raw = figure(
         title=title,
@@ -118,6 +131,19 @@ def plot_raw(
 
     cols = (raw,)
 
+    # Highlight bad segments if provided
+    if bad_segments is not None:
+        for bads in bad_segments:
+            # Plot time range
+            event_range = BoxAnnotation(
+                left=time[bads[0]],
+                right=time[bads[1]],
+                fill_alpha=0.2,
+                fill_color="grey",
+            )
+            event_range.level = "underlay"
+            raw.add_layout(event_range)
+
     # Instantaneous heart rate
     ##########################
     if show_heart_rate is True:
@@ -129,6 +155,7 @@ def plot_raw(
             slider=False,
             line=True,
             show_artefacts=show_artefacts,
+            events_params=events_params,
         )
         instantaneous_hr.x_range = raw.x_range
 

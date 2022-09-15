@@ -10,20 +10,35 @@ from numba.core.errors import TypingError
 from systole import import_dataset1, import_ppg, import_rr
 from systole.detection import ppg_peaks
 from systole.utils import (
+    find_clipping,
+    get_valid_segments,
     heart_rate,
     input_conversion,
+    nan_cleaning,
+    norm_bad_segments,
     norm_triggers,
     simulate_rr,
     time_shift,
     to_angles,
     to_epochs,
+    to_neighbour,
 )
 
 
 class TestUtils(TestCase):
+    def test_to_neighbour(sef):
+        ppg = import_ppg().ppg.to_numpy()[:200]  # Import PPG recording
+        peaks = np.zeros(len(ppg), dtype=bool)
+        peaks[50] = True
+
+        new_peaks = to_neighbour(signal=ppg, peaks=peaks)
+        assert np.where(new_peaks)[0] == 51
+        new_peaks = to_neighbour(signal=ppg, peaks=peaks, kind="min")
+        assert np.where(new_peaks)[0] == 1
+
     def test_norm_triggers(self):
         ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
-        _, peaks = ppg_peaks(ppg)
+        _, peaks = ppg_peaks(ppg, sfreq=75)
         peaks[np.where(peaks)[0] + 1] = 1
         peaks[np.where(peaks)[0] + 2] = 1
         peaks[-1:] = 1
@@ -40,7 +55,7 @@ class TestUtils(TestCase):
     def test_heart_rate(self):
         """Test heart_rate function"""
         ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
-        _, peaks = ppg_peaks(ppg)
+        _, peaks = ppg_peaks(ppg, sfreq=75)
         heartrate, time = heart_rate(peaks)
         assert len(heartrate) == len(time)
         np.testing.assert_almost_equal(np.nanmean(heartrate), 884.92526408453)
@@ -75,7 +90,7 @@ class TestUtils(TestCase):
         assert ~np.any(np.asarray(ang) < 0)
         assert ~np.any(np.asarray(ang) > np.pi * 2)
         ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
-        signal, peaks = ppg_peaks(ppg)
+        signal, peaks = ppg_peaks(ppg, sfreq=75)
         ang = to_angles(peaks, peaks)
 
     def test_to_epochs(self):
@@ -129,7 +144,7 @@ class TestUtils(TestCase):
         """Test the input_conversion function"""
         # Load example PPG signal
         ppg = import_ppg().ppg.to_numpy()
-        _, peaks = ppg_peaks(ppg)
+        _, peaks = ppg_peaks(ppg, sfreq=75)
 
         # input_type = "peaks"
         rr_ms = input_conversion(peaks, input_type="peaks", output_type="rr_ms")
@@ -161,6 +176,53 @@ class TestUtils(TestCase):
         peaks_idx = input_conversion(rr_s, input_type="rr_s", output_type="peaks_idx")
         assert np.diff(np.where(pks)[0]).mean() == rr_ms.mean()
         assert rr_ms.mean() == np.diff(peaks_idx).mean()
+
+    def test_nan_cleaning(self):
+        ppg = import_ppg().ppg.to_list()
+        ppg[30] = np.nan
+        nan_cleaning(signal=np.array(ppg), verbose=True)
+
+    def test_find_clipping(self):
+
+        ppg = import_ppg().ppg.to_numpy()
+
+        lower, upper = find_clipping(signal=ppg)
+        assert (lower, upper) == (0, 255)
+
+        # Create lower and upper clipping artefacts
+        ppg[ppg <= 50] = 50
+        ppg[ppg >= 230] = 230
+
+        lower, upper = find_clipping(signal=ppg)
+        assert (lower, upper) == (50, 230)
+
+        lower, upper = find_clipping(signal=ppg[:100])
+        assert (lower, upper) == (None, None)
+
+    def test_norm_bad_segments(self):
+
+        # Overlapping intervals
+        bad_segments = [(100, 200), (150, 250)]
+        new_segments = norm_bad_segments(bad_segments)
+        assert new_segments == [(100, 250)]
+
+        # A boolean vector
+        bool_bad_segments = np.zeros(100, dtype=bool)
+        bool_bad_segments[10:20] = True
+        bool_bad_segments[50:60] = True
+        new_segments = norm_bad_segments(bool_bad_segments)
+        assert new_segments == [(10, 20), (50, 60)]
+
+    def test_get_valid_segments(self):
+
+        signal = np.random.normal(size=1000)
+
+        bad_segments = [(500, 550), (700, 800)]
+        valids = get_valid_segments(signal=signal, bad_segments=bad_segments)
+
+        assert len(valids[0]) == 500
+        assert len(valids[1]) == 200
+        assert len(valids[2]) == 150
 
 
 if __name__ == "__main__":

@@ -1,0 +1,32 @@
+v0.2.3 (September 2022)
+-----------------------
+
+Highlights
+++++++++++
+
+This release introduce two new components: 
+
+* the report module for fast preprocessing of ECG/PPG/Respiration dataset with interactive reports
+* the Editor/Viewer for manual peaks correction and segments annotation.
+
+Both modules are intended to integrate tightly with BIDS structured folders, but can also be used separately. Some features are still missing (especially related to respiration), and will be covered in future releases.
+
+Changes
++++++++
+
+- |Fix| Rewrite func:`systole.correction.correct_missed` (now func:`systole.correction.correct_missed_rr`), func:`systole.correction.correct_extra` (now func:`systole.correction.correct_extra_rr`) and func:`systole.correction.correct_rr` to fix the index overflows caused by the insertion or deletion of intervals. All function are now jited, which should also provided performance improvements.
+- |Fix| func:`systole.detection.interpolate_clipping()` was not handling thresholds correctly if the provided threshold is not the max/min of the time series.
+- |Enhancement| |Feature| Add a func:`systole.utils.find_clipping()` function to automatically find clipping threshold. This function is called by ppg_peaks when clipping=True and clipping_threshold="auto".
+- |Feature| Plots module: Add a function func:`systole.plots.plot_raw()` can now plot respiratory signal.
+- |Feature| Utils : Add a function func:`systole.utils.nan_cleaning()` to automatically interpolate NaN values in a given signal. This function can be called automatically (if required) and the begining of `ppg_peaks`, `ecg_peaks` or `rsp_peaks` by setting the parameter `clean_nan` to `True`. The default is `False`.
+- Remove the default sampling frequencies for `ecg_peaks`, `ppg_peaks` and `rsp_peaks`. Do not resample if `sfreq` and `new_sfreq` are identicals.
+- Remove func:`systole.recording.findOximeter()`.
+- |Feature| func:`systole.plots.plot_raw()` and py:func:`systole.plots.plot_r()` now accept an `events_params` parameter to plot events together with the instantaneous heart rate.
+- |Enhancement| func:`systole.detection.ppg_peaks()`: change `noise_removal` to moving_average and add a `moving_average_length` parameter to control the window length.
+- |Enhancement| |Feature| func:`systole.plots.plot_raw()` and func:`systole.plots.plot_r()` now accept a `bad_segments` parameter to help visualize annotated bad segments from the Editor/Viewer.
+- |Feature| Add func:`systole.utils.norm_bad_segments()` and func:`systole.utils.get_valid_segments()` to help filtering part of the signal that are marked as bad.
+
+Contributors
+++++++++++++
+
+- Alex Vasilichi (https://github.com/alexvasilichi)

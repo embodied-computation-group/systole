@@ -9,10 +9,11 @@ from matplotlib.axes import Axes
 
 def plot_events(
     df: pd.DataFrame,
-    figsize: Tuple[float, float] = (13, 5),
+    figsize: Tuple[float, float] = (13, 3),
     ax: Optional[Axes] = None,
+    behavior=None,
 ) -> Axes:
-    """Plot events occurence across recording.
+    """Plot events to get a visual display of the paradigm (Matplotlib).
 
     Parameters
     ----------
@@ -22,6 +23,10 @@ def plot_events(
         Figure size. Default is `(13, 5)`.
     ax : :class:`matplotlib.axes.Axes` or None
         Where to draw the plot. Default is *None* (create a new figure).
+    behavior : None
+        (Optional) Additional information about trials that will appear when hovering
+        on the area (only relevant for `bokeh` backend). This parameter will be
+        ignored.
 
     Returns
     -------
@@ -30,7 +35,7 @@ def plot_events(
 
     """
     if ax is None:
-        _, ax = plt.subplots(figsize=(13, 5))
+        _, ax = plt.subplots(figsize=figsize)
 
     # Plot first label only
     all_labels = []
@@ -47,7 +52,7 @@ def plot_events(
         ax.axvspan(xmin=tmin, xmax=tmax, color=color, alpha=0.2, label=label)
 
         # Plot trigger
-        ax.axvline(x=trigger, color="gray", linestyle="--", linewidth=1)
+        ax.axvline(x=trigger, color="gray", linestyle="--", linewidth=0.5)
 
     # Add y ticks with channels names
     ax.set_xlabel("Time")

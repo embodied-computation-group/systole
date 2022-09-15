@@ -1,22 +1,22 @@
 repos:
 -   repo: https://github.com/pre-commit/mirrors-isort
-    rev: v5.9.3
+    rev: v5.10.1
     hooks:
     - id: isort
       files: ^systole/
 -   repo: https://github.com/ambv/black
-    rev: 21.12b0
+    rev: 22.6.0
     hooks:
     - id: black
       language_version: python3
       files: ^systole/
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.3.0
+-   repo: https://github.com/pycqa/flake8
+    rev: 5.0.4
     hooks:
     - id: flake8
       files: ^systole/
 -   repo: https://github.com/pre-commit/mirrors-mypy
-    rev: 'v0.920'  # Use the sha / tag you want to point at
+    rev: 'v0.971'
     hooks:
     - id: mypy 
       files: ^systole/

@@ -1,6 +1,6 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import List, Optional, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -8,6 +8,7 @@ from matplotlib.axes import Axes
 from pandas.core.indexes.datetimes import DatetimeIndex
 
 from systole.plots import plot_rr
+from systole.utils import ecg_strings, ppg_strings, resp_strings
 
 
 def plot_raw(
@@ -17,10 +18,12 @@ def plot_raw(
     modality: str = "ppg",
     show_heart_rate: bool = True,
     show_artefacts: bool = False,
+    bad_segments: Optional[List[Tuple[int, int]]] = None,
+    decim: int = 10,
     ax: Optional[Union[List, Axes]] = None,
     slider: bool = True,
     figsize: int = 300,
-    **kwargs
+    events_params: Optional[Dict] = None,
 ) -> Axes:
     """Visualization of PPG or ECG signal with systolic peaks/R wave detection.
 
@@ -35,12 +38,27 @@ def plot_raw(
     peaks : :py:class:`numpy.ndarray`
         The peaks or R wave detection (1d boolean array).
     modality : str
-        The recording modality. Can be `"ppg"` or `"ecg"`.
+        The recording modality. Can be one of the modality strings defined in
+        `systole.utils.ppg_string`, `systole.utils.ecg_string` or
+        `systole.utils.resp_string`.
     show_heart_rate : bool
         If `True`, create a second row and plot the instantanesou heart rate
         derived from the physiological signal
         (calls :py:func:`systole.plots.plot_rr` internally). Defaults to
         `False`.
+    show_artefacts : bool
+        If `True`, the function will call
+        py:func:`systole.detection.rr_artefacts` to detect outliers intervalin the time
+        serie and outline them using different colors.
+    bad_segments : np.ndarray | list | None
+        Mark some portion of the recording as bad. Grey areas are displayed on the top
+        of the signal to help visualization (this is not correcting or transforming the
+        post-processed signals). Should be a list of tuples shuch as (start_idx,
+        end_idx) for each segment.
+    decim : int
+        Factor by which to subsample the raw signal. Selects every Nth sample (where N
+        is the value passed to decim). Default set to `10` (considering that the imput
+        signal has a sampling frequency of 1000 Hz) to save memory.
     ax : :class:`matplotlib.axes.Axes` list or None
         Where to draw the plot. Default is *None* (create a new figure). Only
         applies when `backend="matplotlib"`. If `show_heart_rate is True`, a
@@ -51,26 +69,35 @@ def plot_raw(
         bokeh backend).
     figsize : int
         Figure heights. Default is `300`.
-    **kwargs : keyword arguments
-        Additional arguments will be passed to
-        `:py:func:systole.detection.ppg_peaks()` or
-        `:py:func:systole.detection.ecg_peaks()`, depending on the type
-        of data.
+    events_params : dict | None
+        (Optional) Additional parameters that will be passed to
+        py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
 
     Returns
     -------
     ax : :class:`matplotlib.axes.Axes` | tuple
         The matplotlib axes containing the plot.
+
     """
 
-    if modality == "ppg":
+    if modality in ppg_strings:
         title = "PPG recording"
         ylabel = "PPG level (a.u.)"
         peaks_label = "Systolic peaks"
-    elif modality == "ecg":
+    elif modality in ecg_strings:
         title = "ECG recording"
         ylabel = "ECG (mV)"
         peaks_label = "R wave"
+    elif modality in resp_strings:
+        title = "Respiration"
+        ylabel = "Respiratory signal"
+        peaks_label = "End of inspiration"
+    else:
+        raise ValueError(
+            "Invalid modality parameter. See systole.utils.ecg_strings, "
+            "systole.utils.ppg_strings or systole.utils.resp_strings "
+            "for valid parameters."
+        )
 
     #############
     # Upper panel
@@ -88,7 +115,15 @@ def plot_raw(
         signal_ax = ax
 
     # Signal
-    signal_ax.plot(time, signal, label="PPG signal", linewidth=1, color="#c44e52")
+    signal_ax.plot(
+        time[::decim],
+        signal[::decim],
+        label=ylabel,
+        linewidth=0.5,
+        color="#c44e52",
+        alpha=0.5,
+        zorder=-1,
+    )
 
     # Peaks
     signal_ax.scatter(
@@ -96,22 +131,22 @@ def plot_raw(
         y=signal[peaks],
         marker="o",
         label=peaks_label,
-        s=30,
-        color="white",
+        s=20,
+        color="grey",
         edgecolors="DarkSlateGrey",
     )
-    if modality == "ppg":
-        signal_ax.set_title(title)
-        signal_ax.set_ylabel(ylabel)
-    elif modality == "ecg":
-        signal_ax.set_title(title)
-        signal_ax.set_ylabel(ylabel)
-    signal_ax.grid(True)
+    signal_ax.set_title(title)
+    signal_ax.set_ylabel(ylabel)
+
+    if bad_segments is not None:
+        for bads in bad_segments:
+            signal_ax.axvspan(
+                xmin=time[bads[0]], xmax=time[bads[1]], color="grey", alpha=0.2
+            )
 
     #############
     # Lower panel
     #############
-
     if show_heart_rate is True:
 
         # Instantaneous Heart Rate - Peaks
@@ -121,10 +156,10 @@ def plot_raw(
             backend="matplotlib",
             figsize=figsize,
             show_artefacts=show_artefacts,
+            bad_segments=bad_segments,
             ax=hr_ax,
+            events_params=events_params,
         )
-
-        plt.tight_layout()
 
         return signal_ax, hr_ax
 

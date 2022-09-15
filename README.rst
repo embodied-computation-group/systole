@@ -28,7 +28,7 @@
 
 ================
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/logo.png
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/logo.png
    :align: center
 
 ================
@@ -38,9 +38,17 @@ This includes tools for data epoching, artefact detection, artefact correction, 
 variability analyses, circular statistical approaches to analysing cardiac cycles, and synchronising stimulus 
 presentation with different cardiac phases via Psychopy.
 
-The documentation can be found under the following `link <https://systole-docs.github.io/>`_.
+The documentation can be found under the following `link <https://embodied-computation-group.github.io/systole/#>`_.
 
 If you have questions, you can ask them in the `Gitter chat <https://gitter.im/ecg-systole/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge>`_.
+
+How to cite?
+++++++++++++
+
+If you are using **Systole** in a publication we ask you to cite the following paper::
+
+  Legrand et al., (2022). Systole: A python package for cardiac signal synchrony and analysis. Journal of Open Source Software, 7(69), 3832, https://doi.org/10.21105/joss.03832
+
 
 Installation
 ++++++++++++
@@ -88,6 +96,8 @@ For an introduction to Systole and cardiac signal analysis, you can refer to the
      - |Colab badge 4|
    * - Instantaneous and evoked heart rate 
      - |Colab badge 5|
+   * - Working with BIDS folders
+     - |Colab badge 6|
 
 .. |Colab badge 1| image:: https://colab.research.google.com/assets/colab-badge.svg
   :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/1-PhysiologicalSignals.ipynb
@@ -103,6 +113,9 @@ For an introduction to Systole and cardiac signal analysis, you can refer to the
 
 .. |Colab badge 5| image:: https://colab.research.google.com/assets/colab-badge.svg
   :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/5-InstantaneousHeartRate.ipynb
+
+.. |Colab badge 6| image:: https://colab.research.google.com/assets/colab-badge.svg
+  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/6-WorkingWithBIDSFolders.ipynb
 
 
 Getting started
@@ -127,7 +140,7 @@ The package integrates a set of functions for interactive or non interactive dat
   plot_raw(signal[60000 : 120000], modality="ecg", backend="bokeh", 
               show_heart_rate=True, show_artefacts=True, figsize=300)
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/raw.png
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/raw.png
    :align: center
 
 
@@ -145,7 +158,7 @@ Artefacts can be detected and corrected in the RR interval time series or the pe
 
   plot_subspaces(peaks, input_type="peaks", backend="bokeh")
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/subspaces.png
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/subspaces.png
    :align: center
 
 
@@ -163,7 +176,7 @@ Systole implements time-domain, frequency-domain and non-linear HRV indices, as 
       plot_poincare(peaks, input_type="peaks", backend="bokeh", figsize=(200, 200)),
       )
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/hrv.png
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/hrv.png
    :align: center
 
 
@@ -174,6 +187,34 @@ The package natively supports recording of physiological signals from the follow
 - `Nonin 3012LP Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_ (USB).
 - Remote Data Access (RDA) via BrainVision Recorder together with `Brain product ExG amplifier <https://www.brainproducts.com/>`_ (Ethernet).
 
+Interactive visualization of BIDS structured datasets
+=====================================================
+
+.. code-block:: python
+
+  from systole.viewer import Viewer
+
+  view = Viewer(
+      input_folder="/BIDS/folder/path/",
+      pattern="task-mytask",
+      modality="beh",
+      signal_type="ECG"
+  )
+
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/editor.gif
+   :align: center
+
+Inserting and removing peaks
+============================
+
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/peaks.gif
+   :align: center
+
+Annotating bad segments
+=======================
+
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/segments.gif
+   :align: center
 
 Development
 +++++++++++
@@ -181,13 +222,6 @@ Development
 This module was created and is maintained by Nicolas Legrand and Micah Allen (ECG group, https://the-ecg.org/). If you want to contribute, feel free to contact one of the developers, open an issue or submit a pull request.
 
 This program is provided with NO WARRANTY OF ANY KIND.
-
-Contributors
-++++++++++++
-
-- Jan C. Brammer (jan.c.brammer@gmail.com)
-- Gidon Levakov (gidonlevakov@gmail.com)
-- Peter Doggart (peter.doggart@pulseai.io)
 
 Acknowledgements
 ++++++++++++++++
@@ -200,7 +234,7 @@ Systole was largely inspired by pre-existing toolboxes dedicated to heartrate va
 
 * hrv: https://github.com/rhenanbartels/hrv
 
-* pyHVR: https://pyhrv.readthedocs.io/en/latest/index.html
+* pyHRV: https://pyhrv.readthedocs.io/en/latest/index.html
 
 * ECG-detector: https://github.com/berndporr/py-ecg-detectors
 
@@ -212,11 +246,11 @@ Systole was largely inspired by pre-existing toolboxes dedicated to heartrate va
 
 |AU| |lundbeck| |lab|
 
-.. |AU| image::  https://github.com/embodied-computation-group/systole/raw/dev/source/images/au_clinisk_logo.png
+.. |AU| image::  https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/au_clinisk_logo.png
    :width: 100%
 
-.. |lundbeck| image::  https://github.com/embodied-computation-group/systole/raw/dev/source/images/lundbeckfonden_logo.png
+.. |lundbeck| image::  https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/lundbeckfonden_logo.png
    :width: 10%
 
-.. |lab| image::  https://github.com/embodied-computation-group/systole/raw/dev/source/images/LabLogo.png
+.. |lab| image::  https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/LabLogo.png
    :width: 20%

@@ -34,14 +34,13 @@ def plot_frequency(
         (IBI), expressed in seconds or milliseconds (respectively).
     fbands : None | dict | optional
         Dictionary containing the names of the frequency bands of interest (str), their
-        range (tuples) and their color in the PSD plot.
-        Default is:
+        range (tuples) and their color in the PSD plot. Default is::
 
-        .. python::
-
-           {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
+           {
+            'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
             'lf': ('Low frequency', (0.04, 0.15), 'g'),
-            'hf': ('High frequency', (0.15, 0.4), 'r')}
+            'hf': ('High frequency', (0.15, 0.4), 'r')
+            }
 
     figsize : list | tuple | int | None
         Figure size. Default is `(13, 5)`.
@@ -63,9 +62,8 @@ def plot_frequency(
     Examples
     --------
 
-    Visualizing HRV frequency domain from RR time series.
-
-    Using Matplotlib backend
+    Visualizing HRV frequency domain from RR time series using Matplotlib as plotting
+    backend.
 
     .. jupyter-execute::
 
@@ -75,7 +73,8 @@ def plot_frequency(
         rr = import_rr().rr.to_numpy()
         plot_frequency(rr, input_type="rr_ms")
 
-    Using Bokeh backend
+    Visualizing HRV frequency domain from RR time series using Bokeh as plotting
+    backend.
 
     .. jupyter-execute::
 

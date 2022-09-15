@@ -1,72 +1,95 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
 import pandas as pd
 from bokeh.plotting.figure import Figure
 from matplotlib.axes import Axes
 
-from systole.detection import ecg_peaks, ppg_peaks
+from systole.detection import ecg_peaks, ppg_peaks, rsp_peaks
 from systole.plots.utils import get_plotting_function
+from systole.utils import ecg_strings, norm_bad_segments, ppg_strings, resp_strings
 
 
 def plot_raw(
     signal: Union[pd.DataFrame, np.ndarray, List],
+    peaks: Optional[np.ndarray] = None,
     sfreq: int = 1000,
     modality: str = "ppg",
-    ecg_method: str = "pan-tompkins",
+    ecg_method: str = "sleepecg",
     show_heart_rate: bool = False,
     show_artefacts: bool = False,
+    bad_segments: Optional[Union[np.ndarray, List[Tuple[int, int]]]] = None,
     slider: bool = True,
+    decim: Optional[int] = 10,
     ax: Optional[Axes] = None,
     figsize: Optional[Union[int, List[int], Tuple[int, int]]] = None,
     backend: str = "matplotlib",
+    events_params: Optional[Dict] = None,
     **kwargs
 ) -> Union[Axes, Figure]:
     """Visualization of PPG or ECG signal with systolic peaks or R wave detection.
 
-    The instantaneous heart rate can be derived in a second row.
+    The instantaneous heart rate can be derived in a second row, as well as the events
+    temporal distribution.
 
     Parameters
     ----------
     signal : :py:class:`pandas.DataFrame` | :py:class:`numpy.ndarray` | list
-        Dataframe of PPG or ECG signal in the long format. If a data frame is
-        provided, it should contain at least one ``'time'`` and one colum for
-        signal(either ``'ppg'`` or ``'ecg'``). If an array is provided, it will
-        automatically create a DataFrame using the array as signal and
-        ``sfreq`` as sampling frequency.
+        Dataframe of PPG or ECG signal in the long format. If a data frame is provided,
+        it should contain at least one `'time'` and one colum for signal (either `'ppg'`
+        `'ecg'`, `'respiration'`). If an array is provided, it will automatically create
+        a DataFrame using the array as signal and `sfreq` as sampling frequency.
+    peaks : np.ndarray | None
+        (Optional) A boolean vetor of peaks detection (should have same length than
+        `signal`). If `peaks` is provided, the peaks detection part is skipped and this
+        vector is used instead.
     sfreq : int
         Signal sampling frequency. Default is set to 1000 Hz.
     modality : str
-        The type of signal provided. Can be ``'ppg'`` (pulse oximeter) or
-        ``'ecg'`` (electrocardiography). The peak detection algorithm used
-        depend on the type of signal provided.
+        The type of signal provided. Can be `'ppg'` (pulse oximeter), `'ecg'`
+        (electrocardiography) or `'resp'`. This parameter will control the type of
+        peak detection algorithm to use. Only relevant if `peaks` is not provided.
     ecg_method : str
         Peak detection algorithm used by the
-        :py:func:`systole.detection.ecg_peaks` function. Can be one of the
-        following: `'hamilton'`, `'christov'`, `'engelse-zeelenberg'`,
-        `'pan-tompkins'`, `'wavelet-transform'`, `'moving-average'`. The
-        default is `'pan-tompkins'`.
+        :py:func:`systole.detection.ecg_peaks` function. Can be one of the following:
+        `'hamilton'`, `'christov'`, `'engelse-zeelenberg'`, `'pan-tompkins'`,
+        `'wavelet-transform'`, `'moving-average'` or `'sleepecg'`. The default is
+        `'sleepecg'`.
     show_heart_rate : bool
-        If `True`, show the instnataneous heart rate below the raw signal.
-        Defaults to `False`.
+        If `True`, show the instnataneous heart rate below the raw signal. Defaults to
+        `False`.
     show_artefacts : bool
-        If `True`, the function will call
-        py:func:`systole.detection.rr_artefacts` to detect outliers intervalin the time
-        serie and outline them using different colors.
+        If `True`, the function will call py:func:`systole.detection.rr_artefacts` to
+        detect outliers intervalin the time serie and outline them using different
+        colors.
+    bad_segments : np.ndarray | list | None
+        Mark some portion of the recording as bad. Grey areas are displayed on the top
+        of the signal to help visualization (this is not correcting or transforming the
+        post-processed signals). If a np.ndarray is provided, it should be a boolean
+        of same length than `signal` where `False` indicates a bad segment. If a list
+        is provided, it should be a list of tuples shuch as (start_idx, end_idx) for
+        each bad segment.
     slider : bool
-        If `True`, will add a slider to select the time window to plot
-        (requires bokeh backend).
+        If `True`, will add a slider to select the time window to plot (requires bokeh
+        backend).
+    decim : int
+        Factor by which to subsample the raw signal. Selects every Nth sample (where N
+        is the value passed to decim). Default set to `10` (considering that the imput
+        signal has a sampling frequency of 1000 Hz) to save memory.
     ax : :class:`matplotlib.axes.Axes` | None
         Where to draw the plot. Default is *None* (create a new figure). Only
         applies when `backend="matplotlib"`.
     figsize : tuple, int or None
-        Figure size. Default is `(13, 5)` for matplotlib backend, and the
-        height is `300` when using bokeh backend.
+        Figure size. Default is `(13, 5)` for matplotlib backend, and the height is
+        `300` when using bokeh backend.
     backend: str
         Select plotting backend {"matplotlib", "bokeh"}. Defaults to
         "matplotlib".
+    events_params : dict | None
+        (Optional) Additional parameters that will be passed to
+        py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
     **kwargs : keyword arguments
         Additional arguments will be passed to
         `:py:func:systole.detection.ppg_peaks()` or
@@ -85,7 +108,7 @@ def plot_raw(
     Examples
     --------
 
-    Plotting raw ECG recording.
+    Plotting raw ECG recording with automatic R peaks labelling.
 
     .. jupyter-execute::
 
@@ -97,9 +120,23 @@ def plot_raw(
 
        # Only use the first 60 seconds for demonstration
        ecg = ecg[ecg.time.between(60, 90)]
-       plot_raw(ecg, modality='ecg', sfreq=1000, ecg_method='pan-tompkins')
+       plot_raw(ecg, modality='ecg', sfreq=1000, ecg_method='sleepecg')
 
-    Plotting raw PPG recording.
+    Plotting raw respiration recording with automatic labelling of inspiratory peaks.
+
+    .. jupyter-execute::
+
+       from systole import import_dataset1
+       from systole.plots import plot_raw
+
+       # Import Respiration recording as pandas data frame
+       rsp = import_dataset1(modalities=['Respiration'])
+
+       # Only use the first 90 seconds for demonstration
+       rsp = rsp[rsp.time.between(500, 600)]
+       plot_raw(rsp, sfreq=1000, modality="respiration")
+
+    Plotting raw PPG recording with automatic labelling of the systolic peaks.
 
     .. jupyter-execute::
 
@@ -109,9 +146,22 @@ def plot_raw(
        ppg = import_ppg()
 
        # Only use the first 60 seconds for demonstration
-       plot_raw(ppg[ppg.time<60])
+       plot_raw(ppg[ppg.time<60], sfreq=75);
 
-    Using Bokeh backend, with instantaneous heart rate and artefacts.
+    Highlighting a bad segment in the recording.
+
+    .. jupyter-execute::
+
+       from systole import import_ppg
+       from systole.plots import plot_raw
+
+       # Only use the first 60 seconds for demonstration
+       # The bad segments are annotated using a tuple (start, end) in miliseconds
+       plot_raw(ppg[ppg.time<60], sfreq=75, bad_segments=[(15000, 17000)]);
+
+    Using Bokeh as plotting backend, with automatic systolic peaks labelling and show
+    the instantaneous heart rate in a second panel with automated labelling of RR
+    interval artefacts.
 
     .. jupyter-execute::
 
@@ -120,7 +170,10 @@ def plot_raw(
        output_notebook()
 
        show(
-           plot_raw(ppg, backend="bokeh", show_heart_rate=True, show_artefacts=True)
+           plot_raw(
+            signal=ppg, backend="bokeh", sfreq=75,
+            show_heart_rate=True, show_artefacts=True
+            )
         )
 
     """
@@ -130,23 +183,63 @@ def plot_raw(
         elif backend == "bokeh":
             figsize = 300
 
-    if isinstance(signal, pd.DataFrame):
-        # Find peaks - Remove learning phase
-        if modality == "ppg":
-            signal, peaks = ppg_peaks(signal.ppg, noise_removal=False, **kwargs)
-        elif modality == "ecg":
-            signal, peaks = ecg_peaks(
-                signal.ecg, method=ecg_method, find_local=True, **kwargs
-            )
+    if peaks is None:
+
+        if isinstance(signal, pd.DataFrame):
+
+            # Find peaks - Remove learning phase
+            if modality.lower() in ppg_strings:
+                signal, peaks = ppg_peaks(
+                    signal=signal[modality], moving_average=False, sfreq=sfreq, **kwargs
+                )
+            elif modality.lower() in resp_strings:
+                signal, (peaks, troughs) = rsp_peaks(
+                    signal=signal[modality], sfreq=sfreq, **kwargs
+                )
+            elif modality.lower() in ecg_strings:
+                signal, peaks = ecg_peaks(
+                    signal=signal[modality],
+                    method=ecg_method,
+                    find_local=True,
+                    sfreq=sfreq,
+                    **kwargs
+                )
+            else:
+                raise ValueError(
+                    "Invalid modality parameter. See systole.utils.ecg_strings, "
+                    "systole.utils.ppg_strings or systole.utils.resp_strings "
+                    "for valid parameters."
+                )
+        else:
+            if modality in ppg_strings:
+                signal, peaks = ppg_peaks(
+                    signal=signal, moving_average=False, sfreq=sfreq, **kwargs
+                )
+            elif modality in resp_strings:
+                signal, (peaks, troughs) = rsp_peaks(
+                    signal=signal, sfreq=sfreq, **kwargs
+                )
+            elif modality in ecg_strings:
+                signal, peaks = ecg_peaks(
+                    signal=signal,
+                    method=ecg_method,
+                    sfreq=sfreq,
+                    find_local=True,
+                    **kwargs
+                )
+            else:
+                raise ValueError(
+                    "Invalid modality parameter. See systole.utils.ecg_strings, "
+                    "systole.utils.ppg_strings or systole.utils.resp_strings "
+                    "for valid parameters."
+                )
+
+    if bad_segments is None:
+        bad_segments_tuples = None
     else:
-        if modality == "ppg":
-            signal, peaks = ppg_peaks(
-                signal, noise_removal=False, sfreq=sfreq, **kwargs
-            )
-        elif modality == "ecg":
-            signal, peaks = ecg_peaks(
-                signal, method=ecg_method, sfreq=sfreq, find_local=True, **kwargs
-            )
+        if isinstance(bad_segments, np.ndarray):
+            assert len(bad_segments) == len(signal)
+        bad_segments_tuples = norm_bad_segments(bad_segments)
 
     time = pd.to_datetime(np.arange(0, len(signal)), unit="ms", origin="unix")
 
@@ -157,9 +250,12 @@ def plot_raw(
         "modality": modality,
         "show_heart_rate": show_heart_rate,
         "show_artefacts": show_artefacts,
+        "bad_segments": bad_segments_tuples,
         "ax": ax,
         "figsize": figsize,
         "slider": slider,
+        "decim": decim,
+        "events_params": events_params,
     }
 
     plotting_function = get_plotting_function("plot_raw", "plot_raw", backend)

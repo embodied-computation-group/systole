@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+{{ resources }}
+{{ script }}
+<style>
+    .embed-wrapper {
+        display: flex;
+        justify-content: space-evenly;
+    }
+</style>
+
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+    <div class="container">
+        <a class=navbar-brand">
+            <img href="https://embodied-computation-group.github.io/systole/#" src="./images/logo.svg" height="40" alt="">
+            Subject-level quality report
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="#learn" class="nav-link">ECG</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#learn" class="nav-link">PPG</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#learn" class="nav-link">Respiration</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Data quality check for physiological recording</h1>
+            <div>This report was generated using Systole v.{{systole_version}}. If you use this package for research,
+                please cite as:</div>
+            <cite>Legrand, N., & Allen, M. (2022). Systole: A python package for cardiac signal synchrony and analysis.
+                In Journal of Open Source Software (Vol. 7, Issue 69, p. 3832). The Open Journal.
+                https://doi.org/10.21105/joss.03832</cite>
+
+        </div>
+    </div>
+
+    <!-- Electrocardiography -->
+    <div class="row">
+        <div class="col-12">
+            <h2>Electrocardiography (ECG)</h2>
+        </div>
+    </div>
+
+    {% if show_ecg %}
+
+        <div class="row">
+            <div class="col-12">
+                <h3>Instantaneous heart rate</h3>
+                <div class="embed-wrapper">
+                    {{ div["ecg_rr"] }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <h3>Artefact detection</h3>
+                <div>Artefact detection is performed using the method described in Lipponen & Tarvainen (2019). This method uses robust adaptative thresholds to classify RR intervals as Missed, Longs, Extra, Short or Ectopic. The left panel show the decision boundaries for ectopic beats. The right panel shows the decision boundaries for long/missed and short/extra beats.</div>
+                <div>Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for heart rate variability time series artefact correction using novel beat classification. Journal of Medical Engineering & Technology, 43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306</div>
+            </div>
+            <div class="embed-wrapper">
+                {{ div["ecg_artefacts"] }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <h3>Heart Rate Variability</h3>
+                <h4>Time domain</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-8">
+                <div class="embed-wrapper">
+                    {{ div["ecg_time_table"] }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <h4>Frequency domain</h4>
+                <div>The power spectral density was computed from the interpolated instantaneous RR intervals (milliseconds)
+                    using the Welch method with 50% ovelap and a segment length of 256 seconds.</div>
+                <div>The figures highlights the three frequency bands of interest for heart rate variability: the very low
+                    frequency (from 0 to 0.04 Hz), the low frequency (from 0.04 to 0.15 Hz) and the high frequency (from
+                    0.15 to 0.4 Hz).</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <div class="embed-wrapper">
+                    {{ div["ecg_plot_frequency"] }}
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="embed-wrapper">
+                    {{ div["ecg_frequency_table"] }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <h4>Non linear domain</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <div class="embed-wrapper">
+                    {{ div["ecg_plot_poincare"] }}
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="embed-wrapper">
+                    {{ div["ecg_nonlinear_table"] }}
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+
+
+    {% if show_ppg %}
+
+        <!-- Photoplethysmography -->
+        <div class="row">
+            <div class="col-12">
+                <h2>
+                    Photoplethysmography (PPG)
+                </h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <h3>Instantaneous heart rate</h3>
+            </div>
+            <div class="embed-wrapper">
+                {{ div["ppg_rr"] }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <h3>Artefact detection</h3>
+                <div>Artefact detection is performed using the method described in Lipponen & Tarvainen (2019). This method uses robust adaptative thresholds to classify RR intervals as Missed, Longs, Extra, Short or Ectopic. The left panel show the decision boundaries for ectopic beats. The right panel shows the decision boundaries for long/missed and short/extra beats.</div>
+                <div>Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for heart rate variability time series artefact correction using novel beat classification. Journal of Medical Engineering & Technology, 43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306</div>
+            </div>
+            <div class="embed-wrapper">
+                {{ div["ppg_artefacts"] }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <h3>Heart Rate Variability</h3>
+                <h4>Time domain</h4>
+            </div>
+        </div>
+
+    {% else %}
+        <div>No PPG signal was found in the recording.</div>
+    {% endif %}
+
+
+    <!-- Respiration -->
+    <div class="row">
+        <div class="col-12">
+            <h2>Respiration</h2>
+        </div>
+    </div>
+
+    {% if show_respiration %}
+
+        <div class="row">
+            <div class="col-12">
+                <h3>Raw signal</h3>
+                <div class="embed-wrapper">
+                    {{ div["rsp_raw"] }}
+                </div>
+            </div>
+        </div>
+
+    {% else %}
+        <div>No respiration signal was found in the recording.</div>
+    {% endif %}
+
+</div>
+
+</html>

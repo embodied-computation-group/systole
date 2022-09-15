@@ -26,7 +26,7 @@ Please verify that your issue is not being currently addressed by other issues o
 
 While issue reporting is valuable, we strongly encourage users who are inclined to do so to submit patches for new or existing issues via pull requests. This is particularly the case for simple fixes, such as typos or tweaks to documentation, which do not require a heavy investment of time and attention.
 
-Contributors are also encouraged to contribute new code to enhance Systole's functionality, also via pull requests. Please consult the [Systole documentation](https://systole-docs.github.io/) to ensure that any new contribution does not strongly overlap with existing functionality.
+Contributors are also encouraged to contribute new code to enhance Systole's functionality, also via pull requests. Please consult the [Systole documentation](https://embodied-computation-group.github.io/systole/#) to ensure that any new contribution does not strongly overlap with existing functionality.
 
 The preferred workflow for contributing to Systole is to fork the [GitHub repository](https://github.com/embodied-computation-group/systole), clone it to your local machine, and develop on a feature branch.
 

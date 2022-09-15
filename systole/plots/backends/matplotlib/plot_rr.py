@@ -1,12 +1,13 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import Dict, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from matplotlib.axes import Axes
 
+from systole.plots import plot_events
 from systole.utils import heart_rate
 
 
@@ -17,11 +18,13 @@ def plot_rr(
     line: bool = True,
     points: bool = True,
     artefacts: Optional[Dict[str, np.ndarray]] = None,
+    bad_segments: Optional[List[Tuple[int, int]]] = None,
     input_type: str = "peaks",
     ax: Optional[Axes] = None,
     show_limits: bool = True,
     slider=None,
     figsize: Tuple[float, float] = (13, 5),
+    events_params: Optional[Dict] = None,
 ) -> Axes:
     """Plot continuous or discontinuous RR intervals time series.
 
@@ -40,10 +43,14 @@ def plot_rr(
     line : bool
         If `True`, plot the interpolated instantaneous heart rate.
     points : bool
-        If `True`, plot each peaks (R wave or systolic peaks) as separated
-        points.
+        If `True`, plot each peaks (R wave or systolic peaks) as separated points.
     artefacts : dict
-        Dictionnary storing the parameters of RR artefacts rejection.
+        Dictionary storing the parameters of RR artefacts rejection.
+    bad_segments : np.ndarray | list | None
+        Mark some portion of the recording as bad. Grey areas are displayed on the top
+        of the signal to help visualization (this is not correcting or transforming the
+        post-processed signals). Should be a list of tuples shuch as (start_idx,
+        end_idx) for each segment.
     input_type : str
         The type of input vector. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"`, or
         `"rr_s"`. Default to `"peaks"`.
@@ -57,6 +64,9 @@ def plot_rr(
         bokeh backend).
     figsize : tuple
         Figure size. Default is `(13, 5)`.
+    events_params : dict | None
+        (Optional) Additional parameters that will be passed to
+        py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
 
     Returns
     -------
@@ -69,6 +79,10 @@ def plot_rr(
 
     if ax is None:
         _, ax = plt.subplots(figsize=figsize)
+
+    # Plot the events in the background if required
+    if events_params is not None:
+        plot_events(**events_params, ax=ax)
 
     if line is True:
 
@@ -122,8 +136,8 @@ def plot_rr(
             marker="o",
             label="R-R intervals",
             s=20,
-            color="white",
-            edgecolors="DarkSlateGrey",
+            color="lightgray",
+            edgecolors="gray",
             zorder=2,
         )
 
@@ -203,10 +217,19 @@ def plot_rr(
                 ax.axhspan(ymin=high, ymax=ylim_high, color="r", alpha=0.1)
                 ax.set_ylim(ylim_low, ylim_high)
 
+    # Show bad segments if any
+    if bad_segments is not None:
+        if line is False:
+            # Create the time vector
+            hr, time = heart_rate(rr, unit=unit, kind=kind, input_type=input_type)
+            time = pd.to_datetime(time, unit="s", origin="unix")
+
+        for bads in bad_segments:
+            ax.axvspan(xmin=time[bads[0]], xmax=time[bads[1]], color="grey", alpha=0.2)
+
     ax.set_title("Instantaneous heart rate")
     ax.set_xlabel("Time")
     ax.set_ylabel(ylabel)
-    ax.grid(True)
-    ax.legend()
+    ax.legend(loc="upper right")
 
     return ax

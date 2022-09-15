@@ -14,7 +14,7 @@ from systole.plots.utils import get_plotting_function
 def plot_events(
     triggers: Optional[Union[List, np.ndarray]] = None,
     triggers_idx: Optional[Union[List, np.ndarray]] = None,
-    events_labels: Optional[Union[Dict[str, str], List, str]] = None,
+    labels: Optional[Union[Dict[str, str], List, str]] = None,
     tmin: float = -1.0,
     tmax: float = 10.0,
     sfreq: int = 1000,
@@ -24,7 +24,7 @@ def plot_events(
     backend: str = "matplotlib",
     palette: Optional[List[str]] = None,
 ) -> Axes:
-    """Plot events occurence across recording.
+    """Visualize the occurence of events along the physiological recording.
 
     Parameters
     ----------
@@ -36,21 +36,21 @@ def plot_events(
         Trigger indexes. Each value encode the sample where an event occured (see
         also `sfreq`). Different conditions should be provided separately as list of
         arrays (can have different lenght).
-    events_labels : dict
+    labels : dict
         The events label. The key of the dictionary is the condition number (from 1 to
         n, as `str`), the value is the label (`str`). Default set to
         `{"1": "Event - 1"}` if one condition is provided, and generalize up to n
         conditions `{"n": "Event - n"}`.
     tmin, tmax : float
         Start and end time of the epochs in seconds, relative to the time-locked event.
-        Defaults to -1.0 and 10.0, respectively.
+        Defaults to `-1.0` and `10.0`, respectively.
     sfreq : int
         Signal sampling frequency. Default is set to 1000 Hz.
-    behavior : list | py:class:`pandas.DataFrame`
-        Additional information about trials that should appear when hovering on the
-        trial (`bokeh` version only). A py:class:`pd.DataFrame` instance with length =
-        n trials, or a list of py:class:`pd.DataFrame` (for multiple conditions) should
-        be provided.
+    behavior : list | py:class:`pandas.DataFrame` | None
+        (Optional) Additional information about trials that will appear when hovering
+        on the area (`bokeh` version only). A py:class:`pd.DataFrame` instance with
+        length = n trials, or a list of py:class:`pd.DataFrame` (for multiple
+        conditions) should be provided.
     figsize : tuple
         Figure size. Default is `(13, 5)`.
     ax : :class:`matplotlib.axes.Axes` | :class:`bokeh.plotting.figure.Figure` | None
@@ -61,8 +61,6 @@ def plot_events(
     palette : list | None
         Color palette. Default sets to Seaborn `"deep"`.
 
-    .. warning:: The `behavior` parameter will be implemented in a future release.
-
     Returns
     -------
     plot : :class:`matplotlib.axes.Axes` | :class:`bokeh.plotting.figure.Figure`
@@ -72,10 +70,18 @@ def plot_events(
     --------
     plot_rr, plot_raw
 
+    Raises
+    ------
+    ValueError
+        When no triggers or triggers indexes are provided.
+        When both triggers and triggers indexes are provided.
+        If the length of behavior optional data does not match with the provide triggers.
+        If invalid event names are provided.
+
     Examples
     --------
 
-    Plot events distributions using the Matplotlib backend.
+    Plot events distributions using Matplotlib as plotting backend.
 
     .. jupyter-execute::
 
@@ -93,12 +99,12 @@ def plot_events(
        ]
 
        plot_events(
-           triggers_idx=triggers_idx, events_labels=["Disgust", "Neutral"],
+           triggers_idx=triggers_idx, labels=["Disgust", "Neutral"],
            tmin=-0.5, tmax=10.0, figsize=(13, 3),
            palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
         )
 
-    Plot events distributions using the Bokeh backend and add RR time series.
+    Plot events distributions using Bokeh as plotting backend and add the RR time series.
 
     .. jupyter-execute::
 
@@ -114,11 +120,13 @@ def plot_events(
        # First, we create a RR interval plot
        rr_plot = plot_rr(peaks, input_type='peaks', backend='bokeh', figsize=250)
 
+       # Then we add events annotations to this plot using the plot_events function
        show(
-           # Then we add events annotations to this plot using the plot_events function
-           plot_events(triggers_idx=triggers_idx, backend="bokeh", events_labels=["Disgust", "Neutral"],
-                       tmin=-0.5, tmax=10.0, palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
-                       ax=rr_plot.children[0])
+            plot_events(
+                triggers_idx=triggers_idx, labels=["Disgust", "Neutral"],
+                tmin=-0.5, tmax=10.0, ax=rr_plot.children[0], backend="bokeh",
+                palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+            )
        )
 
     """
@@ -137,31 +145,48 @@ def plot_events(
         elif backend == "bokeh":
             figsize = 300
 
-    # Create a list of triggers indexs with length n = number of conditions
-    if triggers_idx is None:
-        if triggers is None:
-            raise ValueError("No triggers provided")
-        else:
-            if isinstance(triggers, np.ndarray):
-                triggers = [triggers]
-            triggers_idx = []
-            for this_triggers in triggers:
-                triggers_idx.append(np.where(this_triggers)[0])
+    # Create a list of triggers indexs (if provided) with length n = number of conditions
+    if (triggers_idx is None) & (triggers is None):
+        raise ValueError("No triggers provided")
+    elif triggers_idx is None:
+        if isinstance(triggers, np.ndarray):
+            triggers = [triggers]
 
-    # Create the event dictionnary if not already provided
-    if events_labels is None:
-        events_labels = {}
+        # Transform the boolean vector into triggers indexes
+        triggers_idx = []
+        for this_triggers in triggers:  # type: ignore
+            triggers_idx.append(np.where(this_triggers)[0])
+
+    elif triggers is None:
+        if isinstance(triggers_idx, np.ndarray):
+            triggers_idx = [triggers_idx]
+    else:
+        raise ValueError("Both triggers and triggers indexes are provided.")
+
+    # Check that the behaviors data (if provided) match with events length
+    if behavior is not None:
+        if isinstance(behavior, pd.DataFrame):
+            behavior = [behavior]
+        for tr, bh in zip(triggers_idx, behavior):
+            if len(tr) != len(bh):
+                raise ValueError(
+                    "The length of triggers indexes and behavior data does not match"
+                )
+
+    # Create the event dictionary if not already provided
+    if labels is None:
+        labels = {}
         for i in range(len(triggers_idx)):
-            events_labels[f"{i+1}"] = f"Event - {i+1}"
-    elif isinstance(events_labels, str):
-        event_str = events_labels
-        events_labels = {}
-        events_labels["1"] = event_str
-    elif isinstance(events_labels, list):
-        event_list = events_labels
-        events_labels = {}
+            labels[f"{i+1}"] = f"Event - {i+1}"
+    elif isinstance(labels, str):
+        event_str = labels
+        labels = {}
+        labels["1"] = event_str
+    elif isinstance(labels, list):
+        event_list = labels
+        labels = {}
         for i, lab in enumerate(event_list):
-            events_labels[f"{i+1}"] = lab
+            labels[f"{i+1}"] = lab
     else:
         raise ValueError("Invalid event label provided.")
 
@@ -180,30 +205,27 @@ def plot_events(
             this_tmin = (event / sfreq) + tmin
             this_trigger = event / sfreq
             this_tmax = (event / sfreq) + tmax
-            df = df.append(
-                pd.DataFrame(
-                    {
-                        "tmin": this_tmin,
-                        "trigger": this_trigger,
-                        "tmax": this_tmax,
-                        "label": events_labels[str(i + 1)],
-                        "color": [col],
-                    }
-                ),
+            df = pd.concat(
+                [
+                    df,
+                    pd.DataFrame(
+                        {
+                            "tmin": this_tmin,
+                            "trigger": this_trigger,
+                            "tmax": this_tmax,
+                            "label": labels[str(i + 1)],
+                            "color": [col],
+                        }
+                    ),
+                ],
                 ignore_index=True,
             )
-
-            # Add behaviors results when provided
 
     df["tmin"] = pd.to_datetime(df["tmin"], unit="s", origin="unix")
     df["trigger"] = pd.to_datetime(df["trigger"], unit="s", origin="unix")
     df["tmax"] = pd.to_datetime(df["tmax"], unit="s", origin="unix")
 
-    plot_raw_args = {
-        "df": df,
-        "figsize": figsize,
-        "ax": ax,
-    }
+    plot_raw_args = {"df": df, "figsize": figsize, "ax": ax, "behavior": behavior}
 
     plotting_function = get_plotting_function("plot_events", "plot_events", backend)
     plot = plotting_function(**plot_raw_args)

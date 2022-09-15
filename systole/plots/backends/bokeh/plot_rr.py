@@ -1,6 +1,6 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import Dict, Optional
+from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 import pandas as pd
@@ -10,6 +10,8 @@ from bokeh.models.tools import HoverTool, RangeTool
 from bokeh.plotting import ColumnDataSource, figure
 from bokeh.plotting.figure import Figure
 
+from systole.plots import plot_events
+
 
 def plot_rr(
     rr: np.ndarray,
@@ -18,11 +20,13 @@ def plot_rr(
     line: bool = True,
     points: bool = True,
     artefacts: Optional[Dict[str, np.ndarray]] = None,
+    bad_segments: Optional[List[Tuple[int, int]]] = None,
     input_type: str = "peaks",
     show_limits: bool = True,
     slider: bool = True,
     ax=None,
     figsize: int = 200,
+    events_params: Optional[Dict] = None,
 ) -> Figure:
     """Plot continuous or discontinuous RR intervals time series.
 
@@ -44,7 +48,12 @@ def plot_rr(
         If `True`, plot each peaks (R wave or systolic peaks) as separated
         points.
     artefacts : dict
-        Dictionnary storing the parameters of RR artefacts rejection.
+        Dictionary storing the parameters of RR artefacts rejection.
+    bad_segments : np.ndarray | list | None
+        Mark some portion of the recording as bad. Grey areas are displayed on the top
+        of the signal to help visualization (this is not correcting or transforming the
+        post-processed signals). Should be a list of tuples shuch as (start_idx,
+        end_idx) for each segment.
     input_type : str
         The type of input vector. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"`,
         or `"rr_s"`. Default to `"peaks"`.
@@ -58,6 +67,9 @@ def plot_rr(
         Only relevant when using `backend="matplotlib"`.
     figsize : int
         The height of the figure. Default is `200`.
+    events_params : dict | None
+        (Optional) Additional parameters that will be passed to
+        py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
 
     Returns
     -------
@@ -259,6 +271,38 @@ def plot_rr(
         p1.add_layout(upper_bound)
         lower_bound = BoxAnnotation(top=low, fill_alpha=0.1, fill_color="red")
         p1.add_layout(lower_bound)
+
+    # Highlight bad segments if provided
+    if bad_segments is not None:
+
+        # Instantaneous Heart Rate - Peaks
+        if input_type == "rr_ms":
+            length = np.sum(rr)
+            time = pd.to_datetime(np.arange(0, length), unit="ms", origin="unix")
+        elif input_type == "rr_s":
+            length = np.sum(rr) * 1000
+            time = pd.to_datetime(np.arange(0, length), unit="ms", origin="unix")
+        elif input_type == "peaks":
+            length = len(rr)
+            time = pd.to_datetime(np.arange(0, length), unit="ms", origin="unix")
+        elif input_type == "peaks_idx":
+            length = np.sum(np.diff(rr))
+            time = pd.to_datetime(np.arange(0, length), unit="ms", origin="unix")
+
+        for bads in bad_segments:
+            # Plot time range
+            event_range = BoxAnnotation(
+                left=time[bads[0]],
+                right=time[bads[1]],
+                fill_alpha=0.2,
+                fill_color="grey",
+            )
+            event_range.level = "underlay"
+            p1.add_layout(event_range)
+
+    # Plot the events in the background if required
+    if events_params is not None:
+        plot_events(**events_params, ax=p1, backend="bokeh")
 
     cols = (p1,)
 

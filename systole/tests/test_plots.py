@@ -3,14 +3,13 @@
 import unittest
 from unittest import TestCase
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from bokeh.models import Column
 
 from systole import import_dataset1, import_ppg, import_rr
 from systole.detection import ecg_peaks, rr_artefacts
-from systole.hrv import frequency_domain, nonlinear_domain, time_domain
 from systole.plots import (
     plot_circular,
     plot_ectopic,
@@ -23,7 +22,6 @@ from systole.plots import (
     plot_shortlong,
     plot_subspaces,
 )
-from systole.plots.utils import frequency_table, nonlinear_table, time_table
 from systole.utils import heart_rate, to_epochs
 
 
@@ -49,35 +47,51 @@ class TestPlots(TestCase):
             data = pd.DataFrame(data={"x": x, "y": y}).melt()
             plot_circular(data=data, y="value", hue="variable", backend=backend)
 
+        plt.close("all")
+
     def test_plot_ectopic(self):
         """Test plot_ectopic function"""
         rr = import_rr().rr
         for backend in ["matplotlib", "bokeh"]:
             plot_ectopic(rr, backend=backend)
 
+        plt.close("all")
+
     def test_plot_evoked(self):
         """Test plot_evoked function"""
+
         # Import ECG recording and Stim channel
         ecg_df = import_dataset1(modalities=["ECG", "Stim"])
 
         # Peak detection in the ECG signal using the Pan-Tompkins method
-        _, peaks = ecg_peaks(ecg_df.ecg, method="pan-tompkins", sfreq=1000)
+        _, peaks = ecg_peaks(ecg_df.ecg, sfreq=1000)
 
         # Triggers timimng
         triggers_idx = [
-            np.where(ecg_df.stim.to_numpy() == 2)[0],
             np.where(ecg_df.stim.to_numpy() == 1)[0],
+            np.where(ecg_df.stim.to_numpy() == 2)[0],
         ]
 
         # Epochs array
         rr, _ = heart_rate(peaks, kind="cubic", unit="bpm", input_type="peaks")
-        epochs, _ = to_epochs(
+        epochs_test, _ = to_epochs(
             signal=rr,
             triggers_idx=triggers_idx,
             tmin=-1.0,
             tmax=10.0,
             apply_baseline=(-1.0, 0.0),
         )
+
+        plots_params = {
+            "tmin": -1.0,
+            "tmax": 10.0,
+            "apply_baseline": (-1, 0),
+            "ci": 68,
+            "decim": 500,
+            "markers": True,
+            "dashes": False,
+            "style": "Label",
+        }
 
         for backend in ["matplotlib", "bokeh"]:
 
@@ -86,11 +100,10 @@ class TestPlots(TestCase):
                 signal=ecg_df.ecg.to_numpy(),
                 triggers_idx=triggers_idx,
                 modality="ecg",
-                tmin=-1.0,
-                tmax=10.0,
-                apply_baseline=(-1.0, 0.0),
                 backend=backend,
+                labels=["Neutral", "Emotion"],
                 palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+                **plots_params
             )
 
             # Using instantaneous heart rate as input
@@ -98,19 +111,22 @@ class TestPlots(TestCase):
                 rr=peaks,
                 triggers_idx=triggers_idx,
                 input_type="peaks",
-                tmin=-1.0,
-                tmax=10.0,
-                apply_baseline=(-1.0, 0.0),
                 backend=backend,
+                labels=["Neutral", "Emotion"],
                 palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+                **plots_params
             )
 
             # Using evoked array as input
             plot_evoked(
-                epochs=epochs,
+                epochs=epochs_test.copy(),
                 backend=backend,
+                labels=["Neutral", "Emotion"],
                 palette=[sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+                **plots_params
             )
+
+        plt.close("all")
 
     def test_plot_events(self):
         """Test plot_events function"""
@@ -126,10 +142,12 @@ class TestPlots(TestCase):
             plot_events(
                 triggers_idx=triggers_idx,
                 backend=backend,
-                events_labels=["Disgust", "Neutral"],
+                labels=["Disgust", "Neutral"],
                 tmin=-0.5,
                 tmax=10.0,
             )
+
+        plt.close("all")
 
     def test_plot_frequency(self):
         """Test plot_frequency function"""
@@ -137,18 +155,30 @@ class TestPlots(TestCase):
         for backend in ["matplotlib", "bokeh"]:
             plot_frequency(rr, backend=backend, input_type="rr_ms")
 
+        plt.close("all")
+
     def test_plot_poincare(self):
         """Test plot_poincare function"""
         rr = import_rr().rr
         for backend in ["matplotlib", "bokeh"]:
             plot_poincare(rr, backend=backend, input_type="rr_ms")
 
+        plt.close("all")
+
     def test_plot_raw(self):
         """Test plot_raw function"""
+
+        # Using ppg signal
+        ppg = import_ppg().ppg.to_numpy()
+
+        # Import respiratory signal
+        rsp = import_dataset1(modalities=["Respiration"])
+
+        # Import ecg signal
+        ecg_df = import_dataset1(modalities=["ECG", "Stim"])
+
         for backend in ["matplotlib", "bokeh"]:
 
-            # Using ppg signal
-            ppg = import_ppg().ppg.to_numpy()
             plot_raw(
                 ppg,
                 backend=backend,
@@ -158,8 +188,20 @@ class TestPlots(TestCase):
                 sfreq=75,
             )
 
-            # Using ecg signal
-            ecg_df = import_dataset1(modalities=["ECG"])
+            triggers_idx = [
+                np.where(ecg_df.stim.to_numpy() == 2)[0],
+                np.where(ecg_df.stim.to_numpy() == 1)[0],
+            ]
+
+            # Define the events parameters for plotting
+            events_params = {
+                "triggers_idx": triggers_idx,
+                "labels": ["Disgust", "Neutral"],
+                "tmin": -0.5,
+                "tmax": 10.0,
+                "palette": [sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+            }
+
             plot_raw(
                 ecg_df.ecg,
                 backend=backend,
@@ -167,27 +209,87 @@ class TestPlots(TestCase):
                 show_artefacts=True,
                 modality="ecg",
                 sfreq=1000,
+                bad_segments=[(10000, 15000), (17000, 20000)],
+                events_params=events_params,
             )
+
+            ###############
+            # Respiration #
+            ###############
+            plot_raw(
+                rsp,
+                backend=backend,
+                modality="respiration",
+                sfreq=1000,
+                bad_segments=[(10000, 15000), (17000, 20000)],
+            )
+
+        plt.close("all")
 
     def test_plot_rr(self):
         """Test plot_rr function"""
-        rr = import_rr().rr
+
+        # Using ecg signal
+        ecg_df = import_dataset1(modalities=["ECG", "Stim"])
+
+        # Peak detection in the ECG signal using the Pan-Tompkins method
+        _, peaks = ecg_peaks(ecg_df.ecg, method="pan-tompkins", sfreq=1000)
+
+        triggers_idx = [
+            np.where(ecg_df.stim.to_numpy() == 2)[0],
+            np.where(ecg_df.stim.to_numpy() == 1)[0],
+        ]
+
+        # Define the events parameters for plotting
+        events_params = {
+            "triggers_idx": triggers_idx,
+            "labels": ["Disgust", "Neutral"],
+            "tmin": -0.5,
+            "tmax": 10.0,
+            "palette": [sns.xkcd_rgb["denim blue"], sns.xkcd_rgb["pale red"]],
+        }
+        rr_ms = np.diff(np.where(peaks)[0])
+        rr_s = np.diff(np.where(peaks)[0]) / 1000
+
         for backend in ["matplotlib", "bokeh"]:
             plot_rr(
-                rr,
+                rr_s,
                 backend=backend,
-                input_type="rr_ms",
+                input_type="rr_s",
                 show_artefacts=True,
                 slider=True,
+                events_params=events_params,
             )
-            plot_rr(rr, backend=backend, input_type="rr_ms", points=False)
-            plot_rr(rr, backend=backend, input_type="rr_ms", line=False)
+            plot_rr(
+                rr_ms,
+                backend=backend,
+                input_type="rr_ms",
+                points=False,
+                bad_segments=[(10000, 15000), (17000, 20000)],
+            )
+            plot_rr(
+                rr_ms,
+                backend=backend,
+                input_type="rr_ms",
+                line=False,
+                bad_segments=[(10000, 15000), (17000, 20000)],
+            )
+            plot_rr(
+                peaks,
+                backend=backend,
+                input_type="peaks",
+                bad_segments=[(10000, 15000), (17000, 20000)],
+            )
+
+        plt.close("all")
 
     def test_plot_shortlong(self):
         """Test plot_shortlong function"""
         rr = import_rr().rr
         for backend in ["matplotlib", "bokeh"]:
             plot_shortlong(rr, backend=backend, input_type="rr_ms")
+
+        plt.close("all")
 
     def test_plot_subspaces(self):
         """Test plot_subspaces function"""
@@ -203,71 +305,7 @@ class TestPlots(TestCase):
         with self.assertRaises(ValueError):
             plot_subspaces(rr=None, artefacts=None)
 
-    def test_time_table(self):
-        """Test the time_table function"""
-        rr = import_rr().rr
-        time_df = time_domain(rr, input_type="rr_ms")
-
-        # With a df as input
-        table_df = time_table(time_df=time_df, backend="tabulate")
-        assert isinstance(table_df, str)
-
-        table = time_table(time_df=time_df, backend="bokeh")
-        assert isinstance(table, Column)
-
-        # With RR intervals as inputs
-        table_rr = time_table(rr=rr, backend="tabulate")
-        assert isinstance(table_rr, str)
-
-        table = time_table(rr=rr, backend="bokeh")
-        assert isinstance(table, Column)
-
-        # Check for consistency between methods
-        assert table_rr == table_df
-
-    def test_frequency_table(self):
-        """Test plot_subspaces function"""
-        rr = import_rr().rr
-        frequency_df = frequency_domain(rr, input_type="rr_ms")
-
-        # With a df as input
-        table_df = frequency_table(frequency_df=frequency_df, backend="tabulate")
-        assert isinstance(table_df, str)
-
-        table = frequency_table(frequency_df=frequency_df, backend="bokeh")
-        assert isinstance(table, Column)
-
-        # With RR intervals as inputs
-        table_rr = frequency_table(rr=rr, backend="tabulate")
-        assert isinstance(table_rr, str)
-
-        table = frequency_table(rr=rr, backend="bokeh")
-        assert isinstance(table, Column)
-
-        # Check for consistency between methods
-        assert table_rr == table_df
-
-    def test_nonlinear_table(self):
-        """Test plot_subspaces function"""
-        rr = import_rr().rr
-        nonlinear_df = nonlinear_domain(rr, input_type="rr_ms")
-
-        # With a df as input
-        table_df = nonlinear_table(nonlinear_df=nonlinear_df, backend="tabulate")
-        assert isinstance(table_df, str)
-
-        table = nonlinear_table(nonlinear_df=nonlinear_df, backend="bokeh")
-        assert isinstance(table, Column)
-
-        # With RR intervals as inputs
-        table_rr = nonlinear_table(rr=rr, backend="tabulate")
-        assert isinstance(table_rr, str)
-
-        table = nonlinear_table(rr=rr, backend="bokeh")
-        assert isinstance(table, Column)
-
-        # Check for consistency between methods
-        assert table_rr == table_df
+        plt.close("all")
 
 
 if __name__ == "__main__":

@@ -6,6 +6,10 @@ import numpy as np
 from numba import jit
 from scipy.interpolate import interp1d
 
+ppg_strings = ["ppg", "pleth", "photoplethysmogram", "cardiac"]
+ecg_strings = ["ecg", "electrocardiogram", "ekg", "cardiac"]
+resp_strings = ["resp", "rsp", "res", "respiration", "breath"]
+
 
 @jit(nopython=True)
 def norm_triggers(
@@ -528,18 +532,24 @@ def to_neighbour(
     Parameters
     ----------
     signal : np.ndarray
-        Signal used to maximize/minimize peaks.
+        Signal used to maximize/minimize peaks values.
     peaks: np.ndarray
         Boolean vector of peaks position.
     kind : str
         Can be 'max' or 'min'.
     size : int
-        Size of the time window used to find max/min (samples).
+        Size of the time window used to find max/min (samples). Defaults to `50`.
 
     Returns
     -------
     new_peaks: np.ndarray
         Boolean vector of peaks position.
+
+    Raises
+    ------
+    ValueError
+        If `kind` is not `"max"` or `"min"`.
+
     """
     new_peaks = peaks.copy()
     for pk in np.where(peaks)[0]:
@@ -557,7 +567,7 @@ def to_neighbour(
 
 
 def input_conversion(
-    x: Union[List[float], np.ndarray],
+    x: Union[List, np.ndarray],
     input_type: str,
     output_type: str,
     sfreq: int = 1000,
@@ -593,6 +603,7 @@ def input_conversion(
     -------
     output : np.ndarray
         The time series converted to the desired format.
+
     """
 
     if output_type not in ["peaks", "peaks_idx", "rr_ms", "rr_s"]:
@@ -610,7 +621,7 @@ def input_conversion(
             elif output_type == "rr_s":
                 output = np.diff(np.where(x)[0]) / sfreq
             elif output_type == "peaks_idx":
-                output = np.where(x)[0]
+                output = np.where(x)[0]  # type: ignore
         else:
             raise ValueError("The peaks vector should only contain boolean values.")
 
@@ -643,7 +654,7 @@ def input_conversion(
     elif input_type == "rr_s":
         if (x > 0).all():
             if output_type == "rr_ms":
-                output = x * 1000
+                output = x * 1000  # type: ignore
             elif output_type == "peaks":
                 output = np.zeros(np.sum(x * 1000).astype(int) + 1, dtype=bool)
                 output[np.cumsum(x * 1000).astype(int)] = True
@@ -658,3 +669,233 @@ def input_conversion(
         raise ValueError("Invalid input type.")
 
     return output
+
+
+@jit(nopython=True)
+def nan_cleaning(signal: np.ndarray, verbose: bool = True) -> np.ndarray:
+    """Interpolate NaNs values.
+
+    Parameters
+    ----------
+    signal : np.ndarray
+        The physiological signal.
+    verbose : bool
+        Control function verbosity. Defaults to `True` (print)
+
+    Returns
+    -------
+    clean_signal : np.ndarray
+
+    """
+
+    arg_nans = np.where(np.isnan(signal))[0]
+    if len(arg_nans) > 0:
+        if verbose:
+            print(
+                f"... NaNs cleaning : interpolating {len(arg_nans)} NaN values found in the signal {int(100 * len(arg_nans)/len(signal))} %."
+            )
+        arg_float = np.where(~np.isnan(signal))[0]
+        xp = np.arange(0, len(signal))[arg_float]
+        fp = signal[arg_float]
+        signal[arg_nans] = np.interp(arg_nans, xp=xp, fp=fp)
+
+    return signal
+
+
+def find_clipping(signal: np.ndarray) -> Tuple[Optional[float], Optional[float]]:
+    """Automatically find the max and/or min threshold value of clipping artefacts.
+
+    Parameters
+    ----------
+    signal : np.ndarray
+        The physiological signal.
+
+    Returns
+    -------
+    min_threshold, max_threshold : float | None
+        The minimum and maximum threshold corresponding to the clipping artefact. If no
+        threshold is found, returns `None`.
+
+    """
+    min_threshold, max_threshold = None, None
+
+    signal_max = np.max(signal)
+    signal_min = np.min(signal)
+
+    if (len(np.where(signal == signal_max)[0]) == 0) & (
+        len(np.where(signal == signal_min)[0]) == 0
+    ):
+        return min_threshold, max_threshold
+
+    signal_diff = np.diff(signal)
+
+    # If max is not unique
+    if len(np.where(signal == signal_max)[0]) > 1:
+
+        # Count the number of occurence of max values with derivative = 0
+        n_clip = np.isin(
+            np.where(signal_diff == 0)[0] + 1, np.where(signal == signal_max)[0]
+        ).sum()
+
+        if n_clip > 2:
+            max_threshold = signal_max
+
+    # If min is not unique
+    if len(np.where(signal == signal_min)[0]) > 1:
+
+        # Count the number of occurence of min values with derivative = 0
+        n_clip = np.isin(
+            np.where(signal_diff == 0)[0] + 1, np.where(signal == signal_min)[0]
+        ).sum()
+
+        if n_clip > 2:
+            min_threshold = signal_min
+
+    return min_threshold, max_threshold
+
+
+def get_valid_segments(
+    signal: np.ndarray,
+    bad_segments: Union[np.ndarray, List[Tuple[int, int]]] = None,
+) -> List[np.ndarray]:
+    """Return the longest signal or intervals time series after dropping segments marked
+    as bads.
+
+    Parameters
+    ----------
+    signal : np.ndarray
+        The physiological time serie that should be filtered.
+    bad_segments : np.ndarray | tuple
+        Bad segments in the signal where RR interval or peaks to peaks intervals could
+        not be accurately estimated. Intervals from these segments will be dropped and
+        the time domain parameters will be computed over the remaining intervals. A
+        warning is printed if the final intervals range is less than 2 minutes.
+
+    Return
+    ------
+    valid : list of np.ndarray
+        The filtered signal / interval time serie given the bad segments, sorted
+        according to the signal length.
+
+    Examples
+    --------
+    From a given physiological signal, and a set of bad segments, return the list of
+    valid time series, sorted according to their length.
+
+    >>> import numpy as np
+    >>> from systole.utils import get_valid_segments
+    >>> signal = np.random.normal(size=1000)
+    >>> bad_segments = [(500, 550), (700, 800)]
+    >>> valids = get_valid_segments(signal=signal, bad_segments=bad_segments)
+    >>> [len(sig) for sig in valids]
+    `[500, 200, 150]`
+
+    """
+
+    # Return a list of tuple and merge overlapping intervals
+    bad_segments = norm_bad_segments(bad_segments)
+
+    # Create a list of valid signal array
+    valids, start_valid = [], 0
+    for bads in bad_segments:
+
+        valids.append(signal[start_valid : bads[0]])
+
+        # First bad segment at the beginning
+        if bads[0] != 0:
+            start_valid = bads[1]
+
+    if bad_segments[-1][1] < len(signal):
+        valids.append(signal[bad_segments[-1][1] :])
+
+    return sorted(valids, key=len, reverse=True)
+
+
+def norm_bad_segments(bad_segments) -> List[Tuple[int, int]]:
+    """Normalize bad segments. Return a list of tuples and merge overlapping intervals.
+
+    Parameters
+    ----------
+    bad_segments : list | np.ndarray
+        The time stamps of the bad segments. Can be a boolean 1d numpy array where
+        `True` is a bad segment (will be rejected), or a list of tuples such as
+        (start_idx, end_idx) in signal samples or milliseconds when intervals are
+        provided.
+
+    Returns
+    -------
+    bad_segments_tuples : tuple
+        The merged bad segments as tuples such as (start_idx, end_idx) indicate when
+        each bad segment starts and ends.
+
+    Raises
+    ------
+    ValueError :
+        If `bad_segments` is not a tuple or a np.ndarray.
+
+    Examples
+    --------
+
+    Get a list of tuples such as `[(start_idx, end_idx)]` from a boolean vector that
+    is of the same length that the associated signal and where `True` is a bad
+    segment/sample.
+
+    >>> import numpy as np
+    >>> from systole.utils import norm_bad_segments
+    >>> bool_bad_segments = np.zeros(100, dtype=bool)
+    >>> bool_bad_segments[10:20] = True
+    >>> bool_bad_segments[50:60] = True
+    >>> new_segments = norm_bad_segments(bool_bad_segments)
+    >>> new_segments
+    `[(10, 20), (50, 60)]`
+
+    From a list of tuples such as `[(start_idx, end_idx)]`, where some intervals are
+    overlapping, get a clean version of these bad segments by merging the overlapping
+    intervals.
+
+    >>> bad_segments = [(100, 200), (150, 250)]
+    >>> new_segments = norm_bad_segments(bad_segments)
+    >>> assert new_segments
+    `[(100, 250)]`
+
+    """
+    if isinstance(bad_segments, list):
+
+        # Create boolean representation
+        t_max = np.array(bad_segments).max()
+        boolean_segments = np.zeros(t_max, dtype=int)
+
+        for bads in bad_segments:
+            boolean_segments[bads[0] : bads[1]] = 1
+
+    elif isinstance(bad_segments, np.ndarray):
+
+        boolean_segments = bad_segments.astype(int)
+
+    else:
+        raise ValueError(
+            "bad_segments should be a list of tuples or a boolean 1d array."
+            f" Got {type(bad_segments)}"
+        )
+
+    # Find the start and end of each bad segments
+    bad_segments_list = [0] if boolean_segments[0] == 1 else []
+
+    bad_segments_list.extend(
+        [
+            idx
+            for idx in range(1, len(boolean_segments) - 1)
+            if (boolean_segments[idx] == 1) & (boolean_segments[idx - 1] == 0)
+            | (boolean_segments[idx] == 0) & (boolean_segments[idx - 1] == 1)
+        ]
+    )
+    if boolean_segments[-1] == 1:
+        bad_segments_list.append(len(boolean_segments))
+
+    # Make it a list of tuples (start, end)
+    bad_segments_tuples = [
+        (bad_segments_list[i], bad_segments_list[i + 1])
+        for i in range(0, len(bad_segments_list), 2)
+    ]
+
+    return bad_segments_tuples

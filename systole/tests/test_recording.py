@@ -35,7 +35,7 @@ class TestRecording(TestCase):
             oxi.channels["Channel_0"][idx] = 1
         oxi.plot_events()
 
-        oxi.plot_raw()
+        oxi.plot_raw(clipping=False)
 
         oxi.serial.ppg = [1000]  # Insert error in recording
         with self.assertRaises(ValueError):

@@ -7,8 +7,6 @@ from typing import Dict, List, Optional
 
 import numpy as np
 import pandas as pd
-import serial
-from serial.tools import list_ports
 
 from systole.detection import ppg_peaks
 from systole.plots import plot_events, plot_raw
@@ -73,7 +71,7 @@ class Oximeter:
     This instance is then used to create an :py:func:`Oximeter` instance that
     will be used for the recording.
 
-    >>> from ecg.recording import Oximeter
+    >>> from systole.recording import Oximeter
     >>> oximeter = Oximeter(serial=ser, sfreq=75)
 
     Use the :py:func:`setup` method to initialize the recording. This will find
@@ -308,7 +306,9 @@ class Oximeter:
         **kwargs : py:func:`systole.detection.ppg_peaks` properties.
         """
         # Peak detection
-        resampled_signal, peaks = ppg_peaks(self.recording, new_sfreq=75, **kwargs)
+        resampled_signal, peaks = ppg_peaks(
+            self.recording, sfreq=75, new_sfreq=75, **kwargs
+        )
 
         # R-R intervals (in miliseconds)
         self.rr = (np.diff(np.where(peaks)[0]) / self.sfreq) * 1000
@@ -547,7 +547,7 @@ class BrainVisionExG:
     >>> exg = BrainVisionExG(ip='xxx.xxx.xx', sfreq=1000).read(30)
 
     Use the :py:func:`read` method to record some signal and save it in the
-    `exg` dictionnary.
+    `exg` dictionary.
 
     .. warning:: The signals received fom the host are appened to a list. This
        process can require more time at each iteration as the signal length
@@ -676,7 +676,7 @@ class BrainVisionExG:
         Returns
         -------
         recording : dict
-            Dictionnary with channel name as key.
+            Dictionary with channel name as key.
 
         Notes
         -----
@@ -759,30 +759,3 @@ class BrainVisionExG:
     def close(self):
         """Close TCPIP connections"""
         self.con.close()
-
-
-def findOximeter():
-    """Find USB port where Nonin Pulse Oximeter is plugged.
-
-    Returns
-    -------
-    port : str or None
-        The port reference or None if no device found.
-
-    Notes
-    -----
-    This function is only compatible with Windows 10.
-    """
-    port = None
-    usbList = list(list_ports.comports())
-
-    for usb in usbList:
-        print("Connecting on device found in USB port " + usb.device)
-
-        try:
-            Oximeter(serial=serial.Serial(usb.device)).setup().read(0.2)
-            port = usb.device
-        except:
-            print("Invalid signal.")
-
-    return port

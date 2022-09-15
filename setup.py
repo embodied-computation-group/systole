@@ -20,7 +20,7 @@ DESCRIPTION = """Systole: A python package for cardiac signal synchrony and anal
 DISTNAME = "systole"
 MAINTAINER = "Nicolas Legrand"
 MAINTAINER_EMAIL = "nicolas.legrand@cfin.au.dk"
-VERSION = "0.2.2"
+VERSION = "0.2.3"
 
 
 if __name__ == "__main__":
@@ -39,4 +39,7 @@ if __name__ == "__main__":
         install_requires=get_requirements(),
         include_package_data=True,
         packages=find_packages(),
+        entry_points = {
+        'console_scripts': ['systole=systole.reports.command_line:main'],
+    }
     )

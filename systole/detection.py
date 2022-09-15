@@ -1,11 +1,12 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import Dict, List, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
 import pandas as pd
 from scipy.interpolate import interp1d
 from scipy.signal import find_peaks
+from sleepecg import detect_heartbeats
 
 from systole.detectors import (
     christov,
@@ -14,37 +15,54 @@ from systole.detectors import (
     moving_average,
     pan_tompkins,
 )
-from systole.utils import input_conversion, to_neighbour
+from systole.utils import find_clipping, input_conversion, nan_cleaning, to_neighbour
 
 
 def ppg_peaks(
-    x: Union[List, np.ndarray],
-    sfreq: int = 75,
+    signal: Union[List, np.ndarray, pd.Series],
+    sfreq: int,
     win: float = 0.75,
     new_sfreq: int = 1000,
     clipping: bool = True,
-    noise_removal: bool = True,
+    clipping_thresholds: Union[Tuple, List, str] = "auto",
+    moving_average: bool = True,
+    moving_average_length: float = 0.05,
     peak_enhancement: bool = True,
     distance: float = 0.3,
     clean_extra: bool = False,
+    clean_nan: bool = False,
+    verbose: bool = False,
 ) -> Tuple[np.ndarray, np.ndarray]:
     """A simple systolic peak finder for PPG signals.
 
-    This method uses a rolling average + standard deviation
-    approach to update a detection threshold. All the peaks found
-    above this threshold are potential systolic peaks.
+    This method uses a rolling average + standard deviation approach to update a
+    detection threshold. All the peaks found above this threshold are potential
+    systolic peaks.
 
     Parameters
     ----------
-    x : np.ndarray | list
-        The pulse oximeter time series.
+    signal : np.ndarray | list | pd.Series
+        The raw signal recorded from the pulse oximeter time series.
     sfreq : int
-        The sampling frequency. Default is set to 75 Hz.
+        The sampling frequency (Hz).
     win : int
-        Window size (in seconds) used to compute the threshold (i.e.
-        rolling mean + standard deviation).
+        Window size (in seconds) used to compute the threshold (i.e. rolling mean +
+        standard deviation).
     new_sfreq : int
-        If resample is *True*, the new sampling frequency.
+        If resample is `True`, the new sampling frequency (Hz). Defaults to `1000`.
+    clipping : boolean
+        If `True`, will apply the clipping artefact correction described in [1]_.
+        Defaults to `True`.
+    clipping_thresholds : tuple | list | str
+        The values of the minumum and maximum clipping thresholds. Can be a float or
+        `None`. If `None`, no correction is applied. If "auto" is provided, will use
+        py:func:`systole.utils.find_clipping` to find the values. Defaults to `"auto"`.
+        This parameter is only relevant if `cliping` is `True`.
+    moving_average : bool
+        Apply mooving average to remove high frequency noise before peaks detection. The
+        length of the time windows can be controlled with `moving_average_length`.
+    moving_average_length : float
+        The length of the window used for moveing average (seconds). Default to `0.05`.
     resample : boolean
         If `True` (default), will resample the signal at *new_sfreq*. Default
         value is 1000 Hz.
@@ -55,13 +73,23 @@ def ppg_peaks(
     clean_extra : bool
         If `True`, use `:py:func:systole.detection.rr_artefacts()` to find and
         remove extra peaks. Default is `False`.
+    clean_nan : bool
+        If `True`, will interpolate NaNs values if any before any other operation.
+        Defaults to `False`.
+    verbose : bool
+        Control function verbosity. Defaults to `False` (do not print processing steps).
 
     Returns
     -------
-    peaks : np.ndarray
-        Numpy array containing R peak timing, in sfreq.
     resampled_signal : np.ndarray
         Signal resampled to the `new_sfreq` frequency.
+    peaks : np.ndarray
+        Boolean array of systolic peaks detection.
+
+    Raises
+    ------
+    ValueError
+        If `clipping_thresholds` is not a tuple, a list or `"auto"`.
 
     Notes
     -----
@@ -78,7 +106,7 @@ def ppg_peaks(
     >>> from systole import import_ppg
     >>> from systole.detection import ppg_peaks
     >>> df = import_ppg()  # Import PPG recording
-    >>> signal, peaks = ppg_peaks(df.ppg.to_numpy())
+    >>> signal, peaks = ppg_peaks(signal=df.ppg.to_numpy())
     >>> print(f'{sum(peaks)} peaks detected.')
     378 peaks detected.
 
@@ -91,23 +119,44 @@ def ppg_peaks(
 
     """
 
-    x = np.asarray(x)
+    x = np.asarray(signal)
 
-    # Interpolate
-    time = np.arange(0, len(x) / sfreq, 1 / sfreq)
-    new_time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
-    x = np.interp(new_time, time, x)
+    # Interpolate NaNs values if any and if requested
+    if clean_nan is True:
+        if np.isnan(x).any():
+            x = nan_cleaning(signal=x, verbose=verbose)
+
+    # Resample signal to the new frequnecy if required
+    if sfreq != new_sfreq:
+        time = np.arange(0, len(x) / sfreq, 1 / sfreq)
+        new_time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
+        x = np.interp(new_time, time, x)
 
     # Copy resampled signal for output
     resampled_signal = np.copy(x)
 
     # Remove clipping artefacts with cubic interpolation
     if clipping is True:
-        x = interpolate_clipping(x)
+        if clipping_thresholds == "auto":
+            min_threshold, max_threshold = find_clipping(signal=x)
+        elif isinstance(clipping_thresholds, list) | isinstance(
+            clipping_thresholds, tuple
+        ):
+            min_threshold, max_threshold = clipping_thresholds  # type: ignore
+        else:
+            raise ValueError(
+                (
+                    "The variable clipping_thresholds should be a list"
+                    "or a tuple with length 2 or 'auto'."
+                )
+            )
+        x = interpolate_clipping(
+            signal=x, min_threshold=min_threshold, max_threshold=max_threshold
+        )
 
-    if noise_removal is True:
-        # Moving average (high frequency noise + clipping)
-        rollingNoise = max(int(new_sfreq * 0.05), 1)  # 0.05 second window
+    if moving_average is True:
+        # Moving average (high frequency noise)
+        rollingNoise = max(int(new_sfreq * moving_average_length), 1)  # 0.05 second
         x = (
             pd.DataFrame({"signal": x})
             .rolling(rollingNoise, center=True)
@@ -151,12 +200,14 @@ def ppg_peaks(
 
 
 def ecg_peaks(
-    x: Union[List, np.ndarray],
+    signal: Union[List, np.ndarray, pd.Series],
     sfreq: int = 1000,
     new_sfreq: int = 1000,
-    method: str = "pan-tompkins",
-    find_local: bool = True,
+    method: str = "sleepecg",
+    find_local: bool = False,
     win_size: float = 0.1,
+    clean_nan: bool = False,
+    verbose: bool = False,
 ) -> Tuple[np.ndarray, np.ndarray]:
     """A simple wrapper for many popular R peaks detectors algorithms.
 
@@ -164,27 +215,39 @@ def ecg_peaks(
 
     Parameters
     ----------
-    x : np.ndarray | list
-        The ECG signal.
+    signal : np.ndarray | list | pd.Series
+        The raw ECG signal.
     sfreq : int
-        The sampling frequency. Default is set to 75 Hz.
+        The sampling frequency. Default is set to `1000` Hz.
+    new_sfreq : int
+        The new sampling frequency. Defaults to `1000` Hz.
     method : str
-        The method used. Can be one of the following: `'hamilton'`,
-        `'christov'`, `'engelse-zeelenberg'`, `'pan-tompkins'`,
-        `'wavelet-transform'`, `'moving-average'`.
+        The method used. Can be one of the following: `'sleepecg'`, `'hamilton'`,
+        `'christov'`, `'engelse-zeelenberg'`, `'pan-tompkins'`, `'moving-average'`.
     find_local : bool
         If *True*, will use peaks indexs to search for local peaks given the
         window size (win_size).
     win_size : int
         Size of the time window used by :py:func:`systole.utils.to_neighbour()`
         expressed in seconds. Defaut set to `0.1`.
+    clean_nan : bool
+        If `True`, will interpolate NaNs values if any before any other operation.
+        Defaults to `False`.
+    verbose : bool
+        Control function verbosity. Defaults to `False` (do not print processing steps).
 
     Returns
     -------
-    peaks : np.ndarray
-        Numpy array containing peaks index.
     resampled_signal : np.ndarray
         Signal resampled to the `new_sfreq` frequency.
+    peaks : np.ndarray
+        Boolean array corresponding to the R peaks detection.
+
+    Raises
+    ------
+    ValueError
+        If `method` is not one of the following: `'hamilton'`, `'christov'`,
+            `'engelse-zeelenberg'`, `'pan-tompkins'`, `'moving-average'`
 
     Notes
     -----
@@ -207,17 +270,25 @@ def ecg_peaks(
 
     """
 
-    x = np.asarray(x)
+    x = np.asarray(signal)
 
-    # Interpolate
-    time = np.arange(0, len(x) / sfreq, 1 / sfreq)
-    new_time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
-    x = np.interp(new_time, time, x)
+    # Interpolate NaNs values if any and if requested
+    if clean_nan is True:
+        if np.isnan(x).any():
+            x = nan_cleaning(signal=x, verbose=verbose)
+
+    # Resample signal to the new frequnecy if required
+    if sfreq != new_sfreq:
+        time = np.arange(0, len(x) / sfreq, 1 / sfreq)
+        new_time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
+        x = np.interp(new_time, time, x)
 
     # Copy resampled signal for output
     resampled_signal = np.copy(x)
 
-    if method == "hamilton":
+    if method == "sleepecg":
+        peaks_idx = detect_heartbeats(resampled_signal, fs=new_sfreq)
+    elif method == "hamilton":
         peaks_idx = hamilton(resampled_signal, sfreq=new_sfreq)
     elif method == "christov":
         peaks_idx = christov(resampled_signal, sfreq=new_sfreq)
@@ -229,7 +300,7 @@ def ecg_peaks(
         peaks_idx = moving_average(resampled_signal, sfreq=new_sfreq)
     else:
         raise ValueError(
-            "Invalid method provided, should be: hamilton, "
+            "Invalid method provided, should be: sleepecg, hamilton, "
             "christov, engelse-zeelenberg, pan-tompkins, wavelet-transform, "
             "moving-average"
         )
@@ -242,46 +313,64 @@ def ecg_peaks(
     return resampled_signal, peaks
 
 
-def res_peaks(
-    resp: Union[List, np.ndarray],
-    sfreq: int = 1000,
+def rsp_peaks(
+    signal: Union[List, np.ndarray, pd.Series],
+    sfreq: int,
+    new_sfreq: int = 1000,
     win: float = 0.025,
-    kind: str = "peaks-trough",
-) -> Union[np.ndarray, Tuple[np.ndarray, np.ndarray]]:
+    kind: str = "peaks-troughs",
+    clean_nan: bool = False,
+    verbose: bool = False,
+) -> Tuple[np.ndarray, Union[np.ndarray, Tuple[np.ndarray, np.ndarray]]]:
     """Identify peaks and/or troughs in respiratory signal.
 
     Parameters
     ----------
-    resp : np.ndarray | list
+    signal : np.ndarray | list | pd.Series
         The respiratory signal. Peaks are considered to represent end of inspiration,
         trough represent end of expiration.
     sfreq : int
-        The sampling frequency. Default is set to 1000 Hz.
+        The sampling frequency.
+    new_sfreq : int
+        If resample is `True`, the new sampling frequency. Defaults to `1000` Hz.
     win : int
         Window size (in seconds). Default is set to 25ms, following recommandation
         from [1]_.
     kind : str
         What kind of detection to perform. Peak detection (`"peaks"`), trough detection
         (`"troughs"`) or both (`"peaks-troughs"`, default).
+    clean_nan : bool
+        If `True`, will interpolate NaNs values if any before any other operation.
+        Defaults to `False`.
+    verbose : bool
+        Control function verbosity. Defaults to `False` (do not print processing steps).
 
     Returns
     -------
+    resampled_signal : np.ndarray
+        Signal resampled to the `new_sfreq` frequency.
     peaks | trough | (peaks, trough) : np.ndarray | np.ndarray | (np.ndarray, np.ndarray)
-        The peaks and / or troughs indexes vectors.
+        Boolean arrays of peaks and / or troughs in the respiratory signal.
+
+    Raises
+    ------
+    ValueError
+        If `kind` is not one of the following: `"peaks"`, `"troughs"` or
+        `"peaks-troughs"`.
 
     Examples
     --------
 
     Notes
     -----
-    Inspired by [1]_.
+    The processing steps are largely inspired by the method described in [1]_.
 
     References
     ----------
     .. [1] Torben Noto, Guangyu Zhou, Stephan Schuele, Jessica Templer, Christina
        Zelano,Automated analysis of breathing waveforms using BreathMetrics: a
        respiratory signal processing toolbox, Chemical Senses, Volume 43, Issue 8,
-       October 2018, Pages 583–597, https://doi.org/10.1093/chemse/bjy045
+       October 2018, Pages 583-597, https://doi.org/10.1093/chemse/bjy045
 
     """
     if kind not in ["peaks", "troughs", "peaks-troughs"]:
@@ -289,7 +378,21 @@ def res_peaks(
             "Invalid kind parameter. Should be 'peaks', 'troughs' or 'peaks-troughs'"
         )
 
-    x = np.asarray(resp)
+    x = np.asarray(signal)
+
+    # Interpolate NaNs values if any and if requested
+    if clean_nan is True:
+        if np.isnan(x).any():
+            x = nan_cleaning(signal=x, verbose=verbose)
+
+    # Resample signal to the new frequnecy if required
+    if sfreq != new_sfreq:
+        time = np.arange(0, len(x) / sfreq, 1 / sfreq)
+        new_time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
+        x = np.interp(new_time, time, x)
+
+    # Copy resampled signal for output
+    resampled_signal = np.copy(x)
 
     # Soothing using rolling mean
     x = (
@@ -305,22 +408,24 @@ def res_peaks(
     x = (x - x.mean()) / x.std()  # type: ignore
 
     # Peak enhancement
-    x = x ** 3
+    x = x**3
 
     # Find peaks and trough in preprocessed signal
     if "peaks" in kind:
-        peaks = find_peaks(x, height=0, distance=int(2 * sfreq))[0]
+        peaks_idx = find_peaks(x, height=0, distance=int(2 * sfreq))[0]
+        peaks = np.zeros(len(resampled_signal), dtype=bool)
+        peaks[peaks_idx] = True
     if "troughs" in kind:
-        troughs = find_peaks(-x, height=0, distance=int(2 * sfreq))[0]
+        troughs_idx = find_peaks(-x, height=0, distance=int(2 * sfreq))[0]
+        troughs = np.zeros(len(resampled_signal), dtype=bool)
+        troughs[troughs_idx] = True
 
-    if kind == "peaks-troughs":
-        out = peaks, troughs
-    elif kind == "peaks":
-        out = peaks
+    if kind == "peaks":
+        return resampled_signal, peaks
     elif kind == "trough":
-        out = troughs
-
-    return out
+        return resampled_signal, troughs
+    else:
+        return resampled_signal, (peaks, troughs)
 
 
 def rr_artefacts(
@@ -356,8 +461,8 @@ def rr_artefacts(
     Returns
     -------
     artefacts : dict
-        Dictionnary storing the parameters of RR artefacts rejection. All the
-        vectors outputed have the same length as the provided RR time serie:
+        Dictionary storing the parameters of RR artefacts rejection. All the vectors
+        outputed have the same length as the provided RR time serie:
 
         * subspace1 : np.ndarray
             The first dimension. First derivative of R-R interval time serie.
@@ -384,8 +489,8 @@ def rr_artefacts(
 
     Notes
     -----
-    This function will use the method proposed by [1]_ to detect ectopic beats,
-    long, shorts, missed and extra RR intervals.
+    This function will use the method proposed by [1]_ to detect ectopic beats, long,
+    shorts, missed and extra RR intervals.
 
     Examples
     --------
@@ -402,7 +507,8 @@ def rr_artefacts(
     .. [1] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
         heart rate variability time series artefact correction using novel
         beat classification. Journal of Medical Engineering & Technology,
-        43(3), 173–181. https://doi.org/10.1080/03091902.2019.1640306
+        43(3), 173-181. https://doi.org/10.1080/03091902.2019.1640306
+
     """
     rr = np.asarray(rr)
 
@@ -521,19 +627,30 @@ def rr_artefacts(
 
 
 def interpolate_clipping(
-    signal: Union[List, np.ndarray], threshold: int = 255
+    signal: Union[List, np.ndarray],
+    min_threshold: Optional[float] = 0.0,
+    max_threshold: Optional[float] = 255.0,
+    kind: str = "cubic",
 ) -> np.ndarray:
     """Interoplate clipping artefacts.
 
-    This function removes all data points equalling the provided threshold
-    and re-creates the missing segments using cubic spline interpolation.
+    This function removes all data points greather/lower or equalling the provided
+    thresholds and re-creates the missing segments using interpolation (default is
+    `"cubic"`).
 
     Parameters
     ----------
     signal : np.ndarray or list
-        Noisy signal.
-    threshold : int
-        Threshold of clipping artefact.
+        The PPG signal.
+    min_threshold, max_threshold : float | None
+        Minimum and maximum thresholds for clipping artefacts. If `None`, no correction
+        os provided for the given threshold. Defaults to `min_threshold=0.0` and
+        `max_threshold=255.0`, which corresponds to the expected values when reading
+        data from the Nonin 3012LP Xpod USB pulse oximeter together with Nonin 8000SM
+        'soft-clip' fingertip sensors.
+    kind : str
+        Specifies the kind of interpolation to perform(see
+        py:func:`scipy.interpolate.interp1d`).
 
     Returns
     -------
@@ -544,49 +661,82 @@ def interpolate_clipping(
     --------
     .. plot::
 
-       >>> import matplotlib.pyplot as plt
-       >>> from systole import import_ppg
-       >>> from systole.detection import interpolate_clipping
-       >>> df = import_ppg()
-       >>> clean_signal = interpolate_clipping(df.ppg.to_numpy())
-       >>> plt.plot(df.time, clean_signal, color='#F15854')
-       >>> plt.plot(df.time, df.ppg, color='#5DA5DA')
-       >>> plt.axhline(y=255, linestyle='--', color='k')
-       >>> plt.xlabel('Time (s)')
-       >>> plt.ylabel('PPG level (a.u)')
+        >>> import matplotlib.pyplot as plt
+        >>> from systole import import_ppg
+        >>> from systole.detection import interpolate_clipping
+        >>> df = import_ppg()
+        >>> # Create lower and upper clipping artefacts
+        >>> df.ppg.loc[df.ppg<=50] = 50
+        >>> df.ppg.loc[df.ppg>=230] = 230
+        >>> # Correct clipping artefacts
+        >>> clean_signal = interpolate_clipping(df.ppg.to_numpy(), min_threshold=50, max_threshold=230)
+        >>> # Plot
+        >>> plt.plot(df.time, clean_signal, color='#F15854', label="Corrected signal")
+        >>> plt.plot(df.time, df.ppg, color='#5DA5DA', label="Clipping artefacts")
+        >>> plt.axhline(y=50, linestyle='--', color='k')
+        >>> plt.axhline(y=230, linestyle='--', color='k')
+        >>> plt.xlabel('Time (s)')
+        >>> plt.ylabel('PPG level (a.u)')
+        >>> plt.xlim(10, 40)
+        >>> plt.legend()
 
     Notes
     -----
-    Correct signal segment reaching recording threshold (default is 255)
-    using a cubic spline interpolation. Adapted from [1]_.
+    Correct signal segment greather/smaller or equalling the recording threshold using
+    cubic spline interpolation. Adapted from [1]_.
 
     .. Warning:: If clipping artefact is found at the edge of the signal, this
-        function will decrement the first/last value to allow interpolation,
-        which can result in incorrect estimation.
+        function will decrement/increment the first/last value to allow interpolation.
+
+    The first and last values are corrected for interpolation by adding/substracting
+    the median step observed in the time series.
 
     References
     ----------
     .. [1] https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/
+
     """
-    if isinstance(signal, list):
-        signal = np.array(signal)
-
-    # Security check for clipping at signal edge
-    if signal[0] == threshold:
-        signal[0] = threshold - 1
-    if signal[-1] == threshold:
-        signal[-1] = threshold - 1
-
+    clean_signal = np.asarray(signal)
     time = np.arange(0, len(signal))
 
-    # Interpolate
-    f = interp1d(
-        time[np.where(signal != 255)[0]],
-        signal[np.where(signal != 255)[0]],
-        kind="cubic",
-    )
+    # What is the median step in the time serie?
+    # Use that to correct first and last values if required
+    step = np.median(np.diff(np.sort(np.unique(clean_signal))))
 
-    # Use the peaks vector as time input
-    clean_signal = f(time)
+    if max_threshold is not None:
+
+        # Security check for clipping at signal edge
+        if clean_signal[0] >= max_threshold:
+            clean_signal[0] = max_threshold - step
+        if clean_signal[-1] >= max_threshold:
+            clean_signal[-1] = max_threshold - step
+
+        # Interpolate
+        f = interp1d(
+            time[np.where(clean_signal < max_threshold)[0]],
+            clean_signal[np.where(clean_signal < max_threshold)[0]],
+            kind=kind,
+        )
+
+        # Use the peaks vector as time input
+        clean_signal = f(time)
+
+    if min_threshold is not None:
+
+        # Security check for clipping at signal edge
+        if clean_signal[0] <= min_threshold:
+            clean_signal[0] = min_threshold + step
+        if clean_signal[-1] <= min_threshold:
+            clean_signal[-1] = min_threshold + step
+
+        # Interpolate
+        f = interp1d(
+            time[np.where(clean_signal > min_threshold)[0]],
+            clean_signal[np.where(clean_signal > min_threshold)[0]],
+            kind=kind,
+        )
+
+        # Use the peaks vector as time input
+        clean_signal = f(time)
 
     return clean_signal
