@@ -1,5 +1,6 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+import json
 from os import PathLike
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
@@ -124,6 +125,7 @@ def subject_level_report(
 
     # The participant's summary dataframe
     tsv_physio_filename = Path(participant_folder, f"{file_name}_physio.tsv.gz")
+    json_physio_filename = Path(participant_folder, f"{file_name}_physio.json")
 
     # The participant's summary dataframe
     tsv_features_filename = Path(participant_folder, f"{file_name}_features.tsv")
@@ -167,8 +169,11 @@ def subject_level_report(
         print("... Processing ECG recording.")
 
         # R wave detection
-        _, peaks = ecg_peaks(ecg, sfreq=ecg_sfreq, method=ecg_method, clean_nan=True)
+        ecg_signal, peaks = ecg_peaks(
+            ecg, sfreq=ecg_sfreq, method=ecg_method, clean_nan=True
+        )
         physio_df["ecg_peaks"] = peaks
+        physio_df["ecg"] = ecg_signal
 
         # Artefacts detection
         artefacts = rr_artefacts(peaks, input_type="peaks")
@@ -308,9 +313,10 @@ def subject_level_report(
 
         print("... Processing PPG recording")
 
-        _, peaks = ppg_peaks(ppg, sfreq=ppg_sfreq, clean_nan=True)
+        ppg_signal, peaks = ppg_peaks(ppg, sfreq=ppg_sfreq, clean_nan=True)
 
         physio_df["ppg_peaks"] = peaks
+        physio_df["ppg"] = ppg_signal
 
         ppg_rr = plot_rr(
             rr=peaks,
@@ -393,11 +399,12 @@ def subject_level_report(
 
         print("... Processing respiration recording")
 
-        _, out = rsp_peaks(rsp, sfreq=rsp_sfreq, clean_nan=True)
+        rsp_signal, out = rsp_peaks(rsp, sfreq=rsp_sfreq, clean_nan=True)
         peaks, troughs = out
 
         physio_df["rsp_peaks"] = peaks
         physio_df["rsp_troughs"] = troughs
+        physio_df["respiration"] = rsp_signal
 
         rsp_raw = plot_raw(
             signal=rsp, sfreq=rsp_sfreq, backend="bokeh", modality="resp"
@@ -460,9 +467,23 @@ def subject_level_report(
             f"... Saving the summary result as .tsv file - filename: {tsv_physio_filename}."
         )
         if len(physio_df) > 0:
+            columns = list(physio_df.columns)
             physio_df.to_csv(
-                tsv_physio_filename, sep="\t", index=False, compression="gzip"
+                tsv_physio_filename,
+                sep="\t",
+                index=False,
+                compression="gzip",
+                header=False,
             )
+            # JSON sidecar
+            json_metadata = {
+                "SamplingFrequency": 1000,
+                "Columns": columns,
+                "ecg_method": ecg_method,
+            }
+
+        with open(json_physio_filename, "w") as f:
+            json.dump(json_metadata, f, ensure_ascii=False, indent=4)
 
         ##############################
         # Save the summary dataframe #
