@@ -51,7 +51,7 @@ class Viewer:
 
     Notes
     -----
-    This module was largely ispired by the peakdet toolbox
+    This module was largely inspired by the peakdet toolbox
     (https://github.com/physiopy/peakdet).
 
     """

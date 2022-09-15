@@ -187,6 +187,34 @@ The package natively supports recording of physiological signals from the follow
 - `Nonin 3012LP Xpod USB pulse oximeter <https://www.nonin.com/products/xpod/>`_ together with the `Nonin 8000SM 'soft-clip' fingertip sensors <https://www.nonin.com/products/8000s/>`_ (USB).
 - Remote Data Access (RDA) via BrainVision Recorder together with `Brain product ExG amplifier <https://www.brainproducts.com/>`_ (Ethernet).
 
+Interactive visualization of BIDS structured datasets
+=====================================================
+
+.. code-block:: python
+
+  from systole.viewer import Viewer
+
+  view = Viewer(
+      input_folder="/BIDS/folder/path/",
+      pattern="task-mytask",
+      modality="beh",
+      signal_type="ECG"
+  )
+
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/editor.gif
+   :align: center
+
+Inserting and removing peaks
+============================
+
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/peaks.gif
+   :align: center
+
+Annotating bad segments
+=======================
+
+.. image:: https://github.com/embodied-computation-group/systole/blob/dev/source/images/segments.gif
+   :align: center
 
 Development
 +++++++++++
@@ -194,13 +222,6 @@ Development
 This module was created and is maintained by Nicolas Legrand and Micah Allen (ECG group, https://the-ecg.org/). If you want to contribute, feel free to contact one of the developers, open an issue or submit a pull request.
 
 This program is provided with NO WARRANTY OF ANY KIND.
-
-Contributors
-++++++++++++
-
-- Jan C. Brammer (jan.c.brammer@gmail.com)
-- Gidon Levakov (gidonlevakov@gmail.com)
-- Peter Doggart (peter.doggart@pulseai.io)
 
 Acknowledgements
 ++++++++++++++++
