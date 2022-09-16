@@ -549,10 +549,15 @@ class Editor:
             metadata = {}
 
         # Create the JSON metadata and save it in the corrected derivative folder
+        if self.bad_segments:
+            bad_segments = [int(x) for x in self.bad_segments]
+        else:
+            bad_segments = None
+
         corrected_info = {
             "valid": self.viewer.rejection_.value,
             "corrected_peaks": np.where(self.peaks)[0].tolist(),
-            "bad_segments": [int(x) for x in self.bad_segments],
+            "bad_segments": bad_segments,
         }
         metadata[self.viewer.signal_type_.value] = corrected_info
 

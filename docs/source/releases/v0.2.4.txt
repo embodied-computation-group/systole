@@ -1,0 +1,7 @@
+v0.2.4
+------
+
+Changes
++++++++
+
+- |Fix| Viewer was erroring when saving empty bad segment variable.
