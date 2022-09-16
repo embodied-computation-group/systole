@@ -72,9 +72,9 @@ Plot raw ECG signal
 
  .. code-block:: none
 
-      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|#####     | 1/2 [00:00<00:00,  4.14it/s]    Downloading Respiration channel:  50%|#####     | 1/2 [00:00<00:00,  4.14it/s]    Downloading Respiration channel: 100%|##########| 2/2 [00:00<00:00,  4.13it/s]    Downloading Respiration channel: 100%|##########| 2/2 [00:00<00:00,  4.13it/s]
+      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|#####     | 1/2 [00:00<00:00,  2.01it/s]    Downloading Respiration channel:  50%|#####     | 1/2 [00:00<00:00,  2.01it/s]    Downloading Respiration channel: 100%|##########| 2/2 [00:01<00:00,  1.00s/it]    Downloading Respiration channel: 100%|##########| 2/2 [00:01<00:00,  1.08it/s]
 
-    <AxesSubplot:title={'center':'ECG recording'}, ylabel='ECG (mV)'>
+    <AxesSubplot: title={'center': 'ECG recording'}, ylabel='ECG (mV)'>
 
 
 
@@ -106,9 +106,9 @@ Import Respiration recording as pandas data frame
 
  .. code-block:: none
 
-      0%|          | 0/1 [00:00<?, ?it/s]    Downloading Respiration channel:   0%|          | 0/1 [00:00<?, ?it/s]    Downloading Respiration channel: 100%|##########| 1/1 [00:00<00:00,  3.55it/s]    Downloading Respiration channel: 100%|##########| 1/1 [00:00<00:00,  3.55it/s]
+      0%|          | 0/1 [00:00<?, ?it/s]    Downloading Respiration channel:   0%|          | 0/1 [00:00<?, ?it/s]    Downloading Respiration channel: 100%|##########| 1/1 [00:00<00:00,  2.73it/s]    Downloading Respiration channel: 100%|##########| 1/1 [00:00<00:00,  2.73it/s]
 
-    <AxesSubplot:title={'center':'Respiration'}, ylabel='Respiratory signal'>
+    <AxesSubplot: title={'center': 'Respiration'}, ylabel='Respiratory signal'>
 
 
 
@@ -142,7 +142,7 @@ Plot raw respiratory signal
  .. code-block:: none
 
 
-    <AxesSubplot:title={'center':'PPG recording'}, ylabel='PPG level (a.u.)'>
+    <AxesSubplot: title={'center': 'PPG recording'}, ylabel='PPG level (a.u.)'>
 
 
 
@@ -170,7 +170,7 @@ Using Bokeh as plotting backend
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.633 seconds)
+   **Total running time of the script:** ( 0 minutes  3.757 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Plots_plot_raw.py:

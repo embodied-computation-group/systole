@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>systole.viewer.viewer &#8212; systole 0.2.3 documentation</title>
+    <title>systole.viewer.viewer &#8212; systole 0.2.4dev0 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
@@ -953,10 +953,15 @@
             <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="c1"># Create the JSON metadata and save it in the corrected derivative folder</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bad_segments</span><span class="p">:</span>
+            <span class="n">bad_segments</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bad_segments</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bad_segments</span> <span class="o">=</span> <span class="kc">None</span>
+
         <span class="n">corrected_info</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;valid&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">rejection_</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
             <span class="s2">&quot;corrected_peaks&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-            <span class="s2">&quot;bad_segments&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bad_segments</span><span class="p">],</span>
+            <span class="s2">&quot;bad_segments&quot;</span><span class="p">:</span> <span class="n">bad_segments</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="n">metadata</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">signal_type_</span><span class="o">.</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">corrected_info</span>
 

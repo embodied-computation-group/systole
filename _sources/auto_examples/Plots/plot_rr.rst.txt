@@ -70,7 +70,7 @@ Plot instantaneous heart rate from a RR interval time series (in milliseconds).
  .. code-block:: none
 
 
-    <AxesSubplot:title={'center':'Instantaneous heart rate'}, xlabel='Time', ylabel='R-R interval (ms)'>
+    <AxesSubplot: title={'center': 'Instantaneous heart rate'}, xlabel='Time', ylabel='R-R interval (ms)'>
 
 
 
@@ -98,7 +98,7 @@ Only show the interpolated instantaneous heart rate, add a bad segment and chang
  .. code-block:: none
 
 
-    <AxesSubplot:title={'center':'Instantaneous heart rate'}, xlabel='Time', ylabel='Beats per minute (bpm)'>
+    <AxesSubplot: title={'center': 'Instantaneous heart rate'}, xlabel='Time', ylabel='Beats per minute (bpm)'>
 
 
 
@@ -128,7 +128,7 @@ Use Bokeh as a plotting backend, only show the scatterplt and highlight artefact
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.588 seconds)
+   **Total running time of the script:** ( 0 minutes  0.904 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Plots_plot_rr.py:

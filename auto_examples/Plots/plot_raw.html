@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Plot raw physiological signal &#8212; systole 0.2.3 documentation</title>
+    <title>Plot raw physiological signal &#8212; systole 0.2.4dev0 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
@@ -564,12 +564,12 @@ to download the full example code</p>
 </div>
 <img src="../../_images/sphx_glr_plot_raw_001.png" srcset="../../_images/sphx_glr_plot_raw_001.png" alt="ECG recording" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/2 [00:00&lt;?, ?it/s]
 Downloading ECG channel:   0%|          | 0/2 [00:00&lt;?, ?it/s]
-Downloading ECG channel:  50%|#####     | 1/2 [00:00&lt;00:00,  4.14it/s]
-Downloading Respiration channel:  50%|#####     | 1/2 [00:00&lt;00:00,  4.14it/s]
-Downloading Respiration channel: 100%|##########| 2/2 [00:00&lt;00:00,  4.13it/s]
-Downloading Respiration channel: 100%|##########| 2/2 [00:00&lt;00:00,  4.13it/s]
+Downloading ECG channel:  50%|#####     | 1/2 [00:00&lt;00:00,  2.01it/s]
+Downloading Respiration channel:  50%|#####     | 1/2 [00:00&lt;00:00,  2.01it/s]
+Downloading Respiration channel: 100%|##########| 2/2 [00:01&lt;00:00,  1.00s/it]
+Downloading Respiration channel: 100%|##########| 2/2 [00:01&lt;00:00,  1.08it/s]
 
-&lt;AxesSubplot:title={&#39;center&#39;:&#39;ECG recording&#39;}, ylabel=&#39;ECG (mV)&#39;&gt;
+&lt;AxesSubplot: title={&#39;center&#39;: &#39;ECG recording&#39;}, ylabel=&#39;ECG (mV)&#39;&gt;
 </pre></div>
 </div>
 </section>
@@ -585,10 +585,10 @@ Downloading Respiration channel: 100%|##########| 2/2 [00:00&lt;00:00,  4.13it/s
 </div>
 <img src="../../_images/sphx_glr_plot_raw_002.png" srcset="../../_images/sphx_glr_plot_raw_002.png" alt="Respiration" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/1 [00:00&lt;?, ?it/s]
 Downloading Respiration channel:   0%|          | 0/1 [00:00&lt;?, ?it/s]
-Downloading Respiration channel: 100%|##########| 1/1 [00:00&lt;00:00,  3.55it/s]
-Downloading Respiration channel: 100%|##########| 1/1 [00:00&lt;00:00,  3.55it/s]
+Downloading Respiration channel: 100%|##########| 1/1 [00:00&lt;00:00,  2.73it/s]
+Downloading Respiration channel: 100%|##########| 1/1 [00:00&lt;00:00,  2.73it/s]
 
-&lt;AxesSubplot:title={&#39;center&#39;:&#39;Respiration&#39;}, ylabel=&#39;Respiratory signal&#39;&gt;
+&lt;AxesSubplot: title={&#39;center&#39;: &#39;Respiration&#39;}, ylabel=&#39;Respiratory signal&#39;&gt;
 </pre></div>
 </div>
 </section>
@@ -601,7 +601,7 @@ Downloading Respiration channel: 100%|##########| 1/1 [00:00&lt;00:00,  3.55it/s
 <span class="n">plot_raw</span><span class="p">(</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.core.frame.DataFrame" class="sphx-glr-backref-module-pandas-core-frame sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ppg</span></a><span class="p">[</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.core.series.Series" class="sphx-glr-backref-module-pandas-core-series sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ppg</span><span class="o">.</span><span class="n">time</span></a><span class="o">&lt;</span><span class="mi">60</span><span class="p">],</span> <span class="n">sfreq</span><span class="o">=</span><span class="mi">75</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_plot_raw_003.png" srcset="../../_images/sphx_glr_plot_raw_003.png" alt="PPG recording" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:title={&#39;center&#39;:&#39;PPG recording&#39;}, ylabel=&#39;PPG level (a.u.)&#39;&gt;
+<img src="../../_images/sphx_glr_plot_raw_003.png" srcset="../../_images/sphx_glr_plot_raw_003.png" alt="PPG recording" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot: title={&#39;center&#39;: &#39;PPG recording&#39;}, ylabel=&#39;PPG level (a.u.)&#39;&gt;
 </pre></div>
 </div>
 </section>
@@ -614,7 +614,7 @@ Downloading Respiration channel: 100%|##########| 1/1 [00:00&lt;00:00,  3.55it/s
  <span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.633 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.757 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plots-plot-raw-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/d8539f00bb096598d0ceb2eadf1eebee/plot_raw.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_raw.py</span></code></a></p>
