@@ -318,7 +318,7 @@ def correct_rr(
     -----
     This function will correct artifacts in RR intervals time series (ms) following the
     method presented in [1]_. First, artifacts are labelled using
-    py:`func:systole.detection.rr_artefacts()`. Then, artifacts are corrected in the
+    :py:`func:systole.detection.rr_artefacts()`. Then, artifacts are corrected in the
     following order:
     1. Missed heartbeats (add one heartbeat).
     2. Extra heartbeats (remove one heartbeat).

@@ -56,7 +56,7 @@ def ppg_peaks(
     clipping_thresholds : tuple | list | str
         The values of the minumum and maximum clipping thresholds. Can be a float or
         `None`. If `None`, no correction is applied. If "auto" is provided, will use
-        py:func:`systole.utils.find_clipping` to find the values. Defaults to `"auto"`.
+       :py:func:`systole.utils.find_clipping` to find the values. Defaults to `"auto"`.
         This parameter is only relevant if `cliping` is `True`.
     moving_average : bool
         Apply mooving average to remove high frequency noise before peaks detection. The
@@ -650,7 +650,7 @@ def interpolate_clipping(
         'soft-clip' fingertip sensors.
     kind : str
         Specifies the kind of interpolation to perform(see
-        py:func:`scipy.interpolate.interp1d`).
+       :py:func:`scipy.interpolate.interp1d`).
 
     Returns
     -------

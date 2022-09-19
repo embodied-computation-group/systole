@@ -78,7 +78,7 @@ def plot_evoked(
         The heart rate unit. Can be `'rr'` (R-R intervals, in ms) or `'bpm'` (beats
         per minutes). Default is `'bpm'`.
     kind : str
-        This argument will be passed too py:func:`systole.utils.heart_rate` and control
+        This argument will be passed too:py:func:`systole.utils.heart_rate` and control
         the type of interpolation between instantaneous heart rate estimates.
         This is then the method used by `scipy.interpolate.interp1d`). Can be `'cubic'`
         (defalut), `'linear'`, `'previous'` or `'next'`.

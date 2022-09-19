@@ -167,7 +167,7 @@ def time_domain(rr: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.Da
     format to facilitate the creation of group summary data frame that can
     easily be transferred to other plotting or statistics library. You can
     easily convert it into a wide format for a subject-level inline report
-    using the py:func:`pandas.pivot_table` function:
+    using the:py:func:`pandas.pivot_table` function:
     >>> pd.pivot_table(stats, values='Values', columns='Metric')
 
     All time-domain results have been tested against Kubios HVR 2.2
@@ -376,7 +376,7 @@ def frequency_domain(
     format to facilitate the creation of group summary data frame that can
     easily be transferred to other plotting or statistics library. You can
     easily convert it into a wide format for a subject-level inline report
-    using the py:func:`pandas.pivot_table` function:
+    using the:py:func:`pandas.pivot_table` function:
     >>> pd.pivot_table(stats, values='Values', columns='Metric')
 
     .. warning::

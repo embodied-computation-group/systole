@@ -61,7 +61,7 @@ def plot_raw(
         If `True`, show the instnataneous heart rate below the raw signal. Defaults to
         `False`.
     show_artefacts : bool
-        If `True`, the function will call py:func:`systole.detection.rr_artefacts` to
+        If `True`, the function will call:py:func:`systole.detection.rr_artefacts` to
         detect outliers intervalin the time serie and outline them using different
         colors.
     bad_segments : np.ndarray | list | None
@@ -89,7 +89,7 @@ def plot_raw(
         "matplotlib".
     events_params : dict | None
         (Optional) Additional parameters that will be passed to
-        py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
+       :py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
     **kwargs : keyword arguments
         Additional arguments will be passed to
         `:py:func:systole.detection.ppg_peaks()` or
