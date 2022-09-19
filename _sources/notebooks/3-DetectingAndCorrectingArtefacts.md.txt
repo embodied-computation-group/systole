@@ -272,7 +272,7 @@ plot_raw(signal=signal, show_heart_rate=True, figsize=(18, 6), bad_segments=[(60
 plt.tight_layout()
 ```
 
-Because most heart rate variability metrics require continuous interval time series, we cannot simply remove the invalid intervals and concatenate everything, we have to extract valid segments and compute the HRD indices from there. Systole comes with the py:func`systole.utils.get_valid_segments()` function that will return the valid portion of the physiological recording, sorted according to the signal length.
+Because most heart rate variability metrics require continuous interval time series, we cannot simply remove the invalid intervals and concatenate everything, we have to extract valid segments and compute the HRD indices from there. Systole comes with the:py:func`systole.utils.get_valid_segments()` function that will return the valid portion of the physiological recording, sorted according to the signal length.
 
 ```{code-cell} ipython3
 from systole.utils import get_valid_segments

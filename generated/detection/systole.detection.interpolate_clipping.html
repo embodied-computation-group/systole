@@ -701,9 +701,9 @@
 <p>This function removes all data points greather/lower or equalling the provided
 thresholds and re-creates the missing segments using interpolation (default is
 <cite>“cubic”</cite>).</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>signal</strong><span class="classifier">np.ndarray or list</span></dt><dd><p>The PPG signal.</p>
 </dd>
 <dt><strong>min_threshold, max_threshold</strong><span class="classifier">float | None</span></dt><dd><p>Minimum and maximum thresholds for clipping artefacts. If <cite>None</cite>, no correction
@@ -712,8 +712,10 @@ os provided for the given threshold. Defaults to <cite>min_threshold=0.0</cite> 
 data from the Nonin 3012LP Xpod USB pulse oximeter together with Nonin 8000SM
 ‘soft-clip’ fingertip sensors.</p>
 </dd>
-<dt><strong>kind</strong><span class="classifier">str</span></dt><dd><p>Specifies the kind of interpolation to perform(see
-py:func:<cite>scipy.interpolate.interp1d</cite>).</p>
+<dt><strong>kind</strong><span class="classifier">str</span></dt><dd><blockquote>
+<div><p>Specifies the kind of interpolation to perform(see</p>
+</div></blockquote>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.interpolate.interp1d()</span></code>).</p>
 </dd>
 </dl>
 </dd>

@@ -56,7 +56,7 @@ The first step will be to preprocess the raw data and store the signal and peaks
 
 ### Preprocessing the physiological recording from one participant
 
-The py:func:`systole.reports` sub-module contains tools to directly interact with BIDS formatted folders, preprocess and save individual reports in a BIDS consistent way. Those functionalities are built on the top of the py:func:`systole.reports.subject_level_report` function. This function will simply take a signal as input and will save as output the preprocessed signal with peaks detection (`_physio.tsv.gz` with the `_physio.json`), an `.html` reports adapted to the kind of signal that was provided, and a `features.tsv` file containing heart rate or respiratory rate variability features.
+The:py:func:`systole.reports` sub-module contains tools to directly interact with BIDS formatted folders, preprocess and save individual reports in a BIDS consistent way. Those functionalities are built on the top of the:py:func:`systole.reports.subject_level_report` function. This function will simply take a signal as input and will save as output the preprocessed signal with peaks detection (`_physio.tsv.gz` with the `_physio.json`), an `.html` reports adapted to the kind of signal that was provided, and a `features.tsv` file containing heart rate or respiratory rate variability features.
 
 For example, running the following code:
 
@@ -88,7 +88,7 @@ will save these four new files in the file folder.
 
 ### Preprocessing the entire BIDS folder
 
-The previous function call can be automated for each participant and each file of a given BIDS folder and to extract the physiological features using the information provided in the `json` metadata automatically. This can be done using the py:func:`systole.reports.wrapper` function, or directly from the command line. For example, the following command:
+The previous function call can be automated for each participant and each file of a given BIDS folder and to extract the physiological features using the information provided in the `json` metadata automatically. This can be done using the:py:func:`systole.reports.wrapper` function, or directly from the command line. For example, the following command:
 
 ```bash
 systole --bids_folder="/path/to/BIDS/folder/" \
@@ -140,7 +140,7 @@ Once the preprocessing is completed, and if you did not asked for an external re
 
 While we hope that the peaks detection function used by [Systole](https://embodied-computation-group.github.io/systole/#) is sufficiently robust to extract peak vectors without errors for most of the uses cases, you might still encounter noisy or invalid recording that you will want to manually inspect and sometimes edit.
 
-The py:func:`systole.viewer` sub-module is built on the top of Matplotlib widgets and can help for manual peaks edition or bad segments labelling. For example, running the following cells in a Jupyter notebook:
+The:py:func:`systole.viewer` sub-module is built on the top of Matplotlib widgets and can help for manual peaks edition or bad segments labelling. For example, running the following cells in a Jupyter notebook:
 
 ```python
 from IPython.display import display
