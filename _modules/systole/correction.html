@@ -684,7 +684,7 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span>
     <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
 <span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Correct long and short beats using interpolation.</span>
+    <span class="sd">&quot;&quot;&quot;Correct artefacts in RR time series using the method described in [1]_.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -717,6 +717,19 @@
 <span class="sd">    -------</span>
 <span class="sd">    clean_rr, (nMissed, nExtra, nEctopic, nShort, nLong) : np.ndarray</span>
 <span class="sd">        The corrected RR time series and the number of artefacts corrected.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from systole import import_rr</span>
+<span class="sd">    &gt;&gt;&gt; from systole.correction import correct_rr</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; # Load an example RR time series</span>
+<span class="sd">    &gt;&gt;&gt; rr = import_rr().rr</span>
+
+<span class="sd">    &gt;&gt;&gt; corrected_rr, (nMissed, nExtra, nEctopic, nShort, nLong) = correct_rr(rr)</span>
+<span class="sd">    Cleaning the RR interval time series.</span>
+<span class="sd">    ... correcting 1 ectopic interval(s).</span>
+<span class="sd">    ... correcting 1 long interval(s).</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>

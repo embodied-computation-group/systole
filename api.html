@@ -405,26 +405,26 @@
             <article class="bd-article" role="main">
               
   <section id="functions">
-<span id="api-ref"></span><h1><a class="toc-backref" href="#id9">Functions</a><a class="headerlink" href="#functions" title="Permalink to this headline">#</a></h1>
+<span id="api-ref"></span><h1><a class="toc-backref" href="#id10">Functions</a><a class="headerlink" href="#functions" title="Permalink to this headline">#</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#functions" id="id9">Functions</a></p>
+<li><p><a class="reference internal" href="#functions" id="id10">Functions</a></p>
 <ul>
-<li><p><a class="reference internal" href="#correction" id="id10">Correction</a></p></li>
-<li><p><a class="reference internal" href="#detection" id="id11">Detection</a></p></li>
-<li><p><a class="reference internal" href="#heart-rate-variability" id="id12">Heart Rate Variability</a></p></li>
-<li><p><a class="reference internal" href="#plots" id="id13">Plots</a></p></li>
-<li><p><a class="reference internal" href="#recording" id="id14">Recording</a></p></li>
-<li><p><a class="reference internal" href="#reports" id="id15">Reports</a></p></li>
-<li><p><a class="reference internal" href="#viewer" id="id16">Viewer</a></p></li>
-<li><p><a class="reference internal" href="#utils" id="id17">Utils</a></p></li>
+<li><p><a class="reference internal" href="#correction" id="id11">Correction</a></p></li>
+<li><p><a class="reference internal" href="#detection" id="id12">Detection</a></p></li>
+<li><p><a class="reference internal" href="#heart-rate-variability" id="id13">Heart Rate Variability</a></p></li>
+<li><p><a class="reference internal" href="#plots" id="id14">Plots</a></p></li>
+<li><p><a class="reference internal" href="#recording" id="id15">Recording</a></p></li>
+<li><p><a class="reference internal" href="#reports" id="id16">Reports</a></p></li>
+<li><p><a class="reference internal" href="#viewer" id="id17">Viewer</a></p></li>
+<li><p><a class="reference internal" href="#utils" id="id18">Utils</a></p></li>
 </ul>
 </li>
 </ul>
 </div>
 <section id="correction">
-<h2><a class="toc-backref" href="#id10">Correction</a><a class="headerlink" href="#correction" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id11">Correction</a><a class="headerlink" href="#correction" title="Permalink to this headline">#</a></h2>
 <table class="longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
@@ -441,7 +441,7 @@
 <td><p>Correct long or short beat(s) using linear interpolation.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/correction/systole.correction.correct_rr.html#systole.correction.correct_rr" title="systole.correction.correct_rr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_rr</span></code></a>(rr[, extra_correction, ...])</p></td>
-<td><p>Correct long and short beats using interpolation.</p></td>
+<td><p>Correct artefacts in RR time series using the method described in <a class="reference internal" href="generated/correction/systole.correction.correct_rr.html#r5f0966f8069a-1" id="id2"><span>[R5f0966f8069a-1]</span></a>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/correction/systole.correction.correct_peaks.html#systole.correction.correct_peaks" title="systole.correction.correct_peaks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_peaks</span></code></a>(peaks[, input_type, ...])</p></td>
 <td><p>Correct long, short, extra, missed and ectopic beats in peaks vector.</p></td>
@@ -456,7 +456,7 @@
 </table>
 </section>
 <section id="detection">
-<h2><a class="toc-backref" href="#id11">Detection</a><a class="headerlink" href="#detection" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id12">Detection</a><a class="headerlink" href="#detection" title="Permalink to this headline">#</a></h2>
 <table class="longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
@@ -482,7 +482,7 @@
 </table>
 </section>
 <section id="heart-rate-variability">
-<h2><a class="toc-backref" href="#id12">Heart Rate Variability</a><a class="headerlink" href="#heart-rate-variability" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id13">Heart Rate Variability</a><a class="headerlink" href="#heart-rate-variability" title="Permalink to this headline">#</a></h2>
 <table class="longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
@@ -517,7 +517,7 @@
 <td><p>Compute quantitative metrics from the recurrence plot for heart rate variability.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/hrv/systole.hrv.recurrence_matrix.html#systole.hrv.recurrence_matrix" title="systole.hrv.recurrence_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">recurrence_matrix</span></code></a>(rr[, m, tau])</p></td>
-<td><p>Compute the recurrence matrix from an array of RR intervals <a class="reference internal" href="generated/hrv/systole.hrv.recurrence_matrix.html#r3bbf2e959ea6-1" id="id3"><span>[R3bbf2e959ea6-1]</span></a>.</p></td>
+<td><p>Compute the recurrence matrix from an array of RR intervals <a class="reference internal" href="generated/hrv/systole.hrv.recurrence_matrix.html#r3bbf2e959ea6-1" id="id4"><span>[R3bbf2e959ea6-1]</span></a>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/hrv/systole.hrv.all_domain.html#systole.hrv.all_domain" title="systole.hrv.all_domain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all_domain</span></code></a>(rr[, input_type])</p></td>
 <td><p>Extract all the HRV indices implemented for the time domain, frequency domain and linear domain.</p></td>
@@ -526,7 +526,7 @@
 </table>
 </section>
 <section id="plots">
-<h2><a class="toc-backref" href="#id13">Plots</a><a class="headerlink" href="#plots" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id14">Plots</a><a class="headerlink" href="#plots" title="Permalink to this headline">#</a></h2>
 <table class="longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
@@ -567,7 +567,7 @@
 </table>
 </section>
 <section id="recording">
-<h2><a class="toc-backref" href="#id14">Recording</a><a class="headerlink" href="#recording" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id15">Recording</a><a class="headerlink" href="#recording" title="Permalink to this headline">#</a></h2>
 <table class="longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
@@ -584,7 +584,7 @@
 </table>
 </section>
 <section id="reports">
-<h2><a class="toc-backref" href="#id15">Reports</a><a class="headerlink" href="#reports" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id16">Reports</a><a class="headerlink" href="#reports" title="Permalink to this headline">#</a></h2>
 <table class="longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
@@ -604,7 +604,7 @@
 </table>
 </section>
 <section id="viewer">
-<h2><a class="toc-backref" href="#id16">Viewer</a><a class="headerlink" href="#viewer" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id17">Viewer</a><a class="headerlink" href="#viewer" title="Permalink to this headline">#</a></h2>
 <table class="longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
@@ -621,7 +621,7 @@
 </table>
 </section>
 <section id="utils">
-<h2><a class="toc-backref" href="#id17">Utils</a><a class="headerlink" href="#utils" title="Permalink to this headline">#</a></h2>
+<h2><a class="toc-backref" href="#id18">Utils</a><a class="headerlink" href="#utils" title="Permalink to this headline">#</a></h2>
 <table class="longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
