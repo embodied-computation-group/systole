@@ -407,11 +407,10 @@ def correct_peaks(
     peaks : np.ndarray
         Boolean vector of peaks.
     input_type : str
-            The type of input vector. Defaults to `"rr_ms"` for vectors of RR
-            intervals, or  interbeat intervals (IBI), expressed in milliseconds.
-            Can also be a boolean vector where `1` represents the occurrence of
-            R waves or systolic peakspeaks vector `"rr_s"` or IBI expressed in
-            seconds.
+        The type of input vector. Defaults to `"rr_ms"` for vectors of RR intervals, or
+        interbeat intervals (IBI), expressed in milliseconds. Can also be a boolean
+        vector where `1` represents the occurrence of R waves or systolic peakspeaks
+        vector `"rr_s"` or IBI expressed in seconds.
     extra_correction : bool
       If `True` (default), correct extra peaks in the peaks time series.
     missed_correction : bool
