@@ -280,7 +280,7 @@ def correct_rr(
 ) -> Tuple[
     np.ndarray, Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]
 ]:
-    """Correct long and short beats using interpolation.
+    """Correct artefacts in RR time series using the method described in [1]_.
 
     Parameters
     ----------
@@ -313,6 +313,19 @@ def correct_rr(
     -------
     clean_rr, (nMissed, nExtra, nEctopic, nShort, nLong) : np.ndarray
         The corrected RR time series and the number of artefacts corrected.
+
+    Examples
+    --------
+    >>> from systole import import_rr
+    >>> from systole.correction import correct_rr
+
+    >>> # Load an example RR time series
+    >>> rr = import_rr().rr
+
+    >>> corrected_rr, (nMissed, nExtra, nEctopic, nShort, nLong) = correct_rr(rr)
+    Cleaning the RR interval time series.
+    ... correcting 1 ectopic interval(s).
+    ... correcting 1 long interval(s).
 
     Notes
     -----
