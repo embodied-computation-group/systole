@@ -1,4 +1,4 @@
-from .viewer import Editor, Viewer
+from .interact import Editor, Viewer
 
 __all__ = [
     "Viewer",
