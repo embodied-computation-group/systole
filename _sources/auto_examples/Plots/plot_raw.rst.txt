@@ -72,7 +72,7 @@ Plot raw ECG signal
 
  .. code-block:: none
 
-      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|#####     | 1/2 [00:00<00:00,  7.47it/s]    Downloading Respiration channel:  50%|#####     | 1/2 [00:00<00:00,  7.47it/s]    Downloading Respiration channel: 100%|##########| 2/2 [00:00<00:00,  7.60it/s]    Downloading Respiration channel: 100%|##########| 2/2 [00:00<00:00,  7.57it/s]
+      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|#####     | 1/2 [00:00<00:00,  5.88it/s]    Downloading Respiration channel:  50%|#####     | 1/2 [00:00<00:00,  5.88it/s]    Downloading Respiration channel: 100%|##########| 2/2 [00:00<00:00,  4.78it/s]    Downloading Respiration channel: 100%|##########| 2/2 [00:00<00:00,  4.92it/s]
 
     <AxesSubplot: title={'center': 'ECG recording'}, ylabel='ECG (mV)'>
 
@@ -106,7 +106,7 @@ Import Respiration recording as pandas data frame
 
  .. code-block:: none
 
-      0%|          | 0/1 [00:00<?, ?it/s]    Downloading Respiration channel:   0%|          | 0/1 [00:00<?, ?it/s]    Downloading Respiration channel: 100%|##########| 1/1 [00:00<00:00,  7.52it/s]    Downloading Respiration channel: 100%|##########| 1/1 [00:00<00:00,  7.50it/s]
+      0%|          | 0/1 [00:00<?, ?it/s]    Downloading Respiration channel:   0%|          | 0/1 [00:00<?, ?it/s]    Downloading Respiration channel: 100%|##########| 1/1 [00:00<00:00,  6.60it/s]    Downloading Respiration channel: 100%|##########| 1/1 [00:00<00:00,  6.59it/s]
 
     <AxesSubplot: title={'center': 'Respiration'}, ylabel='Respiratory signal'>
 
@@ -170,7 +170,7 @@ Using Bokeh as plotting backend
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.343 seconds)
+   **Total running time of the script:** ( 0 minutes  1.403 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Plots_plot_raw.py:

@@ -593,18 +593,6 @@
 </ul>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../viewer/systole.viewer.Viewer.html">
-   systole.viewer.Viewer
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../viewer/systole.viewer.Editor.html">
-   systole.viewer.Editor
-  </a>
- </li>
-</ul>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
   <a class="reference internal" href="../utils/systole.utils.norm_triggers.html">
    systole.utils.norm_triggers
   </a>
@@ -703,11 +691,10 @@
 <dd class="field-odd"><dl class="simple">
 <dt><strong>peaks</strong><span class="classifier">np.ndarray</span></dt><dd><p>Boolean vector of peaks.</p>
 </dd>
-<dt><strong>input_type</strong><span class="classifier">str</span></dt><dd><p>The type of input vector. Defaults to <cite>“rr_ms”</cite> for vectors of RR
-intervals, or  interbeat intervals (IBI), expressed in milliseconds.
-Can also be a boolean vector where <cite>1</cite> represents the occurrence of
-R waves or systolic peakspeaks vector <cite>“rr_s”</cite> or IBI expressed in
-seconds.</p>
+<dt><strong>input_type</strong><span class="classifier">str</span></dt><dd><p>The type of input vector. Defaults to <cite>“rr_ms”</cite> for vectors of RR intervals, or
+interbeat intervals (IBI), expressed in milliseconds. Can also be a boolean
+vector where <cite>1</cite> represents the occurrence of R waves or systolic peakspeaks
+vector <cite>“rr_s”</cite> or IBI expressed in seconds.</p>
 </dd>
 <dt><strong>extra_correction</strong><span class="classifier">bool</span></dt><dd><p>If <cite>True</cite> (default), correct extra peaks in the peaks time series.</p>
 </dd>
