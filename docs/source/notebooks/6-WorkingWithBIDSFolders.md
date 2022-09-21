@@ -113,21 +113,21 @@ will preprocess the data for all participants with a physiological recording in 
 * - Argument
   - Description
 * - --bids_folder (-i)
-  - --participant_id (-p)
-  - --patern (-t)
-  - --html_reports (-r)
-  - --result_folder (-o)
-  - --n_jobs (-n)
-  - --modality (-d)
-  - --overwrite (-w)
-* - Path to the BIDS folder containing the physiological recordings.
+  - Path to the BIDS folder containing the physiological recordings.
+* - --participant_id (-p)
   - The id of the participant that should be preprocessed. If this argument is not provided, all the participants will be preprocessed.
-  - Only the files that contains the pattern string will be preprocessed. If the number of files matching is not exactly 1, the files are not processed. 
+* - --patern (-t)
+  - Only the files that contains the pattern string will be preprocessed. If the number of files matching is not exactly 1, the files are not processed.
+* - --html_reports (-r)
   - Create subject-level HTML reports if `True`.
+* - --result_folder (-o)
   - Path to the result folder. If not provided, the default will be ./derivatives/systole/.
+* - --n_jobs (-n)
   - The number of jobs to run concurrently.
+* - --modality (-d)
   - The modality of the recording (i.e. `"beh"`, `"func"`...).
-  - If `True`, overwrite preexisting files in the result folder (DOES NOT include the corrected files).  
+* - --overwrite (-w)
+  - If `True`, overwrite preexisting files in the result folder (DOES NOT include the corrected files).
 ```
 
 +++
@@ -175,7 +175,7 @@ The :py:mod:`systole.interact` sub-module provides two classes (:py:class:`systo
 
 The :py:mod:`systole.interact.Editor` can be use alone (apart from a BISD structured folder) to edit peaks detection from a raw ECG, PPG or respiratory signal.
 
-```{code-cell} ipython3
+```python
 from systole import import_dataset1
 from systole.interact import Viewer, Editor
 from IPython.display import display
@@ -183,12 +183,12 @@ from IPython.display import display
 %matplotlib ipympl
 ```
 
-```{code-cell} ipython3
+```python
 # Load a ray ECG time series
 ecg = import_dataset1(modalities=['ECG'], disable=True).ecg.to_numpy()
 ```
 
-```{code-cell} ipython3
+```python
 editor = Editor(
     signal=ecg,
     sfreq=1000,
@@ -198,6 +198,8 @@ editor = Editor(
 )
 display(editor.commands_box)
 ```
+
++++
 
 ```{note}
 Note that we are using the package [ipympl](https://matplotlib.org/ipympl/), and activating it using the magic cell `%matplotlib ipympl` so we can render Matplotlib interactive widgets in the Notebook. If you are working in another IDE, you can also render the same windows using a different backend like PyQt.
