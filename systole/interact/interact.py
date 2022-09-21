@@ -94,7 +94,7 @@ class Viewer:
             if not Path(bids_folder, "derivatives", "systole").exists():
                 print(f"The BIDS folder {bids_folder} does not contains derivatives.")
             else:
-                self.preprocessed_folder = Path(bids_folder, "derivatives", "systole")
+                self.preprocessed_folder = Path(bids_folder)
         else:
             self.bids_folder = ""
             self.preprocessed_folder = preprocessed_folder  # type: ignore
@@ -295,14 +295,28 @@ class Viewer:
         self.physio_df.columns = self.physio_df.columns.str.lower()
 
         # Path to the corrected JSON files (if the signal has already been checked)
-        self.corrected_json = Path(
-            self.preprocessed_folder,
-            "corrected",
-            str(self.participant_id),
-            str(self.session_.value),
-            self.modality_.value,
-            f"{self.physio_file.stem[:-11]}_corrected.json",
-        )
+        if self.bids_folder is None:
+            self.corrected_json = Path(
+                self.preprocessed_folder,
+                "corrected",
+                str(self.participant_id),
+                str(self.session_.value),
+                self.modality_.value,
+                f"{self.physio_file.stem[:-11]}_corrected.json",
+            )
+        else:
+            # When reading the raw data directly, the JSON file
+            # must be loaded from the derivatives
+            self.corrected_json = Path(
+                self.preprocessed_folder,
+                "derivatives",
+                "systole",
+                "corrected",
+                str(self.participant_id),
+                str(self.session_.value),
+                self.modality_.value,
+                f"{self.physio_file.stem[:-11]}_corrected.json",
+            )
 
         if self.signal_type_.value == "ECG":
             ecg_col = [col for col in self.physio_df.columns if col in ecg_strings]
@@ -332,16 +346,12 @@ class Viewer:
             f = open(self.corrected_json)
             json_data = json.load(f)
 
-            self.bad_segments = json_data[self.signal_type_.value.lower()][
-                "bad_segments"
-            ]
+            self.bad_segments = json_data[self.signal_type_.value]["bad_segments"]
 
             # If corrected peaks already exist, load here and replace the revious ones
-            self.corrected_peaks = np.zeros(len(self.signal), dtype=bool)
+            self.corrected_peaks = np.zeros(len(self.input_signal), dtype=bool)
             self.corrected_peaks[
-                np.array(
-                    json_data[self.viewer.signal_type_.value.lower()]["corrected_peaks"]
-                )
+                np.array(json_data[self.signal_type_.value]["corrected_peaks"])
             ] = True
             f.close()
 
@@ -532,6 +542,8 @@ class Editor:
             icon="save",
             layout=widgets.Layout(width="250px"),
         )
+        self.save_button_.on_click(self.save)
+
         self.commands_box = widgets.HBox(
             [self.edition_, self.rejection_, self.save_button_]
         )
