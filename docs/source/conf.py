@@ -122,7 +122,7 @@ html_sidebars = {
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 html_css_files = ["https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"]
-html_logo = "images/logo.png"
+html_logo = "images/logo_small.svg"
 html_favicon = "images/logo_small.svg"
 
 def setup(app):
