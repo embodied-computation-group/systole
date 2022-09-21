@@ -108,14 +108,11 @@ html_theme_options = {
             icon="fas fa-box",
         ),
     ],
-    "logo_link": "https://embodied-computation-group.github.io/systole/#",
-}
+    "logo": {
+        "text": "Systole",
+    },}
 
-html_sidebars = {
-  "api": [],
-  "changelog": [],
-  "notebooks/*": []
-}
+html_sidebars = {"**": []}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
