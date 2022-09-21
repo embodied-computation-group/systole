@@ -115,6 +115,8 @@
     <img src="../../_static/logo_small.svg" class="logo__image only-dark" alt="Logo image">
   
   
+    <p class="title logo__title">Systole</p>
+  
 </a>
     
   </div>
@@ -260,7 +262,7 @@
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
   
   <div class="sidebar-header-items sidebar-primary__section">
@@ -383,136 +385,6 @@
   </div>
 
   
-  <div class="sidebar-start-items sidebar-primary__section">
-    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Section navigation">
-  <p class="bd-links__title" role="heading" aria-level="1">
-    Section Navigation
-  </p>
-  <div class="bd-toc-item navbar-nav">
-    <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active has-children">
-  <a class="reference internal" href="index.html">
-   Artefacts
-  </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label class="toctree-toggle" for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul class="current">
-   <li class="toctree-l2">
-    <a class="reference internal" href="plot_ArtefactsDetection.html">
-     Outliers and artefacts detection
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="plot_PeaksCorrection.html">
-     Detecting and correcting artefacts in peaks vector
-    </a>
-   </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
-     Detecting and correcting artefacts in RR time series
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../Plots/index.html">
-   Plotting
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
-  <label class="toctree-toggle" for="toctree-checkbox-2">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_pointcare.html">
-     Plot pointcare
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_frequency.html">
-     Plot frequency
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_circular.html">
-     Plot circular
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_rr.html">
-     Plot instantaneous heart rate
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_shortlong.html">
-     Plot short and long invertvals
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_ectopic.html">
-     Plot ectopic beats
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_subspace.html">
-     Plot subspaces to vivualize short/long and ectopic beats
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_raw.html">
-     Plot raw physiological signal
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_events.html">
-     Plot events
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_evoked.html">
-     Plot evoked
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../Recording/index.html">
-   Recording
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
-  <label class="toctree-toggle" for="toctree-checkbox-3">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Recording/plot_InstantaneousHeartRate.html">
-     Instantaneous Heart Rate
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Recording/plot_RecordingPPG.html">
-     Recording PPG signal
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Recording/plot_HeartBeatrpeggios.html">
-     Heartbeat Evoked Arpeggios (cardiac-contingent stimuli)
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
-
-  </div>
-</nav>
-    </div>
-  </div>
-  
 
   
   <div class="sidebar-end-items sidebar-primary__section">
@@ -573,10 +445,10 @@ variability is measured for a given time interval (usually &gt; 5 minutes).</p>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/2 [00:00&lt;?, ?it/s]
 Downloading ECG channel:   0%|          | 0/2 [00:00&lt;?, ?it/s]
-Downloading ECG channel:  50%|#####     | 1/2 [00:00&lt;00:00,  7.09it/s]
-Downloading Stim channel:  50%|#####     | 1/2 [00:00&lt;00:00,  7.09it/s]
-Downloading Stim channel: 100%|##########| 2/2 [00:00&lt;00:00,  5.92it/s]
-Downloading Stim channel: 100%|##########| 2/2 [00:00&lt;00:00,  6.06it/s]
+Downloading ECG channel:  50%|#####     | 1/2 [00:00&lt;00:00,  3.87it/s]
+Downloading Stim channel:  50%|#####     | 1/2 [00:00&lt;00:00,  3.87it/s]
+Downloading Stim channel: 100%|##########| 2/2 [00:00&lt;00:00,  3.79it/s]
+Downloading Stim channel: 100%|##########| 2/2 [00:00&lt;00:00,  3.80it/s]
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">signal</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">peaks</span></a> <span class="o">=</span> <span class="n">ecg_peaks</span><span class="p">(</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.core.series.Series" class="sphx-glr-backref-module-pandas-core-series sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ecg_df</span><span class="o">.</span><span class="n">ecg</span></a><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;pan-tompkins&#39;</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
@@ -713,7 +585,7 @@ beat classification. Journal of Medical Engineering &amp; Technology,
 43(3), 173–181. <a class="reference external" href="https://doi.org/10.1080/03091902.2019.1640306">https://doi.org/10.1080/03091902.2019.1640306</a></p>
 </dd>
 </dl>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  13.107 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  15.481 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-artefacts-plot-rrcorrection-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/28781a1b7c04322776e34750333ecfcb/plot_RRCorrection.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_RRCorrection.py</span></code></a></p>

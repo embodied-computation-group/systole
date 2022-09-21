@@ -115,6 +115,8 @@
     <img src="../../_static/logo_small.svg" class="logo__image only-dark" alt="Logo image">
   
   
+    <p class="title logo__title">Systole</p>
+  
 </a>
     
   </div>
@@ -260,7 +262,7 @@
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
   
   <div class="sidebar-header-items sidebar-primary__section">
@@ -382,136 +384,6 @@
     
   </div>
 
-  
-  <div class="sidebar-start-items sidebar-primary__section">
-    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Section navigation">
-  <p class="bd-links__title" role="heading" aria-level="1">
-    Section Navigation
-  </p>
-  <div class="bd-toc-item navbar-nav">
-    <ul class="current nav bd-sidenav">
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../Artefacts/index.html">
-   Artefacts
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label class="toctree-toggle" for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Artefacts/plot_ArtefactsDetection.html">
-     Outliers and artefacts detection
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Artefacts/plot_PeaksCorrection.html">
-     Detecting and correcting artefacts in peaks vector
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Artefacts/plot_RRCorrection.html">
-     Detecting and correcting artefacts in RR time series
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../Plots/index.html">
-   Plotting
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
-  <label class="toctree-toggle" for="toctree-checkbox-2">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_pointcare.html">
-     Plot pointcare
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_frequency.html">
-     Plot frequency
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_circular.html">
-     Plot circular
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_rr.html">
-     Plot instantaneous heart rate
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_shortlong.html">
-     Plot short and long invertvals
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_ectopic.html">
-     Plot ectopic beats
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_subspace.html">
-     Plot subspaces to vivualize short/long and ectopic beats
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_raw.html">
-     Plot raw physiological signal
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_events.html">
-     Plot events
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Plots/plot_evoked.html">
-     Plot evoked
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 current active has-children">
-  <a class="reference internal" href="index.html">
-   Recording
-  </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
-  <label class="toctree-toggle" for="toctree-checkbox-3">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul class="current">
-   <li class="toctree-l2">
-    <a class="reference internal" href="plot_InstantaneousHeartRate.html">
-     Instantaneous Heart Rate
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="plot_RecordingPPG.html">
-     Recording PPG signal
-    </a>
-   </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
-     Heartbeat Evoked Arpeggios (cardiac-contingent stimuli)
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
-
-  </div>
-</nav>
-    </div>
-  </div>
   
 
   
@@ -721,7 +593,7 @@ show the occurrence of an event relative to this cardiac phase.</p>
   ax.set_xticklabels(circle_label)
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  23.979 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  25.141 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-recording-plot-heartbeatrpeggios-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/61596c021efe935a37c9f0a39e27edaf/plot_HeartBeatrpeggios.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_HeartBeatrpeggios.py</span></code></a></p>
