@@ -80,7 +80,7 @@ Plot events distributions using Matplotlib as plotting backend
 
  .. code-block:: none
 
-      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|#####     | 1/2 [00:00<00:00,  7.26it/s]    Downloading Stim channel:  50%|#####     | 1/2 [00:00<00:00,  7.26it/s]    Downloading Stim channel: 100%|##########| 2/2 [00:00<00:00,  5.14it/s]    Downloading Stim channel: 100%|##########| 2/2 [00:00<00:00,  5.37it/s]
+      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|#####     | 1/2 [00:00<00:00,  7.61it/s]    Downloading Stim channel:  50%|#####     | 1/2 [00:00<00:00,  7.61it/s]    Downloading Stim channel: 100%|##########| 2/2 [00:00<00:00,  2.32it/s]    Downloading Stim channel: 100%|##########| 2/2 [00:00<00:00,  2.58it/s]
 
     <AxesSubplot: xlabel='Time'>
 
@@ -119,7 +119,7 @@ Plot events distributions using Bokeh as plotting backend and add the RR time se
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.139 seconds)
+   **Total running time of the script:** ( 0 minutes  1.517 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Plots_plot_events.py:
