@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>What’s new in each version &#8212; systole 0.2.4dev1 documentation</title>
+    <title>What’s new in each version &#8212; systole 0.2.4 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
@@ -111,8 +111,8 @@
   
 
   
-    <img src="_static/logo.svg" class="logo__image only-light" alt="Logo image">
-    <img src="_static/logo.svg" class="logo__image only-dark" alt="Logo image">
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="_static/logo.png" class="logo__image only-dark" alt="Logo image">
   
   
 </a>
@@ -407,8 +407,18 @@
   <span class="target" id="whatsnew"></span><section id="what-s-new-in-each-version">
 <h1>What’s new in each version<a class="headerlink" href="#what-s-new-in-each-version" title="Permalink to this headline">#</a></h1>
 <p>This page contains information about what has changed in each new version of <code class="docutils literal notranslate"><span class="pre">systole</span></code>.</p>
-<div class="col-md-9"><section id="v0-2-3-september-2022">
-<h2>v0.2.3 (September 2022)<a class="headerlink" href="#v0-2-3-september-2022" title="Permalink to this headline">#</a></h2>
+<div class="col-md-9"><section id="v0-2-4">
+<h2>v0.2.4<a class="headerlink" href="#v0-2-4" title="Permalink to this headline">#</a></h2>
+<section id="changes">
+<h3>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  Viewer was erroring when saving empty bad segment variable.</p></li>
+<li><p><a href="#id10"><span class="problematic" id="id11">|Enhancement||API|</span></a> Rename <code class="xref py py-mod docutils literal notranslate"><span class="pre">systole.viewer</span></code> to <code class="xref py py-mod docutils literal notranslate"><span class="pre">systole.interact</span></code>. Refactor the Viewer and the Editor so the Editor can be used separately to work with any kind of time series. The Viewer only handle integration with BIDS structured folders.</p></li>
+</ul>
+</section>
+</section>
+<section id="v0-2-3">
+<h2>v0.2.3<a class="headerlink" href="#v0-2-3" title="Permalink to this headline">#</a></h2>
 <section id="highlights">
 <h3>Highlights<a class="headerlink" href="#highlights" title="Permalink to this headline">#</a></h3>
 <p>This release introduce two new components:</p>
@@ -418,8 +428,8 @@
 </ul>
 <p>Both modules are intended to integrate tightly with BIDS structured folders, but can also be used separately. Some features are still missing (especially related to respiration), and will be covered in future releases.</p>
 </section>
-<section id="changes">
-<h3>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">#</a></h3>
+<section id="id1">
+<h3>Changes<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  Rewrite func:<cite>systole.correction.correct_missed</cite> (now func:<cite>systole.correction.correct_missed_rr</cite>), func:<cite>systole.correction.correct_extra</cite> (now func:<cite>systole.correction.correct_extra_rr</cite>) and func:<cite>systole.correction.correct_rr</cite> to fix the index overflows caused by the insertion or deletion of intervals. All function are now jited, which should also provided performance improvements.</p></li>
 <li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  func:<cite>systole.detection.interpolate_clipping()</cite> was not handling thresholds correctly if the provided threshold is not the max/min of the time series.</p></li>
@@ -441,14 +451,14 @@
 </ul>
 </section>
 </section>
-<section id="v0-2-2-december-2021">
-<h2>v0.2.2 (December 2021)<a class="headerlink" href="#v0-2-2-december-2021" title="Permalink to this headline">#</a></h2>
-<section id="id1">
-<h3>Highlights<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
+<section id="v0-2-2">
+<h2>v0.2.2<a class="headerlink" href="#v0-2-2" title="Permalink to this headline">#</a></h2>
+<section id="id2">
+<h3>Highlights<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
 <p>This release seeks to improve the heart rate variability module and will be the reference version for the JOSS publication.</p>
 </section>
-<section id="id2">
-<h3>Changes<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
+<section id="id3">
+<h3>Changes<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  HRV module: Add a function func:<cite>systole.hrv.all_domain()</cite> to easily compute all possible HRV indices.</p></li>
 <li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  HRV module: Add recurence plot analysis and fast recurrence matrix computation (thanks to Dominique Makowski), and basic quantitative metrics (recurrence rate, l_max, l_mean, determinism rate, Shannon entropy). These metrics are now part of the nonlinear reports (py:func:<cite>systole.hrv.nonlinear_domain()</cite>) or can be called separately (py:func:<cite>systole.hrv.recurrence()</cite>).</p></li>
@@ -459,23 +469,23 @@
 <li><p><span class="raw-html"><span class="badge badge-docs">Docs</span></span>  <span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Improve tutorial notebook on HRV.</p></li>
 </ul>
 </section>
-<section id="id3">
-<h3>Contributors<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h3>
+<section id="id4">
+<h3>Contributors<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Dominique Makowski (<a class="reference external" href="https://github.com/DominiqueMakowski">https://github.com/DominiqueMakowski</a>)</p></li>
 <li><p>Bertrand Hermann (<a class="reference external" href="mailto:bertrand&#46;hermann&#37;&#52;&#48;ghu-paris&#46;fr">bertrand<span>&#46;</span>hermann<span>&#64;</span>ghu-paris<span>&#46;</span>fr</a>)</p></li>
 </ul>
 </section>
 </section>
-<section id="v0-2-1-december-2021">
-<h2>v0.2.1 - December 2021<a class="headerlink" href="#v0-2-1-december-2021" title="Permalink to this headline">#</a></h2>
-<section id="id4">
-<h3>Highlights<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h3>
+<section id="v0-2-1">
+<h2>v0.2.1<a class="headerlink" href="#v0-2-1" title="Permalink to this headline">#</a></h2>
+<section id="id5">
+<h3>Highlights<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h3>
 <p>This release fixes dependencies and import errors pointed during the review of the JOSS Systole paper and add the paper to the main repository. It also adds several bug fixes and functionality improvements.</p>
 <p>We recommend all users upgrade to this new version.</p>
 </section>
-<section id="id5">
-<h3>Changes<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h3>
+<section id="id6">
+<h3>Changes<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  Important BUGFIX: <a class="reference internal" href="generated/hrv/systole.hrv.frequency_domain.html#systole.hrv.frequency_domain" title="systole.hrv.frequency_domain"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.hrv.frequency_domain()</span></code></a> switched the variables <cite>“power_hf_nu”</cite> and <cite>“power_lf_nu”</cite> before returning.</p></li>
 <li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  Important BUGFIX: <a class="reference internal" href="generated/hrv/systole.hrv.frequency_domain.html#systole.hrv.frequency_domain" title="systole.hrv.frequency_domain"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.hrv.frequency_domain()</span></code></a> the variables <cite>“power_hf_nu”</cite> and <cite>“power_lf_nu”</cite> were not properly scalled (x100) before returning.</p></li>
@@ -486,10 +496,10 @@
 </ul>
 </section>
 </section>
-<section id="v0-2-0-october-2021">
-<h2>v0.2.0 (October 2021)<a class="headerlink" href="#v0-2-0-october-2021" title="Permalink to this headline">#</a></h2>
-<section id="id6">
-<h3>Highlights<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h3>
+<section id="v0-2-0">
+<h2>v0.2.0<a class="headerlink" href="#v0-2-0" title="Permalink to this headline">#</a></h2>
+<section id="id7">
+<h3>Highlights<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h3>
 <p>This is a major release that introduces a new plotting backend using Bokeh instead of Plotly, several API changes and performance improvement (Numba).</p>
 <p>The <cite>plots</cite> submodule now includes the following functions:</p>
 <ul class="simple">
@@ -515,8 +525,8 @@
 <p>This also drops py-ecg-detectors dependency, and the refactored code is now included in Systole.</p>
 <p>This release also includes some API changes and renaming for consistency (<cite>oxi_peaks</cite> -&gt; <cite>ppg_peaks</cite>).</p>
 </section>
-<section id="id7">
-<h3>Changes<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h3>
+<section id="id8">
+<h3>Changes<a class="headerlink" href="#id8" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><span class="raw-html"><span class="badge badge-api">API</span></span>  Remove support for Plotly. Add support for Bokeh. Merge interactive and non interactive modules into a unique <code class="xref py py-func docutils literal notranslate"><span class="pre">plots()</span></code> module.</p></li>
 <li><p><span class="raw-html"><span class="badge badge-docs">Docs</span></span>  Use PyData Sphinx theme.</p></li>
@@ -538,16 +548,16 @@
 <li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  Remove use of <cite>outdated</cite>.</p></li>
 </ul>
 </section>
-<section id="id8">
-<h3>Contributors<a class="headerlink" href="#id8" title="Permalink to this headline">#</a></h3>
+<section id="id9">
+<h3>Contributors<a class="headerlink" href="#id9" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Gidon Levakov (<a class="reference external" href="mailto:gidonlevakov&#37;&#52;&#48;gmail&#46;com">gidonlevakov<span>&#64;</span>gmail<span>&#46;</span>com</a>)</p></li>
 <li><p>Peter Doggart (<a class="reference external" href="mailto:peter&#46;doggart&#37;&#52;&#48;pulseai&#46;io">peter<span>&#46;</span>doggart<span>&#64;</span>pulseai<span>&#46;</span>io</a>)</p></li>
 </ul>
 </section>
 </section>
-<section id="v0-1-3-april-2021">
-<h2>v0.1.3 (April 2021)<a class="headerlink" href="#v0-1-3-april-2021" title="Permalink to this headline">#</a></h2>
+<section id="v0-1-3">
+<h2>v0.1.3<a class="headerlink" href="#v0-1-3" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_raw()</span></code>: add <cite>ecg_method</cite> parameter to control the ECG peak detection method used.</p></li>
 <li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Download dataset directly from GitHub instead of copying the files at install.</p></li>
@@ -565,8 +575,8 @@
 <li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Add type hints and CI testing with mypy.</p></li>
 </ul>
 </section>
-<section id="v0-1-2-september-2020">
-<h2>v0.1.2 (September 2020)<a class="headerlink" href="#v0-1-2-september-2020" title="Permalink to this headline">#</a></h2>
+<section id="v0-1-2">
+<h2>v0.1.2<a class="headerlink" href="#v0-1-2" title="Permalink to this headline">#</a></h2>
 <blockquote>
 <div><p><strong>New functions</strong></p>
 </div></blockquote>
@@ -581,8 +591,8 @@
 - <span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Simplification of PPG example data import.
 - <span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Improved interactive plotting functions.</p>
 </section>
-<section id="v0-1-1-june-2020">
-<h2>v0.1.1 (June 2020)<a class="headerlink" href="#v0-1-1-june-2020" title="Permalink to this headline">#</a></h2>
+<section id="v0-1-1">
+<h2>v0.1.1<a class="headerlink" href="#v0-1-1" title="Permalink to this headline">#</a></h2>
 <p><strong>New functions</strong></p>
 <ul class="simple">
 <li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Add the <strong>plotly</strong> sub-module, a set of Plotly functions comprising <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_raw()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_subspaces()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_ectopic()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_shortlong()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_frequency()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_nonlinear()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_timedomain()</span></code>.</p></li>
@@ -603,8 +613,8 @@
 <li><p><a class="reference external" href="mailto:jan&#46;c&#46;brammer&#37;&#52;&#48;gmail&#46;com">Jan C<span>&#46;</span> Brammer</a></p></li>
 </ul>
 </section>
-<section id="v0-1-0-january-2020">
-<h2>v0.1.0 (January 2020)<a class="headerlink" href="#v0-1-0-january-2020" title="Permalink to this headline">#</a></h2>
+<section id="v0-1-0">
+<h2>v0.1.0<a class="headerlink" href="#v0-1-0" title="Permalink to this headline">#</a></h2>
 <p>Initial release.</p>
 <p><strong>Detection</strong></p>
 <ol class="loweralpha simple">
@@ -649,8 +659,8 @@
 <li><p>to_epochs()</p></li>
 </ol>
 </section>
-<section id="v0-0-1-january-2020">
-<h2>v0.0.1 (January 2020)<a class="headerlink" href="#v0-0-1-january-2020" title="Permalink to this headline">#</a></h2>
+<section id="v0-0-1">
+<h2>v0.0.1<a class="headerlink" href="#v0-0-1" title="Permalink to this headline">#</a></h2>
 <p>Alpha release.</p>
 </section>
 </section>
@@ -694,8 +704,20 @@
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#v0-2-3-september-2022">
-   v0.2.3 (September 2022)
+  <a class="reference internal nav-link" href="#v0-2-4">
+   v0.2.4
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#changes">
+     Changes
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#v0-2-3">
+   v0.2.3
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -704,7 +726,7 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#changes">
+    <a class="reference internal nav-link" href="#id1">
      Changes
     </a>
    </li>
@@ -716,89 +738,89 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#v0-2-2-december-2021">
-   v0.2.2 (December 2021)
+  <a class="reference internal nav-link" href="#v0-2-2">
+   v0.2.2
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id1">
-     Highlights
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id2">
-     Changes
+     Highlights
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id3">
+     Changes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
      Contributors
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#v0-2-1-december-2021">
-   v0.2.1 - December 2021
+  <a class="reference internal nav-link" href="#v0-2-1">
+   v0.2.1
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
+    <a class="reference internal nav-link" href="#id5">
      Highlights
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id5">
+    <a class="reference internal nav-link" href="#id6">
      Changes
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#v0-2-0-october-2021">
-   v0.2.0 (October 2021)
+  <a class="reference internal nav-link" href="#v0-2-0">
+   v0.2.0
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id6">
-     Highlights
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id7">
-     Changes
+     Highlights
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id8">
+     Changes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id9">
      Contributors
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#v0-1-3-april-2021">
-   v0.1.3 (April 2021)
+  <a class="reference internal nav-link" href="#v0-1-3">
+   v0.1.3
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#v0-1-2-september-2020">
-   v0.1.2 (September 2020)
+  <a class="reference internal nav-link" href="#v0-1-2">
+   v0.1.2
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#v0-1-1-june-2020">
-   v0.1.1 (June 2020)
+  <a class="reference internal nav-link" href="#v0-1-1">
+   v0.1.1
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#v0-1-0-january-2020">
-   v0.1.0 (January 2020)
+  <a class="reference internal nav-link" href="#v0-1-0">
+   v0.1.0
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#v0-0-1-january-2020">
-   v0.0.1 (January 2020)
+  <a class="reference internal nav-link" href="#v0-0-1">
+   v0.0.1
   </a>
  </li>
 </ul>
