@@ -1,5 +1,5 @@
-v0.1.3 (April 2021)
--------------------
+v0.1.3
+------
 
 - |Enhancement| :py:func:`systole.plotly.plot_raw()`: add `ecg_method` parameter to control the ECG peak detection method used.
 - |Enhancement| Download dataset directly from GitHub instead of copying the files at install.

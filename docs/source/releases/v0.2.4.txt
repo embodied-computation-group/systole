@@ -5,3 +5,4 @@ Changes
 +++++++
 
 - |Fix| Viewer was erroring when saving empty bad segment variable.
+- |Enhancement||API| Rename :py:mod:`systole.viewer` to :py:mod:`systole.interact`. Refactor the Viewer and the Editor so the Editor can be used separately to work with any kind of time series. The Viewer only handle integration with BIDS structured folders.
