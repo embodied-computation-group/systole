@@ -262,7 +262,10 @@ def main():
         "-d", "--modality", action="store", help="Data type (eg. 'beh')."
     )
     parser.add_argument(
-        "-w", "--overwrite", action="store", help="Number of processes to run."
+        "-w",
+        "--overwrite",
+        action="store",
+        help="If `True`, overwrite preexisting files.",
     )
     args = parser.parse_args()
 
