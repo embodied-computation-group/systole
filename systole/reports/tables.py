@@ -27,7 +27,7 @@ def time_table(
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
     time_df : pd.DataFrame | None
-        The time domain results obtained from py:func:`systole.hrv.time_domain`.
+        The time domain results obtained from:py:func:`systole.hrv.time_domain`.
     input_type : str
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
@@ -148,7 +148,7 @@ def frequency_table(
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
     frequency_df : pd.DataFrame | None
-        The frequency domain results obtained from py:func:`systole.hrv.frequency_domain`.
+        The frequency domain results obtained from:py:func:`systole.hrv.frequency_domain`.
     input_type : str
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
@@ -264,7 +264,7 @@ def nonlinear_table(
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
     nonlinear_df : pd.DataFrame | None
-        The time domain results obtained from py:func:`systole.hrv.nonlinear_domain`.
+        The time domain results obtained from:py:func:`systole.hrv.nonlinear_domain`.
     input_type : str
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.

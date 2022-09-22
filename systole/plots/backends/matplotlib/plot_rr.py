@@ -66,7 +66,7 @@ def plot_rr(
         Figure size. Default is `(13, 5)`.
     events_params : dict | None
         (Optional) Additional parameters that will be passed to
-        py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
+       :py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
 
     Returns
     -------

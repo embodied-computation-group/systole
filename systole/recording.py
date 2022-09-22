@@ -303,7 +303,7 @@ class Oximeter:
 
         Other Parameters
         ----------------
-        **kwargs : py:func:`systole.detection.ppg_peaks` properties.
+        **kwargs ::py:func:`systole.detection.ppg_peaks` properties.
         """
         # Peak detection
         resampled_signal, peaks = ppg_peaks(

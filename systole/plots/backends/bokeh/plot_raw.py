@@ -47,7 +47,7 @@ def plot_raw(
         (calls :py:func:`systole.plots.plot_rr` internally). Defaults to `False`.
     show_artefacts : bool
         If `True`, the function will call
-        py:func:`systole.detection.rr_artefacts` to detect outliers intervalin the time
+       :py:func:`systole.detection.rr_artefacts` to detect outliers intervalin the time
         serie and outline them using different colors.
     bad_segments : np.ndarray | list | None
         Mark some portion of the recording as bad. Grey areas are displayed on the top
@@ -65,7 +65,7 @@ def plot_raw(
         Figure heights. Default is `300`.
     events_params : dict | None
         (Optional) Additional parameters that will be passed to
-        py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
+       :py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
     kwargs: key, value mappings
         Other keyword arguments passed to the function but unused by the Bokeh backend.
 

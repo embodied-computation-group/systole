@@ -280,7 +280,7 @@ def correct_rr(
 ) -> Tuple[
     np.ndarray, Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]
 ]:
-    """Correct long and short beats using interpolation.
+    """Correct artefacts in RR time series using the method described in [1]_.
 
     Parameters
     ----------
@@ -314,17 +314,32 @@ def correct_rr(
     clean_rr, (nMissed, nExtra, nEctopic, nShort, nLong) : np.ndarray
         The corrected RR time series and the number of artefacts corrected.
 
+    Examples
+    --------
+    >>> from systole import import_rr
+    >>> from systole.correction import correct_rr
+
+    >>> # Load an example RR time series
+    >>> rr = import_rr().rr
+
+    >>> corrected_rr, (nMissed, nExtra, nEctopic, nShort, nLong) = correct_rr(rr)
+    Cleaning the RR interval time series.
+    ... correcting 1 ectopic interval(s).
+    ... correcting 1 long interval(s).
+
     Notes
     -----
     This function will correct artifacts in RR intervals time series (ms) following the
     method presented in [1]_. First, artifacts are labelled using
-    py:`func:systole.detection.rr_artefacts()`. Then, artifacts are corrected in the
+    :py:func:`systole.detection.rr_artefacts`. Then, artifacts are corrected in the
     following order:
-    1. Missed heartbeats (add one heartbeat).
-    2. Extra heartbeats (remove one heartbeat).
-    3. Ectopic heartbeats (interpolate the values of the two heartbeats).
-    4. Short heartbeats (interpolate the value of the heartbeat).
-    5. Long heartbeats (interpolate the value of the heartbeat).
+
+    #. Missed heartbeats (add one heartbeat).
+    #. Extra heartbeats (remove one heartbeat).
+    #. Ectopic heartbeats (interpolate the values of the two heartbeats).
+    #. Short heartbeats (interpolate the value of the heartbeat).
+    #. Long heartbeats (interpolate the value of the heartbeat).
+
     These steps can be repeated by changing the `n_iterations` parameter.
 
     When adding or removing an RR interval (missed and extra artefacts), the `artefacts`
@@ -392,11 +407,10 @@ def correct_peaks(
     peaks : np.ndarray
         Boolean vector of peaks.
     input_type : str
-            The type of input vector. Defaults to `"rr_ms"` for vectors of RR
-            intervals, or  interbeat intervals (IBI), expressed in milliseconds.
-            Can also be a boolean vector where `1` represents the occurrence of
-            R waves or systolic peakspeaks vector `"rr_s"` or IBI expressed in
-            seconds.
+        The type of input vector. Defaults to `"rr_ms"` for vectors of RR intervals, or
+        interbeat intervals (IBI), expressed in milliseconds. Can also be a boolean
+        vector where `1` represents the occurrence of R waves or systolic peakspeaks
+        vector `"rr_s"` or IBI expressed in seconds.
     extra_correction : bool
       If `True` (default), correct extra peaks in the peaks time series.
     missed_correction : bool

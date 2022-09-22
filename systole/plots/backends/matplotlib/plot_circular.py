@@ -22,7 +22,7 @@ def plot_circular(
 ) -> Axes:
     """Plot polar histogram.
 
-    This function is an internal function used by py:func`systole.plots.plot_circular`.
+    This function is an internal function used by:py:func`systole.plots.plot_circular`.
 
     Parameters
     ----------

@@ -69,7 +69,7 @@ def plot_rr(
         The height of the figure. Default is `200`.
     events_params : dict | None
         (Optional) Additional parameters that will be passed to
-        py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
+       :py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
 
     Returns
     -------

@@ -52,7 +52,7 @@ def plot_rr(
         (IBI), expressed in seconds or milliseconds (respectively).
     show_artefacts : bool
         If `True`, the function will call
-        py:func:`systole.detection.rr_artefacts` to detect outliers interval
+       :py:func:`systole.detection.rr_artefacts` to detect outliers interval
         in the time serie and outline them using different colors.
     bad_segments : np.ndarray | list | None
         Mark some portion of the recording as bad. Grey areas are displayed on the top
@@ -80,7 +80,7 @@ def plot_rr(
         "matplotlib".
     events_params : dict | None
         (Optional) Additional parameters that will be passed to
-        py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
+       :py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
 
     Returns
     -------
