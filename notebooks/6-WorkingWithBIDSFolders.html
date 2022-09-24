@@ -596,6 +596,9 @@ if &#39;google.colab&#39; in sys.modules:
 <li><p>By deselecting the check box, you can mark the entire signal as <strong>invalid</strong>.</p></li>
 <li><p>Once that the signal has been edited, you can <strong>save</strong> the modification using the <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">modification</span></code> button, or directly use the method from the class.</p></li>
 </ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">editor</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
 <p>This function will create a JSON file (using the path specified in the <code class="docutils literal notranslate"><span class="pre">corrected_json</span></code> parameter) with all the information about bad segments labelling, peaks deletion and peaks insertion. The JSON file contains the following entries for each modality (ECG, PPG and respiration)</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">valid</span></code> : is the recording valid or should it be discared (<code class="docutils literal notranslate"><span class="pre">True</span></code> unless otherwise stated).</p></li>
