@@ -39,7 +39,7 @@ def plot_shortlong(
     artefacts=None,
     input_type: str = "rr_ms",
     ax: Optional[Axes] = None,
-    figsize: Union[Tuple[float, float], int] = None,
+    figsize: Optional[Union[Tuple[float, float], int]] = None,
     backend: str = "matplotlib",
 ) -> Union[Figure, Axes]:
     """Visualization of short, long, extra and missed intervals detection.
