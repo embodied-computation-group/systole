@@ -747,7 +747,7 @@ def find_clipping(signal: np.ndarray) -> Tuple[Optional[float], Optional[float]]
 
 def get_valid_segments(
     signal: np.ndarray,
-    bad_segments: Union[np.ndarray, List[Tuple[int, int]]] = None,
+    bad_segments: Optional[Union[np.ndarray, List[Tuple[int, int]]]] = None,
 ) -> List[np.ndarray]:
     """Return the longest signal or intervals time series after dropping segments marked
     as bads.

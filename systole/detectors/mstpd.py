@@ -8,7 +8,7 @@ from scipy.signal import detrend
 
 def mstpd(
     signal: np.ndarray, sfreq: int, kind: str = "both"
-) -> Union[np.ndarray, Tuple[np.ndarray]]:
+) -> Union[np.ndarray, Tuple[np.ndarray, np.ndarray]]:
     """The Multi-scale peak and trough detection algorithm (MSPTD) to detects
     heartbeats in a photoplethysmogram (PPG) signal.
 
@@ -99,7 +99,7 @@ def mstpd(
     # Detect peaks and onsets in each window
     # --------------------------------------
     if kind in ["both", "peaks"]:
-        all_peaks = np.array([])
+        all_peaks: np.ndarray = np.array([])
         for win_s, win_e in zip(win_starts, win_ends):
             # Extract the window's data
             this_win = signal[win_s:win_e]
@@ -125,7 +125,7 @@ def mstpd(
         all_peaks = np.sort(np.unique(all_peaks)).astype(int)
 
     if kind in ["both", "onsets"]:
-        all_onsets = np.array([])
+        all_onsets: np.ndarray = np.array([])
         for win_s, win_e in zip(win_starts, win_ends):
             # Extract the window's data
             this_win = signal[win_s:win_e]
@@ -227,7 +227,7 @@ def msptd_peaks_and_onsets(signal: np.ndarray, kind: str = "both"):
         gamma_max = np.sum(m_max, axis=1)
 
         # Find scale with the most local maxima (or local minima)
-        lambda_max = np.argmax(gamma_max)
+        lambda_max = np.argmax(gamma_max).astype(int)
 
         # Step 3 : Use lambda to remove all elements of m for which k > lambda
         # --------------------------------------------------------------------
@@ -255,7 +255,7 @@ def msptd_peaks_and_onsets(signal: np.ndarray, kind: str = "both"):
         gamma_min = np.sum(m_min, axis=1)
 
         # Find scale with the most local maxima (or local minima)
-        lambda_min = np.argmax(gamma_min)
+        lambda_min = np.argmax(gamma_min).astype(int)
 
         # Step 3 : Use lambda to remove all elements of m for which k > lambda
         # --------------------------------------------------------------------
