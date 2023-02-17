@@ -75,7 +75,7 @@ Visualizing artefacts from RR time series
  .. code-block:: none
 
 
-    (<AxesSubplot: title={'center': 'Subspace 1 \n (ectopic beats detection)'}, xlabel='Subspace $S_{11}$', ylabel='Subspace $S_{12}$'>, <AxesSubplot: title={'center': 'Subspace 2 \n (long and short beats detection)'}, xlabel='Subspace $S_{21}$', ylabel='Subspace $S_{22}$'>)
+    (<Axes: title={'center': 'Subspace 1 \n (ectopic beats detection)'}, xlabel='Subspace $S_{11}$', ylabel='Subspace $S_{12}$'>, <Axes: title={'center': 'Subspace 2 \n (long and short beats detection)'}, xlabel='Subspace $S_{21}$', ylabel='Subspace $S_{22}$'>)
 
 
 
@@ -110,7 +110,7 @@ Visualizing artefacts from the `artefact` dictionary
  .. code-block:: none
 
 
-    (<AxesSubplot: title={'center': 'Subspace 1 \n (ectopic beats detection)'}, xlabel='Subspace $S_{11}$', ylabel='Subspace $S_{12}$'>, <AxesSubplot: title={'center': 'Subspace 2 \n (long and short beats detection)'}, xlabel='Subspace $S_{21}$', ylabel='Subspace $S_{22}$'>)
+    (<Axes: title={'center': 'Subspace 1 \n (ectopic beats detection)'}, xlabel='Subspace $S_{11}$', ylabel='Subspace $S_{12}$'>, <Axes: title={'center': 'Subspace 2 \n (long and short beats detection)'}, xlabel='Subspace $S_{21}$', ylabel='Subspace $S_{22}$'>)
 
 
 
@@ -142,7 +142,7 @@ Using Bokeh as plotting backend
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.752 seconds)
+   **Total running time of the script:** ( 0 minutes  0.820 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Plots_plot_subspace.py:

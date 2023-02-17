@@ -140,7 +140,7 @@ can be directly plotted using built-in functions.
  .. code-block:: none
 
 
-    (<AxesSubplot: title={'center': 'PPG recording'}, ylabel='PPG level (a.u.)'>, <AxesSubplot: title={'center': 'Instantaneous heart rate'}, xlabel='Time', ylabel='R-R interval (ms)'>)
+    (<Axes: title={'center': 'PPG recording'}, ylabel='PPG level (a.u.)'>, <Axes: title={'center': 'Instantaneous heart rate'}, xlabel='Time', ylabel='R-R interval (ms)'>)
 
 
 
@@ -241,7 +241,7 @@ signal is delayed relative to the R peaks observed in the ECG signal.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  42.269 seconds)
+   **Total running time of the script:** ( 0 minutes  42.660 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Recording_plot_RecordingPPG.py:

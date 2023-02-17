@@ -67,7 +67,7 @@ Visualizing poincare plot from RR time series using Matplotlib as plotting backe
  .. code-block:: none
 
 
-    <AxesSubplot: title={'center': 'Poincare plot'}, xlabel='RR (n)', ylabel='RR (n+1)'>
+    <Axes: title={'center': 'Poincare plot'}, xlabel='RR (n)', ylabel='RR (n+1)'>
 
 
 
@@ -99,7 +99,7 @@ Using Bokeh as plotting backend
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.351 seconds)
+   **Total running time of the script:** ( 0 minutes  1.681 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Plots_plot_pointcare.py:
