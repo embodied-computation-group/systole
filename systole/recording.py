@@ -225,7 +225,7 @@ class Oximeter:
         # Update threshold
         window = int(window * self.sfreq)
         self.threshold.append(
-            (np.mean(self.recording[-window:]) + np.std(self.recording[-window:]))
+            np.mean(self.recording[-window:]) + np.std(self.recording[-window:])
         )
 
         # Store new differential if not exist

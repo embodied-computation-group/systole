@@ -12,7 +12,7 @@ from scipy.spatial.distance import cdist
 from systole.utils import input_conversion
 
 
-def nnX(rr: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> float:
+def nnX(rr: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> int:
     """Number of difference in successive R-R interval > t ms.
 
     Parameters
@@ -29,7 +29,7 @@ def nnX(rr: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> 
 
     Returns
     -------
-    nnX : float
+    nnX : int
         The number of successive differences larger than a value.
 
     """
