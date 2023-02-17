@@ -43,7 +43,7 @@ def nnX(rr: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> 
         raise ValueError("X must be a 1darray")
 
     # NN50: number of successive differences larger than t ms
-    nn = np.sum(np.abs(np.diff(rr)) > t)
+    nn = np.sum(np.abs(np.diff(rr)) > t).astype(int)
 
     return nn
 
