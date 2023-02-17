@@ -608,7 +608,6 @@
 
     <span class="c1"># Remove extra peaks</span>
     <span class="k">if</span> <span class="n">clean_extra</span><span class="p">:</span>
-
         <span class="c1"># Search artefacts</span>
         <span class="n">rr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">peaks</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># Convert to RR time series</span>
         <span class="n">artefacts</span> <span class="o">=</span> <span class="n">rr_artefacts</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
@@ -1124,7 +1123,6 @@
     <span class="n">step</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">clean_signal</span><span class="p">))))</span>
 
     <span class="k">if</span> <span class="n">max_threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="c1"># Security check for clipping at signal edge</span>
         <span class="k">if</span> <span class="n">clean_signal</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">max_threshold</span><span class="p">:</span>
             <span class="n">clean_signal</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_threshold</span> <span class="o">-</span> <span class="n">step</span>
@@ -1142,7 +1140,6 @@
         <span class="n">clean_signal</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">min_threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="c1"># Security check for clipping at signal edge</span>
         <span class="k">if</span> <span class="n">clean_signal</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">min_threshold</span><span class="p">:</span>
             <span class="n">clean_signal</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">min_threshold</span> <span class="o">+</span> <span class="n">step</span>

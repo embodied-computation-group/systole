@@ -604,9 +604,7 @@
             <span class="n">figsize</span> <span class="o">=</span> <span class="mi">300</span>
 
     <span class="k">if</span> <span class="n">peaks</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-
             <span class="c1"># Find peaks - Remove learning phase</span>
             <span class="k">if</span> <span class="n">modality</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">ppg_strings</span><span class="p">:</span>
                 <span class="n">signal</span><span class="p">,</span> <span class="n">peaks</span> <span class="o">=</span> <span class="n">ppg_peaks</span><span class="p">(</span>

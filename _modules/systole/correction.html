@@ -464,7 +464,6 @@
     <span class="n">clean_rr</span><span class="p">,</span> <span class="n">new_artefacts</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">artefacts</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">extra_idx</span><span class="p">)):</span>
-
         <span class="c1"># Which RR interval should be corrected</span>
         <span class="n">idx</span> <span class="o">=</span> <span class="n">extra_idx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
@@ -525,7 +524,6 @@
     <span class="n">clean_rr</span><span class="p">,</span> <span class="n">new_artefacts</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">artefacts</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">missed_idx</span><span class="p">)):</span>
-
         <span class="c1"># Which RR interval should be corrected</span>
         <span class="n">idx</span> <span class="o">=</span> <span class="n">missed_idx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
@@ -608,7 +606,6 @@
     <span class="k">if</span> <span class="n">missed_correction</span><span class="p">:</span>
         <span class="n">nMissed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span>
         <span class="k">if</span> <span class="n">nMissed</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-
             <span class="c1"># Correct the missed artefacts and update the artefacts dictonary</span>
             <span class="n">clean_rr</span><span class="p">,</span> <span class="n">artefacts</span> <span class="o">=</span> <span class="n">correct_missed_rr</span><span class="p">(</span>
                 <span class="n">rr</span><span class="o">=</span><span class="n">clean_rr</span><span class="p">,</span>
@@ -623,7 +620,6 @@
     <span class="k">if</span> <span class="n">extra_correction</span><span class="p">:</span>
         <span class="n">nExtra</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span>
         <span class="k">if</span> <span class="n">nExtra</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-
             <span class="c1"># Correct the extra artefacts and update the artefacts dictonary</span>
             <span class="n">clean_rr</span><span class="p">,</span> <span class="n">artefacts</span> <span class="o">=</span> <span class="n">correct_extra_rr</span><span class="p">(</span>
                 <span class="n">rr</span><span class="o">=</span><span class="n">clean_rr</span><span class="p">,</span>
@@ -638,14 +634,12 @@
     <span class="c1"># are required, interpolate everything in a single pass to avoid interpolating from</span>
     <span class="c1"># corrupted RR intervals.</span>
     <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="n">ectopic_correction</span><span class="p">,</span> <span class="n">short_correction</span><span class="p">,</span> <span class="n">long_correction</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-
         <span class="c1"># Create a boolean vector of correction that will be updated accordingly</span>
         <span class="n">correction_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">artefacts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">ectopic_correction</span><span class="p">:</span>
             <span class="n">nEctopic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:])</span>
             <span class="k">if</span> <span class="n">nEctopic</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-
                 <span class="c1"># Also correct the heartbeat before - ectopic beats are preceeded by short</span>
                 <span class="c1"># or long intervals. Here we automatically correct for both, and mark those</span>
                 <span class="c1"># interval as corrected.</span>
@@ -664,7 +658,6 @@
         <span class="k">if</span> <span class="n">short_correction</span><span class="p">:</span>
             <span class="n">nShort</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="p">:])</span>
             <span class="k">if</span> <span class="n">nShort</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-
                 <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">correction_vector</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="p">:])</span>
                 <span class="n">correction_vector</span> <span class="o">=</span> <span class="n">correction_vector</span> <span class="o">|</span> <span class="n">artefacts</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="p">:]</span>
 
@@ -674,7 +667,6 @@
         <span class="k">if</span> <span class="n">long_correction</span><span class="p">:</span>
             <span class="n">nLong</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="p">:])</span>
             <span class="k">if</span> <span class="n">nLong</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-
                 <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">correction_vector</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="p">:])</span>
                 <span class="n">correction_vector</span> <span class="o">=</span> <span class="n">correction_vector</span> <span class="o">|</span> <span class="n">artefacts</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="p">:]</span>
 
@@ -875,18 +867,15 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cleaning the peaks vector using </span><span class="si">{</span><span class="n">n_iterations</span><span class="si">}</span><span class="s2"> iterations.&quot;</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">n_it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_iterations</span><span class="p">):</span>
-
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; - Iteration </span><span class="si">{</span><span class="n">n_it</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> - &quot;</span><span class="p">)</span>
 
         <span class="c1"># Correct extra peaks</span>
         <span class="k">if</span> <span class="n">extra_correction</span><span class="p">:</span>
-
             <span class="c1"># Artefact detection</span>
             <span class="n">artefacts</span> <span class="o">=</span> <span class="n">rr_artefacts</span><span class="p">(</span><span class="n">clean_peaks</span><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="s2">&quot;peaks&quot;</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">]):</span>
-
                 <span class="n">peaks_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">clean_peaks</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
 
                 <span class="c1"># Convert the RR interval idx to sample idx</span>
@@ -907,7 +896,6 @@
         <span class="c1"># Correct missed peaks</span>
         <span class="k">if</span> <span class="n">missed_correction</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="s2">&quot;missed&quot;</span><span class="p">]):</span>
-
                 <span class="n">peaks_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">clean_peaks</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
 
                 <span class="c1"># Convert the RR interval idx to sample idx</span>
@@ -1025,7 +1013,6 @@
     <span class="n">clean_peaks</span><span class="p">[</span><span class="n">idx_1</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">if</span> <span class="n">signal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="n">signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
 
         <span class="c1"># Extract the signal of interest (n-2 -&gt; n)</span>
@@ -1046,7 +1033,6 @@
         <span class="n">clean_peaks</span><span class="p">[</span><span class="n">new_idx</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">else</span><span class="p">:</span>
-
         <span class="c1"># Estimate new interval</span>
         <span class="n">interval</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">idx</span> <span class="o">-</span> <span class="n">idx_2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
 

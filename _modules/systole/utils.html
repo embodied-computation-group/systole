@@ -577,7 +577,6 @@
     <span class="c1"># A peaks vector</span>
     <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;peaks&quot;</span><span class="p">:</span>
         <span class="k">if</span> <span class="p">((</span><span class="n">x</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
-
             <span class="c1"># Find peak indices</span>
             <span class="n">peaks_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
@@ -594,7 +593,6 @@
     <span class="c1"># A vector of peaks indexs</span>
     <span class="k">elif</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;peaks_idx&quot;</span><span class="p">:</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
-
             <span class="n">time</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">sfreq</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>  <span class="c1"># Create time vector (seconds)</span>
 
             <span class="n">rr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -665,9 +663,7 @@
 
     <span class="n">ang</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Where to store angular data</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
-
         <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">)):</span>
-
             <span class="c1"># Length of current R-R interval</span>
             <span class="n">ln</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">])</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="p">])</span>
 
@@ -804,11 +800,9 @@
     <span class="n">all_epochs</span><span class="p">,</span> <span class="n">all_rejected</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
     <span class="c1"># Loop across conditions</span>
     <span class="k">for</span> <span class="n">this_triggers_idx</span> <span class="ow">in</span> <span class="n">triggers_idx</span><span class="p">:</span>
-
         <span class="n">epochs</span><span class="p">,</span> <span class="n">rejected</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
         <span class="c1"># Loop across events</span>
         <span class="k">for</span> <span class="n">ev</span> <span class="ow">in</span> <span class="n">this_triggers_idx</span><span class="p">:</span>
-
             <span class="c1"># Check that the epoch is not outside the signal range</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">ev</span> <span class="o">+</span> <span class="n">this_min</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">ev</span> <span class="o">+</span> <span class="n">this_max</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">)):</span>
                 <span class="n">n_outside_signal</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -894,7 +888,6 @@
     <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">artefacts</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-
         <span class="c1"># Insert extra beats</span>
         <span class="k">if</span> <span class="n">extra_idx</span><span class="p">:</span>
             <span class="n">n_extra</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1151,7 +1144,6 @@
 
     <span class="c1"># If max is not unique</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">signal</span> <span class="o">==</span> <span class="n">signal_max</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-
         <span class="c1"># Count the number of occurence of max values with derivative = 0</span>
         <span class="n">n_clip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">signal_diff</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">signal</span> <span class="o">==</span> <span class="n">signal_max</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -1162,7 +1154,6 @@
 
     <span class="c1"># If min is not unique</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">signal</span> <span class="o">==</span> <span class="n">signal_min</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-
         <span class="c1"># Count the number of occurence of min values with derivative = 0</span>
         <span class="n">n_clip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">signal_diff</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">signal</span> <span class="o">==</span> <span class="n">signal_min</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -1218,7 +1209,6 @@
     <span class="c1"># Create a list of valid signal array</span>
     <span class="n">valids</span><span class="p">,</span> <span class="n">start_valid</span> <span class="o">=</span> <span class="p">[],</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">bads</span> <span class="ow">in</span> <span class="n">bad_segments</span><span class="p">:</span>
-
         <span class="n">valids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="n">start_valid</span> <span class="p">:</span> <span class="n">bads</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
 
         <span class="c1"># First bad segment at the beginning</span>
@@ -1280,7 +1270,6 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-
         <span class="c1"># Create boolean representation</span>
         <span class="n">t_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
         <span class="n">boolean_segments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">t_max</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
@@ -1289,7 +1278,6 @@
             <span class="n">boolean_segments</span><span class="p">[</span><span class="n">bads</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="n">bads</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
 
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-
         <span class="n">boolean_segments</span> <span class="o">=</span> <span class="n">bad_segments</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
