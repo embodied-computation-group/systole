@@ -37,7 +37,6 @@ class serialSim:
         return lenInWating
 
     def read(self, lenght):
-
         if len(self.ppg) == 0:
             self.ppg = import_ppg().ppg.to_numpy()
 

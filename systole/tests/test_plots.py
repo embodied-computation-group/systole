@@ -29,7 +29,6 @@ class TestPlots(TestCase):
     def test_plot_circular(self):
         """Test plot_circular function"""
         for backend in ["matplotlib"]:
-
             # Single array as input
             data = np.random.normal(np.pi, 0.5, 100)
             plot_circular(data=data, backend=backend)
@@ -94,7 +93,6 @@ class TestPlots(TestCase):
         }
 
         for backend in ["matplotlib", "bokeh"]:
-
             # Using raw ECG signal as input
             plot_evoked(
                 signal=ecg_df.ecg.to_numpy(),
@@ -178,7 +176,6 @@ class TestPlots(TestCase):
         ecg_df = import_dataset1(modalities=["ECG", "Stim"])
 
         for backend in ["matplotlib", "bokeh"]:
-
             plot_raw(
                 ppg,
                 backend=backend,

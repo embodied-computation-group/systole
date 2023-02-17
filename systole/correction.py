@@ -44,7 +44,6 @@ def correct_extra_rr(
     clean_rr, new_artefacts = rr.copy(), artefacts.copy()
 
     for i in range(len(extra_idx)):
-
         # Which RR interval should be corrected
         idx = extra_idx[i]
 
@@ -105,7 +104,6 @@ def correct_missed_rr(
     clean_rr, new_artefacts = rr.copy(), artefacts.copy()
 
     for i in range(len(missed_idx)):
-
         # Which RR interval should be corrected
         idx = missed_idx[i]
 
@@ -188,7 +186,6 @@ def _correct_rr(
     if missed_correction:
         nMissed = np.sum(artefacts[0, :])
         if nMissed > 0:
-
             # Correct the missed artefacts and update the artefacts dictonary
             clean_rr, artefacts = correct_missed_rr(
                 rr=clean_rr,
@@ -203,7 +200,6 @@ def _correct_rr(
     if extra_correction:
         nExtra = np.sum(artefacts[1, :])
         if nExtra > 0:
-
             # Correct the extra artefacts and update the artefacts dictonary
             clean_rr, artefacts = correct_extra_rr(
                 rr=clean_rr,
@@ -218,14 +214,12 @@ def _correct_rr(
     # are required, interpolate everything in a single pass to avoid interpolating from
     # corrupted RR intervals.
     if sum([ectopic_correction, short_correction, long_correction]) > 0:
-
         # Create a boolean vector of correction that will be updated accordingly
         correction_vector = np.zeros(artefacts.shape[1], dtype=np.bool_)
 
         if ectopic_correction:
             nEctopic = np.sum(artefacts[2, :])
             if nEctopic > 0:
-
                 # Also correct the heartbeat before - ectopic beats are preceeded by short
                 # or long intervals. Here we automatically correct for both, and mark those
                 # interval as corrected.
@@ -244,7 +238,6 @@ def _correct_rr(
         if short_correction:
             nShort = np.sum(artefacts[3, :])
             if nShort > 0:
-
                 assert len(correction_vector) == len(artefacts[3, :])
                 correction_vector = correction_vector | artefacts[3, :]
 
@@ -254,7 +247,6 @@ def _correct_rr(
         if long_correction:
             nLong = np.sum(artefacts[4, :])
             if nLong > 0:
-
                 assert len(correction_vector) == len(artefacts[4, :])
                 correction_vector = correction_vector | artefacts[4, :]
 
@@ -455,18 +447,15 @@ def correct_peaks(
         print(f"Cleaning the peaks vector using {n_iterations} iterations.")
 
     for n_it in range(n_iterations):
-
         if verbose:
             print(f" - Iteration {n_it+1} - ")
 
         # Correct extra peaks
         if extra_correction:
-
             # Artefact detection
             artefacts = rr_artefacts(clean_peaks, input_type="peaks")
 
             if np.any(artefacts["extra"]):
-
                 peaks_idx = np.where(clean_peaks)[0][1:]
 
                 # Convert the RR interval idx to sample idx
@@ -487,7 +476,6 @@ def correct_peaks(
         # Correct missed peaks
         if missed_correction:
             if np.any(artefacts["missed"]):
-
                 peaks_idx = np.where(clean_peaks)[0][1:]
 
                 # Convert the RR interval idx to sample idx
@@ -605,7 +593,6 @@ def correct_ectopic_peaks(
     clean_peaks[idx_1] = False
 
     if signal is not None:
-
         signal = np.asarray(signal)
 
         # Extract the signal of interest (n-2 -> n)
@@ -626,7 +613,6 @@ def correct_ectopic_peaks(
         clean_peaks[new_idx] = True
 
     else:
-
         # Estimate new interval
         interval = int((idx - idx_2) / 2)
 

@@ -188,7 +188,6 @@ def ppg_peaks(
 
     # Remove extra peaks
     if clean_extra:
-
         # Search artefacts
         rr = np.diff(np.where(peaks)[0])  # Convert to RR time series
         artefacts = rr_artefacts(rr)
@@ -704,7 +703,6 @@ def interpolate_clipping(
     step = np.median(np.diff(np.sort(np.unique(clean_signal))))
 
     if max_threshold is not None:
-
         # Security check for clipping at signal edge
         if clean_signal[0] >= max_threshold:
             clean_signal[0] = max_threshold - step
@@ -722,7 +720,6 @@ def interpolate_clipping(
         clean_signal = f(time)
 
     if min_threshold is not None:
-
         # Security check for clipping at signal edge
         if clean_signal[0] <= min_threshold:
             clean_signal[0] = min_threshold + step

@@ -44,7 +44,6 @@ def plot_poincare(
         _, ax = plt.subplots(figsize=figsize)
 
     if np.any(rr >= 3000) | np.any(rr <= 200):
-
         # Set outliers to reasonable values for plotting
         rr[np.where(rr > 3000)[0]] = 3000
         rr[np.where(rr < 200)[0]] = 200

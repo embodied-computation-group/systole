@@ -80,7 +80,6 @@ def numba_third(ma, b, sfreq):
     peaks = []
 
     for i in range(len(ma)):
-
         if i > 0 and i < len(ma) - 1:
             if ma[i - 1] < ma[i] and ma[i + 1] < ma[i]:
                 peak = i

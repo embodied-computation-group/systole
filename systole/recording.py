@@ -236,10 +236,8 @@ class Oximeter:
 
             # Is it a threshold crossing value?
             if value > self.threshold[-1]:
-
                 # Is the new differential zero or crossing zero?
                 if (self.diff[-1] <= 0) & (self.diff[-2] > 0):
-
                     # Is it far enough from the previous peak (0.2 s)?
                     if not any(self.peaks[-15:]):
                         self.peaks[-1] = 1
@@ -562,7 +560,6 @@ class BrainVisionExG:
     """
 
     def __init__(self, ip, sfreq, port=51244):
-
         self.ip = ip
         self.port = port
         self.sfreq = sfreq
@@ -684,7 +681,6 @@ class BrainVisionExG:
         to ensure consistent recording.
         """
         while True:
-
             # Get message header as raw array of chars
             rawhdr = self.RecvData(24)
 

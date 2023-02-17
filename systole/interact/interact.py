@@ -86,7 +86,6 @@ class Viewer:
         signal_type: Union[str, PathLike] = "PPG",
         figsize: Tuple[int, int] = (15, 7),
     ) -> None:
-
         self.figsize = figsize
 
         if bids_folder is not None:
@@ -252,14 +251,12 @@ class Viewer:
         self.participants_.option = self.participants_list
 
     def plot_signal(self, change):
-
         # Load the physio files and store parameters in the Viewer class
         # then load the signal from the physio file and perform peaks detection
         self = self.load_file().load_signal()
 
         self.output.clear_output()
         with self.output:
-
             # Start the interactive editor for peaks correction
             self.editor = Editor(
                 signal=self.input_signal,
@@ -347,7 +344,6 @@ class Viewer:
 
         # Load peaks, bad segments and reject signal from the JSON logs
         if self.corrected_json.exists():
-
             # Opening JSON file and extract metadata
             f = open(self.corrected_json)
             json_data = json.load(f)
@@ -433,7 +429,6 @@ class Viewer:
                 self.json_file = json_files[0]
 
         if self.json_file is not None:
-
             # Opening JSON file and extract metadata
             f = open(self.json_file)
             json_data = json.load(f)
@@ -525,7 +520,6 @@ class Editor:
         corrected_peaks: Optional[np.ndarray] = None,
         bad_segments: Optional[list] = None,
     ) -> None:
-
         if viewer is not None:
             self.viewer = viewer
         self.sfreq = sfreq
@@ -561,7 +555,6 @@ class Editor:
 
         # If a signal is available, call the main plotting method
         if self.signal is not None:
-
             # Peaks detection
             self = self.find_peaks()
 
@@ -575,7 +568,6 @@ class Editor:
             self.fig, self.ax = plt.subplots(nrows=2, figsize=self.figsize, sharex=True)
 
             if self.bad_segments:
-
                 # Convert the list into list of tuples that can fit in the plot_raw
                 bad_segments = [
                     (self.bad_segments[i], self.bad_segments[i + 1])
@@ -672,7 +664,6 @@ class Editor:
         """Clears axes and plots data / peaks / troughs."""
 
         if self.signal is not None:
-
             # Clear axes and redraw, retaining x-/y-axis zooms
             xlim, ylim = self.ax[0].get_xlim(), self.ax[0].get_ylim()
             xlim2, ylim2 = self.ax[1].get_xlim(), self.ax[1].get_ylim()

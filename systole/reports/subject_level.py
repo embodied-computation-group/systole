@@ -162,7 +162,6 @@ def subject_level_report(
     # ECG #
     #######
     if ecg is not None:
-
         if ecg_sfreq is None:
             raise ValueError("The ECG sampling frequency should be provided")
 
@@ -307,7 +306,6 @@ def subject_level_report(
     # PPG #
     #######
     if ppg is not None:
-
         if ppg_sfreq is None:
             raise ValueError("The PPG sampling frequency should be provided")
 
@@ -393,7 +391,6 @@ def subject_level_report(
     # Respiration #
     ###############
     if rsp is not None:
-
         if rsp_sfreq is None:
             raise ValueError("The respiration sampling frequency should be provided")
 

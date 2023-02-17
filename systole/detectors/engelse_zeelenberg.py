@@ -58,7 +58,6 @@ def numba_one(filtered_ecg):
 
 @jit(nopython=True)
 def numba_two(sfreq, low_pass, signal):
-
     low_pass[: int(0.2 * sfreq)] = 0
 
     ms200 = int(0.2 * sfreq)
@@ -84,7 +83,6 @@ def numba_two(sfreq, low_pass, signal):
     newM5 = False
 
     for i in range(len(low_pass)):
-
         # M
         if i < 5 * sfreq:
             M = 0.6 * np.max(low_pass[: i + 1])
@@ -93,7 +91,6 @@ def numba_two(sfreq, low_pass, signal):
                 MM.pop(0)
 
         elif QRS and i < QRS[-1] + ms200:
-
             newM5 = 0.6 * np.max(low_pass[QRS[-1] : i])
 
             if newM5 > 1.5 * MM[-1]:
@@ -106,7 +103,6 @@ def numba_two(sfreq, low_pass, signal):
             M = np.mean(np.asarray(MM))
 
         elif QRS and i > QRS[-1] + ms200 and i < QRS[-1] + ms1200:
-
             M = np.mean(np.asarray(MM)) * M_slope[i - (QRS[-1] + ms200)]
 
         elif QRS and i > QRS[-1] + ms1200:

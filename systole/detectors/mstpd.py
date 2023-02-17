@@ -101,7 +101,6 @@ def mstpd(
     if kind in ["both", "peaks"]:
         all_peaks = np.array([])
         for win_s, win_e in zip(win_starts, win_ends):
-
             # Extract the window's data
             this_win = signal[win_s:win_e]
 
@@ -126,10 +125,8 @@ def mstpd(
         all_peaks = np.sort(np.unique(all_peaks)).astype(int)
 
     if kind in ["both", "onsets"]:
-
         all_onsets = np.array([])
         for win_s, win_e in zip(win_starts, win_ends):
-
             # Extract the window's data
             this_win = signal[win_s:win_e]
 

@@ -196,7 +196,6 @@ def plot_events(
 
     # Loop across conditions
     for i, this_trigger_idx in enumerate(triggers_idx):
-
         # Event color
         col = next(this_palette)
 

@@ -148,7 +148,6 @@ def plot_raw(
     # Lower panel
     #############
     if show_heart_rate is True:
-
         # Instantaneous Heart Rate - Peaks
         plot_rr(
             peaks,

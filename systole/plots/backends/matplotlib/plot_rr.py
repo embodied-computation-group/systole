@@ -85,7 +85,6 @@ def plot_rr(
         plot_events(**events_params, ax=ax)
 
     if line is True:
-
         # Extract instantaneous heart rate
         hr, time = heart_rate(rr, unit=unit, kind=kind, input_type=input_type)
 
@@ -104,7 +103,6 @@ def plot_rr(
         )
 
     if points is True:
-
         # Instantaneous Heart Rate - Peaks
         if input_type == "rr_ms":
             ibi = np.array(rr)
@@ -142,7 +140,6 @@ def plot_rr(
         )
 
     if artefacts is not None:
-
         # Short RR intervals
         if artefacts["short"].any():
             ax.scatter(

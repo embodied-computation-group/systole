@@ -303,7 +303,6 @@ def psd(
     x = f(new_time)
 
     if method == "welch":
-
         # Define window length
         nperseg = 256 * sfreq
         if nperseg > len(x):
@@ -706,7 +705,6 @@ def _recurrence(
     # Find diagonale lines
     total_lines: List[int] = []
     for i in range(1, rc.shape[0] // 2):
-
         # All diagonals except the main one
         diag = np.diagonal(rc, offset=i)
 

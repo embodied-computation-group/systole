@@ -123,7 +123,6 @@ def time_table(
         table = Column(time_table)
 
     elif backend == "tabulate":
-
         table = tabulate(
             data, headers=["Variable", "Units", "Value"], tablefmt="rst", floatfmt=".4f"
         )
@@ -230,7 +229,6 @@ def frequency_table(
         table = Column(frequency_table)
 
     elif backend == "tabulate":
-
         table = tabulate(
             data,
             headers=[
@@ -345,7 +343,6 @@ def nonlinear_table(
         table = Column(nonlinear_table)
 
     elif backend == "tabulate":
-
         table = tabulate(
             data, headers=["Variable", "Units", "Value"], tablefmt="rst", floatfmt=".4f"
         )

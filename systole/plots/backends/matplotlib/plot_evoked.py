@@ -59,7 +59,6 @@ def plot_evoked(
     # that can be passed to Seaborn's lineplot() with custom args
     epoch_df = pd.DataFrame([])
     for ep, lab in zip(epochs, labels):
-
         # Create a dataframe for seaborn
         df = pd.DataFrame(ep.T)
         df["Time"] = time
