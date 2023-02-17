@@ -432,7 +432,7 @@
 <span class="kn">from</span> <span class="nn">systole.utils</span> <span class="kn">import</span> <span class="n">input_conversion</span>
 
 
-<div class="viewcode-block" id="nnX"><a class="viewcode-back" href="../../generated/hrv/systole.hrv.nnX.html#systole.hrv.nnX">[docs]</a><span class="k">def</span> <span class="nf">nnX</span><span class="p">(</span><span class="n">rr</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">t</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">input_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;rr_ms&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="nnX"><a class="viewcode-back" href="../../generated/hrv/systole.hrv.nnX.html#systole.hrv.nnX">[docs]</a><span class="k">def</span> <span class="nf">nnX</span><span class="p">(</span><span class="n">rr</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">t</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">input_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;rr_ms&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Number of difference in successive R-R interval &gt; t ms.</span>
 
 <span class="sd">    Parameters</span>
@@ -449,7 +449,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    nnX : float</span>
+<span class="sd">    nnX : int</span>
 <span class="sd">        The number of successive differences larger than a value.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
