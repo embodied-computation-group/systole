@@ -76,7 +76,6 @@ def plot_evoked(
 
     # Loop across condition
     for ep, lab, col in zip(epochs, labels, palette):
-
         for i in range(ep.shape[0]):
             evoked_plot.line(
                 x=time,

@@ -184,9 +184,7 @@ def plot_raw(
             figsize = 300
 
     if peaks is None:
-
         if isinstance(signal, pd.DataFrame):
-
             # Find peaks - Remove learning phase
             if modality.lower() in ppg_strings:
                 signal, peaks = ppg_peaks(

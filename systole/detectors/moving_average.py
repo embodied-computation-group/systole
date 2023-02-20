@@ -53,7 +53,6 @@ def moving_average(signal: np.ndarray, sfreq: int) -> np.ndarray:
 
 @jit(nopython=True)
 def numba_one(signal, mwa_qrs, mwa_beat, sfreq, filtered_ecg):
-
     blocks = np.zeros(len(signal))
     block_height = np.max(filtered_ecg)
 

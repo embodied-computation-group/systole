@@ -12,7 +12,7 @@ from scipy.spatial.distance import cdist
 from systole.utils import input_conversion
 
 
-def nnX(rr: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> float:
+def nnX(rr: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> int:
     """Number of difference in successive R-R interval > t ms.
 
     Parameters
@@ -29,7 +29,7 @@ def nnX(rr: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> 
 
     Returns
     -------
-    nnX : float
+    nnX : int
         The number of successive differences larger than a value.
 
     """
@@ -43,7 +43,7 @@ def nnX(rr: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> 
         raise ValueError("X must be a 1darray")
 
     # NN50: number of successive differences larger than t ms
-    nn = np.sum(np.abs(np.diff(rr)) > t)
+    nn = np.sum(np.abs(np.diff(rr)) > t).astype(int)
 
     return nn
 
@@ -303,7 +303,6 @@ def psd(
     x = f(new_time)
 
     if method == "welch":
-
         # Define window length
         nperseg = 256 * sfreq
         if nperseg > len(x):
@@ -706,7 +705,6 @@ def _recurrence(
     # Find diagonale lines
     total_lines: List[int] = []
     for i in range(1, rc.shape[0] // 2):
-
         # All diagonals except the main one
         diag = np.diagonal(rc, offset=i)
 

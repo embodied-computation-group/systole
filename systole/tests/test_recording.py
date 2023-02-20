@@ -14,7 +14,6 @@ from systole.recording import BrainVisionExG, Oximeter
 
 class TestRecording(TestCase):
     def test_oximeter(self):
-
         serial = serialSim()
         oxi = Oximeter(serial=serial, add_channels=1)
         oxi.setup()
@@ -55,7 +54,6 @@ class TestRecording(TestCase):
         oxi.threshold = []
 
     def test_BrainVisionExG(self):
-
         data1 = b"\x8eEXC\x96\xc9\x86L\xafJ\x98\xbb\xf6\xc9\x14P\x8d\x00\x00\x00\x01\x00\x00\x00"
         data2 = b"\x08\x00\x00\x00\x00\x00\x00\x00\x00@\x8f@\x00\x00\x00\x00\x00\x00\xe0?\x00\x00\x00\x00\x00\x00\xe0?\x00\x00\x00\x00\x00\x00\xe0?\x00\x00\x00\x00\x00\x00\xe0?\x00\x00\x00\x00\x00\x00\xe0?\x00\x00\x00\x00\x00\x00\xe0?33333\x13c@33333\x13c@EGG1\x00EGG2\x00EGG3\x00EGG4\x00EGG5\x00EGG6\x00RESP\x00PLETH\x00"
         data3 = b"\x8eEXC\x96\xc9\x86L\xafJ\x98\xbb\xf6\xc9\x14P\xa4\x02\x00\x00\x04\x00\x00\x00"
@@ -93,7 +91,9 @@ class TestRecording(TestCase):
                 "PLETH",
             ]
             assert all([data[k].shape[0] == 20 for k in list(data.keys())])
-        except ConnectionRefusedError:  # Add exception for GitHub actions that sometimes fail
+        except (
+            ConnectionRefusedError
+        ):  # Add exception for GitHub actions that sometimes fail
             pass
 
 

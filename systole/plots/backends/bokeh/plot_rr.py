@@ -127,7 +127,6 @@ def plot_rr(
     )
 
     if line is True:
-
         # Instantaneous Heart Rate - Lines
         linePlot = Line(
             x="time",
@@ -140,7 +139,6 @@ def plot_rr(
         )
 
     if points is True:
-
         # Normal RR intervals
         circlePlot = Circle(
             x="time",
@@ -175,7 +173,6 @@ def plot_rr(
         )
 
         if artefacts is not None:
-
             # Short RR intervals
             if artefacts["short"].any():
                 short_view = CDSView(
@@ -274,7 +271,6 @@ def plot_rr(
 
     # Highlight bad segments if provided
     if bad_segments is not None:
-
         # Instantaneous Heart Rate - Peaks
         if input_type == "rr_ms":
             length = np.sum(rr)

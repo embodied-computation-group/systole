@@ -83,7 +83,6 @@ def numba_three(sfreq, total_taps, MA2):
 
 @jit(nopython=True)
 def numba_four(MA3, sfreq, total_taps):
-
     MA3[0:total_taps] = 0
 
     ms50 = int(0.05 * sfreq)
@@ -109,7 +108,6 @@ def numba_four(MA3, sfreq, total_taps):
     QRS = []
 
     for i in range(len(MA3)):
-
         # M
         if i < 5 * sfreq:
             M = 0.6 * np.max(MA3[: i + 1])
@@ -131,7 +129,6 @@ def numba_four(MA3, sfreq, total_taps):
             M = np.mean(np.asarray(MM))
 
         elif QRS and i > QRS[-1] + ms200 and i < QRS[-1] + ms1200:
-
             M = np.mean(np.asarray(MM)) * M_slope[i - (QRS[-1] + ms200)]
 
         elif QRS and i > QRS[-1] + ms1200:
@@ -146,11 +143,9 @@ def numba_four(MA3, sfreq, total_taps):
 
         # R
         if QRS and i < QRS[-1] + int((2.0 / 3.0 * Rm)):
-
             R = 0
 
         elif QRS and i > QRS[-1] + int((2.0 / 3.0 * Rm)) and i < QRS[-1] + Rm:
-
             dec = (M - np.mean(np.asarray(MM))) / 1.4
             R = 0 + dec
 

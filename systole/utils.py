@@ -157,7 +157,6 @@ def heart_rate(
     # A peaks vector
     if input_type == "peaks":
         if ((x == 1) | (x == 0)).all():
-
             # Find peak indices
             peaks_idx = np.where(x)[0]
 
@@ -174,7 +173,6 @@ def heart_rate(
     # A vector of peaks indexs
     elif input_type == "peaks_idx":
         if (np.diff(x) > 0).all():
-
             time = (x / sfreq)[1:]  # Create time vector (seconds)
 
             rr = np.diff(x)
@@ -245,9 +243,7 @@ def to_angles(
 
     ang = []  # Where to store angular data
     for i in events:
-
         if (i >= np.min(x)) & (i < np.max(x)):
-
             # Length of current R-R interval
             ln = np.min(x[x > i]) - np.max(x[x <= i])
 
@@ -384,11 +380,9 @@ def to_epochs(
     all_epochs, all_rejected = [], []
     # Loop across conditions
     for this_triggers_idx in triggers_idx:
-
         epochs, rejected = [], []
         # Loop across events
         for ev in this_triggers_idx:
-
             # Check that the epoch is not outside the signal range
             if (ev + this_min < 0) | (ev + this_max > len(signal)):
                 n_outside_signal += 1
@@ -474,7 +468,6 @@ def simulate_rr(
     )
 
     if artefacts is True:
-
         # Insert extra beats
         if extra_idx:
             n_extra = 0
@@ -731,7 +724,6 @@ def find_clipping(signal: np.ndarray) -> Tuple[Optional[float], Optional[float]]
 
     # If max is not unique
     if len(np.where(signal == signal_max)[0]) > 1:
-
         # Count the number of occurence of max values with derivative = 0
         n_clip = np.isin(
             np.where(signal_diff == 0)[0] + 1, np.where(signal == signal_max)[0]
@@ -742,7 +734,6 @@ def find_clipping(signal: np.ndarray) -> Tuple[Optional[float], Optional[float]]
 
     # If min is not unique
     if len(np.where(signal == signal_min)[0]) > 1:
-
         # Count the number of occurence of min values with derivative = 0
         n_clip = np.isin(
             np.where(signal_diff == 0)[0] + 1, np.where(signal == signal_min)[0]
@@ -756,7 +747,7 @@ def find_clipping(signal: np.ndarray) -> Tuple[Optional[float], Optional[float]]
 
 def get_valid_segments(
     signal: np.ndarray,
-    bad_segments: Union[np.ndarray, List[Tuple[int, int]]] = None,
+    bad_segments: Optional[Union[np.ndarray, List[Tuple[int, int]]]] = None,
 ) -> List[np.ndarray]:
     """Return the longest signal or intervals time series after dropping segments marked
     as bads.
@@ -798,7 +789,6 @@ def get_valid_segments(
     # Create a list of valid signal array
     valids, start_valid = [], 0
     for bads in bad_segments:
-
         valids.append(signal[start_valid : bads[0]])
 
         # First bad segment at the beginning
@@ -860,7 +850,6 @@ def norm_bad_segments(bad_segments) -> List[Tuple[int, int]]:
 
     """
     if isinstance(bad_segments, list):
-
         # Create boolean representation
         t_max = np.array(bad_segments).max()
         boolean_segments = np.zeros(t_max, dtype=int)
@@ -869,7 +858,6 @@ def norm_bad_segments(bad_segments) -> List[Tuple[int, int]]:
             boolean_segments[bads[0] : bads[1]] = 1
 
     elif isinstance(bad_segments, np.ndarray):
-
         boolean_segments = bad_segments.astype(int)
 
     else:

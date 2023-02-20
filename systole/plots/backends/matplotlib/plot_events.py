@@ -47,7 +47,6 @@ def plot_events(
 
     # Loop across events df
     for i, tmin, trigger, tmax, label, color in df.itertuples():
-
         # Plot time range
         ax.axvspan(xmin=tmin, xmax=tmax, color=color, alpha=0.2, label=label)
 

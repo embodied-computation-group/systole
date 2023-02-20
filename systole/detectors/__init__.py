@@ -2,6 +2,7 @@ from .christov import christov
 from .engelse_zeelenberg import engelse_zeelenberg
 from .hamilton import hamilton
 from .moving_average import moving_average
+from .mstpd import mstpd
 from .pan_tompkins import pan_tompkins
 
 __all__ = [
@@ -10,4 +11,5 @@ __all__ = [
     "christov",
     "moving_average",
     "engelse_zeelenberg",
+    "mstpd",
 ]

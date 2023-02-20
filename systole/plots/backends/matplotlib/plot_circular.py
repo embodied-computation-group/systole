@@ -64,7 +64,6 @@ def plot_circular(
 
     # Loop across conditions
     for angles, color, label in zip(data, palette, labels):
-
         angles = np.asarray(angles)
 
         # Bin data and count

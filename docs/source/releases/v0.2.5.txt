@@ -1,0 +1,8 @@
+v0.2.5 (dev)
+------------
+
+Changes
++++++++
+
+- |Fix| The Viewer now load correctly peaks and bad segments in case of variable sampling frequencies.
+- |Feature| Add the Multi-scale peak and trough detection algorithm (MSPTD) for peaks and onsets detection in PPG signals.

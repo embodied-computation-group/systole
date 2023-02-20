@@ -100,7 +100,6 @@ def panPeakDetect(detection: np.ndarray, sfreq: int) -> List:
     peaks = []
 
     for i in range(len(detection)):
-
         if i > 0 and i < len(detection) - 1:
             if detection[i - 1] < detection[i] and detection[i + 1] < detection[i]:
                 peak = i
@@ -110,7 +109,6 @@ def panPeakDetect(detection: np.ndarray, sfreq: int) -> List:
                     detection[peak] > threshold_I1
                     and (peak - signal_peaks[-1]) > 0.3 * sfreq
                 ):
-
                     signal_peaks.append(peak)
                     indexes.append(index)
                     SPKI = 0.125 * detection[signal_peaks[-1]] + 0.875 * SPKI

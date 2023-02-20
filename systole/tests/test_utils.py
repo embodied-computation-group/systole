@@ -183,7 +183,6 @@ class TestUtils(TestCase):
         nan_cleaning(signal=np.array(ppg), verbose=True)
 
     def test_find_clipping(self):
-
         ppg = import_ppg().ppg.to_numpy()
 
         lower, upper = find_clipping(signal=ppg)
@@ -200,7 +199,6 @@ class TestUtils(TestCase):
         assert (lower, upper) == (None, None)
 
     def test_norm_bad_segments(self):
-
         # Overlapping intervals
         bad_segments = [(100, 200), (150, 250)]
         new_segments = norm_bad_segments(bad_segments)
@@ -214,7 +212,6 @@ class TestUtils(TestCase):
         assert new_segments == [(10, 20), (50, 60)]
 
     def test_get_valid_segments(self):
-
         signal = np.random.normal(size=1000)
 
         bad_segments = [(500, 550), (700, 800)]

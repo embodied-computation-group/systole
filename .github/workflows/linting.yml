@@ -1,13 +1,18 @@
 name: Linting
 
-on: [push, pull_request]
-
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - "*"
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.9]
+        python-version: ["3.10"]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -25,7 +30,7 @@ jobs:
       run: |
         pip install -r requirements-tests.txt
         pip install isort flake8 black
-        pip install mypy==0.971
+        pip install mypy==1.0.0
         pip install types-setuptools
     - name: Run tests and coverage
       run: |

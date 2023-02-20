@@ -114,11 +114,8 @@ def wrapper(
     # Individual reports #
     ######################
     if overwrite is True:
-
         for session in sessions:
-
             for pattern in patterns:
-
                 print(f"Preprocessing... Session: {session} - Modality: {modality}.")
                 Parallel(n_jobs=n_jobs)(
                     delayed(create_reports)(
@@ -138,9 +135,7 @@ def wrapper(
     #######################
     print("Create group-level report.")
     for session in sessions:
-
         for pattern in patterns:
-
             # Extract the file name pattern used to save the individual reports
             # Loop through all participants and try to find the corresponding file
             for participant in participants_id:

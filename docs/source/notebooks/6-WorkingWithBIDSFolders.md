@@ -220,6 +220,10 @@ This windows will automatically apply peaks detection given the `signal_type` pa
 
 * Once that the signal has been edited, you can **save** the modification using the `Save modification` button, or directly use the method from the class.
 
+```python
+editor.save()
+```
+
 +++
 
 This function will create a JSON file (using the path specified in the `corrected_json` parameter) with all the information about bad segments labelling, peaks deletion and peaks insertion. The JSON file contains the following entries for each modality (ECG, PPG and respiration)

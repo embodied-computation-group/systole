@@ -44,7 +44,7 @@ def plot_ectopic(
     input_type: str = "rr_ms",
     ax: Optional[Axes] = None,
     backend: str = "matplotlib",
-    figsize: Union[Tuple[float, float], int] = None,
+    figsize: Optional[Union[Tuple[float, float], int]] = None,
 ) -> Union[Figure, Axes]:
     """Visualization of ectopic beats detection.
 

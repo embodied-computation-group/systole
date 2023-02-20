@@ -7,13 +7,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="29.819878mm"
-   height="35.856312mm"
-   viewBox="0 0 29.819877 35.856311"
+   width="59.839699mm"
+   height="71.953026mm"
+   viewBox="0 0 59.839698 71.953024"
    version="1.1"
    id="svg8"
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
-   sodipodi:docname="logo.svg"
+   sodipodi:docname="logo_small2.svg"
    inkscape:export-filename="C:\Users\au646069\github\systole\Images\logo.png"
    inkscape:export-xdpi="600"
    inkscape:export-ydpi="600">
@@ -27,8 +27,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="-9.5557667"
-     inkscape:cy="328.79485"
+     inkscape:cx="-9.555775"
+     inkscape:cy="252.36625"
      inkscape:document-units="mm"
      inkscape:current-layer="g863"
      showgrid="false"
@@ -36,10 +36,10 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="3200"
-     inkscape:window-height="1711"
-     inkscape:window-x="2391"
-     inkscape:window-y="733"
+     inkscape:window-width="1920"
+     inkscape:window-height="991"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -48,7 +48,7 @@
        type="xygrid"
        id="grid823"
        originx="-119.89164"
-       originy="64.683675" />
+       originy="100.78039" />
   </sodipodi:namedview>
   <metadata
      id="metadata5">
@@ -66,12 +66,12 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-131.39431,51.479566)">
+     transform="translate(-131.39431,87.576285)">
     <g
        id="g863"
        transform="matrix(0.84915084,0,0,0.84915084,17.31151,5.717876)">
       <g
-         transform="translate(2.3790331,-81.234866)"
+         transform="matrix(2.006705,0,0,2.006705,-130.47606,-137.71358)"
          id="g850">
         <circle
            style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:4.86958;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -99,17 +99,17 @@
            sodipodi:nodetypes="ccccccc" />
       </g>
       <circle
-         r="2.5759561"
-         cy="-64.356529"
-         cx="151.72424"
+         r="5.1691837"
+         cy="-103.84373"
+         cx="169.21571"
          id="circle1353"
-         style="opacity:1;fill:#ffffff;fill-opacity:0.987013;stroke:#ffffff;stroke-width:0.851829;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+         style="opacity:1;fill:#ffffff;fill-opacity:0.987013;stroke:#ffffff;stroke-width:1.70937;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
       <circle
-         style="opacity:1;fill:#2d5ba1;fill-opacity:1;stroke:#2d5ba1;stroke-width:0.851829;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         style="opacity:1;fill:#2d5ba1;fill-opacity:1;stroke:#2d5ba1;stroke-width:1.70937;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
          id="circle1343"
-         cx="151.90793"
-         cy="-64.356529"
-         r="2.5759561" />
+         cx="169.58432"
+         cy="-103.84373"
+         r="5.1691837" />
     </g>
   </g>
 </svg>

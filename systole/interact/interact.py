@@ -86,7 +86,6 @@ class Viewer:
         signal_type: Union[str, PathLike] = "PPG",
         figsize: Tuple[int, int] = (15, 7),
     ) -> None:
-
         self.figsize = figsize
 
         if bids_folder is not None:
@@ -252,18 +251,16 @@ class Viewer:
         self.participants_.option = self.participants_list
 
     def plot_signal(self, change):
-
         # Load the physio files and store parameters in the Viewer class
         # then load the signal from the physio file and perform peaks detection
         self = self.load_file().load_signal()
 
         self.output.clear_output()
         with self.output:
-
             # Start the interactive editor for peaks correction
             self.editor = Editor(
                 signal=self.input_signal,
-                sfreq=self.sfreq,
+                sfreq=1000,
                 corrected_json=self.corrected_json,
                 signal_type=self.signal_type_.value,
                 figsize=self.figsize,
@@ -299,7 +296,7 @@ class Viewer:
             self.corrected_json = Path(
                 self.preprocessed_folder,
                 "corrected",
-                str(self.participant_id),
+                str(self.participants_.value),
                 str(self.session_.value),
                 self.modality_.value,
                 f"{self.physio_file.stem[:-11]}_corrected.json",
@@ -312,46 +309,54 @@ class Viewer:
                 "derivatives",
                 "systole",
                 "corrected",
-                str(self.participant_id),
+                str(self.participants_.value),
                 str(self.session_.value),
                 self.modality_.value,
                 f"{self.physio_file.stem[:-11]}_corrected.json",
             )
 
-        if self.signal_type_.value == "ECG":
+        if self.signal_type_.value.lower() == "ecg":
             ecg_col = [col for col in self.physio_df.columns if col in ecg_strings]
             ecg_col = ecg_col[0] if len(ecg_col) > 0 else None
 
             self.input_signal = self.physio_df[ecg_col].to_numpy()
             print(f"Loading electrocardiogram - sfreq={self.sfreq} Hz.")
 
-        elif self.signal_type_.value == "PPG":
+        elif self.signal_type_.value.lower() == "ppg":
             ppg_col = [col for col in self.physio_df.columns if col in ppg_strings]
             ppg_col = ppg_col[0] if len(ppg_col) > 0 else None
 
             self.input_signal = self.physio_df[ppg_col].to_numpy()
             print(f"Loading photoplethysmogram - sfreq={self.sfreq} Hz.")
 
-        elif self.signal_type_.value == "RESP":
+        elif self.signal_type_.value.lower() == "resp":
             res_col = [col for col in self.physio_df.columns if col in resp_strings]
             res_col = res_col[0] if len(res_col) > 0 else None
 
             self.input_signal = self.physio_df[res_col].to_numpy()
             print(f"Loading respiratory signal - sfreq={self.sfreq} Hz.")
 
+        # Resample the input signal to fit with the peaks vector
+        if self.sfreq is not None:
+            time = np.arange(0, len(self.input_signal) / self.sfreq, 1 / self.sfreq)
+            new_time = np.arange(0, len(self.input_signal) / self.sfreq, 1 / 1000)
+            self.input_signal = np.interp(new_time, time, self.input_signal)
+
         # Load peaks, bad segments and reject signal from the JSON logs
         if self.corrected_json.exists():
-
             # Opening JSON file and extract metadata
             f = open(self.corrected_json)
             json_data = json.load(f)
 
-            self.bad_segments = json_data[self.signal_type_.value]["bad_segments"]
+            self.bad_segments = json_data[self.signal_type_.value.lower()][
+                "bad_segments"
+            ]
 
             # If corrected peaks already exist, load here and replace the revious ones
+            # The peaks vector is resampled to match 1 kHz
             self.corrected_peaks = np.zeros(len(self.input_signal), dtype=bool)
             self.corrected_peaks[
-                np.array(json_data[self.signal_type_.value]["corrected_peaks"])
+                np.array(json_data[self.signal_type_.value.lower()]["corrected_peaks"])
             ] = True
             f.close()
 
@@ -379,7 +384,7 @@ class Viewer:
         physio_files = list(
             Path(
                 self.preprocessed_folder_.value,
-                str(self.participant_id),
+                str(self.participants_.value),
                 str(self.session_.value),
                 self.modality_.value,
             ).glob(f"*{self.pattern_.value}*.tsv.gz")
@@ -404,7 +409,7 @@ class Viewer:
             json_files = list(
                 Path(
                     self.preprocessed_folder,
-                    str(self.participant_id),
+                    str(self.participants_.value),
                     str(self.session_.value),
                     self.modality_.value,
                 ).glob(f"*{self.pattern_.value}*.json")
@@ -424,7 +429,6 @@ class Viewer:
                 self.json_file = json_files[0]
 
         if self.json_file is not None:
-
             # Opening JSON file and extract metadata
             f = open(self.json_file)
             json_data = json.load(f)
@@ -516,13 +520,14 @@ class Editor:
         corrected_peaks: Optional[np.ndarray] = None,
         bad_segments: Optional[list] = None,
     ) -> None:
-
         if viewer is not None:
             self.viewer = viewer
         self.sfreq = sfreq
         self.signal = signal
         self.figsize = figsize
         self.bad_segments: List[int] = []
+        if viewer is not None:
+            self.bad_segments = viewer.bad_segments
         self.corrected_json = corrected_json
         self.signal_type = signal_type
         self.peaks = corrected_peaks
@@ -550,7 +555,6 @@ class Editor:
 
         # If a signal is available, call the main plotting method
         if self.signal is not None:
-
             # Peaks detection
             self = self.find_peaks()
 
@@ -564,7 +568,6 @@ class Editor:
             self.fig, self.ax = plt.subplots(nrows=2, figsize=self.figsize, sharex=True)
 
             if self.bad_segments:
-
                 # Convert the list into list of tuples that can fit in the plot_raw
                 bad_segments = [
                     (self.bad_segments[i], self.bad_segments[i + 1])
@@ -661,7 +664,6 @@ class Editor:
         """Clears axes and plots data / peaks / troughs."""
 
         if self.signal is not None:
-
             # Clear axes and redraw, retaining x-/y-axis zooms
             xlim, ylim = self.ax[0].get_xlim(), self.ax[0].get_ylim()
             xlim2, ylim2 = self.ax[1].get_xlim(), self.ax[1].get_ylim()
@@ -763,7 +765,7 @@ class Editor:
             "corrected_peaks": np.where(self.peaks)[0].tolist(),
             "bad_segments": bad_segments,
         }
-        metadata[self.signal_type] = corrected_info
+        metadata[self.signal_type.lower()] = corrected_info
 
         print(f"Saving modification in {self.corrected_json}")
         with open(self.corrected_json, "w") as f:
