@@ -6,7 +6,6 @@ import numpy as np
 from bokeh.layouts import column
 from bokeh.models import BoxAnnotation, ColumnDataSource, RangeTool
 from bokeh.plotting import figure
-from bokeh.plotting.figure import Figure
 from pandas.core.indexes.datetimes import DatetimeIndex
 
 from systole.plots import plot_rr
@@ -26,7 +25,7 @@ def plot_raw(
     figsize: int = 300,
     events_params: Optional[Dict] = None,
     **kwargs
-) -> Figure:
+) -> figure:
     """Visualization of PPG or ECG signal with systolic peaks/R wave detection.
 
     The instantaneous heart rate can be derived in a second row.
@@ -104,7 +103,7 @@ def plot_raw(
         title=title,
         x_axis_type="datetime",
         sizing_mode="stretch_width",
-        plot_height=figsize,
+        height=figsize,
         x_axis_label="Time",
         y_axis_label=ylabel,
         output_backend="webgl",
@@ -166,7 +165,7 @@ def plot_raw(
             title="Select the time window",
             y_range=raw.y_range,
             y_axis_type=None,
-            plot_height=int(figsize * 0.5),
+            height=int(figsize * 0.5),
             x_axis_type="datetime",
             tools="",
             toolbar_location=None,
@@ -180,7 +179,6 @@ def plot_raw(
         select.line("time", "signal", source=source)
         select.ygrid.grid_line_color = None
         select.add_tools(range_tool)
-        select.toolbar.active_multi = range_tool
 
         cols += (select,)  # type: ignore
 

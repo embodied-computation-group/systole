@@ -8,7 +8,6 @@ from bokeh.layouts import column
 from bokeh.models import BoxAnnotation, CDSView, Circle, IndexFilter, Line, Range1d
 from bokeh.models.tools import HoverTool, RangeTool
 from bokeh.plotting import ColumnDataSource, figure
-from bokeh.plotting.figure import Figure
 
 from systole.plots import plot_events
 
@@ -27,7 +26,7 @@ def plot_rr(
     ax=None,
     figsize: int = 200,
     events_params: Optional[Dict] = None,
-) -> Figure:
+) -> figure:
     """Plot continuous or discontinuous RR intervals time series.
 
     Parameters
@@ -83,7 +82,7 @@ def plot_rr(
     p1 = figure(
         title="Instantaneous heart rate",
         sizing_mode="stretch_width",
-        plot_height=figsize,
+        height=figsize,
         x_axis_label="Time",
         x_axis_type="datetime",
         y_axis_label=ylabel,
@@ -307,7 +306,7 @@ def plot_rr(
             title="Select the time window",
             y_range=p1.y_range,
             y_axis_type=None,
-            plot_height=int(figsize * 0.5),
+            height=int(figsize * 0.5),
             x_axis_type="datetime",
             tools="",
             toolbar_location=None,
@@ -326,7 +325,6 @@ def plot_rr(
 
         select.ygrid.grid_line_color = None
         select.add_tools(range_tool)
-        select.toolbar.active_multi = range_tool
 
         cols += (select,)  # type: ignore
 

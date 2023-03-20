@@ -3,7 +3,7 @@
 from typing import List, Optional, Tuple, Union
 
 import numpy as np
-from bokeh.plotting.figure import Figure
+from bokeh.plotting import figure
 from matplotlib.axes import Axes
 
 from systole.plots.utils import get_plotting_function
@@ -15,7 +15,7 @@ def plot_poincare(
     figsize: Optional[Union[List[int], Tuple[int, int], int]] = None,
     backend: str = "matplotlib",
     ax: Optional["Axes"] = None,
-) -> Union[Figure, Axes]:
+) -> Union[figure, Axes]:
     """Poincare plot.
 
     Parameters

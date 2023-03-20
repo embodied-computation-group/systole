@@ -3,7 +3,7 @@
 from typing import Dict, List, Optional, Tuple, Union, overload
 
 import numpy as np
-from bokeh.plotting.figure import Figure
+from bokeh.plotting import figure
 from matplotlib.axes import Axes
 
 from systole.correction import rr_artefacts
@@ -16,7 +16,7 @@ def plot_ectopic(
     rr: None,
     artefacts: Dict[str, np.ndarray],
     input_type: str = "rr_ms",
-) -> Union[Figure, Axes]:
+) -> Union[figure, Axes]:
     ...
 
 
@@ -25,7 +25,7 @@ def plot_ectopic(
     rr: Union[List[float], np.ndarray],
     artefacts: None,
     input_type: str = "rr_ms",
-) -> Union[Figure, Axes]:
+) -> Union[figure, Axes]:
     ...
 
 
@@ -34,7 +34,7 @@ def plot_ectopic(
     rr: Union[List[float], np.ndarray],
     artefacts: Dict[str, np.ndarray],
     input_type: str = "rr_ms",
-) -> Union[Figure, Axes]:
+) -> Union[figure, Axes]:
     ...
 
 
@@ -45,7 +45,7 @@ def plot_ectopic(
     ax: Optional[Axes] = None,
     backend: str = "matplotlib",
     figsize: Optional[Union[Tuple[float, float], int]] = None,
-) -> Union[Figure, Axes]:
+) -> Union[figure, Axes]:
     """Visualization of ectopic beats detection.
 
     The artefact detection is based on the method described in [1]_.

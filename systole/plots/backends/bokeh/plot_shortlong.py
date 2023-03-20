@@ -4,12 +4,11 @@ from typing import Dict
 
 import numpy as np
 from bokeh.plotting import figure
-from bokeh.plotting.figure import Figure
 
 
 def plot_shortlong(
     artefacts=Dict[str, np.ndarray], figsize: int = 600, **kwargs
-) -> Figure:
+) -> figure:
     """Plot interactive short/long subspace.
 
     Parameters
@@ -45,8 +44,8 @@ def plot_shortlong(
 
     shorLong_plot = figure(
         title="Short and long intervals",
-        plot_height=figsize,
-        plot_width=figsize,
+        height=figsize,
+        width=figsize,
         x_axis_label="Subspace 1",
         y_axis_label="Subspace 3",
         output_backend="webgl",

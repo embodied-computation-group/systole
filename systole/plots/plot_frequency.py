@@ -3,7 +3,7 @@
 from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
-from bokeh.plotting.figure import Figure
+from bokeh.plotting import figure
 from matplotlib.axes import Axes
 from scipy.interpolate import interp1d
 
@@ -20,7 +20,7 @@ def plot_frequency(
     backend: str = "matplotlib",
     ax: Optional[Axes] = None,
     **kwargs
-) -> Union[Figure, Axes]:
+) -> Union[figure, Axes]:
     """Plot power spectral densty of RR time series.
 
     Parameters
