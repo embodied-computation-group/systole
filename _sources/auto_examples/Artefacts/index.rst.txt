@@ -18,7 +18,7 @@ Artefacts
 .. only:: html
 
   .. image:: /auto_examples/Artefacts/images/thumb/sphx_glr_plot_ArtefactsDetection_thumb.png
-    :alt: Outliers and artefacts detection
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Artefacts_plot_ArtefactsDetection.py`
 
@@ -35,7 +35,7 @@ Artefacts
 .. only:: html
 
   .. image:: /auto_examples/Artefacts/images/thumb/sphx_glr_plot_PeaksCorrection_thumb.png
-    :alt: Detecting and correcting artefacts in peaks vector
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Artefacts_plot_PeaksCorrection.py`
 
@@ -52,7 +52,7 @@ Artefacts
 .. only:: html
 
   .. image:: /auto_examples/Artefacts/images/thumb/sphx_glr_plot_RRCorrection_thumb.png
-    :alt: Detecting and correcting artefacts in RR time series
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Artefacts_plot_RRCorrection.py`
 

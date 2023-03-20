@@ -3,14 +3,15 @@
 
 .. _sphx_glr_auto_examples_Artefacts_sg_execution_times:
 
+
 Computation times
 =================
-**00:27.267** total execution time for **auto_examples_Artefacts** files:
+**00:28.670** total execution time for **auto_examples_Artefacts** files:
 
 +-----------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_Artefacts_plot_RRCorrection.py` (``plot_RRCorrection.py``)             | 00:14.256 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_Artefacts_plot_RRCorrection.py` (``plot_RRCorrection.py``)             | 00:14.637 | 0.0 MB |
 +-----------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_Artefacts_plot_PeaksCorrection.py` (``plot_PeaksCorrection.py``)       | 00:12.591 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_Artefacts_plot_PeaksCorrection.py` (``plot_PeaksCorrection.py``)       | 00:13.574 | 0.0 MB |
 +-----------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_Artefacts_plot_ArtefactsDetection.py` (``plot_ArtefactsDetection.py``) | 00:00.420 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_Artefacts_plot_ArtefactsDetection.py` (``plot_ArtefactsDetection.py``) | 00:00.459 | 0.0 MB |
 +-----------------------------------------------------------------------------------------------------+-----------+--------+

@@ -18,7 +18,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_pointcare_thumb.png
-    :alt: Plot pointcare
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_pointcare.py`
 
@@ -35,7 +35,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_frequency_thumb.png
-    :alt: Plot frequency
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_frequency.py`
 
@@ -52,7 +52,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_circular_thumb.png
-    :alt: Plot circular
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_circular.py`
 
@@ -69,7 +69,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_rr_thumb.png
-    :alt: Plot instantaneous heart rate
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_rr.py`
 
@@ -86,7 +86,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_shortlong_thumb.png
-    :alt: Plot short and long invertvals
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_shortlong.py`
 
@@ -103,7 +103,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_ectopic_thumb.png
-    :alt: Plot ectopic beats
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_ectopic.py`
 
@@ -120,7 +120,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_subspace_thumb.png
-    :alt: Plot subspaces to vivualize short/long and ectopic beats
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_subspace.py`
 
@@ -137,7 +137,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_raw_thumb.png
-    :alt: Plot raw physiological signal
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_raw.py`
 
@@ -154,7 +154,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_events_thumb.png
-    :alt: Plot events
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_events.py`
 
@@ -171,7 +171,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_evoked_thumb.png
-    :alt: Plot evoked
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_evoked.py`
 

@@ -13,12 +13,12 @@ Recording
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example show how to record PPG signals using the `Nonin 3012LP Xpod USB pulse oximeter &lt;ht...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example show how to record PPG signals using the Nonin 3012LP Xpod USB pulse oximeter and ...">
 
 .. only:: html
 
   .. image:: /auto_examples/Recording/images/thumb/sphx_glr_plot_InstantaneousHeartRate_thumb.png
-    :alt: Instantaneous Heart Rate
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Recording_plot_InstantaneousHeartRate.py`
 
@@ -30,12 +30,12 @@ Recording
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="The py:class:`systole.recording.Oximeter` class can be used to read incoming PPG signal  from `...">
+    <div class="sphx-glr-thumbcontainer" tooltip="The pysystole.recording.Oximeter class can be used to read incoming PPG signal  from Nonin 3012...">
 
 .. only:: html
 
   .. image:: /auto_examples/Recording/images/thumb/sphx_glr_plot_RecordingPPG_thumb.png
-    :alt: Recording PPG signal
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Recording_plot_RecordingPPG.py`
 
@@ -52,7 +52,7 @@ Recording
 .. only:: html
 
   .. image:: /auto_examples/Recording/images/thumb/sphx_glr_plot_HeartBeatrpeggios_thumb.png
-    :alt: Heartbeat Evoked Arpeggios (cardiac-contingent stimuli)
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Recording_plot_HeartBeatrpeggios.py`
 

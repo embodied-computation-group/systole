@@ -10,7 +10,7 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_Plots_plot_rr.py>`
+        :ref:`Go to the end <sphx_glr_download_auto_examples_Plots_plot_rr.py>`
         to download the full example code
 
 .. rst-class:: sphx-glr-example-title
@@ -122,13 +122,22 @@ Use Bokeh as a plotting backend, only show the scatterplt and highlight artefact
 
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    BokehDeprecationWarning: CDSView.source is no longer needed, and is now ignored. In a future release, passing source will result an error.
+    BokehDeprecationWarning: CDSView.filters was deprecated in bokeh 3.0. Use CDSView.filter instead.
+    BokehDeprecationWarning: CDSView.source is no longer needed, and is now ignored. In a future release, passing source will result an error.
+    BokehDeprecationWarning: CDSView.filters was deprecated in bokeh 3.0. Use CDSView.filter instead.
+
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.565 seconds)
+   **Total running time of the script:** ( 0 minutes  0.827 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Plots_plot_rr.py:
@@ -136,6 +145,8 @@ Use Bokeh as a plotting backend, only show the scatterplt and highlight artefact
 .. only:: html
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
+
+
 
 
     .. container:: sphx-glr-download sphx-glr-download-python

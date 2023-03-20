@@ -33,7 +33,7 @@ Artefacts
 .. only:: html
 
   .. image:: /auto_examples/Artefacts/images/thumb/sphx_glr_plot_ArtefactsDetection_thumb.png
-    :alt: Outliers and artefacts detection
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Artefacts_plot_ArtefactsDetection.py`
 
@@ -50,7 +50,7 @@ Artefacts
 .. only:: html
 
   .. image:: /auto_examples/Artefacts/images/thumb/sphx_glr_plot_PeaksCorrection_thumb.png
-    :alt: Detecting and correcting artefacts in peaks vector
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Artefacts_plot_PeaksCorrection.py`
 
@@ -67,7 +67,7 @@ Artefacts
 .. only:: html
 
   .. image:: /auto_examples/Artefacts/images/thumb/sphx_glr_plot_RRCorrection_thumb.png
-    :alt: Detecting and correcting artefacts in RR time series
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Artefacts_plot_RRCorrection.py`
 
@@ -97,7 +97,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_pointcare_thumb.png
-    :alt: Plot pointcare
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_pointcare.py`
 
@@ -114,7 +114,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_frequency_thumb.png
-    :alt: Plot frequency
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_frequency.py`
 
@@ -131,7 +131,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_circular_thumb.png
-    :alt: Plot circular
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_circular.py`
 
@@ -148,7 +148,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_rr_thumb.png
-    :alt: Plot instantaneous heart rate
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_rr.py`
 
@@ -165,7 +165,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_shortlong_thumb.png
-    :alt: Plot short and long invertvals
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_shortlong.py`
 
@@ -182,7 +182,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_ectopic_thumb.png
-    :alt: Plot ectopic beats
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_ectopic.py`
 
@@ -199,7 +199,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_subspace_thumb.png
-    :alt: Plot subspaces to vivualize short/long and ectopic beats
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_subspace.py`
 
@@ -216,7 +216,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_raw_thumb.png
-    :alt: Plot raw physiological signal
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_raw.py`
 
@@ -233,7 +233,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_events_thumb.png
-    :alt: Plot events
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_events.py`
 
@@ -250,7 +250,7 @@ Plotting
 .. only:: html
 
   .. image:: /auto_examples/Plots/images/thumb/sphx_glr_plot_evoked_thumb.png
-    :alt: Plot evoked
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Plots_plot_evoked.py`
 
@@ -275,12 +275,12 @@ Recording
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example show how to record PPG signals using the `Nonin 3012LP Xpod USB pulse oximeter &lt;ht...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example show how to record PPG signals using the Nonin 3012LP Xpod USB pulse oximeter and ...">
 
 .. only:: html
 
   .. image:: /auto_examples/Recording/images/thumb/sphx_glr_plot_InstantaneousHeartRate_thumb.png
-    :alt: Instantaneous Heart Rate
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Recording_plot_InstantaneousHeartRate.py`
 
@@ -292,12 +292,12 @@ Recording
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="The py:class:`systole.recording.Oximeter` class can be used to read incoming PPG signal  from `...">
+    <div class="sphx-glr-thumbcontainer" tooltip="The pysystole.recording.Oximeter class can be used to read incoming PPG signal  from Nonin 3012...">
 
 .. only:: html
 
   .. image:: /auto_examples/Recording/images/thumb/sphx_glr_plot_RecordingPPG_thumb.png
-    :alt: Recording PPG signal
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Recording_plot_RecordingPPG.py`
 
@@ -314,7 +314,7 @@ Recording
 .. only:: html
 
   .. image:: /auto_examples/Recording/images/thumb/sphx_glr_plot_HeartBeatrpeggios_thumb.png
-    :alt: Heartbeat Evoked Arpeggios (cardiac-contingent stimuli)
+    :alt:
 
   :ref:`sphx_glr_auto_examples_Recording_plot_HeartBeatrpeggios.py`
 
@@ -332,6 +332,7 @@ Recording
 .. toctree::
    :hidden:
    :includehidden:
+
 
    /auto_examples/Artefacts/index.rst
    /auto_examples/Plots/index.rst
