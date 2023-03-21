@@ -103,7 +103,7 @@ oximeter is plugged in.
 
     Reset input buffer
 
-    <systole.recording.Oximeter object at 0x7f451f49e610>
+    <systole.recording.Oximeter object at 0x7fa190355940>
 
 
 
@@ -144,7 +144,7 @@ Plotting
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  31.847 seconds)
+   **Total running time of the script:** ( 0 minutes  31.937 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Recording_plot_InstantaneousHeartRate.py:
