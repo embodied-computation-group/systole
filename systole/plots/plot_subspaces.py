@@ -3,7 +3,7 @@
 from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
-from bokeh.plotting.figure import Figure
+from bokeh.plotting import figure
 from matplotlib.axes import Axes
 
 from systole.correction import rr_artefacts
@@ -18,7 +18,7 @@ def plot_subspaces(
     figsize: Optional[Union[Tuple[float, float], int]] = None,
     ax: Optional[Union[Tuple, List]] = None,
     backend: str = "matplotlib",
-) -> Union[Figure, Axes]:
+) -> Union[figure, Axes]:
     """Visualization of short, long, extra, missed and ectopic beats detection.
 
     The artefact detection is based on the method described in [1]_.

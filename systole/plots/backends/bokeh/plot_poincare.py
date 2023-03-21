@@ -5,7 +5,6 @@ from typing import List, Optional, Tuple, Union
 import numpy as np
 from bokeh.models import Arrow, NormalHead
 from bokeh.plotting import figure
-from bokeh.plotting.figure import Figure
 
 from systole.hrv import nonlinear_domain
 
@@ -14,7 +13,7 @@ def plot_poincare(
     rr: np.ndarray,
     figsize: Optional[Union[List[int], Tuple[int, int], int]] = None,
     ax=None,
-) -> Figure:
+) -> figure:
     """poincare plot.
 
     Parameters
@@ -53,8 +52,8 @@ def plot_poincare(
 
     poincare_plot = figure(
         title="Poincare plot",
-        plot_height=height,
-        plot_width=width,
+        height=height,
+        width=width,
         x_axis_label="RR (n)",
         y_axis_label="RR (n+1)",
         output_backend="webgl",

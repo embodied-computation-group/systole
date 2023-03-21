@@ -5,15 +5,14 @@ from typing import List, Optional
 import pandas as pd
 from bokeh.models import BoxAnnotation, Span
 from bokeh.plotting import ColumnDataSource, figure
-from bokeh.plotting.figure import Figure
 
 
 def plot_events(
     df: pd.DataFrame,
     figsize: int = 400,
-    ax: Optional[Figure] = None,
+    ax: Optional[figure] = None,
     behavior: Optional[List[pd.DataFrame]] = None,
-) -> Figure:
+) -> figure:
     """Plot events to get a visual display of the paradigm (Bokeh).
 
     Parameters
@@ -43,7 +42,7 @@ def plot_events(
         event_plot = figure(
             title="Events",
             sizing_mode="stretch_width",
-            plot_height=figsize,
+            height=figsize,
             x_axis_label="Time",
             x_axis_type="datetime",
             y_range=(0, 1),

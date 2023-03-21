@@ -16,7 +16,7 @@ repos:
     - id: flake8
       files: ^systole/
 -   repo: https://github.com/pre-commit/mirrors-mypy
-    rev: 'v1.0.0'
+    rev: 'v1.1.1'
     hooks:
     - id: mypy 
       files: ^systole/

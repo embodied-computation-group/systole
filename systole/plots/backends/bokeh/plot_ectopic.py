@@ -4,12 +4,11 @@ from typing import Dict
 
 import numpy as np
 from bokeh.plotting import figure
-from bokeh.plotting.figure import Figure
 
 
 def plot_ectopic(
     artefacts=Dict[str, np.ndarray], figsize: int = 600, ax=None
-) -> Figure:
+) -> figure:
     """Plot interactive ectopic subspace.
 
     Parameters
@@ -48,8 +47,8 @@ def plot_ectopic(
 
     ectopic_plot = figure(
         title="Ectopic beats",
-        plot_height=figsize,
-        plot_width=figsize,
+        height=figsize,
+        width=figsize,
         x_axis_label="Subspace 1",
         y_axis_label="Subspace 2",
         output_backend="webgl",

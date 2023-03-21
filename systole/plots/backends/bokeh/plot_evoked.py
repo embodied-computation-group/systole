@@ -6,7 +6,6 @@ import numpy as np
 import pandas as pd
 from bokeh.models import Band, ColumnDataSource, Span
 from bokeh.plotting import figure
-from bokeh.plotting.figure import Figure
 
 
 def plot_evoked(
@@ -18,7 +17,7 @@ def plot_evoked(
     unit: str,
     ci: str = "sd",
     **kwargs
-) -> Figure:
+) -> figure:
     """Plot continuous or discontinuous RR intervals time series.
 
     Parameters
@@ -57,8 +56,8 @@ def plot_evoked(
     evoked_plot = figure(
         title="Instantaneous heart rate",
         sizing_mode="fixed",
-        plot_width=figsize[0],
-        plot_height=figsize[1],
+        width=figsize[0],
+        height=figsize[1],
         x_axis_label="Time",
         y_axis_label=ylabel,
     )

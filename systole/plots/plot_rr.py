@@ -3,6 +3,7 @@
 from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
+from bokeh.plotting import figure
 from matplotlib.axes import Axes
 
 from systole.detection import rr_artefacts
@@ -25,7 +26,7 @@ def plot_rr(
     figsize: Optional[Union[Tuple[float, float], int]] = None,
     backend: str = "matplotlib",
     events_params: Optional[Dict] = None,
-) -> Axes:
+) -> Union[Axes, figure]:
     """Plot instantaneous heart rate time series.
 
     Parameters

@@ -4,7 +4,7 @@ from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
 import pandas as pd
-from bokeh.plotting.figure import Figure
+from bokeh.plotting import figure
 from matplotlib.axes import Axes
 
 from systole.detection import ecg_peaks, ppg_peaks, rsp_peaks
@@ -28,7 +28,7 @@ def plot_raw(
     backend: str = "matplotlib",
     events_params: Optional[Dict] = None,
     **kwargs
-) -> Union[Axes, Figure]:
+) -> Union[Axes, figure]:
     """Visualization of PPG or ECG signal with systolic peaks or R wave detection.
 
     The instantaneous heart rate can be derived in a second row, as well as the events

@@ -18,7 +18,6 @@ def import_manual_correction(
     cardiac_name: str,
     sfreq: int,
 ) -> pd.DataFrame:
-
     """Correct extra and missed peaks identified via manual correction (i.e., using saved .json file via the systole viewer)
 
     Parameters

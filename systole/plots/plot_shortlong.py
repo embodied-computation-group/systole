@@ -3,7 +3,7 @@
 from typing import Dict, List, Optional, Tuple, Union, overload
 
 import numpy as np
-from bokeh.plotting.figure import Figure
+from bokeh.plotting import figure
 from matplotlib.axes import Axes
 
 from systole.correction import rr_artefacts
@@ -14,14 +14,14 @@ from systole.utils import input_conversion
 @overload
 def plot_shortlong(
     rr: None, artefacts: Dict[str, np.ndarray], input_type: str = "rr_ms"
-) -> Union[Figure, Axes]:
+) -> Union[figure, Axes]:
     ...
 
 
 @overload
 def plot_shortlong(
     rr: Union[List[float], np.ndarray], artefacts: None, input_type: str = "rr_ms"
-) -> Union[Figure, Axes]:
+) -> Union[figure, Axes]:
     ...
 
 
@@ -30,7 +30,7 @@ def plot_shortlong(
     rr: Union[List[float], np.ndarray],
     artefacts: Dict[str, np.ndarray],
     input_type: str = "rr_ms",
-) -> Union[Figure, Axes]:
+) -> Union[figure, Axes]:
     ...
 
 
@@ -41,7 +41,7 @@ def plot_shortlong(
     ax: Optional[Axes] = None,
     figsize: Optional[Union[Tuple[float, float], int]] = None,
     backend: str = "matplotlib",
-) -> Union[Figure, Axes]:
+) -> Union[figure, Axes]:
     """Visualization of short, long, extra and missed intervals detection.
 
     The artefact detection is based on the method described in [1]_.

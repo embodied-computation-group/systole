@@ -3,7 +3,7 @@
 from typing import List, Optional, Tuple, Union
 
 import numpy as np
-from bokeh.plotting.figure import Figure
+from bokeh.plotting import figure
 from matplotlib.axes import Axes
 
 from systole.detection import ecg_peaks, ppg_peaks
@@ -32,7 +32,7 @@ def plot_evoked(
     figsize: Optional[Tuple[float, float]] = None,
     backend: str = "matplotlib",
     **kwargs,
-) -> Union[Figure, Axes]:
+) -> Union[figure, Axes]:
     """Plot evoked heart rate across trials.
 
     Parameters

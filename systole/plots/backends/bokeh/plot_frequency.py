@@ -4,7 +4,6 @@ from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from bokeh.plotting import figure
-from bokeh.plotting.figure import Figure
 
 
 def plot_frequency(
@@ -13,7 +12,7 @@ def plot_frequency(
     figsize: Optional[Union[List[int], Tuple[int, int], int]] = None,
     fbands: Optional[Dict[str, Tuple[str, Tuple[float, float], str]]] = None,
     ax=None,
-) -> "Figure":
+) -> figure:
     """Plot the frequency component of the heart rate variability.
 
     Parameters
@@ -49,8 +48,8 @@ def plot_frequency(
 
     psd_plot = figure(
         title="Power spectral density",
-        plot_height=height,
-        plot_width=width,
+        height=height,
+        width=width,
         x_axis_label="Frequency (Hz)",
         y_axis_label="PSD [s²/Hz]",
         output_backend="webgl",
