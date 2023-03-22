@@ -6,26 +6,26 @@
 
 Computation times
 =================
-**00:38.937** total execution time for **auto_examples_Plots** files:
+**00:27.976** total execution time for **auto_examples_Plots** files:
 
 +-------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_Plots_plot_evoked.py` (``plot_evoked.py``)       | 00:26.381 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_Plots_plot_evoked.py` (``plot_evoked.py``)       | 00:17.368 | 0.0 MB |
 +-------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_Plots_plot_raw.py` (``plot_raw.py``)             | 00:03.430 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_Plots_plot_raw.py` (``plot_raw.py``)             | 00:03.380 | 0.0 MB |
 +-------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_Plots_plot_events.py` (``plot_events.py``)       | 00:02.185 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_Plots_plot_events.py` (``plot_events.py``)       | 00:02.199 | 0.0 MB |
 +-------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_Plots_plot_pointcare.py` (``plot_pointcare.py``) | 00:01.969 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_Plots_plot_pointcare.py` (``plot_pointcare.py``) | 00:01.522 | 0.0 MB |
 +-------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_Plots_plot_subspace.py` (``plot_subspace.py``)   | 00:01.347 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_Plots_plot_subspace.py` (``plot_subspace.py``)   | 00:00.941 | 0.0 MB |
 +-------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_Plots_plot_rr.py` (``plot_rr.py``)               | 00:00.877 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_Plots_plot_rr.py` (``plot_rr.py``)               | 00:00.687 | 0.0 MB |
 +-------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_Plots_plot_ectopic.py` (``plot_ectopic.py``)     | 00:00.788 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_Plots_plot_ectopic.py` (``plot_ectopic.py``)     | 00:00.595 | 0.0 MB |
 +-------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_Plots_plot_shortlong.py` (``plot_shortlong.py``) | 00:00.741 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_Plots_plot_shortlong.py` (``plot_shortlong.py``) | 00:00.533 | 0.0 MB |
 +-------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_Plots_plot_circular.py` (``plot_circular.py``)   | 00:00.680 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_Plots_plot_circular.py` (``plot_circular.py``)   | 00:00.422 | 0.0 MB |
 +-------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_Plots_plot_frequency.py` (``plot_frequency.py``) | 00:00.539 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_Plots_plot_frequency.py` (``plot_frequency.py``) | 00:00.328 | 0.0 MB |
 +-------------------------------------------------------------------------------+-----------+--------+
