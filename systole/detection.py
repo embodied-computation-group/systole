@@ -128,7 +128,7 @@ def ppg_peaks(
 
     # Resample signal to the new frequnecy if required
     if sfreq != new_sfreq:
-        time = np.arange(0, len(x) / sfreq, 1 / sfreq)
+        time = np.arange(0, len(x)) / sfreq
         new_time = np.arange(0, len(x) / sfreq, 1 / new_sfreq)
         x = np.interp(new_time, time, x)
 
