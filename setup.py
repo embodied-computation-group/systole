@@ -14,6 +14,19 @@ def get_requirements():
     with codecs.open(REQUIREMENTS_FILE) as buff:
         return buff.read().splitlines()
 
+def get_version(rel_path):
+    """Get the package's version number.
+    We fetch the version  number from the `__version__` variable located in the
+    package root's `__init__.py` file. This way there is only a single source
+    of truth for the package's version number.
+
+    """
+    for line in read(rel_path).splitlines():
+        if line.startswith("__version__"):
+            delim = '"' if '"' in line else "'"
+            return line.split(delim)[1]
+    else:
+        raise RuntimeError("Unable to find version string.")
 
 DESCRIPTION = """Systole: A python package for cardiac signal synchrony and analysis"""
 
@@ -35,7 +48,7 @@ if __name__ == "__main__":
         long_description=open("README.rst").read(),
         long_description_content_type="text/x-rst",
         license="GPL-3.0",
-        version=VERSION,
+        version=get_version("systole/__init__.py"),
         install_requires=get_requirements(),
         include_package_data=True,
         packages=find_packages(),
