@@ -13,15 +13,15 @@ def plot_shortlong(
 
     Parameters
     ----------
-    artefacts : dict or None
+    artefacts :
         The artefacts detected using
         :py:func:`systole.detection.rr_artefacts()`.
-    figsize : int
+    figsize :
         Figure heights. Default is `600`.
 
     Returns
     -------
-    shorLong_plot : :class:`bokeh.plotting.figure.Figure`
+    shorLong_plot :
         The boken figure containing the plot.
 
     """

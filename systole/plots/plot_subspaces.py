@@ -3,7 +3,7 @@
 from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
-from bokeh.plotting import figure
+from bokeh.plotting._figure import figure
 from matplotlib.axes import Axes
 
 from systole.correction import rr_artefacts
@@ -25,33 +25,33 @@ def plot_subspaces(
 
     Parameters
     ----------
-    rr : :py:class:`numpy.ndarray` | None
+    rr :
         R-R interval time-series, peaks or peaks index vectors. The default expected
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
-    artefacts : dict | None
+    artefacts :
         A dictionary containing the infos abount the artefacts detected using the
         :py:func:`systole.detection.rr_artefacts()` function. This parameter is
         optional, but if provided the data provided in `rr` will be ignored.
-    input_type : str
+    input_type :
         The type of input vector. Default is `"peaks"` (a boolean vector where
         `1` represents the occurrence of R waves or systolic peaks).
         Can also be `"rr_s"` or `"rr_ms"` for vectors of RR intervals, or
         interbeat intervals (IBI), expressed in seconds or milliseconds
         (respectively).
-    figsize : tuple | int | None
+    figsize :
         Figure size. Default is `(12, 6)` for matplotlib backend, and the height is
         `600` when using bokeh backend.
-    ax : :class:`matplotlib.axes.Axes` | None
+    ax :
         Where to draw the plot. Default is `None` (create a new figure). Otherwise, a
         tuple of list of Matplotlib axes should be provided. Only applies if
         `backend="matplotlib"`.
-    backend: str
+    backend :
         Select plotting backend {"matplotlib", "bokeh"}. Defaults to "matplotlib".
 
     Returns
     -------
-    plot : :class:`matplotlib.axes.Axes` or :class:`bokeh.plotting.figure.Figure`
+    plot :
         The matplotlib axes, or the boken figure containing the plot.
 
     See also

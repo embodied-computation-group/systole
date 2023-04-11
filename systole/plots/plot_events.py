@@ -6,6 +6,7 @@ from typing import Dict, List, Optional, Tuple, Union
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from bokeh.plotting._figure import figure
 from matplotlib.axes import Axes
 
 from systole.plots.utils import get_plotting_function
@@ -23,47 +24,47 @@ def plot_events(
     ax: Optional[Axes] = None,
     backend: str = "matplotlib",
     palette: Optional[List[str]] = None,
-) -> Axes:
+) -> Union[Axes, figure]:
     """Visualize the occurence of events along the physiological recording.
 
     Parameters
     ----------
-    triggers : list | np.ndarray
+    triggers :
         The events triggers. `0` indicates no events, `1` indicates the triger
         for one event. Different conditions should be provided separately as list
         of arrays.
-    triggers_idx : list | np.ndarray
+    triggers_idx :
         Trigger indexes. Each value encode the sample where an event occured (see
         also `sfreq`). Different conditions should be provided separately as list of
         arrays (can have different lenght).
-    labels : dict
+    labels :
         The events label. The key of the dictionary is the condition number (from 1 to
         n, as `str`), the value is the label (`str`). Default set to
         `{"1": "Event - 1"}` if one condition is provided, and generalize up to n
         conditions `{"n": "Event - n"}`.
-    tmin, tmax : float
+    tmin, tmax :
         Start and end time of the epochs in seconds, relative to the time-locked event.
         Defaults to `-1.0` and `10.0`, respectively.
-    sfreq : int
+    sfreq :
         Signal sampling frequency. Default is set to 1000 Hz.
-    behavior : list | py:class:`pandas.DataFrame` | None
+    behavior :
         (Optional) Additional information about trials that will appear when hovering
         on the area (`bokeh` version only). A py:class:`pd.DataFrame` instance with
         length = n trials, or a list of py:class:`pd.DataFrame` (for multiple
         conditions) should be provided.
-    figsize : tuple
+    figsize :
         Figure size. Default is `(13, 5)`.
     ax : :class:`matplotlib.axes.Axes` | :class:`bokeh.plotting.figure.Figure` | None
         Where to draw the plot. Default is `None` (create a new figure).
-    backend: str
+    backend :
         Select plotting backend (`"matplotlib"`, `"bokeh"`). Defaults to
         `"matplotlib"`.
-    palette : list | None
+    palette :
         Color palette. Default sets to Seaborn `"deep"`.
 
     Returns
     -------
-    plot : :class:`matplotlib.axes.Axes` | :class:`bokeh.plotting.figure.Figure`
+    plot :
         The matplotlib axes, or the boken figure containing the plot.
 
     See also

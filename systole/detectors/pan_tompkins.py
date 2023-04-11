@@ -13,12 +13,17 @@ def pan_tompkins(
     """
     Parameters
     ----------
-    signal : np.ndarray
+    signal :
         The unfiltered ECG signal.
-    sfreq : int
+    sfreq :
         The sampling frequency.
-    moving_average : str
+    moving_average :
         The moving average function to use.
+
+    Returns
+    -------
+    peaks_idx :
+        Indexes of R peaks in the input signal.
 
     References
     ----------
@@ -71,14 +76,15 @@ def panPeakDetect(detection: np.ndarray, sfreq: int) -> List:
     Parameters
     ----------
     detection :
-
-    sfreq : int]
-        The sampling frequency.]
+        Vector of detected peaks.
+    sfreq :
+        The sampling frequency.
 
     Returns
     -------
-    signal_peaks
+    signal_peaks :
         The indexs of the ECG peaks.
+
     """
 
     min_distance = int(0.25 * sfreq)

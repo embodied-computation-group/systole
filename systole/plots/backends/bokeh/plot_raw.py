@@ -32,45 +32,45 @@ def plot_raw(
 
     Parameters
     ----------
-    time : :py:class:`pandas.core.indexes.datetimes.DatetimeIndex`
+    time :
         The time index.
-    signal : :py:class:`numpy.ndarray`
+    signal :
         The physiological signal (1d numpy array).
-    peaks : :py:class:`numpy.ndarray`
+    peaks :
         The peaks or R wave detection (1d boolean array).
-    modality : str
+    modality :
         The recording modality. Can be `"ppg"`, `"ecg"` or `"resp"`.
-    show_heart_rate : bool
+    show_heart_rate :
         If `True`, create a second row and plot the instantanesou heart rate
         derived from the physiological signal
         (calls :py:func:`systole.plots.plot_rr` internally). Defaults to `False`.
-    show_artefacts : bool
+    show_artefacts :
         If `True`, the function will call
        :py:func:`systole.detection.rr_artefacts` to detect outliers intervalin the time
         serie and outline them using different colors.
-    bad_segments : np.ndarray | list | None
+    bad_segments :
         Mark some portion of the recording as bad. Grey areas are displayed on the top
         of the signal to help visualization (this is not correcting or transforming the
         post-processed signals). Should be a list of tuples shuch as (start_idx,
         end_idx) for each segment.
-    decim : int
+    decim :
         Factor by which to subsample the raw signal. Selects every Nth sample (where N
         is the value passed to decim). Default set to `10` (considering that the imput
         signal has a sampling frequency of 1000 Hz) to save memory.
-    slider : bool
+    slider :
         If `True`, add a slider to zoom in/out in the signal (only working with
         bokeh backend).
-    figsize : int
+    figsize :
         Figure heights. Default is `300`.
-    events_params : dict | None
+    events_params :
         (Optional) Additional parameters that will be passed to
        :py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
-    kwargs: key, value mappings
+    kwargs:
         Other keyword arguments passed to the function but unused by the Bokeh backend.
 
     Returns
     -------
-    raw : :class:`bokeh.plotting.figure.Figure`
+    raw :
         The bokeh figure containing the plot.
 
     """

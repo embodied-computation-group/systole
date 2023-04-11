@@ -32,25 +32,25 @@ def plot_circular(
 
     Parameters
     ----------
-    data : :py:class:`pandas.DataFrame` | np.ndarray | list
+    data :
         The angular data in radians or degrees (see `units`). If a
         :py:class:`pandas.DataFrame` is provided, the values are in the `y` column and
         the colors in the `hue` column. If a list is provided, it should contain
         arrays or list of angular values. Otherwise a list or numpy array should be
         provided (just one condition).
-    y : str | None
+    y :
         If data is a :py:class:`pandas.DataFrame` instance, `y` should be the column
         containing the angular values.
-    hue : str | None
+    hue :
         Columns in data encoding the different conditions.
-    labels : list | none
+    labels :
         The conditions labels.
-    units : str
+    units :
         Unit of the angular values provided. Can be `"degree"` or `"radian"`.
         Default sets to `"radians"`.
-    bins : int
+    bins :
         Number of slices in the circle. Use even value to have a bin edge at zero.
-    density : str
+    density :
         How to represent the density of the circular distribution. Can be one of the
         following:
         - `"area"`: use the area of the circular bins.
@@ -59,24 +59,24 @@ def plot_circular(
         Default set to `"area"`. This method should be prefered over `"height"` as
         increasing the height of the bars is increasin their visual importance (area)
         non linearly. The `"area"` method can control for this bias.
-    norm : bool
+    norm :
         If `True` (default), normalize the distribution between 0 and 1.
-    mean : bool
+    mean :
         If `True`, show the mean and 95% CI. Default set to `False`.
-    offset : float
+    offset :
         Where 0 will be placed on the circle, in radians. Default set to `0`.
-    palette : list | None
+    palette :
         Color palette. Default sets to Seaborn `"deep"`.
-    backend: str
+    backend :
         Select plotting backend. Currently, only `"matplotlib"` is supported.
-    figsize : tuple
+    figsize :
         Figure size. Default is `(13, 5)`.
-    ax : :class:`matplotlib.axes.Axes` | None
+    ax :
         Where to draw the plot. Default is `None` (create a new figure).
 
     Returns
     -------
-    ax : :class:`matplotlib.axes.Axes`
+    ax :
         The matplotlib axes containing the plot.
 
     Notes

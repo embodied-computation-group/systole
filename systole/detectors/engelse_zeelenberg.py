@@ -1,23 +1,25 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+from typing import List, Union
+
 import numpy as np
 from numba import jit
 from scipy.signal import butter, lfilter
 
 
-def engelse_zeelenberg(signal, sfreq):
+def engelse_zeelenberg(signal: np.ndarray, sfreq: int) -> np.ndarray:
     """R peaks detection using Engelse and Zeelenberg's method.
 
     Parameters
     ----------
-    signal : np.ndarray
+    signal :
         The unfiltered ECG signal.
-    sfreq : int
+    sfreq :
         The sampling frequency.
 
     Returns
     -------
-    peaks : np.ndarray
+    peaks :
         The indexs of the ECG peaks.
 
     References
@@ -49,7 +51,7 @@ def engelse_zeelenberg(signal, sfreq):
 
 
 @jit(nopython=True)
-def numba_one(filtered_ecg):
+def numba_one(filtered_ecg: np.ndarray) -> np.ndarray:
     diff = np.zeros(len(filtered_ecg))
     for i in range(4, len(diff)):
         diff[i] = filtered_ecg[i] - filtered_ecg[i - 4]
@@ -57,7 +59,7 @@ def numba_one(filtered_ecg):
 
 
 @jit(nopython=True)
-def numba_two(sfreq, low_pass, signal):
+def numba_two(sfreq: int, low_pass, signal: np.ndarray) -> np.ndarray:
     low_pass[: int(0.2 * sfreq)] = 0
 
     ms200 = int(0.2 * sfreq)
@@ -68,10 +70,10 @@ def numba_two(sfreq, low_pass, signal):
     M = 0
     M_list = []
     neg_m = []
-    MM = []
+    MM: List[Union[int, float]] = []
     M_slope = np.linspace(1.0, 0.6, ms1200 - ms200)
 
-    QRS = []
+    QRS: List = []
     r_peaks = []
 
     counter = 0
@@ -80,7 +82,7 @@ def numba_two(sfreq, low_pass, signal):
     thi = False
     thf_list = []
     thf = False
-    newM5 = False
+    newM5 = 0.0
 
     for i in range(len(low_pass)):
         # M

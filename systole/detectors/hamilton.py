@@ -1,5 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+from typing import List
+
 import numpy as np
 from numba import jit
 from scipy.signal import butter, lfilter
@@ -10,14 +12,14 @@ def hamilton(signal: np.ndarray, sfreq: int) -> np.ndarray:
 
     Parameters
     ----------
-    signal : np.ndarray
+    signal :
         The unfiltered ECG signal.
-    sfreq : int
+    sfreq :
         The sampling frequency.
 
     Returns
     -------
-    peaks : np.ndarray
+    peaks :
         The indexs of the ECG peaks.
 
     References
@@ -45,7 +47,7 @@ def hamilton(signal: np.ndarray, sfreq: int) -> np.ndarray:
 
 
 @jit(nopython=True)
-def numba_first(signal, sfreq):
+def numba_first(signal: np.ndarray, sfreq: int) -> List:
     signal = np.asarray(signal)
     f1 = 8 / sfreq
     f2 = 16 / sfreq
@@ -53,7 +55,7 @@ def numba_first(signal, sfreq):
 
 
 @jit(nopython=True)
-def numba_second(filtered_ecg, sfreq):
+def numba_second(filtered_ecg: np.ndarray, sfreq: int):
     diff = np.abs(np.diff(filtered_ecg))
     b = np.ones(int(0.08 * sfreq))
     b = b / int(0.08 * sfreq)

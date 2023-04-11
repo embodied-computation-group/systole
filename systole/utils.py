@@ -22,19 +22,19 @@ def norm_triggers(
 
     Parameters
     ----------
-    triggers : np.ndarray or list
+    triggers :
         The triggers array.
-    threshold : float
+    threshold :
         Threshold for triggering values. Default is 1.
-    n : int
+    n :
         The number of values to force to 0 after each triggers. Default is 5.
-    direction : str
+    direction :
         Indicates if triggers are higher or lower than threshold. Can be`"higher"` or
         `"lower"`. Default sets to `"higher"`.
 
     Returns
     -------
-    y : np.ndarray
+    y :
         The filterd triggers array.
 
     """
@@ -64,16 +64,16 @@ def time_shift(
 
     Parameters
     ----------
-    x : np.ndarray or list
+    x :
         Timing of the baseline events.
-    events : np.ndarray or list
+    events :
         Timing of events of interest.
-    order : str
+    order :
         Consider event occurung before of after baseline. Default is 'after'.
 
     Returns
     -------
-    time_shift : np.ndarray
+    time_shift :
         The delay between X and events (a.u).
     """
     if isinstance(x, list):
@@ -102,18 +102,18 @@ def heart_rate(
 
     Parameters
     ----------
-    x : np.ndarray or list
+    x :
         Boolean vector of peaks detection or RR intervals.
-    sfreq : int
+    sfreq :
         The sampling frequency of the desired output.
-    unit : str
+    unit :
         The heart rate unit in use. Can be `'rr'` (R-R intervals, in ms)
         or `'bpm'` (beats per minutes). Default is `'rr'`.
-    kind : str
+    kind :
         The method to use (parameter of `scipy.interpolate.interp1d`). The
         possible relevant methods for instantaneous heart rate are `'cubic'`
         (defalut), `'linear'`, `'previous'` and `'next'`.
-    input_type : str
+    input_type :
         The type of input vector. Default is `"peaks"` (a boolean vector where
         `1` represents the occurrence of R waves or systolic peaks).
         Can also be `"rr_s"` or `"rr_ms"` for vectors of RR intervals, or
@@ -122,9 +122,9 @@ def heart_rate(
 
     Returns
     -------
-    heartrate : np.ndarray
+    heartrate :
         The heart rate frequency.
-    time : np.ndarray
+    time :
         Time array.
 
     Examples
@@ -143,14 +143,14 @@ def heart_rate(
 
     Notes
     -----
-    If the input is in the `peaks` format, it should be a boolean vector
-    encoding the position of R wave, or systolic peaks.
+    If the input is in the `peaks` format, it should be a boolean vector encoding the
+    position of R wave, or systolic peaks.
 
     If it is in the form of RR intervals, it can be expressed in seconds or
     milliseconds, using `rr_s` and `rr_ms` parameters, respectively.
 
-    The time and heart rate output will have the same length. Values before
-    the first peak and after the last peak will be filled with NaN values.
+    The time and heart rate output will have the same length. Values before the first
+    peak and after the last peak will be filled with NaN values.
     """
     x = np.asarray(x)
 
@@ -223,14 +223,14 @@ def to_angles(
 
     Parameters
     ----------
-    x : np.ndarray or list
+    x :
         The reference time serie. Time points can be unevenly spaced.
-    events : np.ndarray or list
+    events :
         The events time serie.
 
     Returns
     -------
-    ang : numpy array
+    ang :
         The angular value of events in the cycle of interest (radians).
     """
     x = np.asarray(x)
@@ -275,38 +275,38 @@ def to_epochs(
 
     Parameters
     ----------
-    signal : np.ndarray | list
+    signal :
         The raw signal that should be epoched. The first dimension is time and should match
         with `len(triggers)` if `triggers` is provided. If `triggers_idx` is provided,
         `np.max(triggers_idx)` should be less than `signal.shape[0]`.
-    triggers : np.ndarray | list
+    triggers :
         The boolean indices of the events, shape=(times*sfreq, 1).
-    triggers_idx : np.ndarray | list
+    triggers_idx :
         Trigger indexes. Each value encode the sample where an event occured (see
         also `sfreq`). Different conditions should be provided separately as list of
         arrays (can have different lenght).
-    sfreq : int
+    sfreq :
         The sampling frequency (default is 1000 Hz).
-    tmin : float
+    tmin :
         Start time before event, in seconds, default is `-1.0`.
-    tmax : float
+    tmax :
         End time after event, in seconds, defautl is `10.0`.
-    event_val : int
+    event_val :
         The index of event of interest. Default is `1`. Only relevant if `triggers` is
         not `None`.
-    apply_baseline : float | tuple | None
+    apply_baseline :
         If int or tuple, use the point or interval to apply a baseline
         (method: mean). If `None`, no baseline is applied. Default is set to `0`.
-    verbose : boolean
+    verbose :
         If True, will return warnings if epoc are droped.
-    reject : np.ndarray | None
+    reject :
         Segments of the signal that should be rejected.
 
     Returns
     -------
-    epochs : list
+    epochs :
         List of (n Tials * Time) array.
-    reject : list
+    reject :
         List of rejected trials for each condition.
 
     Examples
@@ -437,28 +437,28 @@ def simulate_rr(
 ) -> np.ndarray:
     """RR time series simulation with artefacts.
 
-    n_rr : int
+    n_rr :
         Number of RR intervals. Default is 350.
-    extra_idx : list
+    extra_idx :
         Index of extra interval. Default is [50].
-    missed_idx : list
+    missed_idx :
         Index of missed interval. Default is [100].
-    short_idx : list
+    short_idx :
         Index of short interval. Default is [150].
-    long_idx : list
+    long_idx :
         Index of long interval. Default is [200].
-    ectopic1_idx : list
+    ectopic1_idx :
         Index of ectopic interval. Default is [250].
-    ectopic2_idx : list
+    ectopic2_idx :
         Index of ectopic interval. Default is [300].
-    random_state : int
+    random_state :
         Random state. Default is `42`.
-    artefacts : bool
+    artefacts :
         If `True`, simulate artefacts in the signal.
 
     Returns
     -------
-    rr : np.ndarray
+    rr :
         The RR time series.
     """
     np.random.seed(random_state)
@@ -524,18 +524,18 @@ def to_neighbour(
 
     Parameters
     ----------
-    signal : np.ndarray
+    signal :
         Signal used to maximize/minimize peaks values.
-    peaks: np.ndarray
+    peaks:
         Boolean vector of peaks position.
-    kind : str
+    kind :
         Can be 'max' or 'min'.
-    size : int
+    size :
         Size of the time window used to find max/min (samples). Defaults to `50`.
 
     Returns
     -------
-    new_peaks: np.ndarray
+    new_peaks:
         Boolean vector of peaks position.
 
     Raises
@@ -580,21 +580,21 @@ def input_conversion(
 
     Parameters
     ----------
-    x : np.ndarray or list
+    x :
         The input time series.
-    input_type : str
+    input_type :
         The type of input provided (can be `"peaks"`, `"peaks_idx"`, `"rr_ms"`,
         `"rr_s"`).
-    output_type : str
+    output_type :
         The type of desired output (can be `"peaks"`, `"peaks_idx"`, `"rr_ms"`,
         `"rr_s"`).
-    sfreq : int
+    sfreq :
         The sampling frequency (default is 1000 Hz). Only applies when `iput_type` is
         `"peaks"` or `"peaks_idx"`.
 
     Returns
     -------
-    output : np.ndarray
+    output :
         The time series converted to the desired format.
 
     """
@@ -670,14 +670,15 @@ def nan_cleaning(signal: np.ndarray, verbose: bool = True) -> np.ndarray:
 
     Parameters
     ----------
-    signal : np.ndarray
+    signal :
         The physiological signal.
-    verbose : bool
+    verbose :
         Control function verbosity. Defaults to `True` (print)
 
     Returns
     -------
-    clean_signal : np.ndarray
+    clean_signal :
+        The physiological signal without NaNs values.
 
     """
 
@@ -700,12 +701,12 @@ def find_clipping(signal: np.ndarray) -> Tuple[Optional[float], Optional[float]]
 
     Parameters
     ----------
-    signal : np.ndarray
+    signal :
         The physiological signal.
 
     Returns
     -------
-    min_threshold, max_threshold : float | None
+    min_threshold, max_threshold :
         The minimum and maximum threshold corresponding to the clipping artefact. If no
         threshold is found, returns `None`.
 
@@ -754,9 +755,9 @@ def get_valid_segments(
 
     Parameters
     ----------
-    signal : np.ndarray
+    signal :
         The physiological time serie that should be filtered.
-    bad_segments : np.ndarray | tuple
+    bad_segments :
         Bad segments in the signal where RR interval or peaks to peaks intervals could
         not be accurately estimated. Intervals from these segments will be dropped and
         the time domain parameters will be computed over the remaining intervals. A
@@ -764,7 +765,7 @@ def get_valid_segments(
 
     Return
     ------
-    valid : list of np.ndarray
+    valid :
         The filtered signal / interval time serie given the bad segments, sorted
         according to the signal length.
 
@@ -806,7 +807,7 @@ def norm_bad_segments(bad_segments) -> List[Tuple[int, int]]:
 
     Parameters
     ----------
-    bad_segments : list | np.ndarray
+    bad_segments :
         The time stamps of the bad segments. Can be a boolean 1d numpy array where
         `True` is a bad segment (will be rejected), or a list of tuples such as
         (start_idx, end_idx) in signal samples or milliseconds when intervals are
@@ -814,7 +815,7 @@ def norm_bad_segments(bad_segments) -> List[Tuple[int, int]]:
 
     Returns
     -------
-    bad_segments_tuples : tuple
+    bad_segments_tuples :
         The merged bad segments as tuples such as (start_idx, end_idx) indicate when
         each bad segment starts and ends.
 

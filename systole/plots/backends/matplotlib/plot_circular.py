@@ -26,18 +26,18 @@ def plot_circular(
 
     Parameters
     ----------
-    data : list
+    data :
         List of numpy arrays.
-    palette : list
+    palette :
         Color palette. Default sets to Seaborn `"deep"`.
-    labels : list
+    labels :
         The conditions labels.
-    units : str
+    units :
         Unit of the angular values provided. Can be `"degree"` or `"radian"`.
         Default sets to `"radians"`.
-    bins : int
+    bins :
         Number of slices in the circle. Use even value to have a bin edge at zero.
-    density : str
+    density :
         How to represent the density of the circular distribution. Can be one of the
         following:
         - `"area"`: use the area of the circular bins.
@@ -46,18 +46,18 @@ def plot_circular(
         Default set to `"area"`. This method should be prefered over `"height"` as
         increasing the height of the bars is increasin their visual importance (area)
         non linearly. The `"area"` method can control for this bias.
-    norm : bool
+    norm :
         If `True` (default), normalize the distribution between 0 and 1.
-    mean : bool
+    mean :
         If `True`, show the mean and 95% CI. Default set to `False`.
-    offset : float
+    offset :
         Where 0 will be placed on the circle, in radians. Default set to `0`.
-    ax : :class:`matplotlib.axes.Axes`
+    ax :
         Where to draw the plot. Default is `None` (create a new figure).
 
     Returns
     -------
-    ax : :class:`matplotlib.axes.Axes`
+    ax :
         The matplotlib axes containing the plot.
 
     """

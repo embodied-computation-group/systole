@@ -1,6 +1,6 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
-from typing import List, Optional
+from typing import Optional
 
 import pandas as pd
 from bokeh.models import BoxAnnotation, Span
@@ -11,21 +11,17 @@ def plot_events(
     df: pd.DataFrame,
     figsize: int = 400,
     ax: Optional[figure] = None,
-    behavior: Optional[List[pd.DataFrame]] = None,
 ) -> figure:
     """Plot events to get a visual display of the paradigm (Bokeh).
 
     Parameters
     ----------
-    df : pd.DataFrame
+    df :
         The events data frame (tmin, trigger, tmax, label, color, [behavior]).
-    figsize : tuple
+    figsize :
         Figure size. Default is `(13, 5)`.
-    ax : :class:`bokeh.plotting.figure.Figure` or None
+    ax :
         Where to draw the plot. Default is `None` (create a new figure).
-    behavior : list | None
-        (Optional) Additional information about trials that will appear when hovering
-        on the area (`bokeh` version only).
 
     Returns
     -------

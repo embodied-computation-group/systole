@@ -3,7 +3,7 @@
 from typing import List, Optional, Tuple, Union
 
 import numpy as np
-from bokeh.plotting import figure
+from bokeh.plotting._figure import figure
 from matplotlib.axes import Axes
 
 from systole.detection import ecg_peaks, ppg_peaks
@@ -37,66 +37,66 @@ def plot_evoked(
 
     Parameters
     ----------
-    epochs : list of np.ndarray
+    epochs :
         A list of 2d (trial * time) numpy array containing the time series of the
         epoched signal. When multiple arrays are provided, will be plotted separately
         as different conditions.
-    signal : np.ndarray | list
+    signal :
         A 1d numpy array containing the physiological signal (can be PPG or
         ECG). The modality of the signal is parametrized using the `modality`
         parameter.
-    triggers : np.ndarray | list
+    triggers :
         The boolean indices of the events, shape=(times*sfreq, 1).
-    triggers_idx : np.ndarray or list
+    triggers_idx :
         Trigger indexes. Each value encode the sample where an event occured (see
         also `sfreq`). Different conditions should be provided separately as list of
         arrays (can have different lenght).
-    rr : np.ndarray | list
+    rr :
         Boolean vector of peaks detection or peaks indexs. See `input_type`.
-    input_type : str
+    input_type :
         The type of input vector. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"`,
         or `"rr_s"`. Default to `"peaks"`.
     reject : np.ndarray | None
         Segments of the signal that should be rejected.
-    modality : str
+    modality :
         The recording modality (can be `"ppg"` or `"ecg"`). Only required when using
         `signal`. The modality will determine the peaks detection method.
-    tmin, tmax : float
+    tmin, tmax :
         Start and end time of the epochs in seconds, relative to the
         time-locked event. Defaults to -1.0 and 10.0, respectively.
-    sfreq : int
+    sfreq :
         The sampling frequency of the input signal and triggers. Default set to `1000`.
-    apply_baseline : float | tuple | None
+    apply_baseline :
         If int or tuple, use the point or interval to apply a baseline
         (method: mean). If `None`, no baseline is applied. Default is set to `0`.
-    decim : int | None
+    decim :
         Factor by which to subsample the data. Selects every Nth sample (where N is the
         value passed to decim). Default set to `None` (no decim).
-    labels : str | list
+    labels :
         The condition labels.
-    unit : str
+    unit :
         The heart rate unit. Can be `'rr'` (R-R intervals, in ms) or `'bpm'` (beats
         per minutes). Default is `'bpm'`.
-    kind : str
+    kind :
         This argument will be passed too:py:func:`systole.utils.heart_rate` and control
         the type of interpolation between instantaneous heart rate estimates.
         This is then the method used by `scipy.interpolate.interp1d`). Can be `'cubic'`
         (defalut), `'linear'`, `'previous'` or `'next'`.
-    ax : :class:`matplotlib.axes.Axes` | None
+    ax :
         Where to draw the plot. Default is *None* (create a new figure).
-    figsize : tuple, int or None
+    figsize :
         Figure size. Default is set to `(13, 5)` if `backend=="matplotlib"` and
         `(400, 400)` if `backend=="bokeh"`.
-    backend: str
+    backend :
         Select plotting backend (`"matplotlib"`, `"bokeh"`). Default sets to
         `"matplotlib"`.
-    kwargs: key, value mappings
+    kwargs:
         Other keyword arguments are passed down to py:`func:seaborn.lineplot()` if
         `backend` is `"matplotlib"`.
 
     Returns
     -------
-    plot : :class:`matplotlib.axes.Axes` or :class:`bokeh.plotting.figure.Figure`
+    plot :
         The matplotlib axes, or the boken figure containing the plot.
 
     See also

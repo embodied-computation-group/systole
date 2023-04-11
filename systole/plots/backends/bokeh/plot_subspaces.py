@@ -16,15 +16,15 @@ def plot_subspaces(
 
     Parameters
     ----------
-    artefacts : dict or None
+    artefacts :
         The artefacts detected using
         :py:func:`systole.detection.rr_artefacts()`.
-    figsize : tuple, int or None
+    figsize :
         Figure size. Defaults to `600` when using bokeh backend.
 
     Returns
     -------
-    fig : :class:`bokeh.models.layout.Row`
+    fig :
         The bokeh figure containing the two plots.
 
     """

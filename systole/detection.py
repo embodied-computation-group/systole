@@ -41,49 +41,49 @@ def ppg_peaks(
 
     Parameters
     ----------
-    signal : np.ndarray | list | pd.Series
+    signal :
         The raw signal recorded from the pulse oximeter time series.
-    sfreq : int
+    sfreq :
         The sampling frequency (Hz).
-    win : int
+    win :
         Window size (in seconds) used to compute the threshold (i.e. rolling mean +
         standard deviation).
-    new_sfreq : int
+    new_sfreq :
         If resample is `True`, the new sampling frequency (Hz). Defaults to `1000`.
-    clipping : boolean
+    clipping :
         If `True`, will apply the clipping artefact correction described in [1]_.
         Defaults to `True`.
-    clipping_thresholds : tuple | list | str
+    clipping_thresholds :
         The values of the minumum and maximum clipping thresholds. Can be a float or
         `None`. If `None`, no correction is applied. If "auto" is provided, will use
        :py:func:`systole.utils.find_clipping` to find the values. Defaults to `"auto"`.
         This parameter is only relevant if `cliping` is `True`.
-    moving_average : bool
+    moving_average :
         Apply mooving average to remove high frequency noise before peaks detection. The
         length of the time windows can be controlled with `moving_average_length`.
-    moving_average_length : float
+    moving_average_length :
         The length of the window used for moveing average (seconds). Default to `0.05`.
-    resample : boolean
+    resample :
         If `True` (default), will resample the signal at *new_sfreq*. Default
         value is 1000 Hz.
-    peak_enhancement : boolean
+    peak_enhancement :
         If `True` (default), the ppg signal is squared before peaks detection.
-    distance : float
+    distance :
         The minimum interval between two peaks (seconds).
-    clean_extra : bool
+    clean_extra :
         If `True`, use `:py:func:systole.detection.rr_artefacts()` to find and
         remove extra peaks. Default is `False`.
-    clean_nan : bool
+    clean_nan :
         If `True`, will interpolate NaNs values if any before any other operation.
         Defaults to `False`.
-    verbose : bool
+    verbose :
         Control function verbosity. Defaults to `False` (do not print processing steps).
 
     Returns
     -------
-    resampled_signal : np.ndarray
+    resampled_signal :
         Signal resampled to the `new_sfreq` frequency.
-    peaks : np.ndarray
+    peaks :
         Boolean array of systolic peaks detection.
 
     Raises
@@ -214,32 +214,32 @@ def ecg_peaks(
 
     Parameters
     ----------
-    signal : np.ndarray | list | pd.Series
+    signal :
         The raw ECG signal.
-    sfreq : int
+    sfreq :
         The sampling frequency. Default is set to `1000` Hz.
-    new_sfreq : int
+    new_sfreq :
         The new sampling frequency. Defaults to `1000` Hz.
-    method : str
+    method :
         The method used. Can be one of the following: `'sleepecg'`, `'hamilton'`,
         `'christov'`, `'engelse-zeelenberg'`, `'pan-tompkins'`, `'moving-average'`.
-    find_local : bool
+    find_local :
         If *True*, will use peaks indexs to search for local peaks given the
         window size (win_size).
-    win_size : int
+    win_size :
         Size of the time window used by :py:func:`systole.utils.to_neighbour()`
         expressed in seconds. Defaut set to `0.1`.
-    clean_nan : bool
+    clean_nan :
         If `True`, will interpolate NaNs values if any before any other operation.
         Defaults to `False`.
-    verbose : bool
+    verbose :
         Control function verbosity. Defaults to `False` (do not print processing steps).
 
     Returns
     -------
-    resampled_signal : np.ndarray
+    resampled_signal :
         Signal resampled to the `new_sfreq` frequency.
-    peaks : np.ndarray
+    peaks :
         Boolean array corresponding to the R peaks detection.
 
     Raises
@@ -325,30 +325,30 @@ def rsp_peaks(
 
     Parameters
     ----------
-    signal : np.ndarray | list | pd.Series
+    signal :
         The respiratory signal. Peaks are considered to represent end of inspiration,
         trough represent end of expiration.
-    sfreq : int
+    sfreq :
         The sampling frequency.
-    new_sfreq : int
+    new_sfreq :
         If resample is `True`, the new sampling frequency. Defaults to `1000` Hz.
     win : int
         Window size (in seconds). Default is set to 25ms, following recommandation
         from [1]_.
-    kind : str
+    kind :
         What kind of detection to perform. Peak detection (`"peaks"`), trough detection
         (`"troughs"`) or both (`"peaks-troughs"`, default).
-    clean_nan : bool
+    clean_nan :
         If `True`, will interpolate NaNs values if any before any other operation.
         Defaults to `False`.
-    verbose : bool
+    verbose :
         Control function verbosity. Defaults to `False` (do not print processing steps).
 
     Returns
     -------
-    resampled_signal : np.ndarray
+    resampled_signal :
         Signal resampled to the `new_sfreq` frequency.
-    peaks | trough | (peaks, trough) : np.ndarray | np.ndarray | (np.ndarray, np.ndarray)
+    peaks | trough | (peaks, trough) :
         Boolean arrays of peaks and / or troughs in the respiratory signal.
 
     Raises
@@ -356,9 +356,6 @@ def rsp_peaks(
     ValueError
         If `kind` is not one of the following: `"peaks"`, `"troughs"` or
         `"peaks-troughs"`.
-
-    Examples
-    --------
 
     Notes
     -----
@@ -439,18 +436,18 @@ def rr_artefacts(
 
     Parameters
     ----------
-    rr : np.ndarray or list
+    rr :
         1d numpy array of RR intervals (in seconds or miliseconds) or peaks
         vector (boolean array).
-    c1 : float
+    c1 :
         Fixed variable controling the slope of the threshold lines. Default is
         `0.13`.
-    c2 : float
+    c2 :
         Fixed variable controling the intersect of the threshold lines. Default
         is `0.17`.
-    alpha : float
+    alpha :
         Scaling factor used to normalize the RR intervals first deviation.
-    input_type : str
+    input_type :
         The type of input vector. Defaults to `"rr_ms"` for vectors of RR
         intervals, or  interbeat intervals (IBI), expressed in milliseconds.
         Can also be a boolean vector where `1` represents the occurrence of
@@ -459,7 +456,7 @@ def rr_artefacts(
 
     Returns
     -------
-    artefacts : dict
+    artefacts :
         Dictionary storing the parameters of RR artefacts rejection. All the vectors
         outputed have the same length as the provided RR time serie:
 
@@ -639,7 +636,7 @@ def interpolate_clipping(
 
     Parameters
     ----------
-    signal : np.ndarray or list
+    signal :
         The PPG signal.
     min_threshold, max_threshold : float | None
         Minimum and maximum thresholds for clipping artefacts. If `None`, no correction
@@ -647,13 +644,13 @@ def interpolate_clipping(
         `max_threshold=255.0`, which corresponds to the expected values when reading
         data from the Nonin 3012LP Xpod USB pulse oximeter together with Nonin 8000SM
         'soft-clip' fingertip sensors.
-    kind : str
+    kind :
         Specifies the kind of interpolation to perform(see
        :py:func:`scipy.interpolate.interp1d`).
 
     Returns
     -------
-    clean_signal : np.ndarray
+    clean_signal :
         Interpolated signal.
 
     Examples

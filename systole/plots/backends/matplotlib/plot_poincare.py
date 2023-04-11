@@ -19,16 +19,16 @@ def plot_poincare(
 
     Parameters
     ----------
-    rr : np.ndarray
+    rr :
         RR intervals (miliseconds).
-    figsize : list, tuple, int or None
+    figsize :
         Figure size. Default is `(8, 8)`.
-    ax : :class:`matplotlib.axes.Axes` or None
+    ax :
         Where to draw the plot. Default is `None` (create a new figure).
 
      Returns
      -------
-     ax  : :class:`matplotlib.axes.Axes`
+     ax  :
         The poincare plot.
 
     """

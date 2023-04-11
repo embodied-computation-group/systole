@@ -1,18 +1,20 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+from typing import List, Tuple, Union
+
 import numpy as np
 from numba import jit
 from scipy.signal import lfilter
 
 
-def christov(signal, sfreq):
+def christov(signal: np.ndarray, sfreq: int) -> np.ndarray:
     """R peaks detection using Christov's method.
 
     Parameters
     ----------
-    signal : np.ndarray
+    signal :
         The unfiltered ECG signal.
-    sfreq : int
+    sfreq :
         The sampling frequency.
 
     Returns
@@ -48,7 +50,7 @@ def christov(signal, sfreq):
 
 
 @jit(nopython=True)
-def numba_one(sfreq):
+def numba_one(sfreq: int) -> Tuple:
     total_taps = 0
 
     b = np.ones(int(0.02 * sfreq))
@@ -59,7 +61,7 @@ def numba_one(sfreq):
 
 
 @jit(nopython=True)
-def numba_two(sfreq, total_taps):
+def numba_two(sfreq: int, total_taps) -> Tuple:
     b = np.ones(int(0.028 * sfreq))
     b = b / int(0.028 * sfreq)
     total_taps += len(b)
@@ -68,7 +70,7 @@ def numba_two(sfreq, total_taps):
 
 
 @jit(nopython=True)
-def numba_three(sfreq, total_taps, MA2):
+def numba_three(sfreq: int, total_taps, MA2) -> Tuple:
     Y = []
     for i in range(1, len(MA2) - 1):
         diff = abs(MA2[i + 1] - MA2[i - 1])
@@ -82,7 +84,7 @@ def numba_three(sfreq, total_taps, MA2):
 
 
 @jit(nopython=True)
-def numba_four(MA3, sfreq, total_taps):
+def numba_four(MA3, sfreq: int, total_taps) -> np.ndarray:
     MA3[0:total_taps] = 0
 
     ms50 = int(0.05 * sfreq)
@@ -91,9 +93,9 @@ def numba_four(MA3, sfreq, total_taps):
     ms350 = int(0.35 * sfreq)
 
     M = 0
-    newM5 = 0
+    newM5 = 0.0
     M_list = []
-    MM = []
+    MM: List[Union[int, float]] = []
     M_slope = np.linspace(1.0, 0.6, ms1200 - ms200)
     F = 0
     F_list = []
@@ -105,7 +107,7 @@ def numba_four(MA3, sfreq, total_taps):
     MFR = 0
     MFR_list = []
 
-    QRS = []
+    QRS: List = []
 
     for i in range(len(MA3)):
         # M

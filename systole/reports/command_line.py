@@ -39,31 +39,31 @@ def wrapper(
 
     Parameters
     ----------
-    bids_folder : str
+    bids_folder :
         The path to the BIDS structured folder containing the raw data.
-    participants_id : str | list
+    participants_id :
         String or list of strings defining the participant(s) ID that should be
         processed.
-    patterns : str | list
+    patterns :
         The string pattern(s) that will be looked for in the subject files. This pattern
         can help to identify a given pattern (e.g. `"pattern-mypattern"`) or more complexe
         recording IDs. This string should match with a file name pattern in the subject
         folder. If it is matching with more than one file, the operatio is aborted.
-    sessions : str | list
+    sessions :
         The session reference that should be analyzed. Should match a session number in
         the BIDS folder. Defaults to `"session1"`.
-    modality : str
+    modality :
         The type of data (e.g. `"beh"`, `"func"`...) where the physiological recording
         is stored. Defaults to `"beh"`.
-    result_folder : str
+    result_folder :
         The result folder.
-    template_file : str
+    template_file :
         The template file for group-level report.
-    overwrite : bool
+    overwrite :
         Create new individual reports if `True` (default).
-    n_jobs : int
+    n_jobs :
         Number of processes to run in parallel.
-    html_report : bool
+    html_report :
         If `True`, save an html report. This file embeds the signal for
         interactive visualization and can therefore be large, it is recommended to
         generate HTML reports for review or problematic recordings only.

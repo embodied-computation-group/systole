@@ -3,7 +3,7 @@
 from typing import Dict, List, Optional, Tuple, Union, overload
 
 import numpy as np
-from bokeh.plotting import figure
+from bokeh.plotting._figure import figure
 from matplotlib.axes import Axes
 
 from systole.correction import rr_artefacts
@@ -48,31 +48,31 @@ def plot_shortlong(
 
     Parameters
     ----------
-    rr : :py:class:`numpy.ndarray` | None
+    rr :
         Interval time-series (R-R, beat-to-beat...), in seconds or in
         miliseconds.
-    artefacts : dict | None
+    artefacts :
         The artefacts detected using
         :py:func:`systole.detection.rr_artefacts()`.
-    input_type : str
+    input_type :
         The type of input vector. Default is `"peaks"` (a boolean vector where
         `1` represents the occurrence of R waves or systolic peaks).
         Can also be `"rr_s"` or `"rr_ms"` for vectors of RR intervals, or
         interbeat intervals (IBI), expressed in seconds or milliseconds
         (respectively).
-    ax : :class:`matplotlib.axes.Axes` | None
+    ax :
         Where to draw the plot. Default is *None* (create a new figure). Only
         applies when `backend="matplotlib"`.
-    backend: str
+    backend :
         Select plotting backend {"matplotlib", "bokeh"}. Defaults to
         "matplotlib".
-    figsize : tuple | int | None
+    figsize :
         Figure size. Default is `(6, 6)` for matplotlib backend, and the height
         is `600` when using bokeh backend.
 
     Returns
     -------
-    plot : :class:`matplotlib.axes.Axes` | :class:`bokeh.plotting.figure.Figure`
+    plot :
         The matplotlib axes, or the boken figure containing the plot.
 
     See also
@@ -81,10 +81,10 @@ def plot_shortlong(
 
     References
     ----------
-    .. [1] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for
-        heart rate variability time series artefact correction using novel beat
-        classification. Journal of Medical Engineering & Technology, 43(3),
-        173–181. https://doi.org/10.1080/03091902.2019.1640306
+    .. [1] Lipponen, J. A., & Tarvainen, M. P. (2019). A robust algorithm for heart rate
+        variability time series artefact correction using novel beat classification.
+        Journal of Medical Engineering & Technology, 43(3), 173–181.
+        https://doi.org/10.1080/03091902.2019.1640306
 
     Notes
     -----

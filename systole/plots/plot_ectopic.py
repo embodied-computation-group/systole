@@ -3,7 +3,7 @@
 from typing import Dict, List, Optional, Tuple, Union, overload
 
 import numpy as np
-from bokeh.plotting import figure
+from bokeh.plotting._figure import figure
 from matplotlib.axes import Axes
 
 from systole.correction import rr_artefacts
@@ -52,30 +52,30 @@ def plot_ectopic(
 
     Parameters
     ----------
-    rr : np.ndarray | None
+    rr :
         Interval time-series (R-R, beat-to-beat...), in miliseconds.
-    artefacts : dict | None
+    artefacts :
         The artefacts detected using
         :py:func:`systole.detection.rr_artefacts()`.
-    input_type : str
+    input_type :
         The type of input vector. Default is `"rr_ms"` for vectors of
         RR intervals, or interbeat intervals (IBI), expressed in milliseconds.
         Can also be `"peaks"` (a boolean vector where `1` represents the
         occurrence of R waves or systolic peaks) or `"rr_s"` for IBI expressed
         in seconds.
-    ax : :class:`matplotlib.axes.Axes` | None
+    ax :
         Where to draw the plot. Default is *None* (create a new figure). Only
         applies when `backend="matplotlib"`.
-    backend: str
+    backend :
         Select plotting backend (`"matplotlib"` or `"bokeh"`. Defaults to
         `"matplotlib"`.
-    figsize : tuple | int | None
+    figsize :
         Figure size. Default is `(13, 5)` for Matplotlib backend, and the
         height is `600` when using Bokeh backend.
 
     Returns
     -------
-    plot : :class:`matplotlib.axes.Axes` or :class:`bokeh.plotting.figure.Figure`
+    plot :
         The matplotlib axes, or the boken figure containing the plot.
 
     See also

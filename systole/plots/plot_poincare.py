@@ -20,25 +20,25 @@ def plot_poincare(
 
     Parameters
     ----------
-    rr : np.ndarray | list
+    rr :
         Boolean vector of peaks detection or RR intervals.
-    input_type : str
+    input_type :
         The type of input vector. Default is `"peaks"` (a boolean vector where
         `1` represents the occurrence of R waves or systolic peaks).
         Can also be `"rr_s"` or `"rr_ms"` for vectors of RR intervals, or
         interbeat intervals (IBI), expressed in seconds or milliseconds
         (respectively).
-    figsize : list | tuple | int | None
+    figsize :
         Figure size. Default is `(13, 5)`.
-    backend: str
+    backend :
         Select plotting backend {"matplotlib", "bokeh"}. Defaults to
         "matplotlib".
-    ax : :class:`matplotlib.axes.Axes` | None
+    ax :
         Where to draw the plot. Default is `None` (create a new figure).
 
     Returns
     -------
-    plot : :class:`matplotlib.axes.Axes` or :class:`bokeh.plotting.figure.Figure`
+    plot :
         The matplotlib axes, or the boken figure containing the plot.
 
     See also

@@ -17,19 +17,19 @@ def nnX(rr: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> 
 
     Parameters
     ----------
-    rr : np.ndarray | list
+    rr :
         R-R interval time-series, peaks or peaks index vectors. The default expected
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
-    t : int
+    t :
         Threshold value: Defaut is set to 50 ms to calculate the nn50 index.
-    input_type : str
+    input_type :
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
-    nnX : int
+    nnX :
         The number of successive differences larger than a value.
 
     """
@@ -53,19 +53,19 @@ def pnnX(rr: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") ->
 
     Parameters
     ----------
-    rr : np.ndarray | list
+    rr :
         R-R interval time-series, peaks or peaks index vectors. The default expected
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
-    t : int
+    t :
         Threshold value: Defaut is set to 50 ms to calculate the nn50 index.
-    input_type : str
+    input_type :
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
-    nn : float
+    nn :
         The proportion of successive differences larger than a value (%).
 
     """
@@ -92,17 +92,17 @@ def rmssd(rr: Union[List, np.ndarray], input_type: str = "rr_ms") -> float:
 
     Parameters
     ----------
-    rr : np.ndarray | list
+    rr :
         R-R interval time-series, peaks or peaks index vectors. The default expected
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
-    input_type : str
+    input_type :
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
-    y : float
+    y :
         The Root Mean Square of Successive Differences (RMSSD).
 
     Examples
@@ -131,17 +131,17 @@ def time_domain(rr: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.Da
 
     Parameters
     ----------
-    rr : np.ndarray | list
+    rr :
         R-R interval time-series, peaks or peaks index vectors. The default expected
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
-    input_type : str
+    input_type :
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
-    stats : :py:class:`pandas.DataFrame`
+    stats :
         Time domain summary statistics.
         * 'MeanRR' : Mean of R-R intervals (ms).
         * 'MeanBPM' : Mean of beats per minutes (bpm).
@@ -269,21 +269,21 @@ def psd(
 
     Parameters
     ----------
-    rr : np.ndarray | list
+    rr :
         R-R interval time-series, peaks or peaks index vectors. The default expected
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
-    sfreq : int
+    sfreq :
         The sampling frequency (Hz) of the interpolated instantaneous heart rate.
-    method : str
+    method :
         The method used to extract freauency power. Default is ``'welch'``.
-    input_type : str
+    input_type :
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
-    freq, power : np.ndarray
+    freq, power :
         The frequency and power spectral density of the given signal.
 
     See also
@@ -327,29 +327,29 @@ def frequency_domain(
 
     Parameters
     ----------
-    rr : np.ndarray | list
+    rr :
         R-R interval time-series, peaks or peaks index vectors. The default expected
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
-    sfreq : int
+    sfreq :
         The sampling frequency (Hz) used to interpolate the instantaneous heart rate
         for PSD computation.
-    method : str
+    method :
         The method used to extract the power of the different frequency bands. Default
         is ``'welch'`` (only one method is implemented for now).
-    fbands : None | dict
+    fbands :
         Dictionary containing the names of the frequency bands of interest
         (str), their range (tuples) and their color in the PSD plot. Default is
         >>> {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
         >>>  'lf': ('Low frequency', (0.04, 0.15), 'g'),
         >>>  'hf': ('High frequency', (0.15, 0.4), 'r')}
-    input_type : str
+    input_type :
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
-    stats : :py:class:`pandas.DataFrame`
+    stats :
         Frequency domain summary statistics.
         * 'vlf_peak' : Very low frequency peak (HZ).
         * 'vlf_power' : Very low frequency power (ms²).
@@ -479,17 +479,17 @@ def nonlinear_domain(
 
     Parameters
     ----------
-    rr : list | np.ndarray
+    rr :
         R-R interval time-series, peaks or peaks index vectors. The default expected
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
-    input_type : str
+    input_type :
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
-    stats : :py:class:`pandas.DataFrame`
+    stats :
         Nonlinear domain summary statistics.
         * 'SD1' : SD1, the standard deviation of the poincare plot orthogonal to the identity line (ms).
         * 'SD2' : SD2, the standard deviation of the poincare plot along the identity line (ms).
@@ -563,21 +563,21 @@ def poincare(
 
     Parameters
     ----------
-    rr : list | np.ndarray
+    rr :
         R-R interval time-series, peaks or peaks index vectors. The default expected
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
-    input_type : str
+    input_type :
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
-    sd1 : float
+    sd1 :
         The standard deviation of the points perpendicular to the identity line. This
         metric is thought to be influenced mainly by the respiratory sinus arythmia
         (RSA) and reflect short-term heart rate variability.
-    sd2 : float
+    sd2 :
         The standard deviation of the points along the identity line. This metric is
         thought to reflect the long-term heart rate variability.
 
@@ -636,26 +636,26 @@ def recurrence(
 
     Parameters
     ----------
-    rr : list | np.ndarray
+    rr :
         R-R interval time-series, peaks or peaks index vectors. The default expected
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
-    input_type : str
+    input_type :
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
-    recurrence_rate : float
+    recurrence_rate :
         The percentage of recurence in the time series. This corresponds to the ratio
         of ones and zeros in the recurrence plot.
-    l_max : int
+    l_max :
         Maximum lenght of the diagonale in the reccurence plot.
-    l_mean : float
+    l_mean :
         Mean of the diagonals lengths observed in the recurence plot.
-    determinism_rate : float
+    determinism_rate :
         The percentage of determinism in the time series.
-    shan_entr : float
+    shan_entr :
         Shannon information entropy.
 
     .. warning:: The recurrence plots results does not reproduce what is obtained using
@@ -750,18 +750,18 @@ def recurrence_matrix(rr: np.ndarray, m: int = 10, tau: int = 1) -> np.ndarray:
 
     Parameters
     ----------
-    rr : np.ndarray
+    rr :
         R-R interval time-series. Can be in seconds or miliseconds.
-    m : int
+    m :
         The embedding dimension. This corresponds to the length of the subsamples.
         Defaults to `10`.
-    tau : int
+    tau :
         The embedding lag. This corresponds to the number of datapoints that are skipped
         when creating the sub-sample. Defaults to `1` (take all values).
 
     Returns
     -------
-    rc : np.ndarray
+    rc :
         The recurrence matrix.
 
     References
@@ -803,17 +803,17 @@ def all_domain(rr: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.Dat
 
     Parameters
     ----------
-    rr : list | np.ndarray
+    rr :
         R-R interval time-series, peaks or peaks index vectors. The default expected
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
-    input_type : str
+    input_type :
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
 
     Returns
     -------
-    stats : :py:class:`pandas.DataFrame`
+    stats :
         Summary of the HRV indices extracted.
         * 'MeanRR' : Mean of R-R intervals (ms).
         * 'MeanBPM' : Mean of beats per minutes (bpm).

@@ -22,31 +22,30 @@ def import_manual_correction(
 
     Parameters
     ----------
-    bids_path : str
+    bids_path :
         path of bids folder (i.e., "/mnt/scratch/BIDS")
-    participant_id : str
+    participant_id :
         participant id (i.e., "sub-0001").
-    session : str
+    session :
         data recording session (i.e., "ses-session1").
-    modality : str
+    modality :
         data recording modality (i.e., "func").
-    pattern : str
+    pattern :
         data file pattern (i.e., "task-rest_run-001_recording-exg").
-    signal_type: str
+    signal_type:
         cardiac signal type (i.e., "ECG" or "PPG").
-    cardiac_name : str
-        name of cardiac column in .json (i.e., "ECG", "ecg", "PPG", "ppg", "PLETH", "cardiac" etc)
-    sfreq : int
+    cardiac_name :
+        name of cardiac column in .json (i.e., "ECG", "ecg", "PPG", "ppg", "PLETH",
+        "cardiac" etc)
+    sfreq :
         sampling frequency.
 
     Returns
     -------
     ppg_df : pd.DataFrame
-        DataFrame of preprocessed (resampled to 1000 Hz) cardiac signal, uncorrected peaks and corrected peaks.
+        DataFrame of preprocessed (resampled to 1000 Hz) cardiac signal, uncorrected
+        peaks and corrected peaks.
 
-    Example
-    -------
-    signal_peaks = import_manual_correction("/mnt/scratch/BIDS", "sub-0001", "ses-session1", "func", "task-rest_run-001_recording-exg", "PPG", "PLETH", 1000)
     """
 
     # load preprocessed signal (if exists)

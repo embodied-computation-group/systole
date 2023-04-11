@@ -29,20 +29,20 @@ def import_data(
 
     Parameters
     ----------
-    bids_folder : str | PathLike
+    bids_folder :
         The path to the BIDS folder. This folder should containt the participant
         `participant_id` and have a pattern `pattern` with at least one of the possible
         physiological recordings (ECG, PPG, respiration).
-    participant_id : str | PathLike
+    participant_id :
         The participant ID. The string should match with one participant in the BIDS
         folder provided as `"bids_folder"`.
-    pattern : str | PathLike
+    pattern :
         The pattern name. The string should match with a pattern in the BIDS folder provided
         as `"bids_folder"`.
-    modality : str | PathLike
+    modality :
         The type of data (e.g. `"beh"`, `"func"`...) where the physiological recording
         is stored. Defaults to `"beh"`.
-    session : str | PathLike
+    session :
         The session name. The string should match with a session in the BIDS folder
         provided as `"bids_folder"`. Defaults to `"session1"`.
 
@@ -53,20 +53,20 @@ def import_data(
         (ppg, ppg_sfreq, ppg_events_idx),
         (rsp, rsp_sfreq, rsp_events_idx),
         file_name
-        ) : tuple
+        ) :
         Tuples of signal, sampling frequency and events indexs for ECG, PPG and
         respiration with the file name from the BIDS folder.
 
-    ecg, ppg, rsp : np.ndarray | None
+    ecg, ppg, rsp :
         The ECG, PPG and respiration signals as Numpy arrays (when available). Otherwise
         returns `None`.
-    ecg_sfreq, ppg_sfreq, rsp_sfreq: int | None
+    ecg_sfreq, ppg_sfreq, rsp_sfreq :
         The ECG, PPG and respiration sampling frequency (when the signal is available).
         Otherwise returns `None`.
-    ecg_events_idx, ppg_events_idx, rsp_events_idx : list | np.ndarray | None
+    ecg_events_idx, ppg_events_idx, rsp_events_idx :
         The ECG, PPG and respiration events associated with the signals (when available).
         Otherwise returns `None`.
-    file_name : str | None
+    file_name :
         File name that will be used to save the results in the corresponding derivative
         folder.
 
@@ -207,27 +207,27 @@ def create_reports(
 
     Parameters
     ----------
-    participant_id : str | list
+    participant_id :
         List of participants ID that will be processed. If `None`, all the participants
         listed in the folder will be processed.
-    bids_folder : str
+    bids_folder :
         Path to the main folder organized according to BIDS standards. The folder must
         contain a pattern matching with the `pattern` parameter (if provided) and the
         participants listed in `participants_id` (if provided).
-    result_folder : str
+    result_folder :
         Path to the main output folder. A report folder will be created for each
         participant, containing the summary statistics and HTML reports for each pattern
         provided in the `pattern` parameter.
-    pattern : str | list
+    pattern :
         The pattern(s) that should be analyzed. Should match a pattern reference in the BIDS
         folder.
-    modality : str
+    modality :
         The type of data (e.g. `"beh"`, `"func"`...) where the physiological recording
         is stored. Defaults to `"beh"`.
-    session : str | list
+    session :
         The session reference that should be analyzed. Should match a session number in
         the BIDS folder. Defaults to `"session1"`.
-    html_report : bool
+    html_report :
         If `True`, save an html report. This file embeds the signal for
         interactive visualization and can therefore be large, it is recommended to
         generate HTML reports for review or problematic recordings only.

@@ -1,5 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
+from typing import List
+
 import numpy as np
 from numba import jit
 from scipy.signal import butter, lfilter
@@ -12,14 +14,14 @@ def moving_average(signal: np.ndarray, sfreq: int) -> np.ndarray:
 
     Parameters
     ----------
-    signal : np.ndarray
+    signal :
         The unfiltered ECG signal.
-    sfreq : int
+    sfreq :
         The sampling frequency.
 
     Returns
     -------
-    peaks : np.ndarray
+    peaks :
         The indexs of the ECG peaks.
 
     References
@@ -52,7 +54,9 @@ def moving_average(signal: np.ndarray, sfreq: int) -> np.ndarray:
 
 
 @jit(nopython=True)
-def numba_one(signal, mwa_qrs, mwa_beat, sfreq, filtered_ecg):
+def numba_one(
+    signal: np.ndarray, mwa_qrs, mwa_beat, sfreq: int, filtered_ecg: np.ndarray
+) -> np.ndarray:
     blocks = np.zeros(len(signal))
     block_height = np.max(filtered_ecg)
 
@@ -62,7 +66,7 @@ def numba_one(signal, mwa_qrs, mwa_beat, sfreq, filtered_ecg):
         else:
             blocks[i] = 0
 
-    QRS = []
+    QRS: List = []
 
     for i in range(1, len(blocks)):
         if blocks[i - 1] == 0 and blocks[i] == block_height:
