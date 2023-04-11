@@ -1,4 +1,4 @@
-name: Test
+name: Tests and coverage
 
 on:
   push:
@@ -14,26 +14,24 @@ jobs:
       matrix:
         python-version: ["3.10"]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@master
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
-    - uses: actions/cache@v2
-      name: Configure pip caching
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/setup.py') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
+        cache: 'pip'
     - name: Install dependencies
       run: |
         pip install -r requirements-tests.txt
-        pip install ipykernel coverage pytest pytest-cov
-        python -m ipykernel install --user --name python3
+        pip install coverage pytest pytest-cov
         pip install .
     - name: Run tests and coverage
       run: |
-        pytest --cov=./ --cov-report=xml
+        pytest ./tests/ --cov=./systole/ --cov-report=xml
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v3.1.1
+      with:
+        files: coverage.xml
+        verbose: true
+        token: ${{ secrets.CODECOV_TOKEN }}
+        fail_ci_if_error: true
