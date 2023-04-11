@@ -27,6 +27,6 @@ jobs:
         pip install .
     - name: Run tests and coverage
       run: |
-        pytest --cov=./ --cov-report=xml
+        pytest --cov=./systole/ --cov-report=xml
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
