@@ -490,43 +490,29 @@ document.write(`
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>peaks</strong><span class="classifier">np.ndarray</span></dt><dd><p>Boolean vector of peaks.</p>
+<dt><strong>peaks</strong></dt><dd><p>Boolean vector of peaks.</p>
 </dd>
-<dt><strong>input_type</strong><span class="classifier">str</span></dt><dd><p>The type of input vector. Defaults to <cite>“rr_ms”</cite> for vectors of RR intervals, or
+<dt><strong>input_type</strong></dt><dd><p>The type of input vector. Defaults to <cite>“rr_ms”</cite> for vectors of RR intervals, or
 interbeat intervals (IBI), expressed in milliseconds. Can also be a boolean
 vector where <cite>1</cite> represents the occurrence of R waves or systolic peakspeaks
 vector <cite>“rr_s”</cite> or IBI expressed in seconds.</p>
 </dd>
-<dt><strong>extra_correction</strong><span class="classifier">bool</span></dt><dd><p>If <cite>True</cite> (default), correct extra peaks in the peaks time series.</p>
+<dt><strong>extra_correction</strong></dt><dd><p>If <cite>True</cite> (default), correct extra peaks in the peaks time series.</p>
 </dd>
-<dt><strong>missed_correction</strong><span class="classifier">bool</span></dt><dd><p>If <cite>True</cite> (default), correct missed peaks in the peaks time series.</p>
+<dt><strong>missed_correction</strong></dt><dd><p>If <cite>True</cite> (default), correct missed peaks in the peaks time series.</p>
 </dd>
-<dt><strong>n_iterations</strong><span class="classifier">int</span></dt><dd><p>How many time to repeat the detection-correction process. Defaults to <cite>1</cite>.</p>
+<dt><strong>n_iterations</strong></dt><dd><p>How many time to repeat the detection-correction process. Defaults to <cite>1</cite>.</p>
 </dd>
-<dt><strong>verbose</strong><span class="classifier">bool</span></dt><dd><p>Control the verbosity of the function. Defaults to <cite>True</cite>.</p>
+<dt><strong>verbose</strong></dt><dd><p>Control the verbosity of the function. Defaults to <cite>True</cite>.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>correction</strong><span class="classifier">dictionary</span></dt><dd><p>The corrected RR time series and the number of artefacts corrected:</p>
-<ul class="simple">
-<li><dl class="simple">
-<dt>clean_peaks: np.ndarray</dt><dd><p>The corrected boolean time-serie.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>extra: int</dt><dd><p>The number of extra beats corrected.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>missed: int</dt><dd><p>The number of missed beats corrected.</p>
-</dd>
-</dl>
-</li>
-</ul>
+<dt>correction</dt><dd><p>The corrected RR time series and the number of artefacts corrected:
+- clean_peaks: The corrected boolean time-serie.
+- extra: The number of extra beats corrected.
+- missed: The number of missed beats corrected.</p>
 </dd>
 </dl>
 </dd>

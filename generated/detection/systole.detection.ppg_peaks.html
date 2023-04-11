@@ -493,19 +493,19 @@ systolic peaks.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl>
-<dt><strong>signal</strong><span class="classifier">np.ndarray | list | pd.Series</span></dt><dd><p>The raw signal recorded from the pulse oximeter time series.</p>
+<dt><strong>signal</strong></dt><dd><p>The raw signal recorded from the pulse oximeter time series.</p>
 </dd>
-<dt><strong>sfreq</strong><span class="classifier">int</span></dt><dd><p>The sampling frequency (Hz).</p>
+<dt><strong>sfreq</strong></dt><dd><p>The sampling frequency (Hz).</p>
 </dd>
-<dt><strong>win</strong><span class="classifier">int</span></dt><dd><p>Window size (in seconds) used to compute the threshold (i.e. rolling mean +
+<dt><strong>win</strong></dt><dd><p>Window size (in seconds) used to compute the threshold (i.e. rolling mean +
 standard deviation).</p>
 </dd>
-<dt><strong>new_sfreq</strong><span class="classifier">int</span></dt><dd><p>If resample is <cite>True</cite>, the new sampling frequency (Hz). Defaults to <cite>1000</cite>.</p>
+<dt><strong>new_sfreq</strong></dt><dd><p>If resample is <cite>True</cite>, the new sampling frequency (Hz). Defaults to <cite>1000</cite>.</p>
 </dd>
-<dt><strong>clipping</strong><span class="classifier">boolean</span></dt><dd><p>If <cite>True</cite>, will apply the clipping artefact correction described in <a class="reference internal" href="#r57c6d7365c14-1" id="id1">[1]</a>.
+<dt><strong>clipping</strong></dt><dd><p>If <cite>True</cite>, will apply the clipping artefact correction described in <a class="reference internal" href="#r57c6d7365c14-1" id="id1">[1]</a>.
 Defaults to <cite>True</cite>.</p>
 </dd>
-<dt><strong>clipping_thresholds</strong><span class="classifier">tuple | list | str</span></dt><dd><blockquote>
+<dt><strong>clipping_thresholds</strong></dt><dd><blockquote>
 <div><p>The values of the minumum and maximum clipping thresholds. Can be a float or
 <cite>None</cite>. If <cite>None</cite>, no correction is applied. If “auto” is provided, will use</p>
 </div></blockquote>
@@ -514,33 +514,33 @@ Defaults to <cite>True</cite>.</p>
 </dd>
 </dl>
 </dd>
-<dt><strong>moving_average</strong><span class="classifier">bool</span></dt><dd><p>Apply mooving average to remove high frequency noise before peaks detection. The
+<dt><strong>moving_average</strong></dt><dd><p>Apply mooving average to remove high frequency noise before peaks detection. The
 length of the time windows can be controlled with <cite>moving_average_length</cite>.</p>
 </dd>
-<dt><strong>moving_average_length</strong><span class="classifier">float</span></dt><dd><p>The length of the window used for moveing average (seconds). Default to <cite>0.05</cite>.</p>
+<dt><strong>moving_average_length</strong></dt><dd><p>The length of the window used for moveing average (seconds). Default to <cite>0.05</cite>.</p>
 </dd>
-<dt><strong>resample</strong><span class="classifier">boolean</span></dt><dd><p>If <cite>True</cite> (default), will resample the signal at <em>new_sfreq</em>. Default
+<dt><strong>resample</strong></dt><dd><p>If <cite>True</cite> (default), will resample the signal at <em>new_sfreq</em>. Default
 value is 1000 Hz.</p>
 </dd>
-<dt><strong>peak_enhancement</strong><span class="classifier">boolean</span></dt><dd><p>If <cite>True</cite> (default), the ppg signal is squared before peaks detection.</p>
+<dt><strong>peak_enhancement</strong></dt><dd><p>If <cite>True</cite> (default), the ppg signal is squared before peaks detection.</p>
 </dd>
-<dt><strong>distance</strong><span class="classifier">float</span></dt><dd><p>The minimum interval between two peaks (seconds).</p>
+<dt><strong>distance</strong></dt><dd><p>The minimum interval between two peaks (seconds).</p>
 </dd>
-<dt><strong>clean_extra</strong><span class="classifier">bool</span></dt><dd><p>If <cite>True</cite>, use <cite>:py:func:systole.detection.rr_artefacts()</cite> to find and
+<dt><strong>clean_extra</strong></dt><dd><p>If <cite>True</cite>, use <cite>:py:func:systole.detection.rr_artefacts()</cite> to find and
 remove extra peaks. Default is <cite>False</cite>.</p>
 </dd>
-<dt><strong>clean_nan</strong><span class="classifier">bool</span></dt><dd><p>If <cite>True</cite>, will interpolate NaNs values if any before any other operation.
+<dt><strong>clean_nan</strong></dt><dd><p>If <cite>True</cite>, will interpolate NaNs values if any before any other operation.
 Defaults to <cite>False</cite>.</p>
 </dd>
-<dt><strong>verbose</strong><span class="classifier">bool</span></dt><dd><p>Control function verbosity. Defaults to <cite>False</cite> (do not print processing steps).</p>
+<dt><strong>verbose</strong></dt><dd><p>Control function verbosity. Defaults to <cite>False</cite> (do not print processing steps).</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>resampled_signal</strong><span class="classifier">np.ndarray</span></dt><dd><p>Signal resampled to the <cite>new_sfreq</cite> frequency.</p>
+<dt>resampled_signal</dt><dd><p>Signal resampled to the <cite>new_sfreq</cite> frequency.</p>
 </dd>
-<dt><strong>peaks</strong><span class="classifier">np.ndarray</span></dt><dd><p>Boolean array of systolic peaks detection.</p>
+<dt>peaks</dt><dd><p>Boolean array of systolic peaks detection.</p>
 </dd>
 </dl>
 </dd>

@@ -491,22 +491,22 @@ document.write(`
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>rr</strong><span class="classifier">list | np.ndarray</span></dt><dd><p>R-R interval time-series, peaks or peaks index vectors. The default expected
+<dt><strong>rr</strong></dt><dd><p>R-R interval time-series, peaks or peaks index vectors. The default expected
 vector is R-R intervals in milliseconds. Other data format can be provided by
 specifying the <cite>“input_type”</cite> (can be <cite>“rr_s”</cite>, <cite>“peaks”</cite> or <cite>“peaks_idx”</cite>).</p>
 </dd>
-<dt><strong>input_type</strong><span class="classifier">str</span></dt><dd><p>The type of input provided. Can be <cite>“peaks”</cite>, <cite>“peaks_idx”</cite>, <cite>“rr_ms”</cite> or
+<dt><strong>input_type</strong></dt><dd><p>The type of input provided. Can be <cite>“peaks”</cite>, <cite>“peaks_idx”</cite>, <cite>“rr_ms”</cite> or
 <cite>“rr_s”</cite>. Defaults to <cite>“rr_ms”</cite>.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>sd1</strong><span class="classifier">float</span></dt><dd><p>The standard deviation of the points perpendicular to the identity line. This
+<dt>sd1</dt><dd><p>The standard deviation of the points perpendicular to the identity line. This
 metric is thought to be influenced mainly by the respiratory sinus arythmia
 (RSA) and reflect short-term heart rate variability.</p>
 </dd>
-<dt><strong>sd2</strong><span class="classifier">float</span></dt><dd><p>The standard deviation of the points along the identity line. This metric is
+<dt>sd2</dt><dd><p>The standard deviation of the points along the identity line. This metric is
 thought to reflect the long-term heart rate variability.</p>
 </dd>
 </dl>

@@ -483,6 +483,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">bokeh.plotting._figure</span> <span class="kn">import</span> <span class="n">figure</span>
 <span class="kn">from</span> <span class="nn">matplotlib.axes</span> <span class="kn">import</span> <span class="n">Axes</span>
 
 <span class="kn">from</span> <span class="nn">systole.plots.utils</span> <span class="kn">import</span> <span class="n">get_plotting_function</span>
@@ -500,47 +501,47 @@ document.write(`
     <span class="n">ax</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Axes</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">backend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;matplotlib&quot;</span><span class="p">,</span>
     <span class="n">palette</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Axes</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Axes</span><span class="p">,</span> <span class="n">figure</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Visualize the occurence of events along the physiological recording.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    triggers : list | np.ndarray</span>
+<span class="sd">    triggers :</span>
 <span class="sd">        The events triggers. `0` indicates no events, `1` indicates the triger</span>
 <span class="sd">        for one event. Different conditions should be provided separately as list</span>
 <span class="sd">        of arrays.</span>
-<span class="sd">    triggers_idx : list | np.ndarray</span>
+<span class="sd">    triggers_idx :</span>
 <span class="sd">        Trigger indexes. Each value encode the sample where an event occured (see</span>
 <span class="sd">        also `sfreq`). Different conditions should be provided separately as list of</span>
 <span class="sd">        arrays (can have different lenght).</span>
-<span class="sd">    labels : dict</span>
+<span class="sd">    labels :</span>
 <span class="sd">        The events label. The key of the dictionary is the condition number (from 1 to</span>
 <span class="sd">        n, as `str`), the value is the label (`str`). Default set to</span>
 <span class="sd">        `{&quot;1&quot;: &quot;Event - 1&quot;}` if one condition is provided, and generalize up to n</span>
 <span class="sd">        conditions `{&quot;n&quot;: &quot;Event - n&quot;}`.</span>
-<span class="sd">    tmin, tmax : float</span>
+<span class="sd">    tmin, tmax :</span>
 <span class="sd">        Start and end time of the epochs in seconds, relative to the time-locked event.</span>
 <span class="sd">        Defaults to `-1.0` and `10.0`, respectively.</span>
-<span class="sd">    sfreq : int</span>
+<span class="sd">    sfreq :</span>
 <span class="sd">        Signal sampling frequency. Default is set to 1000 Hz.</span>
-<span class="sd">    behavior : list | py:class:`pandas.DataFrame` | None</span>
+<span class="sd">    behavior :</span>
 <span class="sd">        (Optional) Additional information about trials that will appear when hovering</span>
 <span class="sd">        on the area (`bokeh` version only). A py:class:`pd.DataFrame` instance with</span>
 <span class="sd">        length = n trials, or a list of py:class:`pd.DataFrame` (for multiple</span>
 <span class="sd">        conditions) should be provided.</span>
-<span class="sd">    figsize : tuple</span>
+<span class="sd">    figsize :</span>
 <span class="sd">        Figure size. Default is `(13, 5)`.</span>
 <span class="sd">    ax : :class:`matplotlib.axes.Axes` | :class:`bokeh.plotting.figure.Figure` | None</span>
 <span class="sd">        Where to draw the plot. Default is `None` (create a new figure).</span>
-<span class="sd">    backend: str</span>
+<span class="sd">    backend :</span>
 <span class="sd">        Select plotting backend (`&quot;matplotlib&quot;`, `&quot;bokeh&quot;`). Defaults to</span>
 <span class="sd">        `&quot;matplotlib&quot;`.</span>
-<span class="sd">    palette : list | None</span>
+<span class="sd">    palette :</span>
 <span class="sd">        Color palette. Default sets to Seaborn `&quot;deep&quot;`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    plot : :class:`matplotlib.axes.Axes` | :class:`bokeh.plotting.figure.Figure`</span>
+<span class="sd">    plot :</span>
 <span class="sd">        The matplotlib axes, or the boken figure containing the plot.</span>
 
 <span class="sd">    See also</span>

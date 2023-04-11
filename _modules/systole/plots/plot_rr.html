@@ -480,7 +480,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">bokeh.plotting</span> <span class="kn">import</span> <span class="n">figure</span>
+<span class="kn">from</span> <span class="nn">bokeh.plotting._figure</span> <span class="kn">import</span> <span class="n">figure</span>
 <span class="kn">from</span> <span class="nn">matplotlib.axes</span> <span class="kn">import</span> <span class="n">Axes</span>
 
 <span class="kn">from</span> <span class="nn">systole.detection</span> <span class="kn">import</span> <span class="n">rr_artefacts</span>
@@ -508,31 +508,31 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : np.ndarray | list</span>
+<span class="sd">    rr :</span>
 <span class="sd">        Boolean vector of peaks detection, peaks indexs or RR intervals.</span>
-<span class="sd">    unit : str</span>
+<span class="sd">    unit :</span>
 <span class="sd">        The heart rate unit in use. Can be `&#39;rr&#39;` (R-R intervals, in ms)</span>
 <span class="sd">        or `&#39;bpm&#39;` (beats per minutes). Default is `&#39;rr&#39;`.</span>
-<span class="sd">    kind : str</span>
+<span class="sd">    kind :</span>
 <span class="sd">        The method to use (parameter of `scipy.interpolate.interp1d`). The</span>
 <span class="sd">        possible relevant methods for instantaneous heart rate are `&#39;cubic&#39;`</span>
 <span class="sd">        (defalut), `&#39;linear&#39;`, `&#39;previous&#39;` and `&#39;next&#39;`.</span>
-<span class="sd">    line : bool</span>
+<span class="sd">    line :</span>
 <span class="sd">        If `True`, plot the interpolated instantaneous heart rate.</span>
-<span class="sd">    points : bool</span>
+<span class="sd">    points :</span>
 <span class="sd">        If `True`, plot each peaks (R wave or systolic peaks) as separated</span>
 <span class="sd">        points</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input vector. Default is `&quot;peaks&quot;` (a boolean vector where</span>
 <span class="sd">        `1` represents the occurrence of R waves or systolic peaks).</span>
 <span class="sd">        Can also be `&quot;peaks_idx&quot;`, the idexs of samples where a peaks is detected,</span>
 <span class="sd">        `&quot;rr_s&quot;` or `&quot;rr_ms&quot;` for vectors of RR intervals, or interbeat intervals</span>
 <span class="sd">        (IBI), expressed in seconds or milliseconds (respectively).</span>
-<span class="sd">    show_artefacts : bool</span>
+<span class="sd">    show_artefacts :</span>
 <span class="sd">        If `True`, the function will call</span>
 <span class="sd">       :py:func:`systole.detection.rr_artefacts` to detect outliers interval</span>
 <span class="sd">        in the time serie and outline them using different colors.</span>
-<span class="sd">    bad_segments : np.ndarray | list | None</span>
+<span class="sd">    bad_segments :</span>
 <span class="sd">        Mark some portion of the recording as bad. Grey areas are displayed on the top</span>
 <span class="sd">        of the signal to help visualization (this is not correcting or transforming the</span>
 <span class="sd">        post-processed signals). If a np.ndarray is provided, it should be a boolean</span>
@@ -543,26 +543,26 @@ document.write(`
 <span class="sd">        .. note::</span>
 <span class="sd">          The start and end points should be expressed as peaks indexes.</span>
 
-<span class="sd">    show_limits : bool</span>
+<span class="sd">    show_limits :</span>
 <span class="sd">        Use shaded areas to represent the range of physiologically impossible R-R</span>
 <span class="sd">        intervals. Defaults to `True`.</span>
-<span class="sd">    slider : bool</span>
+<span class="sd">    slider :</span>
 <span class="sd">        If `True`, add a slider to zoom in/out in the signal (only working with</span>
 <span class="sd">        bokeh backend).</span>
-<span class="sd">    ax : :class:`matplotlib.axes.Axes` or None</span>
+<span class="sd">    ax :</span>
 <span class="sd">        Where to draw the plot. Default is *None* (create a new figure).</span>
-<span class="sd">    figsize : tuple | int | None</span>
+<span class="sd">    figsize :</span>
 <span class="sd">        Figure size. Default is `(13, 5)`.</span>
-<span class="sd">    backend : str</span>
+<span class="sd">    backend :</span>
 <span class="sd">        Select plotting backend {&quot;matplotlib&quot;, &quot;bokeh&quot;}. Defaults to</span>
 <span class="sd">        &quot;matplotlib&quot;.</span>
-<span class="sd">    events_params : dict | None</span>
+<span class="sd">    events_params :</span>
 <span class="sd">        (Optional) Additional parameters that will be passed to</span>
 <span class="sd">       :py:func:`systole.plots.plot_events` and plot the events timing in the backgound.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    plot : :class:`matplotlib.axes.Axes` or :class:`bokeh.plotting.figure.Figure`</span>
+<span class="sd">    plot :</span>
 <span class="sd">        The matplotlib axes, or the boken figure containing the plot.</span>
 
 <span class="sd">    See also</span>

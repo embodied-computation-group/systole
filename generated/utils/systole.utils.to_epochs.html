@@ -490,39 +490,39 @@ document.write(`
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>signal</strong><span class="classifier">np.ndarray | list</span></dt><dd><p>The raw signal that should be epoched. The first dimension is time and should match
+<dt><strong>signal</strong></dt><dd><p>The raw signal that should be epoched. The first dimension is time and should match
 with <cite>len(triggers)</cite> if <cite>triggers</cite> is provided. If <cite>triggers_idx</cite> is provided,
 <cite>np.max(triggers_idx)</cite> should be less than <cite>signal.shape[0]</cite>.</p>
 </dd>
-<dt><strong>triggers</strong><span class="classifier">np.ndarray | list</span></dt><dd><p>The boolean indices of the events, shape=(times*sfreq, 1).</p>
+<dt><strong>triggers</strong></dt><dd><p>The boolean indices of the events, shape=(times*sfreq, 1).</p>
 </dd>
-<dt><strong>triggers_idx</strong><span class="classifier">np.ndarray | list</span></dt><dd><p>Trigger indexes. Each value encode the sample where an event occured (see
+<dt><strong>triggers_idx</strong></dt><dd><p>Trigger indexes. Each value encode the sample where an event occured (see
 also <cite>sfreq</cite>). Different conditions should be provided separately as list of
 arrays (can have different lenght).</p>
 </dd>
-<dt><strong>sfreq</strong><span class="classifier">int</span></dt><dd><p>The sampling frequency (default is 1000 Hz).</p>
+<dt><strong>sfreq</strong></dt><dd><p>The sampling frequency (default is 1000 Hz).</p>
 </dd>
-<dt><strong>tmin</strong><span class="classifier">float</span></dt><dd><p>Start time before event, in seconds, default is <cite>-1.0</cite>.</p>
+<dt><strong>tmin</strong></dt><dd><p>Start time before event, in seconds, default is <cite>-1.0</cite>.</p>
 </dd>
-<dt><strong>tmax</strong><span class="classifier">float</span></dt><dd><p>End time after event, in seconds, defautl is <cite>10.0</cite>.</p>
+<dt><strong>tmax</strong></dt><dd><p>End time after event, in seconds, defautl is <cite>10.0</cite>.</p>
 </dd>
-<dt><strong>event_val</strong><span class="classifier">int</span></dt><dd><p>The index of event of interest. Default is <cite>1</cite>. Only relevant if <cite>triggers</cite> is
+<dt><strong>event_val</strong></dt><dd><p>The index of event of interest. Default is <cite>1</cite>. Only relevant if <cite>triggers</cite> is
 not <cite>None</cite>.</p>
 </dd>
-<dt><strong>apply_baseline</strong><span class="classifier">float | tuple | None</span></dt><dd><p>If int or tuple, use the point or interval to apply a baseline
+<dt><strong>apply_baseline</strong></dt><dd><p>If int or tuple, use the point or interval to apply a baseline
 (method: mean). If <cite>None</cite>, no baseline is applied. Default is set to <cite>0</cite>.</p>
 </dd>
-<dt><strong>verbose</strong><span class="classifier">boolean</span></dt><dd><p>If True, will return warnings if epoc are droped.</p>
+<dt><strong>verbose</strong></dt><dd><p>If True, will return warnings if epoc are droped.</p>
 </dd>
-<dt><strong>reject</strong><span class="classifier">np.ndarray | None</span></dt><dd><p>Segments of the signal that should be rejected.</p>
+<dt><strong>reject</strong></dt><dd><p>Segments of the signal that should be rejected.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>epochs</strong><span class="classifier">list</span></dt><dd><p>List of (n Tials * Time) array.</p>
+<dt>epochs</dt><dd><p>List of (n Tials * Time) array.</p>
 </dd>
-<dt><strong>reject</strong><span class="classifier">list</span></dt><dd><p>List of rejected trials for each condition.</p>
+<dt>reject</dt><dd><p>List of rejected trials for each condition.</p>
 </dd>
 </dl>
 </dd>

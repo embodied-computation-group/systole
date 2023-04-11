@@ -490,18 +490,18 @@ document.write(`
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>x</strong><span class="classifier">np.ndarray or list</span></dt><dd><p>Boolean vector of peaks detection or RR intervals.</p>
+<dt><strong>x</strong></dt><dd><p>Boolean vector of peaks detection or RR intervals.</p>
 </dd>
-<dt><strong>sfreq</strong><span class="classifier">int</span></dt><dd><p>The sampling frequency of the desired output.</p>
+<dt><strong>sfreq</strong></dt><dd><p>The sampling frequency of the desired output.</p>
 </dd>
-<dt><strong>unit</strong><span class="classifier">str</span></dt><dd><p>The heart rate unit in use. Can be <cite>‘rr’</cite> (R-R intervals, in ms)
+<dt><strong>unit</strong></dt><dd><p>The heart rate unit in use. Can be <cite>‘rr’</cite> (R-R intervals, in ms)
 or <cite>‘bpm’</cite> (beats per minutes). Default is <cite>‘rr’</cite>.</p>
 </dd>
-<dt><strong>kind</strong><span class="classifier">str</span></dt><dd><p>The method to use (parameter of <cite>scipy.interpolate.interp1d</cite>). The
+<dt><strong>kind</strong></dt><dd><p>The method to use (parameter of <cite>scipy.interpolate.interp1d</cite>). The
 possible relevant methods for instantaneous heart rate are <cite>‘cubic’</cite>
 (defalut), <cite>‘linear’</cite>, <cite>‘previous’</cite> and <cite>‘next’</cite>.</p>
 </dd>
-<dt><strong>input_type</strong><span class="classifier">str</span></dt><dd><p>The type of input vector. Default is <cite>“peaks”</cite> (a boolean vector where
+<dt><strong>input_type</strong></dt><dd><p>The type of input vector. Default is <cite>“peaks”</cite> (a boolean vector where
 <cite>1</cite> represents the occurrence of R waves or systolic peaks).
 Can also be <cite>“rr_s”</cite> or <cite>“rr_ms”</cite> for vectors of RR intervals, or
 interbeat intervals (IBI), expressed in seconds or milliseconds
@@ -511,20 +511,20 @@ interbeat intervals (IBI), expressed in seconds or milliseconds
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>heartrate</strong><span class="classifier">np.ndarray</span></dt><dd><p>The heart rate frequency.</p>
+<dt>heartrate</dt><dd><p>The heart rate frequency.</p>
 </dd>
-<dt><strong>time</strong><span class="classifier">np.ndarray</span></dt><dd><p>Time array.</p>
+<dt>time</dt><dd><p>Time array.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>If the input is in the <cite>peaks</cite> format, it should be a boolean vector
-encoding the position of R wave, or systolic peaks.</p>
+<p>If the input is in the <cite>peaks</cite> format, it should be a boolean vector encoding the
+position of R wave, or systolic peaks.</p>
 <p>If it is in the form of RR intervals, it can be expressed in seconds or
 milliseconds, using <cite>rr_s</cite> and <cite>rr_ms</cite> parameters, respectively.</p>
-<p>The time and heart rate output will have the same length. Values before
-the first peak and after the last peak will be filled with NaN values.</p>
+<p>The time and heart rate output will have the same length. Values before the first
+peak and after the last peak will be filled with NaN values.</p>
 <p class="rubric">Examples</p>
 <ol class="arabic simple">
 <li><p>From a boolean vector of peaks position:</p></li>

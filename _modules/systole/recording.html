@@ -492,48 +492,33 @@ document.write(`
 <div class="viewcode-block" id="Oximeter"><a class="viewcode-back" href="../../generated/recording/systole.recording.Oximeter.html#systole.recording.Oximeter">[docs]</a><span class="k">class</span> <span class="nc">Oximeter</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Recording PPG signal with Nonin pulse oximeter.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    serial : pySerial object</span>
-<span class="sd">        The `serial` instance interfacing with the USB port.</span>
-<span class="sd">    sfreq : int</span>
-<span class="sd">        The sampling frequency of the recording. Defautl is 75 Hz.</span>
-<span class="sd">    add_channels : int</span>
-<span class="sd">        If int, will create as many additionnal channels. If None, no</span>
-<span class="sd">        additional channels created.</span>
-<span class="sd">    data_format : str</span>
-<span class="sd">        Data format returned by the USB dongle (&quot;2&quot; or &quot;7&quot;). See</span>
-<span class="sd">        https://www.nonin.com/wp-content/uploads/6000-7000-CP-7602-000-11_ENG.pdf</span>
-<span class="sd">        for details. The pulse waveform value is automatically normalized and</span>
-<span class="sd">        range between 0 and 255 both for data format &quot;2&quot; and &quot;7&quot;.</span>
-
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    instant_rr : list</span>
+<span class="sd">    instant_rr :</span>
 <span class="sd">        Time serie of instantaneous heartrate.</span>
 <span class="sd">    n_channels : int | None</span>
 <span class="sd">        Number of additional channels.</span>
-<span class="sd">    recording : list</span>
+<span class="sd">    recording :</span>
 <span class="sd">        Time serie of PPG signal.</span>
-<span class="sd">    sfreq : int</span>
+<span class="sd">    sfreq :</span>
 <span class="sd">        Sampling frequnecy. Default value is 75 Hz.</span>
-<span class="sd">    threshold : list</span>
+<span class="sd">    threshold :</span>
 <span class="sd">        The threshold used to detect beat peaks. Will use the average +</span>
 <span class="sd">        standars deviation.</span>
-<span class="sd">    times : list</span>
+<span class="sd">    times :</span>
 <span class="sd">        Time vector (in seconds).</span>
-<span class="sd">    diff : list</span>
+<span class="sd">    diff :</span>
 <span class="sd">        Records the differential of the PPG signal. Used to detect heartbeat</span>
 <span class="sd">        peaks.</span>
-<span class="sd">    peaks : list</span>
+<span class="sd">    peaks :</span>
 <span class="sd">        List of 0 and 1. 1 index detected peaks.</span>
-<span class="sd">    channels : list | dict</span>
+<span class="sd">    channels :</span>
 <span class="sd">        Additional channels to record. Will continuously record *n_channels*</span>
 <span class="sd">        additional channels in parallel of `recording` with default `0` as</span>
 <span class="sd">        defalut value.</span>
-<span class="sd">    serial : PySerial instance</span>
+<span class="sd">    serial :</span>
 <span class="sd">        PySerial object indexing the USB port to read.</span>
-<span class="sd">    rr : list or None</span>
+<span class="sd">    rr :</span>
 <span class="sd">        RR intervals time course. The time course will be generated if</span>
 <span class="sd">        :py:func:`self.find_peaks` is used.</span>
 
@@ -602,6 +587,22 @@ document.write(`
         <span class="n">add_channels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">data_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span>
     <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        serial :</span>
+<span class="sd">            The `serial` instance interfacing with the USB port.</span>
+<span class="sd">        sfreq :</span>
+<span class="sd">            The sampling frequency of the recording. Defautl is 75 Hz.</span>
+<span class="sd">        add_channels :</span>
+<span class="sd">            If int, will create as many additionnal channels. If None, no</span>
+<span class="sd">            additional channels created.</span>
+<span class="sd">        data_format :</span>
+<span class="sd">            Data format returned by the USB dongle (&quot;2&quot; or &quot;7&quot;). See</span>
+<span class="sd">            https://www.nonin.com/wp-content/uploads/6000-7000-CP-7602-000-11_ENG.pdf</span>
+<span class="sd">            for details. The pulse waveform value is automatically normalized and</span>
+<span class="sd">            range between 0 and 255 both for data format &quot;2&quot; and &quot;7&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">serial</span><span class="p">,</span> <span class="n">sfreq</span><span class="p">,</span> <span class="n">add_channels</span><span class="p">,</span> <span class="n">data_format</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span>
@@ -615,22 +616,18 @@ document.write(`
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        serial : pySerial object</span>
+<span class="sd">        serial :</span>
 <span class="sd">            The `serial` instance interfacing with the USB port.</span>
-<span class="sd">        sfreq : int</span>
+<span class="sd">        sfreq :</span>
 <span class="sd">            The sampling frequency of the recording. Defautl is 75 Hz.</span>
-<span class="sd">        add_channels : int</span>
+<span class="sd">        add_channels :</span>
 <span class="sd">            If int, will create as many additionnal channels. If None, no</span>
 <span class="sd">            additional channels created.</span>
-<span class="sd">        data_format : str</span>
+<span class="sd">        data_format :</span>
 <span class="sd">            Data format returned by the USB dongle (&quot;2&quot; or &quot;7&quot;). See</span>
 <span class="sd">            https://www.nonin.com/wp-content/uploads/6000-7000-CP-7602-000-11_ENG.pdf</span>
 <span class="sd">            for details. The pulse waveform value is automatically normalized and</span>
 <span class="sd">            range between 0 and 255 both for data format &quot;2&quot; and &quot;7&quot;.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        Oximeter instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">serial</span> <span class="o">=</span> <span class="n">serial</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lag</span> <span class="o">=</span> <span class="mi">0</span>
@@ -668,15 +665,11 @@ document.write(`
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        value : int</span>
+<span class="sd">        value :</span>
 <span class="sd">            The data to record. Should be an integer between 0 and 255.</span>
-<span class="sd">        window : float</span>
+<span class="sd">        window :</span>
 <span class="sd">            Length of the window used to compute threshold (seconds). Default</span>
 <span class="sd">            is `1.0`.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        Oximeter instance.</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
@@ -735,7 +728,7 @@ document.write(`
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        paquet : list</span>
+<span class="sd">        paquet :</span>
 <span class="sd">            The paquet to inspect.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">check</span> <span class="o">=</span> <span class="kc">False</span>
@@ -754,7 +747,7 @@ document.write(`
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        paquet : list</span>
+<span class="sd">        paquet :</span>
 <span class="sd">            A list containg 5 items.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">paquet</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
@@ -764,7 +757,7 @@ document.write(`
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        paquet : list</span>
+<span class="sd">        paquet :</span>
 <span class="sd">            A list containg 5 items.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">((</span><span class="n">paquet</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">256</span> <span class="o">+</span> <span class="n">paquet</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="mi">65535</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span>
@@ -774,8 +767,7 @@ document.write(`
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        Oximeter instance. The peaks occurences are stored in the `peaks`</span>
-<span class="sd">        attribute.</span>
+<span class="sd">        Oximeter instance. The peaks occurences are stored in the `peaks` attribute.</span>
 
 <span class="sd">        Other Parameters</span>
 <span class="sd">        ----------------</span>
@@ -799,16 +791,16 @@ document.write(`
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        n_channel : str</span>
+<span class="sd">        n_channel :</span>
 <span class="sd">            The name of the channel encoding the events of interest. Defaults to</span>
 <span class="sd">            `&quot;&quot;Channel_0&quot;&quot;`.</span>
-<span class="sd">        kwargs: key, value mappings</span>
+<span class="sd">        kwargs:</span>
 <span class="sd">            Other keyword arguments are passed down to</span>
 <span class="sd">            py:`func:systole.plots.plot_evoked()`.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        fig, ax : Matplotlib instances.</span>
+<span class="sd">        fig, ax :</span>
 <span class="sd">            The figure and axe instances.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -821,12 +813,12 @@ document.write(`
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        **kwargs : key, value mappings</span>
+<span class="sd">        **kwargs :</span>
 <span class="sd">            Additional arguments will be passed to `:py:func:systole.plots.plot_raw`.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        plot : :class:`matplotlib.axes.Axes` or :class:`bokeh.plotting.figure.Figure`</span>
+<span class="sd">        plot :</span>
 <span class="sd">            The matplotlib axes, or the boken figure containing the plot.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -837,7 +829,7 @@ document.write(`
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        duration : int or float</span>
+<span class="sd">        duration :</span>
 <span class="sd">            Length of the desired recording time.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">tstart</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -856,7 +848,7 @@ document.write(`
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        stop : bool</span>
+<span class="sd">        stop :</span>
 <span class="sd">            Stop the recording when an error is detected. Default is *False*.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Read oxi</span>
@@ -881,7 +873,7 @@ document.write(`
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        fname : str</span>
+<span class="sd">        fname :</span>
 <span class="sd">            The file name. The file extension can be `.npy` for</span>
 <span class="sd">            :class:`numpy.array` or `.txt` for :class:`pandas.DataFrame`. If</span>
 <span class="sd">            no extension is provided, will use the `.npy` extension by default.</span>
@@ -946,11 +938,11 @@ document.write(`
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        read_duration : int</span>
+<span class="sd">        read_duration :</span>
 <span class="sd">            Length of signal to record after setup. Default is set to 1 second.</span>
-<span class="sd">        clear_peaks : bool</span>
+<span class="sd">        clear_peaks :</span>
 <span class="sd">            If *True*, will remove detected peaks.</span>
-<span class="sd">        nAttempts : int</span>
+<span class="sd">        nAttempts :</span>
 <span class="sd">            Number of attempts to read pulse oximeter signal from the USB. If no</span>
 <span class="sd">            readable signal has been receive after `nAttemps`, a RuntimeError is raised.</span>
 
@@ -1006,11 +998,11 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    ip : str</span>
+<span class="sd">    ip :</span>
 <span class="sd">        The IP address of the recording computer.</span>
-<span class="sd">    sfreq : int</span>
+<span class="sd">    sfreq :</span>
 <span class="sd">        The sampling frequency.</span>
-<span class="sd">    port : int</span>
+<span class="sd">    port :</span>
 <span class="sd">        The port to listen. Default is 51244 (32 bits). Change port to 51234 to</span>
 <span class="sd">        connect to 16Bit RDA-port</span>
 
@@ -1074,8 +1066,8 @@ document.write(`
         <span class="k">return</span> <span class="n">returnStream</span>
 
     <span class="k">def</span> <span class="nf">SplitString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Helper function for splitting a raw array of zero terminated</span>
-<span class="sd">        strings (C) into an array of python strings&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Helper function for splitting a raw array of zero terminated strings (C) into</span>
+<span class="sd">        an array of python strings&quot;&quot;&quot;</span>
 
         <span class="n">raw</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
         <span class="n">stringlist</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1089,8 +1081,8 @@ document.write(`
         <span class="k">return</span> <span class="n">stringlist</span>
 
     <span class="k">def</span> <span class="nf">GetProperties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Helper function for extracting ExG properties from a raw data array</span>
-<span class="sd">        read from tcpip socket&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Helper function for extracting ExG properties from a raw data array read from</span>
+<span class="sd">        tcpip socket&quot;&quot;&quot;</span>
 
         <span class="c1"># Extract numerical data</span>
         <span class="p">(</span><span class="n">channelCount</span><span class="p">,</span> <span class="n">samplingInterval</span><span class="p">)</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;&lt;Ld&quot;</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">[:</span><span class="mi">12</span><span class="p">])</span>
@@ -1108,8 +1100,8 @@ document.write(`
         <span class="k">return</span> <span class="p">(</span><span class="n">channelCount</span><span class="p">,</span> <span class="n">samplingInterval</span><span class="p">,</span> <span class="n">resolutions</span><span class="p">,</span> <span class="n">channelNames</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">GetData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">,</span> <span class="n">channelCount</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Helper function for extracting eeg and marker data from a raw data</span>
-<span class="sd">        array read from tcpip socket&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Helper function for extracting eeg and marker data from a raw data array read</span>
+<span class="sd">        from tcpip socket&quot;&quot;&quot;</span>
 
         <span class="c1"># Extract numerical data</span>
         <span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">markerCount</span><span class="p">)</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;&lt;LLL&quot;</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">[:</span><span class="mi">12</span><span class="p">])</span>
@@ -1145,18 +1137,18 @@ document.write(`
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        duration : float</span>
+<span class="sd">        duration :</span>
 <span class="sd">            The length of the recording.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        recording : dict</span>
+<span class="sd">        recording :</span>
 <span class="sd">            Dictionary with channel name as key.</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Duration will be converted to expected signal length (duration * sfreq)</span>
-<span class="sd">        to ensure consistent recording.</span>
+<span class="sd">        Duration will be converted to expected signal length (duration * sfreq) to</span>
+<span class="sd">        ensure consistent recording.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="c1"># Get message header as raw array of chars</span>

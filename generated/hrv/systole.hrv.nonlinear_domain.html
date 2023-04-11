@@ -487,21 +487,21 @@ document.write(`
 <dt class="sig sig-object py" id="systole.hrv.nonlinear_domain">
 <span class="sig-prename descclassname"><span class="pre">systole.hrv.</span></span><span class="sig-name descname"><span class="pre">nonlinear_domain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'rr_ms'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.0.0)"><span class="pre">pandas.core.frame.DataFrame</span></a></span></span><a class="reference internal" href="../../_modules/systole/hrv.html#nonlinear_domain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#systole.hrv.nonlinear_domain" title="Permalink to this definition">#</a></dt>
 <dd><p>Extract the non-linear features of heart rate variability.</p>
-<dl class="field-list">
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>rr</strong><span class="classifier">list | np.ndarray</span></dt><dd><p>R-R interval time-series, peaks or peaks index vectors. The default expected
+<dt><strong>rr</strong></dt><dd><p>R-R interval time-series, peaks or peaks index vectors. The default expected
 vector is R-R intervals in milliseconds. Other data format can be provided by
 specifying the <cite>“input_type”</cite> (can be <cite>“rr_s”</cite>, <cite>“peaks”</cite> or <cite>“peaks_idx”</cite>).</p>
 </dd>
-<dt><strong>input_type</strong><span class="classifier">str</span></dt><dd><p>The type of input provided. Can be <cite>“peaks”</cite>, <cite>“peaks_idx”</cite>, <cite>“rr_ms”</cite> or
+<dt><strong>input_type</strong></dt><dd><p>The type of input provided. Can be <cite>“peaks”</cite>, <cite>“peaks_idx”</cite>, <cite>“rr_ms”</cite> or
 <cite>“rr_s”</cite>. Defaults to <cite>“rr_ms”</cite>.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl>
-<dt><strong>stats</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>Nonlinear domain summary statistics.
+<dd class="field-even"><dl class="simple">
+<dt>stats</dt><dd><p>Nonlinear domain summary statistics.
 * ‘SD1’ : SD1, the standard deviation of the poincare plot orthogonal to the identity line (ms).
 * ‘SD2’ : SD2, the standard deviation of the poincare plot along the identity line (ms).
 * ‘recurrence_rate’ : The recurrence rate in the recurrence plot (%).

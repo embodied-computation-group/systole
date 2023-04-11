@@ -518,49 +518,49 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    signal : np.ndarray | list | pd.Series</span>
+<span class="sd">    signal :</span>
 <span class="sd">        The raw signal recorded from the pulse oximeter time series.</span>
-<span class="sd">    sfreq : int</span>
+<span class="sd">    sfreq :</span>
 <span class="sd">        The sampling frequency (Hz).</span>
-<span class="sd">    win : int</span>
+<span class="sd">    win :</span>
 <span class="sd">        Window size (in seconds) used to compute the threshold (i.e. rolling mean +</span>
 <span class="sd">        standard deviation).</span>
-<span class="sd">    new_sfreq : int</span>
+<span class="sd">    new_sfreq :</span>
 <span class="sd">        If resample is `True`, the new sampling frequency (Hz). Defaults to `1000`.</span>
-<span class="sd">    clipping : boolean</span>
+<span class="sd">    clipping :</span>
 <span class="sd">        If `True`, will apply the clipping artefact correction described in [1]_.</span>
 <span class="sd">        Defaults to `True`.</span>
-<span class="sd">    clipping_thresholds : tuple | list | str</span>
+<span class="sd">    clipping_thresholds :</span>
 <span class="sd">        The values of the minumum and maximum clipping thresholds. Can be a float or</span>
 <span class="sd">        `None`. If `None`, no correction is applied. If &quot;auto&quot; is provided, will use</span>
 <span class="sd">       :py:func:`systole.utils.find_clipping` to find the values. Defaults to `&quot;auto&quot;`.</span>
 <span class="sd">        This parameter is only relevant if `cliping` is `True`.</span>
-<span class="sd">    moving_average : bool</span>
+<span class="sd">    moving_average :</span>
 <span class="sd">        Apply mooving average to remove high frequency noise before peaks detection. The</span>
 <span class="sd">        length of the time windows can be controlled with `moving_average_length`.</span>
-<span class="sd">    moving_average_length : float</span>
+<span class="sd">    moving_average_length :</span>
 <span class="sd">        The length of the window used for moveing average (seconds). Default to `0.05`.</span>
-<span class="sd">    resample : boolean</span>
+<span class="sd">    resample :</span>
 <span class="sd">        If `True` (default), will resample the signal at *new_sfreq*. Default</span>
 <span class="sd">        value is 1000 Hz.</span>
-<span class="sd">    peak_enhancement : boolean</span>
+<span class="sd">    peak_enhancement :</span>
 <span class="sd">        If `True` (default), the ppg signal is squared before peaks detection.</span>
-<span class="sd">    distance : float</span>
+<span class="sd">    distance :</span>
 <span class="sd">        The minimum interval between two peaks (seconds).</span>
-<span class="sd">    clean_extra : bool</span>
+<span class="sd">    clean_extra :</span>
 <span class="sd">        If `True`, use `:py:func:systole.detection.rr_artefacts()` to find and</span>
 <span class="sd">        remove extra peaks. Default is `False`.</span>
-<span class="sd">    clean_nan : bool</span>
+<span class="sd">    clean_nan :</span>
 <span class="sd">        If `True`, will interpolate NaNs values if any before any other operation.</span>
 <span class="sd">        Defaults to `False`.</span>
-<span class="sd">    verbose : bool</span>
+<span class="sd">    verbose :</span>
 <span class="sd">        Control function verbosity. Defaults to `False` (do not print processing steps).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    resampled_signal : np.ndarray</span>
+<span class="sd">    resampled_signal :</span>
 <span class="sd">        Signal resampled to the `new_sfreq` frequency.</span>
-<span class="sd">    peaks : np.ndarray</span>
+<span class="sd">    peaks :</span>
 <span class="sd">        Boolean array of systolic peaks detection.</span>
 
 <span class="sd">    Raises</span>
@@ -691,32 +691,32 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    signal : np.ndarray | list | pd.Series</span>
+<span class="sd">    signal :</span>
 <span class="sd">        The raw ECG signal.</span>
-<span class="sd">    sfreq : int</span>
+<span class="sd">    sfreq :</span>
 <span class="sd">        The sampling frequency. Default is set to `1000` Hz.</span>
-<span class="sd">    new_sfreq : int</span>
+<span class="sd">    new_sfreq :</span>
 <span class="sd">        The new sampling frequency. Defaults to `1000` Hz.</span>
-<span class="sd">    method : str</span>
+<span class="sd">    method :</span>
 <span class="sd">        The method used. Can be one of the following: `&#39;sleepecg&#39;`, `&#39;hamilton&#39;`,</span>
 <span class="sd">        `&#39;christov&#39;`, `&#39;engelse-zeelenberg&#39;`, `&#39;pan-tompkins&#39;`, `&#39;moving-average&#39;`.</span>
-<span class="sd">    find_local : bool</span>
+<span class="sd">    find_local :</span>
 <span class="sd">        If *True*, will use peaks indexs to search for local peaks given the</span>
 <span class="sd">        window size (win_size).</span>
-<span class="sd">    win_size : int</span>
+<span class="sd">    win_size :</span>
 <span class="sd">        Size of the time window used by :py:func:`systole.utils.to_neighbour()`</span>
 <span class="sd">        expressed in seconds. Defaut set to `0.1`.</span>
-<span class="sd">    clean_nan : bool</span>
+<span class="sd">    clean_nan :</span>
 <span class="sd">        If `True`, will interpolate NaNs values if any before any other operation.</span>
 <span class="sd">        Defaults to `False`.</span>
-<span class="sd">    verbose : bool</span>
+<span class="sd">    verbose :</span>
 <span class="sd">        Control function verbosity. Defaults to `False` (do not print processing steps).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    resampled_signal : np.ndarray</span>
+<span class="sd">    resampled_signal :</span>
 <span class="sd">        Signal resampled to the `new_sfreq` frequency.</span>
-<span class="sd">    peaks : np.ndarray</span>
+<span class="sd">    peaks :</span>
 <span class="sd">        Boolean array corresponding to the R peaks detection.</span>
 
 <span class="sd">    Raises</span>
@@ -802,30 +802,30 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    signal : np.ndarray | list | pd.Series</span>
+<span class="sd">    signal :</span>
 <span class="sd">        The respiratory signal. Peaks are considered to represent end of inspiration,</span>
 <span class="sd">        trough represent end of expiration.</span>
-<span class="sd">    sfreq : int</span>
+<span class="sd">    sfreq :</span>
 <span class="sd">        The sampling frequency.</span>
-<span class="sd">    new_sfreq : int</span>
+<span class="sd">    new_sfreq :</span>
 <span class="sd">        If resample is `True`, the new sampling frequency. Defaults to `1000` Hz.</span>
 <span class="sd">    win : int</span>
 <span class="sd">        Window size (in seconds). Default is set to 25ms, following recommandation</span>
 <span class="sd">        from [1]_.</span>
-<span class="sd">    kind : str</span>
+<span class="sd">    kind :</span>
 <span class="sd">        What kind of detection to perform. Peak detection (`&quot;peaks&quot;`), trough detection</span>
 <span class="sd">        (`&quot;troughs&quot;`) or both (`&quot;peaks-troughs&quot;`, default).</span>
-<span class="sd">    clean_nan : bool</span>
+<span class="sd">    clean_nan :</span>
 <span class="sd">        If `True`, will interpolate NaNs values if any before any other operation.</span>
 <span class="sd">        Defaults to `False`.</span>
-<span class="sd">    verbose : bool</span>
+<span class="sd">    verbose :</span>
 <span class="sd">        Control function verbosity. Defaults to `False` (do not print processing steps).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    resampled_signal : np.ndarray</span>
+<span class="sd">    resampled_signal :</span>
 <span class="sd">        Signal resampled to the `new_sfreq` frequency.</span>
-<span class="sd">    peaks | trough | (peaks, trough) : np.ndarray | np.ndarray | (np.ndarray, np.ndarray)</span>
+<span class="sd">    peaks | trough | (peaks, trough) :</span>
 <span class="sd">        Boolean arrays of peaks and / or troughs in the respiratory signal.</span>
 
 <span class="sd">    Raises</span>
@@ -833,9 +833,6 @@ document.write(`
 <span class="sd">    ValueError</span>
 <span class="sd">        If `kind` is not one of the following: `&quot;peaks&quot;`, `&quot;troughs&quot;` or</span>
 <span class="sd">        `&quot;peaks-troughs&quot;`.</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -916,18 +913,18 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : np.ndarray or list</span>
+<span class="sd">    rr :</span>
 <span class="sd">        1d numpy array of RR intervals (in seconds or miliseconds) or peaks</span>
 <span class="sd">        vector (boolean array).</span>
-<span class="sd">    c1 : float</span>
+<span class="sd">    c1 :</span>
 <span class="sd">        Fixed variable controling the slope of the threshold lines. Default is</span>
 <span class="sd">        `0.13`.</span>
-<span class="sd">    c2 : float</span>
+<span class="sd">    c2 :</span>
 <span class="sd">        Fixed variable controling the intersect of the threshold lines. Default</span>
 <span class="sd">        is `0.17`.</span>
-<span class="sd">    alpha : float</span>
+<span class="sd">    alpha :</span>
 <span class="sd">        Scaling factor used to normalize the RR intervals first deviation.</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input vector. Defaults to `&quot;rr_ms&quot;` for vectors of RR</span>
 <span class="sd">        intervals, or  interbeat intervals (IBI), expressed in milliseconds.</span>
 <span class="sd">        Can also be a boolean vector where `1` represents the occurrence of</span>
@@ -936,7 +933,7 @@ document.write(`
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    artefacts : dict</span>
+<span class="sd">    artefacts :</span>
 <span class="sd">        Dictionary storing the parameters of RR artefacts rejection. All the vectors</span>
 <span class="sd">        outputed have the same length as the provided RR time serie:</span>
 
@@ -1116,7 +1113,7 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    signal : np.ndarray or list</span>
+<span class="sd">    signal :</span>
 <span class="sd">        The PPG signal.</span>
 <span class="sd">    min_threshold, max_threshold : float | None</span>
 <span class="sd">        Minimum and maximum thresholds for clipping artefacts. If `None`, no correction</span>
@@ -1124,13 +1121,13 @@ document.write(`
 <span class="sd">        `max_threshold=255.0`, which corresponds to the expected values when reading</span>
 <span class="sd">        data from the Nonin 3012LP Xpod USB pulse oximeter together with Nonin 8000SM</span>
 <span class="sd">        &#39;soft-clip&#39; fingertip sensors.</span>
-<span class="sd">    kind : str</span>
+<span class="sd">    kind :</span>
 <span class="sd">        Specifies the kind of interpolation to perform(see</span>
 <span class="sd">       :py:func:`scipy.interpolate.interp1d`).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    clean_signal : np.ndarray</span>
+<span class="sd">    clean_signal :</span>
 <span class="sd">        Interpolated signal.</span>
 
 <span class="sd">    Examples</span>

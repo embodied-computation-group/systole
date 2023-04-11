@@ -491,11 +491,11 @@ artefacts array accordingly if this one is provided.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>rr</strong><span class="classifier">np.ndarray</span></dt><dd><p>RR intervals (ms).</p>
+<dt><strong>rr</strong></dt><dd><p>RR intervals (ms).</p>
 </dd>
-<dt><strong>missed_idx</strong><span class="classifier">np.ndarray</span></dt><dd><p>Index of the extra RR interval.</p>
+<dt><strong>missed_idx</strong></dt><dd><p>Index of the extra RR interval.</p>
 </dd>
-<dt><strong>artefacts</strong><span class="classifier">np.ndarray</span></dt><dd><p>A numpy array (artefacts x time) of artefacts logs, build form the dictionary
+<dt><strong>artefacts</strong></dt><dd><p>A numpy array (artefacts x time) of artefacts logs, build form the dictionary
 returned by py:<cite>func:systole.detection.rr_artefacts()</cite>. This array will be
 updated as intervals are added.</p>
 </dd>
@@ -503,9 +503,9 @@ updated as intervals are added.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>clean_rr</strong><span class="classifier">np.ndarray</span></dt><dd><p>Corrected RR intervals.</p>
+<dt>clean_rr</dt><dd><p>Corrected RR intervals.</p>
 </dd>
-<dt><strong>artefacts</strong><span class="classifier">dict (optional)</span></dt><dd><p>If the artefacts dictionary was provided, also return the updated version of
+<dt>artefacts</dt><dd><p>If the artefacts dictionary was provided, also return the updated version of
 this dictionary with the new artifacts idexes.</p>
 </dd>
 </dl>

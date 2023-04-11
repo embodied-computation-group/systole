@@ -499,19 +499,19 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    triggers : np.ndarray or list</span>
+<span class="sd">    triggers :</span>
 <span class="sd">        The triggers array.</span>
-<span class="sd">    threshold : float</span>
+<span class="sd">    threshold :</span>
 <span class="sd">        Threshold for triggering values. Default is 1.</span>
-<span class="sd">    n : int</span>
+<span class="sd">    n :</span>
 <span class="sd">        The number of values to force to 0 after each triggers. Default is 5.</span>
-<span class="sd">    direction : str</span>
+<span class="sd">    direction :</span>
 <span class="sd">        Indicates if triggers are higher or lower than threshold. Can be`&quot;higher&quot;` or</span>
 <span class="sd">        `&quot;lower&quot;`. Default sets to `&quot;higher&quot;`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    y : np.ndarray</span>
+<span class="sd">    y :</span>
 <span class="sd">        The filterd triggers array.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -541,16 +541,16 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    x : np.ndarray or list</span>
+<span class="sd">    x :</span>
 <span class="sd">        Timing of the baseline events.</span>
-<span class="sd">    events : np.ndarray or list</span>
+<span class="sd">    events :</span>
 <span class="sd">        Timing of events of interest.</span>
-<span class="sd">    order : str</span>
+<span class="sd">    order :</span>
 <span class="sd">        Consider event occurung before of after baseline. Default is &#39;after&#39;.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    time_shift : np.ndarray</span>
+<span class="sd">    time_shift :</span>
 <span class="sd">        The delay between X and events (a.u).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -579,18 +579,18 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    x : np.ndarray or list</span>
+<span class="sd">    x :</span>
 <span class="sd">        Boolean vector of peaks detection or RR intervals.</span>
-<span class="sd">    sfreq : int</span>
+<span class="sd">    sfreq :</span>
 <span class="sd">        The sampling frequency of the desired output.</span>
-<span class="sd">    unit : str</span>
+<span class="sd">    unit :</span>
 <span class="sd">        The heart rate unit in use. Can be `&#39;rr&#39;` (R-R intervals, in ms)</span>
 <span class="sd">        or `&#39;bpm&#39;` (beats per minutes). Default is `&#39;rr&#39;`.</span>
-<span class="sd">    kind : str</span>
+<span class="sd">    kind :</span>
 <span class="sd">        The method to use (parameter of `scipy.interpolate.interp1d`). The</span>
 <span class="sd">        possible relevant methods for instantaneous heart rate are `&#39;cubic&#39;`</span>
 <span class="sd">        (defalut), `&#39;linear&#39;`, `&#39;previous&#39;` and `&#39;next&#39;`.</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input vector. Default is `&quot;peaks&quot;` (a boolean vector where</span>
 <span class="sd">        `1` represents the occurrence of R waves or systolic peaks).</span>
 <span class="sd">        Can also be `&quot;rr_s&quot;` or `&quot;rr_ms&quot;` for vectors of RR intervals, or</span>
@@ -599,9 +599,9 @@ document.write(`
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    heartrate : np.ndarray</span>
+<span class="sd">    heartrate :</span>
 <span class="sd">        The heart rate frequency.</span>
-<span class="sd">    time : np.ndarray</span>
+<span class="sd">    time :</span>
 <span class="sd">        Time array.</span>
 
 <span class="sd">    Examples</span>
@@ -620,14 +620,14 @@ document.write(`
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    If the input is in the `peaks` format, it should be a boolean vector</span>
-<span class="sd">    encoding the position of R wave, or systolic peaks.</span>
+<span class="sd">    If the input is in the `peaks` format, it should be a boolean vector encoding the</span>
+<span class="sd">    position of R wave, or systolic peaks.</span>
 
 <span class="sd">    If it is in the form of RR intervals, it can be expressed in seconds or</span>
 <span class="sd">    milliseconds, using `rr_s` and `rr_ms` parameters, respectively.</span>
 
-<span class="sd">    The time and heart rate output will have the same length. Values before</span>
-<span class="sd">    the first peak and after the last peak will be filled with NaN values.</span>
+<span class="sd">    The time and heart rate output will have the same length. Values before the first</span>
+<span class="sd">    peak and after the last peak will be filled with NaN values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
@@ -700,14 +700,14 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    x : np.ndarray or list</span>
+<span class="sd">    x :</span>
 <span class="sd">        The reference time serie. Time points can be unevenly spaced.</span>
-<span class="sd">    events : np.ndarray or list</span>
+<span class="sd">    events :</span>
 <span class="sd">        The events time serie.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    ang : numpy array</span>
+<span class="sd">    ang :</span>
 <span class="sd">        The angular value of events in the cycle of interest (radians).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -752,38 +752,38 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    signal : np.ndarray | list</span>
+<span class="sd">    signal :</span>
 <span class="sd">        The raw signal that should be epoched. The first dimension is time and should match</span>
 <span class="sd">        with `len(triggers)` if `triggers` is provided. If `triggers_idx` is provided,</span>
 <span class="sd">        `np.max(triggers_idx)` should be less than `signal.shape[0]`.</span>
-<span class="sd">    triggers : np.ndarray | list</span>
+<span class="sd">    triggers :</span>
 <span class="sd">        The boolean indices of the events, shape=(times*sfreq, 1).</span>
-<span class="sd">    triggers_idx : np.ndarray | list</span>
+<span class="sd">    triggers_idx :</span>
 <span class="sd">        Trigger indexes. Each value encode the sample where an event occured (see</span>
 <span class="sd">        also `sfreq`). Different conditions should be provided separately as list of</span>
 <span class="sd">        arrays (can have different lenght).</span>
-<span class="sd">    sfreq : int</span>
+<span class="sd">    sfreq :</span>
 <span class="sd">        The sampling frequency (default is 1000 Hz).</span>
-<span class="sd">    tmin : float</span>
+<span class="sd">    tmin :</span>
 <span class="sd">        Start time before event, in seconds, default is `-1.0`.</span>
-<span class="sd">    tmax : float</span>
+<span class="sd">    tmax :</span>
 <span class="sd">        End time after event, in seconds, defautl is `10.0`.</span>
-<span class="sd">    event_val : int</span>
+<span class="sd">    event_val :</span>
 <span class="sd">        The index of event of interest. Default is `1`. Only relevant if `triggers` is</span>
 <span class="sd">        not `None`.</span>
-<span class="sd">    apply_baseline : float | tuple | None</span>
+<span class="sd">    apply_baseline :</span>
 <span class="sd">        If int or tuple, use the point or interval to apply a baseline</span>
 <span class="sd">        (method: mean). If `None`, no baseline is applied. Default is set to `0`.</span>
-<span class="sd">    verbose : boolean</span>
+<span class="sd">    verbose :</span>
 <span class="sd">        If True, will return warnings if epoc are droped.</span>
-<span class="sd">    reject : np.ndarray | None</span>
+<span class="sd">    reject :</span>
 <span class="sd">        Segments of the signal that should be rejected.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    epochs : list</span>
+<span class="sd">    epochs :</span>
 <span class="sd">        List of (n Tials * Time) array.</span>
-<span class="sd">    reject : list</span>
+<span class="sd">    reject :</span>
 <span class="sd">        List of rejected trials for each condition.</span>
 
 <span class="sd">    Examples</span>
@@ -914,28 +914,28 @@ document.write(`
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;RR time series simulation with artefacts.</span>
 
-<span class="sd">    n_rr : int</span>
+<span class="sd">    n_rr :</span>
 <span class="sd">        Number of RR intervals. Default is 350.</span>
-<span class="sd">    extra_idx : list</span>
+<span class="sd">    extra_idx :</span>
 <span class="sd">        Index of extra interval. Default is [50].</span>
-<span class="sd">    missed_idx : list</span>
+<span class="sd">    missed_idx :</span>
 <span class="sd">        Index of missed interval. Default is [100].</span>
-<span class="sd">    short_idx : list</span>
+<span class="sd">    short_idx :</span>
 <span class="sd">        Index of short interval. Default is [150].</span>
-<span class="sd">    long_idx : list</span>
+<span class="sd">    long_idx :</span>
 <span class="sd">        Index of long interval. Default is [200].</span>
-<span class="sd">    ectopic1_idx : list</span>
+<span class="sd">    ectopic1_idx :</span>
 <span class="sd">        Index of ectopic interval. Default is [250].</span>
-<span class="sd">    ectopic2_idx : list</span>
+<span class="sd">    ectopic2_idx :</span>
 <span class="sd">        Index of ectopic interval. Default is [300].</span>
-<span class="sd">    random_state : int</span>
+<span class="sd">    random_state :</span>
 <span class="sd">        Random state. Default is `42`.</span>
-<span class="sd">    artefacts : bool</span>
+<span class="sd">    artefacts :</span>
 <span class="sd">        If `True`, simulate artefacts in the signal.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    rr : np.ndarray</span>
+<span class="sd">    rr :</span>
 <span class="sd">        The RR time series.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
@@ -1001,18 +1001,18 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    signal : np.ndarray</span>
+<span class="sd">    signal :</span>
 <span class="sd">        Signal used to maximize/minimize peaks values.</span>
-<span class="sd">    peaks: np.ndarray</span>
+<span class="sd">    peaks:</span>
 <span class="sd">        Boolean vector of peaks position.</span>
-<span class="sd">    kind : str</span>
+<span class="sd">    kind :</span>
 <span class="sd">        Can be &#39;max&#39; or &#39;min&#39;.</span>
-<span class="sd">    size : int</span>
+<span class="sd">    size :</span>
 <span class="sd">        Size of the time window used to find max/min (samples). Defaults to `50`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    new_peaks: np.ndarray</span>
+<span class="sd">    new_peaks:</span>
 <span class="sd">        Boolean vector of peaks position.</span>
 
 <span class="sd">    Raises</span>
@@ -1057,21 +1057,21 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    x : np.ndarray or list</span>
+<span class="sd">    x :</span>
 <span class="sd">        The input time series.</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input provided (can be `&quot;peaks&quot;`, `&quot;peaks_idx&quot;`, `&quot;rr_ms&quot;`,</span>
 <span class="sd">        `&quot;rr_s&quot;`).</span>
-<span class="sd">    output_type : str</span>
+<span class="sd">    output_type :</span>
 <span class="sd">        The type of desired output (can be `&quot;peaks&quot;`, `&quot;peaks_idx&quot;`, `&quot;rr_ms&quot;`,</span>
 <span class="sd">        `&quot;rr_s&quot;`).</span>
-<span class="sd">    sfreq : int</span>
+<span class="sd">    sfreq :</span>
 <span class="sd">        The sampling frequency (default is 1000 Hz). Only applies when `iput_type` is</span>
 <span class="sd">        `&quot;peaks&quot;` or `&quot;peaks_idx&quot;`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    output : np.ndarray</span>
+<span class="sd">    output :</span>
 <span class="sd">        The time series converted to the desired format.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1147,14 +1147,15 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    signal : np.ndarray</span>
+<span class="sd">    signal :</span>
 <span class="sd">        The physiological signal.</span>
-<span class="sd">    verbose : bool</span>
+<span class="sd">    verbose :</span>
 <span class="sd">        Control function verbosity. Defaults to `True` (print)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    clean_signal : np.ndarray</span>
+<span class="sd">    clean_signal :</span>
+<span class="sd">        The physiological signal without NaNs values.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1177,12 +1178,12 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    signal : np.ndarray</span>
+<span class="sd">    signal :</span>
 <span class="sd">        The physiological signal.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    min_threshold, max_threshold : float | None</span>
+<span class="sd">    min_threshold, max_threshold :</span>
 <span class="sd">        The minimum and maximum threshold corresponding to the clipping artefact. If no</span>
 <span class="sd">        threshold is found, returns `None`.</span>
 
@@ -1231,9 +1232,9 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    signal : np.ndarray</span>
+<span class="sd">    signal :</span>
 <span class="sd">        The physiological time serie that should be filtered.</span>
-<span class="sd">    bad_segments : np.ndarray | tuple</span>
+<span class="sd">    bad_segments :</span>
 <span class="sd">        Bad segments in the signal where RR interval or peaks to peaks intervals could</span>
 <span class="sd">        not be accurately estimated. Intervals from these segments will be dropped and</span>
 <span class="sd">        the time domain parameters will be computed over the remaining intervals. A</span>
@@ -1241,7 +1242,7 @@ document.write(`
 
 <span class="sd">    Return</span>
 <span class="sd">    ------</span>
-<span class="sd">    valid : list of np.ndarray</span>
+<span class="sd">    valid :</span>
 <span class="sd">        The filtered signal / interval time serie given the bad segments, sorted</span>
 <span class="sd">        according to the signal length.</span>
 
@@ -1283,7 +1284,7 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    bad_segments : list | np.ndarray</span>
+<span class="sd">    bad_segments :</span>
 <span class="sd">        The time stamps of the bad segments. Can be a boolean 1d numpy array where</span>
 <span class="sd">        `True` is a bad segment (will be rejected), or a list of tuples such as</span>
 <span class="sd">        (start_idx, end_idx) in signal samples or milliseconds when intervals are</span>
@@ -1291,7 +1292,7 @@ document.write(`
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    bad_segments_tuples : tuple</span>
+<span class="sd">    bad_segments_tuples :</span>
 <span class="sd">        The merged bad segments as tuples such as (start_idx, end_idx) indicate when</span>
 <span class="sd">        each bad segment starts and ends.</span>
 

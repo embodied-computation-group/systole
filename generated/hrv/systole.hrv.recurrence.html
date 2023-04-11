@@ -490,27 +490,27 @@ document.write(`
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>rr</strong><span class="classifier">list | np.ndarray</span></dt><dd><p>R-R interval time-series, peaks or peaks index vectors. The default expected
+<dt><strong>rr</strong></dt><dd><p>R-R interval time-series, peaks or peaks index vectors. The default expected
 vector is R-R intervals in milliseconds. Other data format can be provided by
 specifying the <cite>“input_type”</cite> (can be <cite>“rr_s”</cite>, <cite>“peaks”</cite> or <cite>“peaks_idx”</cite>).</p>
 </dd>
-<dt><strong>input_type</strong><span class="classifier">str</span></dt><dd><p>The type of input provided. Can be <cite>“peaks”</cite>, <cite>“peaks_idx”</cite>, <cite>“rr_ms”</cite> or
+<dt><strong>input_type</strong></dt><dd><p>The type of input provided. Can be <cite>“peaks”</cite>, <cite>“peaks_idx”</cite>, <cite>“rr_ms”</cite> or
 <cite>“rr_s”</cite>. Defaults to <cite>“rr_ms”</cite>.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>recurrence_rate</strong><span class="classifier">float</span></dt><dd><p>The percentage of recurence in the time series. This corresponds to the ratio
+<dt>recurrence_rate</dt><dd><p>The percentage of recurence in the time series. This corresponds to the ratio
 of ones and zeros in the recurrence plot.</p>
 </dd>
-<dt><strong>l_max</strong><span class="classifier">int</span></dt><dd><p>Maximum lenght of the diagonale in the reccurence plot.</p>
+<dt>l_max</dt><dd><p>Maximum lenght of the diagonale in the reccurence plot.</p>
 </dd>
-<dt><strong>l_mean</strong><span class="classifier">float</span></dt><dd><p>Mean of the diagonals lengths observed in the recurence plot.</p>
+<dt>l_mean</dt><dd><p>Mean of the diagonals lengths observed in the recurence plot.</p>
 </dd>
-<dt><strong>determinism_rate</strong><span class="classifier">float</span></dt><dd><p>The percentage of determinism in the time series.</p>
+<dt>determinism_rate</dt><dd><p>The percentage of determinism in the time series.</p>
 </dd>
-<dt><strong>shan_entr</strong><span class="classifier">float</span></dt><dd><p>Shannon information entropy.</p>
+<dt>shan_entr</dt><dd><p>Shannon information entropy.</p>
 </dd>
 </dl>
 <div class="admonition warning">

@@ -480,7 +480,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">bokeh.plotting</span> <span class="kn">import</span> <span class="n">figure</span>
+<span class="kn">from</span> <span class="nn">bokeh.plotting._figure</span> <span class="kn">import</span> <span class="n">figure</span>
 <span class="kn">from</span> <span class="nn">matplotlib.axes</span> <span class="kn">import</span> <span class="n">Axes</span>
 
 <span class="kn">from</span> <span class="nn">systole.correction</span> <span class="kn">import</span> <span class="n">rr_artefacts</span>
@@ -502,33 +502,33 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : :py:class:`numpy.ndarray` | None</span>
+<span class="sd">    rr :</span>
 <span class="sd">        R-R interval time-series, peaks or peaks index vectors. The default expected</span>
 <span class="sd">        vector is R-R intervals in milliseconds. Other data format can be provided by</span>
 <span class="sd">        specifying the `&quot;input_type&quot;` (can be `&quot;rr_s&quot;`, `&quot;peaks&quot;` or `&quot;peaks_idx&quot;`).</span>
-<span class="sd">    artefacts : dict | None</span>
+<span class="sd">    artefacts :</span>
 <span class="sd">        A dictionary containing the infos abount the artefacts detected using the</span>
 <span class="sd">        :py:func:`systole.detection.rr_artefacts()` function. This parameter is</span>
 <span class="sd">        optional, but if provided the data provided in `rr` will be ignored.</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input vector. Default is `&quot;peaks&quot;` (a boolean vector where</span>
 <span class="sd">        `1` represents the occurrence of R waves or systolic peaks).</span>
 <span class="sd">        Can also be `&quot;rr_s&quot;` or `&quot;rr_ms&quot;` for vectors of RR intervals, or</span>
 <span class="sd">        interbeat intervals (IBI), expressed in seconds or milliseconds</span>
 <span class="sd">        (respectively).</span>
-<span class="sd">    figsize : tuple | int | None</span>
+<span class="sd">    figsize :</span>
 <span class="sd">        Figure size. Default is `(12, 6)` for matplotlib backend, and the height is</span>
 <span class="sd">        `600` when using bokeh backend.</span>
-<span class="sd">    ax : :class:`matplotlib.axes.Axes` | None</span>
+<span class="sd">    ax :</span>
 <span class="sd">        Where to draw the plot. Default is `None` (create a new figure). Otherwise, a</span>
 <span class="sd">        tuple of list of Matplotlib axes should be provided. Only applies if</span>
 <span class="sd">        `backend=&quot;matplotlib&quot;`.</span>
-<span class="sd">    backend: str</span>
+<span class="sd">    backend :</span>
 <span class="sd">        Select plotting backend {&quot;matplotlib&quot;, &quot;bokeh&quot;}. Defaults to &quot;matplotlib&quot;.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    plot : :class:`matplotlib.axes.Axes` or :class:`bokeh.plotting.figure.Figure`</span>
+<span class="sd">    plot :</span>
 <span class="sd">        The matplotlib axes, or the boken figure containing the plot.</span>
 
 <span class="sd">    See also</span>

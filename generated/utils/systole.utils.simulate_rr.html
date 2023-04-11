@@ -488,29 +488,29 @@ document.write(`
 <span class="sig-prename descclassname"><span class="pre">systole.utils.</span></span><span class="sig-name descname"><span class="pre">simulate_rr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_rr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">350</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[50]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">missed_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">short_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[150]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[200]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ectopic1_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[250]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ectopic2_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[300]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">42</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_peaks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artefacts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a></span></span><a class="reference internal" href="../../_modules/systole/utils.html#simulate_rr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#systole.utils.simulate_rr" title="Permalink to this definition">#</a></dt>
 <dd><p>RR time series simulation with artefacts.</p>
 <dl class="simple">
-<dt>n_rr<span class="classifier">int</span></dt><dd><p>Number of RR intervals. Default is 350.</p>
+<dt>n_rr :</dt><dd><p>Number of RR intervals. Default is 350.</p>
 </dd>
-<dt>extra_idx<span class="classifier">list</span></dt><dd><p>Index of extra interval. Default is [50].</p>
+<dt>extra_idx :</dt><dd><p>Index of extra interval. Default is [50].</p>
 </dd>
-<dt>missed_idx<span class="classifier">list</span></dt><dd><p>Index of missed interval. Default is [100].</p>
+<dt>missed_idx :</dt><dd><p>Index of missed interval. Default is [100].</p>
 </dd>
-<dt>short_idx<span class="classifier">list</span></dt><dd><p>Index of short interval. Default is [150].</p>
+<dt>short_idx :</dt><dd><p>Index of short interval. Default is [150].</p>
 </dd>
-<dt>long_idx<span class="classifier">list</span></dt><dd><p>Index of long interval. Default is [200].</p>
+<dt>long_idx :</dt><dd><p>Index of long interval. Default is [200].</p>
 </dd>
-<dt>ectopic1_idx<span class="classifier">list</span></dt><dd><p>Index of ectopic interval. Default is [250].</p>
+<dt>ectopic1_idx :</dt><dd><p>Index of ectopic interval. Default is [250].</p>
 </dd>
-<dt>ectopic2_idx<span class="classifier">list</span></dt><dd><p>Index of ectopic interval. Default is [300].</p>
+<dt>ectopic2_idx :</dt><dd><p>Index of ectopic interval. Default is [300].</p>
 </dd>
-<dt>random_state<span class="classifier">int</span></dt><dd><p>Random state. Default is <cite>42</cite>.</p>
+<dt>random_state :</dt><dd><p>Random state. Default is <cite>42</cite>.</p>
 </dd>
-<dt>artefacts<span class="classifier">bool</span></dt><dd><p>If <cite>True</cite>, simulate artefacts in the signal.</p>
+<dt>artefacts :</dt><dd><p>If <cite>True</cite>, simulate artefacts in the signal.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>rr</strong><span class="classifier">np.ndarray</span></dt><dd><p>The RR time series.</p>
+<dt>rr</dt><dd><p>The RR time series.</p>
 </dd>
 </dl>
 </dd>

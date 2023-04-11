@@ -491,33 +491,33 @@ document.write(`
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>signal</strong><span class="classifier">np.ndarray | list | pd.Series</span></dt><dd><p>The raw ECG signal.</p>
+<dt><strong>signal</strong></dt><dd><p>The raw ECG signal.</p>
 </dd>
-<dt><strong>sfreq</strong><span class="classifier">int</span></dt><dd><p>The sampling frequency. Default is set to <cite>1000</cite> Hz.</p>
+<dt><strong>sfreq</strong></dt><dd><p>The sampling frequency. Default is set to <cite>1000</cite> Hz.</p>
 </dd>
-<dt><strong>new_sfreq</strong><span class="classifier">int</span></dt><dd><p>The new sampling frequency. Defaults to <cite>1000</cite> Hz.</p>
+<dt><strong>new_sfreq</strong></dt><dd><p>The new sampling frequency. Defaults to <cite>1000</cite> Hz.</p>
 </dd>
-<dt><strong>method</strong><span class="classifier">str</span></dt><dd><p>The method used. Can be one of the following: <cite>‘sleepecg’</cite>, <cite>‘hamilton’</cite>,
+<dt><strong>method</strong></dt><dd><p>The method used. Can be one of the following: <cite>‘sleepecg’</cite>, <cite>‘hamilton’</cite>,
 <cite>‘christov’</cite>, <cite>‘engelse-zeelenberg’</cite>, <cite>‘pan-tompkins’</cite>, <cite>‘moving-average’</cite>.</p>
 </dd>
-<dt><strong>find_local</strong><span class="classifier">bool</span></dt><dd><p>If <em>True</em>, will use peaks indexs to search for local peaks given the
+<dt><strong>find_local</strong></dt><dd><p>If <em>True</em>, will use peaks indexs to search for local peaks given the
 window size (win_size).</p>
 </dd>
-<dt><strong>win_size</strong><span class="classifier">int</span></dt><dd><p>Size of the time window used by <a class="reference internal" href="../utils/systole.utils.to_neighbour.html#systole.utils.to_neighbour" title="systole.utils.to_neighbour"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.utils.to_neighbour()</span></code></a>
+<dt><strong>win_size</strong></dt><dd><p>Size of the time window used by <a class="reference internal" href="../utils/systole.utils.to_neighbour.html#systole.utils.to_neighbour" title="systole.utils.to_neighbour"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.utils.to_neighbour()</span></code></a>
 expressed in seconds. Defaut set to <cite>0.1</cite>.</p>
 </dd>
-<dt><strong>clean_nan</strong><span class="classifier">bool</span></dt><dd><p>If <cite>True</cite>, will interpolate NaNs values if any before any other operation.
+<dt><strong>clean_nan</strong></dt><dd><p>If <cite>True</cite>, will interpolate NaNs values if any before any other operation.
 Defaults to <cite>False</cite>.</p>
 </dd>
-<dt><strong>verbose</strong><span class="classifier">bool</span></dt><dd><p>Control function verbosity. Defaults to <cite>False</cite> (do not print processing steps).</p>
+<dt><strong>verbose</strong></dt><dd><p>Control function verbosity. Defaults to <cite>False</cite> (do not print processing steps).</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>resampled_signal</strong><span class="classifier">np.ndarray</span></dt><dd><p>Signal resampled to the <cite>new_sfreq</cite> frequency.</p>
+<dt>resampled_signal</dt><dd><p>Signal resampled to the <cite>new_sfreq</cite> frequency.</p>
 </dd>
-<dt><strong>peaks</strong><span class="classifier">np.ndarray</span></dt><dd><p>Boolean array corresponding to the R peaks detection.</p>
+<dt>peaks</dt><dd><p>Boolean array corresponding to the R peaks detection.</p>
 </dd>
 </dl>
 </dd>

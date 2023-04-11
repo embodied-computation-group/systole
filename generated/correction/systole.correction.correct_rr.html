@@ -490,35 +490,35 @@ document.write(`
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>rr</strong><span class="classifier">np.ndarray</span></dt><dd><p>RR intervals (expressed in seconds or miliseconds), boolean peaks vector or
+<dt><strong>rr</strong></dt><dd><p>RR intervals (expressed in seconds or miliseconds), boolean peaks vector or
 peaks indexes. The function will automatically convert the input into RR
 intervals (ms).</p>
 </dd>
-<dt><strong>extra_correction</strong><span class="classifier">bool</span></dt><dd><p>If <cite>True</cite> (deault), correct extra beats in the RR time series.</p>
+<dt><strong>extra_correction</strong></dt><dd><p>If <cite>True</cite> (deault), correct extra beats in the RR time series.</p>
 </dd>
-<dt><strong>missed_correction</strong><span class="classifier">bool</span></dt><dd><p>If <cite>True</cite> (deault), correct missed beats in the RR time series.</p>
+<dt><strong>missed_correction</strong></dt><dd><p>If <cite>True</cite> (deault), correct missed beats in the RR time series.</p>
 </dd>
-<dt><strong>short_correction</strong><span class="classifier">bool</span></dt><dd><p>If <cite>True</cite> (deault), correct short beats in the RR time series.</p>
+<dt><strong>short_correction</strong></dt><dd><p>If <cite>True</cite> (deault), correct short beats in the RR time series.</p>
 </dd>
-<dt><strong>long_correction</strong><span class="classifier">bool</span></dt><dd><p>If <cite>True</cite> (deault), correct long beats in the RR time series.</p>
+<dt><strong>long_correction</strong></dt><dd><p>If <cite>True</cite> (deault), correct long beats in the RR time series.</p>
 </dd>
-<dt><strong>ectopic_correction</strong><span class="classifier">bool</span></dt><dd><p>If <cite>True</cite> (deault), correct ectopic beats in the RR time series.</p>
+<dt><strong>ectopic_correction</strong></dt><dd><p>If <cite>True</cite> (deault), correct ectopic beats in the RR time series.</p>
 </dd>
-<dt><strong>n_iterations</strong><span class="classifier">int</span></dt><dd><p>Number of iterations (artifacts detection and artifacts correction). Defaults
+<dt><strong>n_iterations</strong></dt><dd><p>Number of iterations (artifacts detection and artifacts correction). Defaults
 to <cite>1</cite>.</p>
 </dd>
-<dt><strong>input_type</strong><span class="classifier">str</span></dt><dd><p>The type of input vector. Default is <cite>“rr_ms”</cite> (a boolean vector where
+<dt><strong>input_type</strong></dt><dd><p>The type of input vector. Default is <cite>“rr_ms”</cite> (a boolean vector where
 <cite>1</cite> represents the occurrence of R waves or systolic peaks).
 Can also be <cite>“peaks_idx”</cite>, the idexs of samples where a peaks is detected,
 <cite>“peaks”</cite>, or <cite>“rr_s”</cite> for vectors of RR intervals expressed in seconds.</p>
 </dd>
-<dt><strong>verbose</strong><span class="classifier">bool</span></dt><dd><p>Control the verbosity of the function. Defaults to <cite>True</cite>.</p>
+<dt><strong>verbose</strong></dt><dd><p>Control the verbosity of the function. Defaults to <cite>True</cite>.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>clean_rr, (nMissed, nExtra, nEctopic, nShort, nLong)</strong><span class="classifier">np.ndarray</span></dt><dd><p>The corrected RR time series and the number of artefacts corrected.</p>
+<dt>clean_rr, (nMissed, nExtra, nEctopic, nShort, nLong)</dt><dd><p>The corrected RR time series and the number of artefacts corrected.</p>
 </dd>
 </dl>
 </dd>

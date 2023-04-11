@@ -490,31 +490,31 @@ document.write(`
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>signal</strong><span class="classifier">np.ndarray | list | pd.Series</span></dt><dd><p>The respiratory signal. Peaks are considered to represent end of inspiration,
+<dt><strong>signal</strong></dt><dd><p>The respiratory signal. Peaks are considered to represent end of inspiration,
 trough represent end of expiration.</p>
 </dd>
-<dt><strong>sfreq</strong><span class="classifier">int</span></dt><dd><p>The sampling frequency.</p>
+<dt><strong>sfreq</strong></dt><dd><p>The sampling frequency.</p>
 </dd>
-<dt><strong>new_sfreq</strong><span class="classifier">int</span></dt><dd><p>If resample is <cite>True</cite>, the new sampling frequency. Defaults to <cite>1000</cite> Hz.</p>
+<dt><strong>new_sfreq</strong></dt><dd><p>If resample is <cite>True</cite>, the new sampling frequency. Defaults to <cite>1000</cite> Hz.</p>
 </dd>
 <dt><strong>win</strong><span class="classifier">int</span></dt><dd><p>Window size (in seconds). Default is set to 25ms, following recommandation
 from <a class="reference internal" href="#ra89dbc266d40-1" id="id1">[1]</a>.</p>
 </dd>
-<dt><strong>kind</strong><span class="classifier">str</span></dt><dd><p>What kind of detection to perform. Peak detection (<cite>“peaks”</cite>), trough detection
+<dt><strong>kind</strong></dt><dd><p>What kind of detection to perform. Peak detection (<cite>“peaks”</cite>), trough detection
 (<cite>“troughs”</cite>) or both (<cite>“peaks-troughs”</cite>, default).</p>
 </dd>
-<dt><strong>clean_nan</strong><span class="classifier">bool</span></dt><dd><p>If <cite>True</cite>, will interpolate NaNs values if any before any other operation.
+<dt><strong>clean_nan</strong></dt><dd><p>If <cite>True</cite>, will interpolate NaNs values if any before any other operation.
 Defaults to <cite>False</cite>.</p>
 </dd>
-<dt><strong>verbose</strong><span class="classifier">bool</span></dt><dd><p>Control function verbosity. Defaults to <cite>False</cite> (do not print processing steps).</p>
+<dt><strong>verbose</strong></dt><dd><p>Control function verbosity. Defaults to <cite>False</cite> (do not print processing steps).</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>resampled_signal</strong><span class="classifier">np.ndarray</span></dt><dd><p>Signal resampled to the <cite>new_sfreq</cite> frequency.</p>
+<dt>resampled_signal</dt><dd><p>Signal resampled to the <cite>new_sfreq</cite> frequency.</p>
 </dd>
-<dt><strong>peaks | trough | (peaks, trough)</strong><span class="classifier">np.ndarray | np.ndarray | (np.ndarray, np.ndarray)</span></dt><dd><p>Boolean arrays of peaks and / or troughs in the respiratory signal.</p>
+<dt>peaks | trough | (peaks, trough)</dt><dd><p>Boolean arrays of peaks and / or troughs in the respiratory signal.</p>
 </dd>
 </dl>
 </dd>

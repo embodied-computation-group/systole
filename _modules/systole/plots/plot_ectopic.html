@@ -480,7 +480,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">overload</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">bokeh.plotting</span> <span class="kn">import</span> <span class="n">figure</span>
+<span class="kn">from</span> <span class="nn">bokeh.plotting._figure</span> <span class="kn">import</span> <span class="n">figure</span>
 <span class="kn">from</span> <span class="nn">matplotlib.axes</span> <span class="kn">import</span> <span class="n">Axes</span>
 
 <span class="kn">from</span> <span class="nn">systole.correction</span> <span class="kn">import</span> <span class="n">rr_artefacts</span>
@@ -529,30 +529,30 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : np.ndarray | None</span>
+<span class="sd">    rr :</span>
 <span class="sd">        Interval time-series (R-R, beat-to-beat...), in miliseconds.</span>
-<span class="sd">    artefacts : dict | None</span>
+<span class="sd">    artefacts :</span>
 <span class="sd">        The artefacts detected using</span>
 <span class="sd">        :py:func:`systole.detection.rr_artefacts()`.</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input vector. Default is `&quot;rr_ms&quot;` for vectors of</span>
 <span class="sd">        RR intervals, or interbeat intervals (IBI), expressed in milliseconds.</span>
 <span class="sd">        Can also be `&quot;peaks&quot;` (a boolean vector where `1` represents the</span>
 <span class="sd">        occurrence of R waves or systolic peaks) or `&quot;rr_s&quot;` for IBI expressed</span>
 <span class="sd">        in seconds.</span>
-<span class="sd">    ax : :class:`matplotlib.axes.Axes` | None</span>
+<span class="sd">    ax :</span>
 <span class="sd">        Where to draw the plot. Default is *None* (create a new figure). Only</span>
 <span class="sd">        applies when `backend=&quot;matplotlib&quot;`.</span>
-<span class="sd">    backend: str</span>
+<span class="sd">    backend :</span>
 <span class="sd">        Select plotting backend (`&quot;matplotlib&quot;` or `&quot;bokeh&quot;`. Defaults to</span>
 <span class="sd">        `&quot;matplotlib&quot;`.</span>
-<span class="sd">    figsize : tuple | int | None</span>
+<span class="sd">    figsize :</span>
 <span class="sd">        Figure size. Default is `(13, 5)` for Matplotlib backend, and the</span>
 <span class="sd">        height is `600` when using Bokeh backend.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    plot : :class:`matplotlib.axes.Axes` or :class:`bokeh.plotting.figure.Figure`</span>
+<span class="sd">    plot :</span>
 <span class="sd">        The matplotlib axes, or the boken figure containing the plot.</span>
 
 <span class="sd">    See also</span>

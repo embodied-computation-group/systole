@@ -494,19 +494,19 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : np.ndarray | list</span>
+<span class="sd">    rr :</span>
 <span class="sd">        R-R interval time-series, peaks or peaks index vectors. The default expected</span>
 <span class="sd">        vector is R-R intervals in milliseconds. Other data format can be provided by</span>
 <span class="sd">        specifying the `&quot;input_type&quot;` (can be `&quot;rr_s&quot;`, `&quot;peaks&quot;` or `&quot;peaks_idx&quot;`).</span>
-<span class="sd">    t : int</span>
+<span class="sd">    t :</span>
 <span class="sd">        Threshold value: Defaut is set to 50 ms to calculate the nn50 index.</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input provided. Can be `&quot;peaks&quot;`, `&quot;peaks_idx&quot;`, `&quot;rr_ms&quot;` or</span>
 <span class="sd">        `&quot;rr_s&quot;`. Defaults to `&quot;rr_ms&quot;`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    nnX : int</span>
+<span class="sd">    nnX :</span>
 <span class="sd">        The number of successive differences larger than a value.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -530,19 +530,19 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : np.ndarray | list</span>
+<span class="sd">    rr :</span>
 <span class="sd">        R-R interval time-series, peaks or peaks index vectors. The default expected</span>
 <span class="sd">        vector is R-R intervals in milliseconds. Other data format can be provided by</span>
 <span class="sd">        specifying the `&quot;input_type&quot;` (can be `&quot;rr_s&quot;`, `&quot;peaks&quot;` or `&quot;peaks_idx&quot;`).</span>
-<span class="sd">    t : int</span>
+<span class="sd">    t :</span>
 <span class="sd">        Threshold value: Defaut is set to 50 ms to calculate the nn50 index.</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input provided. Can be `&quot;peaks&quot;`, `&quot;peaks_idx&quot;`, `&quot;rr_ms&quot;` or</span>
 <span class="sd">        `&quot;rr_s&quot;`. Defaults to `&quot;rr_ms&quot;`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    nn : float</span>
+<span class="sd">    nn :</span>
 <span class="sd">        The proportion of successive differences larger than a value (%).</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -569,17 +569,17 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : np.ndarray | list</span>
+<span class="sd">    rr :</span>
 <span class="sd">        R-R interval time-series, peaks or peaks index vectors. The default expected</span>
 <span class="sd">        vector is R-R intervals in milliseconds. Other data format can be provided by</span>
 <span class="sd">        specifying the `&quot;input_type&quot;` (can be `&quot;rr_s&quot;`, `&quot;peaks&quot;` or `&quot;peaks_idx&quot;`).</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input provided. Can be `&quot;peaks&quot;`, `&quot;peaks_idx&quot;`, `&quot;rr_ms&quot;` or</span>
 <span class="sd">        `&quot;rr_s&quot;`. Defaults to `&quot;rr_ms&quot;`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    y : float</span>
+<span class="sd">    y :</span>
 <span class="sd">        The Root Mean Square of Successive Differences (RMSSD).</span>
 
 <span class="sd">    Examples</span>
@@ -608,17 +608,17 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : np.ndarray | list</span>
+<span class="sd">    rr :</span>
 <span class="sd">        R-R interval time-series, peaks or peaks index vectors. The default expected</span>
 <span class="sd">        vector is R-R intervals in milliseconds. Other data format can be provided by</span>
 <span class="sd">        specifying the `&quot;input_type&quot;` (can be `&quot;rr_s&quot;`, `&quot;peaks&quot;` or `&quot;peaks_idx&quot;`).</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input provided. Can be `&quot;peaks&quot;`, `&quot;peaks_idx&quot;`, `&quot;rr_ms&quot;` or</span>
 <span class="sd">        `&quot;rr_s&quot;`. Defaults to `&quot;rr_ms&quot;`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    stats : :py:class:`pandas.DataFrame`</span>
+<span class="sd">    stats :</span>
 <span class="sd">        Time domain summary statistics.</span>
 <span class="sd">        * &#39;MeanRR&#39; : Mean of R-R intervals (ms).</span>
 <span class="sd">        * &#39;MeanBPM&#39; : Mean of beats per minutes (bpm).</span>
@@ -746,21 +746,21 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : np.ndarray | list</span>
+<span class="sd">    rr :</span>
 <span class="sd">        R-R interval time-series, peaks or peaks index vectors. The default expected</span>
 <span class="sd">        vector is R-R intervals in milliseconds. Other data format can be provided by</span>
 <span class="sd">        specifying the `&quot;input_type&quot;` (can be `&quot;rr_s&quot;`, `&quot;peaks&quot;` or `&quot;peaks_idx&quot;`).</span>
-<span class="sd">    sfreq : int</span>
+<span class="sd">    sfreq :</span>
 <span class="sd">        The sampling frequency (Hz) of the interpolated instantaneous heart rate.</span>
-<span class="sd">    method : str</span>
+<span class="sd">    method :</span>
 <span class="sd">        The method used to extract freauency power. Default is ``&#39;welch&#39;``.</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input provided. Can be `&quot;peaks&quot;`, `&quot;peaks_idx&quot;`, `&quot;rr_ms&quot;` or</span>
 <span class="sd">        `&quot;rr_s&quot;`. Defaults to `&quot;rr_ms&quot;`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    freq, power : np.ndarray</span>
+<span class="sd">    freq, power :</span>
 <span class="sd">        The frequency and power spectral density of the given signal.</span>
 
 <span class="sd">    See also</span>
@@ -804,29 +804,29 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : np.ndarray | list</span>
+<span class="sd">    rr :</span>
 <span class="sd">        R-R interval time-series, peaks or peaks index vectors. The default expected</span>
 <span class="sd">        vector is R-R intervals in milliseconds. Other data format can be provided by</span>
 <span class="sd">        specifying the `&quot;input_type&quot;` (can be `&quot;rr_s&quot;`, `&quot;peaks&quot;` or `&quot;peaks_idx&quot;`).</span>
-<span class="sd">    sfreq : int</span>
+<span class="sd">    sfreq :</span>
 <span class="sd">        The sampling frequency (Hz) used to interpolate the instantaneous heart rate</span>
 <span class="sd">        for PSD computation.</span>
-<span class="sd">    method : str</span>
+<span class="sd">    method :</span>
 <span class="sd">        The method used to extract the power of the different frequency bands. Default</span>
 <span class="sd">        is ``&#39;welch&#39;`` (only one method is implemented for now).</span>
-<span class="sd">    fbands : None | dict</span>
+<span class="sd">    fbands :</span>
 <span class="sd">        Dictionary containing the names of the frequency bands of interest</span>
 <span class="sd">        (str), their range (tuples) and their color in the PSD plot. Default is</span>
 <span class="sd">        &gt;&gt;&gt; {&#39;vlf&#39;: (&#39;Very low frequency&#39;, (0.003, 0.04), &#39;b&#39;),</span>
 <span class="sd">        &gt;&gt;&gt;  &#39;lf&#39;: (&#39;Low frequency&#39;, (0.04, 0.15), &#39;g&#39;),</span>
 <span class="sd">        &gt;&gt;&gt;  &#39;hf&#39;: (&#39;High frequency&#39;, (0.15, 0.4), &#39;r&#39;)}</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input provided. Can be `&quot;peaks&quot;`, `&quot;peaks_idx&quot;`, `&quot;rr_ms&quot;` or</span>
 <span class="sd">        `&quot;rr_s&quot;`. Defaults to `&quot;rr_ms&quot;`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    stats : :py:class:`pandas.DataFrame`</span>
+<span class="sd">    stats :</span>
 <span class="sd">        Frequency domain summary statistics.</span>
 <span class="sd">        * &#39;vlf_peak&#39; : Very low frequency peak (HZ).</span>
 <span class="sd">        * &#39;vlf_power&#39; : Very low frequency power (ms²).</span>
@@ -956,17 +956,17 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : list | np.ndarray</span>
+<span class="sd">    rr :</span>
 <span class="sd">        R-R interval time-series, peaks or peaks index vectors. The default expected</span>
 <span class="sd">        vector is R-R intervals in milliseconds. Other data format can be provided by</span>
 <span class="sd">        specifying the `&quot;input_type&quot;` (can be `&quot;rr_s&quot;`, `&quot;peaks&quot;` or `&quot;peaks_idx&quot;`).</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input provided. Can be `&quot;peaks&quot;`, `&quot;peaks_idx&quot;`, `&quot;rr_ms&quot;` or</span>
 <span class="sd">        `&quot;rr_s&quot;`. Defaults to `&quot;rr_ms&quot;`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    stats : :py:class:`pandas.DataFrame`</span>
+<span class="sd">    stats :</span>
 <span class="sd">        Nonlinear domain summary statistics.</span>
 <span class="sd">        * &#39;SD1&#39; : SD1, the standard deviation of the poincare plot orthogonal to the identity line (ms).</span>
 <span class="sd">        * &#39;SD2&#39; : SD2, the standard deviation of the poincare plot along the identity line (ms).</span>
@@ -1040,21 +1040,21 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : list | np.ndarray</span>
+<span class="sd">    rr :</span>
 <span class="sd">        R-R interval time-series, peaks or peaks index vectors. The default expected</span>
 <span class="sd">        vector is R-R intervals in milliseconds. Other data format can be provided by</span>
 <span class="sd">        specifying the `&quot;input_type&quot;` (can be `&quot;rr_s&quot;`, `&quot;peaks&quot;` or `&quot;peaks_idx&quot;`).</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input provided. Can be `&quot;peaks&quot;`, `&quot;peaks_idx&quot;`, `&quot;rr_ms&quot;` or</span>
 <span class="sd">        `&quot;rr_s&quot;`. Defaults to `&quot;rr_ms&quot;`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    sd1 : float</span>
+<span class="sd">    sd1 :</span>
 <span class="sd">        The standard deviation of the points perpendicular to the identity line. This</span>
 <span class="sd">        metric is thought to be influenced mainly by the respiratory sinus arythmia</span>
 <span class="sd">        (RSA) and reflect short-term heart rate variability.</span>
-<span class="sd">    sd2 : float</span>
+<span class="sd">    sd2 :</span>
 <span class="sd">        The standard deviation of the points along the identity line. This metric is</span>
 <span class="sd">        thought to reflect the long-term heart rate variability.</span>
 
@@ -1113,26 +1113,26 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : list | np.ndarray</span>
+<span class="sd">    rr :</span>
 <span class="sd">        R-R interval time-series, peaks or peaks index vectors. The default expected</span>
 <span class="sd">        vector is R-R intervals in milliseconds. Other data format can be provided by</span>
 <span class="sd">        specifying the `&quot;input_type&quot;` (can be `&quot;rr_s&quot;`, `&quot;peaks&quot;` or `&quot;peaks_idx&quot;`).</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input provided. Can be `&quot;peaks&quot;`, `&quot;peaks_idx&quot;`, `&quot;rr_ms&quot;` or</span>
 <span class="sd">        `&quot;rr_s&quot;`. Defaults to `&quot;rr_ms&quot;`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    recurrence_rate : float</span>
+<span class="sd">    recurrence_rate :</span>
 <span class="sd">        The percentage of recurence in the time series. This corresponds to the ratio</span>
 <span class="sd">        of ones and zeros in the recurrence plot.</span>
-<span class="sd">    l_max : int</span>
+<span class="sd">    l_max :</span>
 <span class="sd">        Maximum lenght of the diagonale in the reccurence plot.</span>
-<span class="sd">    l_mean : float</span>
+<span class="sd">    l_mean :</span>
 <span class="sd">        Mean of the diagonals lengths observed in the recurence plot.</span>
-<span class="sd">    determinism_rate : float</span>
+<span class="sd">    determinism_rate :</span>
 <span class="sd">        The percentage of determinism in the time series.</span>
-<span class="sd">    shan_entr : float</span>
+<span class="sd">    shan_entr :</span>
 <span class="sd">        Shannon information entropy.</span>
 
 <span class="sd">    .. warning:: The recurrence plots results does not reproduce what is obtained using</span>
@@ -1227,18 +1227,18 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : np.ndarray</span>
+<span class="sd">    rr :</span>
 <span class="sd">        R-R interval time-series. Can be in seconds or miliseconds.</span>
-<span class="sd">    m : int</span>
+<span class="sd">    m :</span>
 <span class="sd">        The embedding dimension. This corresponds to the length of the subsamples.</span>
 <span class="sd">        Defaults to `10`.</span>
-<span class="sd">    tau : int</span>
+<span class="sd">    tau :</span>
 <span class="sd">        The embedding lag. This corresponds to the number of datapoints that are skipped</span>
 <span class="sd">        when creating the sub-sample. Defaults to `1` (take all values).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    rc : np.ndarray</span>
+<span class="sd">    rc :</span>
 <span class="sd">        The recurrence matrix.</span>
 
 <span class="sd">    References</span>
@@ -1280,17 +1280,17 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : list | np.ndarray</span>
+<span class="sd">    rr :</span>
 <span class="sd">        R-R interval time-series, peaks or peaks index vectors. The default expected</span>
 <span class="sd">        vector is R-R intervals in milliseconds. Other data format can be provided by</span>
 <span class="sd">        specifying the `&quot;input_type&quot;` (can be `&quot;rr_s&quot;`, `&quot;peaks&quot;` or `&quot;peaks_idx&quot;`).</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input provided. Can be `&quot;peaks&quot;`, `&quot;peaks_idx&quot;`, `&quot;rr_ms&quot;` or</span>
 <span class="sd">        `&quot;rr_s&quot;`. Defaults to `&quot;rr_ms&quot;`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    stats : :py:class:`pandas.DataFrame`</span>
+<span class="sd">    stats :</span>
 <span class="sd">        Summary of the HRV indices extracted.</span>
 <span class="sd">        * &#39;MeanRR&#39; : Mean of R-R intervals (ms).</span>
 <span class="sd">        * &#39;MeanBPM&#39; : Mean of beats per minutes (bpm).</span>

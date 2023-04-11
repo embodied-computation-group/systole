@@ -480,7 +480,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">bokeh.plotting</span> <span class="kn">import</span> <span class="n">figure</span>
+<span class="kn">from</span> <span class="nn">bokeh.plotting._figure</span> <span class="kn">import</span> <span class="n">figure</span>
 <span class="kn">from</span> <span class="nn">matplotlib.axes</span> <span class="kn">import</span> <span class="n">Axes</span>
 <span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">interp1d</span>
 
@@ -502,14 +502,14 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : np.ndarray | list</span>
+<span class="sd">    rr :</span>
 <span class="sd">        Boolean vector of peaks detection or RR intervals.</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input vector. Default is `&quot;peaks&quot;` (a boolean vector where</span>
 <span class="sd">        `1` represents the occurrence of R waves or systolic peaks). Can also be</span>
 <span class="sd">        `&quot;rr_s&quot;` or `&quot;rr_ms&quot;` for vectors of RR intervals, or interbeat intervals</span>
 <span class="sd">        (IBI), expressed in seconds or milliseconds (respectively).</span>
-<span class="sd">    fbands : None | dict | optional</span>
+<span class="sd">    fbands :</span>
 <span class="sd">        Dictionary containing the names of the frequency bands of interest (str), their</span>
 <span class="sd">        range (tuples) and their color in the PSD plot. Default is::</span>
 
@@ -519,16 +519,16 @@ document.write(`
 <span class="sd">            &#39;hf&#39;: (&#39;High frequency&#39;, (0.15, 0.4), &#39;r&#39;)</span>
 <span class="sd">            }</span>
 
-<span class="sd">    figsize : list | tuple | int | None</span>
+<span class="sd">    figsize :</span>
 <span class="sd">        Figure size. Default is `(13, 5)`.</span>
-<span class="sd">    ax : :class:`matplotlib.axes.Axes` | None</span>
+<span class="sd">    ax :</span>
 <span class="sd">        Where to draw the plot. Default is `None` (create a new figure).</span>
-<span class="sd">    backend: str</span>
+<span class="sd">    backend :</span>
 <span class="sd">        Select plotting backend (`&quot;matplotlib&quot;`, `&quot;bokeh&quot;`). Defaults to `&quot;matplotlib&quot;`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    plot : :class:`matplotlib.axes.Axes` | :class:`bokeh.plotting.figure.Figure`</span>
+<span class="sd">    plot :</span>
 <span class="sd">        The matplotlib axes, or the boken figure containing the plot.</span>
 
 <span class="sd">    See also</span>

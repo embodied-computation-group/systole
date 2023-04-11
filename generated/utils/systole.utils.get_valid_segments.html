@@ -491,9 +491,9 @@ as bads.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>signal</strong><span class="classifier">np.ndarray</span></dt><dd><p>The physiological time serie that should be filtered.</p>
+<dt><strong>signal</strong></dt><dd><p>The physiological time serie that should be filtered.</p>
 </dd>
-<dt><strong>bad_segments</strong><span class="classifier">np.ndarray | tuple</span></dt><dd><p>Bad segments in the signal where RR interval or peaks to peaks intervals could
+<dt><strong>bad_segments</strong></dt><dd><p>Bad segments in the signal where RR interval or peaks to peaks intervals could
 not be accurately estimated. Intervals from these segments will be dropped and
 the time domain parameters will be computed over the remaining intervals. A
 warning is printed if the final intervals range is less than 2 minutes.</p>

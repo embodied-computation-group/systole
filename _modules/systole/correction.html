@@ -498,20 +498,20 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : np.ndarray</span>
+<span class="sd">    rr :</span>
 <span class="sd">        1d array of RR intervals (ms).</span>
-<span class="sd">    extra_idx : np.ndarray</span>
+<span class="sd">    extra_idx :</span>
 <span class="sd">        1d array of the index(es) of the extra RR interval(s).</span>
-<span class="sd">    artefacts : np.ndarray</span>
+<span class="sd">    artefacts :</span>
 <span class="sd">        A numpy array (artefacts x time) of artefacts logs, build form the dictionary</span>
 <span class="sd">        returned by py:`func:systole.detection.rr_artefacts()`. This array will be</span>
 <span class="sd">        updated as intervals are removed.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    clean_rr : np.ndarray</span>
+<span class="sd">    clean_rr :</span>
 <span class="sd">        Corrected RR intervals.</span>
-<span class="sd">    artefacts : np.ndarray (optional)</span>
+<span class="sd">    artefacts :</span>
 <span class="sd">        The updated dictionary of artefacts logs originally returned by</span>
 <span class="sd">        py:`func:systole.detection.rr_artefacts()`.</span>
 
@@ -558,20 +558,20 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : np.ndarray</span>
+<span class="sd">    rr :</span>
 <span class="sd">        RR intervals (ms).</span>
-<span class="sd">    missed_idx : np.ndarray</span>
+<span class="sd">    missed_idx :</span>
 <span class="sd">        Index of the extra RR interval.</span>
-<span class="sd">    artefacts : np.ndarray</span>
+<span class="sd">    artefacts :</span>
 <span class="sd">        A numpy array (artefacts x time) of artefacts logs, build form the dictionary</span>
 <span class="sd">        returned by py:`func:systole.detection.rr_artefacts()`. This array will be</span>
 <span class="sd">        updated as intervals are added.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    clean_rr : np.ndarray</span>
+<span class="sd">    clean_rr :</span>
 <span class="sd">        Corrected RR intervals.</span>
-<span class="sd">    artefacts : dict (optional)</span>
+<span class="sd">    artefacts :</span>
 <span class="sd">        If the artefacts dictionary was provided, also return the updated version of</span>
 <span class="sd">        this dictionary with the new artifacts idexes.</span>
 
@@ -618,14 +618,14 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : np.ndarray</span>
+<span class="sd">    rr :</span>
 <span class="sd">        RR intervals (ms).</span>
 <span class="sd">    idx : int, np.ndarray</span>
 <span class="sd">        Index of the RR interval that should be interpolated.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    clean_rr : np.ndarray</span>
+<span class="sd">    clean_rr :</span>
 <span class="sd">        The corrected RR intervals.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -753,34 +753,34 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rr : np.ndarray</span>
+<span class="sd">    rr :</span>
 <span class="sd">        RR intervals (expressed in seconds or miliseconds), boolean peaks vector or</span>
 <span class="sd">        peaks indexes. The function will automatically convert the input into RR</span>
 <span class="sd">        intervals (ms).</span>
-<span class="sd">    extra_correction : bool</span>
+<span class="sd">    extra_correction :</span>
 <span class="sd">      If `True` (deault), correct extra beats in the RR time series.</span>
-<span class="sd">    missed_correction : bool</span>
+<span class="sd">    missed_correction :</span>
 <span class="sd">      If `True` (deault), correct missed beats in the RR time series.</span>
-<span class="sd">    short_correction : bool</span>
+<span class="sd">    short_correction :</span>
 <span class="sd">      If `True` (deault), correct short beats in the RR time series.</span>
-<span class="sd">    long_correction : bool</span>
+<span class="sd">    long_correction :</span>
 <span class="sd">      If `True` (deault), correct long beats in the RR time series.</span>
-<span class="sd">    ectopic_correction : bool</span>
+<span class="sd">    ectopic_correction :</span>
 <span class="sd">      If `True` (deault), correct ectopic beats in the RR time series.</span>
-<span class="sd">    n_iterations : int</span>
+<span class="sd">    n_iterations :</span>
 <span class="sd">        Number of iterations (artifacts detection and artifacts correction). Defaults</span>
 <span class="sd">        to `1`.</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input vector. Default is `&quot;rr_ms&quot;` (a boolean vector where</span>
 <span class="sd">        `1` represents the occurrence of R waves or systolic peaks).</span>
 <span class="sd">        Can also be `&quot;peaks_idx&quot;`, the idexs of samples where a peaks is detected,</span>
 <span class="sd">        `&quot;peaks&quot;`, or `&quot;rr_s&quot;` for vectors of RR intervals expressed in seconds.</span>
-<span class="sd">    verbose : bool</span>
+<span class="sd">    verbose :</span>
 <span class="sd">        Control the verbosity of the function. Defaults to `True`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    clean_rr, (nMissed, nExtra, nEctopic, nShort, nLong) : np.ndarray</span>
+<span class="sd">    clean_rr, (nMissed, nExtra, nEctopic, nShort, nLong) :</span>
 <span class="sd">        The corrected RR time series and the number of artefacts corrected.</span>
 
 <span class="sd">    Examples</span>
@@ -873,33 +873,29 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    peaks : np.ndarray</span>
+<span class="sd">    peaks :</span>
 <span class="sd">        Boolean vector of peaks.</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input vector. Defaults to `&quot;rr_ms&quot;` for vectors of RR intervals, or</span>
 <span class="sd">        interbeat intervals (IBI), expressed in milliseconds. Can also be a boolean</span>
 <span class="sd">        vector where `1` represents the occurrence of R waves or systolic peakspeaks</span>
 <span class="sd">        vector `&quot;rr_s&quot;` or IBI expressed in seconds.</span>
-<span class="sd">    extra_correction : bool</span>
+<span class="sd">    extra_correction :</span>
 <span class="sd">      If `True` (default), correct extra peaks in the peaks time series.</span>
-<span class="sd">    missed_correction : bool</span>
+<span class="sd">    missed_correction :</span>
 <span class="sd">      If `True` (default), correct missed peaks in the peaks time series.</span>
-<span class="sd">    n_iterations : int</span>
+<span class="sd">    n_iterations :</span>
 <span class="sd">        How many time to repeat the detection-correction process. Defaults to `1`.</span>
-<span class="sd">    verbose : bool</span>
+<span class="sd">    verbose :</span>
 <span class="sd">        Control the verbosity of the function. Defaults to `True`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    correction : dictionary</span>
+<span class="sd">    correction :</span>
 <span class="sd">        The corrected RR time series and the number of artefacts corrected:</span>
-
-<span class="sd">        * clean_peaks: np.ndarray</span>
-<span class="sd">            The corrected boolean time-serie.</span>
-<span class="sd">        * extra: int</span>
-<span class="sd">            The number of extra beats corrected.</span>
-<span class="sd">        * missed: int</span>
-<span class="sd">            The number of missed beats corrected.</span>
+<span class="sd">        - clean_peaks: The corrected boolean time-serie.</span>
+<span class="sd">        - extra: The number of extra beats corrected.</span>
+<span class="sd">        - missed: The number of missed beats corrected.</span>
 
 <span class="sd">    See also</span>
 <span class="sd">    --------</span>
@@ -986,7 +982,7 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    peaks : np.ndarray | list</span>
+<span class="sd">    peaks :</span>
 <span class="sd">        Boolean vector of peaks detection.</span>
 <span class="sd">    idx : int</span>
 <span class="sd">        Index of the peaks corresponding to the missed RR interval. The new peaks will</span>
@@ -994,7 +990,7 @@ document.write(`
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    clean_peaks : np.ndarray</span>
+<span class="sd">    clean_peaks :</span>
 <span class="sd">        Corrected boolean vector of peaks.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">peaks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">peaks</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
@@ -1025,18 +1021,18 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    peaks : np.ndarray | list</span>
+<span class="sd">    peaks :</span>
 <span class="sd">        Boolean vector of peaks detection.</span>
-<span class="sd">    idx : int</span>
+<span class="sd">    idx :</span>
 <span class="sd">        Index (sample number) of the peaks corresponding to the etopic interval</span>
 <span class="sd">        (i.e. the long interval following the short interval).</span>
-<span class="sd">    signal : np.ndarray | list | None</span>
+<span class="sd">    signal :</span>
 <span class="sd">        (Optional) The raw ECG or PPG signal. If provided, the pseudo-ectopic</span>
 <span class="sd">        interval is re-estimated using this signal.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    clean_peaks : np.ndarray</span>
+<span class="sd">    clean_peaks :</span>
 <span class="sd">        Corrected boolean vector of peaks.</span>
 
 <span class="sd">    Notes</span>

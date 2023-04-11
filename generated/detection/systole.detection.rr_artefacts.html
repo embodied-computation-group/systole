@@ -491,18 +491,18 @@ proposed by Lipponen &amp; Tarvainen (2019).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>rr</strong><span class="classifier">np.ndarray or list</span></dt><dd><p>1d numpy array of RR intervals (in seconds or miliseconds) or peaks
+<dt><strong>rr</strong></dt><dd><p>1d numpy array of RR intervals (in seconds or miliseconds) or peaks
 vector (boolean array).</p>
 </dd>
-<dt><strong>c1</strong><span class="classifier">float</span></dt><dd><p>Fixed variable controling the slope of the threshold lines. Default is
+<dt><strong>c1</strong></dt><dd><p>Fixed variable controling the slope of the threshold lines. Default is
 <cite>0.13</cite>.</p>
 </dd>
-<dt><strong>c2</strong><span class="classifier">float</span></dt><dd><p>Fixed variable controling the intersect of the threshold lines. Default
+<dt><strong>c2</strong></dt><dd><p>Fixed variable controling the intersect of the threshold lines. Default
 is <cite>0.17</cite>.</p>
 </dd>
-<dt><strong>alpha</strong><span class="classifier">float</span></dt><dd><p>Scaling factor used to normalize the RR intervals first deviation.</p>
+<dt><strong>alpha</strong></dt><dd><p>Scaling factor used to normalize the RR intervals first deviation.</p>
 </dd>
-<dt><strong>input_type</strong><span class="classifier">str</span></dt><dd><p>The type of input vector. Defaults to <cite>“rr_ms”</cite> for vectors of RR
+<dt><strong>input_type</strong></dt><dd><p>The type of input vector. Defaults to <cite>“rr_ms”</cite> for vectors of RR
 intervals, or  interbeat intervals (IBI), expressed in milliseconds.
 Can also be a boolean vector where <cite>1</cite> represents the occurrence of
 R waves or systolic peakspeaks vector <cite>“rr_s”</cite> or IBI expressed in
@@ -512,7 +512,7 @@ seconds.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>artefacts</strong><span class="classifier">dict</span></dt><dd><p>Dictionary storing the parameters of RR artefacts rejection. All the vectors
+<dt>artefacts</dt><dd><p>Dictionary storing the parameters of RR artefacts rejection. All the vectors
 outputed have the same length as the provided RR time serie:</p>
 <ul class="simple">
 <li><dl class="simple">

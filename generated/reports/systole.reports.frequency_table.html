@@ -487,27 +487,27 @@ document.write(`
 <dt class="sig sig-object py" id="systole.reports.frequency_table">
 <span class="sig-prename descclassname"><span class="pre">systole.reports.</span></span><span class="sig-name descname"><span class="pre">frequency_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frequency_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.0.0)"><span class="pre">pandas.core.frame.DataFrame</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'rr_ms'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tabulate'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">300</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.bokeh.org/en/latest/docs/reference/models/layouts.html#bokeh.models.Column" title="(in Bokeh v3.1.0)"><span class="pre">bokeh.models.layouts.Column</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/systole/reports/tables.html#frequency_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#systole.reports.frequency_table" title="Permalink to this definition">#</a></dt>
 <dd><p>Format frequency domain results for nice rendering.</p>
-<dl class="field-list">
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>rr</strong><span class="classifier">np.ndarray | list</span></dt><dd><p>R-R interval time-series, peaks or peaks index vectors. The default expected
+<dt><strong>rr</strong></dt><dd><p>R-R interval time-series, peaks or peaks index vectors. The default expected
 vector is R-R intervals in milliseconds. Other data format can be provided by
 specifying the <cite>“input_type”</cite> (can be <cite>“rr_s”</cite>, <cite>“peaks”</cite> or <cite>“peaks_idx”</cite>).</p>
 </dd>
-<dt><strong>frequency_df</strong><span class="classifier">pd.DataFrame | None</span></dt><dd><p>The frequency domain results obtained from:py:func:<cite>systole.hrv.frequency_domain</cite>.</p>
+<dt><strong>frequency_df</strong></dt><dd><p>The frequency domain results obtained from:py:func:<cite>systole.hrv.frequency_domain</cite>.</p>
 </dd>
-<dt><strong>input_type</strong><span class="classifier">str</span></dt><dd><p>The type of input provided. Can be <cite>“peaks”</cite>, <cite>“peaks_idx”</cite>, <cite>“rr_ms”</cite> or
+<dt><strong>input_type</strong></dt><dd><p>The type of input provided. Can be <cite>“peaks”</cite>, <cite>“peaks_idx”</cite>, <cite>“rr_ms”</cite> or
 <cite>“rr_s”</cite>. Defaults to <cite>“rr_ms”</cite>.</p>
 </dd>
-<dt><strong>bakend</strong><span class="classifier">str</span></dt><dd><p>Which backend to use. Can be <cite>“bokeh”</cite> or <cite>“tabulate”</cite>. Defaults to <cite>“tabulate”</cite>.</p>
+<dt><strong>bakend</strong></dt><dd><p>Which backend to use. Can be <cite>“bokeh”</cite> or <cite>“tabulate”</cite>. Defaults to <cite>“tabulate”</cite>.</p>
 </dd>
-<dt><strong>width, height</strong><span class="classifier">int</span></dt><dd><p>The table width and height (only for <cite>“bokeh”</cite> backend).</p>
+<dt><strong>width, height</strong></dt><dd><p>The table width and height (only for <cite>“bokeh”</cite> backend).</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl>
-<dt><strong>table</strong><span class="classifier"><cite>bokeh.models.Column</cite> | str</span></dt><dd><p>The formatted frequency domain table, either as a string or as a Bokeh Columns.</p>
+<dd class="field-even"><dl class="simple">
+<dt>table</dt><dd><p>The formatted frequency domain table, either as a string or as a Bokeh Columns.</p>
 </dd>
 </dl>
 </dd>

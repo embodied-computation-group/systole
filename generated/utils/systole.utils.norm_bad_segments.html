@@ -490,7 +490,7 @@ document.write(`
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>bad_segments</strong><span class="classifier">list | np.ndarray</span></dt><dd><p>The time stamps of the bad segments. Can be a boolean 1d numpy array where
+<dt><strong>bad_segments</strong></dt><dd><p>The time stamps of the bad segments. Can be a boolean 1d numpy array where
 <cite>True</cite> is a bad segment (will be rejected), or a list of tuples such as
 (start_idx, end_idx) in signal samples or milliseconds when intervals are
 provided.</p>
@@ -499,7 +499,7 @@ provided.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>bad_segments_tuples</strong><span class="classifier">tuple</span></dt><dd><p>The merged bad segments as tuples such as (start_idx, end_idx) indicate when
+<dt>bad_segments_tuples</dt><dd><p>The merged bad segments as tuples such as (start_idx, end_idx) indicate when
 each bad segment starts and ends.</p>
 </dd>
 </dl>

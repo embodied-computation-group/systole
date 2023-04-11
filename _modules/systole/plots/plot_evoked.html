@@ -480,7 +480,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">bokeh.plotting</span> <span class="kn">import</span> <span class="n">figure</span>
+<span class="kn">from</span> <span class="nn">bokeh.plotting._figure</span> <span class="kn">import</span> <span class="n">figure</span>
 <span class="kn">from</span> <span class="nn">matplotlib.axes</span> <span class="kn">import</span> <span class="n">Axes</span>
 
 <span class="kn">from</span> <span class="nn">systole.detection</span> <span class="kn">import</span> <span class="n">ecg_peaks</span><span class="p">,</span> <span class="n">ppg_peaks</span>
@@ -514,66 +514,66 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    epochs : list of np.ndarray</span>
+<span class="sd">    epochs :</span>
 <span class="sd">        A list of 2d (trial * time) numpy array containing the time series of the</span>
 <span class="sd">        epoched signal. When multiple arrays are provided, will be plotted separately</span>
 <span class="sd">        as different conditions.</span>
-<span class="sd">    signal : np.ndarray | list</span>
+<span class="sd">    signal :</span>
 <span class="sd">        A 1d numpy array containing the physiological signal (can be PPG or</span>
 <span class="sd">        ECG). The modality of the signal is parametrized using the `modality`</span>
 <span class="sd">        parameter.</span>
-<span class="sd">    triggers : np.ndarray | list</span>
+<span class="sd">    triggers :</span>
 <span class="sd">        The boolean indices of the events, shape=(times*sfreq, 1).</span>
-<span class="sd">    triggers_idx : np.ndarray or list</span>
+<span class="sd">    triggers_idx :</span>
 <span class="sd">        Trigger indexes. Each value encode the sample where an event occured (see</span>
 <span class="sd">        also `sfreq`). Different conditions should be provided separately as list of</span>
 <span class="sd">        arrays (can have different lenght).</span>
-<span class="sd">    rr : np.ndarray | list</span>
+<span class="sd">    rr :</span>
 <span class="sd">        Boolean vector of peaks detection or peaks indexs. See `input_type`.</span>
-<span class="sd">    input_type : str</span>
+<span class="sd">    input_type :</span>
 <span class="sd">        The type of input vector. Can be `&quot;peaks&quot;`, `&quot;peaks_idx&quot;`, `&quot;rr_ms&quot;`,</span>
 <span class="sd">        or `&quot;rr_s&quot;`. Default to `&quot;peaks&quot;`.</span>
 <span class="sd">    reject : np.ndarray | None</span>
 <span class="sd">        Segments of the signal that should be rejected.</span>
-<span class="sd">    modality : str</span>
+<span class="sd">    modality :</span>
 <span class="sd">        The recording modality (can be `&quot;ppg&quot;` or `&quot;ecg&quot;`). Only required when using</span>
 <span class="sd">        `signal`. The modality will determine the peaks detection method.</span>
-<span class="sd">    tmin, tmax : float</span>
+<span class="sd">    tmin, tmax :</span>
 <span class="sd">        Start and end time of the epochs in seconds, relative to the</span>
 <span class="sd">        time-locked event. Defaults to -1.0 and 10.0, respectively.</span>
-<span class="sd">    sfreq : int</span>
+<span class="sd">    sfreq :</span>
 <span class="sd">        The sampling frequency of the input signal and triggers. Default set to `1000`.</span>
-<span class="sd">    apply_baseline : float | tuple | None</span>
+<span class="sd">    apply_baseline :</span>
 <span class="sd">        If int or tuple, use the point or interval to apply a baseline</span>
 <span class="sd">        (method: mean). If `None`, no baseline is applied. Default is set to `0`.</span>
-<span class="sd">    decim : int | None</span>
+<span class="sd">    decim :</span>
 <span class="sd">        Factor by which to subsample the data. Selects every Nth sample (where N is the</span>
 <span class="sd">        value passed to decim). Default set to `None` (no decim).</span>
-<span class="sd">    labels : str | list</span>
+<span class="sd">    labels :</span>
 <span class="sd">        The condition labels.</span>
-<span class="sd">    unit : str</span>
+<span class="sd">    unit :</span>
 <span class="sd">        The heart rate unit. Can be `&#39;rr&#39;` (R-R intervals, in ms) or `&#39;bpm&#39;` (beats</span>
 <span class="sd">        per minutes). Default is `&#39;bpm&#39;`.</span>
-<span class="sd">    kind : str</span>
+<span class="sd">    kind :</span>
 <span class="sd">        This argument will be passed too:py:func:`systole.utils.heart_rate` and control</span>
 <span class="sd">        the type of interpolation between instantaneous heart rate estimates.</span>
 <span class="sd">        This is then the method used by `scipy.interpolate.interp1d`). Can be `&#39;cubic&#39;`</span>
 <span class="sd">        (defalut), `&#39;linear&#39;`, `&#39;previous&#39;` or `&#39;next&#39;`.</span>
-<span class="sd">    ax : :class:`matplotlib.axes.Axes` | None</span>
+<span class="sd">    ax :</span>
 <span class="sd">        Where to draw the plot. Default is *None* (create a new figure).</span>
-<span class="sd">    figsize : tuple, int or None</span>
+<span class="sd">    figsize :</span>
 <span class="sd">        Figure size. Default is set to `(13, 5)` if `backend==&quot;matplotlib&quot;` and</span>
 <span class="sd">        `(400, 400)` if `backend==&quot;bokeh&quot;`.</span>
-<span class="sd">    backend: str</span>
+<span class="sd">    backend :</span>
 <span class="sd">        Select plotting backend (`&quot;matplotlib&quot;`, `&quot;bokeh&quot;`). Default sets to</span>
 <span class="sd">        `&quot;matplotlib&quot;`.</span>
-<span class="sd">    kwargs: key, value mappings</span>
+<span class="sd">    kwargs:</span>
 <span class="sd">        Other keyword arguments are passed down to py:`func:seaborn.lineplot()` if</span>
 <span class="sd">        `backend` is `&quot;matplotlib&quot;`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    plot : :class:`matplotlib.axes.Axes` or :class:`bokeh.plotting.figure.Figure`</span>
+<span class="sd">    plot :</span>
 <span class="sd">        The matplotlib axes, or the boken figure containing the plot.</span>
 
 <span class="sd">    See also</span>
