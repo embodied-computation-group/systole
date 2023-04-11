@@ -1,6 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import os
+import sys
 import socket
 import threading
 import unittest
@@ -95,7 +96,8 @@ class TestRecording(TestCase):
             ConnectionRefusedError
         ):  # Add exception for GitHub actions that sometimes fail
             pass
-
+        
+        server_thread.join()
 
 if __name__ == "__main__":
     unittest.main(argv=["first-arg-is-ignored"], exit=False)
