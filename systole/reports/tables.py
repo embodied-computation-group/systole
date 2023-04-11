@@ -22,23 +22,23 @@ def time_table(
 
     Parameters
     ----------
-    rr : np.ndarray | list
+    rr :
         R-R interval time-series, peaks or peaks index vectors. The default expected
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
-    time_df : pd.DataFrame | None
+    time_df :
         The time domain results obtained from:py:func:`systole.hrv.time_domain`.
-    input_type : str
+    input_type :
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
-    bakend : str
+    bakend :
         Which backend to use. Can be `"bokeh"` or `"tabulate"`. Defaults to `"tabulate"`.
-    width, height : int
+    width, height :
         The table width and height (only for `"bokeh"` backend).
 
     Returns
     -------
-    table : `bokeh.models.Column` | str
+    table :
         The formatted time domain table, either as a string or as a Bokeh Columns.
 
     """
@@ -142,23 +142,23 @@ def frequency_table(
 
     Parameters
     ----------
-    rr : np.ndarray | list
+    rr :
         R-R interval time-series, peaks or peaks index vectors. The default expected
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
-    frequency_df : pd.DataFrame | None
+    frequency_df :
         The frequency domain results obtained from:py:func:`systole.hrv.frequency_domain`.
-    input_type : str
+    input_type :
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
-    bakend : str
+    bakend :
         Which backend to use. Can be `"bokeh"` or `"tabulate"`. Defaults to `"tabulate"`.
-    width, height : int
+    width, height :
         The table width and height (only for `"bokeh"` backend).
 
     Returns
     -------
-    table : `bokeh.models.Column` | str
+    table :
         The formatted frequency domain table, either as a string or as a Bokeh Columns.
 
     """
@@ -257,23 +257,23 @@ def nonlinear_table(
 
     Parameters
     ----------
-    rr : np.ndarray | list
+    rr :
         R-R interval time-series, peaks or peaks index vectors. The default expected
         vector is R-R intervals in milliseconds. Other data format can be provided by
         specifying the `"input_type"` (can be `"rr_s"`, `"peaks"` or `"peaks_idx"`).
-    nonlinear_df : pd.DataFrame | None
+    nonlinear_df :
         The time domain results obtained from:py:func:`systole.hrv.nonlinear_domain`.
-    input_type : str
+    input_type :
         The type of input provided. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"` or
         `"rr_s"`. Defaults to `"rr_ms"`.
-    bakend : str
+    bakend :
         Which backend to use. Can be `"bokeh"` or `"tabulate"`. Defaults to `"tabulate"`.
-    width, height : int
+    width, height :
         The table width and height (only for `"bokeh"` backend).
 
     Returns
     -------
-    table : `bokeh.models.Column` | str
+    table :
         The formatted nonlinear domain table, either as a string or as a Bokeh Columns.
 
     """

@@ -3,7 +3,7 @@
 from typing import Dict
 
 import numpy as np
-from bokeh.plotting import figure
+from bokeh.plotting._figure import figure
 
 
 def plot_ectopic(

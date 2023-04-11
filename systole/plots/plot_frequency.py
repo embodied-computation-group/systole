@@ -3,7 +3,7 @@
 from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
-from bokeh.plotting import figure
+from bokeh.plotting._figure import figure
 from matplotlib.axes import Axes
 from scipy.interpolate import interp1d
 
@@ -25,14 +25,14 @@ def plot_frequency(
 
     Parameters
     ----------
-    rr : np.ndarray | list
+    rr :
         Boolean vector of peaks detection or RR intervals.
-    input_type : str
+    input_type :
         The type of input vector. Default is `"peaks"` (a boolean vector where
         `1` represents the occurrence of R waves or systolic peaks). Can also be
         `"rr_s"` or `"rr_ms"` for vectors of RR intervals, or interbeat intervals
         (IBI), expressed in seconds or milliseconds (respectively).
-    fbands : None | dict | optional
+    fbands :
         Dictionary containing the names of the frequency bands of interest (str), their
         range (tuples) and their color in the PSD plot. Default is::
 
@@ -42,16 +42,16 @@ def plot_frequency(
             'hf': ('High frequency', (0.15, 0.4), 'r')
             }
 
-    figsize : list | tuple | int | None
+    figsize :
         Figure size. Default is `(13, 5)`.
-    ax : :class:`matplotlib.axes.Axes` | None
+    ax :
         Where to draw the plot. Default is `None` (create a new figure).
-    backend: str
+    backend :
         Select plotting backend (`"matplotlib"`, `"bokeh"`). Defaults to `"matplotlib"`.
 
     Returns
     -------
-    plot : :class:`matplotlib.axes.Axes` | :class:`bokeh.plotting.figure.Figure`
+    plot :
         The matplotlib axes, or the boken figure containing the plot.
 
     See also

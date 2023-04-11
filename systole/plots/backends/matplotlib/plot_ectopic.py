@@ -17,17 +17,17 @@ def plot_ectopic(
 
     Parameters
     ----------
-    artefacts : dict or None
+    artefacts :
         The artefacts detected using
         :py:func:`systole.detection.rr_artefacts()`.
-    figsize : int
+    figsize :
         Figure heights. Default is `600`.
-    ax : :class:`matplotlib.axes.Axes` or None
+    ax :
         Where to draw the plot. Default is `None` (create a new figure).
 
     Returns
     -------
-    ax : :class:`matplotlib.axes.Axes`
+    ax :
         The matplotlib axes containing the plot.
 
     """

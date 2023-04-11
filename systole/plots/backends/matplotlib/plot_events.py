@@ -17,20 +17,20 @@ def plot_events(
 
     Parameters
     ----------
-    df : pd.DataFrame
+    df :
         The events data frame (tmin, trigger, tmax, label, color, [behavior]).
-    figsize : tuple
+    figsize :
         Figure size. Default is `(13, 5)`.
-    ax : :class:`matplotlib.axes.Axes` or None
+    ax :
         Where to draw the plot. Default is *None* (create a new figure).
-    behavior : None
+    behavior :
         (Optional) Additional information about trials that will appear when hovering
         on the area (only relevant for `bokeh` backend). This parameter will be
         ignored.
 
     Returns
     -------
-    ax : :class:`matplotlib.axes.Axes`
+    ax :
         The matplotlib axes containing the plot.
 
     """

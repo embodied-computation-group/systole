@@ -21,20 +21,20 @@ def correct_extra_rr(
 
     Parameters
     ----------
-    rr : np.ndarray
+    rr :
         1d array of RR intervals (ms).
-    extra_idx : np.ndarray
+    extra_idx :
         1d array of the index(es) of the extra RR interval(s).
-    artefacts : np.ndarray
+    artefacts :
         A numpy array (artefacts x time) of artefacts logs, build form the dictionary
         returned by py:`func:systole.detection.rr_artefacts()`. This array will be
         updated as intervals are removed.
 
     Returns
     -------
-    clean_rr : np.ndarray
+    clean_rr :
         Corrected RR intervals.
-    artefacts : np.ndarray (optional)
+    artefacts :
         The updated dictionary of artefacts logs originally returned by
         py:`func:systole.detection.rr_artefacts()`.
 
@@ -81,20 +81,20 @@ def correct_missed_rr(
 
     Parameters
     ----------
-    rr : np.ndarray
+    rr :
         RR intervals (ms).
-    missed_idx : np.ndarray
+    missed_idx :
         Index of the extra RR interval.
-    artefacts : np.ndarray
+    artefacts :
         A numpy array (artefacts x time) of artefacts logs, build form the dictionary
         returned by py:`func:systole.detection.rr_artefacts()`. This array will be
         updated as intervals are added.
 
     Returns
     -------
-    clean_rr : np.ndarray
+    clean_rr :
         Corrected RR intervals.
-    artefacts : dict (optional)
+    artefacts :
         If the artefacts dictionary was provided, also return the updated version of
         this dictionary with the new artifacts idexes.
 
@@ -141,14 +141,14 @@ def interpolate_rr(rr: np.ndarray, idx: np.ndarray) -> np.ndarray:
 
     Parameters
     ----------
-    rr : np.ndarray
+    rr :
         RR intervals (ms).
     idx : int, np.ndarray
         Index of the RR interval that should be interpolated.
 
     Returns
     -------
-    clean_rr : np.ndarray
+    clean_rr :
         The corrected RR intervals.
 
     """
@@ -276,34 +276,34 @@ def correct_rr(
 
     Parameters
     ----------
-    rr : np.ndarray
+    rr :
         RR intervals (expressed in seconds or miliseconds), boolean peaks vector or
         peaks indexes. The function will automatically convert the input into RR
         intervals (ms).
-    extra_correction : bool
+    extra_correction :
       If `True` (deault), correct extra beats in the RR time series.
-    missed_correction : bool
+    missed_correction :
       If `True` (deault), correct missed beats in the RR time series.
-    short_correction : bool
+    short_correction :
       If `True` (deault), correct short beats in the RR time series.
-    long_correction : bool
+    long_correction :
       If `True` (deault), correct long beats in the RR time series.
-    ectopic_correction : bool
+    ectopic_correction :
       If `True` (deault), correct ectopic beats in the RR time series.
-    n_iterations : int
+    n_iterations :
         Number of iterations (artifacts detection and artifacts correction). Defaults
         to `1`.
-    input_type : str
+    input_type :
         The type of input vector. Default is `"rr_ms"` (a boolean vector where
         `1` represents the occurrence of R waves or systolic peaks).
         Can also be `"peaks_idx"`, the idexs of samples where a peaks is detected,
         `"peaks"`, or `"rr_s"` for vectors of RR intervals expressed in seconds.
-    verbose : bool
+    verbose :
         Control the verbosity of the function. Defaults to `True`.
 
     Returns
     -------
-    clean_rr, (nMissed, nExtra, nEctopic, nShort, nLong) : np.ndarray
+    clean_rr, (nMissed, nExtra, nEctopic, nShort, nLong) :
         The corrected RR time series and the number of artefacts corrected.
 
     Examples
@@ -396,33 +396,29 @@ def correct_peaks(
 
     Parameters
     ----------
-    peaks : np.ndarray
+    peaks :
         Boolean vector of peaks.
-    input_type : str
+    input_type :
         The type of input vector. Defaults to `"rr_ms"` for vectors of RR intervals, or
         interbeat intervals (IBI), expressed in milliseconds. Can also be a boolean
         vector where `1` represents the occurrence of R waves or systolic peakspeaks
         vector `"rr_s"` or IBI expressed in seconds.
-    extra_correction : bool
+    extra_correction :
       If `True` (default), correct extra peaks in the peaks time series.
-    missed_correction : bool
+    missed_correction :
       If `True` (default), correct missed peaks in the peaks time series.
-    n_iterations : int
+    n_iterations :
         How many time to repeat the detection-correction process. Defaults to `1`.
-    verbose : bool
+    verbose :
         Control the verbosity of the function. Defaults to `True`.
 
     Returns
     -------
-    correction : dictionary
+    correction :
         The corrected RR time series and the number of artefacts corrected:
-
-        * clean_peaks: np.ndarray
-            The corrected boolean time-serie.
-        * extra: int
-            The number of extra beats corrected.
-        * missed: int
-            The number of missed beats corrected.
+        - clean_peaks: The corrected boolean time-serie.
+        - extra: The number of extra beats corrected.
+        - missed: The number of missed beats corrected.
 
     See also
     --------
@@ -509,7 +505,7 @@ def correct_missed_peaks(peaks: Union[List, np.ndarray], idx: int) -> np.ndarray
 
     Parameters
     ----------
-    peaks : np.ndarray | list
+    peaks :
         Boolean vector of peaks detection.
     idx : int
         Index of the peaks corresponding to the missed RR interval. The new peaks will
@@ -517,7 +513,7 @@ def correct_missed_peaks(peaks: Union[List, np.ndarray], idx: int) -> np.ndarray
 
     Returns
     -------
-    clean_peaks : np.ndarray
+    clean_peaks :
         Corrected boolean vector of peaks.
     """
     peaks = np.asarray(peaks, dtype=bool)
@@ -548,18 +544,18 @@ def correct_ectopic_peaks(
 
     Parameters
     ----------
-    peaks : np.ndarray | list
+    peaks :
         Boolean vector of peaks detection.
-    idx : int
+    idx :
         Index (sample number) of the peaks corresponding to the etopic interval
         (i.e. the long interval following the short interval).
-    signal : np.ndarray | list | None
+    signal :
         (Optional) The raw ECG or PPG signal. If provided, the pseudo-ectopic
         interval is re-estimated using this signal.
 
     Returns
     -------
-    clean_peaks : np.ndarray
+    clean_peaks :
         Corrected boolean vector of peaks.
 
     Notes

@@ -17,15 +17,15 @@ def plot_subspaces(
 
     Parameters
     ----------
-    artefacts : dict or None
+    artefacts :
         The artefacts detected using
         :py:func:`systole.detection.rr_artefacts()`.
-    figsize : tuple, int or None
+    figsize :
         Figure size. Defaults to `(10, 5)` when using matplotlib backend.
 
     Returns
     -------
-    axs : tuple of :class:`matplotlib.axes.Axes`
+    axs :
         The matplotlib axes containing the plot.
 
     """

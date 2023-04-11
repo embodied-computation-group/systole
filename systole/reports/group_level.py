@@ -12,12 +12,12 @@ def time_domain_group_level(summary_df: pd.DataFrame):
 
     Parameters
     ----------
-    summary_df : pd.DataFrame
+    summary_df :
         Group-level summary of HRV metrics.
 
     Returns
     -------
-    row : bokeh.models.layouts.Row
+    row :
 
     """
 
@@ -116,12 +116,12 @@ def frequency_domain_group_level(summary_df: pd.DataFrame):
 
     Parameters
     ----------
-    summary_df : pd.DataFrame
+    summary_df :
         Group-level summary of HRV metrics.
 
     Returns
     -------
-    row : bokeh.models.layouts.Row
+    row :
 
     """
 
@@ -232,12 +232,13 @@ def nonlinear_domain_group_level(summary_df: pd.DataFrame):
 
     Parameters
     ----------
-    summary_df : pd.DataFrame
+    summary_df :
         Group-level summary of HRV metrics.
 
     Returns
     -------
-    row : bokeh.models.layouts.Row
+    row :
+        Sub-plot showing the group-level nonlinear metrics.
 
     """
 
@@ -287,12 +288,13 @@ def artefacts_group_level(summary_df: pd.DataFrame):
 
     Parameters
     ----------
-    summary_df : pd.DataFrame
+    summary_df :
         Group-level summary of HRV metrics.
 
     Returns
     -------
-    row : bokeh.models.layouts.Row
+    row :
+        Sub-plot showing the group-level artefacts metrics.
 
     """
 

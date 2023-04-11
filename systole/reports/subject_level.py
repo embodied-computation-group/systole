@@ -50,33 +50,33 @@ def subject_level_report(
 
     Parameters
     ----------
-    participant_id : str
+    participant_id :
         The participant ID. The string should match with one participant in the BIDS
         folder.
-    pattern : str
+    pattern :
         The pattern name. The string should match with a pattern in the BIDS folder provided
         as `bids_folder`.
-    result_folder : str | PathLike
+    result_folder :
         The result folder where the individual HTML reports, the group level reports
         the summary dataframes will be stored.
-    session : str | list
+    session :
         The session reference that should be analyzed. Should match a session number in
         the BIDS folder. Defaults to `"ses-session1"`.
-    ecg, ppg, rsp : np.ndarray | None
+    ecg, ppg, rsp :
         The physiological signal that will be analyzed. If `None`, no analyse are
         performed.
-    ecg_sfreq, ppg_sfreq, rsp_sfreq : int | None
+    ecg_sfreq, ppg_sfreq, rsp_sfreq :
         The sampling frequencies of the signal of interest.
-    ecg_events_idx, ppg_events_idx, rsp_events_idx : np.ndarray | list | None
+    ecg_events_idx, ppg_events_idx, rsp_events_idx :
         The sample indexes of events of interest associated with the recordings.
-    ecg_method : str
+    ecg_method :
         The peak detection algorithm used for the ECG signal. Defaults to `"sleepecg"`.
-    html_report : bool
+    html_report :
         If `True` (default), save an html report. This file embeds the signal for
         interactive visualization and can therefore be large, it is recommended to
         generate subject-level HTML reports for review or problematic recordings only.
         Note that the group-level HTML report will still be created.
-    file_name : path-like
+    file_name :
         File name used to save derivatives. By default (e.g. using the command line
         tool), the name will be the same than the input files found in the BIDS folder.
         If `None` is provided, a custom file name will be created using the following:
@@ -84,16 +84,16 @@ def subject_level_report(
         .. code:: python
           f"{participant_id}_{session}_{pattern}"
 
-    template_file : str
+    template_file :
         Path to the HTML template to use for individual reports.
 
     Returns
     -------
     This function will save the following files in the report folder:
-        summary_df : pd.DataFrame
+        summary_df :
             Summary HRV statistics (time, frequency and nonlinear domain). Save the
             dataframe as a `.tsv` file in the `result_folder`.
-        report_html : html file
+        report_html :
             Interactive report of the processing pipeline. Save the HTML file in the
             `result_folder`.
 

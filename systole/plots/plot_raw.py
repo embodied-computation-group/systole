@@ -4,7 +4,7 @@ from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
 import pandas as pd
-from bokeh.plotting import figure
+from bokeh.plotting._figure import figure
 from matplotlib.axes import Axes
 
 from systole.detection import ecg_peaks, ppg_peaks, rsp_peaks
@@ -36,61 +36,61 @@ def plot_raw(
 
     Parameters
     ----------
-    signal : :py:class:`pandas.DataFrame` | :py:class:`numpy.ndarray` | list
+    signal :
         Dataframe of PPG or ECG signal in the long format. If a data frame is provided,
         it should contain at least one `'time'` and one colum for signal (either `'ppg'`
         `'ecg'`, `'respiration'`). If an array is provided, it will automatically create
         a DataFrame using the array as signal and `sfreq` as sampling frequency.
-    peaks : np.ndarray | None
+    peaks :
         (Optional) A boolean vetor of peaks detection (should have same length than
         `signal`). If `peaks` is provided, the peaks detection part is skipped and this
         vector is used instead.
-    sfreq : int
+    sfreq :
         Signal sampling frequency. Default is set to 1000 Hz.
-    modality : str
+    modality :
         The type of signal provided. Can be `'ppg'` (pulse oximeter), `'ecg'`
         (electrocardiography) or `'resp'`. This parameter will control the type of
         peak detection algorithm to use. Only relevant if `peaks` is not provided.
-    ecg_method : str
+    ecg_method :
         Peak detection algorithm used by the
         :py:func:`systole.detection.ecg_peaks` function. Can be one of the following:
         `'hamilton'`, `'christov'`, `'engelse-zeelenberg'`, `'pan-tompkins'`,
         `'wavelet-transform'`, `'moving-average'` or `'sleepecg'`. The default is
         `'sleepecg'`.
-    show_heart_rate : bool
+    show_heart_rate :
         If `True`, show the instnataneous heart rate below the raw signal. Defaults to
         `False`.
-    show_artefacts : bool
+    show_artefacts :
         If `True`, the function will call:py:func:`systole.detection.rr_artefacts` to
         detect outliers intervalin the time serie and outline them using different
         colors.
-    bad_segments : np.ndarray | list | None
+    bad_segments :
         Mark some portion of the recording as bad. Grey areas are displayed on the top
         of the signal to help visualization (this is not correcting or transforming the
         post-processed signals). If a np.ndarray is provided, it should be a boolean
         of same length than `signal` where `False` indicates a bad segment. If a list
         is provided, it should be a list of tuples shuch as (start_idx, end_idx) for
         each bad segment.
-    slider : bool
+    slider :
         If `True`, will add a slider to select the time window to plot (requires bokeh
         backend).
-    decim : int
+    decim :
         Factor by which to subsample the raw signal. Selects every Nth sample (where N
         is the value passed to decim). Default set to `10` (considering that the imput
         signal has a sampling frequency of 1000 Hz) to save memory.
-    ax : :class:`matplotlib.axes.Axes` | None
+    ax :
         Where to draw the plot. Default is *None* (create a new figure). Only
         applies when `backend="matplotlib"`.
-    figsize : tuple, int or None
+    figsize :
         Figure size. Default is `(13, 5)` for matplotlib backend, and the height is
         `300` when using bokeh backend.
-    backend: str
+    backend :
         Select plotting backend {"matplotlib", "bokeh"}. Defaults to
         "matplotlib".
-    events_params : dict | None
+    events_params :
         (Optional) Additional parameters that will be passed to
        :py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
-    **kwargs : keyword arguments
+    **kwargs :
         Additional arguments will be passed to
         `:py:func:systole.detection.ppg_peaks()` or
         `:py:func:systole.detection.ecg_peaks()`, depending on the type
@@ -98,7 +98,7 @@ def plot_raw(
 
     Returns
     -------
-    plot : :class:`matplotlib.axes.Axes` | :class:`bokeh.plotting.figure.Figure`
+    plot :
         The matplotlib axes, or the bokeh figure containing the plot.
 
     See also

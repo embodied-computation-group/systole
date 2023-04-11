@@ -3,7 +3,7 @@
 from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
-from bokeh.plotting import figure
+from bokeh.plotting._figure import figure
 from matplotlib.axes import Axes
 
 from systole.detection import rr_artefacts
@@ -31,31 +31,31 @@ def plot_rr(
 
     Parameters
     ----------
-    rr : np.ndarray | list
+    rr :
         Boolean vector of peaks detection, peaks indexs or RR intervals.
-    unit : str
+    unit :
         The heart rate unit in use. Can be `'rr'` (R-R intervals, in ms)
         or `'bpm'` (beats per minutes). Default is `'rr'`.
-    kind : str
+    kind :
         The method to use (parameter of `scipy.interpolate.interp1d`). The
         possible relevant methods for instantaneous heart rate are `'cubic'`
         (defalut), `'linear'`, `'previous'` and `'next'`.
-    line : bool
+    line :
         If `True`, plot the interpolated instantaneous heart rate.
-    points : bool
+    points :
         If `True`, plot each peaks (R wave or systolic peaks) as separated
         points
-    input_type : str
+    input_type :
         The type of input vector. Default is `"peaks"` (a boolean vector where
         `1` represents the occurrence of R waves or systolic peaks).
         Can also be `"peaks_idx"`, the idexs of samples where a peaks is detected,
         `"rr_s"` or `"rr_ms"` for vectors of RR intervals, or interbeat intervals
         (IBI), expressed in seconds or milliseconds (respectively).
-    show_artefacts : bool
+    show_artefacts :
         If `True`, the function will call
        :py:func:`systole.detection.rr_artefacts` to detect outliers interval
         in the time serie and outline them using different colors.
-    bad_segments : np.ndarray | list | None
+    bad_segments :
         Mark some portion of the recording as bad. Grey areas are displayed on the top
         of the signal to help visualization (this is not correcting or transforming the
         post-processed signals). If a np.ndarray is provided, it should be a boolean
@@ -66,26 +66,26 @@ def plot_rr(
         .. note::
           The start and end points should be expressed as peaks indexes.
 
-    show_limits : bool
+    show_limits :
         Use shaded areas to represent the range of physiologically impossible R-R
         intervals. Defaults to `True`.
-    slider : bool
+    slider :
         If `True`, add a slider to zoom in/out in the signal (only working with
         bokeh backend).
-    ax : :class:`matplotlib.axes.Axes` or None
+    ax :
         Where to draw the plot. Default is *None* (create a new figure).
-    figsize : tuple | int | None
+    figsize :
         Figure size. Default is `(13, 5)`.
-    backend : str
+    backend :
         Select plotting backend {"matplotlib", "bokeh"}. Defaults to
         "matplotlib".
-    events_params : dict | None
+    events_params :
         (Optional) Additional parameters that will be passed to
        :py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
 
     Returns
     -------
-    plot : :class:`matplotlib.axes.Axes` or :class:`bokeh.plotting.figure.Figure`
+    plot :
         The matplotlib axes, or the boken figure containing the plot.
 
     See also

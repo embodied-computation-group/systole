@@ -15,48 +15,33 @@ from systole.plots import plot_events, plot_raw
 class Oximeter:
     """Recording PPG signal with Nonin pulse oximeter.
 
-    Parameters
-    ----------
-    serial : pySerial object
-        The `serial` instance interfacing with the USB port.
-    sfreq : int
-        The sampling frequency of the recording. Defautl is 75 Hz.
-    add_channels : int
-        If int, will create as many additionnal channels. If None, no
-        additional channels created.
-    data_format : str
-        Data format returned by the USB dongle ("2" or "7"). See
-        https://www.nonin.com/wp-content/uploads/6000-7000-CP-7602-000-11_ENG.pdf
-        for details. The pulse waveform value is automatically normalized and
-        range between 0 and 255 both for data format "2" and "7".
-
     Attributes
     ----------
-    instant_rr : list
+    instant_rr :
         Time serie of instantaneous heartrate.
     n_channels : int | None
         Number of additional channels.
-    recording : list
+    recording :
         Time serie of PPG signal.
-    sfreq : int
+    sfreq :
         Sampling frequnecy. Default value is 75 Hz.
-    threshold : list
+    threshold :
         The threshold used to detect beat peaks. Will use the average +
         standars deviation.
-    times : list
+    times :
         Time vector (in seconds).
-    diff : list
+    diff :
         Records the differential of the PPG signal. Used to detect heartbeat
         peaks.
-    peaks : list
+    peaks :
         List of 0 and 1. 1 index detected peaks.
-    channels : list | dict
+    channels :
         Additional channels to record. Will continuously record *n_channels*
         additional channels in parallel of `recording` with default `0` as
         defalut value.
-    serial : PySerial instance
+    serial :
         PySerial object indexing the USB port to read.
-    rr : list or None
+    rr :
         RR intervals time course. The time course will be generated if
         :py:func:`self.find_peaks` is used.
 
@@ -125,6 +110,22 @@ class Oximeter:
         add_channels: Optional[int] = None,
         data_format: str = "2",
     ):
+        """
+        Parameters
+        ----------
+        serial :
+            The `serial` instance interfacing with the USB port.
+        sfreq :
+            The sampling frequency of the recording. Defautl is 75 Hz.
+        add_channels :
+            If int, will create as many additionnal channels. If None, no
+            additional channels created.
+        data_format :
+            Data format returned by the USB dongle ("2" or "7"). See
+            https://www.nonin.com/wp-content/uploads/6000-7000-CP-7602-000-11_ENG.pdf
+            for details. The pulse waveform value is automatically normalized and
+            range between 0 and 255 both for data format "2" and "7".
+        """
         self.reset(serial, sfreq, add_channels, data_format)
 
     def reset(
@@ -138,22 +139,18 @@ class Oximeter:
 
         Parameters
         ----------
-        serial : pySerial object
+        serial :
             The `serial` instance interfacing with the USB port.
-        sfreq : int
+        sfreq :
             The sampling frequency of the recording. Defautl is 75 Hz.
-        add_channels : int
+        add_channels :
             If int, will create as many additionnal channels. If None, no
             additional channels created.
-        data_format : str
+        data_format :
             Data format returned by the USB dongle ("2" or "7"). See
             https://www.nonin.com/wp-content/uploads/6000-7000-CP-7602-000-11_ENG.pdf
             for details. The pulse waveform value is automatically normalized and
             range between 0 and 255 both for data format "2" and "7".
-
-        Returns
-        -------
-        Oximeter instance.
         """
         self.serial = serial
         self.lag = 0
@@ -191,15 +188,11 @@ class Oximeter:
 
         Parameters
         ----------
-        value : int
+        value :
             The data to record. Should be an integer between 0 and 255.
-        window : float
+        window :
             Length of the window used to compute threshold (seconds). Default
             is `1.0`.
-
-        Returns
-        -------
-        Oximeter instance.
 
         Notes
         -----
@@ -258,7 +251,7 @@ class Oximeter:
 
         Parameters
         ----------
-        paquet : list
+        paquet :
             The paquet to inspect.
         """
         check = False
@@ -277,7 +270,7 @@ class Oximeter:
 
         Parameters
         ----------
-        paquet : list
+        paquet :
             A list containg 5 items.
         """
         return paquet[2]
@@ -287,7 +280,7 @@ class Oximeter:
 
         Parameters
         ----------
-        paquet : list
+        paquet :
             A list containg 5 items.
         """
         return ((paquet[1] * 256 + paquet[2]) / 65535) * 255
@@ -297,8 +290,7 @@ class Oximeter:
 
         Returns
         -------
-        Oximeter instance. The peaks occurences are stored in the `peaks`
-        attribute.
+        Oximeter instance. The peaks occurences are stored in the `peaks` attribute.
 
         Other Parameters
         ----------------
@@ -322,16 +314,16 @@ class Oximeter:
 
         Parameters
         ----------
-        n_channel : str
+        n_channel :
             The name of the channel encoding the events of interest. Defaults to
             `""Channel_0""`.
-        kwargs: key, value mappings
+        kwargs:
             Other keyword arguments are passed down to
             py:`func:systole.plots.plot_evoked()`.
 
         Returns
         -------
-        fig, ax : Matplotlib instances.
+        fig, ax :
             The figure and axe instances.
         """
         if self.channels is not None:
@@ -344,12 +336,12 @@ class Oximeter:
 
         Parameters
         ----------
-        **kwargs : key, value mappings
+        **kwargs :
             Additional arguments will be passed to `:py:func:systole.plots.plot_raw`.
 
         Returns
         -------
-        plot : :class:`matplotlib.axes.Axes` or :class:`bokeh.plotting.figure.Figure`
+        plot :
             The matplotlib axes, or the boken figure containing the plot.
         """
 
@@ -360,7 +352,7 @@ class Oximeter:
 
         Parameters
         ----------
-        duration : int or float
+        duration :
             Length of the desired recording time.
         """
         tstart = time.time()
@@ -379,7 +371,7 @@ class Oximeter:
 
         Parameters
         ----------
-        stop : bool
+        stop :
             Stop the recording when an error is detected. Default is *False*.
         """
         # Read oxi
@@ -404,7 +396,7 @@ class Oximeter:
 
         Parameters
         ----------
-        fname : str
+        fname :
             The file name. The file extension can be `.npy` for
             :class:`numpy.array` or `.txt` for :class:`pandas.DataFrame`. If
             no extension is provided, will use the `.npy` extension by default.
@@ -469,11 +461,11 @@ class Oximeter:
 
         Parameters
         ----------
-        read_duration : int
+        read_duration :
             Length of signal to record after setup. Default is set to 1 second.
-        clear_peaks : bool
+        clear_peaks :
             If *True*, will remove detected peaks.
-        nAttempts : int
+        nAttempts :
             Number of attempts to read pulse oximeter signal from the USB. If no
             readable signal has been receive after `nAttemps`, a RuntimeError is raised.
 
@@ -529,11 +521,11 @@ class BrainVisionExG:
 
     Parameters
     ----------
-    ip : str
+    ip :
         The IP address of the recording computer.
-    sfreq : int
+    sfreq :
         The sampling frequency.
-    port : int
+    port :
         The port to listen. Default is 51244 (32 bits). Change port to 51234 to
         connect to 16Bit RDA-port
 
@@ -597,8 +589,8 @@ class BrainVisionExG:
         return returnStream
 
     def SplitString(self, raw):
-        """Helper function for splitting a raw array of zero terminated
-        strings (C) into an array of python strings"""
+        """Helper function for splitting a raw array of zero terminated strings (C) into
+        an array of python strings"""
 
         raw = raw.decode()
         stringlist = []
@@ -612,8 +604,8 @@ class BrainVisionExG:
         return stringlist
 
     def GetProperties(self, rawdata):
-        """Helper function for extracting ExG properties from a raw data array
-        read from tcpip socket"""
+        """Helper function for extracting ExG properties from a raw data array read from
+        tcpip socket"""
 
         # Extract numerical data
         (channelCount, samplingInterval) = unpack("<Ld", rawdata[:12])
@@ -631,8 +623,8 @@ class BrainVisionExG:
         return (channelCount, samplingInterval, resolutions, channelNames)
 
     def GetData(self, rawdata, channelCount):
-        """Helper function for extracting eeg and marker data from a raw data
-        array read from tcpip socket"""
+        """Helper function for extracting eeg and marker data from a raw data array read
+        from tcpip socket"""
 
         # Extract numerical data
         (block, points, markerCount) = unpack("<LLL", rawdata[:12])
@@ -668,18 +660,18 @@ class BrainVisionExG:
 
         Parameters
         ----------
-        duration : float
+        duration :
             The length of the recording.
 
         Returns
         -------
-        recording : dict
+        recording :
             Dictionary with channel name as key.
 
         Notes
         -----
-        Duration will be converted to expected signal length (duration * sfreq)
-        to ensure consistent recording.
+        Duration will be converted to expected signal length (duration * sfreq) to
+        ensure consistent recording.
         """
         while True:
             # Get message header as raw array of chars

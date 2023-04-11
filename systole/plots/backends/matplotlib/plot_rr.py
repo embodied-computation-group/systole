@@ -30,47 +30,47 @@ def plot_rr(
 
     Parameters
     ----------
-    rr : np.ndarray
+    rr :
         1d numpy array of RR intervals (in seconds or miliseconds) or peaks vector
         (boolean array).
-    unit : str
+    unit :
         The heart rate unit in use. Can be `'rr'` (R-R intervals, in ms)or `'bpm'`
         (beats per minutes). Default is `'rr'`.
-    kind : str
+    kind :
         The method to use (parameter of `scipy.interpolate.interp1d`). The possible
         relevant methods for instantaneous heart rate are `'cubic'` (defalut),
         `'linear'`, `'previous'` and `'next'`.
-    line : bool
+    line :
         If `True`, plot the interpolated instantaneous heart rate.
-    points : bool
+    points :
         If `True`, plot each peaks (R wave or systolic peaks) as separated points.
-    artefacts : dict
+    artefacts :
         Dictionary storing the parameters of RR artefacts rejection.
-    bad_segments : np.ndarray | list | None
+    bad_segments :
         Mark some portion of the recording as bad. Grey areas are displayed on the top
         of the signal to help visualization (this is not correcting or transforming the
         post-processed signals). Should be a list of tuples shuch as (start_idx,
         end_idx) for each segment.
-    input_type : str
+    input_type :
         The type of input vector. Can be `"peaks"`, `"peaks_idx"`, `"rr_ms"`, or
         `"rr_s"`. Default to `"peaks"`.
-    ax : :class:`matplotlib.axes.Axes` or None
+    ax :
         Where to draw the plot. Default is *None* (create a new figure).
-    show_limits : bool
+    show_limits :
         Use shaded areas to represent the range of physiologically impossible R-R
         intervals. Defaults to `True`.
-    slider : bool
+    slider :
         If `True`, add a slider to zoom in/out in the signal (only working with
         bokeh backend).
-    figsize : tuple
+    figsize :
         Figure size. Default is `(13, 5)`.
-    events_params : dict | None
+    events_params :
         (Optional) Additional parameters that will be passed to
        :py:func:`systole.plots.plot_events` and plot the events timing in the backgound.
 
     Returns
     -------
-    ax : :class:`matplotlib.axes.Axes`
+    ax :
         The matplotlib axes containing the plot.
 
     """

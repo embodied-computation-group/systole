@@ -8,17 +8,17 @@ from scipy.signal import detrend
 
 def mstpd(
     signal: np.ndarray, sfreq: int, kind: str = "both"
-) -> Union[np.ndarray, Tuple[np.ndarray, np.ndarray]]:
+) -> Union[np.ndarray, Tuple[np.ndarray]]:
     """The Multi-scale peak and trough detection algorithm (MSPTD) to detects
     heartbeats in a photoplethysmogram (PPG) signal.
 
     Parameters
     ----------
-    signal : np.ndarray
+    signal :
         The raw PPG time series.
-    sfreq : int
+    sfreq :
         The sampling frequency (Hz).
-    kind : str
+    kind :
         The type of detection to perform. Can be `"peaks"`, `"onsets"` or `"both"`.
         Defaults to `"both"`.
 
@@ -30,9 +30,9 @@ def mstpd(
     Returns
     -------
     Depending on `kind`, will return `peaks`, `onsets` or a tuple `peaks, onsets`.
-        peaks : np.ndarray
+        peaks :
             Indices of detected pulse peaks.
-        onsets : np.ndarray
+        onsets :
             Indices of detected pulse troughs (i.e. onsets).
 
     Examples
@@ -161,7 +161,7 @@ def mstpd(
 
 
 @jit(nopython=True)
-def lms(window_length, signal_length):
+def lms(window_length: int, signal_length: int) -> Tuple:
     """ "Internal jitted function. Returns the indexes of the lms matrices that will be
     tested."""
 
@@ -185,17 +185,17 @@ def msptd_peaks_and_onsets(signal: np.ndarray, kind: str = "both"):
 
     Parameters
     ----------
-    signal : np.ndarray
+    signal :
         The windowed PPG signal.
-    kind : str
+    kind :
         The type of detection to perform. Can be `"peaks"`, `"onsets"` or `"both"`.
         Defaults to `"both"`.
 
     Returns
     -------
-    p : np.ndarray
+    p :
         Peaks indexes.
-    t : np.ndarray
+    t :
         Trough indexes.
 
     """
@@ -274,3 +274,5 @@ def msptd_peaks_and_onsets(signal: np.ndarray, kind: str = "both"):
         return p
     elif kind == "onsets":
         return o
+    else:
+        return None

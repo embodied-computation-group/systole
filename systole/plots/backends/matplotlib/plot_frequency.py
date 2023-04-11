@@ -18,25 +18,25 @@ def plot_frequency(
 
     Parameters
     ----------
-    freq : np.ndarray
+    freq :
         Frequencies.
-    power : np.ndarray
+    power :
         Power spectral density.
-    figsize : list, tuple, int or None
+    figsize :
         Figure size. Default is `(8, 5)`.
-    fbands : None | dict, optional
+    fbands :
         Dictionary containing the names of the frequency bands of interest
         (str), their range (tuples) and their color in the PSD plot.
         Default is:
         >>> {'vlf': ('Very low frequency', (0.003, 0.04), 'b'),
         >>> 'lf': ('Low frequency', (0.04, 0.15), 'g'),
         >>> 'hf': ('High frequency', (0.15, 0.4), 'r')}
-    ax : :class:`matplotlib.axes.Axes` or None
+    ax :
         Where to draw the plot. Default is `None` (create a new figure).
 
      Returns
      -------
-     ax  : :class:`matplotlib.axes.Axes`
+     ax  :
         The matplotlib axes containing the plot.
 
     """

@@ -22,31 +22,31 @@ def plot_evoked(
 
     Parameters
     ----------
-    epochs : list
+    epochs :
         A 2d (trial * time) numpy array containing the time series
         of the epoched signal.
-    time : float
+    time :
         Start and end time of the epochs in seconds, relative to the
         time-locked event. Defaults to -1 and 10, respectively.
-    palette : Iterable
+    palette :
         The color palette.
-    figsize : tuple
+    figsize :
         The figure size.
-    labels : list
+    labels :
         The condition label.
-    unit : str
+    unit :
         The heart rate unit. Can be `'rr'` (R-R intervals, in ms) or `'bpm'` (beats
         per minutes). Default is `'bpm'`.
-    ci : str
+    ci :
         The confidence interval around the point estimates. Only `"sd"` is currently
         implemented.
-    kwargs : key, value mappings
+    kwargs :
         Other keyword arguments are passed down to py:`func:seaborn.lineplot()` (only
         relevant if `backend` is `"matplotlib"`).
 
     Returns
     -------
-    evoked_plot : :class:`bokeh.plotting.figure.Figure`
+    evoked_plot :
         The bokeh figure containing the plot.
 
     """

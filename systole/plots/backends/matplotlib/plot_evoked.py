@@ -22,27 +22,27 @@ def plot_evoked(
 
     Parameters
     ----------
-    epochs : np.array
+    epochs :
         A 2d (trial * time) numpy array containing the time series
         of the epoched signal.
-    time : float
+    time :
         Start and end time of the epochs in seconds, relative to the
         time-locked event. Defaults to -1 and 10, respectively.
-    figsize : str
+    figsize :
         The lines color.
-    labels : list
+    labels :
         The different condition/participants label/IDs.
-    unit : str
+    unit :
         The heart rate unit. Can be `'rr'` (R-R intervals, in ms) or `'bpm'` (beats
         per minutes). Default is `'bpm'`.
-    ax : tuple
+    ax :
         Figure size. Default is `(13, 5)`.
-    kwargs : key, value mappings
+    kwargs :
         Other keyword arguments are passed down to py:`func:seaborn.lineplot()`.
 
     Returns
     -------
-    ax : :class:`matplotlib.axes.Axes`
+    ax :
         The matplotlib axes containing the plot.
 
     """
