@@ -47,10 +47,10 @@ def mstpd(
 
     References
     ----------
-    [1] S. M. Bishop and A. Ercole, 'Multi-scale peak and trough detection optimised for
-        periodic and quasi-periodic neuroscience data,' in Intracranial Pressure and
-        Neuromonitoring XVI. Acta Neurochirurgica Supplement, T. Heldt, Ed. Springer,
-        2018, vol. 126, pp. 189-195. <https://doi.org/10.1007/978-3-319-65798-1_39>
+    .. [1] S. M. Bishop and A. Ercole, 'Multi-scale peak and trough detection optimised
+       for periodic and quasi-periodic neuroscience data,' in Intracranial Pressure and
+       Neuromonitoring XVI. Acta Neurochirurgica Supplement, T. Heldt, Ed. Springer,
+       2018, vol. 126, pp. 189-195. <https://doi.org/10.1007/978-3-319-65798-1_39>
 
     Acknowledgements
     ----------------

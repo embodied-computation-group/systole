@@ -188,7 +188,7 @@ def plot_raw(
             # Find peaks - Remove learning phase
             if modality.lower() in ppg_strings:
                 signal, peaks = ppg_peaks(
-                    signal=signal[modality], moving_average=False, sfreq=sfreq, **kwargs
+                    signal=signal[modality], sfreq=sfreq, **kwargs
                 )
             elif modality.lower() in resp_strings:
                 signal, (peaks, troughs) = rsp_peaks(
@@ -210,9 +210,7 @@ def plot_raw(
                 )
         else:
             if modality in ppg_strings:
-                signal, peaks = ppg_peaks(
-                    signal=signal, moving_average=False, sfreq=sfreq, **kwargs
-                )
+                signal, peaks = ppg_peaks(signal=signal, sfreq=sfreq, **kwargs)
             elif modality in resp_strings:
                 signal, (peaks, troughs) = rsp_peaks(
                     signal=signal, sfreq=sfreq, **kwargs

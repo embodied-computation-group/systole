@@ -4,6 +4,7 @@ from .hamilton import hamilton
 from .moving_average import moving_average
 from .mstpd import mstpd
 from .pan_tompkins import pan_tompkins
+from .rolling_average_ppg import rolling_average_ppg
 
 __all__ = [
     "pan_tompkins",
@@ -12,4 +13,5 @@ __all__ = [
     "moving_average",
     "engelse_zeelenberg",
     "mstpd",
+    "rolling_average_ppg",
 ]

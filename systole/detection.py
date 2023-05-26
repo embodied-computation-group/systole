@@ -13,7 +13,9 @@ from systole.detectors import (
     engelse_zeelenberg,
     hamilton,
     moving_average,
+    mstpd,
     pan_tompkins,
+    rolling_average_ppg,
 )
 from systole.utils import find_clipping, input_conversion, nan_cleaning, to_neighbour
 
@@ -21,23 +23,27 @@ from systole.utils import find_clipping, input_conversion, nan_cleaning, to_neig
 def ppg_peaks(
     signal: Union[List, np.ndarray, pd.Series],
     sfreq: int,
-    win: float = 0.75,
     new_sfreq: int = 1000,
+    method: str = "mstpd",
     clipping: bool = True,
     clipping_thresholds: Union[Tuple, List, str] = "auto",
-    moving_average: bool = True,
-    moving_average_length: float = 0.05,
-    peak_enhancement: bool = True,
-    distance: float = 0.3,
-    clean_extra: bool = False,
     clean_nan: bool = False,
     verbose: bool = False,
+    detector_kws: Dict = {},
 ) -> Tuple[np.ndarray, np.ndarray]:
-    """A simple systolic peak finder for PPG signals.
+    """Systolic peak detection for PPG signals.
 
-    This method uses a rolling average + standard deviation approach to update a
-    detection threshold. All the peaks found above this threshold are potential
-    systolic peaks.
+    Two methods are available:
+    - an adaptation of the rolling average + standard deviation approach described in
+    [1]_.
+    - The Multi-scale peak and trough detection algorithm (MSPTD) [2]_.
+
+    Before peaks detection, nans are interpolated (optional, `Fale` by default) the
+    signal is resampled to the new sampling frequency (1000 Hz by default) and clipping
+    artefacts are corrected using cubic spline interpolation (optional, `True` by
+    default).
+
+    .. note :: This function will resample the signal to 1000 Hz by default.
 
     Parameters
     ----------
@@ -45,11 +51,11 @@ def ppg_peaks(
         The raw signal recorded from the pulse oximeter time series.
     sfreq :
         The sampling frequency (Hz).
-    win :
-        Window size (in seconds) used to compute the threshold (i.e. rolling mean +
-        standard deviation).
     new_sfreq :
         If resample is `True`, the new sampling frequency (Hz). Defaults to `1000`.
+    method :
+        The systolic peaks detection algorithm to use, can be `"rolling_average"` [1]_
+        or `"mstpd"` [2]_.
     clipping :
         If `True`, will apply the clipping artefact correction described in [1]_.
         Defaults to `True`.
@@ -58,26 +64,13 @@ def ppg_peaks(
         `None`. If `None`, no correction is applied. If "auto" is provided, will use
        :py:func:`systole.utils.find_clipping` to find the values. Defaults to `"auto"`.
         This parameter is only relevant if `cliping` is `True`.
-    moving_average :
-        Apply mooving average to remove high frequency noise before peaks detection. The
-        length of the time windows can be controlled with `moving_average_length`.
-    moving_average_length :
-        The length of the window used for moveing average (seconds). Default to `0.05`.
-    resample :
-        If `True` (default), will resample the signal at *new_sfreq*. Default
-        value is 1000 Hz.
-    peak_enhancement :
-        If `True` (default), the ppg signal is squared before peaks detection.
-    distance :
-        The minimum interval between two peaks (seconds).
-    clean_extra :
-        If `True`, use `:py:func:systole.detection.rr_artefacts()` to find and
-        remove extra peaks. Default is `False`.
     clean_nan :
         If `True`, will interpolate NaNs values if any before any other operation.
         Defaults to `False`.
     verbose :
         Control function verbosity. Defaults to `False` (do not print processing steps).
+    detector_kws :
+        Additional keyword arguments that will be passed to the detector function.
 
     Returns
     -------
@@ -90,23 +83,23 @@ def ppg_peaks(
     ------
     ValueError
         If `clipping_thresholds` is not a tuple, a list or `"auto"`.
-
-    Notes
-    -----
-    This algorithm use a simple rolling average to detect peaks. The signal is
-    first resampled and a rolling average is applyed to correct high frequency
-    noise and clipping, using method detailled in [1]_. The signal is then
-    squared and detection of peaks is performed using threshold corresponding
-    to the moving averagte + stadard deviation.
-
-    .. warning :: This function will resample the signal to 1000 Hz by default.
+        If `method` is not a valid method name.
 
     Examples
     --------
     >>> from systole import import_ppg
     >>> from systole.detection import ppg_peaks
-    >>> df = import_ppg()  # Import PPG recording
-    >>> signal, peaks = ppg_peaks(signal=df.ppg.to_numpy())
+    >>> ppg = import_ppg().ppg.to_numpy()  # Import PPG signal
+
+    Using the rolling average method
+    ********************************
+    >>> signal, peaks = ppg_peaks(signal=ppg, method="rolling_average")
+    >>> print(f'{sum(peaks)} peaks detected.')
+    378 peaks detected.
+
+    Using the Multi-scale peak and trough detection algorithm (default)
+    *******************************************************************
+    >>> signal, peaks = ppg_peaks(signal=ppg, method="mstpd")
     >>> print(f'{sum(peaks)} peaks detected.')
     378 peaks detected.
 
@@ -116,6 +109,10 @@ def ppg_peaks(
        Analysing Noisy Driver Physiology Real-Time Using Off-the-Shelf Sensors:
        Heart Rate Analysis Software from the Taking the Fast Lane Project. Journal
        of Open Research Software, 7(1), p.32. DOI: http://doi.org/10.5334/jors.241
+    .. [2] S. M. Bishop and A. Ercole, 'Multi-scale peak and trough detection optimised
+       for periodic and quasi-periodic neuroscience data,' in Intracranial Pressure and
+       Neuromonitoring XVI. Acta Neurochirurgica Supplement, T. Heldt, Ed. Springer,
+       2018, vol. 126, pp. 189-195. <https://doi.org/10.1007/978-3-319-65798-1_39>
 
     """
 
@@ -154,46 +151,12 @@ def ppg_peaks(
             signal=x, min_threshold=min_threshold, max_threshold=max_threshold
         )
 
-    if moving_average is True:
-        # Moving average (high frequency noise)
-        rollingNoise = max(int(new_sfreq * moving_average_length), 1)  # 0.05 second
-        x = (
-            pd.DataFrame({"signal": x})
-            .rolling(rollingNoise, center=True)
-            .mean()
-            .signal.to_numpy()
-        )
-    if peak_enhancement is True:
-        # Square signal (peak enhancement)
-        x = (np.asarray(x) ** 2) * np.sign(x)
-
-    # Compute moving average and standard deviation
-    signal = pd.DataFrame({"signal": x})
-    mean_signal = (
-        signal.rolling(int(new_sfreq * win), center=True).mean().signal.to_numpy()
-    )
-    std_signal = (
-        signal.rolling(int(new_sfreq * win), center=True).std().signal.to_numpy()
-    )
-
-    # Substract moving average + standard deviation
-    x -= mean_signal + std_signal
-
-    # Find positive peaks
-    peaks_idx = find_peaks(x, height=0, distance=int(new_sfreq * distance))[0]
-
-    # Create boolean vector
-    peaks = np.zeros(len(x), dtype=bool)
-    peaks[peaks_idx] = 1
-
-    # Remove extra peaks
-    if clean_extra:
-        # Search artefacts
-        rr = np.diff(np.where(peaks)[0])  # Convert to RR time series
-        artefacts = rr_artefacts(rr)
-
-        # Clean peak vector
-        peaks[peaks_idx[1:][artefacts["extra"]]] = 0
+    if method == "mstpd":
+        peaks = mstpd(signal=x, sfreq=new_sfreq, kind="peaks", **detector_kws)
+    elif method == "rolling_average":
+        peaks = rolling_average_ppg(signal=x, sfreq=new_sfreq, **detector_kws)
+    else:
+        raise ValueError("Invalid method argument.")
 
     return resampled_signal, peaks
 
