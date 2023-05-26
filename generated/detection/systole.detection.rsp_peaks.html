@@ -36,10 +36,10 @@
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -485,8 +485,8 @@ document.write(`
 <h1>systole.detection.rsp_peaks<a class="headerlink" href="#systole-detection-rsp-peaks" title="Permalink to this headline">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="systole.detection.rsp_peaks">
-<span class="sig-prename descclassname"><span class="pre">systole.detection.</span></span><span class="sig-name descname"><span class="pre">rsp_peaks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v2.0.0)"><span class="pre">pandas.core.series.Series</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sfreq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_sfreq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">win</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.025</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'peaks-troughs'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean_nan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/systole/detection.html#rsp_peaks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#systole.detection.rsp_peaks" title="Permalink to this definition">#</a></dt>
-<dd><p>Identify peaks and/or troughs in respiratory signal.</p>
+<span class="sig-prename descclassname"><span class="pre">systole.detection.</span></span><span class="sig-name descname"><span class="pre">rsp_peaks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v2.0.1)"><span class="pre">pandas.core.series.Series</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sfreq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_sfreq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'msptd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'peaks-onsets'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean_nan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector_kws</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/systole/detection.html#rsp_peaks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#systole.detection.rsp_peaks" title="Permalink to this definition">#</a></dt>
+<dd><p>Identify peaks and/or onsets in respiratory signal.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -497,16 +497,18 @@ trough represent end of expiration.</p>
 </dd>
 <dt><strong>new_sfreq</strong></dt><dd><p>If resample is <cite>True</cite>, the new sampling frequency. Defaults to <cite>1000</cite> Hz.</p>
 </dd>
-<dt><strong>win</strong><span class="classifier">int</span></dt><dd><p>Window size (in seconds). Default is set to 25ms, following recommandation
-from <a class="reference internal" href="#ra89dbc266d40-1" id="id1">[1]</a>.</p>
+<dt><strong>method</strong></dt><dd><p>The peaks detection algorithm to use, can be <cite>“rolling_average”</cite> for an
+adaptation of <a class="reference internal" href="#ra89dbc266d40-1" id="id1">[1]</a> or <cite>“msptd”</cite> <a class="reference internal" href="#ra89dbc266d40-2" id="id2">[2]</a> (default).</p>
 </dd>
 <dt><strong>kind</strong></dt><dd><p>What kind of detection to perform. Peak detection (<cite>“peaks”</cite>), trough detection
-(<cite>“troughs”</cite>) or both (<cite>“peaks-troughs”</cite>, default).</p>
+(<cite>“onsets”</cite>) or both (<cite>“peaks-onsets”</cite>, default).</p>
 </dd>
 <dt><strong>clean_nan</strong></dt><dd><p>If <cite>True</cite>, will interpolate NaNs values if any before any other operation.
 Defaults to <cite>False</cite>.</p>
 </dd>
 <dt><strong>verbose</strong></dt><dd><p>Control function verbosity. Defaults to <cite>False</cite> (do not print processing steps).</p>
+</dd>
+<dt><strong>detector_kws</strong></dt><dd><p>Additional keyword arguments that will be passed to the detector function.</p>
 </dd>
 </dl>
 </dd>
@@ -514,27 +516,32 @@ Defaults to <cite>False</cite>.</p>
 <dd class="field-even"><dl class="simple">
 <dt>resampled_signal</dt><dd><p>Signal resampled to the <cite>new_sfreq</cite> frequency.</p>
 </dd>
-<dt>peaks | trough | (peaks, trough)</dt><dd><p>Boolean arrays of peaks and / or troughs in the respiratory signal.</p>
+<dt>peaks | trough | (peaks, trough)</dt><dd><p>Boolean arrays of peaks and / or onsets in the respiratory signal.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><dl class="simple">
-<dt>ValueError</dt><dd><p>If <cite>kind</cite> is not one of the following: <cite>“peaks”</cite>, <cite>“troughs”</cite> or
-<cite>“peaks-troughs”</cite>.</p>
+<dt>ValueError</dt><dd><p>If <cite>kind</cite> is not one of the following: <cite>“peaks”</cite>, <cite>“onsets”</cite> or
+<cite>“peaks-onsets”</cite>.
+If <cite>method</cite> is not a valid method name.</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
-<p>The processing steps are largely inspired by the method described in <a class="reference internal" href="#ra89dbc266d40-1" id="id2">[1]</a>.</p>
 <p class="rubric">References</p>
 <dl class="citation">
-<dt class="label" id="ra89dbc266d40-1"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>)</span></dt>
+<dt class="label" id="ra89dbc266d40-1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p>Torben Noto, Guangyu Zhou, Stephan Schuele, Jessica Templer, Christina
 Zelano,Automated analysis of breathing waveforms using BreathMetrics: a
 respiratory signal processing toolbox, Chemical Senses, Volume 43, Issue 8,
 October 2018, Pages 583-597, <a class="reference external" href="https://doi.org/10.1093/chemse/bjy045">https://doi.org/10.1093/chemse/bjy045</a></p>
+</dd>
+<dt class="label" id="ra89dbc266d40-2"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>S. M. Bishop and A. Ercole, ‘Multi-scale peak and trough detection optimised
+for periodic and quasi-periodic neuroscience data,’ in Intracranial Pressure and
+Neuromonitoring XVI. Acta Neurochirurgica Supplement, T. Heldt, Ed. Springer,
+2018, vol. 126, pp. 189-195. &lt;<a class="reference external" href="https://doi.org/10.1007/978-3-319-65798-1_39">https://doi.org/10.1007/978-3-319-65798-1_39</a>&gt;</p>
 </dd>
 </dl>
 </dd></dl>

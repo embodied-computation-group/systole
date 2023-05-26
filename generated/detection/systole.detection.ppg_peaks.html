@@ -36,10 +36,10 @@
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -485,11 +485,20 @@ document.write(`
 <h1>systole.detection.ppg_peaks<a class="headerlink" href="#systole-detection-ppg-peaks" title="Permalink to this headline">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="systole.detection.ppg_peaks">
-<span class="sig-prename descclassname"><span class="pre">systole.detection.</span></span><span class="sig-name descname"><span class="pre">ppg_peaks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v2.0.0)"><span class="pre">pandas.core.series.Series</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sfreq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">win</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_sfreq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clipping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clipping_thresholds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moving_average</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moving_average_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">peak_enhancement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean_extra</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean_nan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/systole/detection.html#ppg_peaks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#systole.detection.ppg_peaks" title="Permalink to this definition">#</a></dt>
-<dd><p>A simple systolic peak finder for PPG signals.</p>
-<p>This method uses a rolling average + standard deviation approach to update a
-detection threshold. All the peaks found above this threshold are potential
-systolic peaks.</p>
+<span class="sig-prename descclassname"><span class="pre">systole.detection.</span></span><span class="sig-name descname"><span class="pre">ppg_peaks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v2.0.1)"><span class="pre">pandas.core.series.Series</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sfreq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_sfreq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'rolling_average'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clipping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clipping_thresholds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean_nan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector_kws</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/systole/detection.html#ppg_peaks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#systole.detection.ppg_peaks" title="Permalink to this definition">#</a></dt>
+<dd><p>Systolic peak detection for PPG signals.</p>
+<p>Two methods are available:
+- an adaptation of the rolling average + standard deviation approach described in
+<a class="reference internal" href="#r57c6d7365c14-1" id="id1">[1]</a>.
+- The Multi-scale peak and trough detection algorithm (MSPTD) <a class="reference internal" href="#r57c6d7365c14-2" id="id2">[2]</a>.</p>
+<p>Before peaks detection, nans are interpolated (optional, <cite>Fale</cite> by default) the
+signal is resampled to the new sampling frequency (1000 Hz by default) and clipping
+artefacts are corrected using cubic spline interpolation (optional, <cite>True</cite> by
+default).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function will resample the signal to 1000 Hz by default.</p>
+</div>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl>
@@ -497,12 +506,12 @@ systolic peaks.</p>
 </dd>
 <dt><strong>sfreq</strong></dt><dd><p>The sampling frequency (Hz).</p>
 </dd>
-<dt><strong>win</strong></dt><dd><p>Window size (in seconds) used to compute the threshold (i.e. rolling mean +
-standard deviation).</p>
-</dd>
 <dt><strong>new_sfreq</strong></dt><dd><p>If resample is <cite>True</cite>, the new sampling frequency (Hz). Defaults to <cite>1000</cite>.</p>
 </dd>
-<dt><strong>clipping</strong></dt><dd><p>If <cite>True</cite>, will apply the clipping artefact correction described in <a class="reference internal" href="#r57c6d7365c14-1" id="id1">[1]</a>.
+<dt><strong>method</strong></dt><dd><p>The systolic peaks detection algorithm to use, can be <cite>“rolling_average”</cite> <a class="reference internal" href="#r57c6d7365c14-1" id="id3">[1]</a>
+(default) or <cite>“msptd”</cite> <a class="reference internal" href="#r57c6d7365c14-2" id="id4">[2]</a>.</p>
+</dd>
+<dt><strong>clipping</strong></dt><dd><p>If <cite>True</cite>, will apply the clipping artefact correction described in <a class="reference internal" href="#r57c6d7365c14-1" id="id5">[1]</a>.
 Defaults to <cite>True</cite>.</p>
 </dd>
 <dt><strong>clipping_thresholds</strong></dt><dd><blockquote>
@@ -514,25 +523,12 @@ Defaults to <cite>True</cite>.</p>
 </dd>
 </dl>
 </dd>
-<dt><strong>moving_average</strong></dt><dd><p>Apply mooving average to remove high frequency noise before peaks detection. The
-length of the time windows can be controlled with <cite>moving_average_length</cite>.</p>
-</dd>
-<dt><strong>moving_average_length</strong></dt><dd><p>The length of the window used for moveing average (seconds). Default to <cite>0.05</cite>.</p>
-</dd>
-<dt><strong>resample</strong></dt><dd><p>If <cite>True</cite> (default), will resample the signal at <em>new_sfreq</em>. Default
-value is 1000 Hz.</p>
-</dd>
-<dt><strong>peak_enhancement</strong></dt><dd><p>If <cite>True</cite> (default), the ppg signal is squared before peaks detection.</p>
-</dd>
-<dt><strong>distance</strong></dt><dd><p>The minimum interval between two peaks (seconds).</p>
-</dd>
-<dt><strong>clean_extra</strong></dt><dd><p>If <cite>True</cite>, use <cite>:py:func:systole.detection.rr_artefacts()</cite> to find and
-remove extra peaks. Default is <cite>False</cite>.</p>
-</dd>
 <dt><strong>clean_nan</strong></dt><dd><p>If <cite>True</cite>, will interpolate NaNs values if any before any other operation.
 Defaults to <cite>False</cite>.</p>
 </dd>
 <dt><strong>verbose</strong></dt><dd><p>Control function verbosity. Defaults to <cite>False</cite> (do not print processing steps).</p>
+</dd>
+<dt><strong>detector_kws</strong></dt><dd><p>Additional keyword arguments that will be passed to the detector function.</p>
 </dd>
 </dl>
 </dd>
@@ -546,35 +542,39 @@ Defaults to <cite>False</cite>.</p>
 </dd>
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><dl class="simple">
-<dt>ValueError</dt><dd><p>If <cite>clipping_thresholds</cite> is not a tuple, a list or <cite>“auto”</cite>.</p>
+<dt>ValueError</dt><dd><p>If <cite>clipping_thresholds</cite> is not a tuple, a list or <cite>“auto”</cite>.
+If <cite>method</cite> is not a valid method name.</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
-<p>This algorithm use a simple rolling average to detect peaks. The signal is
-first resampled and a rolling average is applyed to correct high frequency
-noise and clipping, using method detailled in <a class="reference internal" href="#r57c6d7365c14-1" id="id2">[1]</a>. The signal is then
-squared and detection of peaks is performed using threshold corresponding
-to the moving averagte + stadard deviation.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>This function will resample the signal to 1000 Hz by default.</p>
-</div>
 <p class="rubric">References</p>
 <dl class="citation">
-<dt class="label" id="r57c6d7365c14-1"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>)</span></dt>
+<dt class="label" id="r57c6d7365c14-1"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id3">2</a>,<a href="#id5">3</a>)</span></dt>
 <dd><p>van Gent, P., Farah, H., van Nes, N. and van Arem, B., 2019.
 Analysing Noisy Driver Physiology Real-Time Using Off-the-Shelf Sensors:
 Heart Rate Analysis Software from the Taking the Fast Lane Project. Journal
 of Open Research Software, 7(1), p.32. DOI: <a class="reference external" href="http://doi.org/10.5334/jors.241">http://doi.org/10.5334/jors.241</a></p>
 </dd>
+<dt class="label" id="r57c6d7365c14-2"><span class="brackets">2</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id4">2</a>)</span></dt>
+<dd><p>S. M. Bishop and A. Ercole, ‘Multi-scale peak and trough detection optimised
+for periodic and quasi-periodic neuroscience data,’ in Intracranial Pressure and
+Neuromonitoring XVI. Acta Neurochirurgica Supplement, T. Heldt, Ed. Springer,
+2018, vol. 126, pp. 189-195. &lt;<a class="reference external" href="https://doi.org/10.1007/978-3-319-65798-1_39">https://doi.org/10.1007/978-3-319-65798-1_39</a>&gt;</p>
+</dd>
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">systole</span> <span class="kn">import</span> <span class="n">import_ppg</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">systole.detection</span> <span class="kn">import</span> <span class="n">ppg_peaks</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">import_ppg</span><span class="p">()</span>  <span class="c1"># Import PPG recording</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span><span class="p">,</span> <span class="n">peaks</span> <span class="o">=</span> <span class="n">ppg_peaks</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">ppg</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ppg</span> <span class="o">=</span> <span class="n">import_ppg</span><span class="p">()</span><span class="o">.</span><span class="n">ppg</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>  <span class="c1"># Import PPG signal</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span><span class="p">,</span> <span class="n">peaks</span> <span class="o">=</span> <span class="n">ppg_peaks</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">ppg</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;rolling_average&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">peaks</span><span class="p">)</span><span class="si">}</span><span class="s1"> peaks detected.&#39;</span><span class="p">)</span>
+<span class="go">378 peaks detected.</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span><span class="p">,</span> <span class="n">peaks</span> <span class="o">=</span> <span class="n">ppg_peaks</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">ppg</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;msptd&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">peaks</span><span class="p">)</span><span class="si">}</span><span class="s1"> peaks detected.&#39;</span><span class="p">)</span>
 <span class="go">378 peaks detected.</span>
 </pre></div>

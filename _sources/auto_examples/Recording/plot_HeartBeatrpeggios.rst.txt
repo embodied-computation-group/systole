@@ -228,22 +228,24 @@ with the PPG signal.
 
     For more information visit https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-reflection-for-list-and-set-types
 
-    File "../../../../../../../../../opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/numba/np/arraymath.py", line 4437:
+    File "../../../../../../../../../opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/numba/np/arraymath.py", line 4255:
             if is_nonelike(dtype):
                 def impl(a, dtype=None):
                 ^
 
       triggers = np.asarray(triggers)
     /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/systole/utils.py:41: NumbaPendingDeprecationWarning: 
-    Encountered the use of a type that is scheduled for deprecation: type 'reflected list' found for argument 'object' of function 'jit_wrapper__built_in_function_array_'.
+    Encountered the use of a type that is scheduled for deprecation: type 'reflected list' found for argument 'object' of function 'impl_np_array.<locals>.impl'.
 
     For more information visit https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-reflection-for-list-and-set-types
 
-    File "<string>", line 2:
-    <source missing, REPL/exec in use?>
+    File "../../../../../../../../../opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/numba/np/arrayobj.py", line 5250:
+
+        def impl(object, dtype=None):
+        ^
 
       triggers = np.asarray(triggers)
-    /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/numba/core/ir_utils.py:2147: NumbaPendingDeprecationWarning: 
+    /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/numba/core/ir_utils.py:2149: NumbaPendingDeprecationWarning: 
     Encountered the use of a type that is scheduled for deprecation: type 'reflected list' found for argument 'triggers' of function 'norm_triggers'.
 
     For more information visit https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-reflection-for-list-and-set-types
@@ -309,7 +311,7 @@ show the occurrence of an event relative to this cardiac phase.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  23.845 seconds)
+   **Total running time of the script:** ( 0 minutes  25.533 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Recording_plot_HeartBeatrpeggios.py:

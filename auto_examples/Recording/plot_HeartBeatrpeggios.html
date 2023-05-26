@@ -36,10 +36,10 @@
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -616,22 +616,24 @@ Encountered the use of a type that is scheduled for deprecation: type &#39;refle
 
 For more information visit https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-reflection-for-list-and-set-types
 
-File &quot;../../../../../../../../../opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/numba/np/arraymath.py&quot;, line 4437:
+File &quot;../../../../../../../../../opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/numba/np/arraymath.py&quot;, line 4255:
         if is_nonelike(dtype):
             def impl(a, dtype=None):
             ^
 
   triggers = np.asarray(triggers)
 /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/systole/utils.py:41: NumbaPendingDeprecationWarning:
-Encountered the use of a type that is scheduled for deprecation: type &#39;reflected list&#39; found for argument &#39;object&#39; of function &#39;jit_wrapper__built_in_function_array_&#39;.
+Encountered the use of a type that is scheduled for deprecation: type &#39;reflected list&#39; found for argument &#39;object&#39; of function &#39;impl_np_array.&lt;locals&gt;.impl&#39;.
 
 For more information visit https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-reflection-for-list-and-set-types
 
-File &quot;&lt;string&gt;&quot;, line 2:
-&lt;source missing, REPL/exec in use?&gt;
+File &quot;../../../../../../../../../opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/numba/np/arrayobj.py&quot;, line 5250:
+
+    def impl(object, dtype=None):
+    ^
 
   triggers = np.asarray(triggers)
-/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/numba/core/ir_utils.py:2147: NumbaPendingDeprecationWarning:
+/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/numba/core/ir_utils.py:2149: NumbaPendingDeprecationWarning:
 Encountered the use of a type that is scheduled for deprecation: type &#39;reflected list&#39; found for argument &#39;triggers&#39; of function &#39;norm_triggers&#39;.
 
 For more information visit https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-reflection-for-list-and-set-types
@@ -671,7 +673,7 @@ show the occurrence of an event relative to this cardiac phase.</p>
   ax.set_xticklabels(circle_label)
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  23.845 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  25.533 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-recording-plot-heartbeatrpeggios-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/61596c021efe935a37c9f0a39e27edaf/plot_HeartBeatrpeggios.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_HeartBeatrpeggios.py</span></code></a></p>

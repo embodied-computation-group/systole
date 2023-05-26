@@ -35,10 +35,10 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -494,7 +494,7 @@ document.write(`
     <span class="n">peaks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">sfreq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
     <span class="n">modality</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ppg&quot;</span><span class="p">,</span>
-    <span class="n">ecg_method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;sleepecg&quot;</span><span class="p">,</span>
+    <span class="n">detector</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
     <span class="n">show_heart_rate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">show_artefacts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">bad_segments</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -528,12 +528,13 @@ document.write(`
 <span class="sd">        The type of signal provided. Can be `&#39;ppg&#39;` (pulse oximeter), `&#39;ecg&#39;`</span>
 <span class="sd">        (electrocardiography) or `&#39;resp&#39;`. This parameter will control the type of</span>
 <span class="sd">        peak detection algorithm to use. Only relevant if `peaks` is not provided.</span>
-<span class="sd">    ecg_method :</span>
-<span class="sd">        Peak detection algorithm used by the</span>
-<span class="sd">        :py:func:`systole.detection.ecg_peaks` function. Can be one of the following:</span>
-<span class="sd">        `&#39;hamilton&#39;`, `&#39;christov&#39;`, `&#39;engelse-zeelenberg&#39;`, `&#39;pan-tompkins&#39;`,</span>
-<span class="sd">        `&#39;wavelet-transform&#39;`, `&#39;moving-average&#39;` or `&#39;sleepecg&#39;`. The default is</span>
-<span class="sd">        `&#39;sleepecg&#39;`.</span>
+<span class="sd">    detector :</span>
+<span class="sd">        Peak detection algorithm to use for labelling. If `modality=&quot;ppg&quot;` (default),</span>
+<span class="sd">        can be `&quot;msptd&quot;` or `&quot;rolling_average&quot;` (default). If `modality=&quot;ecg&quot;`, can be</span>
+<span class="sd">        one of the following: `&#39;hamilton&#39;`, `&#39;christov&#39;`, `&#39;engelse-zeelenberg&#39;`,</span>
+<span class="sd">        `&#39;pan-tompkins&#39;`, `&#39;wavelet-transform&#39;`, `&#39;moving-average&#39;` or `&#39;sleepecg&#39;`</span>
+<span class="sd">        (default). If `modality=&quot;resp&quot;` the default an only algorithm available is</span>
+<span class="sd">        `&quot;msptd&quot;`.</span>
 <span class="sd">    show_heart_rate :</span>
 <span class="sd">        If `True`, show the instnataneous heart rate below the raw signal. Defaults to</span>
 <span class="sd">        `False`.</span>
@@ -597,7 +598,7 @@ document.write(`
 
 <span class="sd">       # Only use the first 60 seconds for demonstration</span>
 <span class="sd">       ecg = ecg[ecg.time.between(60, 90)]</span>
-<span class="sd">       plot_raw(ecg, modality=&#39;ecg&#39;, sfreq=1000, ecg_method=&#39;sleepecg&#39;)</span>
+<span class="sd">       plot_raw(ecg, modality=&#39;ecg&#39;, sfreq=1000, detector=&#39;sleepecg&#39;)</span>
 
 <span class="sd">    Plotting raw respiration recording with automatic labelling of inspiratory peaks.</span>
 
@@ -661,20 +662,28 @@ document.write(`
             <span class="n">figsize</span> <span class="o">=</span> <span class="mi">300</span>
 
     <span class="k">if</span> <span class="n">peaks</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">detector</span> <span class="o">==</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">modality</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">ppg_strings</span><span class="p">:</span>
+                <span class="n">detector</span> <span class="o">=</span> <span class="s2">&quot;rolling_average&quot;</span>
+            <span class="k">elif</span> <span class="n">modality</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">resp_strings</span><span class="p">:</span>
+                <span class="n">detector</span> <span class="o">=</span> <span class="s2">&quot;msptd&quot;</span>
+            <span class="k">elif</span> <span class="n">modality</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">ecg_strings</span><span class="p">:</span>
+                <span class="n">detector</span> <span class="o">=</span> <span class="s2">&quot;sleepecg&quot;</span>
+
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
             <span class="c1"># Find peaks - Remove learning phase</span>
             <span class="k">if</span> <span class="n">modality</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">ppg_strings</span><span class="p">:</span>
                 <span class="n">signal</span><span class="p">,</span> <span class="n">peaks</span> <span class="o">=</span> <span class="n">ppg_peaks</span><span class="p">(</span>
-                    <span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">[</span><span class="n">modality</span><span class="p">],</span> <span class="n">moving_average</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                    <span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">[</span><span class="n">modality</span><span class="p">],</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">detector</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
                 <span class="p">)</span>
             <span class="k">elif</span> <span class="n">modality</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">resp_strings</span><span class="p">:</span>
                 <span class="n">signal</span><span class="p">,</span> <span class="p">(</span><span class="n">peaks</span><span class="p">,</span> <span class="n">troughs</span><span class="p">)</span> <span class="o">=</span> <span class="n">rsp_peaks</span><span class="p">(</span>
-                    <span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">[</span><span class="n">modality</span><span class="p">],</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                    <span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">[</span><span class="n">modality</span><span class="p">],</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">detector</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
                 <span class="p">)</span>
             <span class="k">elif</span> <span class="n">modality</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">ecg_strings</span><span class="p">:</span>
                 <span class="n">signal</span><span class="p">,</span> <span class="n">peaks</span> <span class="o">=</span> <span class="n">ecg_peaks</span><span class="p">(</span>
                     <span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">[</span><span class="n">modality</span><span class="p">],</span>
-                    <span class="n">method</span><span class="o">=</span><span class="n">ecg_method</span><span class="p">,</span>
+                    <span class="n">method</span><span class="o">=</span><span class="n">detector</span><span class="p">,</span>
                     <span class="n">find_local</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                     <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span>
                     <span class="o">**</span><span class="n">kwargs</span>
@@ -688,16 +697,16 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">modality</span> <span class="ow">in</span> <span class="n">ppg_strings</span><span class="p">:</span>
                 <span class="n">signal</span><span class="p">,</span> <span class="n">peaks</span> <span class="o">=</span> <span class="n">ppg_peaks</span><span class="p">(</span>
-                    <span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">moving_average</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                    <span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">detector</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
                 <span class="p">)</span>
             <span class="k">elif</span> <span class="n">modality</span> <span class="ow">in</span> <span class="n">resp_strings</span><span class="p">:</span>
                 <span class="n">signal</span><span class="p">,</span> <span class="p">(</span><span class="n">peaks</span><span class="p">,</span> <span class="n">troughs</span><span class="p">)</span> <span class="o">=</span> <span class="n">rsp_peaks</span><span class="p">(</span>
-                    <span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                    <span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">detector</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
                 <span class="p">)</span>
             <span class="k">elif</span> <span class="n">modality</span> <span class="ow">in</span> <span class="n">ecg_strings</span><span class="p">:</span>
                 <span class="n">signal</span><span class="p">,</span> <span class="n">peaks</span> <span class="o">=</span> <span class="n">ecg_peaks</span><span class="p">(</span>
                     <span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span>
-                    <span class="n">method</span><span class="o">=</span><span class="n">ecg_method</span><span class="p">,</span>
+                    <span class="n">method</span><span class="o">=</span><span class="n">detector</span><span class="p">,</span>
                     <span class="n">sfreq</span><span class="o">=</span><span class="n">sfreq</span><span class="p">,</span>
                     <span class="n">find_local</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                     <span class="o">**</span><span class="n">kwargs</span>

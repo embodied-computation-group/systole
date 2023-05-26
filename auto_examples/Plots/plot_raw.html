@@ -36,10 +36,10 @@
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -509,15 +509,15 @@ to download the full example code</p>
 
 <span class="c1"># Only use the first 60 seconds for demonstration</span>
 <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.core.series.Series" class="sphx-glr-backref-module-pandas-core-series sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ecg</span></a> <span class="o">=</span> <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.core.frame.DataFrame" class="sphx-glr-backref-module-pandas-core-frame sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">physio_df</span></a><span class="p">[</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.between.html#pandas.Series.between" title="pandas.Series.between" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-method"><span class="n">physio_df</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">between</span></a><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">90</span><span class="p">)]</span><span class="o">.</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.core.series.Series" class="sphx-glr-backref-module-pandas-core-series sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ecg</span></a>
-<span class="n">plot_raw</span><span class="p">(</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.core.series.Series" class="sphx-glr-backref-module-pandas-core-series sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ecg</span></a><span class="p">,</span> <span class="n">modality</span><span class="o">=</span><span class="s1">&#39;ecg&#39;</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">ecg_method</span><span class="o">=</span><span class="s1">&#39;sleepecg&#39;</span><span class="p">)</span>
+<span class="n">plot_raw</span><span class="p">(</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.core.series.Series" class="sphx-glr-backref-module-pandas-core-series sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ecg</span></a><span class="p">,</span> <span class="n">modality</span><span class="o">=</span><span class="s1">&#39;ecg&#39;</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">detector</span><span class="o">=</span><span class="s1">&#39;sleepecg&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <img src="../../_images/sphx_glr_plot_raw_001.png" srcset="../../_images/sphx_glr_plot_raw_001.png" alt="ECG recording" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/2 [00:00&lt;?, ?it/s]
 Downloading ECG channel:   0%|          | 0/2 [00:00&lt;?, ?it/s]
-Downloading ECG channel:  50%|#####     | 1/2 [00:00&lt;00:00,  2.12it/s]
-Downloading Respiration channel:  50%|#####     | 1/2 [00:00&lt;00:00,  2.12it/s]
-Downloading Respiration channel: 100%|##########| 2/2 [00:01&lt;00:00,  1.95it/s]
-Downloading Respiration channel: 100%|##########| 2/2 [00:01&lt;00:00,  1.97it/s]
+Downloading ECG channel:  50%|#####     | 1/2 [00:00&lt;00:00,  1.30it/s]
+Downloading Respiration channel:  50%|#####     | 1/2 [00:00&lt;00:00,  1.30it/s]
+Downloading Respiration channel: 100%|##########| 2/2 [00:01&lt;00:00,  1.20it/s]
+Downloading Respiration channel: 100%|##########| 2/2 [00:01&lt;00:00,  1.21it/s]
 
 &lt;Axes: title={&#39;center&#39;: &#39;ECG recording&#39;}, ylabel=&#39;ECG (mV)&#39;&gt;
 </pre></div>
@@ -535,8 +535,8 @@ Downloading Respiration channel: 100%|##########| 2/2 [00:01&lt;00:00,  1.97it/s
 </div>
 <img src="../../_images/sphx_glr_plot_raw_002.png" srcset="../../_images/sphx_glr_plot_raw_002.png" alt="Respiration" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/1 [00:00&lt;?, ?it/s]
 Downloading Respiration channel:   0%|          | 0/1 [00:00&lt;?, ?it/s]
-Downloading Respiration channel: 100%|##########| 1/1 [00:00&lt;00:00,  1.40it/s]
-Downloading Respiration channel: 100%|##########| 1/1 [00:00&lt;00:00,  1.40it/s]
+Downloading Respiration channel: 100%|##########| 1/1 [00:00&lt;00:00,  1.24it/s]
+Downloading Respiration channel: 100%|##########| 1/1 [00:00&lt;00:00,  1.24it/s]
 
 &lt;Axes: title={&#39;center&#39;: &#39;Respiration&#39;}, ylabel=&#39;Respiratory signal&#39;&gt;
 </pre></div>
@@ -564,7 +564,13 @@ Downloading Respiration channel: 100%|##########| 1/1 [00:00&lt;00:00,  1.40it/s
  <span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.066 seconds)</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>BokehDeprecationWarning: CDSView.source is no longer needed, and is now ignored. In a future release, passing source will result an error.
+BokehDeprecationWarning: CDSView.filters was deprecated in bokeh 3.0. Use CDSView.filter instead.
+BokehDeprecationWarning: CDSView.source is no longer needed, and is now ignored. In a future release, passing source will result an error.
+BokehDeprecationWarning: CDSView.filters was deprecated in bokeh 3.0. Use CDSView.filter instead.
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  4.193 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plots-plot-raw-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/d8539f00bb096598d0ceb2eadf1eebee/plot_raw.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_raw.py</span></code></a></p>

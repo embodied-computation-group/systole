@@ -5,7 +5,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.14.1
+    jupytext_version: 1.14.5
 kernelspec:
   display_name: Python 3 (ipykernel)
   language: python
@@ -52,20 +52,31 @@ In this notebook, we are going to review the peak detection algorithm, which fut
 
 +++
 
-Because we will ultimately be interested in heart rate and its variability, our first goal will be to detect the R peaks. We will use the `ecg_peaks()` function provided by Systole to perform R peak detection. This function is a simple wrapper for well-known peak detection algorithms that are implemented in the [py-ecg-detectors module](https://github.com/berndporr/py-ecg-detectors) {cite:p}`2019:porr`. The detection algorithm can be selected via the `ecg_method` parameter, it should be among the following: `hamilton`, `christov`, `engelse-zeelenberg`, `pan-tompkins`, `wavelet-transform`, `moving-average`. In this tutorial, we will use the [pan-tompkins algorithm](https://en.wikipedia.org/wiki/Pan%E2%80%93Tompkins_algorithm) {cite:p}`1985:pan` as it is a fast, well-perfoming, and commonly used algorithm for QRS detection.
+Because we will ultimately be interested in heart rate and its variability, our first goal will be to detect the R peaks. A large variety of algorithms have been proposed to extract the timing of R waves while controlling for signal noise and physiological variability. Reviewing and comparing all of the available methods is beyond the scope of this tutorial. Here, we are going to restrict our focus to some of the most popular methods, which also are available in the Python open-source ecosystem. We will use the [ecg_peaks](#systole.detection.ecg_peaks) function to perform R peak detection. This function can call a variety of peaks detection algorithms among the following: 
+
+- `sleepecg` (default)
+- `hamilton`
+- `christov`
+- `engelse-zeelenberg`
+- `pan-tompkins`
+- `wavelet-transform`
+- `moving-average`
+
+The default method (`sleepecg`) uses a modified version of the Pan-Tompkins algorithm provided by the [sleepecg](https://github.com/cbrnr/sleepecg) package. The rest of the algorithms were implemented in the [py-ecg-detectors module](https://github.com/berndporr/py-ecg-detectors) {cite:p}`2019:porr`. Systole uses a modified version of these implementations that runs with the [Numba](http://numba.pydata.org/) package for better performance, resulting in 7-30x faster estimation, depending on the algorithm.
+
+The detection algorithm can be selected via the `method` parameter. In these tutorials, we will use the modified version of the [pan-tompkins algorithm](https://en.wikipedia.org/wiki/Pan%E2%80%93Tompkins_algorithm) {cite:p}`1985:pan` from [sleepecg](https://github.com/cbrnr/sleepecg) as it is a fast, well-performing, and a commonly used algorithm for QRS detection.
 
 +++
 
 Let's first load an ECG recording. Here, we will select a 5 minute interval and compare the performances of the different algorithms supported by Systole.
 
 ```{code-cell} ipython3
-# Import ECg recording
+# Import ECG recording
 ecg_df = import_dataset1(modalities=['ECG'], disable=True)
 signal = ecg_df[ecg_df.time.between(60, 360)].ecg.to_numpy()  # Select 5 minutes
 ```
 
 ### Detecting R peaks
-The main feature that we can extract from the ECG recording is the R wave (see image in notebook 1). A large variety of algorithms have been proposed to extract the timing of R waves while controlling for signal noise and physiological variability. Reviewing and comparing all of the available methods is beyond the scope of this tutorial. Here, we are going to restrict our focus to some of the most popular methods, which also are available in the Python opensource ecosystem (`hamilton`, `christov`, `engelse-zeelenberg`, `pan-tompkins`, and `moving-average`. These methods were implemented originally in the [py-ecg-detectors module](https://github.com/berndporr/py-ecg-detectors) - Systole includes a modified version that runs with the [Numba](http://numba.pydata.org/) package for better performance, resulting in 7-30x faster estimation, depending on the algorithm.
 
 ```{code-cell} ipython3
 from systole.detectors import pan_tompkins, hamilton, moving_average, christov, engelse_zeelenberg
@@ -84,7 +95,7 @@ peaks_pt = pan_tompkins(signal, sfreq=1000)
 
 ```{code-cell} ipython3
 show(
-    plot_raw(signal, modality='ecg', ecg_method='pan-tompkins', backend='bokeh', show_heart_rate=True)
+    plot_raw(signal, modality='ecg', detector='pan-tompkins', backend='bokeh', show_heart_rate=True)
 )
 ```
 
@@ -97,7 +108,7 @@ peaks_wa = ecg_peaks(signal, sfreq=1000, method="moving-average")
 
 ```{code-cell} ipython3
 show(
-    plot_raw(signal, modality='ecg', ecg_method='moving-average', backend='bokeh', show_heart_rate=True)
+    plot_raw(signal, modality='ecg', detector='moving-average', backend='bokeh', show_heart_rate=True)
 )
 ```
 
@@ -110,7 +121,7 @@ peaks_ha = hamilton(signal, sfreq=1000)
 
 ```{code-cell} ipython3
 show(
-    plot_raw(signal, modality='ecg', ecg_method='hamilton', backend='bokeh', show_heart_rate=True)
+    plot_raw(signal, modality='ecg', detector='hamilton', backend='bokeh', show_heart_rate=True)
 )
 ```
 
@@ -123,7 +134,7 @@ peaks_ch = christov(signal, sfreq=1000)
 
 ```{code-cell} ipython3
 show(
-    plot_raw(signal, modality='ecg', ecg_method='christov', backend='bokeh', show_heart_rate=True)
+    plot_raw(signal, modality='ecg', detector='christov', backend='bokeh', show_heart_rate=True)
 )
 ```
 
@@ -136,7 +147,7 @@ peaks_ew = engelse_zeelenberg(signal, sfreq=1000)
 
 ```{code-cell} ipython3
 show(
-    plot_raw(signal, modality='ecg', ecg_method='engelse-zeelenberg', backend='bokeh', show_heart_rate=True)
+    plot_raw(signal, modality='ecg', detector='engelse-zeelenberg', backend='bokeh', show_heart_rate=True)
 )
 ```
 
@@ -144,11 +155,7 @@ show(
 
 +++
 
-### Systolic peaks detection
-
-+++
-
-#### Online
+### Online systolic peaks detection
 
 +++
 
@@ -174,6 +181,8 @@ peaks = np.array(oxi.peaks)
 This method uses the derivative to find peaks in the signal and select them based on and adaptive threshold based on the rolling mean and rolling standard deviation in a given time window.
 
 ```{code-cell} ipython3
+:tags: [hide-input]
+
 fig, ax = plt.subplots(figsize=(15, 5))
 ax.set_title("Oximeter recording")
 
@@ -192,17 +201,35 @@ ax.legend()
 sns.despine()
 ```
 
-#### Offline
-
-+++
-
-A simple online approach like the one we described is usually good enough to detect all the systolic peaks, provided that the subject is not moving too much.
+### Offline systolic peaks detection
 
 ```{code-cell} ipython3
 ppg = import_ppg()
 ```
 
-**Clipping artefacts**
+A simple online approach like the one we described is usually good enough to detect all the systolic peaks, provided that the subject is not moving too much. The package comes with two algoritms for systolic peaks detection presented below and that can be controlled through the `method` parameter of the [ppg_peaks](#systole.detection.ppg_peaks).
+
+#### Rolling mean
+
+The current default is an adaptation of the rolling mean method proposed by {cite:p}`2019:vanGent`. This method has the advantage of being fast, simple and to perform well when the signal to noise ration is good.
+
+```{code-cell} ipython3
+show(
+    plot_raw(signal=ppg, modality="ppg", detector="rolling_average", sfreq=75, backend="bokeh")
+)
+```
+
+#### The Multi-scale peak and trough detection algorithm
+
+Systole also includes a version of the Multi-scale peak and trough detection algorithm {cite:p}`bishop:2018`, which has been reported to be one of the best-performing algorithms in recent benchmark {cite:p}`kotzen:2021`.
+
+```{code-cell} ipython3
+show(
+    plot_raw(signal=ppg, modality="ppg", detector="msptd", sfreq=75, backend="bokeh")
+)
+```
+
+### Clipping artefacts
 
 +++
 
@@ -214,6 +241,8 @@ clean_signal = interpolate_clipping(signal, min_threshold=0, max_threshold=255) 
 ```
 
 ```{code-cell} ipython3
+:tags: [hide-input]
+
 plt.figure(figsize=(15, 5))
 plt.plot(np.arange(0, len(clean_signal))/75, clean_signal, label='Corrected PPG signal', linestyle= '--', color='#c44e52')
 plt.plot(np.arange(0, len(signal))/75, signal, label='Raw PPG signal', color='#4c72b0')

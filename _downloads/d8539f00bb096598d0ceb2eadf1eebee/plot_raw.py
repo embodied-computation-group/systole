@@ -24,7 +24,7 @@ physio_df = import_dataset1(modalities=['ECG', 'Respiration'])
 
 # Only use the first 60 seconds for demonstration
 ecg = physio_df[physio_df.time.between(60, 90)].ecg
-plot_raw(ecg, modality='ecg', sfreq=1000, ecg_method='sleepecg')
+plot_raw(ecg, modality='ecg', sfreq=1000, detector='sleepecg')
 #%%
 # Plot raw PPG signal
 # -------------------

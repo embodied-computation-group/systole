@@ -5,7 +5,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.14.1
+    jupytext_version: 1.14.5
 kernelspec:
   display_name: Python 3 (ipykernel)
   language: python
@@ -104,6 +104,8 @@ signal, peaks = ecg_peaks(signal=signal, method='sleepecg', sfreq=1000)
 This function will output two 1d Numpy arrays: **1)** the resampled `signal` (this only matters if the sampling frequency of the input signal was different from the standard 1000 Hz that is the default of many Systole functions), and **2)** a `peaks` vector. The peaks vector has the same size as the input signal and is a boolean array (i.e., it only contains 0/False and 1/True logical values). The R peaks are encoded as 1 and the rest of the signal is set to 0. This vector can then be used to plot the detected R peaks on the input signal (panel **1** below). We can also use this vector to compute the distance between each R peaks (the R-R interval, see panel **2** below), which is used to measure the instantaneous heart rate (see panel **3** below).
 
 ```{code-cell} ipython3
+:tags: [hide-input]
+
 time = np.arange(0, len(signal))/1000  # Create a time vector (seconds)
 
 fig, axs = plt.subplots(3, 1, figsize=(18, 9), sharex=True)
@@ -131,7 +133,12 @@ axs[2].legend()
 sns.despine()
 ```
 
-**A note on the data format:** [Systole](https://embodied-computation-group.github.io/systole/#) will output a boolean peaks vector after detection by default. We found this approach more intuitive as the time series keeps the same size and it can easier to slice it according to events observed in another signal (e.g the respiration or the stim channel). However, the same information can also be encoded as peaks indexes (`peaks_idx`), referring to the sample number where the R peaks were detected, or directly as RR-intervals expressed in seconds or milliseconds (`rr_s` and `rr_ms` respectively). Other packages will use different formats as default for encoding and you might have to convert your inputs. This can be done easily using `systole.utils.input_conversion`, which will let you convert your data accordingly.
+```{admonition} A note on data format
+:class: note
+[Systole](https://embodied-computation-group.github.io/systole/#) will output a boolean peaks vector after detection by default (i.e. a vector that has the same length than the original signal with `True` values indicating where the peaks were detected). We found this approach more intuitive as the time series keeps the same size and it can easier to slice it according to events observed in another signal (e.g the respiration or the stim channel). However, the same information can also be encoded as peaks indexes (`peaks_idx`), referring to the sample number where the R peaks were detected, or directly as RR-intervals expressed in seconds or milliseconds (`rr_s` and `rr_ms` respectively). Other packages will use different formats as default for encoding and you might have to convert your inputs. This can be done easily using the [input_conversion function](#systole.utils.input_conversion), which will let you convert your data accordingly.
+```
+
+We illustrate some example of input conversion below:
 
 ```{code-cell} ipython3
 # From boolean peaks vector to peaks indexs
@@ -163,6 +170,8 @@ $$BPM = \frac{60000}{RR} $$
 It is worth noting that the conversion from RR intervals to beats per minute involves a non-linear function of the form $\frac{1}{x}$. This should be taken into account when interpreting the amplitude of changes in heart rate, e.g., when comparing an experimental condition to baseline. For example, increasing the heart rate from 40 to 45 bpm diminishes the RR interval by approximately 167ms, while increasing the heart rate from 120 to 125 bpm decrease RR intervals by only 20ms (see graph below).
 
 ```{code-cell} ipython3
+:tags: [hide-input]
+
 rr = np.arange(300, 2000, 2)
 plt.figure(figsize=(6, 6))
 plt.plot(60000/rr, rr)
@@ -193,7 +202,7 @@ signal = ecg_df[ecg_df.time.between(500, 600)].ecg.to_numpy()
 
 ```{code-cell} ipython3
 show(
-    plot_raw(signal, modality='ecg', ecg_method='sleepecg', show_heart_rate=True, backend='bokeh')
+    plot_raw(signal, modality='ecg', detector='sleepecg', show_heart_rate=True, backend='bokeh')
 )
 ```
 
@@ -232,7 +241,7 @@ We can plot the PPG time serie and visualize peak detection and the inter-beat i
 
 ```{code-cell} ipython3
 show(
-    plot_raw(ppg, modality='ppg', backend='bokeh')
+    plot_raw(ppg, modality='ppg', sfreq=75, backend='bokeh', show_heart_rate=True)
 )
 ```
 
