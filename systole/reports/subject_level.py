@@ -41,6 +41,8 @@ def subject_level_report(
     ppg_events_idx: Optional[Union[List, np.ndarray]] = None,
     rsp_events_idx: Optional[Union[List, np.ndarray]] = None,
     ecg_method: str = "sleepecg",
+    ppg_method: str = "rolling_average",
+    resp_method: str = "rolling_average",
     html_report: bool = True,
     file_name: Optional[Union[str, PathLike]] = None,
     template_file=pkg_resources.resource_filename(__name__, "subject_level.html"),
@@ -71,6 +73,12 @@ def subject_level_report(
         The sample indexes of events of interest associated with the recordings.
     ecg_method :
         The peak detection algorithm used for the ECG signal. Defaults to `"sleepecg"`.
+    ppg_method :
+        The systolic peak detection algorithm used for the PPG signal. Defaults to
+        `"rolling_average"`.
+    resp_method :
+        The respiratory cycle detection algorithm used for the respiration signal.
+        Defaults to `"rolling_average"`.
     html_report :
         If `True` (default), save an html report. This file embeds the signal for
         interactive visualization and can therefore be large, it is recommended to
@@ -311,7 +319,9 @@ def subject_level_report(
 
         print("... Processing PPG recording")
 
-        ppg_signal, peaks = ppg_peaks(ppg, sfreq=ppg_sfreq, clean_nan=True)
+        ppg_signal, peaks = ppg_peaks(
+            ppg, sfreq=ppg_sfreq, clean_nan=True, method=ppg_method
+        )
 
         physio_df["ppg_peaks"] = peaks
         physio_df["ppg"] = ppg_signal
@@ -396,7 +406,9 @@ def subject_level_report(
 
         print("... Processing respiration recording")
 
-        rsp_signal, out = rsp_peaks(rsp, sfreq=rsp_sfreq, clean_nan=True)
+        rsp_signal, out = rsp_peaks(
+            rsp, sfreq=rsp_sfreq, clean_nan=True, method=resp_method
+        )
         peaks, troughs = out
 
         physio_df["rsp_peaks"] = peaks
