@@ -17,7 +17,7 @@ def plot_raw(
     peaks: Optional[np.ndarray] = None,
     sfreq: int = 1000,
     modality: str = "ppg",
-    ecg_method: str = "sleepecg",
+    detector: str = "default",
     show_heart_rate: bool = False,
     show_artefacts: bool = False,
     bad_segments: Optional[Union[np.ndarray, List[Tuple[int, int]]]] = None,
@@ -51,12 +51,13 @@ def plot_raw(
         The type of signal provided. Can be `'ppg'` (pulse oximeter), `'ecg'`
         (electrocardiography) or `'resp'`. This parameter will control the type of
         peak detection algorithm to use. Only relevant if `peaks` is not provided.
-    ecg_method :
-        Peak detection algorithm used by the
-        :py:func:`systole.detection.ecg_peaks` function. Can be one of the following:
-        `'hamilton'`, `'christov'`, `'engelse-zeelenberg'`, `'pan-tompkins'`,
-        `'wavelet-transform'`, `'moving-average'` or `'sleepecg'`. The default is
-        `'sleepecg'`.
+    detector :
+        Peak detection algorithm to use for labelling. If `modality="ppg"` (default),
+        can be `"msptd"` or `"rolling_average"` (default). If `modality="ecg"`, can be
+        one of the following: `'hamilton'`, `'christov'`, `'engelse-zeelenberg'`,
+        `'pan-tompkins'`, `'wavelet-transform'`, `'moving-average'` or `'sleepecg'`
+        (default). If `modality="resp"` the default an only algorithm available is
+        `"msptd"`.
     show_heart_rate :
         If `True`, show the instnataneous heart rate below the raw signal. Defaults to
         `False`.
@@ -120,7 +121,7 @@ def plot_raw(
 
        # Only use the first 60 seconds for demonstration
        ecg = ecg[ecg.time.between(60, 90)]
-       plot_raw(ecg, modality='ecg', sfreq=1000, ecg_method='sleepecg')
+       plot_raw(ecg, modality='ecg', sfreq=1000, detector='sleepecg')
 
     Plotting raw respiration recording with automatic labelling of inspiratory peaks.
 
@@ -184,20 +185,28 @@ def plot_raw(
             figsize = 300
 
     if peaks is None:
+        if detector == "default":
+            if modality.lower() in ppg_strings:
+                detector = "rolling_average"
+            elif modality.lower() in resp_strings:
+                detector = "msptd"
+            elif modality.lower() in ecg_strings:
+                detector = "sleepecg"
+
         if isinstance(signal, pd.DataFrame):
             # Find peaks - Remove learning phase
             if modality.lower() in ppg_strings:
                 signal, peaks = ppg_peaks(
-                    signal=signal[modality], moving_average=False, sfreq=sfreq, **kwargs
+                    signal=signal[modality], sfreq=sfreq, method=detector, **kwargs
                 )
             elif modality.lower() in resp_strings:
                 signal, (peaks, troughs) = rsp_peaks(
-                    signal=signal[modality], sfreq=sfreq, **kwargs
+                    signal=signal[modality], sfreq=sfreq, method=detector, **kwargs
                 )
             elif modality.lower() in ecg_strings:
                 signal, peaks = ecg_peaks(
                     signal=signal[modality],
-                    method=ecg_method,
+                    method=detector,
                     find_local=True,
                     sfreq=sfreq,
                     **kwargs
@@ -211,16 +220,16 @@ def plot_raw(
         else:
             if modality in ppg_strings:
                 signal, peaks = ppg_peaks(
-                    signal=signal, moving_average=False, sfreq=sfreq, **kwargs
+                    signal=signal, sfreq=sfreq, method=detector, **kwargs
                 )
             elif modality in resp_strings:
                 signal, (peaks, troughs) = rsp_peaks(
-                    signal=signal, sfreq=sfreq, **kwargs
+                    signal=signal, sfreq=sfreq, method=detector, **kwargs
                 )
             elif modality in ecg_strings:
                 signal, peaks = ecg_peaks(
                     signal=signal,
-                    method=ecg_method,
+                    method=detector,
                     sfreq=sfreq,
                     find_local=True,
                     **kwargs
