@@ -5,7 +5,6 @@ from typing import Dict, List, Optional, Tuple, Union
 import numpy as np
 import pandas as pd
 from scipy.interpolate import interp1d
-from scipy.signal import find_peaks
 from sleepecg import detect_heartbeats
 
 from systole.detectors import (
@@ -13,9 +12,10 @@ from systole.detectors import (
     engelse_zeelenberg,
     hamilton,
     moving_average,
-    mstpd,
+    msptd,
     pan_tompkins,
     rolling_average_ppg,
+    rolling_average_resp,
 )
 from systole.utils import find_clipping, input_conversion, nan_cleaning, to_neighbour
 
@@ -24,7 +24,7 @@ def ppg_peaks(
     signal: Union[List, np.ndarray, pd.Series],
     sfreq: int,
     new_sfreq: int = 1000,
-    method: str = "mstpd",
+    method: str = "rolling_average",
     clipping: bool = True,
     clipping_thresholds: Union[Tuple, List, str] = "auto",
     clean_nan: bool = False,
@@ -55,7 +55,7 @@ def ppg_peaks(
         If resample is `True`, the new sampling frequency (Hz). Defaults to `1000`.
     method :
         The systolic peaks detection algorithm to use, can be `"rolling_average"` [1]_
-        or `"mstpd"` [2]_.
+        (default) or `"msptd"` [2]_.
     clipping :
         If `True`, will apply the clipping artefact correction described in [1]_.
         Defaults to `True`.
@@ -91,15 +91,15 @@ def ppg_peaks(
     >>> from systole.detection import ppg_peaks
     >>> ppg = import_ppg().ppg.to_numpy()  # Import PPG signal
 
-    Using the rolling average method
-    ********************************
+    Using the rolling average method (default)
+    ******************************************
     >>> signal, peaks = ppg_peaks(signal=ppg, method="rolling_average")
     >>> print(f'{sum(peaks)} peaks detected.')
     378 peaks detected.
 
-    Using the Multi-scale peak and trough detection algorithm (default)
-    *******************************************************************
-    >>> signal, peaks = ppg_peaks(signal=ppg, method="mstpd")
+    Using the Multi-scale peak and trough detection algorithm
+    *********************************************************
+    >>> signal, peaks = ppg_peaks(signal=ppg, method="msptd")
     >>> print(f'{sum(peaks)} peaks detected.')
     378 peaks detected.
 
@@ -151,12 +151,15 @@ def ppg_peaks(
             signal=x, min_threshold=min_threshold, max_threshold=max_threshold
         )
 
-    if method == "mstpd":
-        peaks = mstpd(signal=x, sfreq=new_sfreq, kind="peaks", **detector_kws)
+    if method == "msptd":
+        peaks_idx = msptd(signal=x, sfreq=new_sfreq, kind="peaks", **detector_kws)
     elif method == "rolling_average":
-        peaks = rolling_average_ppg(signal=x, sfreq=new_sfreq, **detector_kws)
+        peaks_idx = rolling_average_ppg(signal=x, sfreq=new_sfreq, **detector_kws)
     else:
         raise ValueError("Invalid method argument.")
+
+    peaks = np.zeros(len(resampled_signal), dtype=bool)
+    peaks[peaks_idx] = True
 
     return resampled_signal, peaks
 
@@ -279,12 +282,13 @@ def rsp_peaks(
     signal: Union[List, np.ndarray, pd.Series],
     sfreq: int,
     new_sfreq: int = 1000,
-    win: float = 0.025,
-    kind: str = "peaks-troughs",
+    method: str = "msptd",
+    kind: str = "peaks-onsets",
     clean_nan: bool = False,
     verbose: bool = False,
+    detector_kws: Dict = {},
 ) -> Tuple[np.ndarray, Union[np.ndarray, Tuple[np.ndarray, np.ndarray]]]:
-    """Identify peaks and/or troughs in respiratory signal.
+    """Identify peaks and/or onsets in respiratory signal.
 
     Parameters
     ----------
@@ -295,34 +299,33 @@ def rsp_peaks(
         The sampling frequency.
     new_sfreq :
         If resample is `True`, the new sampling frequency. Defaults to `1000` Hz.
-    win : int
-        Window size (in seconds). Default is set to 25ms, following recommandation
-        from [1]_.
+    method :
+        The peaks detection algorithm to use, can be `"rolling_average"` for an
+        adaptation of [1]_ or `"msptd"` [2]_ (default).
     kind :
         What kind of detection to perform. Peak detection (`"peaks"`), trough detection
-        (`"troughs"`) or both (`"peaks-troughs"`, default).
+        (`"onsets"`) or both (`"peaks-onsets"`, default).
     clean_nan :
         If `True`, will interpolate NaNs values if any before any other operation.
         Defaults to `False`.
     verbose :
         Control function verbosity. Defaults to `False` (do not print processing steps).
+    detector_kws :
+        Additional keyword arguments that will be passed to the detector function.
 
     Returns
     -------
     resampled_signal :
         Signal resampled to the `new_sfreq` frequency.
     peaks | trough | (peaks, trough) :
-        Boolean arrays of peaks and / or troughs in the respiratory signal.
+        Boolean arrays of peaks and / or onsets in the respiratory signal.
 
     Raises
     ------
     ValueError
-        If `kind` is not one of the following: `"peaks"`, `"troughs"` or
-        `"peaks-troughs"`.
-
-    Notes
-    -----
-    The processing steps are largely inspired by the method described in [1]_.
+        If `kind` is not one of the following: `"peaks"`, `"onsets"` or
+        `"peaks-onsets"`.
+        If `method` is not a valid method name.
 
     References
     ----------
@@ -330,11 +333,15 @@ def rsp_peaks(
        Zelano,Automated analysis of breathing waveforms using BreathMetrics: a
        respiratory signal processing toolbox, Chemical Senses, Volume 43, Issue 8,
        October 2018, Pages 583-597, https://doi.org/10.1093/chemse/bjy045
+    .. [2] S. M. Bishop and A. Ercole, 'Multi-scale peak and trough detection optimised
+       for periodic and quasi-periodic neuroscience data,' in Intracranial Pressure and
+       Neuromonitoring XVI. Acta Neurochirurgica Supplement, T. Heldt, Ed. Springer,
+       2018, vol. 126, pp. 189-195. <https://doi.org/10.1007/978-3-319-65798-1_39>
 
     """
-    if kind not in ["peaks", "troughs", "peaks-troughs"]:
+    if kind not in ["peaks", "onsets", "peaks-onsets"]:
         raise ValueError(
-            "Invalid kind parameter. Should be 'peaks', 'troughs' or 'peaks-troughs'"
+            "Invalid kind parameter. Should be 'peaks', 'onsets' or 'peaks-onsets'"
         )
 
     x = np.asarray(signal)
@@ -353,38 +360,29 @@ def rsp_peaks(
     # Copy resampled signal for output
     resampled_signal = np.copy(x)
 
-    # Soothing using rolling mean
-    x = (
-        pd.DataFrame({"signal": x})
-        .rolling(int(sfreq * win), center=True)
-        .mean()
-        .fillna(method="bfill")
-        .fillna(method="ffill")
-        .signal.to_numpy()
-    )
-
-    # Normalize (z-score) the respiration signal
-    x = (x - x.mean()) / x.std()  # type: ignore
-
-    # Peak enhancement
-    x = x**3
-
-    # Find peaks and trough in preprocessed signal
-    if "peaks" in kind:
-        peaks_idx = find_peaks(x, height=0, distance=int(2 * sfreq))[0]
-        peaks = np.zeros(len(resampled_signal), dtype=bool)
-        peaks[peaks_idx] = True
-    if "troughs" in kind:
-        troughs_idx = find_peaks(-x, height=0, distance=int(2 * sfreq))[0]
-        troughs = np.zeros(len(resampled_signal), dtype=bool)
-        troughs[troughs_idx] = True
+    if method == "msptd":
+        idxs = msptd(signal=x, sfreq=new_sfreq, kind=kind, win_len=60, **detector_kws)
+    elif method == "rolling_average":
+        idxs = rolling_average_resp(
+            signal=x, kind=kind, sfreq=new_sfreq, **detector_kws
+        )
+    else:
+        raise ValueError("Invalid method argument.")
 
     if kind == "peaks":
+        peaks = np.zeros(len(resampled_signal), dtype=bool)
+        peaks[idxs] = True
         return resampled_signal, peaks
-    elif kind == "trough":
-        return resampled_signal, troughs
+    elif kind == "onsets":
+        onsets = np.zeros(len(resampled_signal), dtype=bool)
+        onsets[idxs] = True
+        return resampled_signal, onsets
     else:
-        return resampled_signal, (peaks, troughs)
+        peaks = np.zeros(len(resampled_signal), dtype=bool)
+        peaks[idxs[0]] = True
+        onsets = np.zeros(len(resampled_signal), dtype=bool)
+        onsets[idxs[1]] = True
+        return resampled_signal, (peaks, onsets)
 
 
 def rr_artefacts(

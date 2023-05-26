@@ -6,9 +6,13 @@ from numba import jit
 from scipy.signal import detrend
 
 
-def mstpd(
-    signal: np.ndarray, sfreq: int, kind: str = "both"
-) -> Union[np.ndarray, Tuple[np.ndarray]]:
+def msptd(
+    signal: np.ndarray,
+    sfreq: int,
+    kind: str = "peaks-onsets",
+    win_len: int = 6,
+    overlap: float = 0.2,
+) -> Union[np.ndarray, Tuple[np.ndarray, np.ndarray]]:
     """The Multi-scale peak and trough detection algorithm (MSPTD) to detects
     heartbeats in a photoplethysmogram (PPG) signal.
 
@@ -16,11 +20,15 @@ def mstpd(
     ----------
     signal :
         The raw PPG time series.
+    win_len :
+        Length of the window when splitting the signal (seconds). Defaults to `6.0`.
+    overlap :
+        Proportion of overlap between consecutive windows. Defaults to `0.2`.
     sfreq :
         The sampling frequency (Hz).
     kind :
-        The type of detection to perform. Can be `"peaks"`, `"onsets"` or `"both"`.
-        Defaults to `"both"`.
+        The type of detection to perform. Can be `"peaks"`, `"onsets"` or `"peaks-onsets"`.
+        Defaults to `"peaks-onsets"`.
 
         .. tip:
            Using `"peaks"` and `"onsets"` will skip the non required part of the
@@ -33,17 +41,17 @@ def mstpd(
         peaks :
             Indices of detected pulse peaks.
         onsets :
-            Indices of detected pulse troughs (i.e. onsets).
+            Indices of detected pulse onsets (i.e. onsets).
 
     Examples
     --------
-    >>> from systole.detectors import mstpd
+    >>> from systole.detectors import msptd
     >>> from systole import import_ppg
     >>> ppg = import_ppg().ppg.to_numpy()
     Detect both peaks and onsets.
-    >>> peaks, onsets = mstpd(signal=ppg, sfreq=75, kind="both")
+    >>> peaks, onsets = msptd(signal=ppg, sfreq=75, kind="both")
     Only detect peaks.
-    >>> peaks = mstpd(signal=ppg, sfreq=75, kind="peaks")
+    >>> peaks = msptd(signal=ppg, sfreq=75, kind="peaks")
 
     References
     ----------
@@ -57,21 +65,10 @@ def mstpd(
     This function was adapted from the Matlab version provided in the ppg-beats package
     (https://github.com/peterhcharlton/ppg-beats).
 
-    Raises
-    ------
-    ValueError
-        If `kind` is not 'peaks', 'onsets' or 'both'.
-
     """
-    if kind not in ["peaks", "onsets", "both"]:
-        raise ValueError("kind should be 'peaks', 'onsets' or 'both'")
-
     # Window signal
     # -------------
 
-    # split into overlapping 6 s windows
-    win_len = 6  # in seconds
-    overlap = 0.2  # proportion of overlap between consecutive windows
     no_samps_in_win = win_len * sfreq
 
     if len(signal) <= no_samps_in_win:
@@ -98,7 +95,7 @@ def mstpd(
 
     # Detect peaks and onsets in each window
     # --------------------------------------
-    if kind in ["both", "peaks"]:
+    if "peaks" in kind:
         all_peaks: np.ndarray = np.array([])
         for win_s, win_e in zip(win_starts, win_ends):
             # Extract the window's data
@@ -124,7 +121,7 @@ def mstpd(
             all_peaks = np.append(all_peaks, peaks + win_s - 1)
         all_peaks = np.sort(np.unique(all_peaks)).astype(int)
 
-    if kind in ["both", "onsets"]:
+    if "onsets" in kind:
         all_onsets: np.ndarray = np.array([])
         for win_s, win_e in zip(win_starts, win_ends):
             # Extract the window's data

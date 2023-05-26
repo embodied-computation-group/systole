@@ -44,10 +44,8 @@ def rolling_average_ppg(
 
     Returns
     -------
-    resampled_signal :
-        Signal resampled to the `sfreq` frequency.
-    peaks :
-        Boolean array of systolic peaks detection.
+    peaks_idx :
+        Indices of detected systolic peaks.
 
     Raises
     ------
@@ -107,8 +105,4 @@ def rolling_average_ppg(
     # Find positive peaks
     peaks_idx = find_peaks(signal, height=0, distance=int(sfreq * distance))[0]
 
-    # Create boolean vector
-    peaks = np.zeros(len(signal), dtype=bool)
-    peaks[peaks_idx] = 1
-
-    return peaks
+    return peaks_idx

@@ -4,16 +4,16 @@ import unittest
 from unittest import TestCase
 
 from systole import import_ppg
-from systole.detectors import mstpd
+from systole.detectors import msptd
 
 
 class TestDetectors(TestCase):
-    def test_mstpd(self):
-        """Test mstpd function"""
+    def test_msptd(self):
+        """Test msptd function"""
         ppg = import_ppg().ppg.to_numpy()
-        peaks = mstpd(signal=ppg, sfreq=75, kind="peaks")
-        onsets = mstpd(signal=ppg, sfreq=75, kind="onsets")
-        peaks_onsets = mstpd(signal=ppg, sfreq=75, kind="both")
+        peaks = msptd(signal=ppg, sfreq=75, kind="peaks")
+        onsets = msptd(signal=ppg, sfreq=75, kind="onsets")
+        peaks_onsets = msptd(signal=ppg, sfreq=75, kind="peaks-onsets")
         assert (peaks_onsets[0] == peaks).all()
         assert (peaks_onsets[1] == onsets).all()
 

@@ -6,21 +6,74 @@ from unittest import TestCase
 import numpy as np
 
 from systole import import_dataset1, import_ppg
-from systole.detection import ecg_peaks, interpolate_clipping, ppg_peaks, rr_artefacts
+from systole.detection import ppg_peaks, ecg_peaks, rsp_peaks, interpolate_clipping, rr_artefacts
 
 
 class TestDetection(TestCase):
+
     def test_ppg_peaks(self):
         """Test ppg_peaks function"""
-        df = import_ppg()  # Import PPG recording
-        signal, peaks = ppg_peaks(df.ppg.to_numpy(), clean_extra=True, sfreq=75)
-        assert len(signal) == len(peaks)
-        assert np.all(np.unique(peaks) == [0, 1])
-        assert np.mean(np.where(peaks)[0]) == 165778.0
-        signal2, _ = ppg_peaks(
-            df.ppg.to_numpy(), clipping_thresholds=(0, 255), sfreq=75
+        ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
+        rolling_average_signal, rolling_average_peaks = ppg_peaks(ppg, sfreq=75, method="rolling_average")
+        msptd_signal, msptd_peaks = ppg_peaks(ppg, sfreq=75, method="msptd")
+
+        assert np.all(rolling_average_signal == msptd_signal)
+
+        # mean RR intervals
+        assert np.diff(np.where(rolling_average_peaks)[0]).mean() == 874.2068965517242
+        assert np.diff(np.where(msptd_peaks)[0]).mean() == 867.3105263157895
+
+        # with nan removal and clipping correction
+        rolling_average_signal2, rolling_average_peaks2 = ppg_peaks(
+            ppg, clipping_thresholds=(0, 255), clean_nan=True, sfreq=75
         )
-        assert (signal == signal2).all()
+        assert (rolling_average_signal == rolling_average_signal2).all()
+        assert np.diff(np.where(rolling_average_peaks2)[0]).mean() == 874.2068965517242
+
+    def test_ecg_peaks(self):
+        signal_df = import_dataset1(modalities=["ECG"])[: 20 * 2000]
+        for method in [
+            "sleepecg",
+            "christov",
+            "engelse-zeelenberg",
+            "hamilton",
+            "pan-tompkins",
+            "moving-average",
+        ]:
+            _, peaks = ecg_peaks(
+                signal_df.ecg, method=method, sfreq=2000, find_local=True
+            )
+            assert not np.any(peaks > 1)
+
+        with self.assertRaises(ValueError):
+            _, peaks = ecg_peaks(
+                signal_df.ecg.to_numpy(), method="error", sfreq=2000, find_local=True
+            )
+
+    def test_resp_peaks(self):
+        """Test resp_peaks function"""
+        # Import respiration recording
+        resp = import_dataset1(modalities=["Respiration"])[: 200 * 2000].respiration.to_numpy()
+
+        rolling_average_signal, rolling_average_peaks = rsp_peaks(
+            resp, sfreq=2000, kind="peaks", method="rolling_average"
+            )
+        msptd_signal, msptd_peaks = rsp_peaks(
+            resp, sfreq=2000, kind="peaks", method="msptd"
+            )
+
+        assert np.all(rolling_average_signal == msptd_signal)
+
+        # mean respiration intervals
+        #assert np.diff(np.where(rolling_average_peaks)[0]).mean() == 874.2068965517242
+        #assert np.diff(np.where(msptd_peaks)[0]).mean() == 867.3105263157895
+
+        # with nan removal
+        rolling_average_signal2, rolling_average_peaks2 = rsp_peaks(
+            resp, clean_nan=True, sfreq=2000, kind="peaks", method="rolling_average"
+        )
+        assert (rolling_average_signal == rolling_average_signal2).all()
+        #assert np.diff(np.where(rolling_average_peaks2)[0]).mean() == 874.2068965517242
 
     def test_rr_artefacts(self):
         ppg = import_ppg().ppg.to_numpy()
@@ -48,26 +101,6 @@ class TestDetection(TestCase):
         clean_signal = interpolate_clipping(df.ppg.to_numpy())
         df.ppg.iloc[0], df.ppg.iloc[-1] = 0, 0
         clean_signal = interpolate_clipping(df.ppg.to_numpy())
-
-    def test_ecg_peaks(self):
-        signal_df = import_dataset1()[: 20 * 2000]
-        for method in [
-            "sleepecg",
-            "christov",
-            "engelse-zeelenberg",
-            "hamilton",
-            "pan-tompkins",
-            "moving-average",
-        ]:
-            _, peaks = ecg_peaks(
-                signal_df.ecg, method=method, sfreq=2000, find_local=True
-            )
-            assert not np.any(peaks > 1)
-
-        with self.assertRaises(ValueError):
-            _, peaks = ecg_peaks(
-                signal_df.ecg.to_numpy(), method="error", sfreq=2000, find_local=True
-            )
 
 
 if __name__ == "__main__":
