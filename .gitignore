@@ -12,3 +12,4 @@ docs/source/auto_examples
 docs/source/generated
 docs/source/api
 coverage.xml
+venv/
