@@ -66,11 +66,13 @@ If you are using **Systole** in a publication we ask you to cite the following p
 Systole documentation
 =====================
 
-.. grid:: 4
+.. grid:: 2
 
    .. grid-item-card:: Getting started
 
-      :img-top: images/forward-fast-solid.png
+      .. image:: images/forward-fast-solid.png
+         :width: 200
+         :align: center
 
       New to *Systole*? Check out the getting started guides. They contain an
       introduction to *Systole'* main concepts and links to additional tutorials.
@@ -79,23 +81,28 @@ Systole documentation
       .. button-ref:: getting_started
          :expand:
 
-         Where to start.
+         Getting started
 
    .. grid-item-card:: Example gallery
 
-      :img-top: images/table-cells-large-solid.png
+      .. image:: images/table-cells-large-solid.png
+         :width: 200
+         :align: center
 
       See this section for examples of using Systole in different ways.
       +++
       .. button-ref::  auto_examples/index
          :expand:
 
-         Learning with examples.
+         Learning with examples
 
+.. grid:: 2
 
    .. grid-item-card:: Tutorials
 
-      :img-top: images/tutorials.png
+      .. image:: images/tutorials.png
+         :width: 200
+         :align: center
 
       New to cardiac signal analysis? Want to see how you can use *Systole* when dealing
       with real-world problems? Check out the tutorial notebooks for an introduction to
@@ -105,12 +112,14 @@ Systole documentation
       .. button-ref:: tutorials
          :expand:
 
-         Interactive tutorial on physiological signal analysis.
+         Interactive tutorial on physiological signal analysis
 
 
    .. grid-item-card:: API reference
 
-      :img-top: images/code-solid.png
+      .. image:: images/code-solid.png
+         :width: 200
+         :align: center
 
       The reference guide contains a detailed description of the Systole API. The
       reference describes how the methods work and which parameters can be used.
@@ -120,8 +129,7 @@ Systole documentation
       .. button-ref:: api
          :expand:
 
-         API references.
-
+         API references
 
 
 Acknowledgements
