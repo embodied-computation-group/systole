@@ -41,7 +41,7 @@ Plot frequency
 .. GENERATED FROM PYTHON SOURCE LINES 14-16
 
 Visualizing HRV frequency domain from RR time series using Matplotlib as plotting backend
- ----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
 
 .. GENERATED FROM PYTHON SOURCE LINES 16-23
 
@@ -75,7 +75,7 @@ Visualizing HRV frequency domain from RR time series using Matplotlib as plottin
 .. GENERATED FROM PYTHON SOURCE LINES 24-26
 
 Visualizing HRV frequency domain from RR time series using Bokeh as plotting backend
- -----------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
 
 .. GENERATED FROM PYTHON SOURCE LINES 26-34
 
@@ -99,7 +99,7 @@ Visualizing HRV frequency domain from RR time series using Bokeh as plotting bac
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.331 seconds)
+   **Total running time of the script:** (0 minutes 0.241 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Plots_plot_frequency.py:
