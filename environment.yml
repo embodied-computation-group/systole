@@ -1,0 +1,14 @@
+name: systole
+dependencies:
+  - python=3.9
+  - pip
+  - pip:
+    - numpy==1.25
+    - numba==0.58.0
+    - bokeh>=3.0.0
+    - matplotlib>=3.0.2
+    - seaborn>=0.9.0
+    - setuptools>=38.4
+    - packaging
+    - sleepecg>=0.5.1
+    - joblib>=1.1.0
