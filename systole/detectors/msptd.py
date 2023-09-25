@@ -27,8 +27,8 @@ def msptd(
     sfreq :
         The sampling frequency (Hz).
     kind :
-        The type of detection to perform. Can be `"peaks"`, `"onsets"` or `"peaks-onsets"`.
-        Defaults to `"peaks-onsets"`.
+        The type of detection to perform. Can be `"peaks"`, `"onsets"` or
+        `"peaks-onsets"`. Defaults to `"peaks-onsets"`.
 
         .. tip:
            Using `"peaks"` and `"onsets"` will skip the non required part of the
