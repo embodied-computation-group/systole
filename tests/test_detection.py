@@ -20,15 +20,15 @@ class TestDetection(TestCase):
         assert np.all(rolling_average_signal == msptd_signal)
 
         # mean RR intervals
-        assert np.diff(np.where(rolling_average_peaks)[0]).mean() == 874.2068965517242
-        assert np.diff(np.where(msptd_peaks)[0]).mean() == 867.3105263157895
+        assert np.isclose(np.diff(np.where(rolling_average_peaks)[0]).mean(), 874.2068965517242)
+        assert np.isclose(np.diff(np.where(msptd_peaks)[0]).mean(), 867.3105263157895)
 
         # with nan removal and clipping correction
         rolling_average_signal2, rolling_average_peaks2 = ppg_peaks(
             ppg, clipping_thresholds=(0, 255), clean_nan=True, sfreq=75
         )
         assert (rolling_average_signal == rolling_average_signal2).all()
-        assert np.diff(np.where(rolling_average_peaks2)[0]).mean() == 874.2068965517242
+        assert np.isclose(np.diff(np.where(rolling_average_peaks2)[0]).mean(), 874.2068965517242)
 
     def test_ecg_peaks(self):
         signal_df = import_dataset1(modalities=["ECG"])[: 20 * 2000]
@@ -55,25 +55,20 @@ class TestDetection(TestCase):
         # Import respiration recording
         resp = import_dataset1(modalities=["Respiration"])[: 200 * 2000].respiration.to_numpy()
 
-        rolling_average_signal, rolling_average_peaks = rsp_peaks(
+        rolling_average_signal, _ = rsp_peaks(
             resp, sfreq=2000, kind="peaks", method="rolling_average"
             )
-        msptd_signal, msptd_peaks = rsp_peaks(
+        msptd_signal, _ = rsp_peaks(
             resp, sfreq=2000, kind="peaks", method="msptd"
             )
 
         assert np.all(rolling_average_signal == msptd_signal)
 
-        # mean respiration intervals
-        #assert np.diff(np.where(rolling_average_peaks)[0]).mean() == 874.2068965517242
-        #assert np.diff(np.where(msptd_peaks)[0]).mean() == 867.3105263157895
-
         # with nan removal
-        rolling_average_signal2, rolling_average_peaks2 = rsp_peaks(
+        rolling_average_signal2, _ = rsp_peaks(
             resp, clean_nan=True, sfreq=2000, kind="peaks", method="rolling_average"
         )
         assert (rolling_average_signal == rolling_average_signal2).all()
-        #assert np.diff(np.where(rolling_average_peaks2)[0]).mean() == 874.2068965517242
 
     def test_rr_artefacts(self):
         ppg = import_ppg().ppg.to_numpy()

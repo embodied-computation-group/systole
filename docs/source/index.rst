@@ -66,56 +66,70 @@ If you are using **Systole** in a publication we ask you to cite the following p
 Systole documentation
 =====================
 
-.. grid:: 4
-    .. grid-item-card:: Getting started
+.. grid:: 2
 
-         :img-top: images/forward-fast-solid.png
+   .. grid-item-card:: Getting started
 
-         New to *Systole*? Check out the getting started guides. They contain an
-         introduction to *Systole'* main concepts and links to additional tutorials.
-         +++
-         .. link-button:: getting_started
-                  :type: ref
-                  :text: To the getting started guides
-                  :classes: btn btn-light btn-block stretched-link
+      .. image:: images/forward-fast-solid.png
+         :width: 200
+         :align: center
 
-    .. grid-item-card:: Example gallery
+      New to *Systole*? Check out the getting started guides. They contain an
+      introduction to *Systole'* main concepts and links to additional tutorials.
+      +++
 
-         :img-top: images/table-cells-large-solid.png
+      .. button-ref:: getting_started
+         :expand:
 
-         See this section for examples of using Systole in different ways.
-         +++
-         .. link-button:: auto_examples/index
-                  :type: ref
-                  :text: To the example gallery
-                  :classes: btn btn-light btn-block stretched-link
+         Getting started
 
-    .. grid-item-card:: Tutorials
+   .. grid-item-card:: Example gallery
 
-         :img-top: images/tutorials.png
+      .. image:: images/table-cells-large-solid.png
+         :width: 200
+         :align: center
 
-         New to cardiac signal analysis? Want to see how you can use *Systole* when dealing
-         with real-world problems? Check out the tutorial notebooks for an introduction to
-         theoretical and practical aspects of physiological signal analysis for cognitive
-         neuroscience.
-         +++
-         .. link-button:: tutorials
-                  :type: ref
-                  :text: To the tutorial notebooks
-                  :classes: btn btn-light btn-block stretched-link
+      See this section for examples of using Systole in different ways.
+      +++
+      .. button-ref::  auto_examples/index
+         :expand:
 
-    .. grid-item-card:: API reference
-         :img-top: images/code-solid.png
+         Learning with examples
 
-         The reference guide contains a detailed description of the Systole API. The
-         reference describes how the methods work and which parameters can be used.
+.. grid:: 2
 
-         +++
+   .. grid-item-card:: Tutorials
 
-         .. link-button:: api
-                  :type: ref
-                  :text: To the reference guide
-                  :classes: btn btn-light btn-block stretched-link
+      .. image:: images/tutorials.png
+         :width: 200
+         :align: center
+
+      New to cardiac signal analysis? Want to see how you can use *Systole* when dealing
+      with real-world problems? Check out the tutorial notebooks for an introduction to
+      theoretical and practical aspects of physiological signal analysis for cognitive
+      neuroscience.
+      +++
+      .. button-ref:: tutorials
+         :expand:
+
+         Interactive tutorial on physiological signal analysis
+
+
+   .. grid-item-card:: API reference
+
+      .. image:: images/code-solid.png
+         :width: 200
+         :align: center
+
+      The reference guide contains a detailed description of the Systole API. The
+      reference describes how the methods work and which parameters can be used.
+
+      +++
+
+      .. button-ref:: api
+         :expand:
+
+         API references
 
 
 Acknowledgements
@@ -176,5 +190,4 @@ Contributors
    Gallery <auto_examples/index.rst>
    Tutorials <tutorials.rst>
    API <api.rst>
-   Release notes <changelog.rst>
    References <references.md>
