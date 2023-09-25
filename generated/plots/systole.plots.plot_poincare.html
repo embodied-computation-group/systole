@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html >
+<html lang="en" >
 
   <head>
     <meta charset="utf-8" />
@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -40,21 +40,24 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/thebelab-helper.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'generated/plots/systole.plots.plot_poincare';</script>
     <link rel="shortcut icon" href="../../_static/logo_small.svg"/>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -62,7 +65,7 @@
     <link rel="next" title="systole.plots.plot_raw" href="systole.plots.plot_raw.html" />
     <link rel="prev" title="systole.plots.plot_frequency" href="systole.plots.plot_frequency.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="None"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
@@ -71,6 +74,15 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -111,7 +123,8 @@
     <span class="fa-solid fa-bars"></span>
   </label>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
   
@@ -135,7 +148,6 @@
 </a></div>
     
   </div>
-  
   
   <div class="col-lg-9 navbar-header-items">
     
@@ -184,20 +196,20 @@
                       </a>
                     </li>
                 
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-header-nav-more-links">
                     More
                 </button>
-                <div class="dropdown-menu">
+                <ul id="pst-header-nav-more-links" class="dropdown-menu">
                     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../references.html">
+                      <a class="nav-link dropdown-item nav-internal" href="../../references.html">
                         References
                       </a>
                     </li>
                 
-                </div>
-            </div>
+                </ul>
+            </li>
             
   </ul>
 </nav></div>
@@ -209,23 +221,25 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
         </div>
       
       
         <div class="navbar-item">
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script></div>
@@ -241,8 +255,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -253,8 +267,8 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">Twitter</span></a>
         </li>
         <li class="nav-item">
           
@@ -265,8 +279,8 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-box"></i></span>
-            <label class="sr-only">Pypi</label></a>
+          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">Pypi</span></a>
         </li>
 </ul></div>
       
@@ -276,18 +290,20 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
     </div>
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
       <span class="fa-solid fa-outdent"></span>
     </label>
   
@@ -350,20 +366,20 @@ document.write(`
                       </a>
                     </li>
                 
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-header-nav-more-links">
                     More
                 </button>
-                <div class="dropdown-menu">
+                <ul id="pst-header-nav-more-links" class="dropdown-menu">
                     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../references.html">
+                      <a class="nav-link dropdown-item nav-internal" href="../../references.html">
                         References
                       </a>
                     </li>
                 
-                </div>
-            </div>
+                </ul>
+            </li>
             
   </ul>
 </nav></div>
@@ -377,10 +393,10 @@ document.write(`
           <div class="navbar-item">
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script></div>
@@ -396,8 +412,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -408,8 +424,8 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">Twitter</span></a>
         </li>
         <li class="nav-item">
           
@@ -420,8 +436,8 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-box"></i></span>
-            <label class="sr-only">Pypi</label></a>
+          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">Pypi</span></a>
         </li>
 </ul></div>
         
@@ -453,8 +469,8 @@ document.write(`
 
 
 
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../../index.html" class="nav-link" aria-label="Home">
@@ -464,7 +480,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../api.html" class="nav-link">Functions</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">systole.plots.plot_poincare</li>
+    <li class="breadcrumb-item active" aria-current="page">systole.plot...</li>
   </ul>
 </nav>
 </div>
@@ -482,10 +498,10 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="systole-plots-plot-poincare">
-<h1>systole.plots.plot_poincare<a class="headerlink" href="#systole-plots-plot-poincare" title="Permalink to this headline">#</a></h1>
+<h1>systole.plots.plot_poincare<a class="headerlink" href="#systole-plots-plot-poincare" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="systole.plots.plot_poincare">
-<span class="sig-prename descclassname"><span class="pre">systole.plots.</span></span><span class="sig-name descname"><span class="pre">plot_poincare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'peaks'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'matplotlib'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.7.1)"><span class="pre">matplotlib.axes._axes.Axes</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.bokeh.org/en/latest/docs/reference/plotting/figure.html#bokeh.plotting.figure" title="(in Bokeh v3.1.1)"><span class="pre">bokeh.plotting._figure.figure</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.7.1)"><span class="pre">matplotlib.axes._axes.Axes</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/systole/plots/plot_poincare.html#plot_poincare"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#systole.plots.plot_poincare" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">systole.plots.</span></span><span class="sig-name descname"><span class="pre">plot_poincare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><span class="pre">ndarray</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'peaks'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'matplotlib'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.8.0)"><span class="pre">Axes</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.bokeh.org/en/latest/docs/reference/plotting/figure.html#bokeh.plotting.figure" title="(in Bokeh v3.2.2)"><span class="pre">figure</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.8.0)"><span class="pre">Axes</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/systole/plots/plot_poincare.html#plot_poincare"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#systole.plots.plot_poincare" title="Permalink to this definition">#</a></dt>
 <dd><p>Poincare plot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -538,7 +554,7 @@ interbeat intervals (IBI), expressed in seconds or milliseconds
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;Axes: title={&#39;center&#39;: &#39;Poincare plot&#39;}, xlabel=&#39;RR (n)&#39;, ylabel=&#39;RR (n+1)&#39;&gt;
 </pre></div>
 </div>
-<img alt="../../_images/systole.plots.plot_poincare_0_2.png" src="../../_images/systole.plots.plot_poincare_0_2.png" />
+<img alt="../../_images/systole.plots.plot_poincare_0_1.png" src="../../_images/systole.plots.plot_poincare_0_1.png" />
 </div>
 </div>
 <p>Using Bokeh backend</p>
@@ -568,7 +584,7 @@ interbeat intervals (IBI), expressed in seconds or milliseconds
     </style>
     <div>
         <a href="https://bokeh.org" target="_blank" class="bk-notebook-logo"></a>
-        <span id="a569214e-de07-4ae9-b772-8a403f7ee166">Loading BokehJS ...</span>
+        <span id="a4103c6f-09ec-43ef-b9fb-d0c7dec9fb72">Loading BokehJS ...</span>
     </div>
 </div><script type="application/javascript">(function(root) {
   function now() {
@@ -727,7 +743,7 @@ const JS_MIME_TYPE = 'application/javascript';
      "</div>"}};
 
   function display_loaded() {
-    const el = document.getElementById("a569214e-de07-4ae9-b772-8a403f7ee166");
+    const el = document.getElementById("a4103c6f-09ec-43ef-b9fb-d0c7dec9fb72");
     if (el != null) {
       el.textContent = "BokehJS is loading...";
     }
@@ -810,7 +826,7 @@ const JS_MIME_TYPE = 'application/javascript';
     document.body.appendChild(element);
   }
 
-  const js_urls = ["https://cdn.bokeh.org/bokeh/release/bokeh-3.1.1.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.1.1.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.1.1.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.1.1.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-3.1.1.min.js"];
+  const js_urls = ["https://cdn.bokeh.org/bokeh/release/bokeh-3.2.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.2.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.2.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.2.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-3.2.2.min.js"];
   const css_urls = [];
 
   const inline_js = [    function(Bokeh) {
@@ -833,7 +849,7 @@ if (force === true) {
       console.log("Bokeh: BokehJS failed to load within specified timeout.");
       root._bokeh_failed_load = true;
     } else if (force !== true) {
-      const cell = $(document.getElementById("a569214e-de07-4ae9-b772-8a403f7ee166")).parents('.cell').data().cell;
+      const cell = $(document.getElementById("a4103c6f-09ec-43ef-b9fb-d0c7dec9fb72")).parents('.cell').data().cell;
       cell.output_area.append_execute_result(NB_LOAD_WARNING)
     }
   }
@@ -848,11 +864,11 @@ if (force === true) {
     });
   }
 }(window));</script><div class="output text_html">
-<div id="d60947fd-af76-4c0b-b5a8-2b0ddea4aa79" data-root-id="p1001" style="display: contents;"></div>
+<div id="d76c08c2-f2f7-4d95-925c-20229181ead4" data-root-id="p1001" style="display: contents;"></div>
 </div><script type="application/javascript">(function(root) {
   function embed_document(root) {
-  const docs_json = {"b638a8e3-e851-4a64-bd2c-080b843ad4a4":{"version":"3.1.1","title":"Bokeh Application","defs":[],"roots":[{"type":"object","name":"Figure","id":"p1001","attributes":{"width":300,"height":300,"x_range":{"type":"object","name":"Range1d","id":"p1011","attributes":{"start":626.0,"end":1167.3333333333333}},"y_range":{"type":"object","name":"Range1d","id":"p1013","attributes":{"start":626.0,"end":1167.3333333333333}},"x_scale":{"type":"object","name":"LinearScale","id":"p1015"},"y_scale":{"type":"object","name":"LinearScale","id":"p1017"},"title":{"type":"object","name":"Title","id":"p1004","attributes":{"text":"Poincare plot"}},"renderers":[{"type":"object","name":"GlyphRenderer","id":"p1054","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1048","attributes":{"selected":{"type":"object","name":"Selection","id":"p1050","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1049"},"data":{"type":"map","entries":[["x",[626.0,1167.3333333333333]],["y",[626.0,1167.3333333333333]]]}}},"view":{"type":"object","name":"CDSView","id":"p1055","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1056"}}},"glyph":{"type":"object","name":"Line","id":"p1051","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"line_color":"grey","line_dash":[6]}},"nonselection_glyph":{"type":"object","name":"Line","id":"p1052","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"line_color":"grey","line_alpha":0.1,"line_dash":[6]}},"muted_glyph":{"type":"object","name":"Line","id":"p1053","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"line_color":"grey","line_alpha":0.2,"line_dash":[6]}}}},{"type":"object","name":"GlyphRenderer","id":"p1063","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1057","attributes":{"selected":{"type":"object","name":"Selection","id":"p1059","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1058"},"data":{"type":"map"}}},"view":{"type":"object","name":"CDSView","id":"p1064","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1065"}}},"glyph":{"type":"object","name":"Ellipse","id":"p1060","attributes":{"x":{"type":"value","value":883.1475409836066},"y":{"type":"value","value":882.792349726776},"width":{"type":"value","value":230.21067683852777},"height":{"type":"value","value":64.41075885943681},"angle":{"type":"value","value":0.7853981633974483},"line_color":{"type":"value","value":"gray"},"line_width":{"type":"value","value":3},"line_dash":{"type":"value","value":"dashed"},"fill_color":{"type":"value","value":"#a9373b"},"fill_alpha":{"type":"value","value":0.4}}},"nonselection_glyph":{"type":"object","name":"Ellipse","id":"p1061","attributes":{"x":{"type":"value","value":883.1475409836066},"y":{"type":"value","value":882.792349726776},"width":{"type":"value","value":230.21067683852777},"height":{"type":"value","value":64.41075885943681},"angle":{"type":"value","value":0.7853981633974483},"line_color":{"type":"value","value":"gray"},"line_alpha":{"type":"value","value":0.1},"line_width":{"type":"value","value":3},"line_dash":{"type":"value","value":"dashed"},"fill_color":{"type":"value","value":"#a9373b"},"fill_alpha":{"type":"value","value":0.1},"hatch_alpha":{"type":"value","value":0.1}}},"muted_glyph":{"type":"object","name":"Ellipse","id":"p1062","attributes":{"x":{"type":"value","value":883.1475409836066},"y":{"type":"value","value":882.792349726776},"width":{"type":"value","value":230.21067683852777},"height":{"type":"value","value":64.41075885943681},"angle":{"type":"value","value":0.7853981633974483},"line_color":{"type":"value","value":"gray"},"line_alpha":{"type":"value","value":0.2},"line_width":{"type":"value","value":3},"line_dash":{"type":"value","value":"dashed"},"fill_color":{"type":"value","value":"#a9373b"},"fill_alpha":{"type":"value","value":0.2},"hatch_alpha":{"type":"value","value":0.2}}}}},{"type":"object","name":"GlyphRenderer","id":"p1072","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1066","attributes":{"selected":{"type":"object","name":"Selection","id":"p1068","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1067"},"data":{"type":"map","entries":[["x",{"type":"ndarray","array":{"type":"bytes","data":"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"},"shape":[244],"dtype":"float64","order":"little"}],["y",{"type":"ndarray","array":{"type":"bytes","data":"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"},"shape":[244],"dtype":"float64","order":"little"}]]}}},"view":{"type":"object","name":"CDSView","id":"p1073","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1074"}}},"glyph":{"type":"object","name":"Circle","id":"p1069","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":2.5},"line_color":{"type":"value","value":"gray"},"line_alpha":{"type":"value","value":0.2},"fill_color":{"type":"value","value":"#4c72b0"},"fill_alpha":{"type":"value","value":0.2},"hatch_alpha":{"type":"value","value":0.2}}},"nonselection_glyph":{"type":"object","name":"Circle","id":"p1070","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":2.5},"line_color":{"type":"value","value":"gray"},"line_alpha":{"type":"value","value":0.1},"fill_color":{"type":"value","value":"#4c72b0"},"fill_alpha":{"type":"value","value":0.1},"hatch_alpha":{"type":"value","value":0.1}}},"muted_glyph":{"type":"object","name":"Circle","id":"p1071","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":2.5},"line_color":{"type":"value","value":"gray"},"line_alpha":{"type":"value","value":0.2},"fill_color":{"type":"value","value":"#4c72b0"},"fill_alpha":{"type":"value","value":0.2},"hatch_alpha":{"type":"value","value":0.2}}}}},{"type":"object","name":"GlyphRenderer","id":"p1081","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1075","attributes":{"selected":{"type":"object","name":"Selection","id":"p1077","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1076"},"data":{"type":"map","entries":[["x",{"type":"ndarray","array":{"type":"bytes","data":""},"shape":[0],"dtype":"float64","order":"little"}],["y",{"type":"ndarray","array":{"type":"bytes","data":""},"shape":[0],"dtype":"float64","order":"little"}]]}}},"view":{"type":"object","name":"CDSView","id":"p1082","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1083"}}},"glyph":{"type":"object","name":"Circle","id":"p1078","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":5},"line_color":{"type":"value","value":"#a9373b"},"line_alpha":{"type":"value","value":0.8},"fill_color":{"type":"value","value":"#a9373b"},"fill_alpha":{"type":"value","value":0.8},"hatch_color":{"type":"value","value":"#a9373b"},"hatch_alpha":{"type":"value","value":0.8}}},"nonselection_glyph":{"type":"object","name":"Circle","id":"p1079","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":5},"line_color":{"type":"value","value":"#a9373b"},"line_alpha":{"type":"value","value":0.1},"fill_color":{"type":"value","value":"#a9373b"},"fill_alpha":{"type":"value","value":0.1},"hatch_color":{"type":"value","value":"#a9373b"},"hatch_alpha":{"type":"value","value":0.1}}},"muted_glyph":{"type":"object","name":"Circle","id":"p1080","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":5},"line_color":{"type":"value","value":"#a9373b"},"line_alpha":{"type":"value","value":0.2},"fill_color":{"type":"value","value":"#a9373b"},"fill_alpha":{"type":"value","value":0.2},"hatch_color":{"type":"value","value":"#a9373b"},"hatch_alpha":{"type":"value","value":0.2}}}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p1008","attributes":{"tools":[{"type":"object","name":"PanTool","id":"p1033"},{"type":"object","name":"WheelZoomTool","id":"p1034"},{"type":"object","name":"BoxZoomTool","id":"p1035","attributes":{"overlay":{"type":"object","name":"BoxAnnotation","id":"p1036","attributes":{"syncable":false,"level":"overlay","visible":false,"left_units":"canvas","right_units":"canvas","bottom_units":"canvas","top_units":"canvas","line_color":"black","line_alpha":1.0,"line_width":2,"line_dash":[4,4],"fill_color":"lightgrey","fill_alpha":0.5}}}},{"type":"object","name":"SaveTool","id":"p1037"},{"type":"object","name":"ResetTool","id":"p1038"},{"type":"object","name":"HelpTool","id":"p1039"}]}},"left":[{"type":"object","name":"LinearAxis","id":"p1026","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p1028","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p1027"},"axis_label":"RR (n+1)","major_label_policy":{"type":"object","name":"AllLabels","id":"p1029"}}}],"below":[{"type":"object","name":"LinearAxis","id":"p1019","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p1021","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p1020"},"axis_label":"RR (n)","major_label_policy":{"type":"object","name":"AllLabels","id":"p1022"}}}],"center":[{"type":"object","name":"Grid","id":"p1025","attributes":{"axis":{"id":"p1019"}}},{"type":"object","name":"Grid","id":"p1032","attributes":{"dimension":1,"axis":{"id":"p1026"}}},{"type":"object","name":"Arrow","id":"p1085","attributes":{"source":{"type":"object","name":"ColumnDataSource","id":"p1087","attributes":{"selected":{"type":"object","name":"Selection","id":"p1089","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1088"},"data":{"type":"map"}}},"x_start":{"type":"value","value":883.1475409836066},"y_start":{"type":"value","value":882.792349726776},"x_end":{"type":"value","value":860.374898798167},"y_end":{"type":"value","value":905.5649919122156},"end":{"type":"object","name":"NormalHead","id":"p1084","attributes":{"size":{"type":"value","value":10},"fill_color":{"type":"value","value":"blue"}}}}},{"type":"object","name":"Arrow","id":"p1091","attributes":{"source":{"type":"object","name":"ColumnDataSource","id":"p1093","attributes":{"selected":{"type":"object","name":"Selection","id":"p1095","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1094"},"data":{"type":"map"}}},"x_start":{"type":"value","value":883.1475409836066},"y_start":{"type":"value","value":882.792349726776},"x_end":{"type":"value","value":964.5393063306406},"y_end":{"type":"value","value":964.18411507381},"end":{"type":"object","name":"NormalHead","id":"p1090","attributes":{"size":{"type":"value","value":10},"fill_color":{"type":"value","value":"green"}}}}}],"output_backend":"webgl"}}],"callbacks":{"type":"map"}}};
-  const render_items = [{"docid":"b638a8e3-e851-4a64-bd2c-080b843ad4a4","roots":{"p1001":"d60947fd-af76-4c0b-b5a8-2b0ddea4aa79"},"root_ids":["p1001"]}];
+  const docs_json = {"4e73f79d-4fc1-40a1-aeb0-03d343fc407f":{"version":"3.2.2","title":"Bokeh Application","roots":[{"type":"object","name":"Figure","id":"p1001","attributes":{"width":300,"height":300,"x_range":{"type":"object","name":"Range1d","id":"p1011","attributes":{"start":626.0,"end":1167.3333333333333}},"y_range":{"type":"object","name":"Range1d","id":"p1012","attributes":{"start":626.0,"end":1167.3333333333333}},"x_scale":{"type":"object","name":"LinearScale","id":"p1013"},"y_scale":{"type":"object","name":"LinearScale","id":"p1014"},"title":{"type":"object","name":"Title","id":"p1004","attributes":{"text":"Poincare plot"}},"renderers":[{"type":"object","name":"GlyphRenderer","id":"p1038","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1032","attributes":{"selected":{"type":"object","name":"Selection","id":"p1033","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1034"},"data":{"type":"map","entries":[["x",[626.0,1167.3333333333333]],["y",[626.0,1167.3333333333333]]]}}},"view":{"type":"object","name":"CDSView","id":"p1039","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1040"}}},"glyph":{"type":"object","name":"Line","id":"p1035","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"line_color":"grey","line_dash":[6]}},"nonselection_glyph":{"type":"object","name":"Line","id":"p1036","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"line_color":"grey","line_alpha":0.1,"line_dash":[6]}},"muted_glyph":{"type":"object","name":"Line","id":"p1037","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"line_color":"grey","line_alpha":0.2,"line_dash":[6]}}}},{"type":"object","name":"GlyphRenderer","id":"p1047","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1041","attributes":{"selected":{"type":"object","name":"Selection","id":"p1042","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1043"},"data":{"type":"map"}}},"view":{"type":"object","name":"CDSView","id":"p1048","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1049"}}},"glyph":{"type":"object","name":"Ellipse","id":"p1044","attributes":{"x":{"type":"value","value":883.1475409836066},"y":{"type":"value","value":882.792349726776},"width":{"type":"value","value":230.21067683852777},"height":{"type":"value","value":64.41075885943681},"angle":{"type":"value","value":0.7853981633974483},"line_color":{"type":"value","value":"gray"},"line_width":{"type":"value","value":3},"line_dash":{"type":"value","value":"dashed"},"fill_color":{"type":"value","value":"#a9373b"},"fill_alpha":{"type":"value","value":0.4}}},"nonselection_glyph":{"type":"object","name":"Ellipse","id":"p1045","attributes":{"x":{"type":"value","value":883.1475409836066},"y":{"type":"value","value":882.792349726776},"width":{"type":"value","value":230.21067683852777},"height":{"type":"value","value":64.41075885943681},"angle":{"type":"value","value":0.7853981633974483},"line_color":{"type":"value","value":"gray"},"line_alpha":{"type":"value","value":0.1},"line_width":{"type":"value","value":3},"line_dash":{"type":"value","value":"dashed"},"fill_color":{"type":"value","value":"#a9373b"},"fill_alpha":{"type":"value","value":0.1},"hatch_alpha":{"type":"value","value":0.1}}},"muted_glyph":{"type":"object","name":"Ellipse","id":"p1046","attributes":{"x":{"type":"value","value":883.1475409836066},"y":{"type":"value","value":882.792349726776},"width":{"type":"value","value":230.21067683852777},"height":{"type":"value","value":64.41075885943681},"angle":{"type":"value","value":0.7853981633974483},"line_color":{"type":"value","value":"gray"},"line_alpha":{"type":"value","value":0.2},"line_width":{"type":"value","value":3},"line_dash":{"type":"value","value":"dashed"},"fill_color":{"type":"value","value":"#a9373b"},"fill_alpha":{"type":"value","value":0.2},"hatch_alpha":{"type":"value","value":0.2}}}}},{"type":"object","name":"GlyphRenderer","id":"p1056","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1050","attributes":{"selected":{"type":"object","name":"Selection","id":"p1051","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1052"},"data":{"type":"map","entries":[["x",{"type":"ndarray","array":{"type":"bytes","data":"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"},"shape":[244],"dtype":"float64","order":"little"}],["y",{"type":"ndarray","array":{"type":"bytes","data":"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"},"shape":[244],"dtype":"float64","order":"little"}]]}}},"view":{"type":"object","name":"CDSView","id":"p1057","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1058"}}},"glyph":{"type":"object","name":"Circle","id":"p1053","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":2.5},"line_color":{"type":"value","value":"gray"},"line_alpha":{"type":"value","value":0.2},"fill_color":{"type":"value","value":"#4c72b0"},"fill_alpha":{"type":"value","value":0.2},"hatch_alpha":{"type":"value","value":0.2}}},"nonselection_glyph":{"type":"object","name":"Circle","id":"p1054","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":2.5},"line_color":{"type":"value","value":"gray"},"line_alpha":{"type":"value","value":0.1},"fill_color":{"type":"value","value":"#4c72b0"},"fill_alpha":{"type":"value","value":0.1},"hatch_alpha":{"type":"value","value":0.1}}},"muted_glyph":{"type":"object","name":"Circle","id":"p1055","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":2.5},"line_color":{"type":"value","value":"gray"},"line_alpha":{"type":"value","value":0.2},"fill_color":{"type":"value","value":"#4c72b0"},"fill_alpha":{"type":"value","value":0.2},"hatch_alpha":{"type":"value","value":0.2}}}}},{"type":"object","name":"GlyphRenderer","id":"p1065","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1059","attributes":{"selected":{"type":"object","name":"Selection","id":"p1060","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1061"},"data":{"type":"map","entries":[["x",{"type":"ndarray","array":{"type":"bytes","data":""},"shape":[0],"dtype":"float64","order":"little"}],["y",{"type":"ndarray","array":{"type":"bytes","data":""},"shape":[0],"dtype":"float64","order":"little"}]]}}},"view":{"type":"object","name":"CDSView","id":"p1066","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1067"}}},"glyph":{"type":"object","name":"Circle","id":"p1062","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":5},"line_color":{"type":"value","value":"#a9373b"},"line_alpha":{"type":"value","value":0.8},"fill_color":{"type":"value","value":"#a9373b"},"fill_alpha":{"type":"value","value":0.8},"hatch_color":{"type":"value","value":"#a9373b"},"hatch_alpha":{"type":"value","value":0.8}}},"nonselection_glyph":{"type":"object","name":"Circle","id":"p1063","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":5},"line_color":{"type":"value","value":"#a9373b"},"line_alpha":{"type":"value","value":0.1},"fill_color":{"type":"value","value":"#a9373b"},"fill_alpha":{"type":"value","value":0.1},"hatch_color":{"type":"value","value":"#a9373b"},"hatch_alpha":{"type":"value","value":0.1}}},"muted_glyph":{"type":"object","name":"Circle","id":"p1064","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":5},"line_color":{"type":"value","value":"#a9373b"},"line_alpha":{"type":"value","value":0.2},"fill_color":{"type":"value","value":"#a9373b"},"fill_alpha":{"type":"value","value":0.2},"hatch_color":{"type":"value","value":"#a9373b"},"hatch_alpha":{"type":"value","value":0.2}}}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p1010","attributes":{"tools":[{"type":"object","name":"PanTool","id":"p1025"},{"type":"object","name":"WheelZoomTool","id":"p1026"},{"type":"object","name":"BoxZoomTool","id":"p1027","attributes":{"overlay":{"type":"object","name":"BoxAnnotation","id":"p1028","attributes":{"syncable":false,"level":"overlay","visible":false,"left_units":"canvas","right_units":"canvas","bottom_units":"canvas","top_units":"canvas","line_color":"black","line_alpha":1.0,"line_width":2,"line_dash":[4,4],"fill_color":"lightgrey","fill_alpha":0.5}}}},{"type":"object","name":"SaveTool","id":"p1029"},{"type":"object","name":"ResetTool","id":"p1030"},{"type":"object","name":"HelpTool","id":"p1031"}]}},"left":[{"type":"object","name":"LinearAxis","id":"p1020","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p1021","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p1022"},"axis_label":"RR (n+1)","major_label_policy":{"type":"object","name":"AllLabels","id":"p1023"}}}],"below":[{"type":"object","name":"LinearAxis","id":"p1015","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p1016","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p1017"},"axis_label":"RR (n)","major_label_policy":{"type":"object","name":"AllLabels","id":"p1018"}}}],"center":[{"type":"object","name":"Grid","id":"p1019","attributes":{"axis":{"id":"p1015"}}},{"type":"object","name":"Grid","id":"p1024","attributes":{"dimension":1,"axis":{"id":"p1020"}}},{"type":"object","name":"Arrow","id":"p1069","attributes":{"source":{"type":"object","name":"ColumnDataSource","id":"p1071","attributes":{"selected":{"type":"object","name":"Selection","id":"p1072","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1073"},"data":{"type":"map"}}},"x_start":{"type":"value","value":883.1475409836066},"y_start":{"type":"value","value":882.792349726776},"x_end":{"type":"value","value":860.374898798167},"y_end":{"type":"value","value":905.5649919122156},"end":{"type":"object","name":"NormalHead","id":"p1068","attributes":{"size":{"type":"value","value":10},"fill_color":{"type":"value","value":"blue"}}}}},{"type":"object","name":"Arrow","id":"p1075","attributes":{"source":{"type":"object","name":"ColumnDataSource","id":"p1077","attributes":{"selected":{"type":"object","name":"Selection","id":"p1078","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1079"},"data":{"type":"map"}}},"x_start":{"type":"value","value":883.1475409836066},"y_start":{"type":"value","value":882.792349726776},"x_end":{"type":"value","value":964.5393063306406},"y_end":{"type":"value","value":964.18411507381},"end":{"type":"object","name":"NormalHead","id":"p1074","attributes":{"size":{"type":"value","value":10},"fill_color":{"type":"value","value":"green"}}}}}],"output_backend":"webgl"}}]}};
+  const render_items = [{"docid":"4e73f79d-4fc1-40a1-aeb0-03d343fc407f","roots":{"p1001":"d76c08c2-f2f7-4d95-925c-20229181ead4"},"root_ids":["p1001"]}];
   root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
   }
   if (root.Bokeh !== undefined) {
@@ -883,11 +899,10 @@ if (force === true) {
               
               
               
-                <footer class="bd-footer-article">
-                  
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="systole.plots.plot_frequency.html"
@@ -907,10 +922,7 @@ if (force === true) {
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -918,6 +930,16 @@ if (force === true) {
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#systole.plots.plot_poincare"><code class="docutils literal notranslate"><span class="pre">plot_poincare()</span></code></a></li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">
@@ -940,8 +962,8 @@ if (force === true) {
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -959,7 +981,7 @@ if (force === true) {
       
         <div class="footer-item">
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     <br/>
   </p>
 </div>
@@ -967,10 +989,11 @@ if (force === true) {
     </div>
   
   
+  
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
 </p></div>
       
     </div>

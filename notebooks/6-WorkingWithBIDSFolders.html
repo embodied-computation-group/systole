@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html >
+<html lang="en" >
 
   <head>
     <meta charset="utf-8" />
@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -40,21 +40,24 @@
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/thebelab-helper.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/6-WorkingWithBIDSFolders';</script>
     <link rel="shortcut icon" href="../_static/logo_small.svg"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -62,7 +65,7 @@
     <link rel="next" title="Functions" href="../api.html" />
     <link rel="prev" title="Instantaneous and evoked heart rate" href="5-InstantaneousHeartRate.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="None"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
@@ -71,6 +74,15 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -111,7 +123,8 @@
     <span class="fa-solid fa-bars"></span>
   </label>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
   
@@ -135,7 +148,6 @@
 </a></div>
     
   </div>
-  
   
   <div class="col-lg-9 navbar-header-items">
     
@@ -184,20 +196,20 @@
                       </a>
                     </li>
                 
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-header-nav-more-links">
                     More
                 </button>
-                <div class="dropdown-menu">
+                <ul id="pst-header-nav-more-links" class="dropdown-menu">
                     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../references.html">
+                      <a class="nav-link dropdown-item nav-internal" href="../references.html">
                         References
                       </a>
                     </li>
                 
-                </div>
-            </div>
+                </ul>
+            </li>
             
   </ul>
 </nav></div>
@@ -209,23 +221,25 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
         </div>
       
       
         <div class="navbar-item">
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script></div>
@@ -241,8 +255,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -253,8 +267,8 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">Twitter</span></a>
         </li>
         <li class="nav-item">
           
@@ -265,8 +279,8 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-box"></i></span>
-            <label class="sr-only">Pypi</label></a>
+          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">Pypi</span></a>
         </li>
 </ul></div>
       
@@ -276,18 +290,20 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
     </div>
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
       <span class="fa-solid fa-outdent"></span>
     </label>
   
@@ -350,20 +366,20 @@ document.write(`
                       </a>
                     </li>
                 
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-header-nav-more-links">
                     More
                 </button>
-                <div class="dropdown-menu">
+                <ul id="pst-header-nav-more-links" class="dropdown-menu">
                     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../references.html">
+                      <a class="nav-link dropdown-item nav-internal" href="../references.html">
                         References
                       </a>
                     </li>
                 
-                </div>
-            </div>
+                </ul>
+            </li>
             
   </ul>
 </nav></div>
@@ -377,10 +393,10 @@ document.write(`
           <div class="navbar-item">
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script></div>
@@ -396,8 +412,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -408,8 +424,8 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">Twitter</span></a>
         </li>
         <li class="nav-item">
           
@@ -420,8 +436,8 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-box"></i></span>
-            <label class="sr-only">Pypi</label></a>
+          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">Pypi</span></a>
         </li>
 </ul></div>
         
@@ -453,8 +469,8 @@ document.write(`
 
 
 
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../index.html" class="nav-link" aria-label="Home">
@@ -464,7 +480,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../tutorials.html" class="nav-link">Tutorials</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Working with BIDS folders</li>
+    <li class="breadcrumb-item active" aria-current="page">Working...</li>
   </ul>
 </nav>
 </div>
@@ -482,7 +498,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="working-with-bids-folders">
-<span id="bids-folders"></span><h1>Working with BIDS folders<a class="headerlink" href="#working-with-bids-folders" title="Permalink to this headline">#</a></h1>
+<span id="bids-folders"></span><h1>Working with BIDS folders<a class="headerlink" href="#working-with-bids-folders" title="Permalink to this heading">#</a></h1>
 <p>Author: Nicolas Legrand <a class="reference external" href="mailto:nicolas&#46;legrand&#37;&#52;&#48;cfin&#46;au&#46;dk">nicolas<span>&#46;</span>legrand<span>&#64;</span>cfin<span>&#46;</span>au<span>&#46;</span>dk</a></p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -521,10 +537,10 @@ if &#39;google.colab&#39; in sys.modules:
 <p>We recommend using tools like <a class="reference external" href="https://bids-standard.github.io/bids-validator/">BIDS validator</a> to ensure that your folder complies with BIDS specification before trying to preprocess your data, or to use the editor.</p>
 </div>
 <section id="preprocessing">
-<span id="id1"></span><h2>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this headline">#</a></h2>
+<span id="id1"></span><h2>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this heading">#</a></h2>
 <p>The first step will be to preprocess the raw data and store the signal and peaks detection in a new derivative folder. During this step, we can also decide to create HTML reports for each participants, so we can visualize the signal quality and peaks detection.</p>
 <section id="preprocessing-the-physiological-data-from-one-participant">
-<h3>Preprocessing the physiological data from one participant<a class="headerlink" href="#preprocessing-the-physiological-data-from-one-participant" title="Permalink to this headline">#</a></h3>
+<h3>Preprocessing the physiological data from one participant<a class="headerlink" href="#preprocessing-the-physiological-data-from-one-participant" title="Permalink to this heading">#</a></h3>
 <p>The :py:func:<code class="docutils literal notranslate"><span class="pre">systole.reports</span></code> sub-module contains tools to directly interact with BIDS formatted folders, preprocess and save individual reports in a BIDS consistent way. Those functionalities are built on the top of the:py:func:<code class="docutils literal notranslate"><span class="pre">systole.reports.subject_level_report</span></code> function. This function will simply take a signal as input and will save as output the preprocessed signal with peaks detection (<code class="docutils literal notranslate"><span class="pre">_physio.tsv.gz</span></code> with the <code class="docutils literal notranslate"><span class="pre">_physio.json</span></code>), an <code class="docutils literal notranslate"><span class="pre">.html</span></code> reports adapted to the kind of signal that was provided, and a <code class="docutils literal notranslate"><span class="pre">features.tsv</span></code> file containing heart rate or respiratory rate variability features.</p>
 <p>For example, running the following code:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">systole</span> <span class="kn">import</span> <span class="n">import_dataset1</span>
@@ -550,7 +566,7 @@ if &#39;google.colab&#39; in sys.modules:
 </ol>
 </section>
 <section id="preprocessing-the-entire-bids-folder">
-<h3>Preprocessing the entire BIDS folder<a class="headerlink" href="#preprocessing-the-entire-bids-folder" title="Permalink to this headline">#</a></h3>
+<h3>Preprocessing the entire BIDS folder<a class="headerlink" href="#preprocessing-the-entire-bids-folder" title="Permalink to this heading">#</a></h3>
 <p>The previous function call can be automated for each participant and each file of a given BIDS folder and to extract the physiological features using the information provided in the <code class="docutils literal notranslate"><span class="pre">json</span></code> metadata automatically. This can be done using the:py:func:<code class="docutils literal notranslate"><span class="pre">systole.reports.wrapper</span></code> function, or directly from the command line. For example, the following command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>systole<span class="w"> </span>--bids_folder<span class="o">=</span><span class="s2">&quot;/path/to/BIDS/folder/&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">        </span>--patterns<span class="o">=</span><span class="s2">&quot;task-mytask&quot;</span><span class="w"> </span><span class="se">\</span>
@@ -628,11 +644,11 @@ if &#39;google.colab&#39; in sys.modules:
 </section>
 </section>
 <section id="manual-edition-of-peaks-vector-and-bad-segments-labelling">
-<span id="viewer"></span><h2>Manual edition of peaks vector and bad segments labelling<a class="headerlink" href="#manual-edition-of-peaks-vector-and-bad-segments-labelling" title="Permalink to this headline">#</a></h2>
+<span id="viewer"></span><h2>Manual edition of peaks vector and bad segments labelling<a class="headerlink" href="#manual-edition-of-peaks-vector-and-bad-segments-labelling" title="Permalink to this heading">#</a></h2>
 <p>While we hope that the peaks detection function used by <a class="reference external" href="https://embodied-computation-group.github.io/systole/#">Systole</a> is sufficiently robust to extract peak vectors without errors for most of the uses cases, you might still encounter noisy or invalid recording that you will want to manually inspect and sometimes edit.</p>
 <p>The :py:mod:<code class="docutils literal notranslate"><span class="pre">systole.interact</span></code> sub-module provides two classes (:py:class:<code class="docutils literal notranslate"><span class="pre">systole.interact.Editor</span></code> and :py:class:<code class="docutils literal notranslate"><span class="pre">systole.interact.Viewer</span></code>) built on the top of Matplotlib widgets that can help for manual edition, and interactive visualization of BIDS fodlers directly in the notebook.</p>
 <section id="using-the-editor-to-inspect-raw-signal">
-<h3>Using the Editor to inspect raw signal<a class="headerlink" href="#using-the-editor-to-inspect-raw-signal" title="Permalink to this headline">#</a></h3>
+<h3>Using the Editor to inspect raw signal<a class="headerlink" href="#using-the-editor-to-inspect-raw-signal" title="Permalink to this heading">#</a></h3>
 <p>The :py:mod:<code class="docutils literal notranslate"><span class="pre">systole.interact.Editor</span></code> can be use alone (apart from a BISD structured folder) to edit peaks detection from a raw ECG, PPG or respiratory signal.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">systole</span> <span class="kn">import</span> <span class="n">import_dataset1</span>
 <span class="kn">from</span> <span class="nn">systole.interact</span> <span class="kn">import</span> <span class="n">Viewer</span><span class="p">,</span> <span class="n">Editor</span>
@@ -688,7 +704,7 @@ if &#39;google.colab&#39; in sys.modules:
 </ul>
 </section>
 <section id="using-the-viewer-to-navigate-preprocessed-folder">
-<h3>Using the Viewer to navigate preprocessed folder<a class="headerlink" href="#using-the-viewer-to-navigate-preprocessed-folder" title="Permalink to this headline">#</a></h3>
+<h3>Using the Viewer to navigate preprocessed folder<a class="headerlink" href="#using-the-viewer-to-navigate-preprocessed-folder" title="Permalink to this heading">#</a></h3>
 <p>The :py:mod:<code class="docutils literal notranslate"><span class="pre">systole.interact.Viewer</span></code> class wrap the Editor and allows to easily navigate and edit folder that contains large number of recoring. You can for example simply read the results generated by the command line (see <a class="reference internal" href="#preprocessing"><span class="std std-ref">Preprocessing</span></a>). Considering that the files were create in the folder <code class="docutils literal notranslate"><span class="pre">&quot;/path/to/BIDS/folder/derivatives/systole/&quot;</span></code> (which is the default behavior if <code class="docutils literal notranslate"><span class="pre">--result</span> <span class="pre">_folder</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">provided</span></code>), the Viewer can be called using:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
 <span class="kn">from</span> <span class="nn">systole.interact</span> <span class="kn">import</span> <span class="n">Viewer</span>
@@ -716,7 +732,7 @@ if &#39;google.colab&#39; in sys.modules:
 </div>
 </section>
 <section id="using-the-viewer-to-navigate-bids-folder">
-<h3>Using the Viewer to navigate BIDS folder<a class="headerlink" href="#using-the-viewer-to-navigate-bids-folder" title="Permalink to this headline">#</a></h3>
+<h3>Using the Viewer to navigate BIDS folder<a class="headerlink" href="#using-the-viewer-to-navigate-bids-folder" title="Permalink to this heading">#</a></h3>
 <p>Using the same logic, the :py:mod:<code class="docutils literal notranslate"><span class="pre">systole.interact.Viewer</span></code> can also work with the raw BIDS folder, instead of the derivatives, and preprocess data on the fly. This mode is more appropriate if you want to quickly inspect the data and do not want to generate subject or group level reports. The only different is that the input path should be parameter using the <code class="docutils literal notranslate"><span class="pre">bids_folder</span></code> argument, instead of <code class="docutils literal notranslate"><span class="pre">preprocessed_folder</span></code>. This will make the viewer aware that the signal are located in this folder, but that previously edited signal might also be located in <code class="docutils literal notranslate"><span class="pre">./derivatives/systole/corrected/</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">view</span> <span class="o">=</span> <span class="n">Viewer</span><span class="p">(</span>
     <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
@@ -729,7 +745,7 @@ if &#39;google.colab&#39; in sys.modules:
 </div>
 </section>
 <section id="importing-signals-after-manual-edition">
-<h3>Importing signals after manual edition<a class="headerlink" href="#importing-signals-after-manual-edition" title="Permalink to this headline">#</a></h3>
+<h3>Importing signals after manual edition<a class="headerlink" href="#importing-signals-after-manual-edition" title="Permalink to this heading">#</a></h3>
 <p>After manual peaks correction and segments labelling, a new <code class="docutils literal notranslate"><span class="pre">corrected</span></code> subfolder will be appended to the systole derivatives:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>└─ BIDS/
    ├─ derivatives/
@@ -766,11 +782,10 @@ if &#39;google.colab&#39; in sys.modules:
               
               
               
-                <footer class="bd-footer-article">
-                  
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="5-InstantaneousHeartRate.html"
@@ -790,10 +805,7 @@ if &#39;google.colab&#39; in sys.modules:
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -844,8 +856,8 @@ if &#39;google.colab&#39; in sys.modules:
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -863,7 +875,7 @@ if &#39;google.colab&#39; in sys.modules:
       
         <div class="footer-item">
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     <br/>
   </p>
 </div>
@@ -871,10 +883,11 @@ if &#39;google.colab&#39; in sys.modules:
     </div>
   
   
+  
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
 </p></div>
       
     </div>
