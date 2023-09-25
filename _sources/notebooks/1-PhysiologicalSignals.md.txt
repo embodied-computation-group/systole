@@ -5,7 +5,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.15.1
+    jupytext_version: 1.14.5
 kernelspec:
   display_name: Python 3 (ipykernel)
   language: python
@@ -63,7 +63,7 @@ This tutorial notebook introduces two commonly used methods to record cardiac ac
 
 +++
 
-To illustrate the analysis of ECG signals, we will use a dataset containing ECG and respiratory recordings from a healthy participant. These data were acquired concurrently with the paradigm described in {cite:p}`2020:legrand`, where subjects were asked to memorize and later inhibit/suppress images and ECG was recorded using a standard 3-point electrode montage. You can load this data set with Systole directly using `systole.import_dataset1()`. As this dataset contains many modalities (ECG, respiration, EDA), you can decide to download only some of them to save time. This is what we are doing with the `modalities` argument.
+To illustrate the analysis of ECG signals, we will use a dataset containing ECG and respiratory recording from a healthy participant. These data were acquired concurrently with the paradigm described in {cite:p}`20202:legrand`, where subjects were asked to memorize and later inhibit/suppress images and ECG was recorded using a standard 3-point electrode montage. You can load this data set with Systole directly using `systole.import_dataset1()`. As this dataset contains many modalities (ECG, respiration, EDA), you can decide to download only some of them to save time. This is what we are doing with the `modalities` argument.
 
 ```{code-cell} ipython3
 :tags: [hide-output]
@@ -135,10 +135,10 @@ sns.despine()
 
 ```{admonition} A note on data format
 :class: note
-[Systole](https://embodied-computation-group.github.io/systole/#) will output a boolean peaks vector after detection by default (i.e. a vector that has the same length as the original signal with `True` values indicating where the peaks were detected). We found this approach more intuitive as the time series keeps the same size and it can be easier to slice it according to events observed in another signal (e.g. the respiration or the stim channel). However, the same information can also be encoded as peaks indexes (`peaks_idx`), referring to the sample number where the R peaks were detected, or directly as RR-intervals expressed in seconds or milliseconds (`rr_s` and `rr_ms` respectively). Other packages will use different formats as default for encoding and you might have to convert your inputs. This can be done quickly using {py:func}`systole.utils.input_conversion`, which will let you convert your data accordingly.
+[Systole](https://embodied-computation-group.github.io/systole/#) will output a boolean peaks vector after detection by default (i.e. a vector that has the same length than the original signal with `True` values indicating where the peaks were detected). We found this approach more intuitive as the time series keeps the same size and it can easier to slice it according to events observed in another signal (e.g the respiration or the stim channel). However, the same information can also be encoded as peaks indexes (`peaks_idx`), referring to the sample number where the R peaks were detected, or directly as RR-intervals expressed in seconds or milliseconds (`rr_s` and `rr_ms` respectively). Other packages will use different formats as default for encoding and you might have to convert your inputs. This can be done easily using the [input_conversion function](#systole.utils.input_conversion), which will let you convert your data accordingly.
 ```
 
-We illustrate some examples of input conversion below:
+We illustrate some example of input conversion below:
 
 ```{code-cell} ipython3
 # From boolean peaks vector to peaks indexs
