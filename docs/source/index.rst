@@ -190,5 +190,4 @@ Contributors
    Gallery <auto_examples/index.rst>
    Tutorials <tutorials.rst>
    API <api.rst>
-   Release notes <changelog.rst>
    References <references.md>

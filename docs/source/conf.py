@@ -120,10 +120,6 @@ html_sidebars = {"**": []}
 html_logo = "images/logo_small.svg"
 html_favicon = "images/logo_small.svg"
 
-def setup(app):
-    app.add_css_file('style.css')
-
-
 # -- Intersphinx ------------------------------------------------
 
 intersphinx_mapping = {
