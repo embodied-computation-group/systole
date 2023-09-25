@@ -79,9 +79,6 @@ source_suffix = ['.rst', '.md']
 # The master toctree document.
 master_doc = "index"
 
-# Add any paths that contain templates here, relative to this directory.
-templates_path = ["_templates"]
-
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
@@ -99,17 +96,17 @@ html_theme_options = {
         dict(
             name="GitHub",
             url="https://github.com/embodied-computation-group/systole",
-            icon="fab fa-github-square",
+            icon="fa-brands fa-square-github",
         ),
         dict(
             name="Twitter",
             url="https://twitter.com/visceral_mind",
-            icon="fab fa-twitter-square",
+            icon="fa-brands fa-square-twitter",
         ),
         dict(
             name="Pypi",
             url="https://pypi.org/project/systole/",
-            icon="fas fa-box",
+            icon="fa-solid fa-box",
         ),
     ],
     "logo": {
@@ -118,11 +115,8 @@ html_theme_options = {
 
 html_sidebars = {"**": []}
 
-# Add any paths that contain custom static files (such as style sheets) here,
-# relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
-html_css_files = ["https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"]
+# -- Options for HTML output -------------------------------------------------
+
 html_logo = "images/logo_small.svg"
 html_favicon = "images/logo_small.svg"
 
