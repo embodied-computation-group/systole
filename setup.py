@@ -33,7 +33,7 @@ DESCRIPTION = """Systole: A python package for cardiac signal synchrony and anal
 DISTNAME = "systole"
 MAINTAINER = "Nicolas Legrand"
 MAINTAINER_EMAIL = "nicolas.legrand@cfin.au.dk"
-VERSION = "0.2.5dev0"
+VERSION = "0.2.5"
 
 
 if __name__ == "__main__":
