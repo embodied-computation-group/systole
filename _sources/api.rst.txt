@@ -112,15 +112,15 @@ Reports
     frequency_table
     nonlinear_table
 
-Interactive data labelling and peaks correction
------------------------------------------------
+Viewer
+-------
 
-.. currentmodule:: systole.interact
+.. currentmodule:: systole.viewer
 
 .. _reports:
 
 .. autosummary::
-   :toctree: generated/interact
+   :toctree: generated/viewer
 
     Viewer
     Editor

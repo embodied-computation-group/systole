@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html >
 
   <head>
     <meta charset="utf-8" />
@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -40,24 +40,21 @@
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
-  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/thebelab-helper.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
-    <script src="_static/design-tabs.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'changelog';</script>
     <link rel="shortcut icon" href="_static/logo_small.svg"/>
     <link rel="index" title="Index" href="genindex.html" />
@@ -65,7 +62,7 @@
     <link rel="next" title="References" href="references.html" />
     <link rel="prev" title="systole.utils.norm_bad_segments" href="generated/utils/systole.utils.norm_bad_segments.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:language" content="None"/>
   </head>
   
   
@@ -74,15 +71,6 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
-  
-  <div id="pst-scroll-pixel-helper"></div>
-
-  
-  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
-
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -123,8 +111,7 @@
     <span class="fa-solid fa-bars"></span>
   </label>
   
-  
-  <div class="col-lg-3 navbar-header-items__start">
+  <div class="navbar-header-items__start">
     
       <div class="navbar-item">
   
@@ -148,6 +135,7 @@
 </a></div>
     
   </div>
+  
   
   <div class="col-lg-9 navbar-header-items">
     
@@ -196,20 +184,20 @@
                       </a>
                     </li>
                 
-            <li class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-header-nav-more-links">
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     More
                 </button>
-                <ul id="pst-header-nav-more-links" class="dropdown-menu">
+                <div class="dropdown-menu">
                     
                     <li class="nav-item">
-                      <a class="nav-link dropdown-item nav-internal" href="references.html">
+                      <a class="nav-link nav-internal" href="references.html">
                         References
                       </a>
                     </li>
                 
-                </ul>
-            </li>
+                </div>
+            </div>
             
   </ul>
 </nav></div>
@@ -221,25 +209,23 @@
       
         <div class="navbar-item navbar-persistent--container">
           
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+  </button>
+`);
+</script>
         </div>
       
       
         <div class="navbar-item">
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
 `);
 </script></div>
@@ -255,8 +241,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
         </li>
         <li class="nav-item">
           
@@ -267,8 +253,8 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
         </li>
         <li class="nav-item">
           
@@ -279,8 +265,8 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-box fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Pypi</span></a>
+          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-box"></i></span>
+            <label class="sr-only">Pypi</label></a>
         </li>
 </ul></div>
       
@@ -290,20 +276,18 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+  </button>
+`);
+</script>
     </div>
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
       <span class="fa-solid fa-outdent"></span>
     </label>
   
@@ -366,20 +350,20 @@ document.write(`
                       </a>
                     </li>
                 
-            <li class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-header-nav-more-links">
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     More
                 </button>
-                <ul id="pst-header-nav-more-links" class="dropdown-menu">
+                <div class="dropdown-menu">
                     
                     <li class="nav-item">
-                      <a class="nav-link dropdown-item nav-internal" href="references.html">
+                      <a class="nav-link nav-internal" href="references.html">
                         References
                       </a>
                     </li>
                 
-                </ul>
-            </li>
+                </div>
+            </div>
             
   </ul>
 </nav></div>
@@ -393,10 +377,10 @@ document.write(`
           <div class="navbar-item">
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
 `);
 </script></div>
@@ -412,8 +396,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
         </li>
         <li class="nav-item">
           
@@ -424,8 +408,8 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fab fa-twitter-square"></i></span>
+            <label class="sr-only">Twitter</label></a>
         </li>
         <li class="nav-item">
           
@@ -436,8 +420,8 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-box fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Pypi</span></a>
+          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-box"></i></span>
+            <label class="sr-only">Pypi</label></a>
         </li>
 </ul></div>
         
@@ -469,15 +453,15 @@ document.write(`
 
 
 
-<nav aria-label="Breadcrumb">
-  <ul class="bd-breadcrumbs">
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="index.html" class="nav-link" aria-label="Home">
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page">What’s new...</li>
+    <li class="breadcrumb-item active" aria-current="page">What’s new in each version</li>
   </ul>
 </nav>
 </div>
@@ -495,12 +479,12 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <span class="target" id="whatsnew"></span><section id="what-s-new-in-each-version">
-<h1>What’s new in each version<a class="headerlink" href="#what-s-new-in-each-version" title="Permalink to this heading">#</a></h1>
+<h1>What’s new in each version<a class="headerlink" href="#what-s-new-in-each-version" title="Permalink to this headline">#</a></h1>
 <p>This page contains information about what has changed in each new version of <code class="docutils literal notranslate"><span class="pre">systole</span></code>.</p>
 <div class="col-md-9"><section id="v0-2-4">
-<h2>v0.2.4<a class="headerlink" href="#v0-2-4" title="Permalink to this heading">#</a></h2>
+<h2>v0.2.4<a class="headerlink" href="#v0-2-4" title="Permalink to this headline">#</a></h2>
 <section id="changes">
-<h3>Changes<a class="headerlink" href="#changes" title="Permalink to this heading">#</a></h3>
+<h3>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  Viewer was erroring when saving empty bad segment variable.</p></li>
 <li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  <span class="raw-html"><span class="badge badge-api">API</span></span>  Rename <code class="xref py py-mod docutils literal notranslate"><span class="pre">systole.viewer</span></code> to <code class="xref py py-mod docutils literal notranslate"><span class="pre">systole.interact</span></code>. Refactor the Viewer and the Editor so the Editor can be used separately to work with any kind of time series. The Viewer only handle integration with BIDS structured folders.</p></li>
@@ -508,9 +492,9 @@ document.write(`
 </section>
 </section>
 <section id="v0-2-3">
-<h2>v0.2.3<a class="headerlink" href="#v0-2-3" title="Permalink to this heading">#</a></h2>
+<h2>v0.2.3<a class="headerlink" href="#v0-2-3" title="Permalink to this headline">#</a></h2>
 <section id="highlights">
-<h3>Highlights<a class="headerlink" href="#highlights" title="Permalink to this heading">#</a></h3>
+<h3>Highlights<a class="headerlink" href="#highlights" title="Permalink to this headline">#</a></h3>
 <p>This release introduce two new components:</p>
 <ul class="simple">
 <li><p>the report module for fast preprocessing of ECG/PPG/Respiration dataset with interactive reports</p></li>
@@ -519,7 +503,7 @@ document.write(`
 <p>Both modules are intended to integrate tightly with BIDS structured folders, but can also be used separately. Some features are still missing (especially related to respiration), and will be covered in future releases.</p>
 </section>
 <section id="id1">
-<h3>Changes<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<h3>Changes<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  Rewrite func:<cite>systole.correction.correct_missed</cite> (now func:<cite>systole.correction.correct_missed_rr</cite>), func:<cite>systole.correction.correct_extra</cite> (now func:<cite>systole.correction.correct_extra_rr</cite>) and func:<cite>systole.correction.correct_rr</cite> to fix the index overflows caused by the insertion or deletion of intervals. All function are now jited, which should also provided performance improvements.</p></li>
 <li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  func:<cite>systole.detection.interpolate_clipping()</cite> was not handling thresholds correctly if the provided threshold is not the max/min of the time series.</p></li>
@@ -535,20 +519,20 @@ document.write(`
 </ul>
 </section>
 <section id="contributors">
-<h3>Contributors<a class="headerlink" href="#contributors" title="Permalink to this heading">#</a></h3>
+<h3>Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Alex Vasilichi (<a class="github reference external" href="https://github.com/alexvasilichi">alexvasilichi</a>)</p></li>
 </ul>
 </section>
 </section>
 <section id="v0-2-2">
-<h2>v0.2.2<a class="headerlink" href="#v0-2-2" title="Permalink to this heading">#</a></h2>
+<h2>v0.2.2<a class="headerlink" href="#v0-2-2" title="Permalink to this headline">#</a></h2>
 <section id="id2">
-<h3>Highlights<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<h3>Highlights<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
 <p>This release seeks to improve the heart rate variability module and will be the reference version for the JOSS publication.</p>
 </section>
 <section id="id3">
-<h3>Changes<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<h3>Changes<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  HRV module: Add a function func:<cite>systole.hrv.all_domain()</cite> to easily compute all possible HRV indices.</p></li>
 <li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  HRV module: Add recurence plot analysis and fast recurrence matrix computation (thanks to Dominique Makowski), and basic quantitative metrics (recurrence rate, l_max, l_mean, determinism rate, Shannon entropy). These metrics are now part of the nonlinear reports (py:func:<cite>systole.hrv.nonlinear_domain()</cite>) or can be called separately (py:func:<cite>systole.hrv.recurrence()</cite>).</p></li>
@@ -560,7 +544,7 @@ document.write(`
 </ul>
 </section>
 <section id="id4">
-<h3>Contributors<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<h3>Contributors<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Dominique Makowski (<a class="github reference external" href="https://github.com/DominiqueMakowski">DominiqueMakowski</a>)</p></li>
 <li><p>Bertrand Hermann (<a class="reference external" href="mailto:bertrand&#46;hermann&#37;&#52;&#48;ghu-paris&#46;fr">bertrand<span>&#46;</span>hermann<span>&#64;</span>ghu-paris<span>&#46;</span>fr</a>)</p></li>
@@ -568,14 +552,14 @@ document.write(`
 </section>
 </section>
 <section id="v0-2-1">
-<h2>v0.2.1<a class="headerlink" href="#v0-2-1" title="Permalink to this heading">#</a></h2>
+<h2>v0.2.1<a class="headerlink" href="#v0-2-1" title="Permalink to this headline">#</a></h2>
 <section id="id5">
-<h3>Highlights<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<h3>Highlights<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h3>
 <p>This release fixes dependencies and import errors pointed during the review of the JOSS Systole paper and add the paper to the main repository. It also adds several bug fixes and functionality improvements.</p>
 <p>We recommend all users upgrade to this new version.</p>
 </section>
 <section id="id6">
-<h3>Changes<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<h3>Changes<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  Important BUGFIX: <a class="reference internal" href="generated/hrv/systole.hrv.frequency_domain.html#systole.hrv.frequency_domain" title="systole.hrv.frequency_domain"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.hrv.frequency_domain()</span></code></a> switched the variables <cite>“power_hf_nu”</cite> and <cite>“power_lf_nu”</cite> before returning.</p></li>
 <li><p><span class="raw-html"><span class="badge badge-fix">Fix</span></span>  Important BUGFIX: <a class="reference internal" href="generated/hrv/systole.hrv.frequency_domain.html#systole.hrv.frequency_domain" title="systole.hrv.frequency_domain"><code class="xref py py-func docutils literal notranslate"><span class="pre">systole.hrv.frequency_domain()</span></code></a> the variables <cite>“power_hf_nu”</cite> and <cite>“power_lf_nu”</cite> were not properly scalled (x100) before returning.</p></li>
@@ -587,9 +571,9 @@ document.write(`
 </section>
 </section>
 <section id="v0-2-0">
-<h2>v0.2.0<a class="headerlink" href="#v0-2-0" title="Permalink to this heading">#</a></h2>
+<h2>v0.2.0<a class="headerlink" href="#v0-2-0" title="Permalink to this headline">#</a></h2>
 <section id="id7">
-<h3>Highlights<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<h3>Highlights<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h3>
 <p>This is a major release that introduces a new plotting backend using Bokeh instead of Plotly, several API changes and performance improvement (Numba).</p>
 <p>The <cite>plots</cite> submodule now includes the following functions:</p>
 <ul class="simple">
@@ -616,7 +600,7 @@ document.write(`
 <p>This release also includes some API changes and renaming for consistency (<cite>oxi_peaks</cite> -&gt; <cite>ppg_peaks</cite>).</p>
 </section>
 <section id="id8">
-<h3>Changes<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
+<h3>Changes<a class="headerlink" href="#id8" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><span class="raw-html"><span class="badge badge-api">API</span></span>  Remove support for Plotly. Add support for Bokeh. Merge interactive and non interactive modules into a unique <code class="xref py py-func docutils literal notranslate"><span class="pre">plots()</span></code> module.</p></li>
 <li><p><span class="raw-html"><span class="badge badge-docs">Docs</span></span>  Use PyData Sphinx theme.</p></li>
@@ -639,7 +623,7 @@ document.write(`
 </ul>
 </section>
 <section id="id9">
-<h3>Contributors<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h3>
+<h3>Contributors<a class="headerlink" href="#id9" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p>Gidon Levakov (<a class="reference external" href="mailto:gidonlevakov&#37;&#52;&#48;gmail&#46;com">gidonlevakov<span>&#64;</span>gmail<span>&#46;</span>com</a>)</p></li>
 <li><p>Peter Doggart (<a class="reference external" href="mailto:peter&#46;doggart&#37;&#52;&#48;pulseai&#46;io">peter<span>&#46;</span>doggart<span>&#64;</span>pulseai<span>&#46;</span>io</a>)</p></li>
@@ -647,7 +631,7 @@ document.write(`
 </section>
 </section>
 <section id="v0-1-3">
-<h2>v0.1.3<a class="headerlink" href="#v0-1-3" title="Permalink to this heading">#</a></h2>
+<h2>v0.1.3<a class="headerlink" href="#v0-1-3" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_raw()</span></code>: add <cite>ecg_method</cite> parameter to control the ECG peak detection method used.</p></li>
 <li><p><span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Download dataset directly from GitHub instead of copying the files at install.</p></li>
@@ -666,7 +650,7 @@ document.write(`
 </ul>
 </section>
 <section id="v0-1-2">
-<h2>v0.1.2<a class="headerlink" href="#v0-1-2" title="Permalink to this heading">#</a></h2>
+<h2>v0.1.2<a class="headerlink" href="#v0-1-2" title="Permalink to this headline">#</a></h2>
 <blockquote>
 <div><p><strong>New functions</strong></p>
 </div></blockquote>
@@ -682,7 +666,7 @@ document.write(`
 - <span class="raw-html"><span class="badge badge-enhancement">Enhancement</span></span>  Improved interactive plotting functions.</p>
 </section>
 <section id="v0-1-1">
-<h2>v0.1.1<a class="headerlink" href="#v0-1-1" title="Permalink to this heading">#</a></h2>
+<h2>v0.1.1<a class="headerlink" href="#v0-1-1" title="Permalink to this headline">#</a></h2>
 <p><strong>New functions</strong></p>
 <ul class="simple">
 <li><p><span class="raw-html"><span class="badge badge-feature">Feature</span></span>  Add the <strong>plotly</strong> sub-module, a set of Plotly functions comprising <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_raw()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_subspaces()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_ectopic()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_shortlong()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_frequency()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_nonlinear()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">systole.plotly.plot_timedomain()</span></code>.</p></li>
@@ -704,7 +688,7 @@ document.write(`
 </ul>
 </section>
 <section id="v0-1-0">
-<h2>v0.1.0<a class="headerlink" href="#v0-1-0" title="Permalink to this heading">#</a></h2>
+<h2>v0.1.0<a class="headerlink" href="#v0-1-0" title="Permalink to this headline">#</a></h2>
 <p>Initial release.</p>
 <p><strong>Detection</strong></p>
 <ol class="loweralpha simple">
@@ -750,7 +734,7 @@ document.write(`
 </ol>
 </section>
 <section id="v0-0-1">
-<h2>v0.0.1<a class="headerlink" href="#v0-0-1" title="Permalink to this heading">#</a></h2>
+<h2>v0.0.1<a class="headerlink" href="#v0-0-1" title="Permalink to this headline">#</a></h2>
 <p>Alpha release.</p>
 </section>
 </section>
@@ -760,10 +744,11 @@ document.write(`
               
               
               
-              
-              
-                <footer class="prev-next-footer">
-                  <!-- Previous / next buttons -->
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="generated/utils/systole.utils.norm_bad_segments.html"
@@ -783,7 +768,10 @@ document.write(`
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -854,8 +842,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -873,7 +861,7 @@ document.write(`
       
         <div class="footer-item">
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     <br/>
   </p>
 </div>
@@ -881,11 +869,10 @@ document.write(`
     </div>
   
   
-  
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
 </p></div>
       
     </div>
