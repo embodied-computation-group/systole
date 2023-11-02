@@ -167,7 +167,7 @@ Once the preprocessing is completed, and if you did not asked for an external re
 (viewer)=
 ## Manual edition of peaks vector and bad segments labelling
 
-While we hope that the peaks detection function used by [Systole](https://embodied-computation-group.github.io/systole/#) is sufficiently robust to extract peak vectors without errors for most of the uses cases, you might still encounter noisy or invalid recording that you will want to manually inspect and sometimes edit.
+While we hope that the peaks detection function used by [Systole](https://LegrandNico.github.io/systole/#) is sufficiently robust to extract peak vectors without errors for most of the uses cases, you might still encounter noisy or invalid recording that you will want to manually inspect and sometimes edit.
 
 The :py:mod:`systole.interact` sub-module provides two classes (:py:class:`systole.interact.Editor` and :py:class:`systole.interact.Viewer`) built on the top of Matplotlib widgets that can help for manual edition, and interactive visualization of BIDS fodlers directly in the notebook.
 
@@ -210,11 +210,11 @@ This windows will automatically apply peaks detection given the `signal_type` pa
 * When using the **Correction** mode:
     * Use the *left* mouse button to select segment where all the peaks should be removed.
     * Use the *right* mouse button to select segment where peak will be added at the local maximum.
-    <p align='center'><img src='https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/peaks.gif'/></p>
+    <p align='center'><img src='https://github.com/LegrandNico/systole/raw/dev/docs/source/images/peaks.gif'/></p>
 
 * When using the **Rejection** mode:
     * Use the *right* mouse button to select a segment that should be marked as bad.
-    <p align='center'><img src='https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/segments.gif'/></p>
+    <p align='center'><img src='https://github.com/LegrandNico/systole/raw/dev/docs/source/images/segments.gif'/></p>
 
 * By deselecting the check box, you can mark the entire signal as **invalid**.
 
@@ -261,7 +261,7 @@ display(view.io_box, view.editor.commands_box, view.output)
 
 This will create an interactive windows where all the preprocessed ECG recordings from the behavioral task `my_task` can be inspected and further edited.
 
-<p align='center'><img src='https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/editor.gif'/></p>
+<p align='center'><img src='https://github.com/LegrandNico/systole/raw/dev/docs/source/images/editor.gif'/></p>
 
 ```{note}
 If the signal was previously edited, the Viewer will automatically load the edited version and display bad segment (if any).

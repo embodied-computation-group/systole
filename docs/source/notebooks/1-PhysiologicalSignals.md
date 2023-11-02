@@ -55,7 +55,7 @@ This tutorial notebook introduces two commonly used methods to record cardiac ac
 
 +++ {"tags": ["hide-input"]}
 
-<p align='center'><img src='https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/ecg.png'/></p>
+<p align='center'><img src='https://github.com/LegrandNico/systole/raw/dev/docs/source/images/ecg.png'/></p>
 
 +++
 
@@ -89,7 +89,7 @@ ecg_df[ecg_df.time.between(40, 70)].plot(x='time', y='ecg', figsize=(13, 5))
 
 Plotting the raw ECG signal is an important step if we want to check the quality of the recording, but it will give very little information in itself regarding the subtle change in the dynamic of cardiac activity that might interact with cognitive processes. If we want more details, we need to analyze the heart rate frequency, and this is done by estimating the time interval between two heartbeats. A heartbeat is not a discrete process though and results from a sequence of characteristic biomechanical activities, each giving a particular electrical waveform (see panel **b.** above). But we can see in the recording that one component (the R peak, that corresponds to the ventricular depolarization and the ejection of the blood from the cardiac cavities) clearly emerges from the noise and can be systematically detected with great precision. For these reasons, the R peak is often used as the temporal index of heartbeats.
 
-[Systole](https://embodied-computation-group.github.io/systole/#) offers different algorithms for R peaks detection that will be discussed in the next section. Here we will use an illustration using the [Pan-Tompkins algorithm](https://en.wikipedia.org/wiki/Pan%E2%80%93Tompkins_algorithm). First, let's select a subsample of the signal.
+[Systole](https://LegrandNico.github.io/systole/#) offers different algorithms for R peaks detection that will be discussed in the next section. Here we will use an illustration using the [Pan-Tompkins algorithm](https://en.wikipedia.org/wiki/Pan%E2%80%93Tompkins_algorithm). First, let's select a subsample of the signal.
 
 ```{code-cell} ipython3
 signal = ecg_df[ecg_df.time.between(500, 530)].ecg.to_numpy()  # Select only 30 seconds of recording
@@ -135,7 +135,7 @@ sns.despine()
 
 ```{admonition} A note on data format
 :class: note
-[Systole](https://embodied-computation-group.github.io/systole/#) will output a boolean peaks vector after detection by default (i.e. a vector that has the same length as the original signal with `True` values indicating where the peaks were detected). We found this approach more intuitive as the time series keeps the same size and it can be easier to slice it according to events observed in another signal (e.g. the respiration or the stim channel). However, the same information can also be encoded as peaks indexes (`peaks_idx`), referring to the sample number where the R peaks were detected, or directly as RR-intervals expressed in seconds or milliseconds (`rr_s` and `rr_ms` respectively). Other packages will use different formats as default for encoding and you might have to convert your inputs. This can be done quickly using {py:func}`systole.utils.input_conversion`, which will let you convert your data accordingly.
+[Systole](https://LegrandNico.github.io/systole/#) will output a boolean peaks vector after detection by default (i.e. a vector that has the same length as the original signal with `True` values indicating where the peaks were detected). We found this approach more intuitive as the time series keeps the same size and it can be easier to slice it according to events observed in another signal (e.g. the respiration or the stim channel). However, the same information can also be encoded as peaks indexes (`peaks_idx`), referring to the sample number where the R peaks were detected, or directly as RR-intervals expressed in seconds or milliseconds (`rr_s` and `rr_ms` respectively). Other packages will use different formats as default for encoding and you might have to convert your inputs. This can be done quickly using {py:func}`systole.utils.input_conversion`, which will let you convert your data accordingly.
 ```
 
 We illustrate some examples of input conversion below:
@@ -193,7 +193,7 @@ sns.despine()
 
 +++
 
-R peaks detection and the conversion of the peak to peaks intervals into interpretable heart rate measures are the two building blocks of cardiac signal analysis. [Systole](https://embodied-computation-group.github.io/systole/#) lets you execute and plot these processes in one line of code using the `systole.plots.plot_raw()` function. The `plots` module contains several plotting utilities for standard visualization processes in cardiac signal analysis. Each function support two plotting backends: [Matplotlib](https://matplotlib.org/) for static graphs and [Bokeh](https://docs.bokeh.org/en/latest/index.html), for interactive graphs. In the following tutorials, we will use Bokeh as a default rendering backend (see the `backend` argument below). However, it is always possible to plot the same figure using Matplotlib if you do not change this argument. The other arguments here simply specify the modality of the recording, which can currently be `ECG` or `PPG`, and the algorithm to use for R peaks detection. Because we would like to have the Raw ECG signal stacked with the estimated instantaneous heart rate frequency, we set `show_heart_rate` to `True`.
+R peaks detection and the conversion of the peak to peaks intervals into interpretable heart rate measures are the two building blocks of cardiac signal analysis. [Systole](https://LegrandNico.github.io/systole/#) lets you execute and plot these processes in one line of code using the `systole.plots.plot_raw()` function. The `plots` module contains several plotting utilities for standard visualization processes in cardiac signal analysis. Each function support two plotting backends: [Matplotlib](https://matplotlib.org/) for static graphs and [Bokeh](https://docs.bokeh.org/en/latest/index.html), for interactive graphs. In the following tutorials, we will use Bokeh as a default rendering backend (see the `backend` argument below). However, it is always possible to plot the same figure using Matplotlib if you do not change this argument. The other arguments here simply specify the modality of the recording, which can currently be `ECG` or `PPG`, and the algorithm to use for R peaks detection. Because we would like to have the Raw ECG signal stacked with the estimated instantaneous heart rate frequency, we set `show_heart_rate` to `True`.
 
 ```{code-cell} ipython3
 # Extract 100 seconds of recording for illustration
@@ -219,11 +219,11 @@ We can see that the Pan-Tompkins algorithm does a good job at detecting the QRS 
 
 +++ {"tags": ["hide-input"]}
 
-<p align='center'><img src='https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/pulseOximeter.png'/></p>
+<p align='center'><img src='https://github.com/LegrandNico/systole/raw/dev/docs/source/images/pulseOximeter.png'/></p>
 
 +++
 
-Let's first import an example dataset from [Systole](https://embodied-computation-group.github.io/systole/#). This time series represent a PPG recording from pulse oximeter in a healthy young participant. The sampling rate is 75 Hz.
+Let's first import an example dataset from [Systole](https://LegrandNico.github.io/systole/#). This time series represent a PPG recording from pulse oximeter in a healthy young participant. The sampling rate is 75 Hz.
 
 ```{code-cell} ipython3
 ppg = import_ppg()

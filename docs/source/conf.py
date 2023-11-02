@@ -95,7 +95,7 @@ html_theme_options = {
     "icon_links": [
         dict(
             name="GitHub",
-            url="https://github.com/embodied-computation-group/systole",
+            url="https://github.com/LegrandNico/systole",
             icon="fa-brands fa-square-github",
         ),
         dict(

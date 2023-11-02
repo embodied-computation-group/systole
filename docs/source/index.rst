@@ -1,6 +1,6 @@
 
 .. image:: https://img.shields.io/badge/License-GPL%20v3-blue.svg
-  :target: https://github.com/embodied-computation-group/systole/blob/master/LICENSE
+  :target: https://github.com/LegrandNico/systole/blob/master/LICENSE
 
 .. image:: https://badge.fury.io/py/systole.svg
     :target: https://badge.fury.io/py/systole
@@ -8,8 +8,8 @@
 .. image:: https://joss.theoj.org/papers/10.21105/joss.03832/status.svg
    :target: https://doi.org/10.21105/joss.03832
 
-.. image:: https://codecov.io/gh/embodied-computation-group/systole/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/embodied-computation-group/systole
+.. image:: https://codecov.io/gh/LegrandNico/systole/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/LegrandNico/systole
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
   :target: https://github.com/psf/black
@@ -28,7 +28,7 @@
 
 ================
 
-.. image:: https://raw.githubusercontent.com/embodied-computation-group/systole/dev/docs/source/images/logo.png
+.. image:: https://raw.githubusercontent.com/LegrandNico/systole/dev/docs/source/images/logo.png
    :align: center
 
 ================
@@ -172,13 +172,13 @@ Contributors
 
 |AU| |lundbeck| |lab|
 
-.. |AU| image::  https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/au_clinisk_logo.png
+.. |AU| image::  https://github.com/LegrandNico/systole/raw/dev/docs/source/images/au_clinisk_logo.png
    :width: 100%
 
-.. |lundbeck| image::  https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/lundbeckfonden_logo.png
+.. |lundbeck| image::  https://github.com/LegrandNico/systole/raw/dev/docs/source/images/lundbeckfonden_logo.png
    :width: 10%
 
-.. |lab| image::  https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/LabLogo.png
+.. |lab| image::  https://github.com/LegrandNico/systole/raw/dev/docs/source/images/LabLogo.png
    :width: 20%
 
 

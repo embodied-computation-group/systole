@@ -69,7 +69,7 @@ Heart rate variability metrics are highly sensitive to such R-R artefacts, it is
 +++
 
 ## Artefacts detection
-[Systole](https://embodied-computation-group.github.io/systole/#) implements artefact detection based on adaptive thresholding of first and second derivatives of the R-R interval time series (see {cite:p}`2019:lipponen` for a description of the method). One way to visualize the distribution of regular and irregular intervals is to use the transformation plotted below, which can be used to detect ectopic beats and long/short intervals. In the figure, the grey areas indicate the range of unlikely values considering each artefacts subtype. The intervals that are falling in these areas will be labelled as irregular.
+[Systole](https://LegrandNico.github.io/systole/#) implements artefact detection based on adaptive thresholding of first and second derivatives of the R-R interval time series (see {cite:p}`2019:lipponen` for a description of the method). One way to visualize the distribution of regular and irregular intervals is to use the transformation plotted below, which can be used to detect ectopic beats and long/short intervals. In the figure, the grey areas indicate the range of unlikely values considering each artefacts subtype. The intervals that are falling in these areas will be labelled as irregular.
 
 ```{code-cell} ipython3
 show(

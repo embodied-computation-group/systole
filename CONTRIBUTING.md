@@ -18,7 +18,7 @@ Ideally, these contributions should use/implement methods that have already been
 
 # Opening issues
 
-We appreciate being notified of problems with the existing Systole code. We prefer that issues be filed on [Github Issue Tracker](https://github.com/embodied-computation-group/systole/issues), rather than on social media or by direct email to the developers.
+We appreciate being notified of problems with the existing Systole code. We prefer that issues be filed on [Github Issue Tracker](https://github.com/LegrandNico/systole/issues), rather than on social media or by direct email to the developers.
 
 Please verify that your issue is not being currently addressed by other issues or pull requests by using the GitHub search tool to look for keywords in the project issue tracker.
 
@@ -26,20 +26,20 @@ Please verify that your issue is not being currently addressed by other issues o
 
 While issue reporting is valuable, we strongly encourage users who are inclined to do so to submit patches for new or existing issues via pull requests. This is particularly the case for simple fixes, such as typos or tweaks to documentation, which do not require a heavy investment of time and attention.
 
-Contributors are also encouraged to contribute new code to enhance Systole's functionality, also via pull requests. Please consult the [Systole documentation](https://embodied-computation-group.github.io/systole/#) to ensure that any new contribution does not strongly overlap with existing functionality.
+Contributors are also encouraged to contribute new code to enhance Systole's functionality, also via pull requests. Please consult the [Systole documentation](https://LegrandNico.github.io/systole/#) to ensure that any new contribution does not strongly overlap with existing functionality.
 
-The preferred workflow for contributing to Systole is to fork the [GitHub repository](https://github.com/embodied-computation-group/systole), clone it to your local machine, and develop on a feature branch.
+The preferred workflow for contributing to Systole is to fork the [GitHub repository](https://github.com/LegrandNico/systole), clone it to your local machine, and develop on a feature branch.
 
 ## Steps:
 
-1. Fork the [project repository](https://github.com/embodied-computation-group/systole) by clicking on the 'Fork' button near the top right of the main repository page. This creates a copy of the code under your GitHub user account.
+1. Fork the [project repository](https://github.com/LegrandNico/systole) by clicking on the 'Fork' button near the top right of the main repository page. This creates a copy of the code under your GitHub user account.
 
 2. Clone your fork of the Systole repo from your GitHub account to your local disk, and add the base repository as a remote:
 
    ```bash
    $ git clone git@github.com:<your GitHub handle>/systole.git
    $ cd systole
-   $ git remote add upstream git@github.com:embodied-computation-group/systole.git
+   $ git remote add upstream git@github.com:LegrandNico/systole.git
    ```
 
 3. Create a ``feature`` branch to hold your development changes:

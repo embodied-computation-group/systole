@@ -12,7 +12,7 @@ If you want to download the `dev` branch instead and try the last features that 
 
 .. code-block:: shell
 
-  pip install “git+https://github.com/embodied-computation-group/systole.git@dev”
+  pip install “git+https://github.com/LegrandNico/systole.git@dev”
 
 The following packages are required to use Systole:
 

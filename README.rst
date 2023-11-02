@@ -1,6 +1,6 @@
 
 .. image:: https://img.shields.io/badge/License-GPL%20v3-blue.svg
-  :target: https://github.com/embodied-computation-group/systole/blob/master/LICENSE
+  :target: https://github.com/LegrandNico/systole/blob/master/LICENSE
 
 .. image:: https://badge.fury.io/py/systole.svg
     :target: https://badge.fury.io/py/systole
@@ -8,8 +8,8 @@
 .. image:: https://joss.theoj.org/papers/10.21105/joss.03832/status.svg
    :target: https://doi.org/10.21105/joss.03832
 
-.. image:: https://codecov.io/gh/embodied-computation-group/systole/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/embodied-computation-group/systole
+.. image:: https://codecov.io/gh/LegrandNico/systole/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/LegrandNico/systole
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
   :target: https://github.com/psf/black
@@ -28,7 +28,7 @@
 
 ================
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/logo.png
+.. image:: https://github.com/LegrandNico/systole/blob/dev/docs/source/images/logo.png
    :align: center
 
 ================
@@ -38,7 +38,7 @@ This includes tools for data epoching, artefact detection, artefact correction, 
 variability analyses, circular statistical approaches to analysing cardiac cycles, and synchronising stimulus 
 presentation with different cardiac phases via Psychopy.
 
-The documentation can be found under the following `link <https://embodied-computation-group.github.io/systole/#>`_.
+The documentation can be found under the following `link <https://LegrandNico.github.io/systole/#>`_.
 
 If you have questions, you can ask them in the `Gitter chat <https://gitter.im/ecg-systole/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge>`_.
 
@@ -100,22 +100,22 @@ For an introduction to Systole and cardiac signal analysis, you can refer to the
      - |Colab badge 6|
 
 .. |Colab badge 1| image:: https://colab.research.google.com/assets/colab-badge.svg
-  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/1-PhysiologicalSignals.ipynb
+  :target: https://colab.research.google.com/github/LegrandNico/systole/blob/dev/source/notebooks/1-PhysiologicalSignals.ipynb
 
 .. |Colab badge 2| image:: https://colab.research.google.com/assets/colab-badge.svg
-  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/2-DetectingCycles.ipynb
+  :target: https://colab.research.google.com/github/LegrandNico/systole/blob/dev/source/notebooks/2-DetectingCycles.ipynb
 
 .. |Colab badge 3| image:: https://colab.research.google.com/assets/colab-badge.svg
-  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/3-DetectingAndCorrectingArtefacts.ipynb
+  :target: https://colab.research.google.com/github/LegrandNico/systole/blob/dev/source/notebooks/3-DetectingAndCorrectingArtefacts.ipynb
 
 .. |Colab badge 4| image:: https://colab.research.google.com/assets/colab-badge.svg
-  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/4-HeartRateVariability.ipynb
+  :target: https://colab.research.google.com/github/LegrandNico/systole/blob/dev/source/notebooks/4-HeartRateVariability.ipynb
 
 .. |Colab badge 5| image:: https://colab.research.google.com/assets/colab-badge.svg
-  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/5-InstantaneousHeartRate.ipynb
+  :target: https://colab.research.google.com/github/LegrandNico/systole/blob/dev/source/notebooks/5-InstantaneousHeartRate.ipynb
 
 .. |Colab badge 6| image:: https://colab.research.google.com/assets/colab-badge.svg
-  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/6-WorkingWithBIDSFolders.ipynb
+  :target: https://colab.research.google.com/github/LegrandNico/systole/blob/dev/source/notebooks/6-WorkingWithBIDSFolders.ipynb
 
 
 Getting started
@@ -140,7 +140,7 @@ The package integrates a set of functions for interactive or non interactive dat
   plot_raw(signal[60000 : 120000], modality="ecg", backend="bokeh", 
               show_heart_rate=True, show_artefacts=True, figsize=300)
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/raw.png
+.. image:: https://github.com/LegrandNico/systole/blob/dev/docs/source/images/raw.png
    :align: center
 
 
@@ -158,7 +158,7 @@ Artefacts can be detected and corrected in the RR interval time series or the pe
 
   plot_subspaces(peaks, input_type="peaks", backend="bokeh")
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/subspaces.png
+.. image:: https://github.com/LegrandNico/systole/blob/dev/docs/source/images/subspaces.png
    :align: center
 
 
@@ -176,7 +176,7 @@ Systole implements time-domain, frequency-domain and non-linear HRV indices, as 
       plot_poincare(peaks, input_type="peaks", backend="bokeh", figsize=(200, 200)),
       )
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/hrv.png
+.. image:: https://github.com/LegrandNico/systole/blob/dev/docs/source/images/hrv.png
    :align: center
 
 
@@ -201,19 +201,19 @@ Interactive visualization of BIDS structured datasets
       signal_type="ECG"
   )
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/editor.gif
+.. image:: https://github.com/LegrandNico/systole/blob/dev/docs/source/images/editor.gif
    :align: center
 
 Inserting and removing peaks
 ============================
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/peaks.gif
+.. image:: https://github.com/LegrandNico/systole/blob/dev/docs/source/images/peaks.gif
    :align: center
 
 Annotating bad segments
 =======================
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/segments.gif
+.. image:: https://github.com/LegrandNico/systole/blob/dev/docs/source/images/segments.gif
    :align: center
 
 Development
@@ -246,11 +246,11 @@ Systole was largely inspired by pre-existing toolboxes dedicated to heartrate va
 
 |AU| |lundbeck| |lab|
 
-.. |AU| image::  https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/au_clinisk_logo.png
+.. |AU| image::  https://github.com/LegrandNico/systole/blob/dev/docs/source/images/au_clinisk_logo.png
    :width: 100%
 
-.. |lundbeck| image::  https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/lundbeckfonden_logo.png
+.. |lundbeck| image::  https://github.com/LegrandNico/systole/blob/dev/docs/source/images/lundbeckfonden_logo.png
    :width: 10%
 
-.. |lab| image::  https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/LabLogo.png
+.. |lab| image::  https://github.com/LegrandNico/systole/blob/dev/docs/source/images/LabLogo.png
    :width: 20%

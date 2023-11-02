@@ -17,9 +17,9 @@ notebooks/*
 
 | Notebook | Colab |
 | --- | ---|
-| {ref}`physiological_signals` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/docs/source/notebooks/1-PhysiologicalSignals.ipynb)
-| {ref}`cardiac_cycles` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/docs/source/notebooks/2-DetectingCycles.ipynb)
-| {ref}`correcting_artefacts` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/docs/source/notebooks/3-DetectingAndCorrectingArtefacts.ipynb)
-| {ref}`hrv` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/docs/source/notebooks/4-HeartRateVariability.ipynb)
-| {ref}`instantaneous_heart_rate` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/docs/source/notebooks/5-InstantaneousHeartRate.ipynb)
-| {ref}`bids_folders` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/docs/source/notebooks/6-WorkingWithBIDSFolders.ipynb)
+| {ref}`physiological_signals` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/LegrandNico/systole/blob/dev/docs/source/notebooks/1-PhysiologicalSignals.ipynb)
+| {ref}`cardiac_cycles` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/LegrandNico/systole/blob/dev/docs/source/notebooks/2-DetectingCycles.ipynb)
+| {ref}`correcting_artefacts` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/LegrandNico/systole/blob/dev/docs/source/notebooks/3-DetectingAndCorrectingArtefacts.ipynb)
+| {ref}`hrv` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/LegrandNico/systole/blob/dev/docs/source/notebooks/4-HeartRateVariability.ipynb)
+| {ref}`instantaneous_heart_rate` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/LegrandNico/systole/blob/dev/docs/source/notebooks/5-InstantaneousHeartRate.ipynb)
+| {ref}`bids_folders` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/LegrandNico/systole/blob/dev/docs/source/notebooks/6-WorkingWithBIDSFolders.ipynb)
