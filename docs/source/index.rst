@@ -38,7 +38,7 @@ This includes tools for data epoching, artefact detection, artefact correction, 
 variability analyses, circular statistical approaches to analysing cardiac cycles, and synchronising stimulus 
 presentation with different cardiac phases via Psychopy.
 
-If you have questions, you can ask them in the `Gitter chat <https://gitter.im/ecg-systole/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge>`_.
+If you have questions, you can ask them in the discussion section of this repository.
 
 How to cite?
 ============
@@ -155,7 +155,7 @@ Systole was largely inspired by pre-existing toolboxes dedicated to heartrate va
 Development
 ===========
 
-This module was created and is maintained by Nicolas Legrand and Micah Allen (ECG group, https://the-ecg.org/). If you want to contribute, feel free to contact one of the developers, open an issue or submit a pull request.
+This repository is a fork of the `original Systole repository <https://github.com/embodied-computation-group/systole>` and is maintained by Nicolas Legrand. If you want to contribute, feel free to contact one of the developers, open an issue or submit a pull request.
 
 This program is provided with NO WARRANTY OF ANY KIND.
 
@@ -174,13 +174,6 @@ Contributors
 
 .. |AU| image::  https://github.com/LegrandNico/systole/raw/dev/docs/source/images/au_clinisk_logo.png
    :width: 100%
-
-.. |lundbeck| image::  https://github.com/LegrandNico/systole/raw/dev/docs/source/images/lundbeckfonden_logo.png
-   :width: 10%
-
-.. |lab| image::  https://github.com/LegrandNico/systole/raw/dev/docs/source/images/LabLogo.png
-   :width: 20%
-
 
 .. toctree::
    :maxdepth: 3
