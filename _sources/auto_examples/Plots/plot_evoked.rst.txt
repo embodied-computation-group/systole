@@ -117,7 +117,7 @@ Here, for the sake of example, we are going to create the same plot three time u
 
  .. code-block:: none
 
-      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|█████     | 1/2 [00:00<00:00,  4.30it/s]    Downloading Stim channel:  50%|█████     | 1/2 [00:00<00:00,  4.30it/s]    Downloading Stim channel: 100%|██████████| 2/2 [00:00<00:00,  4.04it/s]    Downloading Stim channel: 100%|██████████| 2/2 [00:00<00:00,  4.08it/s]
+      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|█████     | 1/2 [00:00<00:00,  2.23it/s]    Downloading Stim channel:  50%|█████     | 1/2 [00:00<00:00,  2.23it/s]    Downloading Stim channel: 100%|██████████| 2/2 [00:00<00:00,  2.28it/s]    Downloading Stim channel: 100%|██████████| 2/2 [00:00<00:00,  2.27it/s]
 
     <Axes: xlabel='Time (s)', ylabel='Heart rate change (bpm)'>
 
@@ -177,7 +177,7 @@ Here, for the sake of example, we are going to create the same plot three times 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 12.336 seconds)
+   **Total running time of the script:** (0 minutes 12.274 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Plots_plot_evoked.py:
