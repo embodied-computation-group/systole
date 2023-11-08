@@ -85,7 +85,7 @@ variability is measured for a given time interval (usually > 5 minutes).
 
  .. code-block:: none
 
-      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|█████     | 1/2 [00:00<00:00,  1.23it/s]    Downloading Stim channel:  50%|█████     | 1/2 [00:00<00:00,  1.23it/s]    Downloading Stim channel: 100%|██████████| 2/2 [00:01<00:00,  1.18it/s]    Downloading Stim channel: 100%|██████████| 2/2 [00:01<00:00,  1.19it/s]
+      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|█████     | 1/2 [00:00<00:00,  3.95it/s]    Downloading Stim channel:  50%|█████     | 1/2 [00:00<00:00,  3.95it/s]    Downloading Stim channel: 100%|██████████| 2/2 [00:00<00:00,  4.29it/s]    Downloading Stim channel: 100%|██████████| 2/2 [00:00<00:00,  4.23it/s]
 
 
 
@@ -366,30 +366,11 @@ parameters estimated at each steps.
 
  .. code-block:: none
 
-    /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-      if pd.api.types.is_categorical_dtype(vector):
-    /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-      if pd.api.types.is_categorical_dtype(vector):
-    /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-      if pd.api.types.is_categorical_dtype(vector):
-    /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-      if pd.api.types.is_categorical_dtype(vector):
-    /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-      if pd.api.types.is_categorical_dtype(vector):
-    /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-      if pd.api.types.is_categorical_dtype(vector):
-    /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-      if pd.api.types.is_categorical_dtype(vector):
-    /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-      if pd.api.types.is_categorical_dtype(vector):
-    /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-      if pd.api.types.is_categorical_dtype(vector):
-    /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-      if pd.api.types.is_categorical_dtype(vector):
-    /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
-      with pd.option_context('mode.use_inf_as_na', True):
-    /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
-      with pd.option_context('mode.use_inf_as_na', True):
+    /home/runner/work/systole/systole/docs/source/examples/Artefacts/plot_RRCorrection.py:135: FutureWarning: 
+
+    Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
+
+      sns.boxplot(data=simulation_df, x="Data Quality", y="HF-HRV (n.u.)", palette="vlag")
 
 
 
@@ -411,7 +392,7 @@ References
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 17.675 seconds)
+   **Total running time of the script:** (0 minutes 17.761 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Artefacts_plot_RRCorrection.py:

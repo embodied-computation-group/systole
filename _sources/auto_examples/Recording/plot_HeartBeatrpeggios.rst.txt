@@ -245,7 +245,7 @@ with the PPG signal.
         ^
 
       triggers = np.asarray(triggers)
-    /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/numba/core/ir_utils.py:2174: NumbaPendingDeprecationWarning: 
+    /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/numba/core/ir_utils.py:2172: NumbaPendingDeprecationWarning: 
     Encountered the use of a type that is scheduled for deprecation: type 'reflected list' found for argument 'triggers' of function 'norm_triggers'.
 
     For more information visit https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-reflection-for-list-and-set-types
@@ -333,7 +333,7 @@ show the occurrence of an event relative to this cardiac phase.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 27.142 seconds)
+   **Total running time of the script:** (0 minutes 26.863 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Recording_plot_HeartBeatrpeggios.py:
