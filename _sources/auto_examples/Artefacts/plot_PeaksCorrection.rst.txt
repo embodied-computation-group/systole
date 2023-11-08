@@ -78,7 +78,7 @@ certain events must be controlled.
 
  .. code-block:: none
 
-      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|█████     | 1/2 [00:00<00:00,  3.94it/s]    Downloading Stim channel:  50%|█████     | 1/2 [00:00<00:00,  3.94it/s]    Downloading Stim channel: 100%|██████████| 2/2 [00:00<00:00,  4.21it/s]    Downloading Stim channel: 100%|██████████| 2/2 [00:00<00:00,  4.17it/s]
+      0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:   0%|          | 0/2 [00:00<?, ?it/s]    Downloading ECG channel:  50%|█████     | 1/2 [00:00<00:00,  3.48it/s]    Downloading Stim channel:  50%|█████     | 1/2 [00:00<00:00,  3.48it/s]    Downloading Stim channel: 100%|██████████| 2/2 [00:00<00:00,  3.53it/s]    Downloading Stim channel: 100%|██████████| 2/2 [00:00<00:00,  3.52it/s]
 
 
 
@@ -306,7 +306,7 @@ References
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 8.928 seconds)
+   **Total running time of the script:** (0 minutes 10.718 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Artefacts_plot_PeaksCorrection.py:
