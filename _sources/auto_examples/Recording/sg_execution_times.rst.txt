@@ -6,12 +6,12 @@
 
 Computation times
 =================
-**01:40.036** total execution time for **auto_examples_Recording** files:
+**01:42.153** total execution time for **auto_examples_Recording** files:
 
 +-------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_Recording_plot_RecordingPPG.py` (``plot_RecordingPPG.py``)                     | 00:42.434 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_Recording_plot_RecordingPPG.py` (``plot_RecordingPPG.py``)                     | 00:42.566 | 0.0 MB |
 +-------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_Recording_plot_InstantaneousHeartRate.py` (``plot_InstantaneousHeartRate.py``) | 00:31.776 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_Recording_plot_InstantaneousHeartRate.py` (``plot_InstantaneousHeartRate.py``) | 00:32.218 | 0.0 MB |
 +-------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_Recording_plot_HeartBeatrpeggios.py` (``plot_HeartBeatrpeggios.py``)           | 00:25.826 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_Recording_plot_HeartBeatrpeggios.py` (``plot_HeartBeatrpeggios.py``)           | 00:27.368 | 0.0 MB |
 +-------------------------------------------------------------------------------------------------------------+-----------+--------+
