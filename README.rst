@@ -250,7 +250,7 @@ Systole was largely inspired by pre-existing toolboxes dedicated to heartrate va
    :width: 100%
 
 .. |lundbeck| image::  https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/lundbeckfonden_logo.png
-   :width: 10%
+   :width: 100%
 
 .. |lab| image::  https://github.com/embodied-computation-group/systole/blob/master/ECG_logo%20(1).png
-   :width: 20%
+   :width: 100%
