@@ -333,7 +333,7 @@ show the occurrence of an event relative to this cardiac phase.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 25.914 seconds)
+   **Total running time of the script:** (0 minutes 26.768 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Recording_plot_HeartBeatrpeggios.py:
