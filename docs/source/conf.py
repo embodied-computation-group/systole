@@ -18,8 +18,8 @@ import systole
 # -- Project information -----------------------------------------------------
 
 project = "systole"
-copyright = u"2020-{}, Nicolas Legrand".format(time.strftime("%Y"))
-author = "Nicolas Legrand"
+copyright = u"2020-{}, Micah Allen".format(time.strftime("%Y"))
+author = "Micah Allen"
 release = systole.__version__
 
 
