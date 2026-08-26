@@ -23,9 +23,6 @@
 .. image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
   :target: https://github.com/pre-commit/pre-commit
 
-.. image:: https://badges.gitter.im/ecg-systole/community.svg
-   :target: https://gitter.im/ecg-systole/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
-
 ================
 
 .. image:: https://raw.githubusercontent.com/embodied-computation-group/systole/dev/docs/source/images/logo.png
@@ -38,7 +35,13 @@ This includes tools for data epoching, artefact detection, artefact correction, 
 variability analyses, circular statistical approaches to analysing cardiac cycles, and synchronising stimulus 
 presentation with different cardiac phases via Psychopy.
 
-If you have questions, you can ask them in the `Gitter chat <https://gitter.im/ecg-systole/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge>`_.
+If you have questions, please open an issue on the `issue tracker <https://github.com/embodied-computation-group/systole/issues>`_.
+
+.. note::
+
+   This repository is the **official version of Systole**, maintained by the Embodied
+   Computation Group, and is the version used by `Cardioception
+   <https://github.com/embodied-computation-group/Cardioception>`_.
 
 How to cite?
 ============
