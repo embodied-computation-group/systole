@@ -272,5 +272,5 @@ Systole was largely inspired by pre-existing toolboxes dedicated to heartrate va
 .. |lundbeck| image::  https://raw.githubusercontent.com/embodied-computation-group/systole/master/docs/source/images/lundbeckfonden_logo.png
    :width: 20%
 
-.. |lab| image::  https://raw.githubusercontent.com/embodied-computation-group/systole/master/ECG_logo%20(1).png
+.. |lab| image::  https://raw.githubusercontent.com/embodied-computation-group/systole/master/docs/source/images/lablogo_2024.png
    :width: 20%

@@ -178,13 +178,13 @@ Contributors
 
 |AU| |lundbeck| |lab|
 
-.. |AU| image::  https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/au_clinisk_logo.png
+.. |AU| image::  https://raw.githubusercontent.com/embodied-computation-group/systole/master/docs/source/images/au_clinisk_logo.png
    :width: 100%
 
-.. |lundbeck| image::  https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/lundbeckfonden_logo.png
+.. |lundbeck| image::  https://raw.githubusercontent.com/embodied-computation-group/systole/master/docs/source/images/lundbeckfonden_logo.png
    :width: 10%
 
-.. |lab| image::  https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/LabLogo.png
+.. |lab| image::  https://raw.githubusercontent.com/embodied-computation-group/systole/master/docs/source/images/lablogo_2024.png
    :width: 20%
 
 
