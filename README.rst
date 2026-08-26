@@ -118,22 +118,22 @@ For an introduction to Systole and cardiac signal analysis, you can refer to the
      - |Colab badge 6|
 
 .. |Colab badge 1| image:: https://colab.research.google.com/assets/colab-badge.svg
-  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/1-PhysiologicalSignals.ipynb
+  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/master/docs/source/notebooks/1-PhysiologicalSignals.ipynb
 
 .. |Colab badge 2| image:: https://colab.research.google.com/assets/colab-badge.svg
-  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/2-DetectingCycles.ipynb
+  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/master/docs/source/notebooks/2-DetectingCycles.ipynb
 
 .. |Colab badge 3| image:: https://colab.research.google.com/assets/colab-badge.svg
-  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/3-DetectingAndCorrectingArtefacts.ipynb
+  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/master/docs/source/notebooks/3-DetectingAndCorrectingArtefacts.ipynb
 
 .. |Colab badge 4| image:: https://colab.research.google.com/assets/colab-badge.svg
-  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/4-HeartRateVariability.ipynb
+  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/master/docs/source/notebooks/4-HeartRateVariability.ipynb
 
 .. |Colab badge 5| image:: https://colab.research.google.com/assets/colab-badge.svg
-  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/5-InstantaneousHeartRate.ipynb
+  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/master/docs/source/notebooks/5-InstantaneousHeartRate.ipynb
 
 .. |Colab badge 6| image:: https://colab.research.google.com/assets/colab-badge.svg
-  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/dev/source/notebooks/6-WorkingWithBIDSFolders.ipynb
+  :target: https://colab.research.google.com/github/embodied-computation-group/systole/blob/master/docs/source/notebooks/6-WorkingWithBIDSFolders.ipynb
 
 
 Getting started
