@@ -76,6 +76,50 @@ class TestUtils(TestCase):
         )
         np.testing.assert_almost_equal(np.nanmean(heartrate), 884.92526408453)
 
+    def test_heart_rate_sampling_frequency(self):
+        """The output must not depend on `sfreq` for interval-based inputs.
+
+        Regression test: `heart_rate` used to rescale every input by
+        `(rr / sfreq) * 1000`, which is only correct for the `peaks` and
+        `peaks_idx` types. Interval inputs are already expressed in time units,
+        so any `sfreq` other than 1000 silently scaled the heart rate by
+        `1000 / sfreq` (a true 60 bpm was reported as 30 bpm at 500 Hz).
+        """
+        # A perfectly regular 60 bpm signal: 12 intervals of exactly one second
+        rr_ms = np.array([1000.0] * 12)
+        rr_s = rr_ms / 1000
+
+        # Interval inputs at the default sampling frequency
+        for input_type, rr in (("rr_ms", rr_ms), ("rr_s", rr_s)):
+            bpm, time = heart_rate(rr, unit="bpm", kind="linear", input_type=input_type)
+            assert len(bpm) == len(time)
+            np.testing.assert_almost_equal(np.nanmean(bpm), 60.0)
+
+        # Interval inputs combined with another sampling frequency are ambiguous
+        # and must raise rather than silently rescale.
+        for input_type, rr in (("rr_ms", rr_ms), ("rr_s", rr_s)):
+            for sfreq in (100, 256, 500):
+                with pytest.raises(ValueError):
+                    heart_rate(rr, sfreq=sfreq, input_type=input_type)
+
+        # Peaks vectors do depend on `sfreq`, and must give 60 bpm at every rate
+        for sfreq in (100, 256, 500, 1000):
+            peaks = np.zeros(sfreq * 12, dtype=bool)
+            peaks[::sfreq] = True  # one beat per second
+            bpm, time = heart_rate(
+                peaks, sfreq=sfreq, unit="bpm", kind="linear", input_type="peaks"
+            )
+            np.testing.assert_almost_equal(np.nanmean(bpm), 60.0)
+
+            bpm, time = heart_rate(
+                np.where(peaks)[0],
+                sfreq=sfreq,
+                unit="bpm",
+                kind="linear",
+                input_type="peaks_idx",
+            )
+            np.testing.assert_almost_equal(np.nanmean(bpm), 60.0)
+
     def test_time_shift(self):
         """Test time_shift function"""
         lag = time_shift([40, 50, 60], [45, 52])

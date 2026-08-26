@@ -105,7 +105,11 @@ def heart_rate(
     x :
         Boolean vector of peaks detection or RR intervals.
     sfreq :
-        The sampling frequency of the desired output.
+        The sampling frequency of the desired output. This only applies to the
+        `"peaks"` and `"peaks_idx"` input types, where it is used to convert peak
+        positions (in samples) into intervals. Providing a value other than `1000`
+        together with the `"rr_s"` or `"rr_ms"` input types raises a `ValueError`,
+        as those intervals are already expressed in time units.
     unit :
         The heart rate unit in use. Can be `'rr'` (R-R intervals, in ms)
         or `'bpm'` (beats per minutes). Default is `'rr'`.
@@ -160,9 +164,10 @@ def heart_rate(
             # Find peak indices
             peaks_idx = np.where(x)[0]
 
-            time = (peaks_idx / sfreq)[1:]  # Create time vector (seconds)
+            # R-R intervals (in milliseconds)
+            heartrate = (np.diff(peaks_idx) / sfreq) * 1000
 
-            rr = np.diff(peaks_idx)
+            time = (peaks_idx / sfreq)[1:]  # Create time vector (seconds)
 
             # Use the peaks vector as time input
             new_time = np.arange(0, len(x) / sfreq, 1 / sfreq)
@@ -173,9 +178,10 @@ def heart_rate(
     # A vector of peaks indexs
     elif input_type == "peaks_idx":
         if (np.diff(x) > 0).all():
-            time = (x / sfreq)[1:]  # Create time vector (seconds)
+            # R-R intervals (in milliseconds)
+            heartrate = (np.diff(x) / sfreq) * 1000
 
-            rr = np.diff(x)
+            time = (x / sfreq)[1:]  # Create time vector (seconds)
 
             # Use the peaks vector as time input
             new_time = np.arange(0, time[-1], 1 / sfreq)
@@ -186,22 +192,40 @@ def heart_rate(
     # A vector of RR intervals
     elif input_type == "rr_s":
         if (x > 0).all():
+            if sfreq != 1000:
+                raise ValueError(
+                    "A sampling frequency other than 1000 Hz was provided together "
+                    "with RR intervals in seconds. `sfreq` only applies to peaks "
+                    "vectors and would silently rescale the heart rate here. Either "
+                    "drop `sfreq`, or use the `peaks` / `peaks_idx` input types."
+                )
+
+            # R-R intervals (in milliseconds)
+            heartrate = x * 1000
+
             time = np.cumsum(x)  # Create time vector (seconds)
-            rr = x * 1000
-            new_time = np.arange(0, time[-1], 1 / sfreq)
+            new_time = np.arange(0, time[-1], 1 / 1000)
         else:
             raise ValueError("RR intervals cannot be less than 0")
 
     elif input_type == "rr_ms":
         if (x > 0).all():
+            if sfreq != 1000:
+                raise ValueError(
+                    "A sampling frequency other than 1000 Hz was provided together "
+                    "with RR intervals in milliseconds. `sfreq` only applies to peaks "
+                    "vectors and would silently rescale the heart rate here. Either "
+                    "drop `sfreq`, or use the `peaks` / `peaks_idx` input types."
+                )
+
+            # R-R intervals (in milliseconds)
+            heartrate = x
+
             time = np.cumsum(x) / 1000  # Create time vector (seconds)
-            rr = x
-            new_time = np.arange(0, time[-1], 1 / sfreq)
+            new_time = np.arange(0, time[-1], 1 / 1000)
         else:
             raise ValueError("RR intervals cannot be less than 0")
 
-    # R-R intervals (in miliseconds)
-    heartrate = (rr / sfreq) * 1000
     if unit == "bpm":
         # Beats per minutes
         heartrate = 60000 / heartrate
