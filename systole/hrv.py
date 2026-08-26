@@ -45,7 +45,7 @@ def nnX(rr: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") -> 
         rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
 
     if len(rr.shape) > 1:
-        raise ValueError("X must be a 1darray")
+        raise ValueError("X must be a 1d array")
 
     # NN50: number of successive differences larger than t ms
     nn = np.sum(np.abs(np.diff(rr)) > t).astype(int)
@@ -81,7 +81,7 @@ def pnnX(rr: Union[List, np.ndarray], t: int = 50, input_type: str = "rr_ms") ->
         rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
 
     if len(rr.shape) > 1:
-        raise ValueError("X must be a 1darray")
+        raise ValueError("X must be a 1d array")
 
     # nnX: number of successive differences larger than t ms
     nn = nnX(rr, t)
@@ -124,7 +124,7 @@ def rmssd(rr: Union[List, np.ndarray], input_type: str = "rr_ms") -> float:
         rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
 
     if len(rr.shape) > 1:
-        raise ValueError("X must be a 1darray")
+        raise ValueError("X must be a 1d array")
 
     y = np.sqrt(np.mean(np.square(np.diff(rr))))
 
@@ -186,7 +186,7 @@ def time_domain(rr: Union[List, np.ndarray], input_type: str = "rr_ms") -> pd.Da
         rr = input_conversion(rr, input_type=input_type, output_type="rr_ms")
 
     if len(rr.shape) > 1:
-        raise ValueError("X must be a 1darray")
+        raise ValueError("X must be a 1d array")
 
     # Mean R-R intervals
     mean_rr = round(np.mean(rr), 6)  # type: ignore

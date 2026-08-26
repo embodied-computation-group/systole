@@ -182,6 +182,28 @@ class TestUtils(TestCase):
         with pytest.raises(ValueError):
             nan_cleaning(np.full(50, np.nan), verbose=False)
 
+    def test_input_conversion_accepts_floats(self):
+        """RR intervals in milliseconds are floats and must convert cleanly.
+
+        Regression test for the dtype point raised in #57. The `rr_ms` branch
+        indexed with `np.cumsum(x)` directly, so a float array -- the natural
+        dtype for intervals in milliseconds -- raised "arrays used as indices
+        must be of integer (or boolean) type". The `rr_s` branch already cast
+        for exactly this reason.
+        """
+        rr = np.array([800, 850, 900, 870, 820], dtype=float)
+
+        for dtype in (float, int):
+            for output_type in ("peaks", "peaks_idx", "rr_s"):
+                out = input_conversion(
+                    rr.astype(dtype), input_type="rr_ms", output_type=output_type
+                )
+                assert len(out) > 0
+
+        # The peaks vector must place one peak per interval, plus the first beat
+        peaks = input_conversion(rr, input_type="rr_ms", output_type="peaks")
+        assert peaks.sum() == len(rr) + 1
+
     def test_time_shift(self):
         """Test time_shift function"""
         lag = time_shift([40, 50, 60], [45, 52])

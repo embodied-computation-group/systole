@@ -663,11 +663,14 @@ def input_conversion(
             if output_type == "rr_s":
                 output = x / 1000
             elif output_type == "peaks":
+                # Intervals in milliseconds are naturally floats, and a float
+                # array cannot be used to index. The `rr_s` branch below already
+                # casts for the same reason.
                 output = np.zeros(int(np.sum(x)) + 1, dtype=bool)
-                output[np.cumsum(x)] = True
+                output[np.cumsum(x).astype(int)] = True
                 output[0] = True
             elif output_type == "peaks_idx":
-                output = np.cumsum(x)
+                output = np.cumsum(x).astype(int)
                 output = np.insert(output, 0, 0)
         else:
             raise ValueError("Invalid intervals provided.")
