@@ -152,6 +152,36 @@ class TestUtils(TestCase):
             assert len(this_rejected) == len(triggers_idx)
             assert (~this_rejected).sum() == len(this_epochs)
 
+    def test_nan_cleaning_edge_cases(self):
+        """NaN interpolation must not mutate its input or fail obscurely.
+
+        Related to #59, which reported an error coming from `np.interp` during
+        peak detection. Three problems here: the interpolation wrote into the
+        caller's array, that failed outright on the read-only arrays pandas
+        returns under copy-on-write, and a signal that is entirely NaN reached
+        `np.interp` with no sample points and raised
+        "array of sample points is empty" rather than saying what was wrong.
+        """
+        signal = np.arange(100, dtype=float)
+        signal[10:20] = np.nan
+
+        # The caller's array must come back untouched
+        before = signal.copy()
+        nan_cleaning(signal, verbose=False)
+        np.testing.assert_array_equal(
+            np.nan_to_num(signal), np.nan_to_num(before)
+        )
+
+        # A read-only input must be accepted
+        read_only = signal.copy()
+        read_only.flags.writeable = False
+        cleaned = nan_cleaning(read_only, verbose=False)
+        assert not np.isnan(cleaned).any()
+
+        # A signal with nothing to interpolate from must say so
+        with pytest.raises(ValueError):
+            nan_cleaning(np.full(50, np.nan), verbose=False)
+
     def test_time_shift(self):
         """Test time_shift function"""
         lag = time_shift([40, 50, 60], [45, 52])
