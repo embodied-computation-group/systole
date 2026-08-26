@@ -167,7 +167,7 @@ Once the preprocessing is completed, and if you did not asked for an external re
 (viewer)=
 ## Manual edition of peaks vector and bad segments labelling
 
-While we hope that the peaks detection function used by [Systole](https://embodied-computation-group.github.io/systole/#) is sufficiently robust to extract peak vectors without errors for most of the uses cases, you might still encounter noisy or invalid recording that you will want to manually inspect and sometimes edit.
+While we hope that the peaks detection function used by [Systole](https://www.the-ecg.org/systole/) is sufficiently robust to extract peak vectors without errors for most of the uses cases, you might still encounter noisy or invalid recording that you will want to manually inspect and sometimes edit.
 
 The :py:mod:`systole.interact` sub-module provides two classes (:py:class:`systole.interact.Editor` and :py:class:`systole.interact.Viewer`) built on the top of Matplotlib widgets that can help for manual edition, and interactive visualization of BIDS fodlers directly in the notebook.
 
