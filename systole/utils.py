@@ -431,7 +431,11 @@ def to_epochs(
                     high = ev + round(apply_baseline[1] * sfreq)
                     baseline = signal[low:high].mean()
                 epochs.append(trial - baseline)
-                rejected.append(False)
+
+            # The trial was kept, whether or not a baseline was applied. This
+            # has to sit outside the branch above so that `rejected` keeps one
+            # entry per trigger.
+            rejected.append(False)
 
         # Append to the condition level
         all_epochs.append(np.array(epochs))
@@ -659,11 +663,14 @@ def input_conversion(
             if output_type == "rr_s":
                 output = x / 1000
             elif output_type == "peaks":
+                # Intervals in milliseconds are naturally floats, and a float
+                # array cannot be used to index. The `rr_s` branch below already
+                # casts for the same reason.
                 output = np.zeros(int(np.sum(x)) + 1, dtype=bool)
-                output[np.cumsum(x)] = True
+                output[np.cumsum(x).astype(int)] = True
                 output[0] = True
             elif output_type == "peaks_idx":
-                output = np.cumsum(x)
+                output = np.cumsum(x).astype(int)
                 output = np.insert(output, 0, 0)
         else:
             raise ValueError("Invalid intervals provided.")
@@ -706,6 +713,11 @@ def nan_cleaning(signal: np.ndarray, verbose: bool = True) -> np.ndarray:
 
     """
 
+    # Interpolating writes into the array. Without the copy this rewrites the
+    # caller's signal, and fails outright when the input is read-only -- which
+    # is what pandas returns under copy-on-write.
+    signal = signal.copy()
+
     arg_nans = np.where(np.isnan(signal))[0]
     if len(arg_nans) > 0:
         if verbose:
@@ -713,6 +725,12 @@ def nan_cleaning(signal: np.ndarray, verbose: bool = True) -> np.ndarray:
                 f"... NaNs cleaning : interpolating {len(arg_nans)} NaN values found in the signal {int(100 * len(arg_nans)/len(signal))} %."
             )
         arg_float = np.where(~np.isnan(signal))[0]
+        if len(arg_float) == 0:
+            # Every sample is NaN, so there is nothing to interpolate from.
+            # np.interp would raise "array of sample points is empty" here.
+            raise ValueError(
+                "The signal contains only NaN values and cannot be interpolated."
+            )
         xp = np.arange(0, len(signal))[arg_float]
         fp = signal[arg_float]
         signal[arg_nans] = np.interp(arg_nans, xp=xp, fp=fp)

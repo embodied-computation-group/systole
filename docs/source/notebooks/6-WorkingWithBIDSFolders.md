@@ -213,7 +213,7 @@ This windows will automatically apply peaks detection given the `signal_type` pa
     <p align='center'><img src='https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/peaks.gif'/></p>
 
 * When using the **Rejection** mode:
-    * Use the *right* mouse button to select a segment that should be marked as bad.
+    * Use the *left* mouse button to select a segment that should be marked as bad.
     <p align='center'><img src='https://github.com/embodied-computation-group/systole/raw/dev/docs/source/images/segments.gif'/></p>
 
 * By deselecting the check box, you can mark the entire signal as **invalid**.

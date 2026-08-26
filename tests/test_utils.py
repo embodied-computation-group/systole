@@ -120,6 +120,90 @@ class TestUtils(TestCase):
             )
             np.testing.assert_almost_equal(np.nanmean(bpm), 60.0)
 
+    def test_to_epochs_rejected_length(self):
+        """`rejected` must hold one entry per trigger, whatever the baseline.
+
+        Regression test for #78: `rejected.append(False)` sat inside the
+        `else` branch of the baseline correction, so when `apply_baseline` was
+        explicitly set to `None` the accepted trials were never recorded. The
+        mask came back short and containing only `True`, which silently
+        misaligns any code indexing the epochs with it.
+        """
+        signal = np.arange(10000, dtype=float)
+        triggers_idx = np.array([1000, 2000, 3000, 4000, 5000])
+
+        # Mark one trial as containing an artefact so both outcomes are present
+        reject = np.zeros(10000, dtype=bool)
+        reject[2900:3100] = True
+
+        for apply_baseline in (0.0, (-1.0, 0.0), None):
+            epochs, rejected = to_epochs(
+                signal=signal,
+                triggers_idx=triggers_idx,
+                sfreq=1000,
+                tmin=-1.0,
+                tmax=1.0,
+                reject=reject,
+                apply_baseline=apply_baseline,
+            )
+            this_epochs, this_rejected = np.asarray(epochs[0]), np.asarray(rejected[0])
+
+            # One entry per trigger, and the kept trials line up with the epochs
+            assert len(this_rejected) == len(triggers_idx)
+            assert (~this_rejected).sum() == len(this_epochs)
+
+    def test_nan_cleaning_edge_cases(self):
+        """NaN interpolation must not mutate its input or fail obscurely.
+
+        Related to #59, which reported an error coming from `np.interp` during
+        peak detection. Three problems here: the interpolation wrote into the
+        caller's array, that failed outright on the read-only arrays pandas
+        returns under copy-on-write, and a signal that is entirely NaN reached
+        `np.interp` with no sample points and raised
+        "array of sample points is empty" rather than saying what was wrong.
+        """
+        signal = np.arange(100, dtype=float)
+        signal[10:20] = np.nan
+
+        # The caller's array must come back untouched
+        before = signal.copy()
+        nan_cleaning(signal, verbose=False)
+        np.testing.assert_array_equal(
+            np.nan_to_num(signal), np.nan_to_num(before)
+        )
+
+        # A read-only input must be accepted
+        read_only = signal.copy()
+        read_only.flags.writeable = False
+        cleaned = nan_cleaning(read_only, verbose=False)
+        assert not np.isnan(cleaned).any()
+
+        # A signal with nothing to interpolate from must say so
+        with pytest.raises(ValueError):
+            nan_cleaning(np.full(50, np.nan), verbose=False)
+
+    def test_input_conversion_accepts_floats(self):
+        """RR intervals in milliseconds are floats and must convert cleanly.
+
+        Regression test for the dtype point raised in #57. The `rr_ms` branch
+        indexed with `np.cumsum(x)` directly, so a float array -- the natural
+        dtype for intervals in milliseconds -- raised "arrays used as indices
+        must be of integer (or boolean) type". The `rr_s` branch already cast
+        for exactly this reason.
+        """
+        rr = np.array([800, 850, 900, 870, 820], dtype=float)
+
+        for dtype in (float, int):
+            for output_type in ("peaks", "peaks_idx", "rr_s"):
+                out = input_conversion(
+                    rr.astype(dtype), input_type="rr_ms", output_type=output_type
+                )
+                assert len(out) > 0
+
+        # The peaks vector must place one peak per interval, plus the first beat
+        peaks = input_conversion(rr, input_type="rr_ms", output_type="peaks")
+        assert peaks.sum() == len(rr) + 1
+
     def test_time_shift(self):
         """Test time_shift function"""
         lag = time_shift([40, 50, 60], [45, 52])

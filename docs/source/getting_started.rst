@@ -59,6 +59,16 @@ Signal extraction and interactive plotting
 ==========================================
 The package integrates a set of functions for interactive or non interactive data visualization based on `Matplotlib <https://matplotlib.org/>`_ and `Bokeh <https://docs.bokeh.org/en/latest/index.html#>`_.
 
+.. note::
+
+   To display the Bokeh figures inside a Jupyter notebook, Bokeh's own
+   ``output_notebook()`` has to be called once per session, before plotting::
+
+     from bokeh.io import output_notebook
+     output_notebook()
+
+   Without it the figures are created but nothing is rendered.
+
 .. code-block:: python
 
   from systole.plots plot_raw

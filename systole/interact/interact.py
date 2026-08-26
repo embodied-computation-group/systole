@@ -523,6 +523,13 @@ class Editor:
         if viewer is not None:
             self.viewer = viewer
         self.sfreq = sfreq
+
+        # `sfreq` describes the signal as it was handed in. The peak detectors
+        # resample to 1000 Hz, so once they have run `self.signal` is no longer
+        # at `self.sfreq`; the plots need the rate of the signal actually held.
+        # It only stays at the input rate when peaks are supplied, because then
+        # no detector runs and nothing is resampled.
+        self.plot_sfreq = sfreq
         self.signal = signal
         self.figsize = figsize
         self.bad_segments: List[int] = []
@@ -584,13 +591,14 @@ class Editor:
                 show_heart_rate=True,
                 show_artefacts=True,
                 bad_segments=bad_segments,
-                sfreq=1000,
+                sfreq=self.plot_sfreq,
                 ax=[self.ax[0], self.ax[1]],
             )
 
             self.fig.canvas.mpl_connect("key_press_event", self.on_key)
 
-            # two selectors for rejection (left mouse) and deletion (right mouse)
+            # Left button removes peaks, or marks a bad segment in Rejection
+            # mode; right button adds a peak at the local maximum.
             self.delete = functools.partial(self.on_remove)
             self.span1 = SpanSelector(
                 self.ax[0],
@@ -687,14 +695,15 @@ class Editor:
                 show_heart_rate=True,
                 show_artefacts=True,
                 bad_segments=bad_segments,
-                sfreq=1000,
+                sfreq=self.plot_sfreq,
                 ax=[self.ax[0], self.ax[1]],
             )
             self.ax[0].set(xlim=xlim, ylim=ylim)
             self.ax[1].set(xlim=xlim2, ylim=ylim2)
 
             # Show span selectors
-            # two selectors for rejection (left mouse) and deletion (right mouse)
+            # Left button removes peaks, or marks a bad segment in Rejection
+            # mode; right button adds a peak at the local maximum.
             self.delete = functools.partial(self.on_remove)
             self.span1 = SpanSelector(
                 self.ax[0],
@@ -791,6 +800,9 @@ class Editor:
                 )
             else:
                 raise ValueError("Invalid signal_type. Must be 'ECG', 'PPG' or 'RESP'.")
+
+            # The detectors above resample to their `new_sfreq`, 1000 Hz by default
+            self.plot_sfreq = 1000
 
         # The peaks vector before manual edition
         self.uncorrected_peaks = self.peaks.copy()

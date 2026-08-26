@@ -304,6 +304,7 @@ def plot_rr(
             title="Select the time window",
             y_range=p1.y_range,
             y_axis_type=None,
+            sizing_mode="stretch_width",
             height=int(figsize * 0.5),
             x_axis_type="datetime",
             tools="",
