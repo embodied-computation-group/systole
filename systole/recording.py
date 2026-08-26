@@ -327,7 +327,7 @@ class Oximeter:
             The figure and axe instances.
         """
         if self.channels is not None:
-            triggers = self.channels[n_channel]
+            triggers = np.array(self.channels[n_channel])
 
         return plot_events(triggers=triggers, sfreq=75, **kwargs)
 
