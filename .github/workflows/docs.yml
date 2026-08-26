@@ -45,7 +45,10 @@ jobs:
           pip install -r requirements-docs.txt
           sphinx-build -b html docs/source docs/build/html
 
+      # Build on every pull request, but only publish from master -- otherwise
+      # any open PR overwrites the live documentation site.
       - name: Deploy 🚀
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: docs/build/html
