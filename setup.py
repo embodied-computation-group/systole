@@ -30,10 +30,11 @@ def get_version(rel_path):
 
 DESCRIPTION = """Systole: A python package for cardiac signal synchrony and analysis"""
 
-DISTNAME = "systole"
-MAINTAINER = "Nicolas Legrand"
-MAINTAINER_EMAIL = "nicolas.legrand@cfin.au.dk"
-VERSION = "0.2.5"
+DISTNAME = "systole-core"
+MAINTAINER = "Micah Allen"
+MAINTAINER_EMAIL = "micah@cfin.au.dk"
+URL = "https://www.the-ecg.org/systole/"
+VERSION = "0.3.0"
 
 
 if __name__ == "__main__":
@@ -45,13 +46,27 @@ if __name__ == "__main__":
         maintainer=MAINTAINER,
         maintainer_email=MAINTAINER_EMAIL,
         description=DESCRIPTION,
+        url=URL,
+        project_urls={
+            "Documentation": "https://www.the-ecg.org/systole/",
+            "Source": "https://github.com/embodied-computation-group/systole",
+            "Bug Tracker": "https://github.com/embodied-computation-group/systole/issues",
+        },
         long_description=open("README.rst").read(),
         long_description_content_type="text/x-rst",
+        python_requires=">=3.9",
+        classifiers=[
+            "Development Status :: 5 - Production/Stable",
+            "Intended Audience :: Science/Research",
+            "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+            "Programming Language :: Python :: 3",
+            "Topic :: Scientific/Engineering :: Bio-Informatics",
+        ],
         license="GPL-3.0",
         version=get_version("systole/__init__.py"),
         install_requires=get_requirements(),
         include_package_data=True,
-        packages=find_packages(),
+        packages=find_packages(exclude=["tests", "tests.*"]),
         entry_points = {
         'console_scripts': ['systole=systole.reports.command_line:main'],
     }

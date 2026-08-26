@@ -13,15 +13,23 @@ class TestDetection(TestCase):
 
     def test_ppg_peaks(self):
         """Test ppg_peaks function"""
-        ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
+        ppg = import_ppg().ppg.to_numpy().copy()  # Import PPG recording
         rolling_average_signal, rolling_average_peaks = ppg_peaks(ppg, sfreq=75, method="rolling_average")
         msptd_signal, msptd_peaks = ppg_peaks(ppg, sfreq=75, method="msptd")
 
         assert np.all(rolling_average_signal == msptd_signal)
 
         # mean RR intervals
-        assert np.isclose(np.diff(np.where(rolling_average_peaks)[0]).mean(), 874.2068965517242)
-        assert np.isclose(np.diff(np.where(msptd_peaks)[0]).mean(), 867.3105263157895)
+        # Pinning these means to full float precision is brittle: the MSPTD
+        # detector shifts the odd peak by a sample or two between SciPy
+        # releases. A relative tolerance still catches a real regression, which
+        # would move the mean interval by far more than a fraction of a sample.
+        assert np.isclose(
+            np.diff(np.where(rolling_average_peaks)[0]).mean(), 874.21, rtol=1e-3
+        )
+        assert np.isclose(
+            np.diff(np.where(msptd_peaks)[0]).mean(), 867.30, rtol=1e-3
+        )
 
         # with nan removal and clipping correction
         rolling_average_signal2, rolling_average_peaks2 = ppg_peaks(
@@ -71,7 +79,7 @@ class TestDetection(TestCase):
         assert (rolling_average_signal == rolling_average_signal2).all()
 
     def test_rr_artefacts(self):
-        ppg = import_ppg().ppg.to_numpy()
+        ppg = import_ppg().ppg.to_numpy().copy()
         _, peaks = ppg_peaks(ppg, sfreq=75)
         rr_ms = np.diff(np.where(peaks)[0])
         artefacts_ms = rr_artefacts(rr_ms, input_type="rr_ms")

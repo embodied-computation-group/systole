@@ -27,7 +27,7 @@ from systole.utils import (
 
 class TestUtils(TestCase):
     def test_to_neighbour(sef):
-        ppg = import_ppg().ppg.to_numpy()[:200]  # Import PPG recording
+        ppg = import_ppg().ppg.to_numpy().copy()[:200]  # Import PPG recording
         peaks = np.zeros(len(ppg), dtype=bool)
         peaks[50] = True
 
@@ -37,7 +37,7 @@ class TestUtils(TestCase):
         assert np.where(new_peaks)[0] == 1
 
     def test_norm_triggers(self):
-        ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
+        ppg = import_ppg().ppg.to_numpy().copy()  # Import PPG recording
         _, peaks = ppg_peaks(ppg, sfreq=75)
         peaks[np.where(peaks)[0] + 1] = 1
         peaks[np.where(peaks)[0] + 2] = 1
@@ -54,7 +54,7 @@ class TestUtils(TestCase):
 
     def test_heart_rate(self):
         """Test heart_rate function"""
-        ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
+        ppg = import_ppg().ppg.to_numpy().copy()  # Import PPG recording
         _, peaks = ppg_peaks(ppg, sfreq=75)
         heartrate, time = heart_rate(peaks)
         assert len(heartrate) == len(time)
@@ -76,6 +76,50 @@ class TestUtils(TestCase):
         )
         np.testing.assert_almost_equal(np.nanmean(heartrate), 884.92526408453)
 
+    def test_heart_rate_sampling_frequency(self):
+        """The output must not depend on `sfreq` for interval-based inputs.
+
+        Regression test: `heart_rate` used to rescale every input by
+        `(rr / sfreq) * 1000`, which is only correct for the `peaks` and
+        `peaks_idx` types. Interval inputs are already expressed in time units,
+        so any `sfreq` other than 1000 silently scaled the heart rate by
+        `1000 / sfreq` (a true 60 bpm was reported as 30 bpm at 500 Hz).
+        """
+        # A perfectly regular 60 bpm signal: 12 intervals of exactly one second
+        rr_ms = np.array([1000.0] * 12)
+        rr_s = rr_ms / 1000
+
+        # Interval inputs at the default sampling frequency
+        for input_type, rr in (("rr_ms", rr_ms), ("rr_s", rr_s)):
+            bpm, time = heart_rate(rr, unit="bpm", kind="linear", input_type=input_type)
+            assert len(bpm) == len(time)
+            np.testing.assert_almost_equal(np.nanmean(bpm), 60.0)
+
+        # Interval inputs combined with another sampling frequency are ambiguous
+        # and must raise rather than silently rescale.
+        for input_type, rr in (("rr_ms", rr_ms), ("rr_s", rr_s)):
+            for sfreq in (100, 256, 500):
+                with pytest.raises(ValueError):
+                    heart_rate(rr, sfreq=sfreq, input_type=input_type)
+
+        # Peaks vectors do depend on `sfreq`, and must give 60 bpm at every rate
+        for sfreq in (100, 256, 500, 1000):
+            peaks = np.zeros(sfreq * 12, dtype=bool)
+            peaks[::sfreq] = True  # one beat per second
+            bpm, time = heart_rate(
+                peaks, sfreq=sfreq, unit="bpm", kind="linear", input_type="peaks"
+            )
+            np.testing.assert_almost_equal(np.nanmean(bpm), 60.0)
+
+            bpm, time = heart_rate(
+                np.where(peaks)[0],
+                sfreq=sfreq,
+                unit="bpm",
+                kind="linear",
+                input_type="peaks_idx",
+            )
+            np.testing.assert_almost_equal(np.nanmean(bpm), 60.0)
+
     def test_time_shift(self):
         """Test time_shift function"""
         lag = time_shift([40, 50, 60], [45, 52])
@@ -83,13 +127,13 @@ class TestUtils(TestCase):
 
     def test_to_angle(self):
         """Test to_angles function"""
-        rr = import_rr().rr.values
+        rr = import_rr().rr.values.copy()
         # Create event vector
         events = rr + np.random.normal(500, 100, len(rr))
         ang = to_angles(list(np.cumsum(rr)), list(np.cumsum(events)))
         assert ~np.any(np.asarray(ang) < 0)
         assert ~np.any(np.asarray(ang) > np.pi * 2)
-        ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
+        ppg = import_ppg().ppg.to_numpy().copy()  # Import PPG recording
         signal, peaks = ppg_peaks(ppg, sfreq=75)
         ang = to_angles(peaks, peaks)
 
@@ -143,7 +187,7 @@ class TestUtils(TestCase):
     def test_input_conversion(self):
         """Test the input_conversion function"""
         # Load example PPG signal
-        ppg = import_ppg().ppg.to_numpy()
+        ppg = import_ppg().ppg.to_numpy().copy()
         _, peaks = ppg_peaks(ppg, sfreq=75)
 
         # input_type = "peaks"
@@ -183,7 +227,7 @@ class TestUtils(TestCase):
         nan_cleaning(signal=np.array(ppg), verbose=True)
 
     def test_find_clipping(self):
-        ppg = import_ppg().ppg.to_numpy()
+        ppg = import_ppg().ppg.to_numpy().copy()
 
         lower, upper = find_clipping(signal=ppg)
         assert (lower, upper) == (0, 255)

@@ -48,8 +48,8 @@ def rolling_average_resp(
         pd.DataFrame({"signal": signal})
         .rolling(int(sfreq * win), center=True)
         .mean()
-        .fillna(method="bfill")
-        .fillna(method="ffill")
+        .bfill()
+        .ffill()
         .signal.to_numpy()
     )
 

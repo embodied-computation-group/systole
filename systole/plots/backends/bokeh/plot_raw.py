@@ -118,7 +118,7 @@ def plot_raw(
         line_color="#a9373b",
     )
 
-    raw.circle(
+    raw.scatter(
         x=time[peaks],
         y=signal[peaks],
         size=5,

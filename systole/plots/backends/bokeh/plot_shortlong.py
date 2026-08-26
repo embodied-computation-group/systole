@@ -60,7 +60,7 @@ def plot_shortlong(
     shorLong_plot.patch([1, 1, 10, 10], [-1, -10, -10, -1], alpha=0.2, color="grey")
 
     # Plot normal intervals
-    shorLong_plot.circle(
+    shorLong_plot.scatter(
         artefacts["subspace1"][~outliers],
         artefacts["subspace3"][~outliers],
         color="gray",
@@ -71,29 +71,31 @@ def plot_shortlong(
 
     # Plot ectopic beats
     if artefacts["ectopic"].any():
-        shorLong_plot.triangle(
+        shorLong_plot.scatter(
             artefacts["subspace1"][artefacts["ectopic"]],
             artefacts["subspace3"][artefacts["ectopic"]],
             size=8,
             alpha=0.8,
             legend_label="Ectopic beats",
             color="#6c0073",
+            marker="triangle",
         )
 
     # Plot missed beats
     if artefacts["missed"].any():
-        shorLong_plot.square(
+        shorLong_plot.scatter(
             artefacts["subspace1"][artefacts["missed"]],
             artefacts["subspace3"][artefacts["missed"]],
             size=8,
             alpha=0.8,
             legend_label="Missed beats",
             color="#2f5f91",
+            marker="square",
         )
 
     # Plot long beats
     if artefacts["long"].any():
-        shorLong_plot.circle(
+        shorLong_plot.scatter(
             artefacts["subspace1"][artefacts["long"]],
             artefacts["subspace3"][artefacts["long"]],
             size=8,
@@ -104,18 +106,19 @@ def plot_shortlong(
 
     # Plot extra beats
     if artefacts["extra"].any():
-        shorLong_plot.square(
+        shorLong_plot.scatter(
             artefacts["subspace1"][artefacts["extra"]],
             artefacts["subspace3"][artefacts["extra"]],
             size=8,
             alpha=0.8,
             legend_label="Extra beats",
             color="#9d2b39",
+            marker="square",
         )
 
     # Plot short beats
     if artefacts["short"].any():
-        shorLong_plot.circle(
+        shorLong_plot.scatter(
             artefacts["subspace1"][artefacts["short"]],
             artefacts["subspace3"][artefacts["short"]],
             size=8,

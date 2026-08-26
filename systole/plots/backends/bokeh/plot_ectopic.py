@@ -71,7 +71,7 @@ def plot_ectopic(
     ectopic_plot.patch([1, 1, 10, 10], [f2(1), -5, -5, f2(5)], alpha=0.2, color="grey")
 
     # Plot normal intervals
-    ectopic_plot.circle(
+    ectopic_plot.scatter(
         artefacts["subspace1"][~outliers],
         artefacts["subspace2"][~outliers],
         color="gray",
@@ -82,29 +82,31 @@ def plot_ectopic(
 
     # Plot ectopic beats
     if artefacts["ectopic"].any():
-        ectopic_plot.triangle(
+        ectopic_plot.scatter(
             artefacts["subspace1"][artefacts["ectopic"]],
             artefacts["subspace2"][artefacts["ectopic"]],
             size=8,
             alpha=0.8,
             legend_label="Ectopic beats",
             color="#6c0073",
+            marker="triangle",
         )
 
     # Plot missed beats
     if artefacts["missed"].any():
-        ectopic_plot.square(
+        ectopic_plot.scatter(
             artefacts["subspace1"][artefacts["missed"]],
             artefacts["subspace2"][artefacts["missed"]],
             size=8,
             alpha=0.8,
             legend_label="Missed beats",
             color="#2f5f91",
+            marker="square",
         )
 
     # Plot long beats
     if artefacts["long"].any():
-        ectopic_plot.circle(
+        ectopic_plot.scatter(
             artefacts["subspace1"][artefacts["long"]],
             artefacts["subspace2"][artefacts["long"]],
             size=8,
@@ -115,18 +117,19 @@ def plot_ectopic(
 
     # Plot extra beats
     if artefacts["extra"].any():
-        ectopic_plot.square(
+        ectopic_plot.scatter(
             artefacts["subspace1"][artefacts["extra"]],
             artefacts["subspace2"][artefacts["extra"]],
             size=8,
             alpha=0.8,
             legend_label="Extra beats",
             color="#9d2b39",
+            marker="square",
         )
 
     # Plot short beats
     if artefacts["short"].any():
-        ectopic_plot.circle(
+        ectopic_plot.scatter(
             artefacts["subspace1"][artefacts["short"]],
             artefacts["subspace2"][artefacts["short"]],
             size=8,

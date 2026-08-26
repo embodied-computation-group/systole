@@ -327,7 +327,7 @@ class Oximeter:
             The figure and axe instances.
         """
         if self.channels is not None:
-            triggers = self.channels[n_channel]
+            triggers = np.array(self.channels[n_channel])
 
         return plot_events(triggers=triggers, sfreq=75, **kwargs)
 
@@ -750,18 +750,15 @@ class BrainVisionExG:
         self.con.close()
 
 
-
-
-
 class Nonin3231USB:
     """Recording Nonin 3231 USB HR signal through USB connection
 
     Parameters
     ----------
-    
+
     serial : pySerial object
         The `serial` instance interfacing with the USB port.
-        
+
 
     Examples
     --------
@@ -827,18 +824,18 @@ class Nonin3231USB:
                 self.channels[f"Channel_{i}"] = []
         else:
             self.channels = None
-        
+
         # print('channels: '+str(self.channels))
 
         return self
-    
+
     def setup(self):
         self.reset(
             serial=self.serial,
         )
 
         return self
-    
+
     def read(self, duration: float):
         """Read PPG signal for some amount of time.
 
@@ -849,33 +846,32 @@ class Nonin3231USB:
         """
         # init start ime
         tstart = time.time()
-        
-        # read for length of duration 
+
+        # read for length of duration
         while time.time() - tstart < duration:
             # assert one full line of data is there
             if self.serial.inWaiting() >= 12:
-                # Store line of data 
+                # Store line of data
                 data = list(self.serial.readline())
                 # assert full data line
-                if len(data) < 12: 
+                if len(data) < 12:
                     continue
-                # get bpm reading 
+                # get bpm reading
                 self.bpm.append(data[8])
                 # give bpm to recording as well
                 self.recording.append(data[8])
                 # get SpO2 reading (we don't use it)
                 self.SpO2.append(data[6])
-                # get 'time' reading (seconds) 
+                # get 'time' reading (seconds)
                 self.times.append(data[5])
                 # Add 0 to the additional channels
                 if self.channels is not None:
                     for ch in self.channels:
                         self.channels[ch].append(0)
-        
+
         return self
-    
-    
-    def readInWaiting(self, bool = False):
+
+    def readInWaiting(self, bool=False):
         """Read in waiting Nonin data.
 
         Parameters
@@ -886,34 +882,30 @@ class Nonin3231USB:
 
         #  nonin device reads out 12 bits per message
         while self.serial.inWaiting() >= 12:
-
             # Store full message line
             data = list(self.serial.readline())
             # assert that there is a full line of data
-            if len(data) < 12: 
+            if len(data) < 12:
                 continue
-            # get bpm reading 
+            # get bpm reading
             self.bpm.append(data[8])
             # give bpm to recording as well
             self.recording.append(data[8])
             # get SpO2 reading (we don't use it)
             self.SpO2.append(data[6])
-            # get 'time' reading (seconds) 
+            # get 'time' reading (seconds)
             self.times.append(data[5])
             # Add 0 to the additional channels for triggers
             if self.channels is not None:
                 for ch in self.channels:
                     self.channels[ch].append(0)
-        
 
-    
     def save(self, fname: str):
         """
         Not saving the data as of now, only results
         """
         None
 
-    
     def close(self):
         """Close serial connections"""
         self.serial.close()

@@ -1,12 +1,12 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import argparse
+from importlib import resources
 from os import PathLike
 from pathlib import Path
 from typing import List, Optional, Union
 
 import pandas as pd
-import pkg_resources  # type:ignore
 from bokeh.embed import components
 from bokeh.resources import INLINE
 from jinja2 import Template
@@ -22,6 +22,11 @@ from systole.reports.group_level import (
 from systole.reports.utils import create_reports
 
 
+def _template(name: str) -> str:
+    """Return the filesystem path of a packaged HTML report template."""
+    return str(resources.files("systole.reports").joinpath(name))
+
+
 def wrapper(
     bids_folder: Union[str, PathLike],
     participants_id: Union[str, List],
@@ -29,7 +34,7 @@ def wrapper(
     sessions: Union[str, List[str]] = "ses-session1",
     modality: str = "beh",
     result_folder: Optional[Union[str, PathLike]] = None,
-    template_file=pkg_resources.resource_filename(__name__, "./group_level.html"),
+    template_file=_template("group_level.html"),
     overwrite=False,
     n_jobs: int = 1,
     html_report: bool = False,

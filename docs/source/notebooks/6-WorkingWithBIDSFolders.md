@@ -22,7 +22,7 @@ Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 %%capture
 import sys
 if 'google.colab' in sys.modules:
-    ! pip install systole
+    ! pip install systole-core
 ```
 
 Starting in version `0.2.3`, Systole provides tools to interact with large datasets of physiological recordings. The functionalities interface with folders that are structured following the [BIDS standards](https://bids-specification.readthedocs.io/en/stable/) and this is the format we recommend using if you are following this tutorial.
