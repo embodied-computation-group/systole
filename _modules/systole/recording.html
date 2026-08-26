@@ -1,99 +1,90 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>systole.recording &#8212; systole 0.2.5dev0 documentation</title>
+    <title>systole.recording &#8212; systole 0.3.1 documentation</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
-  
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
-  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/documentation_options.js?v=4621528c"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../_static/thebelab-helper.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
-    <script src="../../_static/design-tabs.js"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/systole/recording';</script>
-    <link rel="shortcut icon" href="../../_static/logo_small.svg"/>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/logo_small.svg"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
   </head>
+  <body data-default-mode="">
   
   
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
-  
-  
-  <a class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
-
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -101,7 +92,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -109,19 +99,27 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
   
   <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../../index.html">
@@ -136,7 +134,7 @@
     
     
     <img src="../../_static/logo_small.svg" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="../../_static/logo_small.svg" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="../../_static/logo_small.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
     <p class="title logo__title">Systole</p>
@@ -149,49 +147,44 @@
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../getting_started.html">
-                        Getting started
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started.html">
+    Getting started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../auto_examples/index.html">
-                        Gallery
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../tutorials.html">
-                        Tutorials
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../auto_examples/index.html">
+    Gallery
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../api.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../references.html">
-                        References
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -202,30 +195,31 @@
       
         <div class="navbar-item navbar-persistent--container">
           
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -236,8 +230,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -248,8 +241,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
         <li class="nav-item">
           
@@ -260,8 +252,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Pypi</span></a>
+          <a href="https://pypi.org/project/systole-core/" title="Pypi" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i><span class="visually-hidden">Pypi</span></a>
         </li>
 </ul></div>
       
@@ -271,27 +262,30 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -300,51 +294,49 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../getting_started.html">
-                        Getting started
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started.html">
+    Getting started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../auto_examples/index.html">
-                        Gallery
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../tutorials.html">
-                        Tutorials
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../auto_examples/index.html">
+    Gallery
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../api.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../references.html">
-                        References
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -353,17 +345,21 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -374,8 +370,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -386,8 +381,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
         <li class="nav-item">
           
@@ -398,8 +392,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Pypi</span></a>
+          <a href="https://pypi.org/project/systole-core/" title="Pypi" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i><span class="visually-hidden">Pypi</span></a>
         </li>
 </ul></div>
         
@@ -409,29 +402,32 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
@@ -442,7 +438,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">systole.recording</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">systole.recording</span></li>
   </ul>
 </nav>
 </div>
@@ -457,25 +453,27 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <h1>Source code for systole.recording</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Author: Nicolas Legrand &lt;nicolas.legrand@cfin.au.dk&gt;</span>
 
-<span class="kn">import</span> <span class="nn">socket</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">struct</span> <span class="kn">import</span> <span class="n">unpack</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">struct</span><span class="w"> </span><span class="kn">import</span> <span class="n">unpack</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">systole.detection</span> <span class="kn">import</span> <span class="n">ppg_peaks</span>
-<span class="kn">from</span> <span class="nn">systole.plots</span> <span class="kn">import</span> <span class="n">plot_events</span><span class="p">,</span> <span class="n">plot_raw</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">systole.detection</span><span class="w"> </span><span class="kn">import</span> <span class="n">ppg_peaks</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">systole.plots</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_events</span><span class="p">,</span> <span class="n">plot_raw</span>
 
 
-<div class="viewcode-block" id="Oximeter"><a class="viewcode-back" href="../../generated/recording/systole.recording.Oximeter.html#systole.recording.Oximeter">[docs]</a><span class="k">class</span> <span class="nc">Oximeter</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Recording PPG signal with Nonin pulse oximeter.</span>
+<div class="viewcode-block" id="Oximeter">
+<a class="viewcode-back" href="../../generated/recording/systole.recording.Oximeter.html#systole.recording.Oximeter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Oximeter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Recording PPG signal with Nonin pulse oximeter.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -513,7 +511,7 @@ document.write(`
 <span class="sd">    USB port where the Nonin Pulse Oximeter is plugged.</span>
 
 <span class="sd">    &gt;&gt;&gt; import serial</span>
-<span class="sd">    &gt;&gt;&gt; ser = serial.Serial(&#39;COM4&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; ser = serial.Serial('COM4')</span>
 
 <span class="sd">    This instance is then used to create an :py:func:`Oximeter` instance that</span>
 <span class="sd">    will be used for the recording.</span>
@@ -563,16 +561,18 @@ document.write(`
 <span class="sd">      Nonin pulse oximeters) to allow continuous recording and fast processing</span>
 <span class="sd">      of in waiting samples. We recommend storing regularly 5 minutes recording</span>
 <span class="sd">      as .npy file using the :py:func:save() function.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-<div class="viewcode-block" id="Oximeter.__init__"><a class="viewcode-back" href="../../generated/recording/systole.recording.Oximeter.html#systole.recording.Oximeter.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="Oximeter.__init__">
+<a class="viewcode-back" href="../../generated/recording/systole.recording.Oximeter.html#systole.recording.Oximeter.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">serial</span><span class="p">,</span>
         <span class="n">sfreq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">75</span><span class="p">,</span>
         <span class="n">add_channels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">data_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span>
+        <span class="n">data_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"2"</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        serial :</span>
@@ -583,21 +583,22 @@ document.write(`
 <span class="sd">            If int, will create as many additionnal channels. If None, no</span>
 <span class="sd">            additional channels created.</span>
 <span class="sd">        data_format :</span>
-<span class="sd">            Data format returned by the USB dongle (&quot;2&quot; or &quot;7&quot;). See</span>
+<span class="sd">            Data format returned by the USB dongle ("2" or "7"). See</span>
 <span class="sd">            https://www.nonin.com/wp-content/uploads/6000-7000-CP-7602-000-11_ENG.pdf</span>
 <span class="sd">            for details. The pulse waveform value is automatically normalized and</span>
-<span class="sd">            range between 0 and 255 both for data format &quot;2&quot; and &quot;7&quot;.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            range between 0 and 255 both for data format "2" and "7".</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">serial</span><span class="p">,</span> <span class="n">sfreq</span><span class="p">,</span> <span class="n">add_channels</span><span class="p">,</span> <span class="n">data_format</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">serial</span><span class="p">,</span>
         <span class="n">sfreq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">75</span><span class="p">,</span>
         <span class="n">add_channels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">data_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span>
+        <span class="n">data_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"2"</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize/restart the recording instance.</span>
+<span class="w">        </span><span class="sd">"""Initialize/restart the recording instance.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -609,11 +610,11 @@ document.write(`
 <span class="sd">            If int, will create as many additionnal channels. If None, no</span>
 <span class="sd">            additional channels created.</span>
 <span class="sd">        data_format :</span>
-<span class="sd">            Data format returned by the USB dongle (&quot;2&quot; or &quot;7&quot;). See</span>
+<span class="sd">            Data format returned by the USB dongle ("2" or "7"). See</span>
 <span class="sd">            https://www.nonin.com/wp-content/uploads/6000-7000-CP-7602-000-11_ENG.pdf</span>
 <span class="sd">            for details. The pulse waveform value is automatically normalized and</span>
-<span class="sd">            range between 0 and 255 both for data format &quot;2&quot; and &quot;7&quot;.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            range between 0 and 255 both for data format "2" and "7".</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">serial</span> <span class="o">=</span> <span class="n">serial</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lag</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sfreq</span> <span class="o">=</span> <span class="n">sfreq</span>
@@ -630,23 +631,23 @@ document.write(`
         <span class="k">if</span> <span class="n">add_channels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">add_channels</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Channel_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="sa">f</span><span class="s2">"Channel_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># Set the get value function depending on the data format</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_format</span> <span class="o">=</span> <span class="n">data_format</span>
-        <span class="k">if</span> <span class="n">data_format</span> <span class="o">==</span> <span class="s2">&quot;2&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">data_format</span> <span class="o">==</span> <span class="s2">"2"</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_format2</span>
-        <span class="k">elif</span> <span class="n">data_format</span> <span class="o">==</span> <span class="s2">&quot;7&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">data_format</span> <span class="o">==</span> <span class="s2">"7"</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_format7</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Data format should be &quot;2&quot; or &quot;7&quot;&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'Data format should be "2" or "7"'</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span>
 
-    <span class="k">def</span> <span class="nf">add_paquet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read a portion of data.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_paquet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Read a portion of data.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -660,7 +661,7 @@ document.write(`
 <span class="sd">        -----</span>
 <span class="sd">        Will automatically calculate the differential, threshold and increment</span>
 <span class="sd">        additional channles with 0 if provided.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Store new data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
@@ -704,18 +705,18 @@ document.write(`
                 <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="p">)[</span><span class="mi">0</span><span class="p">])[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sfreq</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">instant_rr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">instant_rr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="bp">self</span>
 
-    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paquet</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the provided paquet is correct</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paquet</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Check if the provided paquet is correct</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        paquet :</span>
 <span class="sd">            The paquet to inspect.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">check</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">paquet</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">paquet</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">paquet</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">128</span><span class="p">):</span>
@@ -727,28 +728,28 @@ document.write(`
 
         <span class="k">return</span> <span class="n">check</span>
 
-    <span class="k">def</span> <span class="nf">data_format2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paquet</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract pulse waveform value for data format 2.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data_format2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paquet</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Extract pulse waveform value for data format 2.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        paquet :</span>
 <span class="sd">            A list containg 5 items.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">paquet</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">data_format7</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paquet</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract pulse waveform value for data format 7.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data_format7</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paquet</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Extract pulse waveform value for data format 7.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        paquet :</span>
 <span class="sd">            A list containg 5 items.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">((</span><span class="n">paquet</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">256</span> <span class="o">+</span> <span class="n">paquet</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="mi">65535</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span>
 
-    <span class="k">def</span> <span class="nf">find_peaks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find peaks in recorded signal.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_peaks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Find peaks in recorded signal.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -757,7 +758,7 @@ document.write(`
 <span class="sd">        Other Parameters</span>
 <span class="sd">        ----------------</span>
 <span class="sd">        **kwargs ::py:func:`systole.detection.ppg_peaks` properties.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Peak detection</span>
         <span class="n">resampled_signal</span><span class="p">,</span> <span class="n">peaks</span> <span class="o">=</span> <span class="n">ppg_peaks</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span> <span class="n">new_sfreq</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
@@ -771,14 +772,14 @@ document.write(`
 
         <span class="k">return</span> <span class="bp">self</span>
 
-    <span class="k">def</span> <span class="nf">plot_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_channel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Channel_0&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Visualize the distribution of events stored in additional channels.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_channel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"Channel_0"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Visualize the distribution of events stored in additional channels.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        n_channel :</span>
 <span class="sd">            The name of the channel encoding the events of interest. Defaults to</span>
-<span class="sd">            `&quot;&quot;Channel_0&quot;&quot;`.</span>
+<span class="sd">            `""Channel_0""`.</span>
 <span class="sd">        kwargs:</span>
 <span class="sd">            Other keyword arguments are passed down to</span>
 <span class="sd">            py:`func:systole.plots.plot_evoked()`.</span>
@@ -787,14 +788,14 @@ document.write(`
 <span class="sd">        -------</span>
 <span class="sd">        fig, ax :</span>
 <span class="sd">            The figure and axe instances.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">triggers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="n">n_channel</span><span class="p">]</span>
+            <span class="n">triggers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="n">n_channel</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">plot_events</span><span class="p">(</span><span class="n">triggers</span><span class="o">=</span><span class="n">triggers</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">plot_raw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the raw PPG signal.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_raw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Plot the raw PPG signal.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -805,18 +806,18 @@ document.write(`
 <span class="sd">        -------</span>
 <span class="sd">        plot :</span>
 <span class="sd">            The matplotlib axes, or the boken figure containing the plot.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">return</span> <span class="n">plot_raw</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">duration</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read PPG signal for some amount of time.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">duration</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Read PPG signal for some amount of time.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        duration :</span>
 <span class="sd">            Length of the desired recording time.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">tstart</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">tstart</span> <span class="o">&lt;</span> <span class="n">duration</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">inWaiting</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
@@ -828,14 +829,14 @@ document.write(`
                     <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span>
 
-    <span class="k">def</span> <span class="nf">readInWaiting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read in wainting oxi data.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">readInWaiting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Read in wainting oxi data.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        stop :</span>
 <span class="sd">            Stop the recording when an error is detected. Default is *False*.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Read oxi</span>
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">inWaiting</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
             <span class="c1"># Store Oxi level</span>
@@ -844,17 +845,17 @@ document.write(`
                 <span class="bp">self</span><span class="o">.</span><span class="n">add_paquet</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">paquet</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">stop</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Synch error&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Synch error"</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Synch error&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">"Synch error"</span><span class="p">)</span>
                     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">reset_input_buffer</span><span class="p">()</span>
                         <span class="n">paquet</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
                         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">paquet</span><span class="o">=</span><span class="n">paquet</span><span class="p">):</span>
                             <span class="k">break</span>
 
-    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save the recording instance.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Save the recording instance.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -877,7 +878,7 @@ document.write(`
 <span class="sd">        If the signal is saved as a :class:`numpy.array`, the first dimension</span>
 <span class="sd">        will encode the channels in that order, and the second dimension the</span>
 <span class="sd">        samples.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Sanity checks</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">peak</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="p">)]</span>
@@ -899,16 +900,16 @@ document.write(`
         <span class="c1"># Add stim channels if provided</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">)):</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Channel_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">])</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="p">):</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="s2">&quot;Channel_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="p">)]</span>
-                <span class="n">saveList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Channel_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]))</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="sa">f</span><span class="s2">"Channel_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">])</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="s2">"Channel_"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="p">)]</span>
+                <span class="n">saveList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="sa">f</span><span class="s2">"Channel_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">]))</span>
 
         <span class="c1"># Check data format and save</span>
-        <span class="k">if</span> <span class="n">fname</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.txt&quot;</span><span class="p">):</span>
-            <span class="n">colnames</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;signal&quot;</span><span class="p">,</span> <span class="s2">&quot;peaks&quot;</span><span class="p">,</span> <span class="s2">&quot;instant_rr&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">fname</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".txt"</span><span class="p">):</span>
+            <span class="n">colnames</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"signal"</span><span class="p">,</span> <span class="s2">"peaks"</span><span class="p">,</span> <span class="s2">"instant_rr"</span><span class="p">,</span> <span class="s2">"time"</span><span class="p">]</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="p">):</span>
-                    <span class="n">colnames</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">&quot;Channel_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
+                    <span class="n">colnames</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">"Channel_"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span>
             <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">saveList</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">colnames</span><span class="p">)</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
                 <span class="n">fname</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
             <span class="p">)</span>
@@ -916,10 +917,10 @@ document.write(`
             <span class="n">recording</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">saveList</span><span class="p">)</span>
             <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">recording</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setup</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">read_duration</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">clear_peaks</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">nAttempts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find start byte and read a portion of signal.</span>
+<span class="w">        </span><span class="sd">"""Find start byte and read a portion of signal.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -936,7 +937,7 @@ document.write(`
 <span class="sd">        .. warning:: setup() clear the input buffer and will remove previously</span>
 <span class="sd">        recorded data from the Oximeter instance. Peaks detected during this</span>
 <span class="sd">        procedure are automatically removed.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Reset recording instance</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span>
             <span class="n">serial</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">serial</span><span class="p">,</span>
@@ -954,7 +955,7 @@ document.write(`
             <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">nAttempts</span><span class="p">:</span>
                 <span class="k">break</span>
         <span class="k">if</span> <span class="n">completed</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Unable to read signal from the USB port.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"Unable to read signal from the USB port."</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">duration</span><span class="o">=</span><span class="n">read_duration</span><span class="p">)</span>
 
         <span class="c1"># Remove peaks</span>
@@ -963,8 +964,8 @@ document.write(`
 
         <span class="k">return</span> <span class="bp">self</span>
 
-    <span class="k">def</span> <span class="nf">waitBeat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read Oximeter until a heartbeat is detected.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">waitBeat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Read Oximeter until a heartbeat is detected."""</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">inWaiting</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
                 <span class="c1"># Store Oxi level</span>
@@ -974,12 +975,15 @@ document.write(`
                     <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]):</span>  <span class="c1"># Peak found</span>
                         <span class="k">break</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Synch error&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">"Synch error"</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 
-<div class="viewcode-block" id="BrainVisionExG"><a class="viewcode-back" href="../../generated/recording/systole.recording.BrainVisionExG.html#systole.recording.BrainVisionExG">[docs]</a><span class="k">class</span> <span class="nc">BrainVisionExG</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Recording ECG signal through TCPIP.</span>
+
+<div class="viewcode-block" id="BrainVisionExG">
+<a class="viewcode-back" href="../../generated/recording/systole.recording.BrainVisionExG.html#systole.recording.BrainVisionExG">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BrainVisionExG</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Recording ECG signal through TCPIP.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -997,7 +1001,7 @@ document.write(`
 <span class="sd">    that will be used for the recording.</span>
 
 <span class="sd">    &gt;&gt;&gt; from ecg.recording import BrainVisionExG</span>
-<span class="sd">    &gt;&gt;&gt; exg = BrainVisionExG(ip=&#39;xxx.xxx.xx&#39;, sfreq=1000).read(30)</span>
+<span class="sd">    &gt;&gt;&gt; exg = BrainVisionExG(ip='xxx.xxx.xx', sfreq=1000).read(30)</span>
 
 <span class="sd">    Use the :py:func:`read` method to record some signal and save it in the</span>
 <span class="sd">    `exg` dictionary.</span>
@@ -1012,9 +1016,11 @@ document.write(`
 <span class="sd">    -----</span>
 <span class="sd">    This class is adapted from the RDA client for python made available by</span>
 <span class="sd">    Brain Products on the following link: https://www.brainproducts.com/downloads.php?kid=2</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-<div class="viewcode-block" id="BrainVisionExG.__init__"><a class="viewcode-back" href="../../generated/recording/systole.recording.BrainVisionExG.html#systole.recording.BrainVisionExG.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip</span><span class="p">,</span> <span class="n">sfreq</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">51244</span><span class="p">):</span>
+<div class="viewcode-block" id="BrainVisionExG.__init__">
+<a class="viewcode-back" href="../../generated/recording/systole.recording.BrainVisionExG.html#systole.recording.BrainVisionExG.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip</span><span class="p">,</span> <span class="n">sfreq</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">51244</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ip</span> <span class="o">=</span> <span class="n">ip</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sfreq</span> <span class="o">=</span> <span class="n">sfreq</span>
@@ -1032,16 +1038,17 @@ document.write(`
 
         <span class="c1"># Marker dict for storing marker information</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">marker</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-            <span class="s2">&quot;points&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-            <span class="s2">&quot;channel&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">"position"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"points"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"channel"</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"type"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
+            <span class="s2">"description"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
         <span class="p">}</span></div>
 
-    <span class="k">def</span> <span class="nf">RecvData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">requestedSize</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Helper function for receiving whole message&quot;&quot;&quot;</span>
-        <span class="n">returnStream</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">RecvData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">requestedSize</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Helper function for receiving whole message"""</span>
+        <span class="n">returnStream</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">""</span>
         <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">returnStream</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">requestedSize</span><span class="p">:</span>
             <span class="n">databytes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">con</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">requestedSize</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">returnStream</span><span class="p">))</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">databytes</span><span class="p">:</span>
@@ -1050,33 +1057,33 @@ document.write(`
 
         <span class="k">return</span> <span class="n">returnStream</span>
 
-    <span class="k">def</span> <span class="nf">SplitString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Helper function for splitting a raw array of zero terminated strings (C) into</span>
-<span class="sd">        an array of python strings&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">SplitString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Helper function for splitting a raw array of zero terminated strings (C) into</span>
+<span class="sd">        an array of python strings"""</span>
 
         <span class="n">raw</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
         <span class="n">stringlist</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">raw</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">"</span><span class="se">\x00</span><span class="s2">"</span><span class="p">:</span>
                 <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">+</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">stringlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-                <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="k">return</span> <span class="n">stringlist</span>
 
-    <span class="k">def</span> <span class="nf">GetProperties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Helper function for extracting ExG properties from a raw data array read from</span>
-<span class="sd">        tcpip socket&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetProperties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Helper function for extracting ExG properties from a raw data array read from</span>
+<span class="sd">        tcpip socket"""</span>
 
         <span class="c1"># Extract numerical data</span>
-        <span class="p">(</span><span class="n">channelCount</span><span class="p">,</span> <span class="n">samplingInterval</span><span class="p">)</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;&lt;Ld&quot;</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">[:</span><span class="mi">12</span><span class="p">])</span>
+        <span class="p">(</span><span class="n">channelCount</span><span class="p">,</span> <span class="n">samplingInterval</span><span class="p">)</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="s2">"&lt;Ld"</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">[:</span><span class="mi">12</span><span class="p">])</span>
 
         <span class="c1"># Extract resolutions</span>
         <span class="n">resolutions</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">channelCount</span><span class="p">):</span>
             <span class="n">index</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">+</span> <span class="n">c</span> <span class="o">*</span> <span class="mi">8</span>
-            <span class="n">restuple</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;&lt;d&quot;</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">[</span><span class="n">index</span> <span class="p">:</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">8</span><span class="p">])</span>
+            <span class="n">restuple</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="s2">"&lt;d"</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">[</span><span class="n">index</span> <span class="p">:</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">8</span><span class="p">])</span>
             <span class="n">resolutions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">restuple</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
         <span class="c1"># Extract channel names</span>
@@ -1084,41 +1091,41 @@ document.write(`
 
         <span class="k">return</span> <span class="p">(</span><span class="n">channelCount</span><span class="p">,</span> <span class="n">samplingInterval</span><span class="p">,</span> <span class="n">resolutions</span><span class="p">,</span> <span class="n">channelNames</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">GetData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">,</span> <span class="n">channelCount</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Helper function for extracting eeg and marker data from a raw data array read</span>
-<span class="sd">        from tcpip socket&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">,</span> <span class="n">channelCount</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Helper function for extracting eeg and marker data from a raw data array read</span>
+<span class="sd">        from tcpip socket"""</span>
 
         <span class="c1"># Extract numerical data</span>
-        <span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">markerCount</span><span class="p">)</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;&lt;LLL&quot;</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">[:</span><span class="mi">12</span><span class="p">])</span>
+        <span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">markerCount</span><span class="p">)</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="s2">"&lt;LLL"</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">[:</span><span class="mi">12</span><span class="p">])</span>
 
         <span class="c1"># Extract eeg data as array of floats</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">points</span> <span class="o">*</span> <span class="n">channelCount</span><span class="p">):</span>
             <span class="n">index</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">i</span>
-            <span class="n">value</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;&lt;f&quot;</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">[</span><span class="n">index</span> <span class="p">:</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">4</span><span class="p">])</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="s2">"&lt;f"</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">[</span><span class="n">index</span> <span class="p">:</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">4</span><span class="p">])</span>
             <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
         <span class="c1"># Extract markers</span>
         <span class="n">markers</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">index</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">points</span> <span class="o">*</span> <span class="n">channelCount</span>
         <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">markerCount</span><span class="p">):</span>
-            <span class="n">markersize</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;&lt;L&quot;</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">[</span><span class="n">index</span> <span class="p">:</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">4</span><span class="p">])</span>
+            <span class="n">markersize</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="s2">"&lt;L"</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">[</span><span class="n">index</span> <span class="p">:</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">4</span><span class="p">])</span>
 
             <span class="n">ma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">marker</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-            <span class="p">(</span><span class="n">ma</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">],</span> <span class="n">ma</span><span class="p">[</span><span class="s2">&quot;points&quot;</span><span class="p">],</span> <span class="n">ma</span><span class="p">[</span><span class="s2">&quot;channel&quot;</span><span class="p">])</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span>
-                <span class="s2">&quot;&lt;LLl&quot;</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">4</span> <span class="p">:</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">16</span><span class="p">]</span>
+            <span class="p">(</span><span class="n">ma</span><span class="p">[</span><span class="s2">"position"</span><span class="p">],</span> <span class="n">ma</span><span class="p">[</span><span class="s2">"points"</span><span class="p">],</span> <span class="n">ma</span><span class="p">[</span><span class="s2">"channel"</span><span class="p">])</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span>
+                <span class="s2">"&lt;LLl"</span><span class="p">,</span> <span class="n">rawdata</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">4</span> <span class="p">:</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">16</span><span class="p">]</span>
             <span class="p">)</span>
             <span class="n">typedesc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SplitString</span><span class="p">(</span><span class="n">rawdata</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">16</span> <span class="p">:</span> <span class="n">index</span> <span class="o">+</span> <span class="n">markersize</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
-            <span class="n">ma</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">typedesc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">ma</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">typedesc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">ma</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">=</span> <span class="n">typedesc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">ma</span><span class="p">[</span><span class="s2">"description"</span><span class="p">]</span> <span class="o">=</span> <span class="n">typedesc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
             <span class="n">markers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ma</span><span class="p">)</span>
             <span class="n">index</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="n">markersize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">markerCount</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">markers</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">duration</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read incoming signals.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">duration</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Read incoming signals.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1134,13 +1141,13 @@ document.write(`
 <span class="sd">        -----</span>
 <span class="sd">        Duration will be converted to expected signal length (duration * sfreq) to</span>
 <span class="sd">        ensure consistent recording.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="c1"># Get message header as raw array of chars</span>
             <span class="n">rawhdr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">RecvData</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span>
 
             <span class="c1"># Split array into usefull information id1 to id4 are constants</span>
-            <span class="p">(</span><span class="n">id1</span><span class="p">,</span> <span class="n">id2</span><span class="p">,</span> <span class="n">id3</span><span class="p">,</span> <span class="n">id4</span><span class="p">,</span> <span class="n">msgsize</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;&lt;llllLL&quot;</span><span class="p">,</span> <span class="n">rawhdr</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">id1</span><span class="p">,</span> <span class="n">id2</span><span class="p">,</span> <span class="n">id3</span><span class="p">,</span> <span class="n">id4</span><span class="p">,</span> <span class="n">msgsize</span><span class="p">,</span> <span class="n">msgtype</span><span class="p">)</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="s2">"&lt;llllLL"</span><span class="p">,</span> <span class="n">rawhdr</span><span class="p">)</span>
 
             <span class="c1"># Get data part of message, which is of variable size</span>
             <span class="n">rawdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">RecvData</span><span class="p">(</span><span class="n">msgsize</span> <span class="o">-</span> <span class="mi">24</span><span class="p">)</span>
@@ -1158,13 +1165,13 @@ document.write(`
                 <span class="bp">self</span><span class="o">.</span><span class="n">lastBlock</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 
                 <span class="nb">print</span><span class="p">(</span>
-                    <span class="s2">&quot;Reading TCP/IP connection (&quot;</span>
+                    <span class="s2">"Reading TCP/IP connection ("</span>
                     <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">channelCount</span><span class="p">)</span>
-                    <span class="o">+</span> <span class="s2">&quot; channels found). &quot;</span>
+                    <span class="o">+</span> <span class="s2">" channels found). "</span>
                     <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">resolutions</span><span class="p">)</span>
-                    <span class="o">+</span> <span class="s2">&quot; Hz. &quot;</span>
+                    <span class="o">+</span> <span class="s2">" Hz. "</span>
                     <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">samplingInterval</span><span class="p">)</span>
-                    <span class="o">+</span> <span class="s2">&quot; samples. &quot;</span>
+                    <span class="o">+</span> <span class="s2">" samples. "</span>
                     <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">channelNames</span><span class="p">)</span>
                 <span class="p">)</span>
 
@@ -1177,9 +1184,9 @@ document.write(`
                 <span class="c1"># Check for overflow</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastBlock</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">block</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastBlock</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span>
-                        <span class="s2">&quot;*** Overflow with &quot;</span>
+                        <span class="s2">"*** Overflow with "</span>
                         <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">block</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastBlock</span><span class="p">)</span>
-                        <span class="o">+</span> <span class="s2">&quot; datablocks ***&quot;</span>
+                        <span class="o">+</span> <span class="s2">" datablocks ***"</span>
                     <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">lastBlock</span> <span class="o">=</span> <span class="n">block</span>
 
@@ -1187,10 +1194,10 @@ document.write(`
                 <span class="k">if</span> <span class="n">markerCount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">markerCount</span><span class="p">):</span>
                         <span class="nb">print</span><span class="p">(</span>
-                            <span class="s2">&quot;Marker &quot;</span>
-                            <span class="o">+</span> <span class="n">markers</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s2">&quot;description&quot;</span><span class="p">]</span>
-                            <span class="o">+</span> <span class="s2">&quot; of type &quot;</span>
-                            <span class="o">+</span> <span class="n">markers</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+                            <span class="s2">"Marker "</span>
+                            <span class="o">+</span> <span class="n">markers</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s2">"description"</span><span class="p">]</span>
+                            <span class="o">+</span> <span class="s2">" of type "</span>
+                            <span class="o">+</span> <span class="n">markers</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="s2">"type"</span><span class="p">]</span>
                         <span class="p">)</span>
 
                 <span class="c1"># Put data at the end of actual buffer</span>
@@ -1199,7 +1206,7 @@ document.write(`
                     <span class="k">break</span>
             <span class="k">elif</span> <span class="n">msgtype</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
                 <span class="c1"># Stop message, terminate program</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Stop&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"Stop"</span><span class="p">)</span>
 
         <span class="n">recording</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">ch_name</span><span class="p">,</span> <span class="n">ch_nb</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">channelNames</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="n">channelCount</span><span class="p">)):</span>
@@ -1207,9 +1214,171 @@ document.write(`
 
         <span class="k">return</span> <span class="n">recording</span>
 
-    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close TCPIP connections&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Close TCPIP connections"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Nonin3231USB</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Recording Nonin 3231 USB HR signal through USB connection</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    serial : pySerial object</span>
+<span class="sd">        The `serial` instance interfacing with the USB port.</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    First, you will need to define a :py:func:`serial` instance, indexing the</span>
+<span class="sd">    USB port where the Nonin 3231 Pulse Oximeter is plugged.</span>
+
+<span class="sd">    &gt;&gt;&gt; import serial</span>
+<span class="sd">    &gt;&gt;&gt; ser = serial.Serial('COM4')</span>
+
+<span class="sd">    This instance is then used to create an :py:func:`Nonin3231USB` instance</span>
+<span class="sd">    that will be used for the recording from a Nonin 3231 USB device.</span>
+
+<span class="sd">    &gt;&gt;&gt; from ecg.recording import Nonin3231USB</span>
+<span class="sd">    &gt;&gt;&gt; exg = Nonin3231USB(serial).read(30)</span>
+
+<span class="sd">    Use the :py:func:`read` method to record some signal and save it in the</span>
+<span class="sd">    `exg` dictionary.</span>
+
+<span class="sd">    .. warning:: The signals received fom the host are appened to a list. This</span>
+<span class="sd">       process can require more time at each iteration as the signal length</span>
+<span class="sd">       increase in memory. You should alway make sure that this will not</span>
+<span class="sd">       interfer with other task and regularly save intermediate recording to</span>
+<span class="sd">       save resources.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">serial</span><span class="p">,</span>
+        <span class="n">add_channels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">serial</span><span class="p">,</span> <span class="n">add_channels</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">serial</span><span class="p">,</span>
+        <span class="n">add_channels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Initialize/restart the recording instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        serial : pySerial object</span>
+<span class="sd">            The `serial` instance interfacing with the USB port.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Nonin3231USB instance.</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">serial</span> <span class="o">=</span> <span class="n">serial</span>
+
+        <span class="c1"># Initialize recording with empty lists</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bpm</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SpO2</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_channels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">add_channels</span>
+        <span class="k">if</span> <span class="n">add_channels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">add_channels</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="sa">f</span><span class="s2">"Channel_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># print('channels: '+str(self.channels))</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span>
+            <span class="n">serial</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">serial</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">duration</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Read PPG signal for some amount of time.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        duration : int or float</span>
+<span class="sd">            Length of the desired recording time.</span>
+<span class="sd">        """</span>
+        <span class="c1"># init start ime</span>
+        <span class="n">tstart</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="c1"># read for length of duration</span>
+        <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">tstart</span> <span class="o">&lt;</span> <span class="n">duration</span><span class="p">:</span>
+            <span class="c1"># assert one full line of data is there</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">inWaiting</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">12</span><span class="p">:</span>
+                <span class="c1"># Store line of data</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">readline</span><span class="p">())</span>
+                <span class="c1"># assert full data line</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">12</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="c1"># get bpm reading</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bpm</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+                <span class="c1"># give bpm to recording as well</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+                <span class="c1"># get SpO2 reading (we don't use it)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">SpO2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
+                <span class="c1"># get 'time' reading (seconds)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+                <span class="c1"># Add 0 to the additional channels</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="n">ch</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">readInWaiting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Read in waiting Nonin data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        stop : bool</span>
+<span class="sd">            Stop the recording when an error is detected. Default is *False*.</span>
+<span class="sd">        """</span>
+
+        <span class="c1">#  nonin device reads out 12 bits per message</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">inWaiting</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">12</span><span class="p">:</span>
+            <span class="c1"># Store full message line</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">readline</span><span class="p">())</span>
+            <span class="c1"># assert that there is a full line of data</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">12</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="c1"># get bpm reading</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bpm</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+            <span class="c1"># give bpm to recording as well</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+            <span class="c1"># get SpO2 reading (we don't use it)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SpO2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
+            <span class="c1"># get 'time' reading (seconds)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+            <span class="c1"># Add 0 to the additional channels for triggers</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="n">ch</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Not saving the data as of now, only results</span>
+<span class="sd">        """</span>
+        <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Close serial connections"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 
                 </article>
@@ -1218,8 +1387,8 @@ document.write(`
               
               
               
-                <footer class="prev-next-footer">
-                  <!-- Previous / next buttons -->
+                <footer class="prev-next-footer d-print-none">
+                  
 <div class="prev-next-area">
 </div>
                 </footer>
@@ -1239,8 +1408,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1248,17 +1417,19 @@ document.write(`
     <div class="footer-items__start">
       
         <div class="footer-item">
+
   <p class="copyright">
     
-      © Copyright 2020-2023, Micah Allen.
+      © Copyright 2020-2026, Micah Allen.
       <br/>
     
   </p>
 </div>
       
         <div class="footer-item">
+
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
     <br/>
   </p>
 </div>
@@ -1269,8 +1440,10 @@ document.write(`
   
     <div class="footer-items__end">
       
-        <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.3.
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

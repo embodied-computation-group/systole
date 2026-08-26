@@ -1,102 +1,93 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Plot events &#8212; systole 0.2.5dev0 documentation</title>
+    <title>Plot events &#8212; systole 0.3.1 documentation</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
-  
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
-  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/documentation_options.js?v=4621528c"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../_static/thebelab-helper.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
-    <script src="../../_static/design-tabs.js"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'auto_examples/Plots/plot_events';</script>
-    <link rel="shortcut icon" href="../../_static/logo_small.svg"/>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/logo_small.svg"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Plot evoked" href="plot_evoked.html" />
     <link rel="prev" title="Plot raw physiological signal" href="plot_raw.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
   </head>
+  <body data-default-mode="">
   
   
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
-  
-  
-  <a class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
-
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -104,7 +95,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -112,19 +102,27 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
   
   <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../../index.html">
@@ -139,7 +137,7 @@
     
     
     <img src="../../_static/logo_small.svg" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="../../_static/logo_small.svg" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="../../_static/logo_small.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
     <p class="title logo__title">Systole</p>
@@ -152,49 +150,44 @@
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../getting_started.html">
-                        Getting started
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started.html">
+    Getting started
+  </a>
+</li>
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="../index.html">
-                        Gallery
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../tutorials.html">
-                        Tutorials
-                      </a>
-                    </li>
-                
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Gallery
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../api.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../references.html">
-                        References
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -205,30 +198,31 @@
       
         <div class="navbar-item navbar-persistent--container">
           
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -239,8 +233,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -251,8 +244,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
         <li class="nav-item">
           
@@ -263,8 +255,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Pypi</span></a>
+          <a href="https://pypi.org/project/systole-core/" title="Pypi" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i><span class="visually-hidden">Pypi</span></a>
         </li>
 </ul></div>
       
@@ -274,31 +265,32 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
       <span class="fa-solid fa-outdent"></span>
-    </label>
+    </button>
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -307,51 +299,49 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../getting_started.html">
-                        Getting started
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started.html">
+    Getting started
+  </a>
+</li>
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="../index.html">
-                        Gallery
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../tutorials.html">
-                        Tutorials
-                      </a>
-                    </li>
-                
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Gallery
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../api.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../references.html">
-                        References
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -360,17 +350,21 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -381,8 +375,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -393,8 +386,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
         <li class="nav-item">
           
@@ -405,8 +397,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Pypi</span></a>
+          <a href="https://pypi.org/project/systole-core/" title="Pypi" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i><span class="visually-hidden">Pypi</span></a>
         </li>
 </ul></div>
         
@@ -416,29 +407,32 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
@@ -452,7 +446,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Plotting</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Plot events</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Plot events</span></li>
   </ul>
 </nav>
 </div>
@@ -467,31 +461,32 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
-  <div class="sphx-glr-download-link-note admonition note">
-<p class="admonition-title">Note</p>
-<p><a class="reference internal" href="#sphx-glr-download-auto-examples-plots-plot-events-py"><span class="std std-ref">Go to the end</span></a>
-to download the full example code</p>
-</div>
-<section class="sphx-glr-example-title" id="plot-events">
-<span id="sphx-glr-auto-examples-plots-plot-events-py"></span><h1>Plot events<a class="headerlink" href="#plot-events" title="Permalink to this heading">#</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">from</span> <span class="nn">bokeh.io</span> <span class="kn">import</span> <a href="https://docs.bokeh.org/en/latest/docs/reference/io.html#bokeh.io.output_notebook" title="bokeh.io.output_notebook" class="sphx-glr-backref-module-bokeh-io sphx-glr-backref-type-py-function"><span class="n">output_notebook</span></a>
-<span class="kn">from</span> <span class="nn">bokeh.plotting</span> <span class="kn">import</span> <span class="n">show</span>
-<span class="kn">from</span> <span class="nn">systole.detection</span> <span class="kn">import</span> <span class="n">ecg_peaks</span>
-<span class="kn">from</span> <span class="nn">systole.plots</span> <span class="kn">import</span> <span class="n">plot_events</span><span class="p">,</span> <span class="n">plot_rr</span>
+  <section id="plot-events">
+<h1>Plot events<a class="headerlink" href="#plot-events" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bokeh.io</span><span class="w"> </span><span class="kn">import</span> <a href="https://docs.bokeh.org/en/latest/docs/reference/io.html#bokeh.io.output_notebook" title="bokeh.io.output_notebook" class="sphx-glr-backref-module-bokeh-io sphx-glr-backref-type-py-function"><span class="n">output_notebook</span></a>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bokeh.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">show</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">systole.detection</span><span class="w"> </span><span class="kn">import</span> <span class="n">ecg_peaks</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">systole.plots</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_events</span><span class="p">,</span> <span class="n">plot_rr</span>
 
-<span class="kn">from</span> <span class="nn">systole</span> <span class="kn">import</span> <span class="n">import_dataset1</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">systole</span><span class="w"> </span><span class="kn">import</span> <span class="n">import_dataset1</span>
 
 <span class="c1"># Author: Nicolas Legrand &lt;nicolas.legrand@cfin.au.dk&gt;</span>
 <span class="c1"># Licence: GPL v3</span>
 </pre></div>
 </div>
+</div>
+</div>
 <section id="plot-events-distributions-using-matplotlib-as-plotting-backend">
-<h2>Plot events distributions using Matplotlib as plotting backend<a class="headerlink" href="#plot-events-distributions-using-matplotlib-as-plotting-backend" title="Permalink to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.core.frame.DataFrame" class="sphx-glr-backref-module-pandas-core-frame sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ecg_df</span></a> <span class="o">=</span> <span class="n">import_dataset1</span><span class="p">(</span><span class="n">modalities</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ECG&#39;</span><span class="p">,</span> <span class="s2">&quot;Stim&quot;</span><span class="p">])</span>
+<h2>Plot events distributions using Matplotlib as plotting backend<a class="headerlink" href="#plot-events-distributions-using-matplotlib-as-plotting-backend" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.DataFrame" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ecg_df</span></a> <span class="o">=</span> <span class="n">import_dataset1</span><span class="p">(</span><span class="n">modalities</span><span class="o">=</span><span class="p">[</span><span class="s1">'ECG'</span><span class="p">,</span> <span class="s2">"Stim"</span><span class="p">])</span>
 
 <span class="c1"># Get events triggers</span>
 <span class="n">triggers_idx</span> <span class="o">=</span> <span class="p">[</span>
@@ -500,51 +495,408 @@ to download the full example code</p>
 <span class="p">]</span>
 
 <span class="n">plot_events</span><span class="p">(</span>
-    <span class="n">triggers_idx</span><span class="o">=</span><span class="n">triggers_idx</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Disgust&quot;</span><span class="p">,</span> <span class="s2">&quot;Neutral&quot;</span><span class="p">],</span>
+    <span class="n">triggers_idx</span><span class="o">=</span><span class="n">triggers_idx</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">"Disgust"</span><span class="p">,</span> <span class="s2">"Neutral"</span><span class="p">],</span>
     <span class="n">tmin</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-    <span class="n">palette</span><span class="o">=</span><span class="p">[</span><span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s2">&quot;denim blue&quot;</span><span class="p">],</span> <span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s2">&quot;pale red&quot;</span><span class="p">]],</span>
+    <span class="n">palette</span><span class="o">=</span><span class="p">[</span><span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s2">"denim blue"</span><span class="p">],</span> <span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s2">"pale red"</span><span class="p">]],</span>
 <span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_plot_events_001.png" srcset="../../_images/sphx_glr_plot_events_001.png" alt="plot events" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/2 [00:00&lt;?, ?it/s]
-Downloading ECG channel:   0%|          | 0/2 [00:00&lt;?, ?it/s]
-Downloading ECG channel:  50%|█████     | 1/2 [00:00&lt;00:00,  2.62it/s]
-Downloading Stim channel:  50%|█████     | 1/2 [00:00&lt;00:00,  2.62it/s]
-Downloading Stim channel: 100%|██████████| 2/2 [00:00&lt;00:00,  2.78it/s]
-Downloading Stim channel: 100%|██████████| 2/2 [00:00&lt;00:00,  2.75it/s]
-
-&lt;Axes: xlabel=&#39;Time&#39;&gt;
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/2 [00:00&lt;?, ?it/s]
 </pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading ECG channel:   0%|          | 0/2 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading Stim channel:   0%|          | 0/2 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading Stim channel: 100%|██████████| 2/2 [00:00&lt;00:00, 148.45it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel='Time'&gt;
+</pre></div>
+</div>
+<img alt="../../_images/c6e721511134e8706d0ea016d9a93f26ba3b3e2acff4f65a7d7709a8995742d6.png" src="../../_images/c6e721511134e8706d0ea016d9a93f26ba3b3e2acff4f65a7d7709a8995742d6.png" />
+</div>
 </div>
 </section>
 <section id="plot-events-distributions-using-bokeh-as-plotting-backend-and-add-the-rr-time-series">
-<h2>Plot events distributions using Bokeh as plotting backend and add the RR time series<a class="headerlink" href="#plot-events-distributions-using-bokeh-as-plotting-backend-and-add-the-rr-time-series" title="Permalink to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://docs.bokeh.org/en/latest/docs/reference/io.html#bokeh.io.output_notebook" title="bokeh.io.output_notebook" class="sphx-glr-backref-module-bokeh-io sphx-glr-backref-type-py-function"><span class="n">output_notebook</span></a><span class="p">()</span>
+<h2>Plot events distributions using Bokeh as plotting backend and add the RR time series<a class="headerlink" href="#plot-events-distributions-using-bokeh-as-plotting-backend-and-add-the-rr-time-series" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><a href="https://docs.bokeh.org/en/latest/docs/reference/io.html#bokeh.io.output_notebook" title="bokeh.io.output_notebook" class="sphx-glr-backref-module-bokeh-io sphx-glr-backref-type-py-function"><span class="n">output_notebook</span></a><span class="p">()</span>
 
 <span class="c1"># Peak detection in the ECG signal using the Pan-Tompkins method</span>
-<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">signal</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">peaks</span></a> <span class="o">=</span> <span class="n">ecg_peaks</span><span class="p">(</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.core.series.Series" class="sphx-glr-backref-module-pandas-core-series sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ecg_df</span><span class="o">.</span><span class="n">ecg</span></a><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;pan-tompkins&#39;</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">signal</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">peaks</span></a> <span class="o">=</span> <span class="n">ecg_peaks</span><span class="p">(</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.Series" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ecg_df</span><span class="o">.</span><span class="n">ecg</span></a><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'pan-tompkins'</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 
 <span class="c1"># First, we create a RR interval plot</span>
-<a href="https://docs.bokeh.org/en/latest/docs/reference/models/layouts.html#bokeh.models.Column" title="bokeh.models.Column" class="sphx-glr-backref-module-bokeh-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rr_plot</span></a> <span class="o">=</span> <span class="n">plot_rr</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">peaks</span></a><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="s1">&#39;peaks&#39;</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;bokeh&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
+<a href="https://docs.bokeh.org/en/latest/docs/reference/models/layouts/Column/index.html#bokeh.models.Column" title="bokeh.models.Column" class="sphx-glr-backref-module-bokeh-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rr_plot</span></a> <span class="o">=</span> <span class="n">plot_rr</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">peaks</span></a><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="s1">'peaks'</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">'bokeh'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
 
 <span class="n">show</span><span class="p">(</span>
     <span class="c1"># Then we add events annotations to this plot using the plot_events function</span>
-    <span class="n">plot_events</span><span class="p">(</span><span class="n">triggers_idx</span><span class="o">=</span><span class="n">triggers_idx</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;bokeh&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Disgust&quot;</span><span class="p">,</span> <span class="s2">&quot;Neutral&quot;</span><span class="p">],</span>
-                <span class="n">tmin</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="p">[</span><span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s2">&quot;denim blue&quot;</span><span class="p">],</span> <span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s2">&quot;pale red&quot;</span><span class="p">]],</span>
-                <span class="n">ax</span><span class="o">=</span><a href="https://docs.bokeh.org/en/latest/docs/reference/models/layouts.html#bokeh.models.Column" title="bokeh.models.Column" class="sphx-glr-backref-module-bokeh-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rr_plot</span></a><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">plot_events</span><span class="p">(</span><span class="n">triggers_idx</span><span class="o">=</span><span class="n">triggers_idx</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">"bokeh"</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">"Disgust"</span><span class="p">,</span> <span class="s2">"Neutral"</span><span class="p">],</span>
+                <span class="n">tmin</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="p">[</span><span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s2">"denim blue"</span><span class="p">],</span> <span class="n">sns</span><span class="o">.</span><span class="n">xkcd_rgb</span><span class="p">[</span><span class="s2">"pale red"</span><span class="p">]],</span>
+                <span class="n">ax</span><span class="o">=</span><a href="https://docs.bokeh.org/en/latest/docs/reference/models/layouts/Column/index.html#bokeh.models.Column" title="bokeh.models.Column" class="sphx-glr-backref-module-bokeh-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rr_plot</span></a><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.838 seconds)</p>
-<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plots-plot-events-py">
-<div class="sphx-glr-download sphx-glr-download-python docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/68c07ff793203e506c79a47cbfd845d7/plot_events.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_events.py</span></code></a></p>
 </div>
-<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/58cfbca77f73075a59b69d7534a7d366/plot_events.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_events.ipynb</span></code></a></p>
+<div class="cell_output docutils container">
+<div class="output text_html">    <style>
+        .bk-notebook-logo {
+            display: block;
+            width: 20px;
+            height: 20px;
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAOkSURBVDiNjZRtaJVlGMd/1/08zzln5zjP1LWcU9N0NkN8m2CYjpgQYQXqSs0I84OLIC0hkEKoPtiH3gmKoiJDU7QpLgoLjLIQCpEsNJ1vqUOdO7ppbuec5+V+rj4ctwzd8IIbbi6u+8f1539dt3A78eXC7QizUF7gyV1fD1Yqg4JWz84yffhm0qkFqBogB9rM8tZdtwVsPUhWhGcFJngGeWrPzHm5oaMmkfEg1usvLFyc8jLRqDOMru7AyC8saQr7GG7f5fvDeH7Ej8CM66nIF+8yngt6HWaKh7k49Soy9nXurCi1o3qUbS3zWfrYeQDTB/Qj6kX6Ybhw4B+bOYoLKCC9H3Nu/leUTZ1JdRWkkn2ldcCamzrcf47KKXdAJllSlxAOkRgyHsGC/zRday5Qld9DyoM4/q/rUoy/CXh3jzOu3bHUVZeU+DEn8FInkPBFlu3+nW3Nw0mk6vCDiWg8CeJaxEwuHS3+z5RgY+YBR6V1Z1nxSOfoaPa4LASWxxdNp+VWTk7+4vzaou8v8PN+xo+KY2xsw6une2frhw05CTYOmQvsEhjhWjn0bmXPjpE1+kplmmkP3suftwTubK9Vq22qKmrBhpY4jvd5afdRA3wGjFAgcnTK2s4hY0/GPNIb0nErGMCRxWOOX64Z8RAC4oCXdklmEvcL8o0BfkNK4lUg9HTl+oPlQxdNo3Mg4Nv175e/1LDGzZen30MEjRUtmXSfiTVu1kK8W4txyV6BMKlbgk3lMwYCiusNy9fVfvvwMxv8Ynl6vxoByANLTWplvuj/nF9m2+PDtt1eiHPBr1oIfhCChQMBw6Aw0UulqTKZdfVvfG7VcfIqLG9bcldL/+pdWTLxLUy8Qq38heUIjh4XlzZxzQm19lLFlr8vdQ97rjZVOLf8nclzckbcD4wxXMidpX30sFd37Fv/GtwwhzhxGVAprjbg0gCAEeIgwCZyTV2Z1REEW8O4py0wsjeloKoMr6iCY6dP92H6Vw/oTyICIthibxjm/DfN9lVz8IqtqKYLUXfoKVMVQVVJOElGjrnnUt9T9wbgp8AyYKaGlqingHZU/uG2NTZSVqwHQTWkx9hxjkpWDaCg6Ckj5qebgBVbT3V3NNXMSiWSDdGV3hrtzla7J+duwPOToIg42ChPQOQjspnSlp1V+Gjdged7+8UN5CRAV7a5EdFNwCjEaBR27b3W890TE7g24NAP/mMDXRWrGoFPQI9ls/MWO2dWFAar/xcOIImbbpA3zgAAAABJRU5ErkJggg==);
+        }
+    </style>
+    <div>
+        <a href="https://bokeh.org" target="_blank" class="bk-notebook-logo"></a>
+        <span id="aeb3b607-47c4-4180-9c61-e27ac78cbbca">Loading BokehJS ...</span>
+    </div>
+</div><script type="application/javascript">'use strict';
+(function(root) {
+  function now() {
+    return new Date();
+  }
+
+  const force = true;
+
+  if (typeof root._bokeh_onload_callbacks === "undefined" || force === true) {
+    root._bokeh_onload_callbacks = [];
+    root._bokeh_is_loading = undefined;
+  }
+
+const JS_MIME_TYPE = 'application/javascript';
+  const HTML_MIME_TYPE = 'text/html';
+  const EXEC_MIME_TYPE = 'application/vnd.bokehjs_exec.v0+json';
+  const CLASS_NAME = 'output_bokeh rendered_html';
+
+  /**
+   * Render data to the DOM node
+   */
+  function render(props, node) {
+    const script = document.createElement("script");
+    node.appendChild(script);
+  }
+
+  /**
+   * Handle when an output is cleared or removed
+   */
+  function handleClearOutput(event, handle) {
+    function drop(id) {
+      const view = Bokeh.index.get_by_id(id)
+      if (view != null) {
+        view.model.document.clear()
+        Bokeh.index.delete(view)
+      }
+    }
+
+    const cell = handle.cell;
+
+    const id = cell.output_area._bokeh_element_id;
+    const server_id = cell.output_area._bokeh_server_id;
+
+    // Clean up Bokeh references
+    if (id != null) {
+      drop(id)
+    }
+
+    if (server_id !== undefined) {
+      // Clean up Bokeh references
+      const cmd_clean = "from bokeh.io.state import curstate; print(curstate().uuid_to_server['" + server_id + "'].get_sessions()[0].document.roots[0]._id)";
+      cell.notebook.kernel.execute(cmd_clean, {
+        iopub: {
+          output: function(msg) {
+            const id = msg.content.text.trim()
+            drop(id)
+          }
+        }
+      });
+      // Destroy server and session
+      const cmd_destroy = "import bokeh.io.notebook as ion; ion.destroy_server('" + server_id + "')";
+      cell.notebook.kernel.execute(cmd_destroy);
+    }
+  }
+
+  /**
+   * Handle when a new output is added
+   */
+  function handleAddOutput(event, handle) {
+    const output_area = handle.output_area;
+    const output = handle.output;
+
+    // limit handleAddOutput to display_data with EXEC_MIME_TYPE content only
+    if ((output.output_type != "display_data") || (!Object.prototype.hasOwnProperty.call(output.data, EXEC_MIME_TYPE))) {
+      return
+    }
+
+    const toinsert = output_area.element.find("." + CLASS_NAME.split(' ')[0]);
+
+    if (output.metadata[EXEC_MIME_TYPE]["id"] !== undefined) {
+      toinsert[toinsert.length - 1].firstChild.textContent = output.data[JS_MIME_TYPE];
+      // store reference to embed id on output_area
+      output_area._bokeh_element_id = output.metadata[EXEC_MIME_TYPE]["id"];
+    }
+    if (output.metadata[EXEC_MIME_TYPE]["server_id"] !== undefined) {
+      const bk_div = document.createElement("div");
+      bk_div.innerHTML = output.data[HTML_MIME_TYPE];
+      const script_attrs = bk_div.children[0].attributes;
+      for (let i = 0; i < script_attrs.length; i++) {
+        toinsert[toinsert.length - 1].firstChild.setAttribute(script_attrs[i].name, script_attrs[i].value);
+        toinsert[toinsert.length - 1].firstChild.textContent = bk_div.children[0].textContent
+      }
+      // store reference to server id on output_area
+      output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE]["server_id"];
+    }
+  }
+
+  function register_renderer(events, OutputArea) {
+
+    function append_mime(data, metadata, element) {
+      // create a DOM node to render to
+      const toinsert = this.create_output_subarea(
+        metadata,
+        CLASS_NAME,
+        EXEC_MIME_TYPE
+      );
+      this.keyboard_manager.register_events(toinsert);
+      // Render to node
+      const props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};
+      render(props, toinsert[toinsert.length - 1]);
+      element.append(toinsert);
+      return toinsert
+    }
+
+    /* Handle when an output is cleared or removed */
+    events.on('clear_output.CodeCell', handleClearOutput);
+    events.on('delete.Cell', handleClearOutput);
+
+    /* Handle when a new output is added */
+    events.on('output_added.OutputArea', handleAddOutput);
+
+    /**
+     * Register the mime type and append_mime function with output_area
+     */
+    OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {
+      /* Is output safe? */
+      safe: true,
+      /* Index of renderer in `output_area.display_order` */
+      index: 0
+    });
+  }
+
+  // register the mime type if in Jupyter Notebook environment and previously unregistered
+  if (root.Jupyter !== undefined) {
+    const events = require('base/js/events');
+    const OutputArea = require('notebook/js/outputarea').OutputArea;
+
+    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {
+      register_renderer(events, OutputArea);
+    }
+  }
+  if (typeof (root._bokeh_timeout) === "undefined" || force === true) {
+    root._bokeh_timeout = Date.now() + 5000;
+    root._bokeh_failed_load = false;
+  }
+
+  const NB_LOAD_WARNING = {'data': {'text/html':
+     "<div style='background-color: #fdd'>\n"+
+     "<p>\n"+
+     "BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \n"+
+     "may be due to a slow or bad network connection. Possible fixes:\n"+
+     "</p>\n"+
+     "<ul>\n"+
+     "<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\n"+
+     "<li>use INLINE resources instead, as so:</li>\n"+
+     "</ul>\n"+
+     "<code>\n"+
+     "from bokeh.resources import INLINE\n"+
+     "output_notebook(resources=INLINE)\n"+
+     "</code>\n"+
+     "</div>"}};
+
+  function display_loaded(error = null) {
+    const el = document.getElementById("aeb3b607-47c4-4180-9c61-e27ac78cbbca");
+    if (el != null) {
+      const html = (() => {
+        if (typeof root.Bokeh === "undefined") {
+          if (error == null) {
+            return "BokehJS is loading ...";
+          } else {
+            return "BokehJS failed to load.";
+          }
+        } else {
+          const prefix = `BokehJS ${root.Bokeh.version}`;
+          if (error == null) {
+            return `${prefix} successfully loaded.`;
+          } else {
+            return `${prefix} <b>encountered errors</b> while loading and may not function as expected.`;
+          }
+        }
+      })();
+      el.innerHTML = html;
+
+      if (error != null) {
+        const wrapper = document.createElement("div");
+        wrapper.style.overflow = "auto";
+        wrapper.style.height = "5em";
+        wrapper.style.resize = "vertical";
+        const content = document.createElement("div");
+        content.style.fontFamily = "monospace";
+        content.style.whiteSpace = "pre-wrap";
+        content.style.backgroundColor = "rgb(255, 221, 221)";
+        content.textContent = error.stack ?? error.toString();
+        wrapper.append(content);
+        el.append(wrapper);
+      }
+    } else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(() => display_loaded(error), 100);
+    }
+  }
+
+  function run_callbacks() {
+    try {
+      root._bokeh_onload_callbacks.forEach(function(callback) {
+        if (callback != null)
+          callback();
+      });
+    } finally {
+      delete root._bokeh_onload_callbacks
+    }
+    console.debug("Bokeh: all callbacks have finished");
+  }
+
+  function load_libs(css_urls, js_urls, callback) {
+    if (css_urls == null) css_urls = [];
+    if (js_urls == null) js_urls = [];
+
+    root._bokeh_onload_callbacks.push(callback);
+    if (root._bokeh_is_loading > 0) {
+      console.debug("Bokeh: BokehJS is being loaded, scheduling callback at", now());
+      return null;
+    }
+    if (js_urls == null || js_urls.length === 0) {
+      run_callbacks();
+      return null;
+    }
+    console.debug("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
+    root._bokeh_is_loading = css_urls.length + js_urls.length;
+
+    function on_load() {
+      root._bokeh_is_loading--;
+      if (root._bokeh_is_loading === 0) {
+        console.debug("Bokeh: all BokehJS libraries/stylesheets loaded");
+        run_callbacks()
+      }
+    }
+
+    function on_error(url) {
+      console.error("failed to load " + url);
+    }
+
+    for (let i = 0; i < css_urls.length; i++) {
+      const url = css_urls[i];
+      const element = document.createElement("link");
+      element.onload = on_load;
+      element.onerror = on_error.bind(null, url);
+      element.rel = "stylesheet";
+      element.type = "text/css";
+      element.href = url;
+      console.debug("Bokeh: injecting link tag for BokehJS stylesheet: ", url);
+      document.body.appendChild(element);
+    }
+
+    for (let i = 0; i < js_urls.length; i++) {
+      const url = js_urls[i];
+      const element = document.createElement('script');
+      element.onload = on_load;
+      element.onerror = on_error.bind(null, url);
+      element.async = false;
+      element.src = url;
+      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
+      document.head.appendChild(element);
+    }
+  };
+
+  function inject_raw_css(css) {
+    const element = document.createElement("style");
+    element.appendChild(document.createTextNode(css));
+    document.body.appendChild(element);
+  }
+
+  const js_urls = ["https://cdn.bokeh.org/bokeh/release/bokeh-3.9.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.9.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.9.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.9.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-3.9.2.min.js"];
+  const css_urls = [];
+
+  const inline_js = [    function(Bokeh) {
+      Bokeh.set_log_level("info");
+    },
+function(Bokeh) {
+    }
+  ];
+
+  function run_inline_js() {
+    if (root.Bokeh !== undefined || force === true) {
+      try {
+            for (let i = 0; i < inline_js.length; i++) {
+      inline_js[i].call(root, root.Bokeh);
+    }
+
+      } catch (error) {display_loaded(error);throw error;
+      }if (force === true) {
+        display_loaded();
+      }} else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(run_inline_js, 100);
+    } else if (!root._bokeh_failed_load) {
+      console.log("Bokeh: BokehJS failed to load within specified timeout.");
+      root._bokeh_failed_load = true;
+    } else if (force !== true) {
+      const cell = $(document.getElementById("aeb3b607-47c4-4180-9c61-e27ac78cbbca")).parents('.cell').data().cell;
+      cell.output_area.append_execute_result(NB_LOAD_WARNING)
+    }
+  }
+
+  if (root._bokeh_is_loading === 0) {
+    console.debug("Bokeh: BokehJS loaded, going straight to plotting");
+    run_inline_js();
+  } else {
+    load_libs(css_urls, js_urls, function() {
+      console.debug("Bokeh: BokehJS plotting callback run at", now());
+      run_inline_js();
+    });
+  }
+}(window));</script><div class="output text_html">
+  <div id="da2d38f1-160a-466b-be57-045eac826c52" data-root-id="p1008" style="display: contents;"></div>
+</div><script type="application/javascript">(function(root) {
+  function embed_document(root) {
+  const docs_json = {"4829ba29-3744-4b17-8502-f4dfc794aa5a":{"version":"3.9.2","title":"Bokeh Application","config":{"type":"object","name":"DocumentConfig","id":"p1718","attributes":{"notifications":{"type":"object","name":"Notifications","id":"p1719"}}},"roots":[{"type":"object","name":"Figure","id":"p1008","attributes":{"height":250,"sizing_mode":"stretch_width","x_range":{"type":"object","name":"Range1d","id":"p1128","attributes":{"start":663.0,"end":1536214.0}},"y_range":{"type":"object","name":"DataRange1d","id":"p1010"},"x_scale":{"type":"object","name":"LinearScale","id":"p1018"},"y_scale":{"type":"object","name":"LinearScale","id":"p1019"},"title":{"type":"object","name":"Title","id":"p1011","attributes":{"text":"Instantaneous heart rate"}},"renderers":[{"type":"object","name":"GlyphRenderer","id":"p1068","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1064","attributes":{"selected":{"type":"object","name":"Selection","id":"p1065","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1066"},"data":{"type":"map","entries":[["time",{"type":"ndarray","array":{"type":"bytes","data":"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"},"shape":[1936],"dtype":"float64","order":"little"}],["rr",{"type":"ndarray","array":{"type":"bytes","data":"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"},"shape":[1936],"dtype":"int32","order":"little"}],["bpm",{"type":"ndarray","array":{"type":"bytes","data":"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"},"shape":[1936],"dtype":"float64","order":"little"}],["nbeat",{"type":"ndarray","array":{"type":"bytes","data":"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"},"shape":[1936],"dtype":"int32","order":"little"}],["outliers",{"type":"ndarray","array":{"type":"bytes","data":"H4sIAAEAAAAA/2NgGAWjITAaAqMhMBoCoyEwGgIDHQIAYvPNI5AHAAA="},"shape":[1936],"dtype":"bool","order":"little"}]]}}},"view":{"type":"object","name":"CDSView","id":"p1069","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1070"}}},"glyph":{"type":"object","name":"Line","id":"p1067","attributes":{"x":{"type":"field","field":"time"},"y":{"type":"field","field":"rr"},"line_color":"#4c72b0"}}}},{"type":"object","name":"GlyphRenderer","id":"p1073","attributes":{"data_source":{"id":"p1064"},"view":{"type":"object","name":"CDSView","id":"p1074","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1075"}}},"glyph":{"type":"object","name":"Scatter","id":"p1071","attributes":{"x":{"type":"field","field":"time"},"y":{"type":"field","field":"rr"},"size":{"type":"value","value":6},"line_color":{"type":"value","value":"grey"},"fill_color":{"type":"value","value":"lightgrey"}}},"hover_glyph":{"type":"object","name":"Scatter","id":"p1072","attributes":{"x":{"type":"field","field":"time"},"y":{"type":"field","field":"rr"},"size":{"type":"value","value":6},"line_color":{"type":"value","value":"grey"},"fill_color":{"type":"value","value":"firebrick"}}}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p1017","attributes":{"tools":[{"type":"object","name":"PanTool","id":"p1044"},{"type":"object","name":"WheelZoomTool","id":"p1045","attributes":{"renderers":"auto"}},{"type":"object","name":"BoxZoomTool","id":"p1046","attributes":{"dimensions":"both","overlay":{"type":"object","name":"BoxAnnotation","id":"p1047","attributes":{"syncable":false,"line_color":"black","line_alpha":1.0,"line_width":2,"line_dash":[4,4],"fill_color":"lightgrey","fill_alpha":0.5,"level":"overlay","visible":false,"left":{"type":"number","value":"nan"},"right":{"type":"number","value":"nan"},"top":{"type":"number","value":"nan"},"bottom":{"type":"number","value":"nan"},"left_units":"canvas","right_units":"canvas","top_units":"canvas","bottom_units":"canvas","handles":{"type":"object","name":"BoxInteractionHandles","id":"p1053","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1052","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}}}},{"type":"object","name":"BoxSelectTool","id":"p1054","attributes":{"renderers":"auto","overlay":{"type":"object","name":"BoxAnnotation","id":"p1055","attributes":{"syncable":false,"line_color":"black","line_alpha":1.0,"line_width":2,"line_dash":[4,4],"fill_color":"lightgrey","fill_alpha":0.5,"level":"overlay","visible":false,"left":{"type":"number","value":"nan"},"right":{"type":"number","value":"nan"},"top":{"type":"number","value":"nan"},"bottom":{"type":"number","value":"nan"},"editable":true,"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1061","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1060","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}}}},{"type":"object","name":"ResetTool","id":"p1062"},{"type":"object","name":"SaveTool","id":"p1063"},{"type":"object","name":"HoverTool","id":"p1076","attributes":{"renderers":[{"id":"p1073"}],"tooltips":[["time","@time{:%M:%S.%3Ns}"],["R-R interval","@rr{%0.2f} ms"],["BPM","@bpm{%0.2f} BPM"],["Heartbeat number","@nbeat"]],"formatters":{"type":"map","entries":[["@time","datetime"],["@rr","printf"],["@bpm","printf"]]},"sort_by":null}}]}},"left":[{"type":"object","name":"LinearAxis","id":"p1039","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p1040","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p1041"},"axis_label":"R-R interval (ms)","major_label_policy":{"type":"object","name":"AllLabels","id":"p1042"}}}],"below":[{"type":"object","name":"DatetimeAxis","id":"p1020","attributes":{"ticker":{"type":"object","name":"DatetimeTicker","id":"p1021","attributes":{"num_minor_ticks":5,"tickers":[{"type":"object","name":"AdaptiveTicker","id":"p1022","attributes":{"num_minor_ticks":0,"mantissas":[1,2,5],"max_interval":500.0}},{"type":"object","name":"AdaptiveTicker","id":"p1023","attributes":{"num_minor_ticks":0,"base":60,"mantissas":[1,2,5,10,15,20,30],"min_interval":1000.0,"max_interval":1800000.0}},{"type":"object","name":"AdaptiveTicker","id":"p1024","attributes":{"num_minor_ticks":0,"base":24,"mantissas":[1,2,4,6,8,12],"min_interval":3600000.0,"max_interval":43200000.0}},{"type":"object","name":"DaysTicker","id":"p1025","attributes":{"days":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]}},{"type":"object","name":"DaysTicker","id":"p1026","attributes":{"days":[1,4,7,10,13,16,19,22,25,28]}},{"type":"object","name":"DaysTicker","id":"p1027","attributes":{"days":[1,8,15,22]}},{"type":"object","name":"DaysTicker","id":"p1028","attributes":{"days":[1,15]}},{"type":"object","name":"MonthsTicker","id":"p1029","attributes":{"months":[0,1,2,3,4,5,6,7,8,9,10,11]}},{"type":"object","name":"MonthsTicker","id":"p1030","attributes":{"months":[0,2,4,6,8,10]}},{"type":"object","name":"MonthsTicker","id":"p1031","attributes":{"months":[0,4,8]}},{"type":"object","name":"MonthsTicker","id":"p1032","attributes":{"months":[0,6]}},{"type":"object","name":"YearsTicker","id":"p1033"}]}},"formatter":{"type":"object","name":"DatetimeTickFormatter","id":"p1036","attributes":{"seconds":"%T","minsec":"%T","minutes":"%H:%M","hours":"%H:%M","days":"%b %d","months":"%b %Y","strip_leading_zeros":["microseconds","milliseconds","seconds"],"boundary_scaling":false,"context":{"type":"object","name":"DatetimeTickFormatter","id":"p1035","attributes":{"microseconds":"%T","milliseconds":"%T","seconds":"%b %d, %Y","minsec":"%b %d, %Y","minutes":"%b %d, %Y","hourmin":"%b %d, %Y","hours":"%b %d, %Y","days":"%Y","months":"","years":"","boundary_scaling":false,"hide_repeats":true,"context":{"type":"object","name":"DatetimeTickFormatter","id":"p1034","attributes":{"microseconds":"%b %d, %Y","milliseconds":"%b %d, %Y","seconds":"","minsec":"","minutes":"","hourmin":"","hours":"","days":"","months":"","years":"","boundary_scaling":false,"hide_repeats":true}},"context_which":"all"}},"context_which":"all"}},"axis_label":"Time","major_label_policy":{"type":"object","name":"AllLabels","id":"p1037"}}}],"center":[{"type":"object","name":"Grid","id":"p1038","attributes":{"axis":{"id":"p1020"}}},{"type":"object","name":"Grid","id":"p1043","attributes":{"dimension":1,"axis":{"id":"p1039"}}},{"type":"object","name":"BoxAnnotation","id":"p1077","attributes":{"fill_color":"red","fill_alpha":0.1,"left":{"type":"object","name":"Node","id":"p1079","attributes":{"target":"frame","symbol":"left"}},"right":{"type":"object","name":"Node","id":"p1080","attributes":{"target":"frame","symbol":"right"}},"top":{"type":"object","name":"Node","id":"p1081","attributes":{"target":"frame","symbol":"top"}},"bottom":3000,"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1083","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1082","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"BoxAnnotation","id":"p1084","attributes":{"fill_color":"red","fill_alpha":0.1,"left":{"type":"object","name":"Node","id":"p1086","attributes":{"target":"frame","symbol":"left"}},"right":{"type":"object","name":"Node","id":"p1087","attributes":{"target":"frame","symbol":"right"}},"top":200,"bottom":{"type":"object","name":"Node","id":"p1088","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1090","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1089","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"BoxAnnotation","id":"p1142","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":964837.0,"right":975337.0,"top":{"type":"object","name":"Node","id":"p1145","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1146","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1148","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1147","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1149","attributes":{"level":"underlay","location":965337.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1150","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":975470.0,"right":985970.0,"top":{"type":"object","name":"Node","id":"p1153","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1154","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1156","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1155","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1157","attributes":{"level":"underlay","location":975970.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1158","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":986119.0,"right":996619.0,"top":{"type":"object","name":"Node","id":"p1161","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1162","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1164","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1163","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1165","attributes":{"level":"underlay","location":986619.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1166","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":996746.0,"right":1007246.0,"top":{"type":"object","name":"Node","id":"p1169","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1170","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1172","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1171","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1173","attributes":{"level":"underlay","location":997246.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1174","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1007387.0,"right":1017887.0,"top":{"type":"object","name":"Node","id":"p1177","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1178","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1180","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1179","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1181","attributes":{"level":"underlay","location":1007887.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1182","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1018061.0,"right":1028561.0,"top":{"type":"object","name":"Node","id":"p1185","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1186","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1188","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1187","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1189","attributes":{"level":"underlay","location":1018561.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1190","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1028720.0,"right":1039220.0,"top":{"type":"object","name":"Node","id":"p1193","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1194","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1196","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1195","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1197","attributes":{"level":"underlay","location":1029220.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1198","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1039332.0,"right":1049832.0,"top":{"type":"object","name":"Node","id":"p1201","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1202","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1204","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1203","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1205","attributes":{"level":"underlay","location":1039832.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1206","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1049948.0,"right":1060448.0,"top":{"type":"object","name":"Node","id":"p1209","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1210","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1212","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1211","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1213","attributes":{"level":"underlay","location":1050448.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1214","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1060599.0,"right":1071099.0,"top":{"type":"object","name":"Node","id":"p1217","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1218","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1220","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1219","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1221","attributes":{"level":"underlay","location":1061099.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1222","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1071271.0,"right":1081771.0,"top":{"type":"object","name":"Node","id":"p1225","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1226","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1228","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1227","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1229","attributes":{"level":"underlay","location":1071771.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1230","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1081973.0,"right":1092473.0,"top":{"type":"object","name":"Node","id":"p1233","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1234","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1236","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1235","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1237","attributes":{"level":"underlay","location":1082473.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1238","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1122617.0,"right":1133117.0,"top":{"type":"object","name":"Node","id":"p1241","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1242","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1244","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1243","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1245","attributes":{"level":"underlay","location":1123117.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1246","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1133274.0,"right":1143774.0,"top":{"type":"object","name":"Node","id":"p1249","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1250","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1252","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1251","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1253","attributes":{"level":"underlay","location":1133774.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1254","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1143926.0,"right":1154426.0,"top":{"type":"object","name":"Node","id":"p1257","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1258","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1260","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1259","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1261","attributes":{"level":"underlay","location":1144426.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1262","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1154610.0,"right":1165110.0,"top":{"type":"object","name":"Node","id":"p1265","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1266","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1268","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1267","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1269","attributes":{"level":"underlay","location":1155110.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1270","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1165260.0,"right":1175760.0,"top":{"type":"object","name":"Node","id":"p1273","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1274","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1276","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1275","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1277","attributes":{"level":"underlay","location":1165760.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1278","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1175952.0,"right":1186452.0,"top":{"type":"object","name":"Node","id":"p1281","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1282","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1284","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1283","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1285","attributes":{"level":"underlay","location":1176452.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1286","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1186642.0,"right":1197142.0,"top":{"type":"object","name":"Node","id":"p1289","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1290","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1292","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1291","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1293","attributes":{"level":"underlay","location":1187142.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1294","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1197326.0,"right":1207826.0,"top":{"type":"object","name":"Node","id":"p1297","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1298","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1300","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1299","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1301","attributes":{"level":"underlay","location":1197826.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1302","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1207992.0,"right":1218492.0,"top":{"type":"object","name":"Node","id":"p1305","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1306","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1308","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1307","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1309","attributes":{"level":"underlay","location":1208492.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1310","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1218627.0,"right":1229127.0,"top":{"type":"object","name":"Node","id":"p1313","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1314","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1316","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1315","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1317","attributes":{"level":"underlay","location":1219127.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1318","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1229377.0,"right":1239877.0,"top":{"type":"object","name":"Node","id":"p1321","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1322","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1324","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1323","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1325","attributes":{"level":"underlay","location":1229877.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1326","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1239991.0,"right":1250491.0,"top":{"type":"object","name":"Node","id":"p1329","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1330","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1332","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1331","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1333","attributes":{"level":"underlay","location":1240491.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1334","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1280715.0,"right":1291215.0,"top":{"type":"object","name":"Node","id":"p1337","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1338","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1340","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1339","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1341","attributes":{"level":"underlay","location":1281215.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1342","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1292352.0,"right":1302852.0,"top":{"type":"object","name":"Node","id":"p1345","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1346","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1348","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1347","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1349","attributes":{"level":"underlay","location":1292852.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1350","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1303037.0,"right":1313537.0,"top":{"type":"object","name":"Node","id":"p1353","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1354","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1356","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1355","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1357","attributes":{"level":"underlay","location":1303537.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1358","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1313693.0,"right":1324193.0,"top":{"type":"object","name":"Node","id":"p1361","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1362","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1364","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1363","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1365","attributes":{"level":"underlay","location":1314193.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1366","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1324463.0,"right":1334963.0,"top":{"type":"object","name":"Node","id":"p1369","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1370","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1372","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1371","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1373","attributes":{"level":"underlay","location":1324963.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1374","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1335125.0,"right":1345625.0,"top":{"type":"object","name":"Node","id":"p1377","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1378","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1380","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1379","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1381","attributes":{"level":"underlay","location":1335625.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1382","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1345756.0,"right":1356256.0,"top":{"type":"object","name":"Node","id":"p1385","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1386","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1388","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1387","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1389","attributes":{"level":"underlay","location":1346256.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1390","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1356378.0,"right":1366878.0,"top":{"type":"object","name":"Node","id":"p1393","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1394","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1396","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1395","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1397","attributes":{"level":"underlay","location":1356878.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1398","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1367031.0,"right":1377531.0,"top":{"type":"object","name":"Node","id":"p1401","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1402","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1404","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1403","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1405","attributes":{"level":"underlay","location":1367531.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1406","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1377713.0,"right":1388213.0,"top":{"type":"object","name":"Node","id":"p1409","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1410","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1412","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1411","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1413","attributes":{"level":"underlay","location":1378213.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1414","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1388362.0,"right":1398862.0,"top":{"type":"object","name":"Node","id":"p1417","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1418","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1420","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1419","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1421","attributes":{"level":"underlay","location":1388862.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1422","attributes":{"fill_color":"#3b5b92","fill_alpha":0.2,"level":"underlay","left":1399044.0,"right":1409544.0,"top":{"type":"object","name":"Node","id":"p1425","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1426","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1428","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1427","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1429","attributes":{"level":"underlay","location":1399544.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1430","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":398919.0,"right":409419.0,"top":{"type":"object","name":"Node","id":"p1433","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1434","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1436","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1435","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1437","attributes":{"level":"underlay","location":399419.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1438","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":410627.0,"right":421127.0,"top":{"type":"object","name":"Node","id":"p1441","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1442","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1444","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1443","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1445","attributes":{"level":"underlay","location":411127.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1446","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":421264.0,"right":431764.0,"top":{"type":"object","name":"Node","id":"p1449","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1450","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1452","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1451","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1453","attributes":{"level":"underlay","location":421764.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1454","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":431896.0,"right":442396.0,"top":{"type":"object","name":"Node","id":"p1457","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1458","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1460","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1459","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1461","attributes":{"level":"underlay","location":432396.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1462","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":442597.0,"right":453097.0,"top":{"type":"object","name":"Node","id":"p1465","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1466","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1468","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1467","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1469","attributes":{"level":"underlay","location":443097.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1470","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":453255.0,"right":463755.0,"top":{"type":"object","name":"Node","id":"p1473","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1474","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1476","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1475","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1477","attributes":{"level":"underlay","location":453755.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1478","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":463950.0,"right":474450.0,"top":{"type":"object","name":"Node","id":"p1481","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1482","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1484","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1483","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1485","attributes":{"level":"underlay","location":464450.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1486","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":474608.0,"right":485108.0,"top":{"type":"object","name":"Node","id":"p1489","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1490","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1492","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1491","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1493","attributes":{"level":"underlay","location":475108.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1494","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":485293.0,"right":495793.0,"top":{"type":"object","name":"Node","id":"p1497","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1498","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1500","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1499","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1501","attributes":{"level":"underlay","location":485793.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1502","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":495942.0,"right":506442.0,"top":{"type":"object","name":"Node","id":"p1505","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1506","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1508","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1507","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1509","attributes":{"level":"underlay","location":496442.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1510","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":506609.0,"right":517109.0,"top":{"type":"object","name":"Node","id":"p1513","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1514","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1516","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1515","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1517","attributes":{"level":"underlay","location":507109.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1518","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":517303.0,"right":527803.0,"top":{"type":"object","name":"Node","id":"p1521","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1522","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1524","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1523","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1525","attributes":{"level":"underlay","location":517803.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1526","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":557984.0,"right":568484.0,"top":{"type":"object","name":"Node","id":"p1529","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1530","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1532","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1531","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1533","attributes":{"level":"underlay","location":558484.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1534","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":569593.0,"right":580093.0,"top":{"type":"object","name":"Node","id":"p1537","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1538","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1540","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1539","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1541","attributes":{"level":"underlay","location":570093.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1542","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":580221.0,"right":590721.0,"top":{"type":"object","name":"Node","id":"p1545","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1546","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1548","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1547","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1549","attributes":{"level":"underlay","location":580721.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1550","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":590868.0,"right":601368.0,"top":{"type":"object","name":"Node","id":"p1553","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1554","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1556","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1555","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1557","attributes":{"level":"underlay","location":591368.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1558","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":601532.0,"right":612032.0,"top":{"type":"object","name":"Node","id":"p1561","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1562","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1564","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1563","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1565","attributes":{"level":"underlay","location":602032.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1566","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":612171.0,"right":622671.0,"top":{"type":"object","name":"Node","id":"p1569","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1570","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1572","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1571","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1573","attributes":{"level":"underlay","location":612671.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1574","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":622823.0,"right":633323.0,"top":{"type":"object","name":"Node","id":"p1577","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1578","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1580","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1579","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1581","attributes":{"level":"underlay","location":623323.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1582","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":633476.0,"right":643976.0,"top":{"type":"object","name":"Node","id":"p1585","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1586","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1588","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1587","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1589","attributes":{"level":"underlay","location":633976.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1590","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":644159.0,"right":654659.0,"top":{"type":"object","name":"Node","id":"p1593","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1594","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1596","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1595","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1597","attributes":{"level":"underlay","location":644659.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1598","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":654838.0,"right":665338.0,"top":{"type":"object","name":"Node","id":"p1601","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1602","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1604","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1603","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1605","attributes":{"level":"underlay","location":655338.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1606","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":665490.0,"right":675990.0,"top":{"type":"object","name":"Node","id":"p1609","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1610","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1612","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1611","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1613","attributes":{"level":"underlay","location":665990.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1614","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":676140.0,"right":686640.0,"top":{"type":"object","name":"Node","id":"p1617","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1618","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1620","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1619","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1621","attributes":{"level":"underlay","location":676640.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1622","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":716789.0,"right":727289.0,"top":{"type":"object","name":"Node","id":"p1625","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1626","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1628","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1627","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1629","attributes":{"level":"underlay","location":717289.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1630","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":727454.0,"right":737954.0,"top":{"type":"object","name":"Node","id":"p1633","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1634","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1636","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1635","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1637","attributes":{"level":"underlay","location":727954.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1638","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":738093.0,"right":748593.0,"top":{"type":"object","name":"Node","id":"p1641","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1642","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1644","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1643","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1645","attributes":{"level":"underlay","location":738593.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1646","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":748775.0,"right":759275.0,"top":{"type":"object","name":"Node","id":"p1649","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1650","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1652","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1651","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1653","attributes":{"level":"underlay","location":749275.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1654","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":759457.0,"right":769957.0,"top":{"type":"object","name":"Node","id":"p1657","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1658","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1660","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1659","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1661","attributes":{"level":"underlay","location":759957.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1662","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":770140.0,"right":780640.0,"top":{"type":"object","name":"Node","id":"p1665","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1666","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1668","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1667","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1669","attributes":{"level":"underlay","location":770640.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1670","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":780792.0,"right":791292.0,"top":{"type":"object","name":"Node","id":"p1673","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1674","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1676","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1675","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1677","attributes":{"level":"underlay","location":781292.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1678","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":791471.0,"right":801971.0,"top":{"type":"object","name":"Node","id":"p1681","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1682","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1684","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1683","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1685","attributes":{"level":"underlay","location":791971.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1686","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":802162.0,"right":812662.0,"top":{"type":"object","name":"Node","id":"p1689","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1690","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1692","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1691","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1693","attributes":{"level":"underlay","location":802662.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1694","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":812849.0,"right":823349.0,"top":{"type":"object","name":"Node","id":"p1697","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1698","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1700","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1699","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1701","attributes":{"level":"underlay","location":813349.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1702","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":823518.0,"right":834018.0,"top":{"type":"object","name":"Node","id":"p1705","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1706","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1708","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1707","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1709","attributes":{"level":"underlay","location":824018.0,"dimension":"height","line_color":"gray","line_dash":[6]}},{"type":"object","name":"BoxAnnotation","id":"p1710","attributes":{"fill_color":"#d9544d","fill_alpha":0.2,"level":"underlay","left":834134.0,"right":844634.0,"top":{"type":"object","name":"Node","id":"p1713","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p1714","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1716","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1715","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p1717","attributes":{"level":"underlay","location":834634.0,"dimension":"height","line_color":"gray","line_dash":[6]}}],"output_backend":"webgl"}}]}};
+  const render_items = [{"docid":"4829ba29-3744-4b17-8502-f4dfc794aa5a","roots":{"p1008":"da2d38f1-160a-466b-be57-045eac826c52"},"root_ids":["p1008"]}];
+  void root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
+  }
+  if (root.Bokeh !== undefined) {
+    embed_document(root);
+  } else {
+    let attempts = 0;
+    const timer = setInterval(function(root) {
+      if (root.Bokeh !== undefined) {
+        clearInterval(timer);
+        embed_document(root);
+      } else {
+        attempts++;
+        if (attempts > 100) {
+          clearInterval(timer);
+          console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+        }
+      }
+    }, 10, root)
+  }
+})(window);</script></div>
 </div>
-</div>
-<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
 </section>
 </section>
 
@@ -555,8 +907,8 @@ Downloading Stim channel: 100%|██████████| 2/2 [00:00&lt;00:
               
               
               
-                <footer class="prev-next-footer">
-                  <!-- Previous / next buttons -->
+                <footer class="prev-next-footer d-print-none">
+                  
 <div class="prev-next-area">
     <a class="left-prev"
        href="plot_raw.html"
@@ -583,22 +935,27 @@ Downloading Stim channel: 100%|██████████| 2/2 [00:00&lt;00:
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> On this page
   </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-events-distributions-using-matplotlib-as-plotting-backend">Plot events distributions using Matplotlib as plotting backend</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-events-distributions-using-bokeh-as-plotting-backend-and-add-the-rr-time-series">Plot events distributions using Bokeh as plotting backend and add the RR time series</a></li>
 </ul>
   </nav></div>
 
   <div class="sidebar-secondary-item">
+
   <div class="tocsection sourcelink">
-    <a href="../../_sources/auto_examples/Plots/plot_events.rst.txt">
+    <a href="../../_sources/auto_examples/Plots/plot_events.ipynb.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
@@ -617,8 +974,8 @@ Downloading Stim channel: 100%|██████████| 2/2 [00:00&lt;00:
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -626,17 +983,19 @@ Downloading Stim channel: 100%|██████████| 2/2 [00:00&lt;00:
     <div class="footer-items__start">
       
         <div class="footer-item">
+
   <p class="copyright">
     
-      © Copyright 2020-2023, Micah Allen.
+      © Copyright 2020-2026, Micah Allen.
       <br/>
     
   </p>
 </div>
       
         <div class="footer-item">
+
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
     <br/>
   </p>
 </div>
@@ -647,8 +1006,10 @@ Downloading Stim channel: 100%|██████████| 2/2 [00:00&lt;00:
   
     <div class="footer-items__end">
       
-        <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.3.
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

@@ -1,99 +1,90 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>systole.correction &#8212; systole 0.2.5dev0 documentation</title>
+    <title>systole.correction &#8212; systole 0.3.1 documentation</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
-  
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
-  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/documentation_options.js?v=4621528c"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../_static/thebelab-helper.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
-    <script src="../../_static/design-tabs.js"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/systole/correction';</script>
-    <link rel="shortcut icon" href="../../_static/logo_small.svg"/>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/logo_small.svg"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
   </head>
+  <body data-default-mode="">
   
   
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
-  
-  
-  <a class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
-
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -101,7 +92,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -109,19 +99,27 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
   
   <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../../index.html">
@@ -136,7 +134,7 @@
     
     
     <img src="../../_static/logo_small.svg" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="../../_static/logo_small.svg" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="../../_static/logo_small.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
     <p class="title logo__title">Systole</p>
@@ -149,49 +147,44 @@
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../getting_started.html">
-                        Getting started
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started.html">
+    Getting started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../auto_examples/index.html">
-                        Gallery
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../tutorials.html">
-                        Tutorials
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../auto_examples/index.html">
+    Gallery
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../api.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../references.html">
-                        References
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -202,30 +195,31 @@
       
         <div class="navbar-item navbar-persistent--container">
           
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -236,8 +230,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -248,8 +241,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
         <li class="nav-item">
           
@@ -260,8 +252,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Pypi</span></a>
+          <a href="https://pypi.org/project/systole-core/" title="Pypi" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i><span class="visually-hidden">Pypi</span></a>
         </li>
 </ul></div>
       
@@ -271,27 +262,30 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -300,51 +294,49 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../getting_started.html">
-                        Getting started
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started.html">
+    Getting started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../auto_examples/index.html">
-                        Gallery
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../tutorials.html">
-                        Tutorials
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../auto_examples/index.html">
+    Gallery
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../api.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../references.html">
-                        References
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -353,17 +345,21 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -374,8 +370,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -386,8 +381,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
         <li class="nav-item">
           
@@ -398,8 +392,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Pypi</span></a>
+          <a href="https://pypi.org/project/systole-core/" title="Pypi" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i><span class="visually-hidden">Pypi</span></a>
         </li>
 </ul></div>
         
@@ -409,29 +402,32 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
@@ -442,7 +438,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">systole.correction</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">systole.correction</span></li>
   </ul>
 </nav>
 </div>
@@ -457,28 +453,30 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <h1>Source code for systole.correction</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Author: Nicolas Legrand &lt;nicolas.legrand@cfin.au.dk&gt;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">jit</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numba</span><span class="w"> </span><span class="kn">import</span> <span class="n">jit</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
 
-<span class="kn">from</span> <span class="nn">systole.detection</span> <span class="kn">import</span> <span class="n">rr_artefacts</span>
-<span class="kn">from</span> <span class="nn">systole.utils</span> <span class="kn">import</span> <span class="n">input_conversion</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">systole.detection</span><span class="w"> </span><span class="kn">import</span> <span class="n">rr_artefacts</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">systole.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">input_conversion</span>
 
 
-<div class="viewcode-block" id="correct_extra_rr"><a class="viewcode-back" href="../../generated/correction/systole.correction.correct_extra_rr.html#systole.correction.correct_extra_rr">[docs]</a><span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">correct_extra_rr</span><span class="p">(</span>
+<div class="viewcode-block" id="correct_extra_rr">
+<a class="viewcode-back" href="../../generated/correction/systole.correction.correct_extra_rr.html#systole.correction.correct_extra_rr">[docs]</a>
+<span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">correct_extra_rr</span><span class="p">(</span>
     <span class="n">rr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">extra_idx</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">artefacts</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[],</span> <span class="p">[]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Correct extra heartbeat(s) by removing the RR interval(s). Will also update the</span>
+<span class="w">    </span><span class="sd">"""Correct extra heartbeat(s) by removing the RR interval(s). Will also update the</span>
 <span class="sd">    artefacts array accordingly if this one is provided.</span>
 
 <span class="sd">    Parameters</span>
@@ -500,7 +498,7 @@ document.write(`
 <span class="sd">        The updated dictionary of artefacts logs originally returned by</span>
 <span class="sd">        py:`func:systole.detection.rr_artefacts()`.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Set defaults values for the outputs</span>
     <span class="n">clean_rr</span><span class="p">,</span> <span class="n">new_artefacts</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">artefacts</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -532,13 +530,16 @@ document.write(`
     <span class="k">return</span> <span class="n">clean_rr</span><span class="p">,</span> <span class="n">new_artefacts</span></div>
 
 
-<div class="viewcode-block" id="correct_missed_rr"><a class="viewcode-back" href="../../generated/correction/systole.correction.correct_missed_rr.html#systole.correction.correct_missed_rr">[docs]</a><span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">correct_missed_rr</span><span class="p">(</span>
+
+<div class="viewcode-block" id="correct_missed_rr">
+<a class="viewcode-back" href="../../generated/correction/systole.correction.correct_missed_rr.html#systole.correction.correct_missed_rr">[docs]</a>
+<span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">correct_missed_rr</span><span class="p">(</span>
     <span class="n">rr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">missed_idx</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">artefacts</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[],</span> <span class="p">[]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Correct missed heartbeat(s) by adding new RR intervals. Will also update the</span>
+<span class="w">    </span><span class="sd">"""Correct missed heartbeat(s) by adding new RR intervals. Will also update the</span>
 <span class="sd">    artefacts array accordingly if this one is provided.</span>
 
 <span class="sd">    Parameters</span>
@@ -560,7 +561,7 @@ document.write(`
 <span class="sd">        If the artefacts dictionary was provided, also return the updated version of</span>
 <span class="sd">        this dictionary with the new artifacts idexes.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Set defaults values for the outputs</span>
     <span class="n">clean_rr</span><span class="p">,</span> <span class="n">new_artefacts</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">artefacts</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -597,9 +598,12 @@ document.write(`
     <span class="k">return</span> <span class="n">clean_rr</span><span class="p">,</span> <span class="n">new_artefacts</span></div>
 
 
-<div class="viewcode-block" id="interpolate_rr"><a class="viewcode-back" href="../../generated/correction/systole.correction.interpolate_rr.html#systole.correction.interpolate_rr">[docs]</a><span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">interpolate_rr</span><span class="p">(</span><span class="n">rr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Correct long or short beat(s) using linear interpolation.</span>
+
+<div class="viewcode-block" id="interpolate_rr">
+<a class="viewcode-back" href="../../generated/correction/systole.correction.interpolate_rr.html#systole.correction.interpolate_rr">[docs]</a>
+<span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">interpolate_rr</span><span class="p">(</span><span class="n">rr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Correct long or short beat(s) using linear interpolation.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -613,7 +617,7 @@ document.write(`
 <span class="sd">    clean_rr :</span>
 <span class="sd">        The corrected RR intervals.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Create time vector</span>
     <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">rr</span><span class="p">))</span>
@@ -624,8 +628,9 @@ document.write(`
     <span class="k">return</span> <span class="n">clean_rr</span></div>
 
 
+
 <span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">_correct_rr</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_correct_rr</span><span class="p">(</span>
     <span class="n">rr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">artefacts</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">extra_correction</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -637,10 +642,10 @@ document.write(`
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span>
     <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
 <span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Internal jited function to correct RR artefacts from artefacts dictionary.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Internal jited function to correct RR artefacts from artefacts dictionary."""</span>
 
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cleaning the RR interval time series.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Cleaning the RR interval time series."</span><span class="p">)</span>
 
     <span class="n">clean_rr</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
@@ -656,7 +661,7 @@ document.write(`
             <span class="p">)</span>
 
             <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;... correcting </span><span class="si">{</span><span class="n">nMissed</span><span class="si">}</span><span class="s2"> missed interval(s).&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"... correcting </span><span class="si">{</span><span class="n">nMissed</span><span class="si">}</span><span class="s2"> missed interval(s)."</span><span class="p">)</span>
 
     <span class="c1"># Correct extra beats</span>
     <span class="k">if</span> <span class="n">extra_correction</span><span class="p">:</span>
@@ -670,7 +675,7 @@ document.write(`
             <span class="p">)</span>
 
             <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;... correcting </span><span class="si">{</span><span class="n">nExtra</span><span class="si">}</span><span class="s2"> extra interval(s).&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"... correcting </span><span class="si">{</span><span class="n">nExtra</span><span class="si">}</span><span class="s2"> extra interval(s)."</span><span class="p">)</span>
 
     <span class="c1"># Correct for ectopic, short and long heartbeats beats - If multiple corrections</span>
     <span class="c1"># are required, interpolate everything in a single pass to avoid interpolating from</span>
@@ -695,7 +700,7 @@ document.write(`
                 <span class="n">correction_vector</span> <span class="o">=</span> <span class="n">correction_vector</span> <span class="o">|</span> <span class="n">artefacts</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]</span>
 
                 <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;... correcting </span><span class="si">{</span><span class="n">nEctopic</span><span class="si">}</span><span class="s2"> ectopic interval(s).&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"... correcting </span><span class="si">{</span><span class="n">nEctopic</span><span class="si">}</span><span class="s2"> ectopic interval(s)."</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">short_correction</span><span class="p">:</span>
             <span class="n">nShort</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="p">:])</span>
@@ -704,7 +709,7 @@ document.write(`
                 <span class="n">correction_vector</span> <span class="o">=</span> <span class="n">correction_vector</span> <span class="o">|</span> <span class="n">artefacts</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="p">:]</span>
 
                 <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;... correcting </span><span class="si">{</span><span class="n">nShort</span><span class="si">}</span><span class="s2"> short interval(s).&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"... correcting </span><span class="si">{</span><span class="n">nShort</span><span class="si">}</span><span class="s2"> short interval(s)."</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">long_correction</span><span class="p">:</span>
             <span class="n">nLong</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="p">:])</span>
@@ -713,7 +718,7 @@ document.write(`
                 <span class="n">correction_vector</span> <span class="o">=</span> <span class="n">correction_vector</span> <span class="o">|</span> <span class="n">artefacts</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="p">:]</span>
 
                 <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;... correcting </span><span class="si">{</span><span class="n">nLong</span><span class="si">}</span><span class="s2"> long interval(s).&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"... correcting </span><span class="si">{</span><span class="n">nLong</span><span class="si">}</span><span class="s2"> long interval(s)."</span><span class="p">)</span>
 
         <span class="c1"># Interpolate the interval marked as incorrect (short, long and/or ectopic)</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">correction_vector</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">clean_rr</span><span class="p">)</span>
@@ -722,19 +727,21 @@ document.write(`
     <span class="k">return</span> <span class="n">clean_rr</span><span class="p">,</span> <span class="p">(</span><span class="n">nMissed</span><span class="p">,</span> <span class="n">nExtra</span><span class="p">,</span> <span class="n">nEctopic</span><span class="p">,</span> <span class="n">nShort</span><span class="p">,</span> <span class="n">nLong</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="correct_rr"><a class="viewcode-back" href="../../generated/correction/systole.correction.correct_rr.html#systole.correction.correct_rr">[docs]</a><span class="k">def</span> <span class="nf">correct_rr</span><span class="p">(</span>
+<div class="viewcode-block" id="correct_rr">
+<a class="viewcode-back" href="../../generated/correction/systole.correction.correct_rr.html#systole.correction.correct_rr">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">correct_rr</span><span class="p">(</span>
     <span class="n">rr</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
     <span class="n">extra_correction</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">missed_correction</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">short_correction</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">long_correction</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">ectopic_correction</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">input_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;rr_ms&quot;</span><span class="p">,</span>
+    <span class="n">input_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"rr_ms"</span><span class="p">,</span>
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span>
     <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
 <span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Correct artefacts in RR time series using the method described in [1]_.</span>
+<span class="w">    </span><span class="sd">"""Correct artefacts in RR time series using the method described in [1]_.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -756,10 +763,10 @@ document.write(`
 <span class="sd">        Number of iterations (artifacts detection and artifacts correction). Defaults</span>
 <span class="sd">        to `1`.</span>
 <span class="sd">    input_type :</span>
-<span class="sd">        The type of input vector. Default is `&quot;rr_ms&quot;` (a boolean vector where</span>
+<span class="sd">        The type of input vector. Default is `"rr_ms"` (a boolean vector where</span>
 <span class="sd">        `1` represents the occurrence of R waves or systolic peaks).</span>
-<span class="sd">        Can also be `&quot;peaks_idx&quot;`, the idexs of samples where a peaks is detected,</span>
-<span class="sd">        `&quot;peaks&quot;`, or `&quot;rr_s&quot;` for vectors of RR intervals expressed in seconds.</span>
+<span class="sd">        Can also be `"peaks_idx"`, the idexs of samples where a peaks is detected,</span>
+<span class="sd">        `"peaks"`, or `"rr_s"` for vectors of RR intervals expressed in seconds.</span>
 <span class="sd">    verbose :</span>
 <span class="sd">        Control the verbosity of the function. Defaults to `True`.</span>
 
@@ -810,14 +817,14 @@ document.write(`
 <span class="sd">        classification. Journal of Medical Engineering &amp; Technology, 43(3), 173-181.</span>
 <span class="sd">        https://doi.org/10.1080/03091902.2019.1640306</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">rr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">input_type</span> <span class="o">!=</span> <span class="s2">&quot;rr_ms&quot;</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">input_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;peaks&quot;</span><span class="p">,</span> <span class="s2">&quot;rr_s&quot;</span><span class="p">,</span> <span class="s2">&quot;peaks_idx&quot;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid input type&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">input_type</span> <span class="o">!=</span> <span class="s2">"rr_ms"</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">input_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"peaks"</span><span class="p">,</span> <span class="s2">"rr_s"</span><span class="p">,</span> <span class="s2">"peaks_idx"</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Invalid input type"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">rr</span> <span class="o">=</span> <span class="n">input_conversion</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="n">input_type</span><span class="p">,</span> <span class="n">output_type</span><span class="o">=</span><span class="s2">&quot;rr_ms&quot;</span><span class="p">)</span>
+            <span class="n">rr</span> <span class="o">=</span> <span class="n">input_conversion</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="n">input_type</span><span class="p">,</span> <span class="n">output_type</span><span class="o">=</span><span class="s2">"rr_ms"</span><span class="p">)</span>
 
     <span class="c1"># Artefacts detection</span>
     <span class="n">artefacts_dict</span> <span class="o">=</span> <span class="n">rr_artefacts</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
@@ -825,11 +832,11 @@ document.write(`
     <span class="c1"># Create the array from dict</span>
     <span class="n">artefacts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
         <span class="p">[</span>
-            <span class="n">artefacts_dict</span><span class="p">[</span><span class="s2">&quot;missed&quot;</span><span class="p">],</span>
-            <span class="n">artefacts_dict</span><span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">],</span>
-            <span class="n">artefacts_dict</span><span class="p">[</span><span class="s2">&quot;ectopic&quot;</span><span class="p">],</span>
-            <span class="n">artefacts_dict</span><span class="p">[</span><span class="s2">&quot;short&quot;</span><span class="p">],</span>
-            <span class="n">artefacts_dict</span><span class="p">[</span><span class="s2">&quot;long&quot;</span><span class="p">],</span>
+            <span class="n">artefacts_dict</span><span class="p">[</span><span class="s2">"missed"</span><span class="p">],</span>
+            <span class="n">artefacts_dict</span><span class="p">[</span><span class="s2">"extra"</span><span class="p">],</span>
+            <span class="n">artefacts_dict</span><span class="p">[</span><span class="s2">"ectopic"</span><span class="p">],</span>
+            <span class="n">artefacts_dict</span><span class="p">[</span><span class="s2">"short"</span><span class="p">],</span>
+            <span class="n">artefacts_dict</span><span class="p">[</span><span class="s2">"long"</span><span class="p">],</span>
         <span class="p">],</span>
         <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span>
     <span class="p">)</span>
@@ -846,25 +853,28 @@ document.write(`
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="correct_peaks"><a class="viewcode-back" href="../../generated/correction/systole.correction.correct_peaks.html#systole.correction.correct_peaks">[docs]</a><span class="k">def</span> <span class="nf">correct_peaks</span><span class="p">(</span>
+
+<div class="viewcode-block" id="correct_peaks">
+<a class="viewcode-back" href="../../generated/correction/systole.correction.correct_peaks.html#systole.correction.correct_peaks">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">correct_peaks</span><span class="p">(</span>
     <span class="n">peaks</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
-    <span class="n">input_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;peaks&quot;</span><span class="p">,</span>
+    <span class="n">input_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"peaks"</span><span class="p">,</span>
     <span class="n">extra_correction</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">missed_correction</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">n_iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Correct long, short, extra, missed and ectopic beats in peaks vector.</span>
+<span class="w">    </span><span class="sd">"""Correct long, short, extra, missed and ectopic beats in peaks vector.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    peaks :</span>
 <span class="sd">        Boolean vector of peaks.</span>
 <span class="sd">    input_type :</span>
-<span class="sd">        The type of input vector. Defaults to `&quot;rr_ms&quot;` for vectors of RR intervals, or</span>
+<span class="sd">        The type of input vector. Defaults to `"rr_ms"` for vectors of RR intervals, or</span>
 <span class="sd">        interbeat intervals (IBI), expressed in milliseconds. Can also be a boolean</span>
 <span class="sd">        vector where `1` represents the occurrence of R waves or systolic peakspeaks</span>
-<span class="sd">        vector `&quot;rr_s&quot;` or IBI expressed in seconds.</span>
+<span class="sd">        vector `"rr_s"` or IBI expressed in seconds.</span>
 <span class="sd">    extra_correction :</span>
 <span class="sd">      If `True` (default), correct extra peaks in the peaks time series.</span>
 <span class="sd">    missed_correction :</span>
@@ -891,58 +901,58 @@ document.write(`
 <span class="sd">    This function wil operate at the `peaks` vector level to keep the length of the</span>
 <span class="sd">    signal constant after peaks correction.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">peaks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">peaks</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">input_type</span> <span class="o">!=</span> <span class="s2">&quot;peaks&quot;</span><span class="p">:</span>
-        <span class="n">peaks</span> <span class="o">=</span> <span class="n">input_conversion</span><span class="p">(</span><span class="n">peaks</span><span class="p">,</span> <span class="n">input_type</span><span class="p">,</span> <span class="n">output_type</span><span class="o">=</span><span class="s2">&quot;peaks&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">input_type</span> <span class="o">!=</span> <span class="s2">"peaks"</span><span class="p">:</span>
+        <span class="n">peaks</span> <span class="o">=</span> <span class="n">input_conversion</span><span class="p">(</span><span class="n">peaks</span><span class="p">,</span> <span class="n">input_type</span><span class="p">,</span> <span class="n">output_type</span><span class="o">=</span><span class="s2">"peaks"</span><span class="p">)</span>
 
     <span class="n">clean_peaks</span> <span class="o">=</span> <span class="n">peaks</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">nExtra</span><span class="p">,</span> <span class="n">nMissed</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
 
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cleaning the peaks vector using </span><span class="si">{</span><span class="n">n_iterations</span><span class="si">}</span><span class="s2"> iterations.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Cleaning the peaks vector using </span><span class="si">{</span><span class="n">n_iterations</span><span class="si">}</span><span class="s2"> iterations."</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">n_it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_iterations</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; - Iteration </span><span class="si">{</span><span class="n">n_it</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> - &quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">" - Iteration </span><span class="si">{</span><span class="n">n_it</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> - "</span><span class="p">)</span>
 
         <span class="c1"># Correct extra peaks</span>
         <span class="k">if</span> <span class="n">extra_correction</span><span class="p">:</span>
             <span class="c1"># Artefact detection</span>
-            <span class="n">artefacts</span> <span class="o">=</span> <span class="n">rr_artefacts</span><span class="p">(</span><span class="n">clean_peaks</span><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="s2">&quot;peaks&quot;</span><span class="p">)</span>
+            <span class="n">artefacts</span> <span class="o">=</span> <span class="n">rr_artefacts</span><span class="p">(</span><span class="n">clean_peaks</span><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="s2">"peaks"</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="s2">"extra"</span><span class="p">]):</span>
                 <span class="n">peaks_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">clean_peaks</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
 
                 <span class="c1"># Convert the RR interval idx to sample idx</span>
-                <span class="n">extra_idx</span> <span class="o">=</span> <span class="n">peaks_idx</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]]</span>
+                <span class="n">extra_idx</span> <span class="o">=</span> <span class="n">peaks_idx</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="s2">"extra"</span><span class="p">])[</span><span class="mi">0</span><span class="p">]]</span>
 
                 <span class="c1"># Number of extra peaks to correct</span>
-                <span class="n">this_nextra</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+                <span class="n">this_nextra</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="s2">"extra"</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
                 <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;... correcting </span><span class="si">{</span><span class="n">this_nextra</span><span class="si">}</span><span class="s2"> extra peak(s).&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"... correcting </span><span class="si">{</span><span class="n">this_nextra</span><span class="si">}</span><span class="s2"> extra peak(s)."</span><span class="p">)</span>
 
                 <span class="n">nExtra</span> <span class="o">+=</span> <span class="n">this_nextra</span>
 
                 <span class="c1"># Removing peak n+1 to correct RR interval n</span>
                 <span class="n">clean_peaks</span><span class="p">[</span><span class="n">extra_idx</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 
-                <span class="n">artefacts</span> <span class="o">=</span> <span class="n">rr_artefacts</span><span class="p">(</span><span class="n">clean_peaks</span><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="s2">&quot;peaks&quot;</span><span class="p">)</span>
+                <span class="n">artefacts</span> <span class="o">=</span> <span class="n">rr_artefacts</span><span class="p">(</span><span class="n">clean_peaks</span><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="s2">"peaks"</span><span class="p">)</span>
 
         <span class="c1"># Correct missed peaks</span>
         <span class="k">if</span> <span class="n">missed_correction</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="s2">&quot;missed&quot;</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="s2">"missed"</span><span class="p">]):</span>
                 <span class="n">peaks_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">clean_peaks</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
 
                 <span class="c1"># Convert the RR interval idx to sample idx</span>
-                <span class="n">missed_idx</span> <span class="o">=</span> <span class="n">peaks_idx</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="s2">&quot;missed&quot;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]]</span>
+                <span class="n">missed_idx</span> <span class="o">=</span> <span class="n">peaks_idx</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="s2">"missed"</span><span class="p">])[</span><span class="mi">0</span><span class="p">]]</span>
 
                 <span class="c1"># Number of missed peaks to correct</span>
-                <span class="n">this_nmissed</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="s2">&quot;missed&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+                <span class="n">this_nmissed</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">artefacts</span><span class="p">[</span><span class="s2">"missed"</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
                 <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;... correcting </span><span class="si">{</span><span class="n">this_nmissed</span><span class="si">}</span><span class="s2"> missed peak(s).&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"... correcting </span><span class="si">{</span><span class="n">this_nmissed</span><span class="si">}</span><span class="s2"> missed peak(s)."</span><span class="p">)</span>
 
                 <span class="n">nMissed</span> <span class="o">+=</span> <span class="n">this_nmissed</span>
 
@@ -951,17 +961,20 @@ document.write(`
                     <span class="n">clean_peaks</span> <span class="o">=</span> <span class="n">correct_missed_peaks</span><span class="p">(</span><span class="n">clean_peaks</span><span class="p">,</span> <span class="n">this_idx</span><span class="p">)</span>
 
                 <span class="c1"># Artefact detection</span>
-                <span class="n">artefacts</span> <span class="o">=</span> <span class="n">rr_artefacts</span><span class="p">(</span><span class="n">clean_peaks</span><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="s2">&quot;peaks&quot;</span><span class="p">)</span>
+                <span class="n">artefacts</span> <span class="o">=</span> <span class="n">rr_artefacts</span><span class="p">(</span><span class="n">clean_peaks</span><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="s2">"peaks"</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;clean_peaks&quot;</span><span class="p">:</span> <span class="n">clean_peaks</span><span class="p">,</span>
-        <span class="s2">&quot;extra&quot;</span><span class="p">:</span> <span class="n">nExtra</span><span class="p">,</span>
-        <span class="s2">&quot;missed&quot;</span><span class="p">:</span> <span class="n">nMissed</span><span class="p">,</span>
+        <span class="s2">"clean_peaks"</span><span class="p">:</span> <span class="n">clean_peaks</span><span class="p">,</span>
+        <span class="s2">"extra"</span><span class="p">:</span> <span class="n">nExtra</span><span class="p">,</span>
+        <span class="s2">"missed"</span><span class="p">:</span> <span class="n">nMissed</span><span class="p">,</span>
     <span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="correct_missed_peaks"><a class="viewcode-back" href="../../generated/correction/systole.correction.correct_missed_peaks.html#systole.correction.correct_missed_peaks">[docs]</a><span class="k">def</span> <span class="nf">correct_missed_peaks</span><span class="p">(</span><span class="n">peaks</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Correct missed peaks in boolean peak vector.</span>
+
+<div class="viewcode-block" id="correct_missed_peaks">
+<a class="viewcode-back" href="../../generated/correction/systole.correction.correct_missed_peaks.html#systole.correction.correct_missed_peaks">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">correct_missed_peaks</span><span class="p">(</span><span class="n">peaks</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Correct missed peaks in boolean peak vector.</span>
 
 <span class="sd">    The new peak is placed in the middle of the previous interval.</span>
 
@@ -977,11 +990,11 @@ document.write(`
 <span class="sd">    -------</span>
 <span class="sd">    clean_peaks :</span>
 <span class="sd">        Corrected boolean vector of peaks.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">peaks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">peaks</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">peaks</span><span class="p">[</span><span class="n">idx</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The index provided does not match with a peaks.&quot;</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">(</span><span class="s2">"The index provided does not match with a peaks."</span><span class="p">))</span>
 
     <span class="n">clean_peaks</span> <span class="o">=</span> <span class="n">peaks</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
@@ -997,12 +1010,15 @@ document.write(`
     <span class="k">return</span> <span class="n">clean_peaks</span></div>
 
 
-<div class="viewcode-block" id="correct_ectopic_peaks"><a class="viewcode-back" href="../../generated/correction/systole.correction.correct_ectopic_peaks.html#systole.correction.correct_ectopic_peaks">[docs]</a><span class="k">def</span> <span class="nf">correct_ectopic_peaks</span><span class="p">(</span>
+
+<div class="viewcode-block" id="correct_ectopic_peaks">
+<a class="viewcode-back" href="../../generated/correction/systole.correction.correct_ectopic_peaks.html#systole.correction.correct_ectopic_peaks">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">correct_ectopic_peaks</span><span class="p">(</span>
     <span class="n">peaks</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
     <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">signal</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Correct pseudo ectopic heartbeat in boolean peak vector.</span>
+<span class="w">    </span><span class="sd">"""Correct pseudo ectopic heartbeat in boolean peak vector.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1033,13 +1049,13 @@ document.write(`
 <span class="sd">    ValueError</span>
 <span class="sd">        If the artefact index is outside the range of the peaks vector.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">peaks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">peaks</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
     <span class="n">clean_peaks</span> <span class="o">=</span> <span class="n">peaks</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">peaks</span><span class="p">[</span><span class="n">idx</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The index provided does not match with a peaks.&quot;</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">(</span><span class="s2">"The index provided does not match with a peaks."</span><span class="p">))</span>
 
     <span class="c1"># Position of artefact in the peaks time series</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">peaks</span><span class="p">[:</span><span class="n">idx</span><span class="p">])[</span><span class="mi">0</span><span class="p">])</span>
@@ -1078,6 +1094,7 @@ document.write(`
         <span class="n">clean_peaks</span><span class="p">[</span><span class="n">idx_2</span> <span class="o">+</span> <span class="n">interval</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">return</span> <span class="n">clean_peaks</span></div>
+
 </pre></div>
 
                 </article>
@@ -1086,8 +1103,8 @@ document.write(`
               
               
               
-                <footer class="prev-next-footer">
-                  <!-- Previous / next buttons -->
+                <footer class="prev-next-footer d-print-none">
+                  
 <div class="prev-next-area">
 </div>
                 </footer>
@@ -1107,8 +1124,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1116,17 +1133,19 @@ document.write(`
     <div class="footer-items__start">
       
         <div class="footer-item">
+
   <p class="copyright">
     
-      © Copyright 2020-2023, Micah Allen.
+      © Copyright 2020-2026, Micah Allen.
       <br/>
     
   </p>
 </div>
       
         <div class="footer-item">
+
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
     <br/>
   </p>
 </div>
@@ -1137,8 +1156,10 @@ document.write(`
   
     <div class="footer-items__end">
       
-        <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.3.
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

@@ -6,30 +6,42 @@ The last stable version of Systole can be installed using pip:
 
 .. code-block:: shell
 
-  pip install systole
+  pip install systole-core
+
+.. note::
+
+   The distribution is named ``systole-core`` on PyPI, but the package is still
+   imported as ``systole``::
+
+     import systole
 
 If you want to download the `dev` branch instead and try the last features that are currently under development (and probably a bit unstable), use:
 
 .. code-block:: shell
 
-  pip install “git+https://github.com/embodied-computation-group/systole.git@dev”
+  pip install "git+https://github.com/embodied-computation-group/systole.git@dev"
 
 The following packages are required to use Systole:
 
-* `Numpy <https://numpy.org/>`_ (>=1.15)
+* `Numpy <https://numpy.org/>`_ (>=1.21)
 * `SciPy <https://www.scipy.org/>`_ (>=1.3.0)
 * `Pandas <https://pandas.pydata.org/>`_ (>=0.24)
-* `Numba <http://numba.pydata.org/>`_ (>=0.51.2)
+* `Numba <http://numba.pydata.org/>`_ (>=0.58.0)
 * `Seaborn <https://seaborn.pydata.org/>`_ (>=0.9.0)
 * `Matplotlib <https://matplotlib.org/>`_ (>=3.0.2)
-* `Bokeh <https://docs.bokeh.org/en/latest/index.html#>`_ (>=2.3.3)
+* `Bokeh <https://docs.bokeh.org/en/latest/index.html#>`_ (>=3.0.0)
+* `Jinja2 <https://jinja.palletsprojects.com/>`_ (>=3.0)
 * `pyserial <https://pyserial.readthedocs.io/en/latest/pyserial.html>`_ (>=3.4)
 * `setuptools <https://setuptools.pypa.io/en/latest/>`_ (>=38.4)
 * `requests <https://docs.python-requests.org/en/latest/>`_ (>=2.26.0)
 * `tabulate <https://github.com/astanin/python-tabulate/>`_ (>=0.8.9)
+* `sleepecg <https://github.com/cbrnr/sleepecg>`_ (>=0.5.1)
+* `joblib <https://joblib.readthedocs.io/>`_ (>=1.3.2)
+* `tqdm <https://tqdm.github.io/>`_
+* `packaging <https://packaging.pypa.io/>`_
 
 
-The Python version should be 3.7 or higher.
+The Python version should be 3.9 or higher.
 
 
 Getting started

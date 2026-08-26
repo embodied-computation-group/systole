@@ -1,102 +1,93 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Working with BIDS folders &#8212; systole 0.2.5dev0 documentation</title>
+    <title>Working with BIDS folders &#8212; systole 0.3.1 documentation</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
-  
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
-  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/documentation_options.js?v=4621528c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../_static/thebelab-helper.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
-    <script src="../_static/design-tabs.js"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/6-WorkingWithBIDSFolders';</script>
-    <link rel="shortcut icon" href="../_static/logo_small.svg"/>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../_static/logo_small.svg"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Functions" href="../api.html" />
     <link rel="prev" title="Instantaneous and evoked heart rate" href="5-InstantaneousHeartRate.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
   </head>
+  <body data-default-mode="">
   
   
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
-  
-  
-  <a class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
-
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -104,7 +95,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -112,19 +102,27 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
   
   <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../index.html">
@@ -139,7 +137,7 @@
     
     
     <img src="../_static/logo_small.svg" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="../_static/logo_small.svg" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="../_static/logo_small.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
     <p class="title logo__title">Systole</p>
@@ -152,49 +150,44 @@
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../getting_started.html">
-                        Getting started
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../auto_examples/index.html">
-                        Gallery
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="../tutorials.html">
-                        Tutorials
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../auto_examples/index.html">
+    Gallery
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../api.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../references.html">
-                        References
-                      </a>
-                    </li>
-                
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -205,30 +198,31 @@
       
         <div class="navbar-item navbar-persistent--container">
           
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -239,8 +233,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -251,8 +244,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
         <li class="nav-item">
           
@@ -263,8 +255,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Pypi</span></a>
+          <a href="https://pypi.org/project/systole-core/" title="Pypi" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i><span class="visually-hidden">Pypi</span></a>
         </li>
 </ul></div>
       
@@ -274,31 +265,32 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
       <span class="fa-solid fa-outdent"></span>
-    </label>
+    </button>
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -307,51 +299,49 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../getting_started.html">
-                        Getting started
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../auto_examples/index.html">
-                        Gallery
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="../tutorials.html">
-                        Tutorials
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../auto_examples/index.html">
+    Gallery
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../api.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../references.html">
-                        References
-                      </a>
-                    </li>
-                
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -360,17 +350,21 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -381,8 +375,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -393,8 +386,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
         <li class="nav-item">
           
@@ -405,8 +397,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Pypi</span></a>
+          <a href="https://pypi.org/project/systole-core/" title="Pypi" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i><span class="visually-hidden">Pypi</span></a>
         </li>
 </ul></div>
         
@@ -416,29 +407,32 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
@@ -449,7 +443,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../tutorials.html" class="nav-link">Tutorials</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Working...</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Working with BIDS folders</span></li>
   </ul>
 </nav>
 </div>
@@ -464,22 +458,22 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section id="working-with-bids-folders">
-<span id="bids-folders"></span><h1>Working with BIDS folders<a class="headerlink" href="#working-with-bids-folders" title="Permalink to this heading">#</a></h1>
+<span id="bids-folders"></span><h1>Working with BIDS folders<a class="headerlink" href="#working-with-bids-folders" title="Link to this heading">#</a></h1>
 <p>Author: Nicolas Legrand <a class="reference external" href="mailto:nicolas&#46;legrand&#37;&#52;&#48;cfin&#46;au&#46;dk">nicolas<span>&#46;</span>legrand<span>&#64;</span>cfin<span>&#46;</span>au<span>&#46;</span>dk</a></p>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%capture
-import sys
-if &#39;google.colab&#39; in sys.modules:
-    ! pip install systole
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="k">if</span> <span class="s1">'google.colab'</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="err">!</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">systole</span><span class="o">-</span><span class="n">core</span>
 </pre></div>
 </div>
 </div>
@@ -506,22 +500,22 @@ if &#39;google.colab&#39; in sys.modules:
 <p>We recommend using tools like <a class="reference external" href="https://bids-standard.github.io/bids-validator/">BIDS validator</a> to ensure that your folder complies with BIDS specification before trying to preprocess your data, or to use the editor.</p>
 </div>
 <section id="preprocessing">
-<span id="id1"></span><h2>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this heading">#</a></h2>
+<span id="id1"></span><h2>Preprocessing<a class="headerlink" href="#preprocessing" title="Link to this heading">#</a></h2>
 <p>The first step will be to preprocess the raw data and store the signal and peaks detection in a new derivative folder. During this step, we can also decide to create HTML reports for each participants, so we can visualize the signal quality and peaks detection.</p>
 <section id="preprocessing-the-physiological-data-from-one-participant">
-<h3>Preprocessing the physiological data from one participant<a class="headerlink" href="#preprocessing-the-physiological-data-from-one-participant" title="Permalink to this heading">#</a></h3>
+<h3>Preprocessing the physiological data from one participant<a class="headerlink" href="#preprocessing-the-physiological-data-from-one-participant" title="Link to this heading">#</a></h3>
 <p>The :py:func:<code class="docutils literal notranslate"><span class="pre">systole.reports</span></code> sub-module contains tools to directly interact with BIDS formatted folders, preprocess and save individual reports in a BIDS consistent way. Those functionalities are built on the top of the:py:func:<code class="docutils literal notranslate"><span class="pre">systole.reports.subject_level_report</span></code> function. This function will simply take a signal as input and will save as output the preprocessed signal with peaks detection (<code class="docutils literal notranslate"><span class="pre">_physio.tsv.gz</span></code> with the <code class="docutils literal notranslate"><span class="pre">_physio.json</span></code>), an <code class="docutils literal notranslate"><span class="pre">.html</span></code> reports adapted to the kind of signal that was provided, and a <code class="docutils literal notranslate"><span class="pre">features.tsv</span></code> file containing heart rate or respiratory rate variability features.</p>
 <p>For example, running the following code:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">systole</span> <span class="kn">import</span> <span class="n">import_dataset1</span>
-<span class="kn">from</span> <span class="nn">systole.reports</span> <span class="kn">import</span> <span class="n">subject_level_report</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">systole</span><span class="w"> </span><span class="kn">import</span> <span class="n">import_dataset1</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">systole.reports</span><span class="w"> </span><span class="kn">import</span> <span class="n">subject_level_report</span>
 
-<span class="n">ecg</span> <span class="o">=</span> <span class="n">import_dataset1</span><span class="p">(</span><span class="n">modalities</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ECG&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">ecg</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">ecg</span> <span class="o">=</span> <span class="n">import_dataset1</span><span class="p">(</span><span class="n">modalities</span><span class="o">=</span><span class="p">[</span><span class="s2">"ECG"</span><span class="p">])</span><span class="o">.</span><span class="n">ecg</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 
 <span class="n">subject_level_report</span><span class="p">(</span>
-    <span class="n">participant_id</span><span class="o">=</span><span class="s2">&quot;participant_test&quot;</span><span class="p">,</span>
-    <span class="n">pattern</span><span class="o">=</span><span class="s2">&quot;task_test&quot;</span><span class="p">,</span>
-    <span class="n">result_folder</span><span class="o">=</span><span class="s2">&quot;./&quot;</span><span class="p">,</span>
-    <span class="n">session</span><span class="o">=</span><span class="s2">&quot;session_test&quot;</span><span class="p">,</span>
+    <span class="n">participant_id</span><span class="o">=</span><span class="s2">"participant_test"</span><span class="p">,</span>
+    <span class="n">pattern</span><span class="o">=</span><span class="s2">"task_test"</span><span class="p">,</span>
+    <span class="n">result_folder</span><span class="o">=</span><span class="s2">"./"</span><span class="p">,</span>
+    <span class="n">session</span><span class="o">=</span><span class="s2">"session_test"</span><span class="p">,</span>
     <span class="n">ecg</span><span class="o">=</span><span class="n">ecg</span><span class="p">,</span>
     <span class="n">ecg_sfreq</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
 <span class="p">)</span>
@@ -535,23 +529,19 @@ if &#39;google.colab&#39; in sys.modules:
 </ol>
 </section>
 <section id="preprocessing-the-entire-bids-folder">
-<h3>Preprocessing the entire BIDS folder<a class="headerlink" href="#preprocessing-the-entire-bids-folder" title="Permalink to this heading">#</a></h3>
+<h3>Preprocessing the entire BIDS folder<a class="headerlink" href="#preprocessing-the-entire-bids-folder" title="Link to this heading">#</a></h3>
 <p>The previous function call can be automated for each participant and each file of a given BIDS folder and to extract the physiological features using the information provided in the <code class="docutils literal notranslate"><span class="pre">json</span></code> metadata automatically. This can be done using the:py:func:<code class="docutils literal notranslate"><span class="pre">systole.reports.wrapper</span></code> function, or directly from the command line. For example, the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>systole<span class="w"> </span>--bids_folder<span class="o">=</span><span class="s2">&quot;/path/to/BIDS/folder/&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">        </span>--patterns<span class="o">=</span><span class="s2">&quot;task-mytask&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">        </span>--modality<span class="o">=</span><span class="s2">&quot;beh&quot;</span><span class="w"> </span><span class="se">\</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>systole<span class="w"> </span>--bids_folder<span class="o">=</span><span class="s2">"/path/to/BIDS/folder/"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--patterns<span class="o">=</span><span class="s2">"task-mytask"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--modality<span class="o">=</span><span class="s2">"beh"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">        </span>--n_jobs<span class="o">=</span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
 <span class="w">        </span>--overwrite<span class="o">=</span>True<span class="w"> </span><span class="se">\</span>
 <span class="w">        </span>--html_reports<span class="o">==</span>False
 </pre></div>
 </div>
 <p>will preprocess the data for all participants with a physiological recording in the session <code class="docutils literal notranslate"><span class="pre">ses-session1</span></code> (default), for the behavioural modality (<code class="docutils literal notranslate"><span class="pre">beh</span></code>) and the task <code class="docutils literal notranslate"><span class="pre">mytask</span></code>. We set <code class="docutils literal notranslate"><span class="pre">n_jobs=10</span></code>, meaning that we will run 40 processes in parallel, and <code class="docutils literal notranslate"><span class="pre">overwrite=True</span></code> to overwrite previous data with the same ID in the derivative folder. Note that we also set <code class="docutils literal notranslate"><span class="pre">html_reports</span></code> to <code class="docutils literal notranslate"><span class="pre">False</span></code> as these files can be quite large, it is often preferable to only create it for the participant we want to review, or to use the <a class="reference internal" href="#viewer"><span class="std std-ref">Manual edition of peaks vector and bad segments labelling</span></a>. The possible arguments are:</p>
-<table class="table" id="label-to-reference">
-<caption><span class="caption-text">Command line arguments</span><a class="headerlink" href="#label-to-reference" title="Permalink to this table">#</a></caption>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
+<div class="pst-scrollable-table-container"><table class="table" id="label-to-reference">
+<caption><span class="caption-text">Command line arguments</span><a class="headerlink" href="#label-to-reference" title="Link to this table">#</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Argument</p></th>
 <th class="head"><p>Description</p></th>
@@ -584,6 +574,7 @@ if &#39;google.colab&#39; in sys.modules:
 </tr>
 </tbody>
 </table>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>When setting <code class="docutils literal notranslate"><span class="pre">overwrite=True</span></code>, only the preprocessed derivatives will be overwritten, but not the edited files located in <code class="docutils literal notranslate"><span class="pre">BIDS/systole/derivatives/corrected/*</span></code>. This means that it is possible to re-run the preprocessing event after working on the manual artefacts edition (see below).</p>
@@ -613,29 +604,29 @@ if &#39;google.colab&#39; in sys.modules:
 </section>
 </section>
 <section id="manual-edition-of-peaks-vector-and-bad-segments-labelling">
-<span id="viewer"></span><h2>Manual edition of peaks vector and bad segments labelling<a class="headerlink" href="#manual-edition-of-peaks-vector-and-bad-segments-labelling" title="Permalink to this heading">#</a></h2>
-<p>While we hope that the peaks detection function used by <a class="reference external" href="https://embodied-computation-group.github.io/systole/#">Systole</a> is sufficiently robust to extract peak vectors without errors for most of the uses cases, you might still encounter noisy or invalid recording that you will want to manually inspect and sometimes edit.</p>
+<span id="viewer"></span><h2>Manual edition of peaks vector and bad segments labelling<a class="headerlink" href="#manual-edition-of-peaks-vector-and-bad-segments-labelling" title="Link to this heading">#</a></h2>
+<p>While we hope that the peaks detection function used by <a class="reference external" href="https://www.the-ecg.org/systole/">Systole</a> is sufficiently robust to extract peak vectors without errors for most of the uses cases, you might still encounter noisy or invalid recording that you will want to manually inspect and sometimes edit.</p>
 <p>The :py:mod:<code class="docutils literal notranslate"><span class="pre">systole.interact</span></code> sub-module provides two classes (:py:class:<code class="docutils literal notranslate"><span class="pre">systole.interact.Editor</span></code> and :py:class:<code class="docutils literal notranslate"><span class="pre">systole.interact.Viewer</span></code>) built on the top of Matplotlib widgets that can help for manual edition, and interactive visualization of BIDS fodlers directly in the notebook.</p>
 <section id="using-the-editor-to-inspect-raw-signal">
-<h3>Using the Editor to inspect raw signal<a class="headerlink" href="#using-the-editor-to-inspect-raw-signal" title="Permalink to this heading">#</a></h3>
+<h3>Using the Editor to inspect raw signal<a class="headerlink" href="#using-the-editor-to-inspect-raw-signal" title="Link to this heading">#</a></h3>
 <p>The :py:mod:<code class="docutils literal notranslate"><span class="pre">systole.interact.Editor</span></code> can be use alone (apart from a BISD structured folder) to edit peaks detection from a raw ECG, PPG or respiratory signal.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">systole</span> <span class="kn">import</span> <span class="n">import_dataset1</span>
-<span class="kn">from</span> <span class="nn">systole.interact</span> <span class="kn">import</span> <span class="n">Viewer</span><span class="p">,</span> <span class="n">Editor</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">systole</span><span class="w"> </span><span class="kn">import</span> <span class="n">import_dataset1</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">systole.interact</span><span class="w"> </span><span class="kn">import</span> <span class="n">Viewer</span><span class="p">,</span> <span class="n">Editor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span>
 
 <span class="o">%</span><span class="n">matplotlib</span> <span class="n">ipympl</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load a ray ECG time series</span>
-<span class="n">ecg</span> <span class="o">=</span> <span class="n">import_dataset1</span><span class="p">(</span><span class="n">modalities</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ECG&#39;</span><span class="p">],</span> <span class="n">disable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">ecg</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">ecg</span> <span class="o">=</span> <span class="n">import_dataset1</span><span class="p">(</span><span class="n">modalities</span><span class="o">=</span><span class="p">[</span><span class="s1">'ECG'</span><span class="p">],</span> <span class="n">disable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">ecg</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">editor</span> <span class="o">=</span> <span class="n">Editor</span><span class="p">(</span>
     <span class="n">signal</span><span class="o">=</span><span class="n">ecg</span><span class="p">,</span>
     <span class="n">sfreq</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-    <span class="n">corrected_json</span><span class="o">=</span><span class="s2">&quot;./corrected.json&quot;</span><span class="p">,</span>
+    <span class="n">corrected_json</span><span class="o">=</span><span class="s2">"./corrected.json"</span><span class="p">,</span>
     <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
-    <span class="n">signal_type</span><span class="o">=</span><span class="s2">&quot;ECG&quot;</span>
+    <span class="n">signal_type</span><span class="o">=</span><span class="s2">"ECG"</span>
 <span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">editor</span><span class="o">.</span><span class="n">commands_box</span><span class="p">)</span>
 </pre></div>
@@ -673,20 +664,20 @@ if &#39;google.colab&#39; in sys.modules:
 </ul>
 </section>
 <section id="using-the-viewer-to-navigate-preprocessed-folder">
-<h3>Using the Viewer to navigate preprocessed folder<a class="headerlink" href="#using-the-viewer-to-navigate-preprocessed-folder" title="Permalink to this heading">#</a></h3>
+<h3>Using the Viewer to navigate preprocessed folder<a class="headerlink" href="#using-the-viewer-to-navigate-preprocessed-folder" title="Link to this heading">#</a></h3>
 <p>The :py:mod:<code class="docutils literal notranslate"><span class="pre">systole.interact.Viewer</span></code> class wrap the Editor and allows to easily navigate and edit folder that contains large number of recoring. You can for example simply read the results generated by the command line (see <a class="reference internal" href="#preprocessing"><span class="std std-ref">Preprocessing</span></a>). Considering that the files were create in the folder <code class="docutils literal notranslate"><span class="pre">&quot;/path/to/BIDS/folder/derivatives/systole/&quot;</span></code> (which is the default behavior if <code class="docutils literal notranslate"><span class="pre">--result</span> <span class="pre">_folder</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">provided</span></code>), the Viewer can be called using:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
-<span class="kn">from</span> <span class="nn">systole.interact</span> <span class="kn">import</span> <span class="n">Viewer</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">systole.interact</span><span class="w"> </span><span class="kn">import</span> <span class="n">Viewer</span>
 
 <span class="o">%</span><span class="n">matplotlib</span> <span class="n">ipympl</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">view</span> <span class="o">=</span> <span class="n">Viewer</span><span class="p">(</span>
     <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
-    <span class="n">preprocessed_folder</span><span class="o">=</span><span class="s2">&quot;/path/to/BIDS/folder/derivatives/systole/&quot;</span><span class="p">,</span>
-    <span class="n">pattern</span><span class="o">=</span><span class="s2">&quot;task-my_task&quot;</span><span class="p">,</span> <span class="c1"># A string long enough to disambiguate in case of mmultiple recordings</span>
-    <span class="n">modality</span><span class="o">=</span><span class="s2">&quot;beh&quot;</span><span class="p">,</span>
-    <span class="n">signal_type</span><span class="o">=</span><span class="s2">&quot;ECG&quot;</span>
+    <span class="n">preprocessed_folder</span><span class="o">=</span><span class="s2">"/path/to/BIDS/folder/derivatives/systole/"</span><span class="p">,</span>
+    <span class="n">pattern</span><span class="o">=</span><span class="s2">"task-my_task"</span><span class="p">,</span> <span class="c1"># A string long enough to disambiguate in case of mmultiple recordings</span>
+    <span class="n">modality</span><span class="o">=</span><span class="s2">"beh"</span><span class="p">,</span>
+    <span class="n">signal_type</span><span class="o">=</span><span class="s2">"ECG"</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -701,20 +692,20 @@ if &#39;google.colab&#39; in sys.modules:
 </div>
 </section>
 <section id="using-the-viewer-to-navigate-bids-folder">
-<h3>Using the Viewer to navigate BIDS folder<a class="headerlink" href="#using-the-viewer-to-navigate-bids-folder" title="Permalink to this heading">#</a></h3>
+<h3>Using the Viewer to navigate BIDS folder<a class="headerlink" href="#using-the-viewer-to-navigate-bids-folder" title="Link to this heading">#</a></h3>
 <p>Using the same logic, the :py:mod:<code class="docutils literal notranslate"><span class="pre">systole.interact.Viewer</span></code> can also work with the raw BIDS folder, instead of the derivatives, and preprocess data on the fly. This mode is more appropriate if you want to quickly inspect the data and do not want to generate subject or group level reports. The only different is that the input path should be parameter using the <code class="docutils literal notranslate"><span class="pre">bids_folder</span></code> argument, instead of <code class="docutils literal notranslate"><span class="pre">preprocessed_folder</span></code>. This will make the viewer aware that the signal are located in this folder, but that previously edited signal might also be located in <code class="docutils literal notranslate"><span class="pre">./derivatives/systole/corrected/</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">view</span> <span class="o">=</span> <span class="n">Viewer</span><span class="p">(</span>
     <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
-    <span class="n">bids_folder</span><span class="o">=</span><span class="s2">&quot;/path/to/BIDS/folder/&quot;</span><span class="p">,</span>
-    <span class="n">pattern</span><span class="o">=</span><span class="s2">&quot;task-my_task&quot;</span><span class="p">,</span> <span class="c1"># A string long enough to disambiguate in case of mmultiple recordings</span>
-    <span class="n">modality</span><span class="o">=</span><span class="s2">&quot;beh&quot;</span><span class="p">,</span>
-    <span class="n">signal_type</span><span class="o">=</span><span class="s2">&quot;ECG&quot;</span>
+    <span class="n">bids_folder</span><span class="o">=</span><span class="s2">"/path/to/BIDS/folder/"</span><span class="p">,</span>
+    <span class="n">pattern</span><span class="o">=</span><span class="s2">"task-my_task"</span><span class="p">,</span> <span class="c1"># A string long enough to disambiguate in case of mmultiple recordings</span>
+    <span class="n">modality</span><span class="o">=</span><span class="s2">"beh"</span><span class="p">,</span>
+    <span class="n">signal_type</span><span class="o">=</span><span class="s2">"ECG"</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="importing-signals-after-manual-edition">
-<h3>Importing signals after manual edition<a class="headerlink" href="#importing-signals-after-manual-edition" title="Permalink to this heading">#</a></h3>
+<h3>Importing signals after manual edition<a class="headerlink" href="#importing-signals-after-manual-edition" title="Link to this heading">#</a></h3>
 <p>After manual peaks correction and segments labelling, a new <code class="docutils literal notranslate"><span class="pre">corrected</span></code> subfolder will be appended to the systole derivatives:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>└─ BIDS/
    ├─ derivatives/
@@ -753,8 +744,8 @@ if &#39;google.colab&#39; in sys.modules:
               
               
               
-                <footer class="prev-next-footer">
-                  <!-- Previous / next buttons -->
+                <footer class="prev-next-footer d-print-none">
+                  
 <div class="prev-next-area">
     <a class="left-prev"
        href="5-InstantaneousHeartRate.html"
@@ -781,14 +772,18 @@ if &#39;google.colab&#39; in sys.modules:
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> On this page
   </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing">Preprocessing</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing-the-physiological-data-from-one-participant">Preprocessing the physiological data from one participant</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing-the-entire-bids-folder">Preprocessing the entire BIDS folder</a></li>
@@ -805,8 +800,9 @@ if &#39;google.colab&#39; in sys.modules:
   </nav></div>
 
   <div class="sidebar-secondary-item">
+
   <div class="tocsection sourcelink">
-    <a href="../_sources/notebooks/6-WorkingWithBIDSFolders.md.txt">
+    <a href="../_sources/notebooks/6-WorkingWithBIDSFolders.ipynb.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
@@ -825,8 +821,8 @@ if &#39;google.colab&#39; in sys.modules:
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -834,17 +830,19 @@ if &#39;google.colab&#39; in sys.modules:
     <div class="footer-items__start">
       
         <div class="footer-item">
+
   <p class="copyright">
     
-      © Copyright 2020-2023, Micah Allen.
+      © Copyright 2020-2026, Micah Allen.
       <br/>
     
   </p>
 </div>
       
         <div class="footer-item">
+
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
     <br/>
   </p>
 </div>
@@ -855,8 +853,10 @@ if &#39;google.colab&#39; in sys.modules:
   
     <div class="footer-items__end">
       
-        <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.3.
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

@@ -1,102 +1,93 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Plot raw physiological signal &#8212; systole 0.2.5dev0 documentation</title>
+    <title>Plot raw physiological signal &#8212; systole 0.3.1 documentation</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
-  
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
-  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/documentation_options.js?v=4621528c"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../_static/thebelab-helper.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
-    <script src="../../_static/design-tabs.js"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'auto_examples/Plots/plot_raw';</script>
-    <link rel="shortcut icon" href="../../_static/logo_small.svg"/>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/logo_small.svg"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Plot events" href="plot_events.html" />
     <link rel="prev" title="Plot subspaces to vivualize short/long and ectopic beats" href="plot_subspace.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
   </head>
+  <body data-default-mode="">
   
   
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
-  
-  
-  <a class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
-
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -104,7 +95,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -112,19 +102,27 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
   
   <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../../index.html">
@@ -139,7 +137,7 @@
     
     
     <img src="../../_static/logo_small.svg" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="../../_static/logo_small.svg" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="../../_static/logo_small.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
     <p class="title logo__title">Systole</p>
@@ -152,49 +150,44 @@
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../getting_started.html">
-                        Getting started
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started.html">
+    Getting started
+  </a>
+</li>
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="../index.html">
-                        Gallery
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../tutorials.html">
-                        Tutorials
-                      </a>
-                    </li>
-                
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Gallery
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../api.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../references.html">
-                        References
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -205,30 +198,31 @@
       
         <div class="navbar-item navbar-persistent--container">
           
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -239,8 +233,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -251,8 +244,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
         <li class="nav-item">
           
@@ -263,8 +255,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Pypi</span></a>
+          <a href="https://pypi.org/project/systole-core/" title="Pypi" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i><span class="visually-hidden">Pypi</span></a>
         </li>
 </ul></div>
       
@@ -274,31 +265,32 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
       <span class="fa-solid fa-outdent"></span>
-    </label>
+    </button>
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -307,51 +299,49 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../getting_started.html">
-                        Getting started
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting_started.html">
+    Getting started
+  </a>
+</li>
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="../index.html">
-                        Gallery
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../tutorials.html">
-                        Tutorials
-                      </a>
-                    </li>
-                
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Gallery
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../api.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../references.html">
-                        References
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -360,17 +350,21 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -381,8 +375,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">GitHub</span></a>
+          <a href="https://github.com/embodied-computation-group/systole" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -393,8 +386,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Twitter</span></a>
+          <a href="https://twitter.com/visceral_mind" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
         <li class="nav-item">
           
@@ -405,8 +397,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/systole/" title="Pypi" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
-            <span class="sr-only">Pypi</span></a>
+          <a href="https://pypi.org/project/systole-core/" title="Pypi" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i><span class="visually-hidden">Pypi</span></a>
         </li>
 </ul></div>
         
@@ -416,29 +407,32 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
@@ -452,7 +446,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Plotting</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Plot raw...</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Plot raw physiological signal</span></li>
   </ul>
 </nav>
 </div>
@@ -467,104 +461,477 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
-  <div class="sphx-glr-download-link-note admonition note">
-<p class="admonition-title">Note</p>
-<p><a class="reference internal" href="#sphx-glr-download-auto-examples-plots-plot-raw-py"><span class="std std-ref">Go to the end</span></a>
-to download the full example code</p>
-</div>
-<section class="sphx-glr-example-title" id="plot-raw-physiological-signal">
-<span id="sphx-glr-auto-examples-plots-plot-raw-py"></span><h1>Plot raw physiological signal<a class="headerlink" href="#plot-raw-physiological-signal" title="Permalink to this heading">#</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Author: Nicolas Legrand &lt;nicolas.legrand@cfin.au.dk&gt;</span>
+  <section id="plot-raw-physiological-signal">
+<h1>Plot raw physiological signal<a class="headerlink" href="#plot-raw-physiological-signal" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Author: Nicolas Legrand &lt;nicolas.legrand@cfin.au.dk&gt;</span>
 <span class="c1"># Licence: GPL v3</span>
 
 
-<span class="kn">from</span> <span class="nn">bokeh.io</span> <span class="kn">import</span> <a href="https://docs.bokeh.org/en/latest/docs/reference/io.html#bokeh.io.output_notebook" title="bokeh.io.output_notebook" class="sphx-glr-backref-module-bokeh-io sphx-glr-backref-type-py-function"><span class="n">output_notebook</span></a>
-<span class="kn">from</span> <span class="nn">bokeh.plotting</span> <span class="kn">import</span> <span class="n">show</span>
-<span class="kn">from</span> <span class="nn">systole.plots</span> <span class="kn">import</span> <span class="n">plot_raw</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bokeh.io</span><span class="w"> </span><span class="kn">import</span> <a href="https://docs.bokeh.org/en/latest/docs/reference/io.html#bokeh.io.output_notebook" title="bokeh.io.output_notebook" class="sphx-glr-backref-module-bokeh-io sphx-glr-backref-type-py-function"><span class="n">output_notebook</span></a>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bokeh.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">show</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">systole.plots</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_raw</span>
 
-<span class="kn">from</span> <span class="nn">systole</span> <span class="kn">import</span> <span class="n">import_dataset1</span><span class="p">,</span> <span class="n">import_ppg</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">systole</span><span class="w"> </span><span class="kn">import</span> <span class="n">import_dataset1</span><span class="p">,</span> <span class="n">import_ppg</span>
 </pre></div>
+</div>
+</div>
 </div>
 <section id="plot-raw-ecg-signal">
-<h2>Plot raw ECG signal<a class="headerlink" href="#plot-raw-ecg-signal" title="Permalink to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import PPG recording as pandas data frame</span>
-<a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.core.frame.DataFrame" class="sphx-glr-backref-module-pandas-core-frame sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">physio_df</span></a> <span class="o">=</span> <span class="n">import_dataset1</span><span class="p">(</span><span class="n">modalities</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ECG&#39;</span><span class="p">,</span> <span class="s1">&#39;Respiration&#39;</span><span class="p">])</span>
+<h2>Plot raw ECG signal<a class="headerlink" href="#plot-raw-ecg-signal" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import PPG recording as pandas data frame</span>
+<a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.DataFrame" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">physio_df</span></a> <span class="o">=</span> <span class="n">import_dataset1</span><span class="p">(</span><span class="n">modalities</span><span class="o">=</span><span class="p">[</span><span class="s1">'ECG'</span><span class="p">,</span> <span class="s1">'Respiration'</span><span class="p">])</span>
 
 <span class="c1"># Only use the first 60 seconds for demonstration</span>
-<a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.core.series.Series" class="sphx-glr-backref-module-pandas-core-series sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ecg</span></a> <span class="o">=</span> <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.core.frame.DataFrame" class="sphx-glr-backref-module-pandas-core-frame sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">physio_df</span></a><span class="p">[</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.between.html#pandas.Series.between" title="pandas.Series.between" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-method"><span class="n">physio_df</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">between</span></a><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">90</span><span class="p">)]</span><span class="o">.</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.core.series.Series" class="sphx-glr-backref-module-pandas-core-series sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ecg</span></a>
-<span class="n">plot_raw</span><span class="p">(</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.core.series.Series" class="sphx-glr-backref-module-pandas-core-series sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ecg</span></a><span class="p">,</span> <span class="n">modality</span><span class="o">=</span><span class="s1">&#39;ecg&#39;</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">detector</span><span class="o">=</span><span class="s1">&#39;sleepecg&#39;</span><span class="p">)</span>
+<a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.Series" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ecg</span></a> <span class="o">=</span> <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.DataFrame" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">physio_df</span></a><span class="p">[</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.between.html#pandas.Series.between" title="pandas.Series.between" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-method"><span class="n">physio_df</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">between</span></a><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">90</span><span class="p">)]</span><span class="o">.</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.Series" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ecg</span></a>
+<span class="n">plot_raw</span><span class="p">(</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.Series" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ecg</span></a><span class="p">,</span> <span class="n">modality</span><span class="o">=</span><span class="s1">'ecg'</span><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">detector</span><span class="o">=</span><span class="s1">'sleepecg'</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_plot_raw_001.png" srcset="../../_images/sphx_glr_plot_raw_001.png" alt="ECG recording" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/2 [00:00&lt;?, ?it/s]
-Downloading ECG channel:   0%|          | 0/2 [00:00&lt;?, ?it/s]
-Downloading ECG channel:  50%|█████     | 1/2 [00:00&lt;00:00,  2.85it/s]
-Downloading Respiration channel:  50%|█████     | 1/2 [00:00&lt;00:00,  2.85it/s]
-Downloading Respiration channel: 100%|██████████| 2/2 [00:00&lt;00:00,  1.93it/s]
-Downloading Respiration channel: 100%|██████████| 2/2 [00:00&lt;00:00,  2.03it/s]
-
-&lt;Axes: title={&#39;center&#39;: &#39;ECG recording&#39;}, ylabel=&#39;ECG (mV)&#39;&gt;
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/2 [00:00&lt;?, ?it/s]
 </pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading ECG channel:   0%|          | 0/2 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading Respiration channel:   0%|          | 0/2 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading Respiration channel: 100%|██████████| 2/2 [00:00&lt;00:00, 161.08it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: title={'center': 'ECG recording'}, ylabel='ECG (mV)'&gt;
+</pre></div>
+</div>
+<img alt="../../_images/cc4c0b3c108956d618e88a7b734869e60fcf014239259cf6c5ce7476c5400e31.png" src="../../_images/cc4c0b3c108956d618e88a7b734869e60fcf014239259cf6c5ce7476c5400e31.png" />
+</div>
 </div>
 </section>
 <section id="plot-raw-ppg-signal">
-<h2>Plot raw PPG signal<a class="headerlink" href="#plot-raw-ppg-signal" title="Permalink to this heading">#</a></h2>
+<h2>Plot raw PPG signal<a class="headerlink" href="#plot-raw-ppg-signal" title="Link to this heading">#</a></h2>
 <p>Import Respiration recording as pandas data frame</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.core.series.Series" class="sphx-glr-backref-module-pandas-core-series sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rsp</span></a> <span class="o">=</span> <span class="n">import_dataset1</span><span class="p">(</span><span class="n">modalities</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Respiration&#39;</span><span class="p">])</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.Series" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rsp</span></a> <span class="o">=</span> <span class="n">import_dataset1</span><span class="p">(</span><span class="n">modalities</span><span class="o">=</span><span class="p">[</span><span class="s1">'Respiration'</span><span class="p">])</span>
 
 <span class="c1"># Only use the first 90 seconds for demonstration</span>
-<a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.core.series.Series" class="sphx-glr-backref-module-pandas-core-series sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rsp</span></a> <span class="o">=</span> <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.core.frame.DataFrame" class="sphx-glr-backref-module-pandas-core-frame sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">physio_df</span></a><span class="p">[</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.between.html#pandas.Series.between" title="pandas.Series.between" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-method"><span class="n">physio_df</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">between</span></a><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">600</span><span class="p">)]</span><span class="o">.</span><span class="n">respiration</span>
-<span class="n">plot_raw</span><span class="p">(</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.core.series.Series" class="sphx-glr-backref-module-pandas-core-series sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rsp</span></a><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">modality</span><span class="o">=</span><span class="s2">&quot;respiration&quot;</span><span class="p">)</span>
+<a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.Series" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rsp</span></a> <span class="o">=</span> <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.DataFrame" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">physio_df</span></a><span class="p">[</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.between.html#pandas.Series.between" title="pandas.Series.between" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-method"><span class="n">physio_df</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">between</span></a><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">600</span><span class="p">)]</span><span class="o">.</span><span class="n">respiration</span>
+<span class="n">plot_raw</span><span class="p">(</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.Series" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rsp</span></a><span class="p">,</span> <span class="n">sfreq</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">modality</span><span class="o">=</span><span class="s2">"respiration"</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_plot_raw_002.png" srcset="../../_images/sphx_glr_plot_raw_002.png" alt="Respiration" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/1 [00:00&lt;?, ?it/s]
-Downloading Respiration channel:   0%|          | 0/1 [00:00&lt;?, ?it/s]
-Downloading Respiration channel: 100%|██████████| 1/1 [00:00&lt;00:00,  2.63it/s]
-Downloading Respiration channel: 100%|██████████| 1/1 [00:00&lt;00:00,  2.63it/s]
-
-&lt;Axes: title={&#39;center&#39;: &#39;Respiration&#39;}, ylabel=&#39;Respiratory signal&#39;&gt;
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/1 [00:00&lt;?, ?it/s]
 </pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading Respiration channel:   0%|          | 0/1 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading Respiration channel: 100%|██████████| 1/1 [00:00&lt;00:00, 211.68it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: title={'center': 'Respiration'}, ylabel='Respiratory signal'&gt;
+</pre></div>
+</div>
+<img alt="../../_images/8b17951c3f793693b198b4619c47a2fbe5d8f66fa43994761d37b09880c60545.png" src="../../_images/8b17951c3f793693b198b4619c47a2fbe5d8f66fa43994761d37b09880c60545.png" />
+</div>
 </div>
 </section>
 <section id="plot-raw-respiratory-signal">
-<h2>Plot raw respiratory signal<a class="headerlink" href="#plot-raw-respiratory-signal" title="Permalink to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import PPG recording as pandas data frame</span>
-<a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.core.frame.DataFrame" class="sphx-glr-backref-module-pandas-core-frame sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ppg</span></a> <span class="o">=</span> <span class="n">import_ppg</span><span class="p">()</span>
+<h2>Plot raw respiratory signal<a class="headerlink" href="#plot-raw-respiratory-signal" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import PPG recording as pandas data frame</span>
+<a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.DataFrame" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ppg</span></a> <span class="o">=</span> <span class="n">import_ppg</span><span class="p">()</span>
 
 <span class="c1"># Only use the first 60 seconds for demonstration</span>
-<span class="n">plot_raw</span><span class="p">(</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.core.frame.DataFrame" class="sphx-glr-backref-module-pandas-core-frame sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ppg</span></a><span class="p">[</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.core.series.Series" class="sphx-glr-backref-module-pandas-core-series sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ppg</span><span class="o">.</span><span class="n">time</span></a><span class="o">&lt;</span><span class="mi">60</span><span class="p">],</span> <span class="n">sfreq</span><span class="o">=</span><span class="mi">75</span><span class="p">)</span>
+<span class="n">plot_raw</span><span class="p">(</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.DataFrame" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ppg</span></a><span class="p">[</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="pandas.Series" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ppg</span><span class="o">.</span><span class="n">time</span></a><span class="o">&lt;</span><span class="mi">60</span><span class="p">],</span> <span class="n">sfreq</span><span class="o">=</span><span class="mi">75</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_plot_raw_003.png" srcset="../../_images/sphx_glr_plot_raw_003.png" alt="PPG recording" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;Axes: title={&#39;center&#39;: &#39;PPG recording&#39;}, ylabel=&#39;PPG level (a.u.)&#39;&gt;
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: title={'center': 'PPG recording'}, ylabel='PPG level (a.u.)'&gt;
 </pre></div>
+</div>
+<img alt="../../_images/1dbb1ef7d4580752af6e910a58bb18cb1d74ba92a27e597e158a410158bcf520.png" src="../../_images/1dbb1ef7d4580752af6e910a58bb18cb1d74ba92a27e597e158a410158bcf520.png" />
+</div>
 </div>
 </section>
 <section id="using-bokeh-as-plotting-backend">
-<h2>Using Bokeh as plotting backend<a class="headerlink" href="#using-bokeh-as-plotting-backend" title="Permalink to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://docs.bokeh.org/en/latest/docs/reference/io.html#bokeh.io.output_notebook" title="bokeh.io.output_notebook" class="sphx-glr-backref-module-bokeh-io sphx-glr-backref-type-py-function"><span class="n">output_notebook</span></a><span class="p">()</span>
+<h2>Using Bokeh as plotting backend<a class="headerlink" href="#using-bokeh-as-plotting-backend" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><a href="https://docs.bokeh.org/en/latest/docs/reference/io.html#bokeh.io.output_notebook" title="bokeh.io.output_notebook" class="sphx-glr-backref-module-bokeh-io sphx-glr-backref-type-py-function"><span class="n">output_notebook</span></a><span class="p">()</span>
 
 <span class="n">show</span><span class="p">(</span>
-    <span class="n">plot_raw</span><span class="p">(</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.core.frame.DataFrame" class="sphx-glr-backref-module-pandas-core-frame sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ppg</span></a><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;bokeh&quot;</span><span class="p">,</span> <span class="n">show_heart_rate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_artefacts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">plot_raw</span><span class="p">(</span><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.DataFrame" class="sphx-glr-backref-module-pandas sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ppg</span></a><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">"bokeh"</span><span class="p">,</span> <span class="n">show_heart_rate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_artefacts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
  <span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>BokehDeprecationWarning: CDSView.source is no longer needed, and is now ignored. In a future release, passing source will result an error.
-BokehDeprecationWarning: CDSView.filters was deprecated in bokeh 3.0. Use CDSView.filter instead.
-BokehDeprecationWarning: CDSView.source is no longer needed, and is now ignored. In a future release, passing source will result an error.
-BokehDeprecationWarning: CDSView.filters was deprecated in bokeh 3.0. Use CDSView.filter instead.
-</pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.862 seconds)</p>
-<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plots-plot-raw-py">
-<div class="sphx-glr-download sphx-glr-download-python docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/d8539f00bb096598d0ceb2eadf1eebee/plot_raw.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_raw.py</span></code></a></p>
+<div class="cell_output docutils container">
+<div class="output text_html">    <style>
+        .bk-notebook-logo {
+            display: block;
+            width: 20px;
+            height: 20px;
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAOkSURBVDiNjZRtaJVlGMd/1/08zzln5zjP1LWcU9N0NkN8m2CYjpgQYQXqSs0I84OLIC0hkEKoPtiH3gmKoiJDU7QpLgoLjLIQCpEsNJ1vqUOdO7ppbuec5+V+rj4ctwzd8IIbbi6u+8f1539dt3A78eXC7QizUF7gyV1fD1Yqg4JWz84yffhm0qkFqBogB9rM8tZdtwVsPUhWhGcFJngGeWrPzHm5oaMmkfEg1usvLFyc8jLRqDOMru7AyC8saQr7GG7f5fvDeH7Ej8CM66nIF+8yngt6HWaKh7k49Soy9nXurCi1o3qUbS3zWfrYeQDTB/Qj6kX6Ybhw4B+bOYoLKCC9H3Nu/leUTZ1JdRWkkn2ldcCamzrcf47KKXdAJllSlxAOkRgyHsGC/zRday5Qld9DyoM4/q/rUoy/CXh3jzOu3bHUVZeU+DEn8FInkPBFlu3+nW3Nw0mk6vCDiWg8CeJaxEwuHS3+z5RgY+YBR6V1Z1nxSOfoaPa4LASWxxdNp+VWTk7+4vzaou8v8PN+xo+KY2xsw6une2frhw05CTYOmQvsEhjhWjn0bmXPjpE1+kplmmkP3suftwTubK9Vq22qKmrBhpY4jvd5afdRA3wGjFAgcnTK2s4hY0/GPNIb0nErGMCRxWOOX64Z8RAC4oCXdklmEvcL8o0BfkNK4lUg9HTl+oPlQxdNo3Mg4Nv175e/1LDGzZen30MEjRUtmXSfiTVu1kK8W4txyV6BMKlbgk3lMwYCiusNy9fVfvvwMxv8Ynl6vxoByANLTWplvuj/nF9m2+PDtt1eiHPBr1oIfhCChQMBw6Aw0UulqTKZdfVvfG7VcfIqLG9bcldL/+pdWTLxLUy8Qq38heUIjh4XlzZxzQm19lLFlr8vdQ97rjZVOLf8nclzckbcD4wxXMidpX30sFd37Fv/GtwwhzhxGVAprjbg0gCAEeIgwCZyTV2Z1REEW8O4py0wsjeloKoMr6iCY6dP92H6Vw/oTyICIthibxjm/DfN9lVz8IqtqKYLUXfoKVMVQVVJOElGjrnnUt9T9wbgp8AyYKaGlqingHZU/uG2NTZSVqwHQTWkx9hxjkpWDaCg6Ckj5qebgBVbT3V3NNXMSiWSDdGV3hrtzla7J+duwPOToIg42ChPQOQjspnSlp1V+Gjdged7+8UN5CRAV7a5EdFNwCjEaBR27b3W890TE7g24NAP/mMDXRWrGoFPQI9ls/MWO2dWFAar/xcOIImbbpA3zgAAAABJRU5ErkJggg==);
+        }
+    </style>
+    <div>
+        <a href="https://bokeh.org" target="_blank" class="bk-notebook-logo"></a>
+        <span id="afa31415-16f4-4047-a358-5a68a76fbb6e">Loading BokehJS ...</span>
+    </div>
+</div><script type="application/javascript">'use strict';
+(function(root) {
+  function now() {
+    return new Date();
+  }
+
+  const force = true;
+
+  if (typeof root._bokeh_onload_callbacks === "undefined" || force === true) {
+    root._bokeh_onload_callbacks = [];
+    root._bokeh_is_loading = undefined;
+  }
+
+const JS_MIME_TYPE = 'application/javascript';
+  const HTML_MIME_TYPE = 'text/html';
+  const EXEC_MIME_TYPE = 'application/vnd.bokehjs_exec.v0+json';
+  const CLASS_NAME = 'output_bokeh rendered_html';
+
+  /**
+   * Render data to the DOM node
+   */
+  function render(props, node) {
+    const script = document.createElement("script");
+    node.appendChild(script);
+  }
+
+  /**
+   * Handle when an output is cleared or removed
+   */
+  function handleClearOutput(event, handle) {
+    function drop(id) {
+      const view = Bokeh.index.get_by_id(id)
+      if (view != null) {
+        view.model.document.clear()
+        Bokeh.index.delete(view)
+      }
+    }
+
+    const cell = handle.cell;
+
+    const id = cell.output_area._bokeh_element_id;
+    const server_id = cell.output_area._bokeh_server_id;
+
+    // Clean up Bokeh references
+    if (id != null) {
+      drop(id)
+    }
+
+    if (server_id !== undefined) {
+      // Clean up Bokeh references
+      const cmd_clean = "from bokeh.io.state import curstate; print(curstate().uuid_to_server['" + server_id + "'].get_sessions()[0].document.roots[0]._id)";
+      cell.notebook.kernel.execute(cmd_clean, {
+        iopub: {
+          output: function(msg) {
+            const id = msg.content.text.trim()
+            drop(id)
+          }
+        }
+      });
+      // Destroy server and session
+      const cmd_destroy = "import bokeh.io.notebook as ion; ion.destroy_server('" + server_id + "')";
+      cell.notebook.kernel.execute(cmd_destroy);
+    }
+  }
+
+  /**
+   * Handle when a new output is added
+   */
+  function handleAddOutput(event, handle) {
+    const output_area = handle.output_area;
+    const output = handle.output;
+
+    // limit handleAddOutput to display_data with EXEC_MIME_TYPE content only
+    if ((output.output_type != "display_data") || (!Object.prototype.hasOwnProperty.call(output.data, EXEC_MIME_TYPE))) {
+      return
+    }
+
+    const toinsert = output_area.element.find("." + CLASS_NAME.split(' ')[0]);
+
+    if (output.metadata[EXEC_MIME_TYPE]["id"] !== undefined) {
+      toinsert[toinsert.length - 1].firstChild.textContent = output.data[JS_MIME_TYPE];
+      // store reference to embed id on output_area
+      output_area._bokeh_element_id = output.metadata[EXEC_MIME_TYPE]["id"];
+    }
+    if (output.metadata[EXEC_MIME_TYPE]["server_id"] !== undefined) {
+      const bk_div = document.createElement("div");
+      bk_div.innerHTML = output.data[HTML_MIME_TYPE];
+      const script_attrs = bk_div.children[0].attributes;
+      for (let i = 0; i < script_attrs.length; i++) {
+        toinsert[toinsert.length - 1].firstChild.setAttribute(script_attrs[i].name, script_attrs[i].value);
+        toinsert[toinsert.length - 1].firstChild.textContent = bk_div.children[0].textContent
+      }
+      // store reference to server id on output_area
+      output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE]["server_id"];
+    }
+  }
+
+  function register_renderer(events, OutputArea) {
+
+    function append_mime(data, metadata, element) {
+      // create a DOM node to render to
+      const toinsert = this.create_output_subarea(
+        metadata,
+        CLASS_NAME,
+        EXEC_MIME_TYPE
+      );
+      this.keyboard_manager.register_events(toinsert);
+      // Render to node
+      const props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};
+      render(props, toinsert[toinsert.length - 1]);
+      element.append(toinsert);
+      return toinsert
+    }
+
+    /* Handle when an output is cleared or removed */
+    events.on('clear_output.CodeCell', handleClearOutput);
+    events.on('delete.Cell', handleClearOutput);
+
+    /* Handle when a new output is added */
+    events.on('output_added.OutputArea', handleAddOutput);
+
+    /**
+     * Register the mime type and append_mime function with output_area
+     */
+    OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {
+      /* Is output safe? */
+      safe: true,
+      /* Index of renderer in `output_area.display_order` */
+      index: 0
+    });
+  }
+
+  // register the mime type if in Jupyter Notebook environment and previously unregistered
+  if (root.Jupyter !== undefined) {
+    const events = require('base/js/events');
+    const OutputArea = require('notebook/js/outputarea').OutputArea;
+
+    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {
+      register_renderer(events, OutputArea);
+    }
+  }
+  if (typeof (root._bokeh_timeout) === "undefined" || force === true) {
+    root._bokeh_timeout = Date.now() + 5000;
+    root._bokeh_failed_load = false;
+  }
+
+  const NB_LOAD_WARNING = {'data': {'text/html':
+     "<div style='background-color: #fdd'>\n"+
+     "<p>\n"+
+     "BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \n"+
+     "may be due to a slow or bad network connection. Possible fixes:\n"+
+     "</p>\n"+
+     "<ul>\n"+
+     "<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\n"+
+     "<li>use INLINE resources instead, as so:</li>\n"+
+     "</ul>\n"+
+     "<code>\n"+
+     "from bokeh.resources import INLINE\n"+
+     "output_notebook(resources=INLINE)\n"+
+     "</code>\n"+
+     "</div>"}};
+
+  function display_loaded(error = null) {
+    const el = document.getElementById("afa31415-16f4-4047-a358-5a68a76fbb6e");
+    if (el != null) {
+      const html = (() => {
+        if (typeof root.Bokeh === "undefined") {
+          if (error == null) {
+            return "BokehJS is loading ...";
+          } else {
+            return "BokehJS failed to load.";
+          }
+        } else {
+          const prefix = `BokehJS ${root.Bokeh.version}`;
+          if (error == null) {
+            return `${prefix} successfully loaded.`;
+          } else {
+            return `${prefix} <b>encountered errors</b> while loading and may not function as expected.`;
+          }
+        }
+      })();
+      el.innerHTML = html;
+
+      if (error != null) {
+        const wrapper = document.createElement("div");
+        wrapper.style.overflow = "auto";
+        wrapper.style.height = "5em";
+        wrapper.style.resize = "vertical";
+        const content = document.createElement("div");
+        content.style.fontFamily = "monospace";
+        content.style.whiteSpace = "pre-wrap";
+        content.style.backgroundColor = "rgb(255, 221, 221)";
+        content.textContent = error.stack ?? error.toString();
+        wrapper.append(content);
+        el.append(wrapper);
+      }
+    } else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(() => display_loaded(error), 100);
+    }
+  }
+
+  function run_callbacks() {
+    try {
+      root._bokeh_onload_callbacks.forEach(function(callback) {
+        if (callback != null)
+          callback();
+      });
+    } finally {
+      delete root._bokeh_onload_callbacks
+    }
+    console.debug("Bokeh: all callbacks have finished");
+  }
+
+  function load_libs(css_urls, js_urls, callback) {
+    if (css_urls == null) css_urls = [];
+    if (js_urls == null) js_urls = [];
+
+    root._bokeh_onload_callbacks.push(callback);
+    if (root._bokeh_is_loading > 0) {
+      console.debug("Bokeh: BokehJS is being loaded, scheduling callback at", now());
+      return null;
+    }
+    if (js_urls == null || js_urls.length === 0) {
+      run_callbacks();
+      return null;
+    }
+    console.debug("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
+    root._bokeh_is_loading = css_urls.length + js_urls.length;
+
+    function on_load() {
+      root._bokeh_is_loading--;
+      if (root._bokeh_is_loading === 0) {
+        console.debug("Bokeh: all BokehJS libraries/stylesheets loaded");
+        run_callbacks()
+      }
+    }
+
+    function on_error(url) {
+      console.error("failed to load " + url);
+    }
+
+    for (let i = 0; i < css_urls.length; i++) {
+      const url = css_urls[i];
+      const element = document.createElement("link");
+      element.onload = on_load;
+      element.onerror = on_error.bind(null, url);
+      element.rel = "stylesheet";
+      element.type = "text/css";
+      element.href = url;
+      console.debug("Bokeh: injecting link tag for BokehJS stylesheet: ", url);
+      document.body.appendChild(element);
+    }
+
+    for (let i = 0; i < js_urls.length; i++) {
+      const url = js_urls[i];
+      const element = document.createElement('script');
+      element.onload = on_load;
+      element.onerror = on_error.bind(null, url);
+      element.async = false;
+      element.src = url;
+      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
+      document.head.appendChild(element);
+    }
+  };
+
+  function inject_raw_css(css) {
+    const element = document.createElement("style");
+    element.appendChild(document.createTextNode(css));
+    document.body.appendChild(element);
+  }
+
+  const js_urls = ["https://cdn.bokeh.org/bokeh/release/bokeh-3.9.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.9.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.9.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.9.2.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-3.9.2.min.js"];
+  const css_urls = [];
+
+  const inline_js = [    function(Bokeh) {
+      Bokeh.set_log_level("info");
+    },
+function(Bokeh) {
+    }
+  ];
+
+  function run_inline_js() {
+    if (root.Bokeh !== undefined || force === true) {
+      try {
+            for (let i = 0; i < inline_js.length; i++) {
+      inline_js[i].call(root, root.Bokeh);
+    }
+
+      } catch (error) {display_loaded(error);throw error;
+      }if (force === true) {
+        display_loaded();
+      }} else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(run_inline_js, 100);
+    } else if (!root._bokeh_failed_load) {
+      console.log("Bokeh: BokehJS failed to load within specified timeout.");
+      root._bokeh_failed_load = true;
+    } else if (force !== true) {
+      const cell = $(document.getElementById("afa31415-16f4-4047-a358-5a68a76fbb6e")).parents('.cell').data().cell;
+      cell.output_area.append_execute_result(NB_LOAD_WARNING)
+    }
+  }
+
+  if (root._bokeh_is_loading === 0) {
+    console.debug("Bokeh: BokehJS loaded, going straight to plotting");
+    run_inline_js();
+  } else {
+    load_libs(css_urls, js_urls, function() {
+      console.debug("Bokeh: BokehJS plotting callback run at", now());
+      run_inline_js();
+    });
+  }
+}(window));</script><div class="output text_html">
+  <div id="f6b0079f-c859-483b-8412-0e9ab09e9c6f" data-root-id="p1232" style="display: contents;"></div>
+</div><script type="application/javascript">(function(root) {
+  function embed_document(root) {
+  const docs_json = {"7a5531a4-7622-4f6e-8a35-361983985985":{"version":"3.9.2","title":"Bokeh Application","config":{"type":"object","name":"DocumentConfig","id":"p1233","attributes":{"notifications":{"type":"object","name":"Notifications","id":"p1234"}}},"roots":[{"type":"object","name":"Column","id":"p1232","attributes":{"sizing_mode":"stretch_width","children":[{"type":"object","name":"Figure","id":"p1011","attributes":{"height":300,"sizing_mode":"stretch_width","x_range":{"type":"object","name":"Range1d","id":"p1021","attributes":{"start":0.0,"end":24846.0}},"y_range":{"type":"object","name":"DataRange1d","id":"p1013"},"x_scale":{"type":"object","name":"LinearScale","id":"p1022"},"y_scale":{"type":"object","name":"LinearScale","id":"p1023"},"title":{"type":"object","name":"Title","id":"p1014","attributes":{"text":"PPG recording"}},"renderers":[{"type":"object","name":"GlyphRenderer","id":"p1064","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1008","attributes":{"selected":{"type":"object","name":"Selection","id":"p1009","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1010"},"data":{"type":"map","entries":[["time",{"type":"ndarray","array":{"type":"bytes","data":"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"},"shape":[2485],"dtype":"float64","order":"little"}],["signal",{"type":"ndarray","array":{"type":"bytes","data":"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"},"shape":[2485],"dtype":"int32","order":"little"}],["peaks",{"type":"ndarray","array":{"type":"bytes","data":"H4sIAAEAAAAA/2NgGAWjIcDAwDhMAmG4+GOIRAdRwU2UoiHi4VFnjobAaAiMhsCAhgAAp0wu6LUJAAA="},"shape":[2485],"dtype":"bool","order":"little"}]]}}},"view":{"type":"object","name":"CDSView","id":"p1065","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1066"}}},"glyph":{"type":"object","name":"Line","id":"p1061","attributes":{"x":{"type":"field","field":"time"},"y":{"type":"field","field":"signal"},"line_color":"#a9373b"}},"nonselection_glyph":{"type":"object","name":"Line","id":"p1062","attributes":{"x":{"type":"field","field":"time"},"y":{"type":"field","field":"signal"},"line_color":"#a9373b","line_alpha":0.1}},"muted_glyph":{"type":"object","name":"Line","id":"p1063","attributes":{"x":{"type":"field","field":"time"},"y":{"type":"field","field":"signal"},"line_color":"#a9373b","line_alpha":0.2}}}},{"type":"object","name":"GlyphRenderer","id":"p1075","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1069","attributes":{"selected":{"type":"object","name":"Selection","id":"p1070","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1071"},"data":{"type":"map","entries":[["x",{"type":"ndarray","array":{"type":"bytes","data":"H4sIAAEAAAAA/2NgAIKEKgcQxcDRBaE7JkFom5kQWmgRhJZbCqHVVkLobWshtPkGCN25CUIHbIHQj7ZB6CU7IbTCHgi9fB+YbrA5AOH/gtKrD0L4Uw5B5HMPQ+iUIxBx66MQ+guEbug4DpFvPwGh1U9C6M9Qeu8pCD/uNESf4hkIbXoWQmufg9BM5yH0Bwh9oOgCmO/wGkp3XYTwdS6B6QPzITQD32Uwv6EJQjsoXwHzGW5C6Iayq2C+A8c1MH1gEoRu4LoO5jdEQWiGi9cdAPYzQt2IAQAA"},"shape":[49],"dtype":"float64","order":"little"}],["y",{"type":"ndarray","array":{"type":"bytes","data":"H4sIAAEAAAAA/y3OLQoCURQG0LdFs2lsFhlw0DJo0A2MDIwLsBhU0KDNIOISbDJLsFk9F144fFzuD3eaUupY8ORDSc2YSe4d5JYzBd8885MPdrn3lj3LXK9ly4a4V3HhyIsTe+5cmTFiwJDYiVsNc26siB9jNvwB8vhpssQAAAA="},"shape":[49],"dtype":"int32","order":"little"}]]}}},"view":{"type":"object","name":"CDSView","id":"p1076","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1077"}}},"glyph":{"type":"object","name":"Scatter","id":"p1072","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":5},"line_color":{"type":"value","value":"grey"},"fill_color":{"type":"value","value":"lightgrey"}}},"nonselection_glyph":{"type":"object","name":"Scatter","id":"p1073","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":5},"line_color":{"type":"value","value":"grey"},"line_alpha":{"type":"value","value":0.1},"fill_color":{"type":"value","value":"lightgrey"},"fill_alpha":{"type":"value","value":0.1},"hatch_alpha":{"type":"value","value":0.1}}},"muted_glyph":{"type":"object","name":"Scatter","id":"p1074","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"size":{"type":"value","value":5},"line_color":{"type":"value","value":"grey"},"line_alpha":{"type":"value","value":0.2},"fill_color":{"type":"value","value":"lightgrey"},"fill_alpha":{"type":"value","value":0.2},"hatch_alpha":{"type":"value","value":0.2}}}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p1020","attributes":{"tools":[{"type":"object","name":"PanTool","id":"p1048"},{"type":"object","name":"WheelZoomTool","id":"p1049","attributes":{"renderers":"auto"}},{"type":"object","name":"BoxZoomTool","id":"p1050","attributes":{"overlay":{"type":"object","name":"BoxAnnotation","id":"p1051","attributes":{"syncable":false,"line_color":"black","line_alpha":1.0,"line_width":2,"line_dash":[4,4],"fill_color":"lightgrey","fill_alpha":0.5,"level":"overlay","visible":false,"left":{"type":"number","value":"nan"},"right":{"type":"number","value":"nan"},"top":{"type":"number","value":"nan"},"bottom":{"type":"number","value":"nan"},"left_units":"canvas","right_units":"canvas","top_units":"canvas","bottom_units":"canvas","handles":{"type":"object","name":"BoxInteractionHandles","id":"p1057","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1056","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}}}},{"type":"object","name":"SaveTool","id":"p1058"},{"type":"object","name":"ResetTool","id":"p1059"},{"type":"object","name":"HelpTool","id":"p1060"}]}},"left":[{"type":"object","name":"LinearAxis","id":"p1043","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p1044","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p1045"},"axis_label":"PPG level (a.u.)","major_label_policy":{"type":"object","name":"AllLabels","id":"p1046"}}}],"below":[{"type":"object","name":"DatetimeAxis","id":"p1024","attributes":{"ticker":{"type":"object","name":"DatetimeTicker","id":"p1025","attributes":{"num_minor_ticks":5,"tickers":[{"type":"object","name":"AdaptiveTicker","id":"p1026","attributes":{"num_minor_ticks":0,"mantissas":[1,2,5],"max_interval":500.0}},{"type":"object","name":"AdaptiveTicker","id":"p1027","attributes":{"num_minor_ticks":0,"base":60,"mantissas":[1,2,5,10,15,20,30],"min_interval":1000.0,"max_interval":1800000.0}},{"type":"object","name":"AdaptiveTicker","id":"p1028","attributes":{"num_minor_ticks":0,"base":24,"mantissas":[1,2,4,6,8,12],"min_interval":3600000.0,"max_interval":43200000.0}},{"type":"object","name":"DaysTicker","id":"p1029","attributes":{"days":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]}},{"type":"object","name":"DaysTicker","id":"p1030","attributes":{"days":[1,4,7,10,13,16,19,22,25,28]}},{"type":"object","name":"DaysTicker","id":"p1031","attributes":{"days":[1,8,15,22]}},{"type":"object","name":"DaysTicker","id":"p1032","attributes":{"days":[1,15]}},{"type":"object","name":"MonthsTicker","id":"p1033","attributes":{"months":[0,1,2,3,4,5,6,7,8,9,10,11]}},{"type":"object","name":"MonthsTicker","id":"p1034","attributes":{"months":[0,2,4,6,8,10]}},{"type":"object","name":"MonthsTicker","id":"p1035","attributes":{"months":[0,4,8]}},{"type":"object","name":"MonthsTicker","id":"p1036","attributes":{"months":[0,6]}},{"type":"object","name":"YearsTicker","id":"p1037"}]}},"formatter":{"type":"object","name":"DatetimeTickFormatter","id":"p1040","attributes":{"seconds":"%T","minsec":"%T","minutes":"%H:%M","hours":"%H:%M","days":"%b %d","months":"%b %Y","strip_leading_zeros":["microseconds","milliseconds","seconds"],"boundary_scaling":false,"context":{"type":"object","name":"DatetimeTickFormatter","id":"p1039","attributes":{"microseconds":"%T","milliseconds":"%T","seconds":"%b %d, %Y","minsec":"%b %d, %Y","minutes":"%b %d, %Y","hourmin":"%b %d, %Y","hours":"%b %d, %Y","days":"%Y","months":"","years":"","boundary_scaling":false,"hide_repeats":true,"context":{"type":"object","name":"DatetimeTickFormatter","id":"p1038","attributes":{"microseconds":"%b %d, %Y","milliseconds":"%b %d, %Y","seconds":"","minsec":"","minutes":"","hourmin":"","hours":"","days":"","months":"","years":"","boundary_scaling":false,"hide_repeats":true}},"context_which":"all"}},"context_which":"all"}},"axis_label":"Time","major_label_policy":{"type":"object","name":"AllLabels","id":"p1041"}}}],"center":[{"type":"object","name":"Grid","id":"p1042","attributes":{"axis":{"id":"p1024"}}},{"type":"object","name":"Grid","id":"p1047","attributes":{"dimension":1,"axis":{"id":"p1043"}}},{"type":"object","name":"Legend","id":"p1067","attributes":{"title":"Raw signal","items":[{"type":"object","name":"LegendItem","id":"p1068","attributes":{"label":{"type":"value","value":"PPG signal"},"renderers":[{"id":"p1064"}]}},{"type":"object","name":"LegendItem","id":"p1078","attributes":{"label":{"type":"value","value":"Systolic peaks"},"renderers":[{"id":"p1075"}]}}]}}],"output_backend":"webgl"}},{"type":"object","name":"Figure","id":"p1079","attributes":{"height":300,"sizing_mode":"stretch_width","x_range":{"id":"p1021"},"y_range":{"type":"object","name":"DataRange1d","id":"p1081"},"x_scale":{"type":"object","name":"LinearScale","id":"p1089"},"y_scale":{"type":"object","name":"LinearScale","id":"p1090"},"title":{"type":"object","name":"Title","id":"p1082","attributes":{"text":"Instantaneous heart rate"}},"renderers":[{"type":"object","name":"GlyphRenderer","id":"p1139","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p1135","attributes":{"selected":{"type":"object","name":"Selection","id":"p1136","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1137"},"data":{"type":"map","entries":[["time",{"type":"ndarray","array":{"type":"bytes","data":"H4sIAAEAAAAA/2NgAAKOLgcQxdAxCULbzITQQosgtNxSCK22EkJvWwuhzTdA6M5NEDpgC4R+tA1CL9kJoRX2QOjl+8B0g80BCP8XlF59EMKfcggin3sYQqccgYhbH4XQXyB0Q8dxiHz7CQitfhJCf4bSe09B+HGnIfoUz0Bo07MQWvschGY6D6E/QOgDRRfAfIfXULrrIoSvcwlMH5gPoRn4LoP5DU0Q2kH5CpjPcBNCN5RdBfMdOK6B6QOTIHQD13UwvyEKQjNcvO4AAL01OJyAAQAA"},"shape":[48],"dtype":"float64","order":"little"}],["rr",{"type":"ndarray","array":{"type":"bytes","data":"H4sIAAEAAAAA/xXMOw5BURQF0OMzGIxCNNRqjTcEhYZOfGpRSIyBRkWp0Sk0EpFItMQQxDrFyt73JHdvShF9thzLETNZlR16elee5VKeGDPn6jaiIPueL7kzoF6J+Mkma1a0mFLz/yN3PHjzIrcXXPQDuTvxvjGkTYOne+7e+QOgS9sJwAAAAA=="},"shape":[48],"dtype":"int32","order":"little"}],["bpm",{"type":"ndarray","array":{"type":"bytes","data":"H4sIAAEAAAAA/5MrWJLRYZ/kkOM94524faqDria7S1t1ooOQsNzhvNpQh43C1kCU7HBEttD9jmCsw9dXV1eHr490uHuZ47Rtb6rDNKatdUsdIh32HK8GogSHL9P8Dt89HQY1L9ThxYRZCXumhjtMYBY8LKof7pBw8MInbYkEhwY11e5vJ5MdtJvaJu/ST4WLb7wDMjjR4crSBc3usXFw9wQ/2Zxn4JriUNBucmpmV5BDJhjEOjCAQEG6w6OHQJCY5BCYcGll5YQkh7ilMxbs9kp3aFtyrm+3e7KDs9imCa060Q61POeOP6iJc7gjWA70UqKDmFWzqFVzvMPb7GCFYz1xDsLn5IAoHu7ueKdqzreqQHe/nyF1wzrBwWHmjkt7GRPh7u2N3zCdMSTcYUH+V8HfC0Mcvtic/2xzPtwhaivr13m7Ih1YeJ7nZQhHO8Tw/py0OSAe7l5v9288LkvjHQBgkb7+gAEAAA=="},"shape":[48],"dtype":"float64","order":"little"}],["nbeat",{"type":"ndarray","array":{"type":"bytes","data":"H4sIAAEAAAAA/w3DBRKCQAAAwDMRA7BQLMTE9v+vY3dmWyGEth279uwbOTB26MixExNTM6fOnLtwae7KtYUbt+7ce7D0aOXJsxev3rxb+/Dpy7cfv/782wAcvDirwAAAAA=="},"shape":[48],"dtype":"int32","order":"little"}],["outliers",{"type":"ndarray","array":{"type":"bytes","data":"H4sIAAEAAAAA/2NgYGBgBGJUgCkCkwcAYC29PzAAAAA="},"shape":[48],"dtype":"bool","order":"little"}]]}}},"view":{"type":"object","name":"CDSView","id":"p1140","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1141"}}},"glyph":{"type":"object","name":"Line","id":"p1138","attributes":{"x":{"type":"field","field":"time"},"y":{"type":"field","field":"rr"},"line_color":"#4c72b0"}}}},{"type":"object","name":"GlyphRenderer","id":"p1144","attributes":{"data_source":{"id":"p1135"},"view":{"type":"object","name":"CDSView","id":"p1145","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1146"}}},"glyph":{"type":"object","name":"Scatter","id":"p1142","attributes":{"x":{"type":"field","field":"time"},"y":{"type":"field","field":"rr"},"size":{"type":"value","value":6},"line_color":{"type":"value","value":"grey"},"fill_color":{"type":"value","value":"lightgrey"}}},"hover_glyph":{"type":"object","name":"Scatter","id":"p1143","attributes":{"x":{"type":"field","field":"time"},"y":{"type":"field","field":"rr"},"size":{"type":"value","value":6},"line_color":{"type":"value","value":"grey"},"fill_color":{"type":"value","value":"firebrick"}}}}},{"type":"object","name":"GlyphRenderer","id":"p1154","attributes":{"data_source":{"id":"p1135"},"view":{"type":"object","name":"CDSView","id":"p1149","attributes":{"filter":{"type":"object","name":"IndexFilter","id":"p1148","attributes":{"indices":{"type":"ndarray","array":{"type":"bytes","data":"H4sIAAEAAAAA/xNjYGAAAF/XNlQEAAAA"},"shape":[1],"dtype":"int32","order":"little"}}}}},"glyph":{"type":"object","name":"Scatter","id":"p1151","attributes":{"x":{"type":"field","field":"time"},"y":{"type":"field","field":"rr"},"size":{"type":"value","value":10},"fill_color":{"type":"value","value":"#2f5f91"},"marker":{"type":"value","value":"square"}}},"nonselection_glyph":{"type":"object","name":"Scatter","id":"p1152","attributes":{"x":{"type":"field","field":"time"},"y":{"type":"field","field":"rr"},"size":{"type":"value","value":10},"line_alpha":{"type":"value","value":0.1},"fill_color":{"type":"value","value":"#2f5f91"},"fill_alpha":{"type":"value","value":0.1},"hatch_alpha":{"type":"value","value":0.1},"marker":{"type":"value","value":"square"}}},"muted_glyph":{"type":"object","name":"Scatter","id":"p1153","attributes":{"x":{"type":"field","field":"time"},"y":{"type":"field","field":"rr"},"size":{"type":"value","value":10},"line_alpha":{"type":"value","value":0.2},"fill_color":{"type":"value","value":"#2f5f91"},"fill_alpha":{"type":"value","value":0.2},"hatch_alpha":{"type":"value","value":0.2},"marker":{"type":"value","value":"square"}}}}},{"type":"object","name":"GlyphRenderer","id":"p1165","attributes":{"data_source":{"id":"p1135"},"view":{"type":"object","name":"CDSView","id":"p1160","attributes":{"filter":{"type":"object","name":"IndexFilter","id":"p1159","attributes":{"indices":{"type":"ndarray","array":{"type":"bytes","data":"H4sIAAEAAAAA/2NhYGAAAEtIJq4EAAAA"},"shape":[1],"dtype":"int32","order":"little"}}}}},"glyph":{"type":"object","name":"Scatter","id":"p1162","attributes":{"x":{"type":"field","field":"time"},"y":{"type":"field","field":"rr"},"size":{"type":"value","value":10},"fill_color":{"type":"value","value":"#6c0073"},"marker":{"type":"value","value":"triangle"}}},"nonselection_glyph":{"type":"object","name":"Scatter","id":"p1163","attributes":{"x":{"type":"field","field":"time"},"y":{"type":"field","field":"rr"},"size":{"type":"value","value":10},"line_alpha":{"type":"value","value":0.1},"fill_color":{"type":"value","value":"#6c0073"},"fill_alpha":{"type":"value","value":0.1},"hatch_alpha":{"type":"value","value":0.1},"marker":{"type":"value","value":"triangle"}}},"muted_glyph":{"type":"object","name":"Scatter","id":"p1164","attributes":{"x":{"type":"field","field":"time"},"y":{"type":"field","field":"rr"},"size":{"type":"value","value":10},"line_alpha":{"type":"value","value":0.2},"fill_color":{"type":"value","value":"#6c0073"},"fill_alpha":{"type":"value","value":0.2},"hatch_alpha":{"type":"value","value":0.2},"marker":{"type":"value","value":"triangle"}}}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p1088","attributes":{"tools":[{"type":"object","name":"PanTool","id":"p1115"},{"type":"object","name":"WheelZoomTool","id":"p1116","attributes":{"renderers":"auto"}},{"type":"object","name":"BoxZoomTool","id":"p1117","attributes":{"dimensions":"both","overlay":{"type":"object","name":"BoxAnnotation","id":"p1118","attributes":{"syncable":false,"line_color":"black","line_alpha":1.0,"line_width":2,"line_dash":[4,4],"fill_color":"lightgrey","fill_alpha":0.5,"level":"overlay","visible":false,"left":{"type":"number","value":"nan"},"right":{"type":"number","value":"nan"},"top":{"type":"number","value":"nan"},"bottom":{"type":"number","value":"nan"},"left_units":"canvas","right_units":"canvas","top_units":"canvas","bottom_units":"canvas","handles":{"type":"object","name":"BoxInteractionHandles","id":"p1124","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1123","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}}}},{"type":"object","name":"BoxSelectTool","id":"p1125","attributes":{"renderers":"auto","overlay":{"type":"object","name":"BoxAnnotation","id":"p1126","attributes":{"syncable":false,"line_color":"black","line_alpha":1.0,"line_width":2,"line_dash":[4,4],"fill_color":"lightgrey","fill_alpha":0.5,"level":"overlay","visible":false,"left":{"type":"number","value":"nan"},"right":{"type":"number","value":"nan"},"top":{"type":"number","value":"nan"},"bottom":{"type":"number","value":"nan"},"editable":true,"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1132","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1131","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}}}},{"type":"object","name":"ResetTool","id":"p1133"},{"type":"object","name":"SaveTool","id":"p1134"},{"type":"object","name":"HoverTool","id":"p1147","attributes":{"renderers":[{"id":"p1144"}],"tooltips":[["time","@time{:%M:%S.%3Ns}"],["R-R interval","@rr{%0.2f} ms"],["BPM","@bpm{%0.2f} BPM"],["Heartbeat number","@nbeat"]],"formatters":{"type":"map","entries":[["@time","datetime"],["@rr","printf"],["@bpm","printf"]]},"sort_by":null}}]}},"left":[{"type":"object","name":"LinearAxis","id":"p1110","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p1111","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p1112"},"axis_label":"R-R interval (ms)","major_label_policy":{"type":"object","name":"AllLabels","id":"p1113"}}}],"below":[{"type":"object","name":"DatetimeAxis","id":"p1091","attributes":{"ticker":{"type":"object","name":"DatetimeTicker","id":"p1092","attributes":{"num_minor_ticks":5,"tickers":[{"type":"object","name":"AdaptiveTicker","id":"p1093","attributes":{"num_minor_ticks":0,"mantissas":[1,2,5],"max_interval":500.0}},{"type":"object","name":"AdaptiveTicker","id":"p1094","attributes":{"num_minor_ticks":0,"base":60,"mantissas":[1,2,5,10,15,20,30],"min_interval":1000.0,"max_interval":1800000.0}},{"type":"object","name":"AdaptiveTicker","id":"p1095","attributes":{"num_minor_ticks":0,"base":24,"mantissas":[1,2,4,6,8,12],"min_interval":3600000.0,"max_interval":43200000.0}},{"type":"object","name":"DaysTicker","id":"p1096","attributes":{"days":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]}},{"type":"object","name":"DaysTicker","id":"p1097","attributes":{"days":[1,4,7,10,13,16,19,22,25,28]}},{"type":"object","name":"DaysTicker","id":"p1098","attributes":{"days":[1,8,15,22]}},{"type":"object","name":"DaysTicker","id":"p1099","attributes":{"days":[1,15]}},{"type":"object","name":"MonthsTicker","id":"p1100","attributes":{"months":[0,1,2,3,4,5,6,7,8,9,10,11]}},{"type":"object","name":"MonthsTicker","id":"p1101","attributes":{"months":[0,2,4,6,8,10]}},{"type":"object","name":"MonthsTicker","id":"p1102","attributes":{"months":[0,4,8]}},{"type":"object","name":"MonthsTicker","id":"p1103","attributes":{"months":[0,6]}},{"type":"object","name":"YearsTicker","id":"p1104"}]}},"formatter":{"type":"object","name":"DatetimeTickFormatter","id":"p1107","attributes":{"seconds":"%T","minsec":"%T","minutes":"%H:%M","hours":"%H:%M","days":"%b %d","months":"%b %Y","strip_leading_zeros":["microseconds","milliseconds","seconds"],"boundary_scaling":false,"context":{"type":"object","name":"DatetimeTickFormatter","id":"p1106","attributes":{"microseconds":"%T","milliseconds":"%T","seconds":"%b %d, %Y","minsec":"%b %d, %Y","minutes":"%b %d, %Y","hourmin":"%b %d, %Y","hours":"%b %d, %Y","days":"%Y","months":"","years":"","boundary_scaling":false,"hide_repeats":true,"context":{"type":"object","name":"DatetimeTickFormatter","id":"p1105","attributes":{"microseconds":"%b %d, %Y","milliseconds":"%b %d, %Y","seconds":"","minsec":"","minutes":"","hourmin":"","hours":"","days":"","months":"","years":"","boundary_scaling":false,"hide_repeats":true}},"context_which":"all"}},"context_which":"all"}},"axis_label":"Time","major_label_policy":{"type":"object","name":"AllLabels","id":"p1108"}}}],"center":[{"type":"object","name":"Grid","id":"p1109","attributes":{"axis":{"id":"p1091"}}},{"type":"object","name":"Grid","id":"p1114","attributes":{"dimension":1,"axis":{"id":"p1110"}}},{"type":"object","name":"Legend","id":"p1157","attributes":{"items":[{"type":"object","name":"LegendItem","id":"p1158","attributes":{"label":{"type":"value","value":"Missed intervals"},"renderers":[{"id":"p1154"}]}},{"type":"object","name":"LegendItem","id":"p1168","attributes":{"label":{"type":"value","value":"Ectopic beats"},"renderers":[{"id":"p1165"}]}}]}},{"type":"object","name":"BoxAnnotation","id":"p1169","attributes":{"fill_color":"red","fill_alpha":0.1,"left":{"type":"object","name":"Node","id":"p1171","attributes":{"target":"frame","symbol":"left"}},"right":{"type":"object","name":"Node","id":"p1172","attributes":{"target":"frame","symbol":"right"}},"top":{"type":"object","name":"Node","id":"p1173","attributes":{"target":"frame","symbol":"top"}},"bottom":3000,"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1175","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1174","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"BoxAnnotation","id":"p1176","attributes":{"fill_color":"red","fill_alpha":0.1,"left":{"type":"object","name":"Node","id":"p1178","attributes":{"target":"frame","symbol":"left"}},"right":{"type":"object","name":"Node","id":"p1179","attributes":{"target":"frame","symbol":"right"}},"top":200,"bottom":{"type":"object","name":"Node","id":"p1180","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1182","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1181","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}}],"output_backend":"webgl"}},{"type":"object","name":"Figure","id":"p1183","attributes":{"height":150,"x_range":{"type":"object","name":"DataRange1d","id":"p1185"},"y_range":{"id":"p1013"},"x_scale":{"type":"object","name":"LinearScale","id":"p1193"},"y_scale":{"type":"object","name":"LinearScale","id":"p1194"},"title":{"type":"object","name":"Title","id":"p1186","attributes":{"text":"Select the time window"}},"renderers":[{"type":"object","name":"GlyphRenderer","id":"p1229","attributes":{"data_source":{"id":"p1008"},"view":{"type":"object","name":"CDSView","id":"p1230","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1231"}}},"glyph":{"type":"object","name":"Line","id":"p1226","attributes":{"x":{"type":"field","field":"time"},"y":{"type":"field","field":"signal"},"line_color":"#1f77b4"}},"nonselection_glyph":{"type":"object","name":"Line","id":"p1227","attributes":{"x":{"type":"field","field":"time"},"y":{"type":"field","field":"signal"},"line_color":"#1f77b4","line_alpha":0.1}},"muted_glyph":{"type":"object","name":"Line","id":"p1228","attributes":{"x":{"type":"field","field":"time"},"y":{"type":"field","field":"signal"},"line_color":"#1f77b4","line_alpha":0.2}}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p1192","attributes":{"tools":[{"type":"object","name":"RangeTool","id":"p1214","attributes":{"x_range":{"id":"p1021"},"overlay":{"type":"object","name":"BoxAnnotation","id":"p1219","attributes":{"syncable":false,"line_color":"black","line_alpha":1.0,"line_width":0.5,"line_dash":[2,2],"fill_color":"navy","fill_alpha":0.2,"level":"overlay","propagate_hover":true,"left":{"type":"number","value":"nan"},"right":{"type":"number","value":"nan"},"top":{"type":"number","value":"nan"},"bottom":{"type":"number","value":"nan"},"left_limit":{"type":"object","name":"Node","id":"p1215","attributes":{"target":"frame","symbol":"left"}},"right_limit":{"type":"object","name":"Node","id":"p1216","attributes":{"target":"frame","symbol":"right"}},"top_limit":{"type":"object","name":"Node","id":"p1217","attributes":{"target":"frame","symbol":"top"}},"bottom_limit":{"type":"object","name":"Node","id":"p1218","attributes":{"target":"frame","symbol":"bottom"}},"editable":true,"handles":{"type":"object","name":"BoxInteractionHandles","id":"p1225","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p1224","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}}}}]}},"toolbar_location":null,"below":[{"type":"object","name":"DatetimeAxis","id":"p1195","attributes":{"ticker":{"type":"object","name":"DatetimeTicker","id":"p1196","attributes":{"num_minor_ticks":5,"tickers":[{"type":"object","name":"AdaptiveTicker","id":"p1197","attributes":{"num_minor_ticks":0,"mantissas":[1,2,5],"max_interval":500.0}},{"type":"object","name":"AdaptiveTicker","id":"p1198","attributes":{"num_minor_ticks":0,"base":60,"mantissas":[1,2,5,10,15,20,30],"min_interval":1000.0,"max_interval":1800000.0}},{"type":"object","name":"AdaptiveTicker","id":"p1199","attributes":{"num_minor_ticks":0,"base":24,"mantissas":[1,2,4,6,8,12],"min_interval":3600000.0,"max_interval":43200000.0}},{"type":"object","name":"DaysTicker","id":"p1200","attributes":{"days":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]}},{"type":"object","name":"DaysTicker","id":"p1201","attributes":{"days":[1,4,7,10,13,16,19,22,25,28]}},{"type":"object","name":"DaysTicker","id":"p1202","attributes":{"days":[1,8,15,22]}},{"type":"object","name":"DaysTicker","id":"p1203","attributes":{"days":[1,15]}},{"type":"object","name":"MonthsTicker","id":"p1204","attributes":{"months":[0,1,2,3,4,5,6,7,8,9,10,11]}},{"type":"object","name":"MonthsTicker","id":"p1205","attributes":{"months":[0,2,4,6,8,10]}},{"type":"object","name":"MonthsTicker","id":"p1206","attributes":{"months":[0,4,8]}},{"type":"object","name":"MonthsTicker","id":"p1207","attributes":{"months":[0,6]}},{"type":"object","name":"YearsTicker","id":"p1208"}]}},"formatter":{"type":"object","name":"DatetimeTickFormatter","id":"p1211","attributes":{"seconds":"%T","minsec":"%T","minutes":"%H:%M","hours":"%H:%M","days":"%b %d","months":"%b %Y","strip_leading_zeros":["microseconds","milliseconds","seconds"],"boundary_scaling":false,"context":{"type":"object","name":"DatetimeTickFormatter","id":"p1210","attributes":{"microseconds":"%T","milliseconds":"%T","seconds":"%b %d, %Y","minsec":"%b %d, %Y","minutes":"%b %d, %Y","hourmin":"%b %d, %Y","hours":"%b %d, %Y","days":"%Y","months":"","years":"","boundary_scaling":false,"hide_repeats":true,"context":{"type":"object","name":"DatetimeTickFormatter","id":"p1209","attributes":{"microseconds":"%b %d, %Y","milliseconds":"%b %d, %Y","seconds":"","minsec":"","minutes":"","hourmin":"","hours":"","days":"","months":"","years":"","boundary_scaling":false,"hide_repeats":true}},"context_which":"all"}},"context_which":"all"}},"major_label_policy":{"type":"object","name":"AllLabels","id":"p1212"}}}],"center":[{"type":"object","name":"Grid","id":"p1213","attributes":{"axis":{"id":"p1195"}}}],"background_fill_color":"#efefef"}}]}}]}};
+  const render_items = [{"docid":"7a5531a4-7622-4f6e-8a35-361983985985","roots":{"p1232":"f6b0079f-c859-483b-8412-0e9ab09e9c6f"},"root_ids":["p1232"]}];
+  void root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
+  }
+  if (root.Bokeh !== undefined) {
+    embed_document(root);
+  } else {
+    let attempts = 0;
+    const timer = setInterval(function(root) {
+      if (root.Bokeh !== undefined) {
+        clearInterval(timer);
+        embed_document(root);
+      } else {
+        attempts++;
+        if (attempts > 100) {
+          clearInterval(timer);
+          console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+        }
+      }
+    }, 10, root)
+  }
+})(window);</script></div>
 </div>
-<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/0671fb83e13faf570765c637c488b5b6/plot_raw.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_raw.ipynb</span></code></a></p>
-</div>
-</div>
-<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
 </section>
 </section>
 
@@ -575,8 +942,8 @@ BokehDeprecationWarning: CDSView.filters was deprecated in bokeh 3.0. Use CDSVie
               
               
               
-                <footer class="prev-next-footer">
-                  <!-- Previous / next buttons -->
+                <footer class="prev-next-footer d-print-none">
+                  
 <div class="prev-next-area">
     <a class="left-prev"
        href="plot_subspace.html"
@@ -603,14 +970,18 @@ BokehDeprecationWarning: CDSView.filters was deprecated in bokeh 3.0. Use CDSVie
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> On this page
   </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-raw-ecg-signal">Plot raw ECG signal</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-raw-ppg-signal">Plot raw PPG signal</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-raw-respiratory-signal">Plot raw respiratory signal</a></li>
@@ -619,8 +990,9 @@ BokehDeprecationWarning: CDSView.filters was deprecated in bokeh 3.0. Use CDSVie
   </nav></div>
 
   <div class="sidebar-secondary-item">
+
   <div class="tocsection sourcelink">
-    <a href="../../_sources/auto_examples/Plots/plot_raw.rst.txt">
+    <a href="../../_sources/auto_examples/Plots/plot_raw.ipynb.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
@@ -639,8 +1011,8 @@ BokehDeprecationWarning: CDSView.filters was deprecated in bokeh 3.0. Use CDSVie
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -648,17 +1020,19 @@ BokehDeprecationWarning: CDSView.filters was deprecated in bokeh 3.0. Use CDSVie
     <div class="footer-items__start">
       
         <div class="footer-item">
+
   <p class="copyright">
     
-      © Copyright 2020-2023, Micah Allen.
+      © Copyright 2020-2026, Micah Allen.
       <br/>
     
   </p>
 </div>
       
         <div class="footer-item">
+
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
     <br/>
   </p>
 </div>
@@ -669,8 +1043,10 @@ BokehDeprecationWarning: CDSView.filters was deprecated in bokeh 3.0. Use CDSVie
   
     <div class="footer-items__end">
       
-        <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.3.
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

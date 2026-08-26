@@ -5,22 +5,27 @@
 Recording
 +++++++++
 
+.. raw:: html
+
+  <div id='sg-tag-list' class='sphx-glr-tag-list'></div>
+
 
 .. raw:: html
 
     <div class="sphx-glr-thumbnails">
 
+.. thumbnail-parent-div-open
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example show how to record PPG signals using the Nonin 3012LP Xpod USB pulse oximeter and ...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example show how to record PPG signals using the Nonin 3012LP Xpod USB pulse oximeter and the Nonin 8000SM &#x27;soft-clip&#x27; fingertip sensors. Peaks are automatically labelled online and the instantaneous heart rate is plotted.">
 
 .. only:: html
 
   .. image:: /auto_examples/Recording/images/thumb/sphx_glr_plot_InstantaneousHeartRate_thumb.png
     :alt:
 
-  :ref:`sphx_glr_auto_examples_Recording_plot_InstantaneousHeartRate.py`
+  :doc:`/auto_examples/Recording/plot_InstantaneousHeartRate`
 
 .. raw:: html
 
@@ -30,14 +35,14 @@ Recording
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="The pysystole.recording.Oximeter class can be used to read incoming PPG signal  from Nonin 3012...">
+    <div class="sphx-glr-thumbcontainer" tooltip="The pysystole.recording.Oximeter class can be used to read incoming PPG signal  from Nonin 3012LP Xpod USB pulse oximeter together with the Nonin 8000SM &#x27;soft-clip&#x27;  fingertip sensors. This function can easily  be integrated with other stimulus presentation software like PsychoPy to record cardiac activity during psychological  experiments, or to synchronize stimulus delivery around cardiac phases (e.g. systole or diastole).">
 
 .. only:: html
 
   .. image:: /auto_examples/Recording/images/thumb/sphx_glr_plot_RecordingPPG_thumb.png
     :alt:
 
-  :ref:`sphx_glr_auto_examples_Recording_plot_RecordingPPG.py`
+  :doc:`/auto_examples/Recording/plot_RecordingPPG`
 
 .. raw:: html
 
@@ -47,20 +52,22 @@ Recording
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This tutorial illustrates how to use the Oximeter class to trigger stimuli at different phases ...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This tutorial illustrates how to use the Oximeter class to trigger stimuli at different phases of the cardiac cycle. The PPG signal is recorded for 30 seconds and peaks are detected online. Four notes (&#x27;C&#x27;, &#x27;E&#x27;, &#x27;G&#x27;, &#x27;Bfl&#x27;) are played in synch with peak detection with various delays: no delay,  1/4, 2/4 or 3/4 of the previous cardiac cycle length. While R-R intervals are prone to large changes over longer timescales, such changes are physiologically limited from one heartbeat to the next, limiting variance in the onset synchrony between the tones and the cardiac cycle. On this basis, each presentation time is calibrated based on the previous RR-interval. This procedure can easily be adapted to create a standard interoception task, e.g. by either presenting tones at no delay (systole, s+) or a fixed offset (diastole, s-).">
 
 .. only:: html
 
   .. image:: /auto_examples/Recording/images/thumb/sphx_glr_plot_HeartBeatrpeggios_thumb.png
     :alt:
 
-  :ref:`sphx_glr_auto_examples_Recording_plot_HeartBeatrpeggios.py`
+  :doc:`/auto_examples/Recording/plot_HeartBeatrpeggios`
 
 .. raw:: html
 
       <div class="sphx-glr-thumbnail-title">Heartbeat Evoked Arpeggios (cardiac-contingent stimuli)</div>
     </div>
 
+
+.. thumbnail-parent-div-close
 
 .. raw:: html
 
