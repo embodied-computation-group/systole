@@ -21,7 +21,7 @@ from systole.hrv import (
     time_domain,
 )
 
-rr = import_rr().rr.values
+rr = import_rr().rr.values.copy()
 
 
 class TestHrv(TestCase):

@@ -23,20 +23,20 @@ class TestDetection(TestCase):
         """Test correct_extra_rr function"""
 
         # When the artefact is the first RR interval
-        rr = import_rr().rr.values  # Import RR time series
+        rr = import_rr().rr.values.copy()  # Import RR time series
         rr[0] = 100
         clean_rr, _ = correct_extra_rr(rr, extra_idx=np.array([0]))
         assert clean_rr[0] == rr[0] + rr[1]
         assert clean_rr[1] != 100
 
         # When the artefact is the last RR interval
-        rr = import_rr().rr.values  # Import RR time series
+        rr = import_rr().rr.values.copy()  # Import RR time series
         rr[len(rr) - 1] = 100
         clean_rr, _ = correct_extra_rr(rr, extra_idx=np.array([len(rr) - 1]))
         assert clean_rr[-1] == rr[-2]
 
         # With many artefacts
-        rr = import_rr().rr.values  # Import RR time series
+        rr = import_rr().rr.values.copy()  # Import RR time series
         rr[10] = 100
         rr[20] = 100
         clean_rr, _ = correct_extra_rr(rr, extra_idx=np.array([10, 20]))
@@ -45,7 +45,7 @@ class TestDetection(TestCase):
         assert len(clean_rr) == len(rr) - 2
 
         # With the artefact array provided
-        rr = import_rr().rr.values  # Import RR time series
+        rr = import_rr().rr.values.copy()  # Import RR time series
         rr[30] = 100
         rr[50] = 100
         artefacts = rr_artefacts(rr)
@@ -79,19 +79,19 @@ class TestDetection(TestCase):
         """Test correct_missed_rr function"""
 
         # When the artefact is the first RR interval
-        rr = import_rr().rr.values  # Import RR time series
+        rr = import_rr().rr.values.copy()  # Import RR time series
         rr[0] = 1600
         clean_rr, _ = correct_missed_rr(rr, missed_idx=np.array([0]))
         assert clean_rr[0] == clean_rr[0] == rr[0] / 2
 
         # When the artefact is the last RR interval
-        rr = import_rr().rr.values  # Import RR time series
+        rr = import_rr().rr.values.copy()  # Import RR time series
         rr[len(rr) - 1] = 1600
         clean_rr, _ = correct_missed_rr(rr, missed_idx=np.array([len(rr) - 1]))
         assert clean_rr[-1] == clean_rr[-2] == rr[-1] / 2
 
         # With many artefacts
-        rr = import_rr().rr.values  # Import RR time series
+        rr = import_rr().rr.values.copy()  # Import RR time series
         rr[10] = 1600
         rr[20] = 1600
         clean_rr, _ = correct_missed_rr(rr, missed_idx=np.array([10, 20]))
@@ -100,7 +100,7 @@ class TestDetection(TestCase):
         assert len(clean_rr) == len(rr) + 2
 
         # With the artefact array provided
-        rr = import_rr().rr.values  # Import RR time series
+        rr = import_rr().rr.values.copy()  # Import RR time series
         rr[100] = 1400
         artefacts = rr_artefacts(rr)
 
@@ -129,19 +129,19 @@ class TestDetection(TestCase):
         """Test interpolate_rr function"""
 
         # When the artefact is the first RR interval
-        rr = import_rr().rr.values  # Import RR time series
+        rr = import_rr().rr.values.copy()  # Import RR time series
         rr[0] = 1600
         clean_rr = interpolate_rr(rr, idx=np.array([0]))
         assert clean_rr[0] == clean_rr[1] == rr[1]
 
         # When the artefact is the last RR interval
-        rr = import_rr().rr.values  # Import RR time series
+        rr = import_rr().rr.values.copy()  # Import RR time series
         rr[len(rr) - 1] = 1600
         clean_rr = interpolate_rr(rr, idx=np.array([len(rr) - 1]))
         assert clean_rr[-1] == clean_rr[-2] == rr[-2]
 
         # With many artefacts
-        rr = import_rr().rr.values  # Import RR time series
+        rr = import_rr().rr.values.copy()  # Import RR time series
         rr[10] = 1600
         rr[20] = 1600
         clean_rr = interpolate_rr(rr, idx=np.array([10, 20]))

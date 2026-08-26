@@ -167,7 +167,7 @@ class TestPlots(TestCase):
         """Test plot_raw function"""
 
         # Using ppg signal
-        ppg = import_ppg().ppg.to_numpy()
+        ppg = import_ppg().ppg.to_numpy().copy()
 
         # Import respiratory signal
         rsp = import_dataset1(modalities=["Respiration"])

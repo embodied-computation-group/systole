@@ -27,7 +27,7 @@ from systole.utils import (
 
 class TestUtils(TestCase):
     def test_to_neighbour(sef):
-        ppg = import_ppg().ppg.to_numpy()[:200]  # Import PPG recording
+        ppg = import_ppg().ppg.to_numpy().copy()[:200]  # Import PPG recording
         peaks = np.zeros(len(ppg), dtype=bool)
         peaks[50] = True
 
@@ -37,7 +37,7 @@ class TestUtils(TestCase):
         assert np.where(new_peaks)[0] == 1
 
     def test_norm_triggers(self):
-        ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
+        ppg = import_ppg().ppg.to_numpy().copy()  # Import PPG recording
         _, peaks = ppg_peaks(ppg, sfreq=75)
         peaks[np.where(peaks)[0] + 1] = 1
         peaks[np.where(peaks)[0] + 2] = 1
@@ -54,7 +54,7 @@ class TestUtils(TestCase):
 
     def test_heart_rate(self):
         """Test heart_rate function"""
-        ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
+        ppg = import_ppg().ppg.to_numpy().copy()  # Import PPG recording
         _, peaks = ppg_peaks(ppg, sfreq=75)
         heartrate, time = heart_rate(peaks)
         assert len(heartrate) == len(time)
@@ -127,13 +127,13 @@ class TestUtils(TestCase):
 
     def test_to_angle(self):
         """Test to_angles function"""
-        rr = import_rr().rr.values
+        rr = import_rr().rr.values.copy()
         # Create event vector
         events = rr + np.random.normal(500, 100, len(rr))
         ang = to_angles(list(np.cumsum(rr)), list(np.cumsum(events)))
         assert ~np.any(np.asarray(ang) < 0)
         assert ~np.any(np.asarray(ang) > np.pi * 2)
-        ppg = import_ppg().ppg.to_numpy()  # Import PPG recording
+        ppg = import_ppg().ppg.to_numpy().copy()  # Import PPG recording
         signal, peaks = ppg_peaks(ppg, sfreq=75)
         ang = to_angles(peaks, peaks)
 
@@ -187,7 +187,7 @@ class TestUtils(TestCase):
     def test_input_conversion(self):
         """Test the input_conversion function"""
         # Load example PPG signal
-        ppg = import_ppg().ppg.to_numpy()
+        ppg = import_ppg().ppg.to_numpy().copy()
         _, peaks = ppg_peaks(ppg, sfreq=75)
 
         # input_type = "peaks"
@@ -227,7 +227,7 @@ class TestUtils(TestCase):
         nan_cleaning(signal=np.array(ppg), verbose=True)
 
     def test_find_clipping(self):
-        ppg = import_ppg().ppg.to_numpy()
+        ppg = import_ppg().ppg.to_numpy().copy()
 
         lower, upper = find_clipping(signal=ppg)
         assert (lower, upper) == (0, 255)
