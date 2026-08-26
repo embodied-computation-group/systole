@@ -653,7 +653,12 @@ def interpolate_clipping(
     .. [1] https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/
 
     """
-    clean_signal = np.asarray(signal)
+    # np.asarray does not copy an array that is already one, and the edge
+    # corrections below assign into `clean_signal`. Without the copy this
+    # silently rewrites the caller's signal, and raises outright when the input
+    # is read-only -- which is what `.to_numpy()` returns under pandas
+    # copy-on-write.
+    clean_signal = np.array(signal, dtype=float)
     time = np.arange(0, len(signal))
 
     # What is the median step in the time serie?

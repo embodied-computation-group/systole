@@ -78,6 +78,36 @@ class TestDetection(TestCase):
         )
         assert (rolling_average_signal == rolling_average_signal2).all()
 
+    def test_interpolate_clipping_does_not_modify_input(self):
+        """Clipping correction must not write into the signal it was given.
+
+        Regression test for #72. The working array was built with `np.asarray`,
+        which does not copy an input that is already an array, and the edge
+        corrections then assigned into it. That rewrote the caller's signal in
+        place, and raised "assignment destination is read-only" outright for
+        the read-only arrays pandas returns under copy-on-write.
+
+        The edges have to sit at the clipping threshold for the corrections to
+        fire at all, which is why this uses a hand-built signal.
+        """
+        signal = np.array(
+            [255.0, 255.0, 200.0, 150.0, 100.0, 150.0, 200.0, 255.0, 255.0,
+             255.0, 200.0, 150.0, 100.0, 150.0, 200.0, 255.0, 255.0]
+        )
+
+        # A writable input must come back untouched
+        before = signal.copy()
+        interpolate_clipping(signal, min_threshold=None, max_threshold=255.0)
+        np.testing.assert_array_equal(signal, before)
+
+        # A read-only input must be accepted rather than raising
+        read_only = signal.copy()
+        read_only.flags.writeable = False
+        clean = interpolate_clipping(
+            read_only, min_threshold=None, max_threshold=255.0
+        )
+        assert len(clean) == len(read_only)
+
     def test_rr_artefacts(self):
         ppg = import_ppg().ppg.to_numpy().copy()
         _, peaks = ppg_peaks(ppg, sfreq=75)
