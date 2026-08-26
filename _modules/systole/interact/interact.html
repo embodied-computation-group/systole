@@ -991,6 +991,13 @@
         <span class="k">if</span> <span class="n">viewer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">viewer</span> <span class="o">=</span> <span class="n">viewer</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sfreq</span> <span class="o">=</span> <span class="n">sfreq</span>
+
+        <span class="c1"># `sfreq` describes the signal as it was handed in. The peak detectors</span>
+        <span class="c1"># resample to 1000 Hz, so once they have run `self.signal` is no longer</span>
+        <span class="c1"># at `self.sfreq`; the plots need the rate of the signal actually held.</span>
+        <span class="c1"># It only stays at the input rate when peaks are supplied, because then</span>
+        <span class="c1"># no detector runs and nothing is resampled.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot_sfreq</span> <span class="o">=</span> <span class="n">sfreq</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">signal</span> <span class="o">=</span> <span class="n">signal</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">figsize</span> <span class="o">=</span> <span class="n">figsize</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bad_segments</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1052,13 +1059,14 @@
                 <span class="n">show_heart_rate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">show_artefacts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">bad_segments</span><span class="o">=</span><span class="n">bad_segments</span><span class="p">,</span>
-                <span class="n">sfreq</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+                <span class="n">sfreq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plot_sfreq</span><span class="p">,</span>
                 <span class="n">ax</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
             <span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">mpl_connect</span><span class="p">(</span><span class="s2">"key_press_event"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_key</span><span class="p">)</span>
 
-            <span class="c1"># two selectors for rejection (left mouse) and deletion (right mouse)</span>
+            <span class="c1"># Left button removes peaks, or marks a bad segment in Rejection</span>
+            <span class="c1"># mode; right button adds a peak at the local maximum.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">delete</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">on_remove</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">span1</span> <span class="o">=</span> <span class="n">SpanSelector</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
@@ -1156,14 +1164,15 @@
                 <span class="n">show_heart_rate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">show_artefacts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">bad_segments</span><span class="o">=</span><span class="n">bad_segments</span><span class="p">,</span>
-                <span class="n">sfreq</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+                <span class="n">sfreq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plot_sfreq</span><span class="p">,</span>
                 <span class="n">ax</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">xlim2</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">ylim2</span><span class="p">)</span>
 
             <span class="c1"># Show span selectors</span>
-            <span class="c1"># two selectors for rejection (left mouse) and deletion (right mouse)</span>
+            <span class="c1"># Left button removes peaks, or marks a bad segment in Rejection</span>
+            <span class="c1"># mode; right button adds a peak at the local maximum.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">delete</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">on_remove</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">span1</span> <span class="o">=</span> <span class="n">SpanSelector</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
@@ -1260,6 +1269,9 @@
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Invalid signal_type. Must be 'ECG', 'PPG' or 'RESP'."</span><span class="p">)</span>
+
+            <span class="c1"># The detectors above resample to their `new_sfreq`, 1000 Hz by default</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot_sfreq</span> <span class="o">=</span> <span class="mi">1000</span>
 
         <span class="c1"># The peaks vector before manual edition</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">uncorrected_peaks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>

@@ -1125,7 +1125,12 @@
 <span class="sd">    .. [1] https://python-heart-rate-analysis-toolkit.readthedocs.io/en/latest/</span>
 
 <span class="sd">    """</span>
-    <span class="n">clean_signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+    <span class="c1"># np.asarray does not copy an array that is already one, and the edge</span>
+    <span class="c1"># corrections below assign into `clean_signal`. Without the copy this</span>
+    <span class="c1"># silently rewrites the caller's signal, and raises outright when the input</span>
+    <span class="c1"># is read-only -- which is what `.to_numpy()` returns under pandas</span>
+    <span class="c1"># copy-on-write.</span>
+    <span class="n">clean_signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">))</span>
 
     <span class="c1"># What is the median step in the time serie?</span>

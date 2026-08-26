@@ -644,6 +644,8 @@
         <span class="k">elif</span> <span class="n">backend</span> <span class="o">==</span> <span class="s2">"bokeh"</span><span class="p">:</span>
             <span class="n">figsize</span> <span class="o">=</span> <span class="mi">300</span>
 
+    <span class="n">peaks_were_given</span> <span class="o">=</span> <span class="n">peaks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
     <span class="k">if</span> <span class="n">peaks</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">detector</span> <span class="o">==</span> <span class="s2">"default"</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">modality</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">ppg_strings</span><span class="p">:</span>
@@ -708,7 +710,17 @@
             <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
         <span class="n">bad_segments_tuples</span> <span class="o">=</span> <span class="n">norm_bad_segments</span><span class="p">(</span><span class="n">bad_segments</span><span class="p">)</span>
 
-    <span class="n">time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">)),</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"ms"</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s2">"unix"</span><span class="p">)</span>
+    <span class="c1"># The peak detectors above resample the signal to their `new_sfreq`, so when</span>
+    <span class="c1"># they have run the signal is no longer at the `sfreq` that was passed in.</span>
+    <span class="c1"># When peaks are supplied no detector runs and the signal keeps its original</span>
+    <span class="c1"># rate -- building the time vector as one sample per millisecond regardless</span>
+    <span class="c1"># would then stretch or squeeze the axis by a factor of 1000 / sfreq.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">peaks_were_given</span><span class="p">:</span>
+        <span class="n">sfreq</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"new_sfreq"</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+
+    <span class="n">time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1000</span> <span class="o">/</span> <span class="n">sfreq</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"ms"</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s2">"unix"</span>
+    <span class="p">)</span>
 
     <span class="n">plot_raw_args</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">"time"</span><span class="p">:</span> <span class="n">time</span><span class="p">,</span>

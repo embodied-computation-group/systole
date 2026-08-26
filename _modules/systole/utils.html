@@ -903,7 +903,11 @@
                     <span class="n">high</span> <span class="o">=</span> <span class="n">ev</span> <span class="o">+</span> <span class="nb">round</span><span class="p">(</span><span class="n">apply_baseline</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">sfreq</span><span class="p">)</span>
                     <span class="n">baseline</span> <span class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="n">low</span><span class="p">:</span><span class="n">high</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
                 <span class="n">epochs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trial</span> <span class="o">-</span> <span class="n">baseline</span><span class="p">)</span>
-                <span class="n">rejected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="c1"># The trial was kept, whether or not a baseline was applied. This</span>
+            <span class="c1"># has to sit outside the branch above so that `rejected` keeps one</span>
+            <span class="c1"># entry per trigger.</span>
+            <span class="n">rejected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="c1"># Append to the condition level</span>
         <span class="n">all_epochs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">epochs</span><span class="p">))</span>
@@ -1140,11 +1144,14 @@
             <span class="k">if</span> <span class="n">output_type</span> <span class="o">==</span> <span class="s2">"rr_s"</span><span class="p">:</span>
                 <span class="n">output</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="mi">1000</span>
             <span class="k">elif</span> <span class="n">output_type</span> <span class="o">==</span> <span class="s2">"peaks"</span><span class="p">:</span>
+                <span class="c1"># Intervals in milliseconds are naturally floats, and a float</span>
+                <span class="c1"># array cannot be used to index. The `rr_s` branch below already</span>
+                <span class="c1"># casts for the same reason.</span>
                 <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
-                <span class="n">output</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">output</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">elif</span> <span class="n">output_type</span> <span class="o">==</span> <span class="s2">"peaks_idx"</span><span class="p">:</span>
-                <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
                 <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Invalid intervals provided."</span><span class="p">)</span>
@@ -1190,6 +1197,11 @@
 
 <span class="sd">    """</span>
 
+    <span class="c1"># Interpolating writes into the array. Without the copy this rewrites the</span>
+    <span class="c1"># caller's signal, and fails outright when the input is read-only -- which</span>
+    <span class="c1"># is what pandas returns under copy-on-write.</span>
+    <span class="n">signal</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
     <span class="n">arg_nans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">signal</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arg_nans</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
@@ -1197,6 +1209,12 @@
                 <span class="sa">f</span><span class="s2">"... NaNs cleaning : interpolating </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">arg_nans</span><span class="p">)</span><span class="si">}</span><span class="s2"> NaN values found in the signal </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">arg_nans</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">))</span><span class="si">}</span><span class="s2"> %."</span>
             <span class="p">)</span>
         <span class="n">arg_float</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">signal</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arg_float</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Every sample is NaN, so there is nothing to interpolate from.</span>
+            <span class="c1"># np.interp would raise "array of sample points is empty" here.</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"The signal contains only NaN values and cannot be interpolated."</span>
+            <span class="p">)</span>
         <span class="n">xp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">))[</span><span class="n">arg_float</span><span class="p">]</span>
         <span class="n">fp</span> <span class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="n">arg_float</span><span class="p">]</span>
         <span class="n">signal</span><span class="p">[</span><span class="n">arg_nans</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">arg_nans</span><span class="p">,</span> <span class="n">xp</span><span class="o">=</span><span class="n">xp</span><span class="p">,</span> <span class="n">fp</span><span class="o">=</span><span class="n">fp</span><span class="p">)</span>
