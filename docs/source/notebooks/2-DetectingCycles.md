@@ -22,7 +22,7 @@ Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 %%capture
 import sys
 if 'google.colab' in sys.modules:
-    ! pip install systole
+    ! pip install systole-core
 ```
 
 ```{code-cell} ipython3
