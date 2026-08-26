@@ -120,6 +120,38 @@ class TestUtils(TestCase):
             )
             np.testing.assert_almost_equal(np.nanmean(bpm), 60.0)
 
+    def test_to_epochs_rejected_length(self):
+        """`rejected` must hold one entry per trigger, whatever the baseline.
+
+        Regression test for #78: `rejected.append(False)` sat inside the
+        `else` branch of the baseline correction, so when `apply_baseline` was
+        explicitly set to `None` the accepted trials were never recorded. The
+        mask came back short and containing only `True`, which silently
+        misaligns any code indexing the epochs with it.
+        """
+        signal = np.arange(10000, dtype=float)
+        triggers_idx = np.array([1000, 2000, 3000, 4000, 5000])
+
+        # Mark one trial as containing an artefact so both outcomes are present
+        reject = np.zeros(10000, dtype=bool)
+        reject[2900:3100] = True
+
+        for apply_baseline in (0.0, (-1.0, 0.0), None):
+            epochs, rejected = to_epochs(
+                signal=signal,
+                triggers_idx=triggers_idx,
+                sfreq=1000,
+                tmin=-1.0,
+                tmax=1.0,
+                reject=reject,
+                apply_baseline=apply_baseline,
+            )
+            this_epochs, this_rejected = np.asarray(epochs[0]), np.asarray(rejected[0])
+
+            # One entry per trigger, and the kept trials line up with the epochs
+            assert len(this_rejected) == len(triggers_idx)
+            assert (~this_rejected).sum() == len(this_epochs)
+
     def test_time_shift(self):
         """Test time_shift function"""
         lag = time_shift([40, 50, 60], [45, 52])

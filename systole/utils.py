@@ -431,7 +431,11 @@ def to_epochs(
                     high = ev + round(apply_baseline[1] * sfreq)
                     baseline = signal[low:high].mean()
                 epochs.append(trial - baseline)
-                rejected.append(False)
+
+            # The trial was kept, whether or not a baseline was applied. This
+            # has to sit outside the branch above so that `rejected` keeps one
+            # entry per trigger.
+            rejected.append(False)
 
         # Append to the condition level
         all_epochs.append(np.array(epochs))
