@@ -72,8 +72,10 @@ def msptd(
     no_samps_in_win = win_len * sfreq
 
     if len(signal) <= no_samps_in_win:
-        win_starts = np.array(1)
-        win_ends = np.array(len(signal))
+        # np.array(x) on a scalar builds a 0-d array, which cannot be iterated
+        # over further down; the signal still needs to be treated as one window.
+        win_starts = np.array([1])
+        win_ends = np.array([len(signal)])
     else:
         win_offset = round(no_samps_in_win * (1 - overlap))
         win_starts = np.arange(1, len(signal) - no_samps_in_win, win_offset)
