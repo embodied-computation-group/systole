@@ -5,7 +5,7 @@ from typing import Dict, List, Optional, Tuple
 import numpy as np
 import pandas as pd
 from bokeh.layouts import column
-from bokeh.models import BoxAnnotation, CDSView, Circle, IndexFilter, Line, Range1d
+from bokeh.models import BoxAnnotation, CDSView, IndexFilter, Line, Range1d, Scatter
 from bokeh.models.tools import HoverTool, RangeTool
 from bokeh.plotting import ColumnDataSource, figure
 
@@ -139,14 +139,14 @@ def plot_rr(
 
     if points is True:
         # Normal RR intervals
-        circlePlot = Circle(
+        circlePlot = Scatter(
             x="time",
             y=unit,
             size=6,
             fill_color="lightgrey",
             line_color="grey",
         )
-        circlePlot_selected = Circle(
+        circlePlot_selected = Scatter(
             x="time",
             y=unit,
             size=6,
@@ -175,10 +175,9 @@ def plot_rr(
             # Short RR intervals
             if artefacts["short"].any():
                 short_view = CDSView(
-                    source=points_source,
-                    filters=[IndexFilter(np.where(artefacts["short"])[0])],
-                )
-                p1.circle(
+                        filter=IndexFilter(np.where(artefacts["short"])[0]),
+                    )
+                p1.scatter(
                     x="time",
                     y=unit,
                     size=10,
@@ -192,10 +191,9 @@ def plot_rr(
             # Long RR intervals
             if artefacts["long"].any():
                 long_view = CDSView(
-                    source=points_source,
-                    filters=[IndexFilter(np.where(artefacts["long"])[0])],
-                )
-                p1.circle(
+                        filter=IndexFilter(np.where(artefacts["long"])[0]),
+                    )
+                p1.scatter(
                     x="time",
                     y=unit,
                     size=10,
@@ -209,10 +207,9 @@ def plot_rr(
             # Missed RR intervals
             if artefacts["missed"].any():
                 missed_view = CDSView(
-                    source=points_source,
-                    filters=[IndexFilter(np.where(artefacts["missed"])[0])],
-                )
-                p1.square(
+                        filter=IndexFilter(np.where(artefacts["missed"])[0]),
+                    )
+                p1.scatter(
                     x="time",
                     y=unit,
                     size=10,
@@ -221,15 +218,15 @@ def plot_rr(
                     line_color="black",
                     source=points_source,
                     view=missed_view,
+                    marker="square",
                 )
 
             # Extra RR intervals
             if artefacts["extra"].any():
                 extra_view = CDSView(
-                    source=points_source,
-                    filters=[IndexFilter(np.where(artefacts["extra"])[0])],
-                )
-                p1.square(
+                        filter=IndexFilter(np.where(artefacts["extra"])[0]),
+                    )
+                p1.scatter(
                     x="time",
                     y=unit,
                     size=10,
@@ -238,15 +235,15 @@ def plot_rr(
                     line_color="black",
                     source=points_source,
                     view=extra_view,
+                    marker="square",
                 )
 
             # Ectopic beats
             if artefacts["ectopic"].any():
                 ectopic_view = CDSView(
-                    source=points_source,
-                    filters=[IndexFilter(np.where(artefacts["ectopic"])[0])],
-                )
-                p1.triangle(
+                        filter=IndexFilter(np.where(artefacts["ectopic"])[0]),
+                    )
+                p1.scatter(
                     x="time",
                     y=unit,
                     size=10,
@@ -255,6 +252,7 @@ def plot_rr(
                     line_color="black",
                     source=points_source,
                     view=ectopic_view,
+                    marker="triangle",
                 )
 
         # Add hover tool
@@ -317,7 +315,7 @@ def plot_rr(
             select.line("time", unit, source=points_source)
             p1.x_range = Range1d(start=rr_idx[0], end=rr_idx[-1])
         else:
-            select.circle("time", unit, source=points_source)
+            select.scatter("time", unit, source=points_source)
             p1.x_range = Range1d(start=rr_idx[0], end=rr_idx[-1])
         range_tool = RangeTool(x_range=p1.x_range)
         range_tool.overlay.fill_color = "navy"

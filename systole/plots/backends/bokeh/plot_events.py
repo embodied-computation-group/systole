@@ -51,7 +51,7 @@ def plot_events(
         # Plot time course of events
         event_source = ColumnDataSource(data=df)
 
-        event_plot.circle(
+        event_plot.scatter(
             x="trigger",
             y=0.5,
             size=10,

@@ -87,7 +87,7 @@ def plot_poincare(
     )
 
     # Scatter plot - valid intervals only
-    poincare_plot.circle(
+    poincare_plot.scatter(
         rr_x[~outliers],
         rr_y[~outliers],
         size=2.5,
@@ -97,7 +97,7 @@ def plot_poincare(
     )
 
     # Scatter plot - outliers
-    poincare_plot.circle(
+    poincare_plot.scatter(
         rr_x[outliers], rr_y[outliers], size=5, color="#a9373b", alpha=0.8
     )
 
