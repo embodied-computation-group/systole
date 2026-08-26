@@ -13,3 +13,4 @@ docs/source/generated
 docs/source/api
 coverage.xml
 venv/
+docs/.jupyter_cache/

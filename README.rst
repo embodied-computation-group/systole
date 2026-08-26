@@ -2,8 +2,11 @@
 .. image:: https://img.shields.io/badge/License-GPL%20v3-blue.svg
   :target: https://github.com/embodied-computation-group/systole/blob/master/LICENSE
 
-.. image:: https://badge.fury.io/py/systole.svg
-    :target: https://badge.fury.io/py/systole
+.. image:: https://badge.fury.io/py/systole-core.svg
+    :target: https://badge.fury.io/py/systole-core
+
+.. image:: https://github.com/embodied-computation-group/systole/actions/workflows/test.yml/badge.svg
+   :target: https://github.com/embodied-computation-group/systole/actions/workflows/test.yml
 
 .. image:: https://joss.theoj.org/papers/10.21105/joss.03832/status.svg
    :target: https://doi.org/10.21105/joss.03832
@@ -17,15 +20,15 @@
 .. image:: https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336
   :target: https://pycqa.github.io/isort/
 
-.. image:: http://www.mypy-lang.org/static/mypy_badge.svg
-  :target: http://mypy-lang.org/
+.. image:: https://img.shields.io/badge/mypy-checked-blue.svg
+  :target: https://mypy-lang.org/
 
 .. image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
   :target: https://github.com/pre-commit/pre-commit
 
 ================
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/logo.png
+.. image:: https://raw.githubusercontent.com/embodied-computation-group/systole/master/docs/source/images/logo.png
    :align: center
 
 ================
@@ -155,7 +158,7 @@ The package integrates a set of functions for interactive or non interactive dat
   plot_raw(signal[60000 : 120000], modality="ecg", backend="bokeh", 
               show_heart_rate=True, show_artefacts=True, figsize=300)
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/raw.png
+.. image:: https://raw.githubusercontent.com/embodied-computation-group/systole/master/docs/source/images/raw.png
    :align: center
 
 
@@ -173,7 +176,7 @@ Artefacts can be detected and corrected in the RR interval time series or the pe
 
   plot_subspaces(peaks, input_type="peaks", backend="bokeh")
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/subspaces.png
+.. image:: https://raw.githubusercontent.com/embodied-computation-group/systole/master/docs/source/images/subspaces.png
    :align: center
 
 
@@ -191,7 +194,7 @@ Systole implements time-domain, frequency-domain and non-linear HRV indices, as 
       plot_poincare(peaks, input_type="peaks", backend="bokeh", figsize=(200, 200)),
       )
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/hrv.png
+.. image:: https://raw.githubusercontent.com/embodied-computation-group/systole/master/docs/source/images/hrv.png
    :align: center
 
 
@@ -216,19 +219,19 @@ Interactive visualization of BIDS structured datasets
       signal_type="ECG"
   )
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/editor.gif
+.. image:: https://raw.githubusercontent.com/embodied-computation-group/systole/master/docs/source/images/editor.gif
    :align: center
 
 Inserting and removing peaks
 ============================
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/peaks.gif
+.. image:: https://raw.githubusercontent.com/embodied-computation-group/systole/master/docs/source/images/peaks.gif
    :align: center
 
 Annotating bad segments
 =======================
 
-.. image:: https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/segments.gif
+.. image:: https://raw.githubusercontent.com/embodied-computation-group/systole/master/docs/source/images/segments.gif
    :align: center
 
 Development
@@ -263,11 +266,11 @@ Systole was largely inspired by pre-existing toolboxes dedicated to heartrate va
 
 |AU| |lundbeck| |lab|
 
-.. |AU| image::  https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/au_clinisk_logo.png
+.. |AU| image::  https://raw.githubusercontent.com/embodied-computation-group/systole/master/docs/source/images/au_clinisk_logo.png
    :width: 100%
 
-.. |lundbeck| image::  https://github.com/embodied-computation-group/systole/blob/dev/docs/source/images/lundbeckfonden_logo.png
+.. |lundbeck| image::  https://raw.githubusercontent.com/embodied-computation-group/systole/master/docs/source/images/lundbeckfonden_logo.png
    :width: 20%
 
-.. |lab| image::  https://github.com/embodied-computation-group/systole/blob/master/ECG_logo%20(1).png
+.. |lab| image::  https://raw.githubusercontent.com/embodied-computation-group/systole/master/ECG_logo%20(1).png
    :width: 20%

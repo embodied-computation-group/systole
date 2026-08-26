@@ -2,8 +2,11 @@
 .. image:: https://img.shields.io/badge/License-GPL%20v3-blue.svg
   :target: https://github.com/embodied-computation-group/systole/blob/master/LICENSE
 
-.. image:: https://badge.fury.io/py/systole.svg
-    :target: https://badge.fury.io/py/systole
+.. image:: https://badge.fury.io/py/systole-core.svg
+    :target: https://badge.fury.io/py/systole-core
+
+.. image:: https://github.com/embodied-computation-group/systole/actions/workflows/test.yml/badge.svg
+   :target: https://github.com/embodied-computation-group/systole/actions/workflows/test.yml
 
 .. image:: https://joss.theoj.org/papers/10.21105/joss.03832/status.svg
    :target: https://doi.org/10.21105/joss.03832
@@ -17,15 +20,15 @@
 .. image:: https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336
   :target: https://pycqa.github.io/isort/
 
-.. image:: http://www.mypy-lang.org/static/mypy_badge.svg
-  :target: http://mypy-lang.org/
+.. image:: https://img.shields.io/badge/mypy-checked-blue.svg
+  :target: https://mypy-lang.org/
 
 .. image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
   :target: https://github.com/pre-commit/pre-commit
 
 ================
 
-.. image:: https://raw.githubusercontent.com/embodied-computation-group/systole/dev/docs/source/images/logo.png
+.. image:: https://raw.githubusercontent.com/embodied-computation-group/systole/master/docs/source/images/logo.png
    :align: center
 
 ================

@@ -10,6 +10,7 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+import os
 import time
 
 import sphinx_bootstrap_theme
@@ -68,6 +69,19 @@ numpydoc_show_class_members = False
 # this should especially ensure that the notebooks run correctly
 nb_execution_raise_on_error = True
 
+# myst-nb defaults to a 30 second budget per notebook, which several of the
+# tutorials exceed: they download example datasets and then run peak detection
+# over twenty minutes of signal. The kernel was being killed mid-execution and
+# surfaced as an opaque ZMQError.
+nb_execution_timeout = 300
+
+# Cache executed notebooks so that an unchanged notebook is not re-run on every
+# build. The directory is restored between CI runs, see .github/workflows/docs.yml.
+nb_execution_mode = "cache"
+nb_execution_cache_path = os.environ.get(
+    "SYSTOLE_NB_CACHE", os.path.join(os.path.dirname(__file__), "..", ".jupyter_cache")
+)
+
 # Include the example source for plots in API docs
 plot_include_source = True
 plot_formats = [("png", 90)]
@@ -105,7 +119,7 @@ html_theme_options = {
         ),
         dict(
             name="Pypi",
-            url="https://pypi.org/project/systole/",
+            url="https://pypi.org/project/systole-core/",
             icon="fa-solid fa-box",
         ),
     ],
