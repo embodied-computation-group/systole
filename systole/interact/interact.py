@@ -597,7 +597,8 @@ class Editor:
 
             self.fig.canvas.mpl_connect("key_press_event", self.on_key)
 
-            # two selectors for rejection (left mouse) and deletion (right mouse)
+            # Left button removes peaks, or marks a bad segment in Rejection
+            # mode; right button adds a peak at the local maximum.
             self.delete = functools.partial(self.on_remove)
             self.span1 = SpanSelector(
                 self.ax[0],
@@ -701,7 +702,8 @@ class Editor:
             self.ax[1].set(xlim=xlim2, ylim=ylim2)
 
             # Show span selectors
-            # two selectors for rejection (left mouse) and deletion (right mouse)
+            # Left button removes peaks, or marks a bad segment in Rejection
+            # mode; right button adds a peak at the local maximum.
             self.delete = functools.partial(self.on_remove)
             self.span1 = SpanSelector(
                 self.ax[0],
