@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:16.666** total execution time for 10 files **from auto_examples/Plots**:
+**00:16.869** total execution time for 10 files **from auto_examples/Plots**:
 
 .. container::
 
@@ -33,32 +33,32 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_Plots_plot_evoked.py` (``plot_evoked.py``)
-     - 00:10.506
+     - 00:10.659
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Plots_plot_pointcare.py` (``plot_pointcare.py``)
-     - 00:01.875
+     - 00:01.919
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Plots_plot_events.py` (``plot_events.py``)
-     - 00:01.074
+     - 00:01.071
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Plots_plot_raw.py` (``plot_raw.py``)
-     - 00:00.852
+     - 00:00.865
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Plots_plot_subspace.py` (``plot_subspace.py``)
-     - 00:00.636
+     - 00:00.620
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Plots_plot_rr.py` (``plot_rr.py``)
-     - 00:00.542
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_Plots_plot_ectopic.py` (``plot_ectopic.py``)
-     - 00:00.344
+     - 00:00.547
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Plots_plot_shortlong.py` (``plot_shortlong.py``)
-     - 00:00.340
+     - 00:00.346
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_Plots_plot_ectopic.py` (``plot_ectopic.py``)
+     - 00:00.342
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Plots_plot_circular.py` (``plot_circular.py``)
-     - 00:00.315
+     - 00:00.318
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Plots_plot_frequency.py` (``plot_frequency.py``)
-     - 00:00.181
+     - 00:00.183
      - 0.0
