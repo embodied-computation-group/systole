@@ -7,9 +7,10 @@ from typing import Any, Dict, List, Optional, Union
 
 import numpy as np
 import pandas as pd
-import pkg_resources  # type: ignore
 from bokeh.embed import components
 from bokeh.resources import INLINE
+from importlib import resources
+
 from jinja2 import Template
 
 from systole import __version__ as version
@@ -23,6 +24,11 @@ from systole.plots import (
     plot_subspaces,
 )
 from systole.reports.tables import frequency_table, nonlinear_table, time_table
+
+
+def _template(name: str) -> str:
+    """Return the filesystem path of a packaged HTML report template."""
+    return str(resources.files("systole.reports").joinpath(name))
 
 
 def subject_level_report(
@@ -45,7 +51,7 @@ def subject_level_report(
     resp_method: str = "rolling_average",
     html_report: bool = True,
     file_name: Optional[Union[str, PathLike]] = None,
-    template_file=pkg_resources.resource_filename(__name__, "subject_level.html"),
+    template_file=_template("subject_level.html"),
 ):
     """Analyse physiological signals for one participant / pattern, create HTML report
     and save a summary dataframe.
