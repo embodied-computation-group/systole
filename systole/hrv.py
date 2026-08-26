@@ -3,6 +3,11 @@
 from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
+
+try:  # numpy >= 2.0
+    from numpy import trapezoid as _trapezoid
+except ImportError:  # numpy < 2.0
+    from numpy import trapz as _trapezoid  # type: ignore[attr-defined,no-redef]
 import pandas as pd
 from numba import jit
 from scipy import interpolate
@@ -418,7 +423,7 @@ def frequency_domain(
         )
 
         # Power (ms**2)
-        this_power = np.trapz(x=this_freq, y=this_psd) * 1000000
+        this_power = _trapezoid(x=this_freq, y=this_psd) * 1000000
         stats = pd.concat(
             [
                 stats,
