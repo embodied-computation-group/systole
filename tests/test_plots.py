@@ -163,6 +163,50 @@ class TestPlots(TestCase):
 
         plt.close("all")
 
+    def test_plot_raw_time_axis_respects_sfreq(self):
+        """The plotted time axis must match the real duration of the signal.
+
+        Regression test for #76. The time vector was built as one sample per
+        millisecond regardless of `sfreq`. That is only true once a detector has
+        run, because the detectors resample to 1000 Hz -- when `peaks` are
+        supplied no detector runs, the signal keeps its original rate, and the
+        axis was stretched or squeezed by a factor of 1000 / sfreq.
+        """
+        ecg = import_dataset1(modalities=["ECG"], disable=True).ecg.to_numpy()[:120000]
+        decimated = ecg[::2]  # the same 120 seconds, now sampled at 500 Hz
+        _, peaks = ecg_peaks(decimated, sfreq=500, new_sfreq=500)
+
+        def plotted_seconds(ax):
+            axis = ax[0] if isinstance(ax, (list, np.ndarray)) else ax
+            xdata = [
+                line.get_xdata()
+                for line in axis.get_lines()
+                if len(line.get_xdata()) > 10
+            ][0]
+            span = np.asarray(xdata).max() - np.asarray(xdata).min()
+            return float(np.asarray(span).astype("timedelta64[ms]").astype(float)) / 1000
+
+        # Supplying peaks means no resampling happens, so sfreq must be honoured
+        ax = plot_raw(
+            signal=decimated,
+            peaks=peaks,
+            sfreq=500,
+            modality="ecg",
+            backend="matplotlib",
+            show_heart_rate=False,
+        )
+        assert abs(plotted_seconds(ax) - 120.0) < 3.0
+
+        # Without peaks the detector resamples to 1000 Hz; still 120 seconds
+        ax = plot_raw(
+            signal=decimated,
+            sfreq=500,
+            modality="ecg",
+            backend="matplotlib",
+            show_heart_rate=False,
+        )
+        assert abs(plotted_seconds(ax) - 120.0) < 3.0
+
     def test_plot_raw(self):
         """Test plot_raw function"""
 

@@ -184,6 +184,8 @@ def plot_raw(
         elif backend == "bokeh":
             figsize = 300
 
+    peaks_were_given = peaks is not None
+
     if peaks is None:
         if detector == "default":
             if modality.lower() in ppg_strings:
@@ -248,7 +250,17 @@ def plot_raw(
             assert len(bad_segments) == len(signal)
         bad_segments_tuples = norm_bad_segments(bad_segments)
 
-    time = pd.to_datetime(np.arange(0, len(signal)), unit="ms", origin="unix")
+    # The peak detectors above resample the signal to their `new_sfreq`, so when
+    # they have run the signal is no longer at the `sfreq` that was passed in.
+    # When peaks are supplied no detector runs and the signal keeps its original
+    # rate -- building the time vector as one sample per millisecond regardless
+    # would then stretch or squeeze the axis by a factor of 1000 / sfreq.
+    if not peaks_were_given:
+        sfreq = kwargs.get("new_sfreq", 1000)
+
+    time = pd.to_datetime(
+        np.arange(0, len(signal)) * (1000 / sfreq), unit="ms", origin="unix"
+    )
 
     plot_raw_args = {
         "time": time,
