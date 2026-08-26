@@ -1,6 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import io
+import os
 import os.path as op
 import time
 from typing import List
@@ -13,6 +14,45 @@ from tqdm import tqdm
 ddir = op.dirname(op.realpath(__file__))
 
 __all__ = ["import_ppg", "import_rr", "serialSim", "import_dataset1"]
+
+
+def get_data_dir() -> str:
+    """Return the directory used to cache the example datasets.
+
+    Defaults to `~/.systole/data`, and can be redirected with the
+    `SYSTOLE_DATA_DIR` environment variable, which is useful on CI where the
+    directory is often restored from a cache between runs.
+    """
+    default = op.join(op.expanduser("~"), ".systole", "data")
+    data_dir = os.environ.get("SYSTOLE_DATA_DIR", default)
+    os.makedirs(data_dir, exist_ok=True)
+
+    return data_dir
+
+
+def _download(url: str, filename: str) -> bytes:
+    """Return the content of `url`, caching it under :py:func:`get_data_dir`.
+
+    The example datasets are several megabytes each and are re-imported many
+    times over a documentation build or a test session. Caching them keeps the
+    download to once per machine rather than once per call.
+    """
+    target = op.join(get_data_dir(), filename)
+    if op.exists(target):
+        with open(target, "rb") as handle:
+            return handle.read()
+
+    response = requests.get(url)
+    response.raise_for_status()
+
+    # Write to a temporary name first so an interrupted download cannot leave a
+    # truncated file behind that later calls would happily read back.
+    partial = f"{target}.part"
+    with open(partial, "wb") as handle:
+        handle.write(response.content)
+    os.replace(partial, target)
+
+    return response.content
 
 
 # Simulate serial inputs from ppg recording
@@ -66,9 +106,8 @@ def import_ppg() -> pd.DataFrame:
         "https://github.com/embodied-computation-group/systole/raw/"
         "master/systole/datasets/"
     )
-    response = requests.get(f"{path}/ppg.npy")
-    response.raise_for_status()
-    ppg = np.load(io.BytesIO(response.content), allow_pickle=True)
+    content = _download(f"{path}ppg.npy", "ppg.npy")
+    ppg = np.load(io.BytesIO(content), allow_pickle=True)
     df = pd.DataFrame({"ppg": ppg})
     df["time"] = np.arange(0, len(df)) / 75
 
@@ -87,7 +126,7 @@ def import_rr() -> pd.DataFrame:
         "https://github.com/embodied-computation-group/systole/raw/"
         "master/systole/datasets/"
     )
-    rr = pd.read_csv(op.join(path, "rr.txt"))
+    rr = pd.read_csv(io.BytesIO(_download(f"{path}rr.txt", "rr.txt")))
 
     return rr
 
@@ -130,9 +169,8 @@ def import_dataset1(
     data = {}
     for item in pbar:
         pbar.set_description(f"Downloading {item} channel")
-        response = requests.get(f"{path}{item}.npy")
-        response.raise_for_status()
-        data[item.lower()] = np.load(io.BytesIO(response.content), allow_pickle=True)
+        content = _download(f"{path}{item}.npy", f"Task1_{item}.npy")
+        data[item.lower()] = np.load(io.BytesIO(content), allow_pickle=True)
 
     df = pd.DataFrame(data)
     df["time"] = np.arange(0, len(df)) / 1000

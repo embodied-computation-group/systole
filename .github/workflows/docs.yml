@@ -22,6 +22,23 @@ jobs:
         with:
           python-version: "3.11"
 
+      # The tutorials download ~12 MB example files repeatedly, and executing
+      # every notebook from scratch dominates the build. Both are restored
+      # between runs.
+      - name: Cache example datasets
+        uses: actions/cache@v4
+        with:
+          path: ~/.systole/data
+          key: systole-datasets-v1
+
+      - name: Cache executed notebooks
+        uses: actions/cache@v4
+        with:
+          path: docs/.jupyter_cache
+          key: jupyter-cache-${{ hashFiles('docs/source/**/*.md', 'docs/source/**/*.ipynb', 'docs/source/examples/**/*.py', 'systole/**/*.py') }}
+          restore-keys: |
+            jupyter-cache-
+
       - name: Build
         run: |
           pip install .
