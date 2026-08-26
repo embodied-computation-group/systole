@@ -175,8 +175,8 @@ def plot_rr(
             # Short RR intervals
             if artefacts["short"].any():
                 short_view = CDSView(
-                        filter=IndexFilter(np.where(artefacts["short"])[0]),
-                    )
+                    filter=IndexFilter(np.where(artefacts["short"])[0]),
+                )
                 p1.scatter(
                     x="time",
                     y=unit,
@@ -191,8 +191,8 @@ def plot_rr(
             # Long RR intervals
             if artefacts["long"].any():
                 long_view = CDSView(
-                        filter=IndexFilter(np.where(artefacts["long"])[0]),
-                    )
+                    filter=IndexFilter(np.where(artefacts["long"])[0]),
+                )
                 p1.scatter(
                     x="time",
                     y=unit,
@@ -207,8 +207,8 @@ def plot_rr(
             # Missed RR intervals
             if artefacts["missed"].any():
                 missed_view = CDSView(
-                        filter=IndexFilter(np.where(artefacts["missed"])[0]),
-                    )
+                    filter=IndexFilter(np.where(artefacts["missed"])[0]),
+                )
                 p1.scatter(
                     x="time",
                     y=unit,
@@ -224,8 +224,8 @@ def plot_rr(
             # Extra RR intervals
             if artefacts["extra"].any():
                 extra_view = CDSView(
-                        filter=IndexFilter(np.where(artefacts["extra"])[0]),
-                    )
+                    filter=IndexFilter(np.where(artefacts["extra"])[0]),
+                )
                 p1.scatter(
                     x="time",
                     y=unit,
@@ -241,8 +241,8 @@ def plot_rr(
             # Ectopic beats
             if artefacts["ectopic"].any():
                 ectopic_view = CDSView(
-                        filter=IndexFilter(np.where(artefacts["ectopic"])[0]),
-                    )
+                    filter=IndexFilter(np.where(artefacts["ectopic"])[0]),
+                )
                 p1.scatter(
                     x="time",
                     y=unit,

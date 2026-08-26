@@ -1,6 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import json
+from importlib import resources
 from os import PathLike
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
@@ -9,8 +10,6 @@ import numpy as np
 import pandas as pd
 from bokeh.embed import components
 from bokeh.resources import INLINE
-from importlib import resources
-
 from jinja2 import Template
 
 from systole import __version__ as version

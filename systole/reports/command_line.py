@@ -1,6 +1,7 @@
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
 
 import argparse
+from importlib import resources
 from os import PathLike
 from pathlib import Path
 from typing import List, Optional, Union
@@ -8,8 +9,6 @@ from typing import List, Optional, Union
 import pandas as pd
 from bokeh.embed import components
 from bokeh.resources import INLINE
-from importlib import resources
-
 from jinja2 import Template
 from joblib import Parallel, delayed
 
