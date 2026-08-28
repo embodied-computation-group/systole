@@ -1,0 +1,24 @@
+Systole
+Copyright 2019-2026 Micah Allen and the Embodied Computation Group,
+Aarhus University.
+
+This product includes software developed at the Embodied Computation Group,
+Center of Functionally Integrative Neuroscience, Aarhus University, Denmark.
+
+Created by Micah Allen (https://orcid.org/0000-0001-9399-4179) and the
+Embodied Computation Group.
+
+Systole is described in:
+  Legrand, N., & Allen, M. (2022). Systole: A Python package for cardiac
+  signal synchrony and analysis. Journal of Open Source Software, 7(69), 3832.
+  https://doi.org/10.21105/joss.03832
+
+Official repository:    https://github.com/embodied-computation-group/systole
+Official documentation: https://www.the-ecg.org/systole/
+Official distribution:  https://pypi.org/project/systole-core/
+
+"Systole" is a name used by the Embodied Computation Group at Aarhus University
+to identify this software. As stated in section 6 of the Apache License,
+Version 2.0, this License grants no permission to use that name, and nothing
+here licenses a redistribution to describe itself in a way that implies
+endorsement by, or origin from, the Embodied Computation Group.

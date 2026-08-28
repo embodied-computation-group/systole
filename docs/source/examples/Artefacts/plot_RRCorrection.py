@@ -17,7 +17,7 @@ variability is measured for a given time interval (usually > 5 minutes).
 """
 
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
-# Licence: GPL v3
+# Licence: Apache-2.0
 
 #%%
 import matplotlib.pyplot as plt

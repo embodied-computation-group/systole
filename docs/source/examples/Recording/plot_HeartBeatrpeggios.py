@@ -16,7 +16,7 @@ either presenting tones at no delay (systole, s+) or a fixed offset (diastole, s
 """
 
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
-# Licence: GPL v3
+# Licence: Apache-2.0
 
 import itertools
 import time

@@ -58,11 +58,11 @@ if __name__ == "__main__":
         classifiers=[
             "Development Status :: 5 - Production/Stable",
             "Intended Audience :: Science/Research",
-            "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+            "License :: OSI Approved :: Apache Software License",
             "Programming Language :: Python :: 3",
             "Topic :: Scientific/Engineering :: Bio-Informatics",
         ],
-        license="GPL-3.0",
+        license="Apache-2.0",
         version=get_version("systole/__init__.py"),
         install_requires=get_requirements(),
         include_package_data=True,

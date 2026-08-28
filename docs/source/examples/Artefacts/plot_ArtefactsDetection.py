@@ -8,7 +8,7 @@ Lipponen & Tarvainen (2019) [#]_.
 """
 
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
-# Licence: GPL v3
+# Licence: Apache-2.0
 
 #%%
 from systole.detection import rr_artefacts

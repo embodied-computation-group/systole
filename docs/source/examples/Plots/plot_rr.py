@@ -6,7 +6,7 @@ Plot instantaneous heart rate
 """
 
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
-# Licence: GPL v3
+# Licence: Apache-2.0
 
 from bokeh.io import output_notebook
 from bokeh.plotting import show
