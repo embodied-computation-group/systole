@@ -9,3 +9,9 @@ numpydoc>=1.4.0
 ipympl
 myst-parser
 sphinxcontrib-bibtex>=2.4.2
+# Canonical URLs, sitemap and per-page metadata. Unpinned like the rest of this
+# file: sphinx itself is unpinned here, so both resolve to versions that match
+# whatever sphinx pip picks. opengraph draws its preview cards with matplotlib,
+# which systole already installs.
+sphinx-sitemap>=2.6.0
+sphinxext-opengraph>=0.9.1

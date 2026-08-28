@@ -1,3 +1,9 @@
+.. meta::
+   :description: The Systole API: functions for cardiac signal pre-processing, artefact
+      detection and correction, heart rate variability, plotting and stimulus synchronisation.
+   :keywords: systole API, python heart rate variability, artefact correction, ECG, PPG,
+      cardiac signal processing
+
 .. _api_ref:
 
 .. currentmodule:: systole

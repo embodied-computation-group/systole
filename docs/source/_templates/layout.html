@@ -1,0 +1,84 @@
+{#
+  pydata-sphinx-theme's layout.html can be extended directly. Two head blocks
+  are overridden: htmltitle, inherited from basic/layout.html, and extrahead,
+  which pydata defines itself and so needs super().
+#}
+{% extends "!layout.html" %}
+
+{#
+  Sphinx titles the root document with the site name alone. The landing page is
+  the one a search engine has to rank from its title, so it carries the released
+  version and what the package does. `release` comes from systole/__init__.py,
+  so a version bump reaches the title without a separate edit. Every other page
+  keeps the default "<page> - <site>".
+#}
+{%- block htmltitle -%}
+  {%- if pagename == master_doc -%}
+    <title>Official Systole {{ release }} - Cardiac Signal Analysis in Python</title>
+  {%- else -%}
+    {{ super() }}
+  {%- endif -%}
+{%- endblock -%}
+
+{#
+  A machine-readable description of the software on the landing page. The
+  `sameAs` links tie this site, the repository and the PyPI distribution
+  together as one thing, and `citation` connects it to the JOSS paper.
+#}
+{%- block extrahead -%}
+  {{ super() }}
+  {%- if pagename == master_doc %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "Systole",
+    "alternateName": "systole-core",
+    "description": "Systole is an open-source Python package providing tools for working with cardiac signals in psychophysiology research: pre-processing, visualisation and analysis of cardiac data, including epoching, artefact detection and correction, evoked heart rate analyses, heart rate variability, circular statistics over cardiac cycles, and synchronising stimulus presentation with cardiac phases via PsychoPy.",
+    "url": "https://www.the-ecg.org/systole/",
+    "codeRepository": "https://github.com/embodied-computation-group/systole",
+    "downloadUrl": "https://pypi.org/project/systole-core/",
+    "programmingLanguage": "Python",
+    "applicationCategory": "Science",
+    "license": "https://spdx.org/licenses/Apache-2.0.html",
+    "version": "{{ release }}",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Micah Allen",
+        "identifier": "https://orcid.org/0000-0001-9399-4179",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Center of Functionally Integrative Neuroscience, Aarhus University"
+        }
+      }
+    ],
+    "publisher": {
+      "@type": "Organization",
+      "name": "Embodied Computation Group, Aarhus University",
+      "url": "https://www.the-ecg.org/"
+    },
+    "sameAs": [
+      "https://github.com/embodied-computation-group/systole",
+      "https://pypi.org/project/systole-core/",
+      "https://doi.org/10.5281/zenodo.3607912"
+    ],
+    "keywords": [
+      "heart rate variability",
+      "electrocardiography",
+      "photoplethysmography",
+      "interoception",
+      "psychophysiology",
+      "cardiac signal analysis",
+      "Python"
+    ],
+    "citation": {
+      "@type": "ScholarlyArticle",
+      "name": "Systole: A Python package for cardiac signal synchrony and analysis",
+      "identifier": "https://doi.org/10.21105/joss.03832",
+      "sameAs": "https://doi.org/10.21105/joss.03832"
+    }
+  }
+  </script>
+  {%- endif -%}
+{%- endblock -%}

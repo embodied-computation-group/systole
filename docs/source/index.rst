@@ -1,3 +1,10 @@
+.. meta::
+   :description: Systole is an open-source Python package for cardiac signal analysis in
+      psychophysiology: pre-processing, artefact correction, heart rate variability and
+      cardiac-phase stimulus synchronisation with PsychoPy.
+   :keywords: systole, python heart rate variability, HRV analysis, electrocardiography,
+      photoplethysmography, cardiac signal analysis, psychophysiology, interoception, PsychoPy
+
 
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3607912.svg
   :target: https://doi.org/10.5281/zenodo.3607912

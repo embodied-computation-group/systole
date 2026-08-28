@@ -1,3 +1,9 @@
+.. meta::
+   :description: Install Systole and run your first cardiac signal analysis in Python, from
+      loading a recording to detecting peaks and computing heart rate variability.
+   :keywords: install systole, systole-core, python cardiac analysis, peak detection,
+      heart rate variability, getting started
+
 
 Installation
 ++++++++++++
