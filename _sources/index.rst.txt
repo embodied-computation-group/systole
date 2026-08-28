@@ -1,5 +1,5 @@
 
-.. image:: https://img.shields.io/badge/License-GPL%20v3-blue.svg
+.. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
   :target: https://github.com/embodied-computation-group/systole/blob/master/LICENSE
 
 .. image:: https://badge.fury.io/py/systole-core.svg

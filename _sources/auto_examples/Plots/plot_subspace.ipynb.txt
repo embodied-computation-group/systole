@@ -15,7 +15,7 @@
       },
       "outputs": [],
       "source": [
-        "# Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>\n# Licence: GPL v3"
+        "# Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>\n# Licence: Apache-2.0"
       ]
     },
     {

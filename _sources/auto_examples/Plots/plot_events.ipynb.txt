@@ -15,7 +15,7 @@
       },
       "outputs": [],
       "source": [
-        "import numpy as np\nimport seaborn as sns\nfrom bokeh.io import output_notebook\nfrom bokeh.plotting import show\nfrom systole.detection import ecg_peaks\nfrom systole.plots import plot_events, plot_rr\n\nfrom systole import import_dataset1\n\n# Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>\n# Licence: GPL v3"
+        "import numpy as np\nimport seaborn as sns\nfrom bokeh.io import output_notebook\nfrom bokeh.plotting import show\nfrom systole.detection import ecg_peaks\nfrom systole.plots import plot_events, plot_rr\n\nfrom systole import import_dataset1\n\n# Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>\n# Licence: Apache-2.0"
       ]
     },
     {

@@ -15,7 +15,7 @@
       },
       "outputs": [],
       "source": [
-        "# Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>\n# Licence: GPL v3\n\nimport itertools\nimport time\n\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport seaborn as sns\nfrom systole import serialSim\nfrom systole.plots import plot_circular, plot_events\nfrom systole.recording import Oximeter\nfrom systole.utils import norm_triggers, to_angles"
+        "# Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>\n# Licence: Apache-2.0\n\nimport itertools\nimport time\n\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport seaborn as sns\nfrom systole import serialSim\nfrom systole.plots import plot_circular, plot_events\nfrom systole.recording import Oximeter\nfrom systole.utils import norm_triggers, to_angles"
       ]
     },
     {

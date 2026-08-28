@@ -15,7 +15,7 @@
       },
       "outputs": [],
       "source": [
-        "# Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>\n# Licence: GPL v3\n\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\nfrom systole import serialSim\nfrom systole.detection import ppg_peaks\nfrom systole.plots import plot_raw, plot_rr\nfrom systole.recording import Oximeter"
+        "# Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>\n# Licence: Apache-2.0\n\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\nfrom systole import serialSim\nfrom systole.detection import ppg_peaks\nfrom systole.plots import plot_raw, plot_rr\nfrom systole.recording import Oximeter"
       ]
     },
     {

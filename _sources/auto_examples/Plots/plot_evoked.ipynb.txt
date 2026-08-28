@@ -15,7 +15,7 @@
       },
       "outputs": [],
       "source": [
-        "import matplotlib.pyplot as plt\nimport numpy as np\nimport seaborn as sns\nfrom systole.detection import ecg_peaks\nfrom systole.plots import plot_evoked\nfrom systole.utils import heart_rate, to_epochs\n\nfrom systole import import_dataset1\n\n# Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>\n# Licence: GPL v3"
+        "import matplotlib.pyplot as plt\nimport numpy as np\nimport seaborn as sns\nfrom systole.detection import ecg_peaks\nfrom systole.plots import plot_evoked\nfrom systole.utils import heart_rate, to_epochs\n\nfrom systole import import_dataset1\n\n# Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>\n# Licence: Apache-2.0"
       ]
     },
     {
