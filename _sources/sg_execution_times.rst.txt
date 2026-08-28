@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**02:01.767** total execution time for 16 files **from all galleries**:
+**02:13.057** total execution time for 16 files **from all galleries**:
 
 .. container::
 
@@ -33,50 +33,50 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_Recording_plot_RecordingPPG.py` (``examples/Recording/plot_RecordingPPG.py``)
-     - 00:42.131
+     - 00:42.160
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Recording_plot_InstantaneousHeartRate.py` (``examples/Recording/plot_InstantaneousHeartRate.py``)
-     - 00:31.274
+     - 00:31.333
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Recording_plot_HeartBeatrpeggios.py` (``examples/Recording/plot_HeartBeatrpeggios.py``)
-     - 00:22.445
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_Artefacts_plot_PeaksCorrection.py` (``examples/Artefacts/plot_PeaksCorrection.py``)
-     - 00:07.288
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_Artefacts_plot_RRCorrection.py` (``examples/Artefacts/plot_RRCorrection.py``)
-     - 00:06.952
+     - 00:23.066
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Plots_plot_evoked.py` (``examples/Plots/plot_evoked.py``)
-     - 00:06.765
+     - 00:10.562
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_Artefacts_plot_PeaksCorrection.py` (``examples/Artefacts/plot_PeaksCorrection.py``)
+     - 00:10.283
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_Artefacts_plot_RRCorrection.py` (``examples/Artefacts/plot_RRCorrection.py``)
+     - 00:09.234
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Plots_plot_pointcare.py` (``examples/Plots/plot_pointcare.py``)
-     - 00:01.590
+     - 00:01.859
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Plots_plot_events.py` (``examples/Plots/plot_events.py``)
-     - 00:00.769
+     - 00:01.073
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Plots_plot_raw.py` (``examples/Plots/plot_raw.py``)
-     - 00:00.658
+     - 00:00.853
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Plots_plot_subspace.py` (``examples/Plots/plot_subspace.py``)
-     - 00:00.436
+     - 00:00.615
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Plots_plot_rr.py` (``examples/Plots/plot_rr.py``)
-     - 00:00.407
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_Plots_plot_ectopic.py` (``examples/Plots/plot_ectopic.py``)
-     - 00:00.242
+     - 00:00.537
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Plots_plot_shortlong.py` (``examples/Plots/plot_shortlong.py``)
-     - 00:00.240
+     - 00:00.336
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_Plots_plot_ectopic.py` (``examples/Plots/plot_ectopic.py``)
+     - 00:00.333
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Artefacts_plot_ArtefactsDetection.py` (``examples/Artefacts/plot_ArtefactsDetection.py``)
-     - 00:00.230
+     - 00:00.324
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Plots_plot_circular.py` (``examples/Plots/plot_circular.py``)
-     - 00:00.211
+     - 00:00.311
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Plots_plot_frequency.py` (``examples/Plots/plot_frequency.py``)
-     - 00:00.128
+     - 00:00.178
      - 0.0
