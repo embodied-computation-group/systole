@@ -25,6 +25,11 @@ abstract: >-
   heart rate variability analyses, circular statistical approaches to
   analysing cardiac cycles, and synchronising stimulus presentation with
   different cardiac phases via PsychoPy.
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.3607912
+    description: >-
+      The concept DOI, which always resolves to the most recent archived release
 repository-code: https://github.com/embodied-computation-group/systole
 url: https://www.the-ecg.org/systole/
 license: Apache-2.0

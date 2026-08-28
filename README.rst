@@ -1,4 +1,7 @@
 
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3607912.svg
+  :target: https://doi.org/10.5281/zenodo.3607912
+
 .. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
   :target: https://github.com/embodied-computation-group/systole/blob/master/LICENSE
 
