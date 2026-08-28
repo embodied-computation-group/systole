@@ -1,3 +1,10 @@
+---
+myst:
+  html_meta:
+    description: "Tutorials for analysing cardiac signals with Systole: artefact detection and correction, heart rate variability, and synchronising stimuli with cardiac phases."
+    keywords: "systole tutorials, heart rate variability tutorial, artefact correction, ECG analysis python, PPG analysis"
+---
+
 # Tutorials
 
 Systole is oriented to physiological signal analysis, with the main focus on cardiac activity. The notion that cognition and metacognition are influenced by body states and physiological signals - heart rate, and heart rate variability being the most prominent ones - is extensively investigated by cognitive neuroscience. Systole_ was first developed to help

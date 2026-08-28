@@ -56,7 +56,9 @@ extensions = [
     "sphinx_design",
     "myst_nb",
     "sphinx_gallery.load_style",
-    "sphinxcontrib.bibtex"
+    "sphinxcontrib.bibtex",
+    "sphinx_sitemap",
+    "sphinxext.opengraph",
 ]
 
 panels_add_bootstrap_css = False
@@ -93,6 +95,9 @@ source_suffix = ['.rst', '.md']
 # The master toctree document.
 master_doc = "index"
 
+# Add any paths that contain templates here, relative to this directory.
+templates_path = ["_templates"]
+
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
@@ -125,7 +130,19 @@ html_theme_options = {
     ],
     "logo": {
         "text": "Systole",
-    },}
+    },
+    # Puts an "Edit this page" link on every page, pointing at the file that
+    # produced it. The icon links above reach the repository root only.
+    "use_edit_page_button": True,
+}
+
+# Consumed by use_edit_page_button to build the per-page source URL.
+html_context = {
+    "github_user": "embodied-computation-group",
+    "github_repo": "systole",
+    "github_version": "master",
+    "doc_path": "docs/source",
+}
 
 html_sidebars = {"**": []}
 
@@ -133,6 +150,49 @@ html_sidebars = {"**": []}
 
 html_logo = "images/logo_small.svg"
 html_favicon = "images/logo_small.svg"
+
+
+# -- Canonical URLs, sitemap and page metadata -------------------------------
+
+# Without html_title Sphinx falls back to "systole <version> documentation",
+# which is what a search engine then records as the name of this site. It goes
+# stale the moment a release ships, and the version already appears in the
+# landing page title through _templates/layout.html, which reads it from the
+# package.
+html_title = "Systole"
+
+# The documentation is published under the group domain. Naming the canonical
+# base here makes Sphinx write a <link rel="canonical"> into every page, so a
+# page reached by more than one address is indexed once rather than as
+# competing copies.
+html_baseurl = "https://www.the-ecg.org/systole/"
+
+# sphinx-sitemap defaults to a "{lang}{version}{link}" layout meant for builds
+# that publish several versions side by side. This one publishes a single
+# version at the root of the path above, so those segments would fill the
+# sitemap with URLs that do not exist.
+sitemap_url_scheme = "{link}"
+
+# The search page is an empty shell filled in by JavaScript and the index is a
+# list of links, so neither is worth pointing a crawler at.
+sitemap_excludes = ["search.html", "genindex.html"]
+
+ogp_site_url = html_baseurl
+ogp_site_name = "Systole"
+ogp_type = "website"
+
+# Pages that do not set their own description fall back to their opening prose,
+# cut to this length.
+ogp_description_length = 200
+
+# sphinxext-opengraph draws a preview card per page with Matplotlib. It cannot
+# read an SVG, and html_logo is one, so point it at the raster logo instead of
+# letting it warn once per page and drop the image.
+ogp_social_cards = {
+    "enable": True,
+    "image": "images/logo.png",
+    "site_url": "the-ecg.org/systole",
+}
 
 # -- Intersphinx ------------------------------------------------
 
