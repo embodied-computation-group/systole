@@ -1,49 +1,89 @@
-name: Publish Python 🐍 distributions 📦 to PyPI
+name: Publish
 
-on: push
+# Build and upload to PyPI when a GitHub release is published.
+#
+# This used to build on every push and upload whenever a tag was pushed. Two
+# problems came out of that. The build ran on every commit to every branch for
+# no reason, and, more importantly, a tag push is not the same event as a
+# published release: Zenodo archives on `release: published`, so 0.3.2 reached
+# PyPI from a tag while Zenodo never heard about it and minted no DOI. Driving
+# both from the release keeps PyPI, the tag and the DOI in step.
+#
+# Authentication is PyPI Trusted Publishing (OIDC), so there is no API token in
+# repository secrets.
+
+on:
+  release:
+    types: [published]
+  # Allows a dry run: builds and checks the artefacts without uploading.
+  workflow_dispatch:
 
 jobs:
   build:
-    name: Build distribution 📦
+    name: Build distributions
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.11"
-    - name: Install pypa/build
-      run: python3 -m pip install build --user
-    - name: Build a binary wheel and a source tarball
-      run: python3 -m build
-    - name: Store the distribution packages
-      uses: actions/upload-artifact@v4
-      with:
-        name: python-package-distributions
-        path: dist/
+      - uses: actions/checkout@v4
 
-  publish-to-pypi:
-    name: Publish Python 🐍 distribution 📦 to PyPI
-    if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
-    needs:
-    - build
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build sdist and wheel
+        run: |
+          python -m pip install --upgrade pip build twine
+          python -m build
+
+      # The version lives in three files, systole/__init__.py, setup.py and
+      # CITATION.cff, and a release is tagged separately again. A mismatch is
+      # silent, and this repository has already drifted once: CITATION.cff said
+      # 0.3.2 while the newest release was v0.3.1.
+      - name: Check the version agrees with the tag
+        if: github.event_name == 'release'
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PKG=$(python -c "import re;print(re.search(r'__version__ = \"(.+)\"', open('systole/__init__.py').read()).group(1))")
+          SETUP=$(python -c "import re;print(re.search(r'VERSION = \"(.+)\"', open('setup.py').read()).group(1))")
+          CFF=$(sed -n 's/^version: *//p' CITATION.cff | head -1 | tr -d "'\" ")
+          echo "tag=$TAG  __init__=$PKG  setup.py=$SETUP  CITATION.cff=$CFF"
+          test "$TAG" = "$PKG" || { echo "::error::tag $TAG does not match __init__.py $PKG"; exit 1; }
+          test "$TAG" = "$SETUP" || { echo "::error::tag $TAG does not match setup.py $SETUP"; exit 1; }
+          test "$TAG" = "$CFF" || { echo "::error::tag $TAG does not match CITATION.cff $CFF"; exit 1; }
+
+      # Catches a malformed long_description before PyPI rejects the upload,
+      # which it does after the version number is already burned.
+      - name: Check the metadata renders
+        run: twine check dist/*
+
+      - name: What was built
+        run: ls -l dist/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    name: Upload to PyPI
+    needs: build
     runs-on: ubuntu-latest
+    # Only on a real release. workflow_dispatch stops after build, so the
+    # artefacts can be inspected without publishing anything.
+    if: github.event_name == 'release'
     environment:
       name: pypi
       url: https://pypi.org/p/systole-core
     permissions:
-      id-token: write  # IMPORTANT: mandatory for trusted publishing
-
+      # Required for Trusted Publishing. No API token is stored anywhere.
+      id-token: write
     steps:
-    - name: Download the distribution packages
-      uses: actions/download-artifact@v4
-      with:
-        name: python-package-distributions
-        path: dist/
-    - name: Publish distribution 📦 to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        # A re-run, or a tag pushed twice, should not fail the release
-        # because the files are already on PyPI.
-        skip-existing: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          # A re-run, or a tag pushed twice, should not fail the release
+          # because the files are already on PyPI.
+          skip-existing: true
