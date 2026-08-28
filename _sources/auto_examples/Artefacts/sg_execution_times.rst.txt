@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:20.246** total execution time for 3 files **from auto_examples/Artefacts**:
+**00:14.470** total execution time for 3 files **from auto_examples/Artefacts**:
 
 .. container::
 
@@ -33,11 +33,11 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_Artefacts_plot_PeaksCorrection.py` (``plot_PeaksCorrection.py``)
-     - 00:10.608
+     - 00:07.288
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Artefacts_plot_RRCorrection.py` (``plot_RRCorrection.py``)
-     - 00:09.303
+     - 00:06.952
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Artefacts_plot_ArtefactsDetection.py` (``plot_ArtefactsDetection.py``)
-     - 00:00.335
+     - 00:00.230
      - 0.0
