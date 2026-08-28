@@ -2,8 +2,8 @@
 .. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
   :target: https://github.com/embodied-computation-group/systole/blob/master/LICENSE
 
-.. image:: https://badge.fury.io/py/systole-core.svg
-    :target: https://badge.fury.io/py/systole-core
+.. image:: https://img.shields.io/pypi/v/systole-core
+    :target: https://pypi.org/project/systole-core/
 
 .. image:: https://github.com/embodied-computation-group/systole/actions/workflows/test.yml/badge.svg
    :target: https://github.com/embodied-computation-group/systole/actions/workflows/test.yml
