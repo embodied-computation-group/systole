@@ -1,0 +1,35 @@
+{
+  "upload_type": "software",
+  "title": "Systole: A Python package for cardiac signal synchrony and analysis",
+  "description": "<p>Systole is an open-source Python package providing simple tools for working with cardiac signals in psychophysiology research. It offers tools to pre-process, visualize and analyze cardiac data, including data epoching, artefact detection and correction, evoked heart rate analyses, heart rate variability analyses, circular statistical approaches to analysing cardiac cycles, and synchronising stimulus presentation with different cardiac phases via PsychoPy.</p><p>This is the official release from the Embodied Computation Group at Aarhus University.</p>",
+  "license": "apache-2.0",
+  "access_right": "open",
+  "creators": [
+    {
+      "name": "Allen, Micah",
+      "orcid": "0000-0001-9399-4179",
+      "affiliation": "Center of Functionally Integrative Neuroscience, Aarhus University, Denmark"
+    }
+  ],
+  "keywords": [
+    "python",
+    "heart rate variability",
+    "electrocardiography",
+    "photoplethysmography",
+    "interoception",
+    "psychophysiology",
+    "cardiac signal"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.21105/joss.03832",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-article"
+    },
+    {
+      "identifier": "https://www.the-ecg.org/systole/",
+      "relation": "isDocumentedBy",
+      "resource_type": "publication-softwaredocumentation"
+    }
+  ]
+}
