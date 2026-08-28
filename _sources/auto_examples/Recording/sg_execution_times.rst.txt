@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**01:36.271** total execution time for 3 files **from auto_examples/Recording**:
+**01:36.272** total execution time for 3 files **from auto_examples/Recording**:
 
 .. container::
 
@@ -36,8 +36,8 @@ Computation times
      - 00:42.145
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Recording_plot_InstantaneousHeartRate.py` (``plot_InstantaneousHeartRate.py``)
-     - 00:31.302
+     - 00:31.309
      - 0.0
    * - :ref:`sphx_glr_auto_examples_Recording_plot_HeartBeatrpeggios.py` (``plot_HeartBeatrpeggios.py``)
-     - 00:22.825
+     - 00:22.818
      - 0.0
