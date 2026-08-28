@@ -28,7 +28,7 @@ abstract: >-
 repository-code: https://github.com/embodied-computation-group/systole
 url: https://www.the-ecg.org/systole/
 license: Apache-2.0
-version: 0.3.4
+version: 0.3.5
 date-released: '2026-08-28'
 keywords:
   - python
