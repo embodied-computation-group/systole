@@ -13,7 +13,7 @@ The artefact detection is based on the method described in [1]_.
 """
 
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
-# Licence: GPL v3
+# Licence: Apache-2.0
 
 #%%
 # Visualizing artefacts from RR time series

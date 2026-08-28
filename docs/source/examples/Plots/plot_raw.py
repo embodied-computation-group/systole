@@ -6,7 +6,7 @@ Plot raw physiological signal
 """
 
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
-# Licence: GPL v3
+# Licence: Apache-2.0
 
 
 from bokeh.io import output_notebook

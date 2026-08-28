@@ -10,7 +10,7 @@ plotted.
 """
 
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
-# Licence: GPL v3
+# Licence: Apache-2.0
 
 import matplotlib.pyplot as plt
 import numpy as np

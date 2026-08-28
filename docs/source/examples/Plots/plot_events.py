@@ -14,7 +14,7 @@ from systole.plots import plot_events, plot_rr
 from systole import import_dataset1
 
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
-# Licence: GPL v3
+# Licence: Apache-2.0
 
 #%%
 # Plot events distributions using Matplotlib as plotting backend

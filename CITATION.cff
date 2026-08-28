@@ -27,7 +27,7 @@ abstract: >-
   different cardiac phases via PsychoPy.
 repository-code: https://github.com/embodied-computation-group/systole
 url: https://www.the-ecg.org/systole/
-license: GPL-3.0
+license: Apache-2.0
 version: 0.3.2
 date-released: '2026-08-26'
 keywords:

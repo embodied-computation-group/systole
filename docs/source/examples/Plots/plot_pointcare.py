@@ -6,7 +6,7 @@ Plot pointcare
 """
 
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
-# Licence: GPL v3
+# Licence: Apache-2.0
 
 #%%
 # Visualizing poincare plot from RR time series using Matplotlib as plotting backend

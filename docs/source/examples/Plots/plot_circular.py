@@ -15,7 +15,7 @@ The circular mean was adapted from Pingouin's implementation [#]_.
 """
 
 # Author: Nicolas Legrand <nicolas.legrand@cfin.au.dk>
-# Licence: GPL v3
+# Licence: Apache-2.0
 
 #%%
 # Using a numpy array of angular values as input
