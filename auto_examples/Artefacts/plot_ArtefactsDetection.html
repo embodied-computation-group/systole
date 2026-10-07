@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 
 
@@ -12,12 +11,12 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://www.the-ecg.org/systole/auto_examples/Artefacts/plot_ArtefactsDetection.html" />
 <meta property="og:site_name" content="Systole" />
-<meta property="og:description" content="This example shows how to detect ectopic, missed, extra, slow and long long from RR or pulse rate interval time series using the method proposed by Lipponen &amp; Tarvainen (2019) [#]_. RR artefact..." />
+<meta property="og:description" content="This example shows how to detect ectopic, missed, extra, slow and long long from RR or pulse rate interval time series using the method proposed by Lipponen &amp; Tarvainen (2019) [#]_.# Author: Ni..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
 <meta property="og:image" content="https://www.the-ecg.org/systole/_images/social_previews/summary_auto_examples_Artefacts_plot_ArtefactsDetection_939d5e9b.png" />
-<meta property="og:image:alt" content="This example shows how to detect ectopic, missed, extra, slow and long long from RR or pulse rate interval time series using the method proposed by Lipponen &amp; Tarvainen (2019) [#]_. RR artefact..." />
-<meta name="description" content="This example shows how to detect ectopic, missed, extra, slow and long long from RR or pulse rate interval time series using the method proposed by Lipponen &amp; Tarvainen (2019) [#]_. RR artefact..." />
+<meta property="og:image:alt" content="This example shows how to detect ectopic, missed, extra, slow and long long from RR or pulse rate interval time series using the method proposed by Lipponen &amp; Tarvainen (2019) [#]_.# Author: Ni..." />
+<meta name="description" content="This example shows how to detect ectopic, missed, extra, slow and long long from RR or pulse rate interval time series using the method proposed by Lipponen &amp; Tarvainen (2019) [#]_.# Author: Ni..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>Outliers and artefacts detection &#8212; Systole</title>
@@ -39,25 +38,25 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=c83e6b79" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
     <script src="../../_static/documentation_options.js?v=ba50482b"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
@@ -125,7 +124,7 @@
   
     <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
   </button>
   
@@ -212,7 +211,7 @@
         <div class="navbar-item navbar-persistent--container">
           
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -223,15 +222,15 @@
         <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
       
@@ -279,7 +278,7 @@
   
     <div class="navbar-persistent--mobile">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -288,7 +287,7 @@
   
 
   
-    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+    <button type="button" class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
       <span class="fa-solid fa-outdent"></span>
     </button>
   
@@ -365,15 +364,15 @@
           <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
         
@@ -483,19 +482,17 @@ from RR or pulse rate interval time series using the method proposed by
 Lipponen &amp; Tarvainen (2019) [#]_.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Author: Nicolas Legrand &lt;nicolas.legrand@cfin.au.dk&gt;</span>
-<span class="c1"># Licence: Apache-2.0</span>
-</pre></div>
-</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span class="c1"># Author: Nicolas Legrand &lt;nicolas.legrand&#64;cfin.au.dk&gt;</span><span class="w">
+</span><span class="c1"># Licence: Apache-2.0</span><span class="w">
+</span></pre></div></div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">systole.detection</span><span class="w"> </span><span class="kn">import</span> <span class="n">rr_artefacts</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">systole.plots</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_subspaces</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">systole.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">simulate_rr</span>
-</pre></div>
-</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span class="kn">from</span><span class="w"> </span><span class="nn">systole</span><span class="nn">.</span><span class="nn">detection</span><span class="w"> </span><span class="kn">import</span> <a class="sphx-glr-backref-module-systole sphx-glr-backref-type-py-function reference internal" href="../../generated/detection/systole.detection.rr_artefacts.html#systole.detection.rr_artefacts" title="systole.rr_artefacts"><span class="n">rr_artefacts</span></a><span class="w">
+</span><span class="kn">from</span><span class="w"> </span><span class="nn">systole</span><span class="nn">.</span><span class="nn">plots</span><span class="w"> </span><span class="kn">import</span> <a class="sphx-glr-backref-module-systole sphx-glr-backref-type-py-function reference internal" href="../../generated/plots/systole.plots.plot_subspaces.html#systole.plots.plot_subspaces" title="systole.plot_subspaces"><span class="n">plot_subspaces</span></a><span class="w">
+</span><span class="kn">from</span><span class="w"> </span><span class="nn">systole</span><span class="nn">.</span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <a class="sphx-glr-backref-module-systole sphx-glr-backref-type-py-function reference internal" href="../../generated/utils/systole.utils.simulate_rr.html#systole.utils.simulate_rr" title="systole.simulate_rr"><span class="n">simulate_rr</span></a><span class="w">
+</span></pre></div></div>
 </div>
 </div>
 <section id="rr-artefacts">
@@ -520,9 +517,8 @@ correction procedure (see Artefact correction).</p></li>
 long and short artefacts.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rr</span></a> <span class="o">=</span> <span class="n">simulate_rr</span><span class="p">()</span>
-</pre></div>
-</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><a class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><span class="n">rr</span></a> <span class="o">=</span> <a class="sphx-glr-backref-module-systole sphx-glr-backref-type-py-function reference internal" href="../../generated/utils/systole.utils.simulate_rr.html#systole.utils.simulate_rr" title="systole.simulate_rr"><span class="n">simulate_rr</span></a><span class="p">(</span><span class="p">)</span><span class="w">
+</span></pre></div></div>
 </div>
 </div>
 </section>
@@ -530,9 +526,8 @@ long and short artefacts.</p>
 <h2>Artefact detection<a class="headerlink" href="#artefact-detection" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">outliers</span> <span class="o">=</span> <span class="n">rr_artefacts</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rr</span></a><span class="p">)</span>
-</pre></div>
-</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span class="n">outliers</span> <span class="o">=</span> <a class="sphx-glr-backref-module-systole sphx-glr-backref-type-py-function reference internal" href="../../generated/detection/systole.detection.rr_artefacts.html#systole.detection.rr_artefacts" title="systole.rr_artefacts"><span class="n">rr_artefacts</span></a><span class="p">(</span><a class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><span class="n">rr</span></a><span class="p">)</span><span class="w">
+</span></pre></div></div>
 </div>
 </div>
 </section>
@@ -544,17 +539,16 @@ panel plot subspaces that will be more sensitive to long or short beats,
 comprizing the extra and missed beats.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_subspaces</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rr</span></a><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-</pre></div>
-</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><a class="sphx-glr-backref-module-systole sphx-glr-backref-type-py-function reference internal" href="../../generated/plots/systole.plots.plot_subspaces.html#systole.plots.plot_subspaces" title="systole.plot_subspaces"><span class="n">plot_subspaces</span></a><span class="p">(</span><a class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray"><span class="n">rr</span></a><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span><span class="p">)</span><span class="w">
+</span></pre></div></div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;Axes: title={'center': 'Subspace 1 \n (ectopic beats detection)'}, xlabel='Subspace $S_{11}$', ylabel='Subspace $S_{12}$'&gt;,
  &lt;Axes: title={'center': 'Subspace 2 \n (long and short beats detection)'}, xlabel='Subspace $S_{21}$', ylabel='Subspace $S_{22}$'&gt;)
 </pre></div>
 </div>
-<img alt="../../_images/b61b3dbfebd3ece5ce15634eef4e83ff673a4b268f74bb147b4bc64093f92ea1.png" src="../../_images/b61b3dbfebd3ece5ce15634eef4e83ff673a4b268f74bb147b4bc64093f92ea1.png" />
-<img alt="../../_images/2da9f034b03204e15badd569914eae4345b4e28786c49e215e82a5f1095f06ac.png" src="../../_images/2da9f034b03204e15badd569914eae4345b4e28786c49e215e82a5f1095f06ac.png" />
+<img alt="../../_images/a57edd11bb8280fb30c99cb0c352efec0d7e4bc7e8425292cab65b9e8d6d597b.png" src="../../_images/a57edd11bb8280fb30c99cb0c352efec0d7e4bc7e8425292cab65b9e8d6d597b.png" />
+<img alt="../../_images/cc3b4dfc52c5d263f35446ebf916de822a95c96ef5a884f0680a4327955b6c8b.png" src="../../_images/cc3b4dfc52c5d263f35446ebf916de822a95c96ef5a884f0680a4327955b6c8b.png" />
 </div>
 </div>
 </section>
@@ -660,8 +654,8 @@ beat classification. Journal of Medical Engineering &amp; Technology,
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -682,7 +676,6 @@ beat classification. Journal of Medical Engineering &amp; Technology,
 
   <p class="sphinx-version">
     Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
-    <br/>
   </p>
 </div>
       
@@ -695,7 +688,7 @@ beat classification. Journal of Medical Engineering &amp; Technology,
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.22.0.
 </p></div>
       
     </div>
