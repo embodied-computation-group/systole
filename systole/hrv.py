@@ -705,11 +705,11 @@ def _recurrence(
 
     # Compute the recurrence rate - Exclude the main identity line
     j = rc.shape[0]
-    recurrence_rate = np.triu(rc).sum() / ((j**2 - j) / 2) * 100
+    recurrence_rate = np.triu(rc, 1).sum() / ((j**2 - j) / 2) * 100
 
     # Find diagonale lines
     total_lines: List[int] = []
-    for i in range(1, rc.shape[0] // 2):
+    for i in range(1, rc.shape[0]):
         # All diagonals except the main one
         diag = np.diagonal(rc, offset=i)
 
@@ -729,7 +729,7 @@ def _recurrence(
     l_lines = np.asarray(total_lines).repeat(2)
 
     # Exclude small digonales (< l_min, default to 2)
-    l_lines = l_lines[np.where(l_lines > l_min)[0]]
+    l_lines = l_lines[np.where(l_lines >= l_min)[0]]
 
     # Average length of diagonales
     l_mean = l_lines.mean()

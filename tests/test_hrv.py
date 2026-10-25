@@ -17,6 +17,7 @@ from systole.hrv import (
     poincare,
     psd,
     recurrence,
+    recurrence_matrix,
     rmssd,
     time_domain,
 )
@@ -156,19 +157,52 @@ class TestHrv(TestCase):
         recurrence_rate, l_max, l_mean, determinism, shan_entr = recurrence(list(rr))
 
         # Kubios 2.2: 37.231
-        assert np.isclose(recurrence_rate, 38.08510638297872)
+        assert np.isclose(recurrence_rate, 37.234042553191486)
 
         # Kubios 2.2: 235
         assert np.isclose(l_max, 235)
 
         # Kubios 2.2: 11.501
-        assert np.isclose(l_mean, 12.69109947643979)
+        assert np.isclose(l_mean, 11.415178571428571)
 
         # Kubios 2.2: 99.055
-        assert np.isclose(determinism, 70.43099273607749)
+        assert np.isclose(determinism, 99.06053268765133)
 
         # Kubios 2.2: 3.2120
-        assert np.isclose(shan_entr, 3.1961134772254334)
+        assert np.isclose(shan_entr, 3.202729798640552)
+
+    def test_recurrence_all_diagonals(self):
+        """Compare recurrence scores with a direct count over the whole matrix"""
+        rng = np.random.default_rng(1)
+        rr_sim = 800 + 40 * rng.standard_normal(300)
+        l_min = 2
+
+        rc = recurrence_matrix(rr_sim)
+        j = rc.shape[0]
+
+        # Line lengths on every diagonal of the upper triangle
+        lines = []
+        for offset in range(1, j):
+            run = 0
+            for value in list(np.diagonal(rc, offset)) + [0]:
+                if value:
+                    run += 1
+                else:
+                    if run:
+                        lines.append(run)
+                    run = 0
+        long_lines = [length for length in lines if length >= l_min]
+
+        expected_rec = rc[np.triu_indices(j, 1)].sum() / ((j**2 - j) / 2) * 100
+        expected_det = 2 * sum(long_lines) / (rc.sum() - j) * 100
+
+        recurrence_rate, l_max, l_mean, determinism, _ = recurrence(rr_sim)
+
+        assert np.isclose(recurrence_rate, expected_rec)
+        assert l_max == max(lines)
+        assert np.isclose(l_mean, np.mean(long_lines))
+        assert np.isclose(determinism, expected_det)
+        assert determinism <= 100
 
     def test_all_domain(self):
         """Test all_domain function"""
